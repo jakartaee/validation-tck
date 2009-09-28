@@ -63,7 +63,6 @@
         </dependency>
     </dependencies>
 
-
     <build>
         <defaultGoal>install</defaultGoal>
         <extensions>
@@ -213,7 +212,7 @@
 
     <issueManagement>
         <system>JIRA</system>
-        <url>http://opensource.atlassian.com/projects/hibernate/browse/BVAL</url>
+        <url>http://opensource.atlassian.com/projects/hibernate/browse/HV</url>
     </issueManagement>
 
     <inceptionYear>2008</inceptionYear>
@@ -226,9 +225,8 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:http://anonsvn.jboss.org/repos/hibernate/beanvalidation/trunk/validation-tck</connection>
-        <developerConnection>scm:svn:https://svn.jboss.org/repos/hibernate/beanvalidation/trunk/validation-tck
-        </developerConnection>
+        <connection>scm:svn:http://anonsvn.jboss.org/repos/hibernate/beanvalidation/tck/trunk</connection>
+        <developerConnection>scm:svn:https://svn.jboss.org/repos/hibernate/beanvalidation/tck/trunk</developerConnection>
     </scm>
 
     <distributionManagement>
