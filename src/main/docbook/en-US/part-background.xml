@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE part PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<part>
+  <title>Getting Acquainted with the TCK</title>
+
+  <partintro>
+    <para>The Bean Validation TCK must be used to ensure that your
+    implementation conforms to the Bean Validation specification. This part
+    introduces the TCK, gives some background about its purpose, states the
+    requirements for passing the TCK and outlines the appeals process.</para>
+
+    <para>In this part you will learn where to obtain the Bean Validation TCK
+    and supporting software. You are then presented with recommendations of
+    how to organize and configure the software so that you are ready to
+    execute the TCK.</para>
+
+    <para>Finally, it discusses the reporting provided by the TCK.</para>
+  </partintro>
+
+  <xi:include href="introduction.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="appeals-process.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="installation.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="configuration.xml"
+              xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <xi:include href="reporting.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+
+  <!--
+vim: ts=3:sw=3:tw=80:set expandtab
+-->
+</part>

@@ -73,6 +73,71 @@
             </extension>
         </extensions>
         <plugins>
+           <plugin>
+                <groupId>org.jboss.maven.plugins</groupId>
+                <artifactId>maven-jdocbook-plugin</artifactId>
+                <version>2.2.0</version>
+                <extensions>true</extensions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-jdocbook-style</artifactId>
+                        <version>2.0.0</version>
+                        <type>jdocbook-style</type>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <sourceDocumentName>master.xml</sourceDocumentName>
+                    <sourceDirectory>${basedir}/src/main/docbook</sourceDirectory>
+                    <masterTranslation>en-US</masterTranslation>
+                    <imageResource>
+                        <directory>${basedir}/src/main/docbook/en-US/images</directory>
+                        <directory>${basedir}/src/main/docbook/en-US/harness</directory>
+                    </imageResource>
+                    <formats>
+                        <format>
+                            <formatName>pdf</formatName>
+                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/pdf.xsl</stylesheetResource>
+                            <finalName>beanvalidation-tck.pdf</finalName>
+                        </format>
+                        <format>
+                            <formatName>html_single</formatName>
+                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/xhtml-single.xsl
+                            </stylesheetResource>
+                            <finalName>index.html</finalName>
+                        </format>
+                        <format>
+                            <formatName>html</formatName>
+                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/xhtml.xsl
+                            </stylesheetResource>
+                            <finalName>index.html</finalName>
+                        </format>
+                    </formats>
+                    <options>
+                        <xincludeSupported>true</xincludeSupported>
+                        <xmlTransformerType>saxon</xmlTransformerType>
+                        <!-- needed for uri-resolvers; can be ommitted if using 'current' uri scheme -->
+                        <!--     could also locate the docbook dependency and inspect its version... -->
+                        <docbookVersion>1.72.0</docbookVersion>
+                        <localeSeparator>-</localeSeparator>
+                    </options>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-doc</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>resources</goal>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.maven.plugins</groupId>
+                <artifactId>maven-jdocbook-style-plugin</artifactId>
+                <version>2.0.0</version>
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
