@@ -46,7 +46,6 @@ public class GroupSequenceIsolationTest extends AbstractTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.4.3", id = "a"),
-			@SpecAssertion(section = "3.4.3", id = "b"),
 			@SpecAssertion(section = "3.4.3", id = "c"),
 			@SpecAssertion(section = "3.4.5", id = "a")
 	})
@@ -84,7 +83,6 @@ public class GroupSequenceIsolationTest extends AbstractTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.4.3", id = "a"),
-			@SpecAssertion(section = "3.4.3", id = "b"),
 			@SpecAssertion(section = "3.4.3", id = "c"),
 			@SpecAssertion(section = "3.4.5", id = "a")
 	})

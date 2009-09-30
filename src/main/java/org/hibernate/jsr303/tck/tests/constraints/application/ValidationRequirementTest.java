@@ -136,9 +136,9 @@ public class ValidationRequirementTest extends AbstractTest {
 	}
 
 	@Test(enabled = false)
-	@SpecAssertion(section = "3.1",
-			id = "b",
-			note = "The spec is not clear about whether validation of static fields/properties should just be ignored or an exception should be thrown.")
+//	@SpecAssertion(section = "3.1",
+//			id = "b",
+//			note = "The spec is not clear about whether validation of static fields/properties should just be ignored or an exception should be thrown.")
 	public void testIgnoreStaticFieldsAndProperties() {
 		StaticFieldsAndProperties entity = new StaticFieldsAndProperties();
 
