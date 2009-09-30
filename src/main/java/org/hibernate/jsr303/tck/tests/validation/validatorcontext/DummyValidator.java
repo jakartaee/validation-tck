@@ -42,10 +42,10 @@ public class DummyValidator implements ConstraintValidator<Dummy, String> {
 		if ( errorMessages != null ) {
 			for ( Map.Entry<String, String> entry : errorMessages.entrySet() ) {
 				if ( entry.getKey() == null ) {
-					constraintValidatorContext.buildConstraintViolationWithMessageTemplate( entry.getValue() ).addConstraintViolation();
+					constraintValidatorContext.buildConstraintViolationWithTemplate( entry.getValue() ).addConstraintViolation();
 				}
 				else {
-					constraintValidatorContext.buildConstraintViolationWithMessageTemplate( entry.getValue() )
+					constraintValidatorContext.buildConstraintViolationWithTemplate( entry.getValue() )
 							.addNode( entry.getKey() )
 							.addConstraintViolation();
 				}

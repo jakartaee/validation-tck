@@ -34,7 +34,7 @@ public class FrenchZipcodeConstraintValidator implements ConstraintValidator<Fre
 		}
 		if ( "00000".equals( zip ) ) {
 			constraintValidatorContext.disableDefaultConstraintViolation();
-			constraintValidatorContext.buildConstraintViolationWithMessageTemplate( "00000 is a reserved code"  ).addConstraintViolation();
+			constraintValidatorContext.buildConstraintViolationWithTemplate( "00000 is a reserved code"  ).addConstraintViolation();
 			return false;
 		}
 		else {
