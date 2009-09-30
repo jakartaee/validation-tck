@@ -49,17 +49,17 @@
         <dependency>
             <groupId>org.jboss.test-audit</groupId>
             <artifactId>jboss-test-audit-api</artifactId>
-            <version>1.0.0.BETA1</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.test-harness</groupId>
             <artifactId>jboss-test-harness-api</artifactId>
-            <version>1.0.0.BETA3</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.test-harness</groupId>
             <artifactId>jboss-test-harness</artifactId>
-            <version>1.0.0.BETA3</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

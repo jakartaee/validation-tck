@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collection;
 
 import org.jboss.testharness.api.DeploymentException;
 import org.jboss.testharness.spi.StandaloneContainers;
@@ -41,7 +42,10 @@ public class StandaloneContainersImpl implements StandaloneContainers {
 	public void cleanup() {
 	}
 
-	public boolean deploy(Iterable<Class<?>> classes, Iterable<URL> validationXmls) {
+	public void deploy(Collection<Class<?>> classes) throws DeploymentException {
+	}
+
+	public boolean deploy(Collection<Class<?>> classes, Collection<URL> validationXmls) {
 		if ( validationXmls == null || !validationXmls.iterator().hasNext() ) {
 			Thread.currentThread()
 					.setContextClassLoader( new IgnoringValidationXmlClassLoader() );
