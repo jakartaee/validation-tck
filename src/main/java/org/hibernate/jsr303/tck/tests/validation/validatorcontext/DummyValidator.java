@@ -36,18 +36,18 @@ public class DummyValidator implements ConstraintValidator<Dummy, String> {
 
 	public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
 		if ( disableDefaultError ) {
-			constraintValidatorContext.disableDefaultError();
+			constraintValidatorContext.disableDefaultConstraintViolation();
 		}
 
 		if ( errorMessages != null ) {
 			for ( Map.Entry<String, String> entry : errorMessages.entrySet() ) {
 				if ( entry.getKey() == null ) {
-					constraintValidatorContext.buildErrorWithMessageTemplate( entry.getValue() ).addError();
+					constraintValidatorContext.buildConstraintViolationWithMessageTemplate( entry.getValue() ).addConstraintViolation();
 				}
 				else {
-					constraintValidatorContext.buildErrorWithMessageTemplate( entry.getValue() )
-							.addSubNode( entry.getKey() )
-							.addError();
+					constraintValidatorContext.buildConstraintViolationWithMessageTemplate( entry.getValue() )
+							.addNode( entry.getKey() )
+							.addConstraintViolation();
 				}
 			}
 		}
