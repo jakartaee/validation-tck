@@ -9,19 +9,8 @@
     Bean validation reference implementation (Hibernate Validator). First, you
     are walked through the steps necessary to execute the test suite on
     Hibernate Validator. Then you discover how to modify the TCK runner to
-    execute the test suite on your own implementation. Finally, you learn how
-    to debug tests from the test suite in Eclipse.</para>
+    execute the test suite on your own implementation. </para>
   </partintro>
 
   <xi:include href="executing.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
-
-  <xi:include href="eclipse-running.xml"
-              xmlns:xi="http://www.w3.org/2001/XInclude" />
-
-  <xi:include href="eclipse-debugging.xml"
-              xmlns:xi="http://www.w3.org/2001/XInclude" />
-
-  <!--
-vim: ts=3:sw=3:tw=80:set expandtab
--->
 </part>

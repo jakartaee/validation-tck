@@ -12,18 +12,32 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.</literallayout></releaseinfo>
 
-  <title>Technology Compatibility Kit Reference Guide for JSR-303: Bean
-  Validation</title>
+  <title>Technology Compatibility Kit Reference Guide for JSR-303: Bean Validation</title>
 
   <subtitle>Specification Lead: Red Hat Inc.</subtitle>
 
   <copyright>
-    <year>2009 </year>
+    <year>2009</year>
 
     <holder>Red Hat Middleware, LCC.</holder>
   </copyright>
 
-  <!--
-vim: ts=3:sw=3:tw=80:set expandtab
--->
+  <authorgroup>
+    <author>
+      <firstname>Emmanuel</firstname>
+      <surname>Bernard</surname>
+      <affiliation>
+        <jobtitle>JSR-303: Bean Validation specification lead</jobtitle>
+        <orgname>Red Hat Inc.</orgname>
+      </affiliation>
+    </author>
+    <author>
+      <firstname>Hardy</firstname>
+      <surname>Ferentschik</surname>
+      <affiliation>
+        <jobtitle>Bean Validation TCK Developer</jobtitle>
+        <orgname>Red Hat Inc.</orgname>
+      </affiliation>
+    </author>
+  </authorgroup>
 </bookinfo>

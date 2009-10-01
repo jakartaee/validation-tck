@@ -6,7 +6,7 @@
 
   <para>This guide describes how to download, install, configure, and run the
   Technology Compatibility Kit (TCK) used to verify the compatibility of an
-  implementation of the JSR-303: Bean Validation specification.</para>
+  implementation of JSR-303: Bean Validation specification.</para>
 
   <para>The Bean Validation TCK is built atop the JBoss Test Harness, a
   portable and configurable automated test suite for authoring unit and
@@ -18,7 +18,7 @@
   2.0</ulink>.</para>
 
   <section id="target-audience">
-    <title>Who Should Use This Book</title>
+    <title>Who Should Use This Guide</title>
 
     <para>This guide is for implementors of the Bean Validation specification
     to assist in running the test suite that verifies the compatibility of
@@ -26,12 +26,12 @@
   </section>
 
   <section id="before-reading">
-    <title>Before You Read This Book</title>
+    <title>Before You Read This Guide</title>
 
     <para>The Bean Validation TCK is based on the Bean Validation
     specification 1.0 (JSR-303). Information about the specification,
     including links to the specification documents, can be found on the <ulink
-    url="http://jcp.org/en/jsr/detail?id=299">JSR-303 JCP page</ulink>.</para>
+    url="http://jcp.org/en/jsr/detail?id=303">JSR-303 JCP page</ulink>.</para>
 
     <para>Before running the tests in the Bean Validation TCK, read and become
     familiar with the JBoss Test Harness Reference Guide (pending), which
@@ -39,7 +39,7 @@
   </section>
 
   <section id="book-organization">
-    <title>How This Book Is Organized</title>
+    <title>How This Guide Is Organized</title>
 
     <para>If you are running the Bean Validation TCK for the first time, read
     <xref linkend="introduction" /> and <xref
@@ -91,18 +91,6 @@
         executed. It covers both modes supported by the TCK, standalone and
         in-container, and shows how to dump the generated test artifacts to
         disk.</para>
-      </listitem>
-
-      <listitem>
-        <para><xref linkend="eclipse-running" /> shows how to run individual
-        tests in Eclipse and advises the best way to setup your Eclipse
-        workspace for running the tests.</para>
-      </listitem>
-
-      <listitem>
-        <para><xref linkend="eclipse-debugging" /> builds on <xref
-        linkend="eclipse-running" /> by detailing how to debug individual
-        tests in Eclipse.</para>
       </listitem>
 
       <listitem>

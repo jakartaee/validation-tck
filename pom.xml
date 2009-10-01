@@ -91,7 +91,6 @@
                     <sourceDirectory>${basedir}/src/main/docbook</sourceDirectory>
                     <masterTranslation>en-US</masterTranslation>
                     <imageResource>
-                        <directory>${basedir}/src/main/docbook/en-US/images</directory>
                         <directory>${basedir}/src/main/docbook/en-US/harness</directory>
                     </imageResource>
                     <formats>

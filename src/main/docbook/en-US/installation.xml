@@ -12,13 +12,12 @@
     <title>Obtaining the Software</title>
 
     <para>You can obtain a release of the Bean Validation TCK project from the
-    from the <ulink url="http://seamframework.org/Download">download
+    from the <ulink url="https://www.hibernate.org/6.html">download
     page</ulink> on the Hibernate Validator website. The Bean Validation TCK
     is distributed as a ZIP file, which contains the TCK artifacts (the test
-    suite binary and source, porting package API binary and source, the test
-    suite descriptor, the audit source and report) in <code>/artifacts</code>,
-    the TCK library dependencies in <code>/lib</code> and documentation in
-    <code>/lib</code>.</para>
+    suite binary and source, the test suite descriptor, the audit source and
+    report), the TCK library dependencies in <code>/lib</code> and
+    documentation in <code>/doc</code>.</para>
 
     <para>You can also download the currnet source code from <ulink
     url="http://anonsvn.jboss.org/repos/hibernate/beanvalidation/tck/trunk/">JBoss
@@ -45,10 +44,6 @@
       yourself with the TCK before testing your own Bean Validation
       implementation.</para>
     </note>
-
-    <para>Naturally, to execute Java programs, you must have a Java SE runtime
-    environment. The TCK requires Java 5 or better, which you can obtain from
-    the <ulink url="http://java.sun.com">Java Software</ulink> website.</para>
   </section>
 
   <section id="tck-environment">
@@ -72,9 +67,15 @@
     <para>The rest of the TCK software can simply be extracted. It's
     recommended that you create a folder named jsr303 to hold all of the
     jsr303-related projects. Then, extract the TCK distribution into a
-    subfolder named tck. If you have downloaded the Hibernate Validator
-    distribution, extract it into a sibling folder named ri. The resulting
-    folder structure is shown here:</para>
+    subfolder named tck. You can also check out the full Hibernate Validator
+    source into a subfolder ri. This will allow you to run the TCK against
+    Hibernate Validator.</para>
+
+    <programlisting>svn co http://anonsvn.jboss.org/repos/hibernate/validator/tags/v_4_0_0_GA ri</programlisting>
+
+    <para>If you have downloaded the Hibernate Validator distribution, extract
+    it into a sibling folder named hibernate-validator. The resulting folder
+    structure is shown here:</para>
 
     <note>
       <para>This layout is assumed through all descriptions in this reference
@@ -96,15 +97,6 @@
       <title>Running the TCK against the Bean Validation RI (Hibernate
       Validator) and JBoss AS</title>
 
-      <para>Web Beans is built as a modular library, and as such can be
-      retro-fitted to Java EE 5 products as required. JBoss AS 5.0 and above
-      releases bundle Web Beans. JBoss AS 5.0 also allows you to upgrade the
-      Web Beans module to the current release (though some functionality may
-      be disabled).</para>
-
-      <para>To install JBoss AS 5.1 and update to the latest Web Beans
-      release:</para>
-
       <itemizedlist>
         <listitem>
           <para>First, you should download JBoss AS 5.1 from the JBoss AS
@@ -118,33 +110,17 @@
         </listitem>
 
         <listitem>
-          <para>Change to the webbeans directory.</para>
+          <para>Change to the
+          <filename>ri/hibernate-validator-tck-runner</filename>
+          directory.</para>
         </listitem>
 
         <listitem>
           <para>Make sure the <literal>jboss.home</literal> property in the
-          local.build.properties file in the jboss-as directory references a
-          JBoss AS 5.1 installation:</para>
-
-          <programlisting>jboss.home=/path/to/jboss-as-5.1</programlisting>
+          <filename>pom.xml</filename> file references a JBoss AS 5.1
+          installation.</para>
         </listitem>
 
-        <listitem>
-          <para>Then, run Ant from the jboss-as directory to install the
-          deployer:</para>
-
-          <programlisting>ant update</programlisting>
-
-          <para>The libraries needed by the deployer are fetched from the
-          Maven 2 repository on demand.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Web Beans includes a TCK runner that executes the TCK using Web
-      Beans as the CDI implementation and JBoss AS as the Java EE runtime. To
-      run the tck:</para>
-
-      <itemizedlist>
         <listitem>
           <para>You need to install Maven. You can find documention on how to
           install Maven 2 in the <ulink
@@ -157,8 +133,7 @@
         <listitem>
           <para>Next, instruct Maven to run the TCK:</para>
 
-          <programlisting>cd jboss-tck-runner
-mvn test -Dincontainer</programlisting>
+          <programlisting>mvn test -Dincontainer</programlisting>
         </listitem>
 
         <listitem>
@@ -168,58 +143,6 @@ mvn test -Dincontainer</programlisting>
         </listitem>
       </itemizedlist>
     </tip>
-  </section>
-
-  <section id="eclipse-plugins">
-    <title>Eclipse Plugins</title>
-
-    <para>Eclipse, or any other IDE, is not required to execute or pass the
-    TCK. However an implementor may wish to execute tests in an IDE to aid
-    debugging the tests. This section introduces two essential Eclipse
-    plugins, TestNG and Maven 2, and points you to resources explaining how to
-    install them.</para>
-
-    <section id="eclipse-testng-plugin">
-      <title>TestNG Plugin</title>
-
-      <para>The TCK is built on the JBoss Test Harness, which is in turn built
-      on TestNG. Therefore, having the TestNG plugin installed in Eclipse is
-      essential. Instructions for using the TestNG update site to add the
-      TestNG plugin to Eclipse are provided on the TestNG <ulink
-      url="http://testng.org/doc/download.html">download page</ulink>. You can
-      find a tutorial that explains how to use the TestNG plugin on the TestNG
-      <ulink url="http://testng.org/doc/eclipse.html">Eclipse
-      page</ulink>.</para>
-    </section>
-
-    <section id="m2eclipse-plugin">
-      <title>Maven 2 Plugin (m2eclipse)</title>
-
-      <para>Another useful plugin is m2eclipse. Both the TCK project and Web
-      Beans are use Maven 2. Therefore, to work with these projects in
-      Eclipse, you may wish to have native support for Maven 2 projects, which
-      the m2eclipse plugin provides. Instructions for using the m2eclipse
-      update site to add the m2eclipse plugin to Eclipse are provided on the
-      m2eclipse home page. For more, read the m2eclipse <ulink
-      url="http://www.sonatype.com/books/m2eclipse-book/reference">reference
-      guide</ulink>.</para>
-
-      <para>m2eclipse is still a rather young project dealing with a complex
-      domain and you may run into problems using it. If that is the case, you
-      can alternatively use the Eclipse plugin for Maven 2 to generate native
-      Eclipse projects from Maven 2 projects.</para>
-
-      <para>If you have Maven 2 installed, you have everything you need. Just
-      execute the following command from any Maven 2 project to produce the
-      Eclipse project files.</para>
-
-      <programlisting>mvn eclipse:eclipse</programlisting>
-    </section>
-
-    <para>Again, the Eclipse plugins are not required to execute the TCK, but
-    can be very helpful when validating an implementation against the TCK test
-    suite and especially when using the modules from the Hibernate Validator
-    project.</para>
   </section>
 
   <!--

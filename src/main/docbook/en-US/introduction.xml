@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <chapter id="introduction">
-  <title>Introduction (Bean Validation TCK)</title>
+  <title>Introduction</title>
 
   <para>This chapter explains the purpose of a TCK and identifies the
   foundation elements of the Bean Validation TCK.</para>
@@ -28,7 +28,7 @@
     unmodified).</para>
 
     <para>A TCK is entirely implementation agnostic. It should validate
-    assertions by consulting the specficiation's public API. </para>
+    assertions by consulting the specficiation's public API.</para>
   </section>
 
   <section>
@@ -95,10 +95,10 @@
 
     <para>The Bean Validation TCK is designed as a portable, configurable and
     automated test suite for verifying the compatibility of an implementation
-    of the JSR-303: Bean Validation specification. The test suite is built
-    atop TestNG and provides a series of extensions that allow runtime
-    packaging and deployment of JEE artifacts for in-container testing (JBoss
-    Test Harness).</para>
+    of JSR-303: Bean Validation specification. The test suite is built atop
+    TestNG and provides a series of extensions that allow runtime packaging
+    and deployment of JEE artifacts for in-container testing (JBoss Test
+    Harness).</para>
 
     <note>
       <para>The Bean Validation TCK harness is based on the JBoss Test
@@ -107,7 +107,7 @@
 
     <para>Each test class in the suite acts as a deployable unit. The
     deployable units, or artifacts, are defined declaratively using
-    annotations. The artifact produced can be either a WAR or an EAR.</para>
+    annotations. </para>
 
     <para>The declarative approach allows many of the tests to be executed in
     a standalone implementation of Bean Validation, accounting for a boast in
@@ -175,15 +175,15 @@
         <listitem>
           <para><emphasis role="bold">The test suite</emphasis>, which is a
           collection of TestNG tests, the TestNG test suite descriptor and
-          supplemental resources that configure CDI and other software
-          components.</para>
+          supplemental resources that configure Bean Validation and other
+          software components.</para>
         </listitem>
 
         <listitem>
           <para><emphasis role="bold">The TCK audit</emphasis> is used to list
-          out the assertions identified in the CDI specification. It matches
-          the assertions to testcases in the test suite by unique identifier
-          and produces a coverage report.</para>
+          out the assertions identified in the Bean Validation specification.
+          It matches the assertions to testcases in the test suite by unique
+          identifier and produces a coverage report.</para>
 
           <para>The audit document is provided along with the TCK. Each
           assertion is defined with a reference to a chapter, section and
@@ -203,7 +203,7 @@
 
       <itemizedlist>
         <listitem>
-          <para>JBoss AS 5.0.0.GA using Sun Java SE 6 on Red Hat Enterprise
+          <para>JBoss AS 5.1.0.GA using Sun Java SE 6 on Red Hat Enterprise
           Linux 5.2</para>
         </listitem>
       </itemizedlist>

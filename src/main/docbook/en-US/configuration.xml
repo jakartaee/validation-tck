@@ -53,8 +53,7 @@
             </literal></entry>
 
             <entry>Directory containing extra JARs you want placed in artifact
-            library directory such as the porting package
-            implementation.</entry>
+            library directory.</entry>
           </row>
 
           <row>
@@ -94,14 +93,13 @@
     <literal>org.jboss.testharness.spi.Containers</literal>, which handles
     deploying the test artifact to the container. An implementations of this
     API is already available for JBoss AS 5.1. Therefore, you only need to
-    implement this part of the porting package if you wish to use another
-    container.</para>
+    implement this if you wish to use another container.</para>
 
     <note id="deployment-api-contributions">
-      <para>Red Hat Middleware LLC encourages CDI implementators to contribute
-      JBoss Test Harness Deployment API implementations for other containers
-      under the ASL license. Please contact the Bean Validation TCK
-      lead.</para>
+      <para>Red Hat Middleware LLC encourages Bean Validation implementators
+      to contribute JBoss Test Harness Deployment API implementations for
+      other containers under the ASL license. Please contact the Bean
+      Validation TCK lead.</para>
     </note>
   </section>
 
@@ -120,13 +118,13 @@
     for an implementation to pass the TCK. This file also allows tests to be
     excluded from a run:</para>
 
-    <programlisting>&lt;suite name="JSR-299 TCK" verbose="2"&gt;
-   &lt;test name="JSR-299 TCK"&gt;
+    <programlisting>&lt;suite name="JSR-303 TCK" verbose="2"&gt;
+   &lt;test name="JSR-303 TCK"&gt;
       ...
       &lt;classes&gt;
-         &lt;class name="org.jboss.jsr299.tck.tests.context.application.ApplicationContextTest"&gt;
+         &lt;class name="org.hibernate.jsr303.tck.tests.bootstrap.ValidationProviderTest"&gt;
             &lt;methods&gt;
-               &lt;exclude name="testApplicationScopeActiveDuringServiceMethod"/&gt;
+               &lt;exclude name="testFirstMatchingValidationProviderResolverIsReturned"/&gt;
             &lt;/methods&gt;
          &lt;/class&gt;
       &lt;/classes&gt;
@@ -145,8 +143,8 @@
 
     <para>It's beyond the scope of this guide to describe in how to set up
     your build environment to run the TCK. The JBoss Test Harness guide
-    describes how Web Beans uses Maven 2 to execute the Bean Validation TCK.
-    See <xref linkend="test-suite-runner" />. The TestNG documentation
+    describes how Bean Validation uses Maven 2 to execute the Bean Validation
+    TCK. See <xref linkend="test-suite-runner" />. The TestNG documentation
     provides extensive information on launching TestNG using the Java, Ant,
     Eclipse or IntellJ IDEA.</para>
   </section>
