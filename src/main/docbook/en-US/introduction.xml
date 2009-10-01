@@ -131,9 +131,9 @@
         <listitem>
           <para><emphasis role="bold">JBoss Test Harness</emphasis> - The Bean
           Validation TCK requires version 1.0.0 of the JBoss Test Harness. The
-          Harness is based on TestNG 5.x (<ulink
-          url="http://testng.org">http://testng.org</ulink>). You can read
-          more about the harness in <xref linkend="test-harness" />.</para>
+          Harness is based on <ulink url="http://testng.org">TestNG
+          5.x</ulink>. You can read more about the harness in <xref
+          linkend="test-harness" />.</para>
         </listitem>
 
         <listitem>
@@ -148,8 +148,8 @@
           designated reference runtimes for compatibility testing of the Bean
           Validation specification is the Sun Java Platform, Enterprise
           Edition (Java EE) 6 reference implementation (RI). See details at
-          Java EE 6 (<ulink
-          url="http://java.sun.com/javaee/6/docs/api/">http://java.sun.com/javaee/6/docs/api/</ulink>).</para>
+          <ulink url="http://java.sun.com/javaee/6/docs/api/">Java EE
+          6</ulink></para>
         </listitem>
       </itemizedlist>
     </section>

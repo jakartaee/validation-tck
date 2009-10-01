@@ -2,7 +2,7 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <chapter id="test-harness-introduction">
-  <title>Introduction (JBoss Test Harness)</title>
+  <title>Introduction</title>
 
   <para>This chapter explains the purpose of the test harness and describes
   its key features.</para>
@@ -132,7 +132,8 @@
   same test objects and tests.</para>
 
   <section id="in-container-communication">
-    <title>Negotiating the execution of an in-container test</title>
+    <title id="incontainer-communication">Negotiating the execution of an
+    in-container test</title>
 
     <para>The basic procedure of an in-container test is as follows. The JBoss
     Test Harness produces a deployable artifact from an
