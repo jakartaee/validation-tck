@@ -24,12 +24,12 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.Scope;
 
-import static junit.framework.Assert.assertTrue;
 import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
 import org.jboss.testharness.impl.packaging.Classes;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
