@@ -71,20 +71,24 @@ public class GroupInheritanceTest extends AbstractTest {
 
 		//  PreManufacturing belongs implicitly to All
 		PropertyDescriptor propertyDescriptor = descriptor.getConstraintsForProperty( "partNumber" );
-		Set<ConstraintDescriptor<?>> descriptorsForGroup = propertyDescriptor.getUnorderedConstraintDescriptorsMatchingGroups(
-				All.class
-		);
+		Set<ConstraintDescriptor<?>> descriptorsForGroup = propertyDescriptor.findConstraints()
+				.unorderedAndMatchingGroups( All.class )
+				.getConstraintDescriptors();
 		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
 		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), Digits.class );
 
 		//  PostManufacturing belongs implicitly to All
 		propertyDescriptor = descriptor.getConstraintsForProperty( "qaChecked" );
-		descriptorsForGroup = propertyDescriptor.getUnorderedConstraintDescriptorsMatchingGroups( All.class );
+		descriptorsForGroup = propertyDescriptor.findConstraints()
+				.unorderedAndMatchingGroups( All.class )
+				.getConstraintDescriptors();
 		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
 		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), AssertTrue.class );
 
 		propertyDescriptor = descriptor.getConstraintsForProperty( "size" );
-		descriptorsForGroup = propertyDescriptor.getUnorderedConstraintDescriptorsMatchingGroups( All.class );
+		descriptorsForGroup = propertyDescriptor.findConstraints()
+				.unorderedAndMatchingGroups( All.class )
+				.getConstraintDescriptors();
 		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
 		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), Max.class );
 	}
