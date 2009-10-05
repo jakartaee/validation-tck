@@ -77,21 +77,30 @@
     it into a sibling folder named hibernate-validator. The resulting folder
     structure is shown here:</para>
 
-    <note>
-      <para>This layout is assumed through all descriptions in this reference
-      guide.</para>
-    </note>
-
     <programlisting>jsr303/
    ri/
    tck/</programlisting>
 
     <para>Each test class is treated as an individual artifact (hence the
-    <literal>@Artifact</literal> annotation on the class). All test methods
-    (i.e., methods annotated with <literal>@Test</literal>) in the test class
-    are run in the application, meaning bean discovery occurs exactly once per
-    artifact and the same BeanManager is used by each test method in the
-    class.</para>
+    <literal>@Artifact(artifactType = ArtifactType.JSR303)</literal>
+    annotation on the class). All test methods (i.e., methods annotated with
+    <literal>@Test</literal>) in the test class are run. </para>
+
+    <note>
+      <para>Using <literal>ArtifactType.JSR303</literal> is an additional
+      artifact type to the standard WAR and EAR types offered by the JBoss
+      Test Harness. It is basically a normal WAR file with a
+      <filename>validation.xml</filename> file at the root of the classpath.
+      The <filename>validation.xml</filename> file can be specified with the
+      <classname>@ValidationXml </classname>annotation. Using
+      <literal>ArtifactType.JSR303</literal> together with
+      <classname>@ValidationXml</classname> also allows to have test with
+      custom validation.xml files running in standalone mode. This is possible
+      by modifying the classloader in standalone mode as shown in
+      <classname>org.hibernate.jsr303.tck.util.StandaloneContainersImpl</classname>.
+      This container implementation is also the default for sandalone
+      mode.</para>
+    </note>
 
     <tip id="tck-in-jboss-as">
       <title>Running the TCK against the Bean Validation RI (Hibernate
