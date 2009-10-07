@@ -661,6 +661,12 @@
             <text>For a class level constraint a Node object is added to Path whose name is null
             </text>
         </assertion>
+        <assertion id="n" testable="false">
+            <text>Bean Validation implementations should ensure that a ConstraintViolation
+                implementation is Serializable provided that the root bean, the leaf bean, the
+                invalid value and keys in the Path object are Serializable objects. </text>
+        </assertion>
+
     </section>
     <section id="4.3.1" title="Default message interpolation">
         <assertion id="a">
@@ -943,6 +949,37 @@
         <assertion id="c">
             <text>Validator.getConstraintsForClass throws an IllegalArgumentException if the clazz
                 parameter is null</text>
+        </assertion>
+    </section>
+    <section id="5.2" title="PropertyDescriptor">
+        <assertion id="a">
+            <text>getElementClass returns either the object type for a class, or the returned type
+                for a property</text>
+        </assertion>
+        <assertion id="b">
+            <text>getConstraintDescriptors returns all the ConstraintDescriptors hosted on the given
+                element in the class hierarchy, each ConstraintDescriptor describing one of the
+                constraints declared on the given element.</text>
+        </assertion>
+        <assertion id="c">
+            <text>hasConstraints returns true if the given element (class, field or property) in the
+                class hierarchy holds at least one constraint declaration.</text>
+        </assertion>
+        <assertion id="d">
+            <text>unorderedAndMatchingGroups restricts to the ConstraintDescriptors matching the set
+                of groups passed as parameters and present on the element. Order is not respected
+                but group inheritance and inheritance via sequence (including the Default group
+                overriding at the class level) are honored.</text>
+        </assertion>
+        <assertion id="e">
+            <text>declaredOn lets you restrict the list of element types constraints are hosted
+                on.</text>
+        </assertion>
+        <assertion id="f">
+            <text>lookingAt lets you restrict which constraints are considered. Either constraints
+                belonging to the element but hosted on the class represented by BeanDescritptor
+                (Scope.LOCAL_ELEMENT), or constraints belonging to the element but hosted anywhere
+                in the class hierarchy (Scope.HIERARCHY).</text>
         </assertion>
     </section>
     <section id="5.3" title="BeanDescriptor">

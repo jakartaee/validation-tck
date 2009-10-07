@@ -19,11 +19,11 @@ package org.hibernate.jsr303.tck.tests.metadata;
 
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
 import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.test.audit.annotations.SpecAssertion;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -37,8 +37,9 @@ import static org.hibernate.jsr303.tck.util.TestUtil.getPropertyDescriptor;
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
-@Classes({TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class})
+@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
 public class PropertyDescriptorTest extends AbstractTest {
+
 	@Test
 	@SpecAssertion(section = "5.4", id = "a")
 	public void testIsNotCascaded() {
