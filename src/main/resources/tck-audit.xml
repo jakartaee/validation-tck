@@ -1042,7 +1042,14 @@
         <assertion id="i">
             <text>Any payload definition on a composing annotation is ignored</text>
         </assertion>
-
+        <assertion id="k">
+            <text>isReportAsSingleViolation() returns true if the constraint is annotated with
+                @ReportAsSingleViolation </text>
+        </assertion>
+        <assertion id="l">
+            <text>getComposingConstraints return a set of composing ConstraintDescriptors where each
+                descriptor describes a composing constraint.</text>
+        </assertion>
     </section>
 
     <section id="6" title="Built-in Constraint definitions">

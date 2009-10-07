@@ -49,6 +49,7 @@ import static org.hibernate.jsr303.tck.util.TestUtil.getConstraintDescriptorsFor
 public class ConstraintDescriptorTest extends AbstractTest {
 
 	@Test
+	@SpecAssertion(section = "5.5", id = "k")
 	public void testReportAsSingleViolation() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		assertFalse( descriptor.isReportAsSingleViolation() );
@@ -58,6 +59,7 @@ public class ConstraintDescriptorTest extends AbstractTest {
 	}
 
 	@Test
+	@SpecAssertion(section = "5.5", id = "l")
 	public void testEmptyComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		assertTrue( descriptor.getComposingConstraints().isEmpty() );
@@ -79,7 +81,9 @@ public class ConstraintDescriptorTest extends AbstractTest {
 				Size sizeAnn = ( Size ) desc.getAnnotation();
 				assertEquals( sizeAnn.min(), 5, "The min parameter should reflect the overridden parameter" );
 				assertEquals(
-						desc.getAttributes().get( "min" ), 5, "The min parameter should reflect the overridden parameter"
+						desc.getAttributes().get( "min" ),
+						5,
+						"The min parameter should reflect the overridden parameter"
 				);
 			}
 			else if ( desc.getAnnotation().annotationType().equals( NotNull.class ) ) {
@@ -88,7 +92,7 @@ public class ConstraintDescriptorTest extends AbstractTest {
 				fail( "Unexpected annotation." );
 			}
 		}
-		assertTrue(hasSize, "Size composed annotation not found");
+		assertTrue( hasSize, "Size composed annotation not found" );
 	}
 
 	@Test
@@ -141,7 +145,10 @@ public class ConstraintDescriptorTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "f")
+	@SpecAssertions({
+			@SpecAssertion(section = "5.5", id = "f"),
+			@SpecAssertion(section = "5.5", id = "l")
+	})
 	public void testComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
@@ -168,8 +175,8 @@ public class ConstraintDescriptorTest extends AbstractTest {
 
 	@Test
 	@SpecAssertions({
-		@SpecAssertion(section = "5.5", id = "h"),
-		@SpecAssertion(section = "5.5", id = "i")
+			@SpecAssertion(section = "5.5", id = "h"),
+			@SpecAssertion(section = "5.5", id = "i")
 	})
 	public void testComposingConstraintsPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );

@@ -162,6 +162,7 @@ public class GroupTest extends AbstractTest {
 	}
 
 	@Test
+	@SpecAssertion(section = "3.4", id = "d")
 	public void testGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -192,7 +193,9 @@ public class GroupTest extends AbstractTest {
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "The book's subtitle can only have 30 characters" );
+		assertCorrectConstraintViolationMessages(
+				constraintViolations, "The book's subtitle can only have 30 characters"
+		);
 		constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), book.getSubtitle(), "Wrong value" );
@@ -204,7 +207,9 @@ public class GroupTest extends AbstractTest {
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
 		constraintViolation = constraintViolations.iterator().next();
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "The company name can only have 20 characters" );
+		assertCorrectConstraintViolationMessages(
+				constraintViolations, "The company name can only have 20 characters"
+		);
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), author.getCompany(), "Wrong value" );
 		assertCorrectPropertyPaths( constraintViolations, "author.company" );
@@ -216,6 +221,10 @@ public class GroupTest extends AbstractTest {
 	}
 
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4.2", id = "b"),
+			@SpecAssertion(section = "3.4.2", id = "d")
+	})
 	public void testGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -258,22 +267,10 @@ public class GroupTest extends AbstractTest {
 	}
 
 	@Test
-	public void testGroupSequences() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
-		Dictionary dictionary = new Dictionary();
-		dictionary.setTitle( "English - German" );
-		Author author = new Author();
-		author.setLastName( "-" );
-		author.setFirstName( "-" );
-		author.setCompany( "Langenscheidt Publ." );
-		dictionary.setAuthor( author );
-
-		Set<ConstraintViolation<Dictionary>> constraintViolations = validator.validate( dictionary, DefaultAlias.class );
-		assertEquals( constraintViolations.size(), 0, "Wrong number of constraints" );
-	}
-
-	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "c"),
+			@SpecAssertion(section = "3.5", id = "b")
+	})
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Animal elephant = new Animal();
@@ -286,11 +283,12 @@ public class GroupTest extends AbstractTest {
 		assertEquals(
 				constraintViolations.size(),
 				1,
-				"The should be one invalid constraint since the same constraint gets validated in both groups"
+				"The should be only one invalid constraint even though the constraint belongs to both groups"
 		);
 	}
 
 	@Test
+	@SpecAssertion(section = "3.4", id = "d")
 	public void testGroupSequenceFollowedByGroup() {
 		User user = new User();
 		user.setFirstname( "Foo" );
