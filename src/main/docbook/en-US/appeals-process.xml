@@ -52,15 +52,15 @@
     <title>How these challenges are submitted?</title>
 
     <para>To submit a challenge, a new issue should be created in the <ulink
-    url="https://jira.jboss.org/jira/browse/HV">HV project</ulink> of the
-    JBoss JIRA using the Issue Type: Bug. The appellant should complete the
-    Summary, Component (TCK Appeal), Environment and Description Field only.
-    Any communication regarding the issue should be pursed in the comments of
-    the filed issue for accurate record.</para>
+    url="http://opensource.atlassian.com/projects/hibernate/browse/BVTCK">BVTCK
+    project</ulink> of the Hibernate JIRA using the Issue Type: Bug. The
+    appellant should complete the Summary, Component (TCK Appeal), Environment
+    and Description Field only. Any communication regarding the issue should
+    be pursed in the comments of the filed issue for accurate record.</para>
 
-    <para>To submit an issue in the JBoss JIRA, you must have a (free)
-    JBoss.com member account. You can create a member account using the <ulink
-    url="http://www.jboss.org/index.html?op=checkage&amp;module=user">on-line
+    <para>To submit an issue in the Hibernate JIRA, you must have a (free)
+    Jira member account. You can create a member account using the <ulink
+    url="http://opensource.atlassian.com/projects/hibernate/secure/Signup!default.jspa">on-line
     registration</ulink>.</para>
 
     <para>If you wish to make a private challenge, you should follow the above
@@ -75,12 +75,12 @@
     Validation TCK Project Lead, as designated by Specification Lead, Red Hat
     Middleware LLC. or his/her designate. The appellant can also monitor the
     process by following the issue report filed in the <ulink
-    url="https://jira.jboss.org/jira/browse/HV">HV project</ulink> of the
-    JBoss JIRA.</para>
+    url="http://opensource.atlassian.com/projects/hibernate/browse/BVTCK">BVTCK
+    project</ulink> of the Hibernate JIRA.</para>
 
     <para>The current TCK Project Lead is listed on the <ulink type=""
-    url="https://jira.jboss.org/jira/browse/HV" userlevel="">HV Project
-    Summary Page</ulink> on the JBoss JIRA.</para>
+    url="http://opensource.atlassian.com/projects/hibernate/browse/BVTCK"
+    userlevel="">BVTCK Project Summary Page</ulink>.</para>
   </section>
 
   <section>

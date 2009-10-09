@@ -33,7 +33,7 @@
       </fileSet>
       <fileSet>
          <directory>${project.basedir}</directory>
-         <outputDirectory>src</outputDirectory>
+         <outputDirectory>.</outputDirectory>
          <includes>
             <include>**/pom.xml</include>
             <include>**/src/**</include>
@@ -41,6 +41,7 @@
          <excludes>
             <exclude>**/src/main/assembly/**</exclude>
             <exclude>**/bin/**</exclude>
+            <exclude>**/target/**</exclude>
          </excludes>
          <useDefaultExcludes/>
       </fileSet>

@@ -71,7 +71,7 @@
     source into a subfolder ri. This will allow you to run the TCK against
     Hibernate Validator.</para>
 
-    <programlisting>svn co http://anonsvn.jboss.org/repos/hibernate/validator/tags/v_4_0_0_GA ri</programlisting>
+    <programlisting>svn co http://anonsvn.jboss.org/repos/hibernate/validator/tags/v4_0_0_GA ri</programlisting>
 
     <para>If you have downloaded the Hibernate Validator distribution, extract
     it into a sibling folder named hibernate-validator. The resulting folder
@@ -84,7 +84,7 @@
     <para>Each test class is treated as an individual artifact (hence the
     <literal>@Artifact(artifactType = ArtifactType.JSR303)</literal>
     annotation on the class). All test methods (i.e., methods annotated with
-    <literal>@Test</literal>) in the test class are run. </para>
+    <literal>@Test</literal>) in the test class are run.</para>
 
     <note>
       <para>Using <literal>ArtifactType.JSR303</literal> is an additional

@@ -25,9 +25,7 @@ limitations under the License.</literallayout></releaseinfo>
 
   <authorgroup>
     <author>
-      <firstname>Emmanuel</firstname>
-
-      <surname>Bernard</surname>
+      <firstname>Emmanuel Bernard</firstname>
 
       <affiliation>
         <jobtitle>JSR-303: Bean Validation specification lead</jobtitle>
@@ -37,9 +35,7 @@ limitations under the License.</literallayout></releaseinfo>
     </author>
 
     <author>
-      <firstname>Hardy</firstname>
-
-      <surname>Ferentschik</surname>
+      <firstname>Hardy Ferentschik</firstname>
 
       <affiliation>
         <jobtitle>Bean Validation TCK Developer</jobtitle>
