@@ -17,10 +17,21 @@
 */
 package org.hibernate.jsr303.tck.tests.validation.validatorcontext;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
+import javax.validation.Payload;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
@@ -33,6 +44,7 @@ import org.jboss.testharness.impl.packaging.Classes;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectPropertyPaths;
@@ -111,5 +123,81 @@ public class ConstraintValidatorContextTest extends AbstractTest {
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "subnode message" );
 		assertCorrectPropertyPaths( constraintViolations, "value.subnode" );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "2.4", id = "m"),
+			@SpecAssertion(section = "2.4", id = "q")
+	})
+	public void propertyPathInIterable() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		Group group = new Group( Gender.MALE, new Person( Gender.FEMALE ) );
+
+		Set<ConstraintViolation<Group>> constraintViolations = validator.validate( group );
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertCorrectPropertyPaths( constraintViolations, "persons[0]" );
+		assertCorrectConstraintTypes( constraintViolations, CompatiblePersons.class );
+	}
+
+	private enum Gender {
+		MALE, FEMALE
+	}
+
+	@CompatiblePersons
+	private class Group {
+		Gender gender;
+		List<Person> persons = new ArrayList<Person>();
+
+		public Group(Gender gender, Person... persons) {
+			this.gender = gender;
+			this.persons.addAll( Arrays.asList( persons ) );
+		}
+	}
+
+	private class Person {
+		Gender gender;
+
+		public Person(Gender gender) {
+			this.gender = gender;
+		}
+	}
+
+	@Target({ java.lang.annotation.ElementType.TYPE, java.lang.annotation.ElementType.ANNOTATION_TYPE })
+	@Retention(RetentionPolicy.RUNTIME)
+	@Constraint(validatedBy = { CompatiblePersonsValidator.class })
+	@Documented
+	public @interface CompatiblePersons {
+		String message() default "";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default { };
+	}
+
+	public static class CompatiblePersonsValidator implements ConstraintValidator<CompatiblePersons, Group> {
+		public void initialize(CompatiblePersons constraintAnnotation) {
+		}
+
+		public boolean isValid(Group group, ConstraintValidatorContext constraintValidatorContext) {
+			if ( group == null ) {
+				return true;
+			}
+
+			constraintValidatorContext.disableDefaultConstraintViolation();
+
+			for ( int index = 0; index < group.persons.size(); index++ ) {
+				Person person = group.persons.get( index );
+				if ( !group.gender.equals( person.gender ) ) {
+					constraintValidatorContext
+							.buildConstraintViolationWithTemplate( "constraints.CompatiblePersons.gender.message" )
+							.addNode( "persons" )
+							.addNode( null ).inIterable().atIndex( index )
+							.addConstraintViolation();
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 }
