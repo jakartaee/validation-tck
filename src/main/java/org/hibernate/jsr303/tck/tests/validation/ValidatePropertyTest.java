@@ -21,7 +21,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -86,17 +85,6 @@ public class ValidatePropertyTest extends AbstractTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Customer customer = new Customer();
-		Order order = new Order();
-		customer.addOrder( order );
-
-		try {
-			validator.validateProperty( customer, "orders[].orderNumber" );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
-
 		try {
 			validator.validateProperty( customer, "foobar" );
 			fail();
@@ -105,13 +93,6 @@ public class ValidatePropertyTest extends AbstractTest {
 			// success
 		}
 
-		try {
-			validator.validateProperty( customer, "orders[].foobar" );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
 
 		// firstname exists, but the capitalisation is wrong
 		try {
@@ -129,9 +110,6 @@ public class ValidatePropertyTest extends AbstractTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Customer customer = new Customer();
-		Order order = new Order();
-		customer.addOrder( order );
-
 
 		try {
 			validator.validateProperty( customer, null );
@@ -187,38 +165,6 @@ public class ValidatePropertyTest extends AbstractTest {
 		address.setCity( "London" );
 		constraintViolations = validator.validateProperty( address, "city" );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
-	}
-
-	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.1.1", id = "c"),
-			@SpecAssertion(section = "4.1.1", id = "d"),
-			@SpecAssertion(section = "4.1.1", id = "f")
-	})
-	public void testValidatePropertyWithIndexedPath() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
-		ActorListBased clint = new ActorListBased( "Clint", "Eastwood" );
-		ActorListBased morgan = new ActorListBased( "Morgan", null );
-		ActorListBased charlie = new ActorListBased( "Charlie", "Sheen" );
-
-		clint.addPlayedWith( charlie );
-		charlie.addPlayedWith( clint );
-		charlie.addPlayedWith( morgan );
-		morgan.addPlayedWith( charlie );
-		morgan.addPlayedWith( clint );
-		clint.addPlayedWith( morgan );
-
-		String property = "playedWith[0].playedWith[1].lastName";
-		Set<ConstraintViolation<ActorListBased>> constraintViolations = validator.validateProperty(
-				clint, property
-		);
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-
-		ConstraintViolation<ActorListBased> violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, ActorListBased.class, null, property );
-		assertCorrectConstraintViolationMessages( constraintViolations, "Everyone has a last name." );
 	}
 
 	@Test

@@ -74,18 +74,18 @@ public class ValidateValueTest extends AbstractTest {
 	public void testValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
-		Set<ConstraintViolation<Customer>> constraintViolations = validator.validateValue(
-				Customer.class, "orders[0].orderNumber", null
+		Set<ConstraintViolation<Order>> constraintViolations = validator.validateValue(
+				Order.class, "orderNumber", null
 		);
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		assertCorrectPropertyPaths( constraintViolations, "orders[0].orderNumber" );
+		assertCorrectPropertyPaths( constraintViolations, "orderNumber" );
 		assertCorrectConstraintViolationMessages( constraintViolations, "An order must have an order number." );
 
-		ConstraintViolation constraintViolation = constraintViolations.iterator().next();
-		assertConstraintViolation( constraintViolation, Customer.class, null, "orders[0].orderNumber" );
-		assertEquals( constraintViolation.getRootBeanClass(), Customer.class, "Wrong root bean class" );
+		ConstraintViolation<Order> constraintViolation = constraintViolations.iterator().next();
+		assertConstraintViolation( constraintViolation, Order.class, null, "orderNumber" );
+		assertEquals( constraintViolation.getRootBeanClass(), Order.class, "Wrong root bean class" );
 
-		constraintViolations = validator.validateValue( Customer.class, "orders[0].orderNumber", 1234 );
+		constraintViolations = validator.validateValue( Order.class, "orderNumber", 1234 );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
@@ -96,14 +96,6 @@ public class ValidateValueTest extends AbstractTest {
 
 		try {
 			validator.validateValue( Customer.class, "foobar", null );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
-
-		try {
-			validator.validateValue( Customer.class, "orders[0].foobar", null );
 			fail();
 		}
 		catch ( IllegalArgumentException e ) {
