@@ -60,7 +60,7 @@
 
             <entry>hibernate-validator</entry>
 
-            <entry>4.0.0.GA</entry>
+            <entry>4.0.1.GA</entry>
           </row>
 
           <row>
@@ -68,7 +68,7 @@
 
             <entry>jsr303-tck</entry>
 
-            <entry>1.0.0.GA</entry>
+            <entry>1.0.1.GA</entry>
           </row>
 
           <row>
