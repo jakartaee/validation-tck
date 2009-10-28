@@ -55,11 +55,23 @@
             <groupId>org.jboss.test-harness</groupId>
             <artifactId>jboss-test-harness-api</artifactId>
             <version>1.0.0</version>
+	        <exclusions>
+	            <exclusion>
+	                <groupId>log4j</groupId>
+	                <artifactId>log4j</artifactId>
+	            </exclusion>
+	         </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.test-harness</groupId>
             <artifactId>jboss-test-harness</artifactId>
             <version>1.0.0</version>
+	        <exclusions>
+	            <exclusion>
+	                <groupId>log4j</groupId>
+	                <artifactId>log4j</artifactId>
+	            </exclusion>
+	         </exclusions>
         </dependency>
     </dependencies>
 
@@ -209,7 +221,7 @@
                 <configuration>
                     <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
                     <remoteTagging>true</remoteTagging>
-                    <goals>deploy</goals>
+                    <goals>deploy org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.0:resources org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.0:generate assembly:assembly</goals>
                 </configuration>
             </plugin>
             <plugin>
