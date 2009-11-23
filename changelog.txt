@@ -1,0 +1,19 @@
+Bean Validation TCK Changelog
+===============================
+
+See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
+
+1.0.2.GA
+----------------------
+
+
+
+1.0.1.GA (28-10-2009)
+----------------------
+
+** Bug
+    * [BVTCK-1] - Make sure that validateValue and validateProperty tests only use single value properties
+
+** Task
+    * [BVTCK-2] - Move testcase for HV-253 into the TCK
+

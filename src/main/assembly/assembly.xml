@@ -70,8 +70,8 @@
          <directory>${project.basedir}</directory>
          <outputDirectory>/</outputDirectory>
          <includes>
-            <include>readme.txt</include>
             <include>apl.txt</include>
+            <include>changelog.txt</include>
          </includes>
       </fileSet>
    </fileSets>
