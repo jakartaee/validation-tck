@@ -18,7 +18,7 @@
    <fileSets>
       <fileSet>
          <directory>target</directory>
-         <outputDirectory/>
+         <outputDirectory>artifacts</outputDirectory>
          <excludes>
             <exclude>*-javadoc.jar</exclude>
             <exclude>*-sources.jar</exclude>
@@ -47,21 +47,17 @@
       </fileSet>
       <fileSet>
          <directory>${project.basedir}/src/main/resources</directory>
-         <outputDirectory>/</outputDirectory>
-         <includes>
-            <include>tck-tests.xml</include>
-         </includes>
-      </fileSet>
-      <fileSet>
-         <directory>${project.basedir}/src/main/resources</directory>
-         <outputDirectory>/</outputDirectory>
+         <outputDirectory>/artifacts</outputDirectory>
          <includes>
             <include>tck-audit.xml</include>
+            <include>tck-tests.xml</include>
+            <include>validation-api.sig</include>
+            <include>readme.txt</include> 
          </includes>
       </fileSet>
       <fileSet>
          <directory>${project.basedir}/target</directory>
-         <outputDirectory>/</outputDirectory>
+         <outputDirectory>/artifacts</outputDirectory>
          <includes>
             <include>coverage.html</include>
          </includes>

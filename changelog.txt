@@ -6,6 +6,9 @@ See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 1.0.2.GA
 ----------------------
 
+** Task
+    * [BVTCK-3] - Create release notes for the distribution package
+    * [BVTCK-4] - Add signature test file to TCK distribution package 
 
 
 1.0.1.GA (28-10-2009)

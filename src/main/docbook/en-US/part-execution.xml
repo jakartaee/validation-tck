@@ -6,11 +6,14 @@
 
   <partintro>
     <para>In this part you learn how to execute the Bean Validation TCK on the
-    Bean validation reference implementation (Hibernate Validator). First, you
-    are walked through the steps necessary to execute the test suite on
-    Hibernate Validator. Then you discover how to modify the TCK runner to
-    execute the test suite on your own implementation. </para>
+    Bean validation reference implementation (Hibernate Validator). You are
+    walked through the steps necessary to execute the test suite against
+    Hibernate Validator and you discover how to modify the TCK runner to
+    execute the test suite against your own implementation. First, however,
+    you learn how to pass the Signature Test.</para>
   </partintro>
+
+  <xi:include href="sigtest.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
   <xi:include href="executing.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </part>

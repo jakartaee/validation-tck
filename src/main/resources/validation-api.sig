@@ -11,6 +11,7 @@ cons protected Enum(java.lang.String,int)
 intf java.io.Serializable
 intf java.lang.Comparable<{java.lang.Enum%0}>
 meth protected final java.lang.Object clone() throws java.lang.CloneNotSupportedException
+meth protected final void finalize()
 meth public final boolean equals(java.lang.Object)
 meth public final int compareTo({java.lang.Enum%0})
 meth public final int hashCode()

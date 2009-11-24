@@ -20,7 +20,7 @@
         <para><emphasis role="bold">Assertion Breadth
         Coverage</emphasis></para>
 
-        <para>The BEan Validation TCK provides at least 100% coverage of
+        <para>The Bean Validation TCK provides at least 100% coverage of
         identified assertions with test cases.</para>
       </listitem>
 
@@ -39,12 +39,6 @@
         assertion requires more than one testcase, these have been enumerated
         in an assertion group and so are adequately described by the assertion
         breadth coverage.</para>
-      </listitem>
-
-      <listitem>
-        <para><emphasis role="bold">Method Coverage</emphasis></para>
-
-        <para>TODO</para>
       </listitem>
 
       <listitem>
@@ -309,8 +303,8 @@ Tests run: 237, Failures: 0, Errors: 0, Skipped: 0
         <para>The test suite detail report is very useful, but it borderlines
         on complex. As an alternative, you can have a look at the emailable
         report, which is a single HTML document that shows much of the same
-        information as the test suite detail report in a more compact layout.
-        </para>
+        information as the test suite detail report in a more compact
+        layout.</para>
       </section>
     </section>
   </section>
