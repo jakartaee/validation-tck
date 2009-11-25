@@ -24,12 +24,12 @@
   <section>
     <title>Creating the signature file</title>
 
-    <para>The TCK package contains the file
-    <filename>validation-api.sig</filename> (in the
-    <filename>artifacts</filename> directory) which was created using the
-    following command:</para>
+    <para>The TCK package contains the files
+    <filename>validation-api-java5.sig and validation-api-java6.sig</filename>
+    (in the <filename>artifacts</filename> directory) which were created using
+    the following command (using the corresponding Java version):</para>
 
-    <programlisting>java -jar sigtestdev.jar Setup -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-1.0.0.GA.jar -package javax.validation -filename validation-api.sig</programlisting>
+    <programlisting>java -jar sigtestdev.jar Setup -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-1.0.0.GA.jar -package javax.validation -filename validation-api-java6.sig</programlisting>
 
     <para>In order to pass the Bean Validation TCK you have to make sure that
     your API passes the signature tests against
@@ -41,11 +41,12 @@
 
     <para>To run the signature test use:</para>
 
-    <programlisting>java -jar sigtest.jar Test -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-1.0.0.GA.jar -static -package javax.validation -filename validation-api.sig</programlisting>
+    <programlisting>java -jar sigtest.jar Test -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-1.0.0.GA.jar -static -package javax.validation -filename validation-api-java6.sig</programlisting>
 
-    <para>In order to run against your own Bean Validation API replace
-    validation-api-1.0.0.GA.jar with your own API jar. You should get the
-    message <literal>"STATUS:Passed."</literal>.</para>
+    <para>You have to chose the right version of the signature file depending
+    on your Java version. In order to run against your own Bean Validation API
+    replace validation-api-1.0.0.GA.jar with your own API jar. You should get
+    the message <literal>"STATUS:Passed."</literal>.</para>
   </section>
 
   <section>

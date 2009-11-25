@@ -3,7 +3,14 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
-1.0.2.GA
+1.0.2.GA (25-11-2009)
+----------------------
+
+** Task
+    * [BVTCK-5] - Provide separate signature files for Java 5 and  Java 6
+    
+
+1.0.2.GA (24-11-2009)
 ----------------------
 
 ** Task

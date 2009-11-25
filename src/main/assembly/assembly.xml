@@ -51,7 +51,8 @@
          <includes>
             <include>tck-audit.xml</include>
             <include>tck-tests.xml</include>
-            <include>validation-api.sig</include>
+            <include>validation-api-java5.sig</include>
+            <include>validation-api-java6.sig</include>
             <include>readme.txt</include> 
          </includes>
       </fileSet>
