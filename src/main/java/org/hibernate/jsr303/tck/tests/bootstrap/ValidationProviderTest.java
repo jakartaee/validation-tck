@@ -34,21 +34,26 @@ import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
 import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertTrue;
-import static org.testng.FileAssert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.common.TCKValidationProvider;
 import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
 
+import static org.testng.Assert.assertTrue;
+import static org.testng.FileAssert.fail;
+
 /**
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
 @Classes({
-		TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class, TCKValidationProvider.class,
-		TCKValidationProvider.DummyValidatorFactory.class, TCKValidatorConfiguration.class
+		TestUtil.class,
+		TestUtil.PathImpl.class,
+		TestUtil.NodeImpl.class,
+		TCKValidationProvider.class,
+		TCKValidationProvider.DummyValidatorFactory.class,
+		TCKValidatorConfiguration.class
 })
 public class ValidationProviderTest extends AbstractTest {
 

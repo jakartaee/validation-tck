@@ -24,14 +24,27 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
+import org.jboss.testharness.impl.packaging.Classes;
 import org.jboss.testharness.impl.packaging.IntegrationTest;
 import org.jboss.testharness.impl.packaging.Resource;
 import org.testng.annotations.Test;
+
+import org.hibernate.jsr303.tck.common.TCKValidationProvider;
+import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
+import org.hibernate.jsr303.tck.util.TestUtil;
 
 /**
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
+@Classes({
+		TestUtil.class,
+		TestUtil.PathImpl.class,
+		TestUtil.NodeImpl.class,
+		TCKValidationProvider.class,
+		TCKValidationProvider.DummyValidatorFactory.class,
+		TCKValidatorConfiguration.class
+})
 @Resource(source = "javax.validation.spi.ValidationProvider",
 		destination = "WEB-INF/classes/META-INF/services/javax.validation.spi.ValidationProvider")
 @IntegrationTest

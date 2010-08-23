@@ -45,6 +45,8 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
+import org.hibernate.jsr303.tck.common.TCKValidationProvider;
+import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
@@ -54,7 +56,14 @@ import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolat
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
+@Classes({
+		TestUtil.class,
+		TestUtil.PathImpl.class,
+		TestUtil.NodeImpl.class,
+		TCKValidationProvider.class,
+		TCKValidationProvider.DummyValidatorFactory.class,
+		TCKValidatorConfiguration.class
+})
 public class PropertyPathTest extends AbstractTest {
 
 	@Test

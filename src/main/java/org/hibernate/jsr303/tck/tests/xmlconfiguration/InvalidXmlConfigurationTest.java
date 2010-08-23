@@ -29,13 +29,22 @@ import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
 import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
+import org.hibernate.jsr303.tck.common.TCKValidationProvider;
+import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
 
 /**
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
+@Classes({
+		TestUtil.class,
+		TestUtil.PathImpl.class,
+		TestUtil.NodeImpl.class,
+		TCKValidationProvider.class,
+		TCKValidatorConfiguration.class,
+		TCKValidationProvider.DummyValidatorFactory.class
+})
 @ValidationXml(value = "validation-InvalidXmlConfigurationTest.xml")
 public class InvalidXmlConfigurationTest extends AbstractTest {
 

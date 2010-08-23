@@ -53,8 +53,12 @@ import org.hibernate.jsr303.tck.util.TestUtil;
  */
 @Artifact(artifactType = ArtifactType.JSR303)
 @Classes({
-		TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class, TCKValidationProvider.class,
-		TCKValidationProvider.DummyValidatorFactory.class, TCKValidatorConfiguration.class
+		TestUtil.class,
+		TestUtil.PathImpl.class,
+		TestUtil.NodeImpl.class,
+		TCKValidationProvider.class,
+		TCKValidationProvider.DummyValidatorFactory.class,
+		TCKValidatorConfiguration.class
 })
 public class ValidationTest extends AbstractTest {
 

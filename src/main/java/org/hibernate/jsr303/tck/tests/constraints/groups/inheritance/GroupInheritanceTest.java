@@ -83,7 +83,7 @@ public class GroupInheritanceTest extends AbstractTest {
 				.unorderedAndMatchingGroups( All.class )
 				.getConstraintDescriptors();
 		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
-		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), AssertTrue.class );
+    		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), AssertTrue.class );
 
 		propertyDescriptor = descriptor.getConstraintsForProperty( "size" );
 		descriptorsForGroup = propertyDescriptor.findConstraints()

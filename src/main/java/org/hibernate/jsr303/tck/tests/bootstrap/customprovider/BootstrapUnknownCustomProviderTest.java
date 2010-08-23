@@ -24,14 +24,28 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
+import org.jboss.testharness.impl.packaging.Classes;
 import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
+
+import org.hibernate.jsr303.tck.common.TCKValidationProvider;
+import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
+import org.hibernate.jsr303.tck.util.TestUtil;
+
+import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
+@Classes({
+		TestUtil.class,
+		TestUtil.PathImpl.class,
+		TestUtil.NodeImpl.class,
+		TCKValidationProvider.class,
+		TCKValidatorConfiguration.class,
+		TCKValidationProvider.DummyValidatorFactory.class
+})
 @ValidationXml(value = "validation-BootstrapUnknownCustomProviderTest.xml")
 public class BootstrapUnknownCustomProviderTest extends AbstractTest {
 
