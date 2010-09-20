@@ -23,7 +23,6 @@ import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.Validator;
-import javax.validation.constraints.Pattern;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
