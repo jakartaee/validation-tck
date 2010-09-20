@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "jsr303-tck.ent">
+%BOOK_ENTITIES;
+]>
 <chapter id="sigtest">
   <title>Running the Signature Test</title>
 
@@ -29,7 +31,7 @@
     (in the <filename>artifacts</filename> directory) which were created using
     the following command (using the corresponding Java version):</para>
 
-    <programlisting>java -jar sigtestdev.jar Setup -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-1.0.0.GA.jar -package javax.validation -filename validation-api-java6.sig</programlisting>
+    <programlisting>java -jar sigtestdev.jar Setup -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-&validationApi;.jar -package javax.validation -filename validation-api-java6.sig</programlisting>
 
     <para>In order to pass the Bean Validation TCK you have to make sure that
     your API passes the signature tests against
@@ -41,11 +43,11 @@
 
     <para>To run the signature test use:</para>
 
-    <programlisting>java -jar sigtest.jar Test -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-1.0.0.GA.jar -static -package javax.validation -filename validation-api-java6.sig</programlisting>
+    <programlisting>java -jar sigtest.jar Test -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-&validationApi;.jar -static -package javax.validation -filename validation-api-java6.sig</programlisting>
 
     <para>You have to chose the right version of the signature file depending
     on your Java version. In order to run against your own Bean Validation API
-    replace validation-api-1.0.0.GA.jar with your own API jar. You should get
+    replace validation-api-&validationApi;.jar with your own API jar. You should get
     the message <literal>"STATUS:Passed."</literal>.</para>
   </section>
 

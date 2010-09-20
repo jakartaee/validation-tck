@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
-"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../jsr303-tck.ent">
+%BOOK_ENTITIES;
+]>
 <chapter id="executing-test-harness">
   <title>Executing a Test Suite</title>
 
@@ -27,7 +29,7 @@
 
     <table frame="all" id="tck-runner-dependencies"
            title="CDI TCK Runner dependencies">
-      <title>Web Beans JBoss TCK Runner Dependencies</title>
+      <title>Bean Validation TCK Runner Dependencies</title>
 
       <tgroup cols="3">
         <colspec colname="c1" />
@@ -52,7 +54,7 @@
 
             <entry>validation-api</entry>
 
-            <entry>1.0.0.GA</entry>
+            <entry>&validationApi;</entry>
           </row>
 
           <row>
@@ -60,7 +62,7 @@
 
             <entry>hibernate-validator</entry>
 
-            <entry>4.0.1.GA</entry>
+            <entry>&referenceImplVersion;</entry>
           </row>
 
           <row>
@@ -68,7 +70,7 @@
 
             <entry>jsr303-tck</entry>
 
-            <entry>1.0.1.GA</entry>
+            <entry>&version;</entry>
           </row>
 
           <row>
@@ -90,9 +92,9 @@
           <row>
             <entry>org.jboss.test-harness</entry>
 
-            <entry>jboss-test-harness-jboss-as-51</entry>
+            <entry>jboss-test-harness-jboss-as-60</entry>
 
-            <entry>1.0.0</entry>
+            <entry>1.1.0-CR6</entry>
           </row>
         </tbody>
       </tgroup>
