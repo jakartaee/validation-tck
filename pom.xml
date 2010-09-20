@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.hibernate.jsr303.tck</groupId>
     <artifactId>jsr303-tck</artifactId>
@@ -54,7 +56,7 @@
         <dependency>
             <groupId>org.jboss.test-harness</groupId>
             <artifactId>jboss-test-harness-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0-CR6</version>
             <exclusions>
                 <exclusion>
                     <groupId>log4j</groupId>
@@ -65,7 +67,7 @@
         <dependency>
             <groupId>org.jboss.test-harness</groupId>
             <artifactId>jboss-test-harness</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0-CR6</version>
             <exclusions>
                 <exclusion>
                     <groupId>log4j</groupId>
@@ -97,6 +99,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -129,13 +132,13 @@
             <plugin>
                 <groupId>org.jboss.maven.plugins</groupId>
                 <artifactId>maven-jdocbook-plugin</artifactId>
-                <version>2.2.0</version>
+                <version>2.2.3</version>
                 <extensions>true</extensions>
                 <dependencies>
                     <dependency>
                         <groupId>org.hibernate</groupId>
                         <artifactId>hibernate-jdocbook-style</artifactId>
-                        <version>2.0.0</version>
+                        <version>2.0.1</version>
                         <type>jdocbook-style</type>
                     </dependency>
                 </dependencies>
@@ -147,7 +150,7 @@
                         <directory>${basedir}/src/main/docbook/en-US/harness</directory>
                     </imageResource>
                     <formats>
-                        <format>
+                    	<format>
                             <formatName>pdf</formatName>
                             <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/pdf.xsl</stylesheetResource>
                             <finalName>beanvalidation-tck.pdf</finalName>
@@ -221,6 +224,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.0</version>
                 <executions>
                     <execution>
                         <id>copy-in-container-dependencies</id>
@@ -245,6 +249,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>2.0.4</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -262,14 +267,15 @@
                 <configuration>
                     <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
                     <remoteTagging>true</remoteTagging>
-                    <goals>deploy org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.0:resources
-                        org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.0:generate assembly:assembly
+                    <goals>deploy org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:resources
+                        org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:generate assembly:assembly
                     </goals>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-2</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
@@ -281,7 +287,7 @@
 
     <ciManagement>
         <system>Hudson</system>
-        <url />
+        <url/>
     </ciManagement>
 
     <issueManagement>
@@ -343,11 +349,13 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <tasks>
-                                        <javac srcdir="${basedir}/src/main/java" destdir="${basedir}/target/classes" failonerror="true">
-                                            <compilerarg value="-proc:only" />
-                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml" />
+                                        <javac srcdir="${basedir}/src/main/java"
+                                               destdir="${basedir}/target/classes"
+                                               failonerror="true">
+                                            <compilerarg value="-proc:only"/>
+                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml"/>
                                             <classpath>
-                                                <path refid="maven.compile.classpath" />
+                                                <path refid="maven.compile.classpath"/>
                                             </classpath>
                                         </javac>
                                     </tasks>
