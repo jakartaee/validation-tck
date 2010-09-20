@@ -3,7 +3,19 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
-1.0.2.GA (25-11-2009)
+1.0.4.GA (20-09-2010)
+----------------------
+
+** Bug
+    * [BVTCK-7] - Update all tests within a package to use the same resource includes via @Classes
+
+** Task
+    * [BVTCK-6] - Update pom to use the new distributationManagement information
+    * [BVTCK-8] - Update dependencies in pom
+    * [BVTCK-9] - Update docbook documentation
+
+
+1.0.3.GA (25-11-2009)
 ----------------------
 
 ** Task
