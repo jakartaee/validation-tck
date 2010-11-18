@@ -115,19 +115,19 @@ public final class TestUtil {
 		);
 	}
 
-	public static <T> void assertCorrectConstraintTypes(Set<ConstraintViolation<T>> violations, Class<?>... expectedConsraintTypes) {
+	public static <T> void assertCorrectConstraintTypes(Set<ConstraintViolation<T>> violations, Class<?>... expectedConstraintTypes) {
 		List<String> actualConstraintTypes = new ArrayList<String>();
 		for ( ConstraintViolation<?> violation : violations ) {
 			actualConstraintTypes.add(
-					( ( Annotation ) violation.getConstraintDescriptor().getAnnotation() ).annotationType().getName()
+					( (Annotation) violation.getConstraintDescriptor().getAnnotation() ).annotationType().getName()
 			);
 		}
 
 		assertEquals(
-				expectedConsraintTypes.length, actualConstraintTypes.size(), "Wrong number of constraint types."
+				expectedConstraintTypes.length, actualConstraintTypes.size(), "Wrong number of constraint types."
 		);
 
-		for ( Class<?> expectedConstraintType : expectedConsraintTypes ) {
+		for ( Class<?> expectedConstraintType : expectedConstraintTypes ) {
 			assertTrue(
 					actualConstraintTypes.contains( expectedConstraintType.getName() ),
 					"The constraint type " + expectedConstraintType.getName() + " is not in the list of actual violated constraint types: " + actualConstraintTypes
@@ -261,7 +261,7 @@ public final class TestUtil {
 		Class<U> providerClass;
 		try {
 			@SuppressWarnings("unchecked")
-			Class<U> tmpClazz = ( Class<U> ) TestUtil.class.getClassLoader().loadClass( validatorProviderClassName );
+			Class<U> tmpClazz = (Class<U>) TestUtil.class.getClassLoader().loadClass( validatorProviderClassName );
 			providerClass = tmpClazz;
 		}
 		catch ( ClassNotFoundException e ) {
@@ -284,11 +284,24 @@ public final class TestUtil {
 		 * @see <a href="http://www.regexplanet.com/simple/index.jsp">Regular expression tester</a>
 		 */
 		private static final Pattern pathPattern = Pattern.compile( "(\\w+)(\\[(\\w*)\\])?(\\.(.*))*" );
+		private static final int PROPERTY_NAME_GROUP = 1;
+		private static final int INDEXED_GROUP = 2;
+		private static final int INDEX_GROUP = 3;
+		private static final int REMAINING_STRING_GROUP = 5;
 
 		private static final String PROPERTY_PATH_SEPARATOR = ".";
 
 		private final List<Node> nodeList;
 
+		/**
+		 * Returns a {@code Path} instance representing the path described by the given string. To create a root node the empty string should be passed.
+		 *
+		 * @param propertyPath the path as string representation.
+		 *
+		 * @return a {@code Path} instance representing the path described by the given string.
+		 *
+		 * @throws IllegalArgumentException in case {@code property == null} or {@code property} cannot be parsed.
+		 */
 		public static PathImpl createPathFromString(String propertyPath) {
 			if ( propertyPath == null ) {
 				throw new IllegalArgumentException( "null is not allowed as property path." );
@@ -326,10 +339,10 @@ public final class TestUtil {
 			Iterator<Path.Node> iter = iterator();
 			while ( iter.hasNext() ) {
 				Node node = iter.next();
-				builder.append( node.toString() );
-				if ( iter.hasNext() ) {
+				if ( builder.length() > 0 && !node.isInIterable() ) {
 					builder.append( PROPERTY_PATH_SEPARATOR );
 				}
+				builder.append( node.toString() );
 			}
 			return builder.toString();
 		}
@@ -340,24 +353,31 @@ public final class TestUtil {
 			do {
 				Matcher matcher = pathPattern.matcher( tmp );
 				if ( matcher.matches() ) {
-					String value = matcher.group( 1 );
-					String indexed = matcher.group( 2 );
-					String index = matcher.group( 3 );
+					String value = matcher.group( PROPERTY_NAME_GROUP );
+					String indexed = matcher.group( INDEXED_GROUP );
+					String index = matcher.group( INDEX_GROUP );
+
 					NodeImpl node = new NodeImpl( value );
-					if ( indexed != null ) {
-						node.setInIterable( true );
-					}
-					if ( index != null && index.length() > 0 ) {
-						try {
-							Integer i = Integer.parseInt( index );
-							node.setIndex( i );
-						}
-						catch ( NumberFormatException e ) {
-							node.setKey( index );
-						}
-					}
 					path.addNode( node );
-					tmp = matcher.group( 5 );
+
+					if ( indexed != null ) {
+						NodeImpl indexNode;
+						indexNode = new NodeImpl( null );
+						indexNode.setInIterable( true );
+
+						if ( index != null && index.length() > 0 ) {
+							try {
+								Integer i = Integer.parseInt( index );
+								indexNode.setIndex( i );
+							}
+							catch ( NumberFormatException e ) {
+								indexNode.setKey( index );
+							}
+						}
+						path.addNode( indexNode );
+					}
+
+					tmp = matcher.group( REMAINING_STRING_GROUP );
 				}
 				else {
 					throw new IllegalArgumentException( "Unable to parse property path " + property );
@@ -377,16 +397,8 @@ public final class TestUtil {
 		private Integer index;
 		private Object key;
 
-
 		public NodeImpl(String name) {
 			this.name = name;
-		}
-
-		NodeImpl(Path.Node node) {
-			this.name = node.getName();
-			this.isInIterable = node.isInIterable();
-			this.index = node.getIndex();
-			this.key = node.getKey();
 		}
 
 		public String getName() {
