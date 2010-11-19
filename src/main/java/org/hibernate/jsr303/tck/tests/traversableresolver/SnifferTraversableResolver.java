@@ -68,7 +68,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 	public boolean isReachable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
 		Call call = new Call(
 				traversableObject,
-				traversableProperty.toString(),
+				traversableProperty.getName(),
 				rootBeanType,
 				pathToTraversableObject.toString(),
 				elementType
@@ -79,7 +79,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 				expectedReachCalls,
 				reachPaths,
 				call,
-				traversableProperty.toString(),
+				traversableProperty.getName(),
 				pathToTraversableObject.toString()
 		);
 	}
@@ -87,7 +87,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 	public boolean isCascadable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
 		Call call = new Call(
 				traversableObject,
-				traversableProperty.toString(),
+				traversableProperty.getName(),
 				rootBeanType,
 				pathToTraversableObject.toString(),
 				elementType
@@ -101,7 +101,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 				expectedCascadeCalls,
 				cascadePaths,
 				call,
-				traversableProperty.toString(),
+				traversableProperty.getName(),
 				pathToTraversableObject.toString()
 		);
 	}
