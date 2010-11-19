@@ -205,7 +205,6 @@ public final class TestUtil {
 				return false;
 			}
 
-
 			if ( p2Node.getIndex() == null ) {
 				if ( p1Node.getIndex() != null ) {
 					return false;
@@ -290,6 +289,8 @@ public final class TestUtil {
 		private static final int REMAINING_STRING_GROUP = 5;
 
 		private static final String PROPERTY_PATH_SEPARATOR = ".";
+		private static final String INDEX_OPEN = "[";
+		private static final String INDEX_CLOSE = "]";
 
 		private final List<Node> nodeList;
 
@@ -337,45 +338,54 @@ public final class TestUtil {
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
 			Iterator<Path.Node> iter = iterator();
+			boolean first = true;
 			while ( iter.hasNext() ) {
 				Node node = iter.next();
-				if ( builder.length() > 0 && !node.isInIterable() ) {
-					builder.append( PROPERTY_PATH_SEPARATOR );
+				if ( node.isInIterable() ) {
+					appendIndex( builder, node );
 				}
-				builder.append( node.toString() );
+				if ( node.getName() != null ) {
+					if ( !first ) {
+						builder.append( PROPERTY_PATH_SEPARATOR );
+					}
+					builder.append( node.getName() );
+				}
+				first = false;
 			}
 			return builder.toString();
+		}
+
+		private void appendIndex(StringBuilder builder, Node node) {
+			builder.append( INDEX_OPEN );
+			if ( node.getIndex() != null ) {
+				builder.append( node.getIndex() );
+			}
+			else if ( node.getKey() != null ) {
+				builder.append( node.getKey() );
+			}
+			builder.append( INDEX_CLOSE );
 		}
 
 		private static PathImpl parseProperty(String property) {
 			PathImpl path = new PathImpl();
 			String tmp = property;
+			boolean indexed = false;
+			String indexOrKey = null;
 			do {
 				Matcher matcher = pathPattern.matcher( tmp );
 				if ( matcher.matches() ) {
 					String value = matcher.group( PROPERTY_NAME_GROUP );
-					String indexed = matcher.group( INDEXED_GROUP );
-					String index = matcher.group( INDEX_GROUP );
 
 					NodeImpl node = new NodeImpl( value );
 					path.addNode( node );
 
-					if ( indexed != null ) {
-						NodeImpl indexNode;
-						indexNode = new NodeImpl( null );
-						indexNode.setInIterable( true );
-
-						if ( index != null && index.length() > 0 ) {
-							try {
-								Integer i = Integer.parseInt( index );
-								indexNode.setIndex( i );
-							}
-							catch ( NumberFormatException e ) {
-								indexNode.setKey( index );
-							}
-						}
-						path.addNode( indexNode );
+					// need to look backwards!!
+					if ( indexed ) {
+						updateNodeIndexOrKey( indexOrKey, node );
 					}
+
+					indexed = matcher.group( INDEXED_GROUP ) != null;
+					indexOrKey = matcher.group( INDEX_GROUP );
 
 					tmp = matcher.group( REMAINING_STRING_GROUP );
 				}
@@ -383,15 +393,31 @@ public final class TestUtil {
 					throw new IllegalArgumentException( "Unable to parse property path " + property );
 				}
 			} while ( tmp != null );
+
+			// check for a left over indexed node
+			if ( indexed ) {
+				NodeImpl node = new NodeImpl( (String) null );
+				updateNodeIndexOrKey( indexOrKey, node );
+				path.addNode( node );
+			}
 			return path;
+		}
+
+		private static void updateNodeIndexOrKey(String indexOrKey, NodeImpl node) {
+			node.setInIterable( true );
+			if ( indexOrKey != null && indexOrKey.length() > 0 ) {
+				try {
+					Integer i = Integer.parseInt( indexOrKey );
+					node.setIndex( i );
+				}
+				catch ( NumberFormatException e ) {
+					node.setKey( indexOrKey );
+				}
+			}
 		}
 	}
 
 	public static class NodeImpl implements Path.Node {
-
-		private static final String INDEX_OPEN = "[";
-		private static final String INDEX_CLOSE = "]";
-
 		private final String name;
 		private boolean isInIterable;
 		private Integer index;
@@ -433,18 +459,14 @@ public final class TestUtil {
 
 		@Override
 		public String toString() {
-			StringBuilder builder = new StringBuilder( name == null ? "" : name );
-			if ( isInIterable ) {
-				builder.append( INDEX_OPEN );
-				if ( getIndex() != null ) {
-					builder.append( getIndex() );
-				}
-				else if ( getKey() != null ) {
-					builder.append( getKey() );
-				}
-				builder.append( INDEX_CLOSE );
-			}
-			return builder.toString();
+			final StringBuilder sb = new StringBuilder();
+			sb.append( "NodeImpl" );
+			sb.append( "{index=" ).append( index );
+			sb.append( ", name='" ).append( name ).append( '\'' );
+			sb.append( ", isInIterable=" ).append( isInIterable );
+			sb.append( ", key=" ).append( key );
+			sb.append( '}' );
+			return sb.toString();
 		}
 	}
 }

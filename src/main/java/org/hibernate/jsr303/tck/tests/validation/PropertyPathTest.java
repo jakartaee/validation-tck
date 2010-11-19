@@ -17,20 +17,18 @@
 */
 package org.hibernate.jsr303.tck.tests.validation;
 
-import static java.lang.annotation.ElementType.TYPE;
 import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import javax.validation.Constraint;
-import javax.validation.Payload;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
+import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.Validator;
 
@@ -40,15 +38,18 @@ import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
 import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.common.TCKValidationProvider;
 import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
+
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -178,13 +179,9 @@ public class PropertyPathTest extends AbstractTest {
 		assertFalse( node.isInIterable() );
 
 		node = nodeIter.next();
-		assertEquals( node.getName(), null );
-		assertEquals( node.getKey(), id );
-		assertTrue( node.isInIterable() );
-
-		node = nodeIter.next();
 		assertEquals( node.getName(), "lastName" );
-		assertFalse( node.isInIterable() );
+		assertTrue( node.isInIterable() );
+		assertEquals( node.getKey(), id );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -214,11 +211,8 @@ public class PropertyPathTest extends AbstractTest {
 		assertFalse( node.isInIterable() );
 
 		node = nodeIter.next();
-		assertEquals( node.getName(), null );
-		assertTrue( node.isInIterable() );
-
-		node = nodeIter.next();
 		assertEquals( node.getName(), "orderNumber" );
+		assertTrue( node.isInIterable() );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -235,22 +229,14 @@ public class PropertyPathTest extends AbstractTest {
 		assertFalse( node.isInIterable() );
 
 		node = nodeIter.next();
-		assertEquals( node.getName(), null );
-		assertEquals( node.getIndex(), new Integer( 0 ) );
-		assertTrue( node.isInIterable() );
-
-		node = nodeIter.next();
 		assertEquals( node.getName(), "playedWith" );
-		assertFalse( node.isInIterable() );
-
-		node = nodeIter.next();
-		assertEquals( node.getName(), null );
-		assertEquals( node.getIndex(), new Integer( 1 ) );
 		assertTrue( node.isInIterable() );
+		assertEquals( node.getIndex(), new Integer( 0 ) );
 
 		node = nodeIter.next();
 		assertEquals( node.getName(), "lastName" );
-		assertFalse( node.isInIterable() );
+		assertTrue( node.isInIterable() );
+		assertEquals( node.getIndex(), new Integer( 1 ) );
 
 		assertFalse( nodeIter.hasNext() );
 	}
