@@ -409,6 +409,7 @@ public final class TestUtil {
 				try {
 					Integer i = Integer.parseInt( indexOrKey );
 					node.setIndex( i );
+					node.setKey( i );
 				}
 				catch ( NumberFormatException e ) {
 					node.setKey( indexOrKey );
