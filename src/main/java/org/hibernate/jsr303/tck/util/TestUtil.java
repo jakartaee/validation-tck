@@ -38,6 +38,8 @@ import javax.validation.metadata.ElementDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 import javax.validation.spi.ValidationProvider;
 
+import org.hibernate.jsr303.tck.spi.ValidationClassLoaderProvider;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.FileAssert.fail;
@@ -48,6 +50,7 @@ import static org.testng.FileAssert.fail;
 public final class TestUtil {
 
 	private static String VALIDATION_PROVIDER_TEST_CLASS = "validation.provider";
+	private static String VALIDATION_CLASS_LOADER_PROVIDER_CLASS = "validation.classloader_provider";
 
 	private static ValidationProvider<?> validationProviderUnderTest;
 
@@ -248,19 +251,24 @@ public final class TestUtil {
 		return inputStream;
 	}
 
-
-	private static <U extends ValidationProvider<?>> void instantiateValidationProviderUnderTest() {
+	public static String getValidationProviderClassName() {
 		String validatorProviderClassName = System.getProperty( VALIDATION_PROVIDER_TEST_CLASS );
 		if ( validatorProviderClassName == null ) {
 			throw new RuntimeException(
 					"The test harness must specify the class name of the validation provider under test. Set system property '" + VALIDATION_PROVIDER_TEST_CLASS + "'"
 			);
 		}
+		return validatorProviderClassName;
+	}
+
+
+	private static <U extends ValidationProvider<?>> void instantiateValidationProviderUnderTest() {
+		String validatorProviderClassName = getValidationProviderClassName();
 
 		Class<U> providerClass;
 		try {
 			@SuppressWarnings("unchecked")
-			Class<U> tmpClazz = (Class<U>) TestUtil.class.getClassLoader().loadClass( validatorProviderClassName );
+			Class<U> tmpClazz = (Class<U>) getClassLoaderForValidationProvider().loadClass( validatorProviderClassName );
 			providerClass = tmpClazz;
 		}
 		catch ( ClassNotFoundException e ) {
@@ -275,8 +283,61 @@ public final class TestUtil {
 		}
 	}
 
-	public static class PathImpl implements Path {
+	public static ClassLoader getClassLoaderForValidationProvider() {
+		ValidationClassLoaderProvider classLoaderProvider = new DefaultValidationClassPathProvider();
+		String className = System.getProperty( VALIDATION_CLASS_LOADER_PROVIDER_CLASS );
+		if ( className != null ) {
+			try {
+				@SuppressWarnings("unchecked")
+				Class<ValidationClassLoaderProvider> clazz = (Class<ValidationClassLoaderProvider>) TestUtil.class.getClassLoader()
+						.loadClass( className );
+				classLoaderProvider = clazz.newInstance();
+			}
+			catch ( ClassNotFoundException e ) {
+				throw new RuntimeException( "Unable to load " + className );
+			}
+			catch ( InstantiationException e ) {
+				throw new RuntimeException( "Unable to instantiate " + className );
+			}
+			catch ( IllegalAccessException e ) {
+				throw new RuntimeException( "Unable to instantiate " + className );
+			}
+		}
+		return classLoaderProvider.getClassLoaderOfValidationProvider();
+	}
 
+	public static class DefaultValidationClassPathProvider implements ValidationClassLoaderProvider {
+		/**
+		 * Default implementation using application or context class loader to load the {@code ValidationProvider}
+		 *
+		 * @return the class loader for the {@code ValidationProvider}.
+		 */
+		public ClassLoader getClassLoaderOfValidationProvider() {
+			ClassLoader loader;
+			try {
+				loader = TestUtil.class.getClassLoader();
+				loader.loadClass( getValidationProviderClassName() );
+
+			}
+			catch ( ClassNotFoundException e ) {
+				loader = null;
+			}
+			try {
+				loader = Thread.currentThread().getContextClassLoader();
+				loader.loadClass( getValidationProviderClassName() );
+
+			}
+			catch ( ClassNotFoundException e ) {
+				loader = null;
+			}
+			if ( loader == null ) {
+				throw new RuntimeException( "Unable to find a classloader able to load ValidationProvider: " + getValidationProviderClassName() );
+			}
+			return loader;
+		}
+	}
+
+	public static class PathImpl implements Path {
 		/**
 		 * Regular expression used to split a string path into its elements.
 		 *
