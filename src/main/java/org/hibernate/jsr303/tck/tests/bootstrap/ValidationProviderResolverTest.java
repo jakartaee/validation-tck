@@ -58,21 +58,18 @@ public class ValidationProviderResolverTest extends AbstractTest {
 	@Test
 	@SpecAssertion(section = "4.4.4.1", id = "c")
 	public void testServiceFileExists() {
-		List<Class<?>> providers = readBeanValidationServiceFile();
+		List<String> providers = readBeanValidationServiceFile();
 		assertTrue( !providers.isEmpty(), "There should be at least one provider" );
 
 		assertTrue(
-				providers.contains( TestUtil.getValidationProviderUnderTest().getClass() ),
+				providers.contains( TestUtil.getValidationProviderClassName() ),
 				"The validation class of the provider under test has to be in the list."
 		);
 	}
 
-	private List<Class<?>> readBeanValidationServiceFile() {
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		if ( classloader == null ) {
-			classloader = ValidationProviderResolverTest.class.getClassLoader();
-		}
-		List<Class<?>> providers = new ArrayList<Class<?>>();
+	private List<String> readBeanValidationServiceFile() {
+		ClassLoader classloader = TestUtil.getClassLoaderForValidationProvider();
+		List<String> providers = new ArrayList<String>();
 		try {
 
 			Enumeration<URL> providerDefinitions = classloader.getResources( SERVICES_FILE );
@@ -87,8 +84,8 @@ public class ValidationProviderResolverTest extends AbstractTest {
 		return providers;
 	}
 
-	private void addProviderToList(List<Class<?>> providers, URL url)
-			throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	private void addProviderToList(List<String> providers, URL url)
+			throws IOException, InstantiationException, IllegalAccessException {
 		InputStream stream = url.openStream();
 		try {
 			BufferedReader reader = new BufferedReader( new InputStreamReader( stream ), 100 );
@@ -96,12 +93,7 @@ public class ValidationProviderResolverTest extends AbstractTest {
 			while ( name != null ) {
 				name = name.trim();
 				if ( !name.startsWith( "#" ) ) {
-					final Class<?> providerClass = loadClass(
-							name,
-							ValidationProviderResolverTest.class
-					);
-
-					providers.add( providerClass );
+					providers.add( name );
 				}
 				name = reader.readLine();
 			}
@@ -109,22 +101,5 @@ public class ValidationProviderResolverTest extends AbstractTest {
 		finally {
 			stream.close();
 		}
-	}
-
-	private static Class<?> loadClass(String name, Class caller) throws ClassNotFoundException {
-		try {
-			//try context classloader, if fails try caller classloader
-			ClassLoader loader = Thread.currentThread().getContextClassLoader();
-			if ( loader != null ) {
-				return loader.loadClass( name );
-			}
-		}
-		catch ( ClassNotFoundException e ) {
-			//trying caller classloader
-			if ( caller == null ) {
-				throw e;
-			}
-		}
-		return Class.forName( name, true, caller.getClassLoader() );
 	}
 }
