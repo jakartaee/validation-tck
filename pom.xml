@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.hibernate.jsr303.tck</groupId>
     <artifactId>jsr303-tck</artifactId>
@@ -148,7 +150,7 @@
                         <directory>${basedir}/src/main/docbook/en-US/harness</directory>
                     </imageResource>
                     <formats>
-                    	<format>
+                        <format>
                             <formatName>pdf</formatName>
                             <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/pdf.xsl</stylesheetResource>
                             <finalName>beanvalidation-tck.pdf</finalName>
@@ -264,7 +266,6 @@
                 <version>2.0-beta-9</version>
                 <configuration>
                     <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-                    <remoteTagging>true</remoteTagging>
                     <goals>deploy org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:resources
                         org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:generate assembly:assembly
                     </goals>
@@ -283,11 +284,6 @@
         </plugins>
     </build>
 
-    <ciManagement>
-        <system>Hudson</system>
-        <url />
-    </ciManagement>
-
     <issueManagement>
         <system>JIRA</system>
         <url>http://opensource.atlassian.com/projects/hibernate/browse/BVTCK</url>
@@ -303,9 +299,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:svn:http://anonsvn.jboss.org/repos/hibernate/beanvalidation/tck/trunk</connection>
-        <developerConnection>scm:svn:https://svn.jboss.org/repos/hibernate/beanvalidation/tck/trunk
-        </developerConnection>
+        <connection>scm:git:git://github.com/beanvalidation/beanvalidation-tck.git</connection>
+        <developerConnection>scm:git:git@github.com:beanvalidation/beanvalidation-tck.git</developerConnection>
+        <url>http://github.com/beanvalidation/beanvalidation-tck</url>
     </scm>
 
     <distributionManagement>
@@ -347,11 +343,13 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <tasks>
-                                        <javac srcdir="${basedir}/src/main/java" destdir="${basedir}/target/classes" failonerror="true">
-                                            <compilerarg value="-proc:only" />
-                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml" />
+                                        <javac srcdir="${basedir}/src/main/java"
+                                               destdir="${basedir}/target/classes"
+                                               failonerror="true">
+                                            <compilerarg value="-proc:only"/>
+                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml"/>
                                             <classpath>
-                                                <path refid="maven.compile.classpath" />
+                                                <path refid="maven.compile.classpath"/>
                                             </classpath>
                                         </javac>
                                     </tasks>
