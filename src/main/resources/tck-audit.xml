@@ -1,6 +1,6 @@
 <specification xmlns="http://jboss.com/products/webbeans/tck/audit"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jboss.com/products/webbeans/tck/audit http://snapshots.jboss.org/maven2/org/hibernate/tck-utils-api/0.9-SNAPSHOT/tck-utils-api-0.9-20090220.134140-13-audit.xsd"
+    xsi:schemaLocation="http://jboss.com/products/webbeans/tck/audit http://repository.jboss.org/nexus/content/repositories/public/org/hibernate/tck-utils-api/0.9.1/tck-utils-api-0.9.1-audit.xsd"
     name="JSR-303: Bean Validation" version="Revised Public Review Draft">
 
     <section id="2" title="Constraint Definition"/>
@@ -146,7 +146,7 @@
         </assertion>
         <assertion id="b">
             <text>The implementation classes are specified by the validatedBy element of the
-                @Contraint annotation that decorates the constraint definition</text>
+                @Constraint annotation that decorates the constraint definition</text>
         </assertion>
         <assertion id="c" testable="false">
             <text>The constraint validation implementation implements the ConstraintValidator
@@ -271,7 +271,7 @@
         <assertion id="e">
             <text>The fields or methods visibility are not constrained</text>
         </assertion>
-        <assertion id="f">
+        <assertion id="f" testable="false">
             <text>Constraints on non getter methods are not supported</text>
         </assertion>
     </section>

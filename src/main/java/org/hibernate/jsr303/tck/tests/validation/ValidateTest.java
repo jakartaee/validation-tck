@@ -20,6 +20,7 @@ package org.hibernate.jsr303.tck.tests.validation;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
@@ -35,19 +36,20 @@ import org.jboss.testharness.AbstractTest;
 import org.jboss.testharness.impl.packaging.Artifact;
 import org.jboss.testharness.impl.packaging.ArtifactType;
 import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.common.TCKValidationProvider;
 import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -55,7 +57,7 @@ import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectPropertyPaths;
  * @author Hardy Ferentschik
  */
 @Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
+@Classes( {
 		TestUtil.class,
 		TestUtil.PathImpl.class,
 		TestUtil.NodeImpl.class,
@@ -66,18 +68,18 @@ import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectPropertyPaths;
 public class ValidateTest extends AbstractTest {
 
 	@Test
-	@SpecAssertions({
+	@SpecAssertions( {
 			@SpecAssertion(section = "3.1", id = "a"),
-			@SpecAssertion(section = "3.1.2", id = "f"),
+			@SpecAssertion(section = "3.5.3", id = "e"),
 			@SpecAssertion(section = "5.1", id = "a")
 	})
-	public void testValidatedPropertyDoesNotFollowJavaBeansConvention() {
+	public void testUnexpectedTypeException() {
 		try {
 			Boy boy = new Boy();
 			TestUtil.getValidatorUnderTest().validate( boy );
 			fail();
 		}
-		catch ( ValidationException e ) {
+		catch ( UnexpectedTypeException e ) {  // UnexpectedTypeException is a subclass of ValidationException
 			// success
 		}
 	}
@@ -124,7 +126,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions({
+	@SpecAssertions( {
 			@SpecAssertion(section = "4.1.1", id = "a"),
 			@SpecAssertion(section = "4.1.1", id = "c")
 	})
@@ -162,7 +164,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions({
+	@SpecAssertions( {
 			@SpecAssertion(section = "3.1", id = "a"),
 			@SpecAssertion(section = "4.2", id = "a"),
 			@SpecAssertion(section = "4.2", id = "b"),
@@ -186,7 +188,7 @@ public class ValidateTest extends AbstractTest {
 		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
 		// cast is required for JDK 5 - at least on Mac OS X
-		Annotation ann = ( Annotation ) violation.getConstraintDescriptor().getAnnotation();
+		Annotation ann = (Annotation) violation.getConstraintDescriptor().getAnnotation();
 		assertEquals( ann.annotationType(), Pattern.class, "Wrong annotation type" );
 		assertCorrectPropertyPaths( constraintViolations, "serialNumber" );
 
@@ -196,7 +198,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions({
+	@SpecAssertions( {
 			@SpecAssertion(section = "2.4", id = "o")
 	})
 	public void testGraphValidationWithList() {
@@ -229,7 +231,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions({
+	@SpecAssertions( {
 			@SpecAssertion(section = "2.4", id = "o"),
 			@SpecAssertion(section = "3.1.3", id = "c")
 	})
@@ -311,7 +313,7 @@ public class ValidateTest extends AbstractTest {
 		Order order = new Order();
 		customer.addOrder( order );
 
-		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( ( Person ) customer );
+		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( (Person) customer );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 
 		assertConstraintViolation(
@@ -323,7 +325,7 @@ public class ValidateTest extends AbstractTest {
 
 		order.setOrderNumber( 123 );
 
-		constraintViolations = validator.validate( ( Person ) customer );
+		constraintViolations = validator.validate( (Person) customer );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 

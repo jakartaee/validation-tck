@@ -17,7 +17,7 @@
 */
 package org.hibernate.jsr303.tck.tests.validation;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.AssertTrue;
 
 
 /**
@@ -58,8 +58,8 @@ public class Boy implements Person {
 		this.age = age;
 	}
 
-	@NotNull
-	public Integer age() {
+	@AssertTrue
+	public Integer getAge() {
 		return age;
 	}
 }
