@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.hibernate.jsr303.tck</groupId>
     <artifactId>jsr303-tck</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5.Beta1</version>
     <name>JSR-303 TCK</name>
     <url>http://validator.hibernate.org</url>
 
@@ -343,13 +341,11 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <tasks>
-                                        <javac srcdir="${basedir}/src/main/java"
-                                               destdir="${basedir}/target/classes"
-                                               failonerror="true">
-                                            <compilerarg value="-proc:only"/>
-                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml"/>
+                                        <javac srcdir="${basedir}/src/main/java" destdir="${basedir}/target/classes" failonerror="true">
+                                            <compilerarg value="-proc:only" />
+                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml" />
                                             <classpath>
-                                                <path refid="maven.compile.classpath"/>
+                                                <path refid="maven.compile.classpath" />
                                             </classpath>
                                         </javac>
                                     </tasks>
