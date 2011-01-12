@@ -67,7 +67,7 @@
          <directory>${project.basedir}</directory>
          <outputDirectory>/</outputDirectory>
          <includes>
-            <include>apl.txt</include>
+            <include>license.txt</include>
             <include>changelog.txt</include>
          </includes>
       </fileSet>
