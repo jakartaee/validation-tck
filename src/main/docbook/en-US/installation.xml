@@ -15,7 +15,8 @@
     <title>Obtaining the Software</title>
 
     <para>You can obtain a release of the Bean Validation TCK project from the
-    from the <ulink url="https://www.hibernate.org/6.html">download
+    from the <ulink
+    url="http://www.hibernate.org/subprojects/validator/download">download
     page</ulink> on the Hibernate Validator website. The Bean Validation TCK
     is distributed as a ZIP file, which contains the TCK artifacts (the test
     suite binary and source, the test suite descriptor, the audit source and
@@ -36,9 +37,9 @@
 
     <para>The JSR-303: Bean Validation reference implementation (RI) project
     is named Hibernate Validator. You can obtain the latest Hibernate
-    Validator release from the <ulink
-    url="https://www.hibernate.org/6.html">download page</ulink> on Hibernate
-    website.</para>
+    Validator release from the <ulink type=""
+    url="http://www.hibernate.org/subprojects/validator/download">download
+    page</ulink> on Hibernate website.</para>
 
     <note>
       <para>Hibernate Validator is not required for running the Bean
@@ -74,7 +75,7 @@
     Hibernate Validator.</para>
 
     <programlisting>git clone git://github.com/hibernate/hibernate-validator.git ri
-git checkout 4.0.2.GA</programlisting>
+git checkout 4.2.0.Final</programlisting>
 
     <para>If you have downloaded the Hibernate Validator distribution, extract
     it into a sibling folder named hibernate-validator. The resulting folder
@@ -107,12 +108,12 @@ git checkout 4.0.2.GA</programlisting>
 
     <tip id="tck-in-jboss-as">
       <title>Running the TCK against the Bean Validation RI (Hibernate
-      Validator) and JBoss AS</title>
+      Validator) and JBoss AS 7</title>
 
       <itemizedlist>
         <listitem>
-          <para>First, you should download JBoss AS 5.1 from the JBoss AS
-          <ulink url="http://jboss.org/jbossas/downloads">project
+          <para>First, you should download the latest JBoss AS 7 release from
+          the JBoss AS <ulink url="http://jboss.org/jbossas/downloads">project
           page</ulink>.</para>
         </listitem>
 
@@ -125,12 +126,6 @@ git checkout 4.0.2.GA</programlisting>
           <para>Change to the
           <filename>ri/hibernate-validator-tck-runner</filename>
           directory.</para>
-        </listitem>
-
-        <listitem>
-          <para>Make sure the <literal>jboss.home</literal> property in the
-          <filename>pom.xml</filename> file references a JBoss AS 5.1
-          installation.</para>
         </listitem>
 
         <listitem>

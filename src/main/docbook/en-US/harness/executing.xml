@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY % BOOK_ENTITIES SYSTEM "../jsr303-tck.ent">
 %BOOK_ENTITIES;
 ]>
@@ -74,11 +75,19 @@
           </row>
 
           <row>
+            <entry>org.hibernate.javax.persistence</entry>
+
+            <entry>hibernate-jpa-2.0-api</entry>
+
+            <entry>1.0.1.Final</entry>
+          </row>
+
+          <row>
             <entry>org.sl4j</entry>
 
-            <entry>slf4j-log4j12</entry>
+            <entry>slf4j-api, slf4j-simple</entry>
 
-            <entry>1.5.6</entry>
+            <entry>1.6.1</entry>
           </row>
 
           <row>
@@ -90,11 +99,11 @@
           </row>
 
           <row>
-            <entry>org.jboss.test-harness</entry>
+            <entry>org.jboss.jbossas.as7-cdi-tck</entry>
 
-            <entry>jboss-test-harness-jboss-as-60</entry>
+            <entry>jbossas-container</entry>
 
-            <entry>1.1.0-CR6</entry>
+            <entry>1.0.0.Alpha1</entry>
           </row>
         </tbody>
       </tgroup>
@@ -106,74 +115,15 @@
 
     <para>You should substituate the hibernate-validator artifact from <xref
     linkend="tck-runner-dependencies" /> with your own artifact. You'll also
-    need to replace the jboss-test-harness-jboss-as-51 artifact if you are not
-    testing your implementation on JBoss AS 5.1. The
-    jboss-test-harness-jboss-as-51 artifact contains implementations of the
-    <literal>Containers</literal> SPI for the JBoss Test Harness for JBoss AS
-    5.1.</para>
+    need to replace the jbossas-container artifact if you are not testing your
+    implementation on JBoss AS. The jbossas-container artifact contains
+    implementations of the <literal>Containers</literal> SPI for the JBoss
+    Test Harness for JBoss AS 7.</para>
 
     <note>
       <para>When running the test suite in the in-container mode, the tests
-      will run against libraries installed into the container. In this
-      project, Hibernate Validator is only declared as a Maven dependency for
-      when the TCK test suite is being executed in standalone mode.</para>
+      will run against libraries installed into the container.</para>
     </note>
-
-    <programlisting role="xml">&lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-    &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
-    &lt;executions&gt;
-        &lt;execution&gt;
-            &lt;id&gt;copy&lt;/id&gt;
-            &lt;phase&gt;generate-test-sources&lt;/phase&gt;
-            &lt;goals&gt;
-                &lt;goal&gt;copy&lt;/goal&gt;
-            &lt;/goals&gt;
-            &lt;configuration&gt;
-                &lt;stripVersion&gt;true&lt;/stripVersion&gt;
-                &lt;artifactItems&gt;
-                    &lt;artifactItem&gt;
-                        &lt;groupId&gt;org.hibernate.jsr303.tck&lt;/groupId&gt;
-                        &lt;artifactId&gt;jsr303-tck&lt;/artifactId&gt;
-                        &lt;type&gt;xml&lt;/type&gt;
-                        &lt;classifier&gt;suite&lt;/classifier&gt;
-                        &lt;overWrite&gt;false&lt;/overWrite&gt;
-                    &lt;/artifactItem&gt;
-                    &lt;artifactItem&gt;
-                        &lt;groupId&gt;javax.validation&lt;/groupId&gt;
-                        &lt;artifactId&gt;validation-api&lt;/artifactId&gt;
-                        &lt;overWrite&gt;true&lt;/overWrite&gt;
-                        &lt;outputDirectory&gt;${project.build.directory}/dependency/lib&lt;/outputDirectory&gt;
-                    &lt;/artifactItem&gt;
-                    &lt;artifactItem&gt;
-                        &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
-                        &lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
-                        &lt;overWrite&gt;true&lt;/overWrite&gt;
-                        &lt;outputDirectory&gt;${project.build.directory}/dependency/lib&lt;/outputDirectory&gt;
-                    &lt;/artifactItem&gt;
-                    &lt;artifactItem&gt;
-                        &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
-                        &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
-                        &lt;overWrite&gt;true&lt;/overWrite&gt;
-                        &lt;outputDirectory&gt;${project.build.directory}/dependency/lib&lt;/outputDirectory&gt;
-                    &lt;/artifactItem&gt;
-                &lt;/artifactItems&gt;
-            &lt;/configuration&gt;
-        &lt;/execution&gt;
-    &lt;/executions&gt;
-&lt;/plugin&gt;</programlisting>
-
-    <para>The target folder for the copies of the dependencies (i.e., the JAR
-    files) is declared as the JBoss Test Harness library directory; this
-    results in these libraries being added to the test artifact using the
-    following property assignment:</para>
-
-    <programlisting>org.jboss.testharness.libraryDirectory=target/dependency/lib</programlisting>
-
-    <para>We also copy the test suite configuration from the local Maven
-    repository (groupId=org.hibernate.jsr303.tck, artifactId=jsr303-tck,
-    classifier=suite, type=xml, version=1.0.0) to a local repository as the
-    TestNG Maven plugin expects a local file.</para>
 
     <para>The TCK is executed using the Maven TestNG plugin. Maven 2 profiles
     are used to control the properties that are set at the time of the

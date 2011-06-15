@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY % BOOK_ENTITIES SYSTEM "jsr303-tck.ent">
 %BOOK_ENTITIES;
 ]>
@@ -12,8 +13,8 @@
 
   <para>The Bean Validation TCK is built atop the JBoss Test Harness, a
   portable and configurable automated test suite for authoring unit and
-  integration tests in a Java EE environment. The TCK 1.0.0 uses the JBoss
-  Test Harness version 1.0.0 to execute the test suite.</para>
+  integration tests in a Java EE environment. The TCK uses the JBoss Test
+  Harness version 1.x to execute the test suite.</para>
 
   <para>The Bean Validation TCK is provided under the <ulink
   url="http://www.apache.org/licenses/LICENSE-2.0">Apache Public License

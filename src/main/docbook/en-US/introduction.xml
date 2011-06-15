@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY % BOOK_ENTITIES SYSTEM "jsr303-tck.ent">
 %BOOK_ENTITIES;
 ]>
@@ -109,7 +110,7 @@
 
     <para>Each test class in the suite acts as a deployable unit. The
     deployable units, or artifacts, are defined declaratively using
-    annotations. </para>
+    annotations.</para>
 
     <para>The declarative approach allows many of the tests to be executed in
     a standalone implementation of Bean Validation, accounting for a boast in
@@ -132,7 +133,7 @@
 
         <listitem>
           <para><emphasis role="bold">JBoss Test Harness</emphasis> - The Bean
-          Validation TCK requires version 1.0.0 of the JBoss Test Harness. The
+          Validation TCK requires version 1.x of the JBoss Test Harness. The
           Harness is based on <ulink url="http://testng.org">TestNG
           5.x</ulink>. You can read more about the harness in <xref
           linkend="test-harness" />.</para>
@@ -163,7 +164,7 @@
 
       <itemizedlist>
         <listitem>
-          <para><emphasis role="bold">JBoss Test Harness 1.0.0</emphasis> and
+          <para><emphasis role="bold">JBoss Test Harness 1.x</emphasis> and
           related documentation.</para>
         </listitem>
 
