@@ -3,6 +3,16 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.0.5.GA (15-06-2011)
+----------------------
+
+** Improvement
+    * [BVTCK-19] - Move license text to license.txt
+
+** Task
+    * [BVTCK-17] - Update documentation
+
+
 1.0.4.GA (20-09-2010)
 ----------------------
 
