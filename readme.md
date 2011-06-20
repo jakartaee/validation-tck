@@ -5,12 +5,12 @@ This repository contains the Bean Validation ([JSR 303](http://www.jcp.org/en/js
 
 # Documentation
 
-The documentation for the TCK is included in the docs directory of [distribution package](http://www.hibernate.org/subprojects/validator/download)
-or online under http://www.hibernate.org/subprojects/validator/docs.html
+The documentation for the TCK is included in the docs directory of the [distribution package](http://www.hibernate.org/subprojects/validator/download)
+or viewable [online](http://www.hibernate.org/subprojects/validator/docs.html).
 
 # Release Notes
 
-The release notes for this release can be found [here](https://github.com/beanvalidation/beanvalidation-tck/blob/master/changelog.txt)
+The release notes for this release can be found [here](https://github.com/beanvalidation/beanvalidation-tck/blob/master/changelog.txt).
 
 # Issue tracking
 
