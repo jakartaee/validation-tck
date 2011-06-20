@@ -13,6 +13,19 @@ See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
     * [BVTCK-17] - Update documentation
 
 
+1.0.5.Beta1 (07-01-2011)
+------------------------
+
+** Bug
+    * [BVTCK-12] - The TCK goes against the spec on Node and nested Path: section 4.2
+    * [BVTCK-14] - ValidateTest.testValidatedPropertyDoesNotFollowJavaBeansConvention expects wrongly an exception to be thrown for a constraint placed on a non getter method
+    * [BVTCK-16] - Change documentation to reference Github insteadof SVN as source reference
+    * [BVTCK-18] - Update scm information in pom.xml to reflect move to github
+
+** Improvement
+    * [BVTCK-15] - Update dependencies in pom
+
+
 1.0.4.GA (20-09-2010)
 ----------------------
 
