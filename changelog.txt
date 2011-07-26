@@ -3,6 +3,13 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.0.6.GA (26-07-2011)
+----------------------
+
+** Bug
+    * [BVTCK-20] - TCK needs a sig file recorded with Java SE 7
+
+
 1.0.5.GA (15-06-2011)
 ----------------------
 
