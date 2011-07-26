@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY % BOOK_ENTITIES SYSTEM "jsr303-tck.ent">
 %BOOK_ENTITIES;
 ]>
@@ -18,7 +19,7 @@
     version 2.1) from the Sigtest home page at <ulink
     url="https://sigtest.dev.java.net/"></ulink>. The user guide can be found
     at <ulink
-    url="http://java.sun.com/javame/sigtest/docs/sigtest2.1_usersguide.pdf"></ulink>.
+    url="http://download.oracle.com/javame/test-tools/sigtest/2_1/sigtest2.1_usersguide.pdf"></ulink>.
     The downloadable package contains the jar files used in the commands
     below.</para>
   </section>
@@ -27,11 +28,13 @@
     <title>Creating the signature file</title>
 
     <para>The TCK package contains the files
-    <filename>validation-api-java5.sig and validation-api-java6.sig</filename>
-    (in the <filename>artifacts</filename> directory) which were created using
-    the following command (using the corresponding Java version):</para>
+    <filename>validation-api-java5.sig</filename>,<filename>
+    validation-api-java6.sig</filename> and
+    <filename>validation-api-java7.sig</filename> and (in the
+    <filename>artifacts</filename> directory) which were created using the
+    following command (using the corresponding Java version):</para>
 
-    <programlisting>java -jar sigtestdev.jar Setup -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-&validationApi;.jar -package javax.validation -filename validation-api-java6.sig</programlisting>
+    <programlisting>java -jar sigtestdev.jar Setup -classpath $JAVA_HOME/jre/lib/rt.jar:lib/validation-api-&validationApi;.jar -package javax.validation -filename validation-api-java6.sig</programlisting>
 
     <para>In order to pass the Bean Validation TCK you have to make sure that
     your API passes the signature tests against
@@ -43,12 +46,12 @@
 
     <para>To run the signature test use:</para>
 
-    <programlisting>java -jar sigtest.jar Test -classpath %JAVA_HOME%/jre/lib/rt.jar:lib/validation-api-&validationApi;.jar -static -package javax.validation -filename validation-api-java6.sig</programlisting>
+    <programlisting>java -jar sigtest.jar Test -classpath $JAVA_HOME/jre/lib/rt.jar:lib/validation-api-&validationApi;.jar -static -package javax.validation -filename validation-api-java6.sig</programlisting>
 
     <para>You have to chose the right version of the signature file depending
     on your Java version. In order to run against your own Bean Validation API
-    replace validation-api-&validationApi;.jar with your own API jar. You should get
-    the message <literal>"STATUS:Passed."</literal>.</para>
+    replace validation-api-&validationApi;.jar with your own API jar. You
+    should get the message <literal>"STATUS:Passed."</literal>.</para>
   </section>
 
   <section>
@@ -71,7 +74,7 @@ cons public ValidationException(java.lang.Throwable)
 supr java.lang.RuntimeException</programlisting>
 
     <para>Let's change the default (empty) constructor parameter to one with a
-    <literal>java.lang.Integer</literal>parameter instead:</para>
+    <literal>java.lang.Integer</literal> parameter instead:</para>
 
     <programlisting>CLSS public javax.validation.ValidationException
 cons public ValidationException(java.lang.Integer)
