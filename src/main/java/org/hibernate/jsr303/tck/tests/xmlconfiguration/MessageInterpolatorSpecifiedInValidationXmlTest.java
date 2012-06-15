@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -17,42 +16,44 @@
 */
 package org.hibernate.jsr303.tck.tests.xmlconfiguration;
 
-
 import java.util.Set;
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
 import org.testng.annotations.Test;
 
-import org.hibernate.jsr303.tck.common.TCKValidationProvider;
-import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidatorConfiguration.class,
-		TCKValidationProvider.DummyValidatorFactory.class
-})
-@ValidationXml(value = "validation-MessageInterpolatorSpecifiedInValidationXmlTest.xml")
-public class MessageInterpolatorSpecifiedInValidationXmlTest extends AbstractTest {
+public class MessageInterpolatorSpecifiedInValidationXmlTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( MessageInterpolatorSpecifiedInValidationXmlTest.class )
+				.withClasses(
+						User.class,
+						Optional.class,
+						CreditCard.class,
+						ConfigurationDefinedMessageInterpolator.class,
+						XmlDefinedMessageInterpolator.class
+				)
+				.withValidationXml( "validation-MessageInterpolatorSpecifiedInValidationXmlTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "4.4.6", id = "g")

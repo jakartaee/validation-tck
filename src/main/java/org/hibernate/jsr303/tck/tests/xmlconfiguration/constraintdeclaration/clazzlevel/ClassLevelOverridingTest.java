@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -22,39 +21,38 @@ import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.Resources;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@Resources({
-		@Resource(source = ClassLevelOverridingTest.mappingFile1,
-				destination = "WEB-INF/classes" + ClassLevelOverridingTest.packageName + ClassLevelOverridingTest.mappingFile1),
-		@Resource(source = ClassLevelOverridingTest.mappingFile2,
-				destination = "WEB-INF/classes" + ClassLevelOverridingTest.packageName + ClassLevelOverridingTest.mappingFile2),
-		@Resource(source = ClassLevelOverridingTest.mappingFile3,
-				destination = "WEB-INF/classes" + ClassLevelOverridingTest.packageName + ClassLevelOverridingTest.mappingFile3)
-})
-public class ClassLevelOverridingTest extends AbstractTest {
+public class ClassLevelOverridingTest extends Arquillian {
 
 	public final static String packageName = "/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/clazzlevel/";
 	public final static String mappingFile1 = "package-constraints-ClassLevelOverridingTest.xml";
 	public final static String mappingFile2 = "package-constraints-ClassLevelOverridingImplicitOverrideTest.xml";
 	public final static String mappingFile3 = "package-constraints-ClassLevelOverridingWithAnnotationTest.xml";
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClassPackage( ClassLevelOverridingTest.class )
+				.withResource( ClassLevelOverridingTest.mappingFile1 )
+				.withResource( ClassLevelOverridingTest.mappingFile2 )
+				.withResource( ClassLevelOverridingTest.mappingFile3 )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({

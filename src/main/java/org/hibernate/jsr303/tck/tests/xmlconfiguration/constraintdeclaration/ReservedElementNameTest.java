@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -21,34 +20,35 @@ package org.hibernate.jsr303.tck.tests.xmlconfiguration.constraintdeclaration;
 import javax.validation.Configuration;
 import javax.validation.ValidationException;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.Resources;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@Resources({
-		@Resource(source = ReservedElementNameTest.mappingFile1,
-				destination = "WEB-INF/classes" + ReservedElementNameTest.packageName + ReservedElementNameTest.mappingFile1),
-		@Resource(source = ReservedElementNameTest.mappingFile2,
-				destination = "WEB-INF/classes" + ReservedElementNameTest.packageName + ReservedElementNameTest.mappingFile2)
-})
-public class ReservedElementNameTest extends AbstractTest {
+public class ReservedElementNameTest extends Arquillian {
 
 	public final static String packageName = "/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/";
 	public final static String mappingFile1 = "constraints-GroupIsNotAllowedAsElementNameTest.xml";
 	public final static String mappingFile2 = "constraints-MessageIsNotAllowedAsElementNameTest.xml";
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( ReservedElementNameTest.class )
+				.withClasses( User.class )
+				.withResource( ReservedElementNameTest.mappingFile1 )
+				.withResource( ReservedElementNameTest.mappingFile2 )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "7.1.1.4", id = "b")

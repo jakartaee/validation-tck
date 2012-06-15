@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -17,8 +16,8 @@
 */
 package org.hibernate.jsr303.tck.tests.xmlconfiguration.constraintdeclaration.fieldlevel;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Hardy Ferentschik

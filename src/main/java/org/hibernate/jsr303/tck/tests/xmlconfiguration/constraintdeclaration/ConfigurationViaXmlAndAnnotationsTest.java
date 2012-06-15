@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -24,38 +23,41 @@ import javax.validation.Validator;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@ValidationXml(value = "validation-ConfigurationViaXmlAndAnnotationsTest.xml")
-@Resource(source = "package-constraints-ConfigurationViaXmlAndAnnotationsTest.xml",
-		destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/package-constraints-ConfigurationViaXmlAndAnnotationsTest.xml")
-public class ConfigurationViaXmlAndAnnotationsTest extends AbstractTest {
+public class ConfigurationViaXmlAndAnnotationsTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( ConfigurationViaXmlAndAnnotationsTest.class )
+				.withClasses( Optional.class, Package.class, PrePosting.class, ValidPackage.class )
+				.withValidationXml( "validation-ConfigurationViaXmlAndAnnotationsTest.xml" )
+				.withResource( "package-constraints-ConfigurationViaXmlAndAnnotationsTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "7.1.1", id = "e"),
 			@SpecAssertion(section = "7.1.1", id = "a")
-	}
-	)
+	})
 	public void testEntityConfiguredViaAnnotationsAndXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Package.class );
@@ -89,7 +91,7 @@ public class ConfigurationViaXmlAndAnnotationsTest extends AbstractTest {
 	public void testDefaultGroupDefinitionDefinedInEntityApplies() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Package p = new Package();
-		p.setMaxWeight(30);
+		p.setMaxWeight( 30 );
 		Set<ConstraintViolation<Package>> violations = validator.validate( p, Default.class );
 
 		assertCorrectNumberOfViolations( violations, 1 );

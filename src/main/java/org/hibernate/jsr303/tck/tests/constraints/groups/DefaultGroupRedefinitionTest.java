@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -17,38 +16,47 @@
 */
 package org.hibernate.jsr303.tck.tests.constraints.groups;
 
-import java.lang.annotation.Annotation;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.GroupDefinitionException;
 import javax.validation.GroupSequence;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.fail;
 
 /**
  * Tests for redefining the default group sequence.
  *
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-public class DefaultGroupRedefinitionTest extends AbstractTest {
+public class DefaultGroupRedefinitionTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( DefaultGroupRedefinitionTest.class )
+				.withClasses(
+						Address.class,
+						ZipCodeCoherenceChecker.class,
+						ZipCodeCoherenceValidator.class,
+						Car.class
+				)
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "3.4.3", id = "a")
@@ -137,18 +145,6 @@ public class DefaultGroupRedefinitionTest extends AbstractTest {
 		}
 		catch ( GroupDefinitionException e ) {
 			// success
-		}
-	}
-
-	private void assertAssertionType(Set<ConstraintViolation<Address>> violations) {
-		for ( ConstraintViolation<Address> violation : violations ) {
-			// cast is required for JDK 5 - at least on Mac OS X
-			Annotation ann = ( Annotation ) violation.getConstraintDescriptor().getAnnotation();
-			assertEquals(
-					NotNull.class,
-					ann.annotationType(),
-					"Wrong assertion type"
-			);
 		}
 	}
 

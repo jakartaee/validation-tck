@@ -24,30 +24,34 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@ValidationXml(value = "validation-IncludePropertyLevelAnnotationsDueToBeanDefaultsTest.xml")
-@Resource(source = "user-constraints-IncludePropertyLevelAnnotationsDueToBeanDefaultsTest.xml",
-		destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/propertylevel/user-constraints-IncludePropertyLevelAnnotationsDueToBeanDefaultsTest.xml")
-public class IncludePropertyLevelAnnotationsDueToBeanDefaultsTest extends AbstractTest {
+public class IncludePropertyLevelAnnotationsDueToBeanDefaultsTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( IncludePropertyLevelAnnotationsDueToBeanDefaultsTest.class )
+				.withClasses( User.class, CreditCard.class )
+				.withValidationXml( "validation-IncludePropertyLevelAnnotationsDueToBeanDefaultsTest.xml" )
+				.withResource( "user-constraints-IncludePropertyLevelAnnotationsDueToBeanDefaultsTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({

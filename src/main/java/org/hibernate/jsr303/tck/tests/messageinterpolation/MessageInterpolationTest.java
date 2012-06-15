@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -29,39 +28,37 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.IntegrationTest;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.Resources;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.jsr303.tck.util.TestUtil.getDefaultMessageInterpolator;
 import static org.hibernate.jsr303.tck.util.TestUtil.getValidatorUnderTest;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@Resources({
-		@Resource(source = "ValidationMessages.properties",
-				destination = "WEB-INF/classes/ValidationMessages.properties"),
-		@Resource(source = "ValidationMessages_de.properties",
-				destination = "WEB-INF/classes/ValidationMessages_de.properties")
-})
-@IntegrationTest
-public class MessageInterpolationTest extends AbstractTest {
+public class MessageInterpolationTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( MessageInterpolationTest.class )
+				.withResource( "ValidationMessages.properties", "ValidationMessages.properties", true )
+				.withResource( "ValidationMessages_de.properties", "ValidationMessages_de.properties", true )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "4.3.1", id = "a")
@@ -106,7 +103,7 @@ public class MessageInterpolationTest extends AbstractTest {
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String expected = "recursion worked";
-		String actual = interpolator.interpolate( ( String ) descriptor.getAttributes().get( "message" ), context );
+		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
 		assertEquals(
 				expected, actual, "Expansion should be recursive"
 		);
@@ -202,7 +199,7 @@ public class MessageInterpolationTest extends AbstractTest {
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String expected = "size must be between 5 and 10";
-		String actual = interpolator.interpolate( ( String ) descriptor.getAttributes().get( "message" ), context );
+		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
 
@@ -215,7 +212,7 @@ public class MessageInterpolationTest extends AbstractTest {
 
 		String expected = "kann nicht null sein";
 		String actual = interpolator.interpolate(
-				( String ) descriptor.getAttributes().get( "message" ), context, Locale.GERMAN
+				(String) descriptor.getAttributes().get( "message" ), context, Locale.GERMAN
 		);
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
@@ -225,7 +222,7 @@ public class MessageInterpolationTest extends AbstractTest {
 	public void testIfNoLocaleIsSpecifiedTheDefaultLocaleIsAssumed() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
-		String messageTemplate = ( String ) descriptor.getAttributes().get( "message" );
+		String messageTemplate = (String) descriptor.getAttributes().get( "message" );
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String messageInterpolatedWithNoLocale = interpolator.interpolate( messageTemplate, context );

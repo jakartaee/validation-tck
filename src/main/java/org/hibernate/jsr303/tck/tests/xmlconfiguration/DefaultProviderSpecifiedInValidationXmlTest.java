@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -26,34 +25,36 @@ import javax.validation.ValidationProviderResolver;
 import javax.validation.ValidatorFactory;
 import javax.validation.spi.ValidationProvider;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.common.TCKValidationProvider;
 import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidatorConfiguration.class,
-		TCKValidationProvider.DummyValidatorFactory.class
-})
-@ValidationXml(value = "validation-DefaultProviderSpecifiedInValidationXmlTest.xml")
-public class DefaultProviderSpecifiedInValidationXmlTest extends AbstractTest {
+public class DefaultProviderSpecifiedInValidationXmlTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( InvalidXmlConfigurationTest.class )
+				.withClasses(
+						TCKValidationProvider.class,
+						TCKValidatorConfiguration.class
+				)
+				.withValidationXml( "validation-DefaultProviderSpecifiedInValidationXmlTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({

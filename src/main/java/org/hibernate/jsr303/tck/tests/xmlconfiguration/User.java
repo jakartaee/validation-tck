@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -34,7 +33,9 @@ public class User {
 
 	private CreditCard creditcard;
 
-	@Pattern(regexp = "[0-9 -]+", message = "A phone number can only contain numbers, whitespaces and dashes.", groups = Optional.class)
+	@Pattern(regexp = "[0-9 -]+",
+			message = "A phone number can only contain numbers, whitespaces and dashes.",
+			groups = Optional.class)
 	private String phoneNumber;
 
 	@NotNull(groups = Default.class)

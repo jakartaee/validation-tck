@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -17,30 +16,33 @@
 */
 package org.hibernate.jsr303.tck.tests.xmlconfiguration.constraintdeclaration;
 
-
 import javax.validation.ValidationException;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@ValidationXml(value = "validation-MandatoryNameAttributeTest.xml")
-@Resource(source = "constraints-MandatoryNameAttributeTest.xml",
-		destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/constraints-MandatoryNameAttributeTest.xml")
-public class MandatoryNameAttributeTest extends AbstractTest {
+public class MandatoryNameAttributeTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( MandatoryNameAttributeTest.class )
+				.withClasses( User.class )
+				.withValidationXml( "validation-MandatoryNameAttributeTest.xml" )
+				.withResource( "constraints-MandatoryNameAttributeTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "7.1.1.4", id = "a")

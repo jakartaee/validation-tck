@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -30,17 +29,15 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
 import org.testng.annotations.Test;
 
-import org.hibernate.jsr303.tck.common.TCKValidationProvider;
-import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.jsr303.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintTypes;
@@ -56,19 +53,32 @@ import static org.testng.Assert.fail;
  *
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes( {
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidationProvider.DummyValidatorFactory.class,
-		TCKValidatorConfiguration.class
-})
-public class ValidateTest extends AbstractTest {
+public class ValidateTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( ValidateTest.class )
+				.withClasses(
+						Engine.class,
+						Boy.class,
+						Actor.class,
+						ActorArrayBased.class,
+						ActorListBased.class,
+						PlayedWith.class,
+						Customer.class,
+						Person.class,
+						Order.class,
+						Address.class,
+						BadlyBehavedEntity.class,
+						Last.class,
+						NotEmpty.class
+				)
+				.build();
+	}
 
 	@Test
-	@SpecAssertions( {
+	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "a"),
 			@SpecAssertion(section = "3.5.3", id = "e"),
 			@SpecAssertion(section = "5.1", id = "a")
@@ -126,7 +136,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions( {
+	@SpecAssertions({
 			@SpecAssertion(section = "4.1.1", id = "a"),
 			@SpecAssertion(section = "4.1.1", id = "c")
 	})
@@ -164,7 +174,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions( {
+	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "a"),
 			@SpecAssertion(section = "4.2", id = "a"),
 			@SpecAssertion(section = "4.2", id = "b"),
@@ -198,7 +208,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions( {
+	@SpecAssertions({
 			@SpecAssertion(section = "2.4", id = "o")
 	})
 	public void testGraphValidationWithList() {
@@ -231,7 +241,7 @@ public class ValidateTest extends AbstractTest {
 	}
 
 	@Test
-	@SpecAssertions( {
+	@SpecAssertions({
 			@SpecAssertion(section = "2.4", id = "o"),
 			@SpecAssertion(section = "3.1.3", id = "c")
 	})

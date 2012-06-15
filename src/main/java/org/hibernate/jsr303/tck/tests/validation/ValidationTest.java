@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -30,37 +29,37 @@ import javax.validation.bootstrap.GenericBootstrap;
 import javax.validation.bootstrap.ProviderSpecificBootstrap;
 import javax.validation.spi.ValidationProvider;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.common.TCKValidationProvider;
 import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
-import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Tests for the implementation of <code>Validation</code>.
  *
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidationProvider.DummyValidatorFactory.class,
-		TCKValidatorConfiguration.class
-})
-public class ValidationTest extends AbstractTest {
+
+public class ValidationTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( ValidationTest.class )
+				.withClasses( TCKValidationProvider.class, TCKValidatorConfiguration.class )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "4.4.5", id = "a")

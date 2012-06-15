@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -21,32 +20,28 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import javax.validation.Configuration;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
 import org.testng.annotations.Test;
 
-import org.hibernate.jsr303.tck.common.TCKValidationProvider;
-import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidatorConfiguration.class,
-		TCKValidationProvider.DummyValidatorFactory.class
-})
-public class ConfigurationTest extends AbstractTest {
+public class ConfigurationTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( ConfigurationTest.class )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "4.4.3", id = "a")
@@ -55,10 +50,10 @@ public class ConfigurationTest extends AbstractTest {
 		Type[] types = TestUtil.getValidationProviderUnderTest().getClass().getGenericInterfaces();
 		for ( Type type : types ) {
 			if ( type instanceof ParameterizedType ) {
-				ParameterizedType paramType = ( ParameterizedType ) type;
+				ParameterizedType paramType = (ParameterizedType) type;
 				Type[] typeArguments = paramType.getActualTypeArguments();
 				for ( Type typeArgument : typeArguments ) {
-					if ( typeArgument instanceof Class && Configuration.class.isAssignableFrom( ( Class ) typeArgument ) ) {
+					if ( typeArgument instanceof Class && Configuration.class.isAssignableFrom( (Class) typeArgument ) ) {
 						foundSubinterfaceOfConfiguration = true;
 					}
 				}

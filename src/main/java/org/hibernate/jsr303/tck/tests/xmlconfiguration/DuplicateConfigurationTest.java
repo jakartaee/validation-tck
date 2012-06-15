@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -17,7 +16,6 @@
 */
 package org.hibernate.jsr303.tck.tests.xmlconfiguration;
 
-
 import java.util.Set;
 import javax.validation.Configuration;
 import javax.validation.ValidationException;
@@ -26,54 +24,52 @@ import javax.validation.constraints.Pattern;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.Resources;
+import org.testng.annotations.Test;
+
+import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
-import org.testng.annotations.Test;
-
-import org.hibernate.jsr303.tck.common.TCKValidationProvider;
-import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
-import org.hibernate.jsr303.tck.util.TestUtil;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidatorConfiguration.class,
-		TCKValidationProvider.DummyValidatorFactory.class
-})
-@Resources(
-		{
-				@Resource(source = DuplicateConfigurationTest.mappingFile1,
-						destination = "WEB-INF/classes" + DuplicateConfigurationTest.packageName + DuplicateConfigurationTest.mappingFile1),
-				@Resource(source = DuplicateConfigurationTest.mappingFile2,
-						destination = "WEB-INF/classes" + DuplicateConfigurationTest.packageName + DuplicateConfigurationTest.mappingFile2),
-				@Resource(source = DuplicateConfigurationTest.mappingFile3,
-						destination = "WEB-INF/classes" + DuplicateConfigurationTest.packageName + DuplicateConfigurationTest.mappingFile3),
-				@Resource(source = DuplicateConfigurationTest.mappingFile4,
-						destination = "WEB-INF/classes" + DuplicateConfigurationTest.packageName + DuplicateConfigurationTest.mappingFile4)
-		}
-)
-public class DuplicateConfigurationTest extends AbstractTest {
+public class DuplicateConfigurationTest extends Arquillian {
 
 	public final static String packageName = "/org/hibernate/jsr303/tck/tests/xmlconfiguration/";
 	public final static String mappingFile1 = "user-constraints.xml";
 	public final static String mappingFile2 = "user-constraints-MultipleBeanDefinitionTest.xml";
 	public final static String mappingFile3 = "user-constraints-MultipleFieldDefinitionTest.xml";
 	public final static String mappingFile4 = "user-constraints-MultipleGetterDefinitionTest.xml";
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( DuplicateConfigurationTest.class )
+				.withClasses(
+						User.class,
+						UserType.class,
+						Error.class,
+						CreditCard.class,
+						Optional.class,
+						ConsistentUserInformation.class,
+						CustomConsistentUserValidator.class,
+						ConsistentUserValidator.class,
+						TestGroup.class
+				)
+				.withResource( DuplicateConfigurationTest.mappingFile1 )
+				.withResource( DuplicateConfigurationTest.mappingFile2 )
+				.withResource( DuplicateConfigurationTest.mappingFile3 )
+				.withResource( DuplicateConfigurationTest.mappingFile4 )
+				.build();
+	}
 
 
 	@Test

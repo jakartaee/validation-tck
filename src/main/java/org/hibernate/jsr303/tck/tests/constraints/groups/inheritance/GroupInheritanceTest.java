@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -27,24 +26,30 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-public class GroupInheritanceTest extends AbstractTest {
+public class GroupInheritanceTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClassPackage( GroupInheritanceTest.class )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "3.4.1", id = "a")
@@ -83,7 +88,7 @@ public class GroupInheritanceTest extends AbstractTest {
 				.unorderedAndMatchingGroups( All.class )
 				.getConstraintDescriptors();
 		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
-    		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), AssertTrue.class );
+		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), AssertTrue.class );
 
 		propertyDescriptor = descriptor.getConstraintsForProperty( "size" );
 		descriptorsForGroup = propertyDescriptor.findConstraints()

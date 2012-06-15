@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -26,50 +25,49 @@ import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.Resources;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
+import org.testng.annotations.Test;
+
+import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-import org.testng.annotations.Test;
-
-import org.hibernate.jsr303.tck.common.TCKValidationProvider;
-import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
-import org.hibernate.jsr303.tck.util.TestUtil;
-import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidatorConfiguration.class,
-		TCKValidationProvider.DummyValidatorFactory.class
-})
-@ValidationXml(value = "validation-XmlConfigurationTest.xml")
-@Resources(
-		{
-				@Resource(source = "user-constraints.xml",
-						destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/user-constraints.xml"),
-				@Resource(source = "order-constraints.xml",
-						destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/order-constraints.xml"),
-				@Resource(source = "order-constraints-XmlConfigurationTest.xml",
-						destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/order-constraints-XmlConfigurationTest.xml")
-		}
-)
-public class XmlConfigurationTest extends AbstractTest {
+public class XmlConfigurationTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( XmlConfigurationTest.class )
+				.withClasses(
+						User.class,
+						UserType.class,
+						Error.class,
+						ConsistentUserInformation.class,
+						ConsistentUserValidator.class,
+						CustomConsistentUserValidator.class,
+						Optional.class,
+						Order.class,
+						CreditCard.class,
+						TestGroup.class
+				)
+				.withValidationXml( "validation-XmlConfigurationTest.xml" )
+				.withResource( "user-constraints.xml" )
+				.withResource( "order-constraints.xml" )
+				.withResource( "order-constraints-XmlConfigurationTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({
@@ -267,7 +265,7 @@ public class XmlConfigurationTest extends AbstractTest {
 		assertTrue( constraintDescriptors.size() == 1 );
 
 		ConstraintDescriptor<?> descriptor = constraintDescriptors.iterator().next();
-		ConsistentUserInformation constraintAnnotation = ( ConsistentUserInformation ) descriptor.getAnnotation();
+		ConsistentUserInformation constraintAnnotation = (ConsistentUserInformation) descriptor.getAnnotation();
 
 		assertEquals( constraintAnnotation.stringParam(), "foobar", "Wrong parameter value" );
 		assertEquals( constraintAnnotation.classParam(), String.class, "Wrong parameter value" );

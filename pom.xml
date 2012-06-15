@@ -4,11 +4,11 @@
     <groupId>org.hibernate.jsr303.tck</groupId>
     <artifactId>jsr303-tck</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>JSR-303 TCK</name>
     <url>http://validator.hibernate.org</url>
 
-    <description>JSR-303 TCK</description>
+    <description>JSR-303 &amp; JSR-349 TCK</description>
 
     <developers>
         <developer>
@@ -29,88 +29,63 @@
 
     <mailingLists>
         <mailingList>
+            <name>beanvalidation-dev</name>
+            <post>beanvalidation-dev@lists.jboss.org</post>
+        </mailingList>
+        <mailingList>
             <name>hibernate-dev</name>
             <post>hibernate-dev@lists.jboss.org</post>
         </mailingList>
     </mailingLists>
 
+    <properties>
+        <jboss.test.audit.version>1.1.0.CR2</jboss.test.audit.version>
+        <validation.api.version>1.0.0.GA</validation.api.version>
+        <arquillian.version>1.0.0.Final</arquillian.version>
+        <shrinkwrap.version>1.0.0</shrinkwrap.version>
+        <shrinkwrap.descriptors.version>2.0.0-alpha-2</shrinkwrap.descriptors.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>5.8</version>
-            <classifier>jdk15</classifier>
+            <version>6.5.2</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
+            <version>${validation.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.test-audit</groupId>
             <artifactId>jboss-test-audit-api</artifactId>
-            <version>1.0.0</version>
+            <version>${jboss.test.audit.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.test-harness</groupId>
-            <artifactId>jboss-test-harness-api</artifactId>
-            <version>1.1.0-CR9</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.jboss.arquillian.testng</groupId>
+            <artifactId>arquillian-testng-container</artifactId>
+            <version>${arquillian.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.test-harness</groupId>
-            <artifactId>jboss-test-harness</artifactId>
-            <version>1.1.0-CR9</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.jboss.shrinkwrap</groupId>
+            <artifactId>shrinkwrap-impl-base</artifactId>
+            <version>${shrinkwrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+            <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
+            <version>${shrinkwrap.descriptors.version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <defaultGoal>install</defaultGoal>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-2</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.0-alpha-4</version>
+                <version>1.1</version>
                 <executions>
                     <execution>
                         <id>enforce</id>
@@ -126,6 +101,28 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jboss.maven.plugins</groupId>
@@ -194,7 +191,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.2</version>
+                <version>1.7</version>
                 <executions>
                     <execution>
                         <id>attach-artifacts</id>
@@ -221,33 +218,8 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-in-container-dependencies</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/lib</outputDirectory>
-                            <stripVersion>true</stripVersion>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.jboss.test-harness</groupId>
-                                    <artifactId>jboss-test-harness</artifactId>
-                                    <overWrite>true</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.0.4</version>
+                <version>2.1.2</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -261,7 +233,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.0-beta-9</version>
+                <version>2.3.2</version>
                 <configuration>
                     <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
                     <goals>deploy org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:resources
@@ -272,7 +244,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-beta-2</version>
+                <version>2.3</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
@@ -317,6 +289,39 @@
 
     <profiles>
         <profile>
+            <id>dump-artifacts</id>
+            <activation>
+                <property>
+                    <name>dumpArtifacts</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>java</executable>
+                            <arguments>
+                                <argument>-classpath</argument>
+                                <classpath/>
+                                <argument>org.hibernate.jsr303.tck.util.ArtifactDumper</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>tck-audit</id>
             <activation>
                 <property>
@@ -327,7 +332,7 @@
                 <dependency>
                     <groupId>org.jboss.test-audit</groupId>
                     <artifactId>jboss-test-audit-impl</artifactId>
-                    <version>1.0.0</version>
+                    <version>${jboss.test.audit.version}</version>
                 </dependency>
             </dependencies>
             <build>
@@ -342,10 +347,10 @@
                                 <configuration>
                                     <tasks>
                                         <javac srcdir="${basedir}/src/main/java" destdir="${basedir}/target/classes" failonerror="true">
-                                            <compilerarg value="-proc:only" />
-                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml" />
+                                            <compilerarg value="-proc:only"/>
+                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml"/>
                                             <classpath>
-                                                <path refid="maven.compile.classpath" />
+                                                <path refid="maven.compile.classpath"/>
                                             </classpath>
                                         </javac>
                                     </tasks>
@@ -426,49 +431,6 @@
                     </plugin>
                 </plugins>
                 <defaultGoal>compile</defaultGoal>
-            </build>
-        </profile>
-        <profile>
-            <id>write-artifacts-to-disk</id>
-            <activation>
-                <property>
-                    <name>dumpArtifacts</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>generate-jsr-303-artifacts</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <classpathScope>test</classpathScope>
-                            <mainClass>org.jboss.testharness.api.TCK</mainClass>
-                            <systemProperties>
-                                <systemProperty>
-                                    <key>dumpArtifacts</key>
-                                    <value>true</value>
-                                </systemProperty>
-                                <systemProperty>
-                                    <key>org.jboss.testharness.outputDirectory</key>
-                                    <value>target/jsr303-artifacts</value>
-                                </systemProperty>
-                                <systemProperty>
-                                    <key>org.jboss.testharness.libraryDirectory</key>
-                                    <value>target/jsr303-artifacts/dependencies</value>
-                                </systemProperty>
-                            </systemProperties>
-                        </configuration>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         <profile>

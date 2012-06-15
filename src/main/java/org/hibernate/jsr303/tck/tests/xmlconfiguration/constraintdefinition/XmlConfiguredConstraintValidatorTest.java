@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -26,35 +25,35 @@ import javax.validation.Validator;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.Resources;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@Resources({
-		@Resource(source = XmlConfiguredConstraintValidatorTest.mappingFile1,
-				destination = "WEB-INF/classes" + XmlConfiguredConstraintValidatorTest.packageName + XmlConfiguredConstraintValidatorTest.mappingFile1),
-		@Resource(source = XmlConfiguredConstraintValidatorTest.mappingFile2,
-				destination = "WEB-INF/classes" + XmlConfiguredConstraintValidatorTest.packageName + XmlConfiguredConstraintValidatorTest.mappingFile2)
-})
-public class XmlConfiguredConstraintValidatorTest extends AbstractTest {
+public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 
 	public final static String packageName = "/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdefinition/";
 	public final static String mappingFile1 = "constraint-definition-ExludeExistingValidatorsTest.xml";
 	public final static String mappingFile2 = "constraint-definition-IncludeExistingValidatorsTest.xml";
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClassPackage( XmlConfiguredConstraintValidatorTest.class )
+				.withResource( XmlConfiguredConstraintValidatorTest.mappingFile1 )
+				.withResource( XmlConfiguredConstraintValidatorTest.mappingFile2 )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({
@@ -73,7 +72,7 @@ public class XmlConfiguredConstraintValidatorTest extends AbstractTest {
 		assertEquals( descriptors.size(), 1, "There should only be one constraint." );
 
 		@SuppressWarnings("unchecked")
-		ConstraintDescriptor<T> descriptor = ( ConstraintDescriptor<T> ) descriptors.iterator().next();
+		ConstraintDescriptor<T> descriptor = (ConstraintDescriptor<T>) descriptors.iterator().next();
 		List<Class<? extends ConstraintValidator<T, ?>>> validators = descriptor.getConstraintValidatorClasses();
 
 		assertEquals(
@@ -102,14 +101,9 @@ public class XmlConfiguredConstraintValidatorTest extends AbstractTest {
 		assertEquals( descriptors.size(), 1, "There should only be one constraint." );
 
 		@SuppressWarnings("unchecked")
-		ConstraintDescriptor<T> descriptor = ( ConstraintDescriptor<T> ) descriptors.iterator().next();
+		ConstraintDescriptor<T> descriptor = (ConstraintDescriptor<T>) descriptors.iterator().next();
 		List<Class<? extends ConstraintValidator<T, ?>>> validators = descriptor.getConstraintValidatorClasses();
 
-
-		assertEquals(
-				validators.size(),
-				2,
-				"One validator should be defined in annotation and one in xml"
-		);
+		assertEquals( validators.size(), 2, "One validator should be defined in annotation and one in xml" );
 	}
 }

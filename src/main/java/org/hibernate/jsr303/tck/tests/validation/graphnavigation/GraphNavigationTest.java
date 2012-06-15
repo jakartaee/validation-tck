@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -21,27 +20,32 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectPropertyPaths;
-
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-public class GraphNavigationTest extends AbstractTest {
+public class GraphNavigationTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClassPackage( GraphNavigationTest.class )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({
@@ -148,7 +152,11 @@ public class GraphNavigationTest extends AbstractTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<MultiCage>> constraintViolations = validator.validate( cage );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "A zebra needs a name", "A zebra needs a name" );
+		assertCorrectConstraintViolationMessages(
+				constraintViolations,
+				"A zebra needs a name",
+				"A zebra needs a name"
+		);
 	}
 
 	@Test
@@ -163,7 +171,11 @@ public class GraphNavigationTest extends AbstractTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<GameReserve<Zebra>>> constraintViolations = validator.validate( reserve );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "A zebra needs a name", "A zebra needs a name" );
+		assertCorrectConstraintViolationMessages(
+				constraintViolations,
+				"A zebra needs a name",
+				"A zebra needs a name"
+		);
 	}
 
 	@Test
@@ -229,7 +241,7 @@ public class GraphNavigationTest extends AbstractTest {
 		Set<ConstraintViolation<Parent>> errors = validator.validate( p, Parent.ProperOrder.class );
 		assertCorrectNumberOfViolations( errors, 1 );
 		assertCorrectPropertyPaths( errors, "child.name" );
-		
+
 		p.getChild().setName( "Emmanuel" );
 		errors = validator.validate( p, Parent.ProperOrder.class );
 		assertCorrectNumberOfViolations( errors, 1 );

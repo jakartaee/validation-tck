@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -38,7 +37,7 @@ public class XmlDefinedTraversableResolver implements TraversableResolver {
 
 	public class NoDefaultConstructorResolver extends XmlDefinedTraversableResolver {
 		public NoDefaultConstructorResolver(String foo) {
-			
+
 		}
 	}
 }

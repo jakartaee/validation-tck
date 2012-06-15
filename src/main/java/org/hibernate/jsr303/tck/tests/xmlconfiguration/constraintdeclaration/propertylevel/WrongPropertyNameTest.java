@@ -20,27 +20,30 @@ package org.hibernate.jsr303.tck.tests.xmlconfiguration.constraintdeclaration.pr
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@ValidationXml(value = "validation-WrongPropertyNameTest.xml")
-@Resource(source = "user-constraints-WrongPropertyNameTest.xml",
-		destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/propertylevel/user-constraints-WrongPropertyNameTest.xml")
-public class WrongPropertyNameTest extends AbstractTest {
+public class WrongPropertyNameTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( WrongPropertyNameTest.class )
+				.withClasses( User.class, CreditCard.class )
+				.withValidationXml( "validation-WrongPropertyNameTest.xml" )
+				.withResource( "user-constraints-WrongPropertyNameTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({

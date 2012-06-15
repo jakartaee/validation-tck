@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -25,28 +24,33 @@ import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
+import org.testng.annotations.Test;
+
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.hibernate.jsr303.tck.util.TestUtil.getConstraintDescriptorsFor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
-import org.testng.annotations.Test;
-
-import org.hibernate.jsr303.tck.util.TestUtil;
-import static org.hibernate.jsr303.tck.util.TestUtil.getConstraintDescriptorsFor;
-
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-public class ConstraintDescriptorTest extends AbstractTest {
+public class ConstraintDescriptorTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( ConstraintDescriptorTest.class )
+				.withClasses( Order.class, Person.class, Man.class, Severity.class, NotEmpty.class )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "5.5", id = "k")
@@ -78,7 +82,7 @@ public class ConstraintDescriptorTest extends AbstractTest {
 		for ( ConstraintDescriptor<?> desc : composingDescriptors ) {
 			if ( desc.getAnnotation().annotationType().equals( Size.class ) ) {
 				hasSize = true;
-				Size sizeAnn = ( Size ) desc.getAnnotation();
+				Size sizeAnn = (Size) desc.getAnnotation();
 				assertEquals( sizeAnn.min(), 5, "The min parameter should reflect the overridden parameter" );
 				assertEquals(
 						desc.getAttributes().get( "min" ),

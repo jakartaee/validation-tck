@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -22,8 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintDefinitionException;
-import javax.validation.Payload;
 import javax.validation.ConstraintViolation;
+import javax.validation.Payload;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
@@ -33,30 +32,36 @@ import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Tests for composing constraints.
  *
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-public class ConstraintCompositionTest extends AbstractTest {
+public class ConstraintCompositionTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClassPackage( ConstraintCompositionTest.class )
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({
@@ -175,7 +180,7 @@ public class ConstraintCompositionTest extends AbstractTest {
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<FrenchAddress> constraintViolation = constraintViolations.iterator().next();
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		NotNull notNull = ( NotNull ) constraintViolation.getConstraintDescriptor().getAnnotation();
+		NotNull notNull = (NotNull) constraintViolation.getConstraintDescriptor().getAnnotation();
 		List<Class<?>> groups = Arrays.asList( notNull.groups() );
 		assertTrue( groups.size() == 2, "There should be two groups" );
 		assertTrue( groups.contains( Default.class ), "The default group should be in the list." );
@@ -223,7 +228,7 @@ public class ConstraintCompositionTest extends AbstractTest {
 		for ( ConstraintDescriptor<?> constraintDescriptor : constraintDescriptors ) {
 			Annotation ann = constraintDescriptor.getAnnotation();
 			if ( Pattern.class.getName().equals( ann.annotationType().getName() ) ) {
-				String regexp = ( ( Pattern ) ann ).regexp();
+				String regexp = ( (Pattern) ann ).regexp();
 				if ( regexp.equals( "bar" ) ) {
 					fail( "The regular expression attributes are defined in the composing constraint." );
 				}

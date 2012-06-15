@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -22,35 +21,39 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.Resource;
-import org.jboss.testharness.impl.packaging.jsr303.ValidationXml;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.jsr303.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({ TestUtil.class, TestUtil.PathImpl.class, TestUtil.NodeImpl.class })
-@ValidationXml(value = "validation-DefaultSequenceDefinedInXmlTest.xml")
-@Resource(source = "package-constraints-DefaultSequenceDefinedInXmlTest.xml",
-		destination = "WEB-INF/classes/org/hibernate/jsr303/tck/tests/xmlconfiguration/constraintdeclaration/package-constraints-DefaultSequenceDefinedInXmlTest.xml")
-public class DefaultSequenceDefinedInXmlTest extends AbstractTest {
+public class DefaultSequenceDefinedInXmlTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( DefaultSequenceDefinedInXmlTest.class )
+				.withClasses( Optional.class, Package.class, PrePosting.class, ValidPackage.class )
+				.withValidationXml( "validation-DefaultSequenceDefinedInXmlTest.xml" )
+				.withResource( "package-constraints-DefaultSequenceDefinedInXmlTest.xml" )
+				.build();
+	}
 
 	@Test
 	@SpecAssertion(section = "7.1.1.1", id = "e")
 	public void testDefaultGroupDefinitionDefinedInEntityApplies() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Package p = new Package();
-		p.setMaxWeight(30);
+		p.setMaxWeight( 30 );
 		Set<ConstraintViolation<Package>> violations = validator.validate( p, Default.class );
 
 		assertCorrectNumberOfViolations( violations, 1 );

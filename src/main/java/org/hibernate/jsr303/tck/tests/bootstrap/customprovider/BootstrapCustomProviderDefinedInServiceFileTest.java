@@ -1,4 +1,3 @@
-// $Id$
 /*
 * JBoss, Home of Professional Open Source
 * Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
@@ -21,38 +20,40 @@ import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.testharness.AbstractTest;
-import org.jboss.testharness.impl.packaging.Artifact;
-import org.jboss.testharness.impl.packaging.ArtifactType;
-import org.jboss.testharness.impl.packaging.Classes;
-import org.jboss.testharness.impl.packaging.IntegrationTest;
-import org.jboss.testharness.impl.packaging.Resource;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 import org.hibernate.jsr303.tck.common.TCKValidationProvider;
 import org.hibernate.jsr303.tck.common.TCKValidatorConfiguration;
+import org.hibernate.jsr303.tck.util.IntegrationTest;
 import org.hibernate.jsr303.tck.util.TestUtil;
+import org.hibernate.jsr303.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
  */
-@Artifact(artifactType = ArtifactType.JSR303)
-@Classes({
-		TestUtil.class,
-		TestUtil.PathImpl.class,
-		TestUtil.NodeImpl.class,
-		TCKValidationProvider.class,
-		TCKValidatorConfiguration.class,
-		TCKValidationProvider.DummyValidatorFactory.class
-})
-@Resource(source = "javax.validation.spi.ValidationProvider",
-		destination = "WEB-INF/classes/META-INF/services/javax.validation.spi.ValidationProvider")
 @IntegrationTest
-public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTest {
+public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian {
+
+	@Deployment
+	public static WebArchive createTestArchive() {
+		return new WebArchiveBuilder()
+				.withTestClass( BootstrapCustomProviderDefinedInServiceFileTest.class )
+				.withClasses( TCKValidatorConfiguration.class, TCKValidationProvider.class )
+				.withResource(
+						"javax.validation.spi.ValidationProvider",
+						"META-INF/services/javax.validation.spi.ValidationProvider",
+						true
+				)
+				.build();
+	}
 
 	@Test
 	@SpecAssertions({
