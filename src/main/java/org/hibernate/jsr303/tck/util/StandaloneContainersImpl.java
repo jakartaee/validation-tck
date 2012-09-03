@@ -93,7 +93,7 @@ public class StandaloneContainersImpl implements StandaloneContainers {
 				in = new BufferedInputStream( new FileInputStream( customValidationXmlPath ) );
 			}
 			catch ( IOException ioe ) {
-				String msg = "Unble to load " + customValidationXmlPath + " from  disk";
+				String msg = "Unable to load " + customValidationXmlPath + " from  disk";
 				throw new RuntimeException( msg );
 			}
 			return in;
