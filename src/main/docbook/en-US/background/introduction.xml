@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "jsr303-tck.ent">
+<!ENTITY % BOOK_ENTITIES SYSTEM "../jsr303-tck.ent">
 %BOOK_ENTITIES;
 ]>
 <chapter id="introduction">
@@ -63,7 +63,7 @@
       <itemizedlist>
         <listitem>
           <para>Compatibility testing is the means by which the JCP ensures
-          that the Java platform does not become fragmented as it's ported to
+          that the Java platform does not become fragmented as it is ported to
           different operating systems and hardware.</para>
         </listitem>
 
@@ -98,22 +98,17 @@
 
     <para>The Bean Validation TCK is designed as a portable, configurable and
     automated test suite for verifying the compatibility of an implementation
-    of JSR-303: Bean Validation specification. The test suite is built atop
-    TestNG and provides a series of extensions that allow runtime packaging
-    and deployment of JEE artifacts for in-container testing (JBoss Test
-    Harness).</para>
-
-    <note>
-      <para>The Bean Validation TCK harness is based on the JBoss Test
-      harness, which provides most of the aforementioned functionality.</para>
-    </note>
+    of &jsrVersion;: Bean Validation 1.1 specification. The test suite is built
+    atop TestNG and provides a series of extensions that allow runtime
+    packaging and deployment of JEE artifacts for in-container testing
+    (Arquillian).</para>
 
     <para>Each test class in the suite acts as a deployable unit. The
     deployable units, or artifacts, are defined declaratively using
     annotations.</para>
 
     <para>The declarative approach allows many of the tests to be executed in
-    a standalone implementation of Bean Validation, accounting for a boast in
+    a standalone implementation of Bean Validation, accounting for a boost in
     developer productivity. However, an implementation is only valid if all
     tests pass using the in-container execution mode. The standalone mode is
     merely a developer convenience.</para>
@@ -132,11 +127,10 @@
         </listitem>
 
         <listitem>
-          <para><emphasis role="bold">JBoss Test Harness</emphasis> - The Bean
-          Validation TCK requires version 1.x of the JBoss Test Harness. The
-          Harness is based on <ulink url="http://testng.org">TestNG
-          5.x</ulink>. You can read more about the harness in <xref
-          linkend="test-harness" />.</para>
+          <para><emphasis role="bold">Arquillian</emphasis> - The Bean
+          Validation TCK requires Arquillian version 1.0.0.Final. The Harness
+          is based on <ulink url="http://testng.org">TestNG
+          5.x</ulink>.</para>
         </listitem>
 
         <listitem>
@@ -164,18 +158,6 @@
 
       <itemizedlist>
         <listitem>
-          <para><emphasis role="bold">JBoss Test Harness 1.x</emphasis> and
-          related documentation.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">TestNG 5.9</emphasis>, the testing
-          framework on which the JBoss Test Harness is based and which
-          provides the extension points for selecting an executing the tests
-          in the test suite.</para>
-        </listitem>
-
-        <listitem>
           <para><emphasis role="bold">The test suite</emphasis>, which is a
           collection of TestNG tests, the TestNG test suite descriptor and
           supplemental resources that configure Bean Validation and other
@@ -200,20 +182,6 @@
           by release notes identifying updates between versions.</para>
         </listitem>
       </itemizedlist>
-
-      <para>The Bean Validation TCK has been tested run on following
-      platforms:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>JBoss AS 5.1.0.GA using Sun Java SE 6 on Red Hat Enterprise
-          Linux 5.2</para>
-        </listitem>
-      </itemizedlist>
     </section>
   </section>
-
-  <!--
-vim: ts=3:sw=3:tw=80:set expandtab
--->
 </chapter>

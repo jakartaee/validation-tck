@@ -127,7 +127,7 @@
             <plugin>
                 <groupId>org.jboss.maven.plugins</groupId>
                 <artifactId>maven-jdocbook-plugin</artifactId>
-                <version>2.2.3</version>
+                <version>2.3.5</version>
                 <extensions>true</extensions>
                 <dependencies>
                     <dependency>
@@ -141,9 +141,6 @@
                     <sourceDocumentName>master.xml</sourceDocumentName>
                     <sourceDirectory>${basedir}/src/main/docbook</sourceDirectory>
                     <masterTranslation>en-US</masterTranslation>
-                    <imageResource>
-                        <directory>${basedir}/src/main/docbook/en-US/harness</directory>
-                    </imageResource>
                     <formats>
                         <format>
                             <formatName>pdf</formatName>

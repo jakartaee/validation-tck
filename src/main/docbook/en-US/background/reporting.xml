@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "jsr303-tck.ent">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../jsr303-tck.ent">
 %BOOK_ENTITIES;
 ]>
 <chapter id="reporting">
@@ -9,7 +10,7 @@
   <para>This chapter covers the two types of reports that can be generated
   from the TCK, an assertion coverage report and the test execution results.
   The chapter also justifies why the TCK is good indicator of how accurately
-  an implementation conforms to the JSR-303 specification.</para>
+  an implementation conforms to the &jsrVersion; specification.</para>
 
   <section>
     <title>Bean Validation TCK Coverage Metrics</title>
@@ -58,7 +59,7 @@
     <para>A specification can be distilled into a collection of assertions
     that define the behavior of the software. This section introduces the Bean
     Validation TCK coverage report, which documents the relationship between
-    the assertions that have been identified in the JSR-303 specification
+    the assertions that have been identified in the &jsrVersion; specification
     document and the tests in the TCK test suite.</para>
 
     <para>The structure of this report is controlled by the assertion
@@ -67,7 +68,7 @@
     <section>
       <title>Bean Validation TCK Assertions</title>
 
-      <para>The Bean Validation TCK developers have analyzed the JSR-303
+      <para>The Bean Validation TCK developers have analyzed the &jsrVersion;
       specification document and identified the assertions that are present in
       each chapter. Here's an example of one such assertion found in section
       2.1:</para>
@@ -94,9 +95,8 @@
 
       <para>The strategy of the Bean Validation TCK is to write a test which
       validates this assertion when run against an implementation. A test case
-      (a method annotated with <literal>@Test</literal> in an
-      <literal>@Artifact</literal> class) is correlated with an assertion
-      using the
+      (a method annotated with <literal>@Test</literal>) is correlated with an
+      assertion using the
       <literal>@org.jboss.test.audit.annotations.SpecAssertion</literal>
       annotation as follows:</para>
 
@@ -310,8 +310,4 @@ Tests run: 237, Failures: 0, Errors: 0, Skipped: 0
       </section>
     </section>
   </section>
-
-  <!--
-vim: ts=3:sw=3:tw=80:set expandtab
--->
 </chapter>

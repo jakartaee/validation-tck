@@ -21,28 +21,24 @@ limitations under the License.</literallayout></releaseinfo>
   <subtitle>Specification Lead: Red Hat Inc.</subtitle>
 
   <copyright>
-    <year>2009 - 2011</year>
+    <year>&copyrightYear;</year>
 
-    <holder>Red Hat, Inc.</holder>
+    <holder>&copyrightHolder;</holder>
   </copyright>
 
   <authorgroup>
     <author>
       <firstname>Emmanuel Bernard</firstname>
-
       <affiliation>
-        <jobtitle>JSR-303: Bean Validation specification lead</jobtitle>
-
+        <jobtitle>&jsrVersion;: Bean Validation specification lead</jobtitle>
         <orgname>Red Hat Inc.</orgname>
       </affiliation>
     </author>
 
     <author>
       <firstname>Hardy Ferentschik</firstname>
-
       <affiliation>
         <jobtitle>Bean Validation TCK Developer</jobtitle>
-
         <orgname>Red Hat Inc.</orgname>
       </affiliation>
     </author>
