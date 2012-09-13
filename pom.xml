@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.hibernate.jsr303.tck</groupId>
-    <artifactId>jsr303-tck</artifactId>
-    <packaging>jar</packaging>
+    <groupId>org.hibernate.beanvalidation.tck</groupId>
+    <artifactId>tck-parent</artifactId>
+    <packaging>pom</packaging>
     <version>1.1.0-SNAPSHOT</version>
-    <name>JSR-303 TCK</name>
+    <name>JSR-349 TCK Aggregator</name>
     <url>http://validator.hibernate.org</url>
 
-    <description>JSR-303 &amp; JSR-349 TCK</description>
+    <description>JSR-349 TCK</description>
+
+    <modules>
+        <module>tests</module>
+        <module>documentation</module>
+        <module>standalone-container-adapter</module>
+        <module>distribution</module>
+    </modules>
+
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://opensource.atlassian.com/projects/hibernate/browse/BVTCK</url>
+    </issueManagement>
+
+    <inceptionYear>2008</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/beanvalidation/beanvalidation-tck.git</connection>
+        <developerConnection>scm:git:git@github.com:beanvalidation/beanvalidation-tck.git</developerConnection>
+        <url>http://github.com/beanvalidation/beanvalidation-tck</url>
+    </scm>
 
     <developers>
         <developer>
@@ -46,38 +75,45 @@
         <shrinkwrap.descriptors.version>2.0.0-alpha-2</shrinkwrap.descriptors.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>${validation.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.test-audit</groupId>
-            <artifactId>jboss-test-audit-api</artifactId>
-            <version>${jboss.test.audit.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.testng</groupId>
-            <artifactId>arquillian-testng-container</artifactId>
-            <version>${arquillian.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-impl-base</artifactId>
-            <version>${shrinkwrap.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.descriptors</groupId>
-            <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
-            <version>${shrinkwrap.descriptors.version}</version>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>6.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.test-audit</groupId>
+                <artifactId>jboss-test-audit-api</artifactId>
+                <version>${jboss.test.audit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.test-audit</groupId>
+                <artifactId>jboss-test-audit-impl</artifactId>
+                <version>${jboss.test.audit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.testng</groupId>
+                <artifactId>arquillian-testng-container</artifactId>
+                <version>${arquillian.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap</groupId>
+                <artifactId>shrinkwrap-impl-base</artifactId>
+                <version>${shrinkwrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.descriptors</groupId>
+                <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
+                <version>${shrinkwrap.descriptors.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -104,131 +140,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jboss.maven.plugins</groupId>
-                <artifactId>maven-jdocbook-plugin</artifactId>
-                <version>2.3.5</version>
-                <extensions>true</extensions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-jdocbook-style</artifactId>
-                        <version>2.0.1</version>
-                        <type>jdocbook-style</type>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <sourceDocumentName>master.xml</sourceDocumentName>
-                    <sourceDirectory>${basedir}/src/main/docbook</sourceDirectory>
-                    <masterTranslation>en-US</masterTranslation>
-                    <formats>
-                        <format>
-                            <formatName>pdf</formatName>
-                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/pdf.xsl</stylesheetResource>
-                            <finalName>beanvalidation-tck.pdf</finalName>
-                        </format>
-                        <format>
-                            <formatName>html_single</formatName>
-                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/xhtml-single.xsl
-                            </stylesheetResource>
-                            <finalName>index.html</finalName>
-                        </format>
-                        <format>
-                            <formatName>html</formatName>
-                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/xhtml.xsl
-                            </stylesheetResource>
-                            <finalName>index.html</finalName>
-                        </format>
-                    </formats>
-                    <options>
-                        <xincludeSupported>true</xincludeSupported>
-                        <xmlTransformerType>saxon</xmlTransformerType>
-                        <!-- needed for uri-resolvers; can be ommitted if using 'current' uri scheme -->
-                        <!--     could also locate the docbook dependency and inspect its version... -->
-                        <docbookVersion>1.72.0</docbookVersion>
-                        <localeSeparator>-</localeSeparator>
-                    </options>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-doc</id>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>resources</goal>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jboss.maven.plugins</groupId>
-                <artifactId>maven-jdocbook-style-plugin</artifactId>
-                <version>2.0.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <id>attach-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${basedir}/src/main/resources/tck-tests.xml</file>
-                                    <type>xml</type>
-                                    <classifier>suite</classifier>
-                                </artifact>
-                                <artifact>
-                                    <file>${basedir}/src/main/resources/tck-audit.xml</file>
-                                    <type>xml</type>
-                                    <classifier>audit</classifier>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.1.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
@@ -249,27 +160,71 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.5.1</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.jboss.maven.plugins</groupId>
+                    <artifactId>maven-jdocbook-plugin</artifactId>
+                    <version>2.3.5</version>
+                    <extensions>true</extensions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-jdocbook-style</artifactId>
+                            <version>2.0.1</version>
+                            <type>jdocbook-style</type>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.jboss.maven.plugins</groupId>
+                    <artifactId>maven-jdocbook-style-plugin</artifactId>
+                    <version>2.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.1.2</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-
-    <issueManagement>
-        <system>JIRA</system>
-        <url>http://opensource.atlassian.com/projects/hibernate/browse/BVTCK</url>
-    </issueManagement>
-
-    <inceptionYear>2008</inceptionYear>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
-        </license>
-    </licenses>
-
-    <scm>
-        <connection>scm:git:git://github.com/beanvalidation/beanvalidation-tck.git</connection>
-        <developerConnection>scm:git:git@github.com:beanvalidation/beanvalidation-tck.git</developerConnection>
-        <url>http://github.com/beanvalidation/beanvalidation-tck</url>
-    </scm>
 
     <distributionManagement>
         <repository>
@@ -285,151 +240,6 @@
     </distributionManagement>
 
     <profiles>
-        <profile>
-            <id>dump-artifacts</id>
-            <activation>
-                <property>
-                    <name>dumpArtifacts</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <executable>java</executable>
-                            <arguments>
-                                <argument>-classpath</argument>
-                                <classpath/>
-                                <argument>org.hibernate.jsr303.tck.util.ArtifactDumper</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>tck-audit</id>
-            <activation>
-                <property>
-                    <name>tck-audit</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.test-audit</groupId>
-                    <artifactId>jboss-test-audit-impl</artifactId>
-                    <version>${jboss.test.audit.version}</version>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>process_annotations</id>
-                                <phase>process-resources</phase>
-                                <configuration>
-                                    <tasks>
-                                        <javac srcdir="${basedir}/src/main/java" destdir="${basedir}/target/classes" failonerror="true">
-                                            <compilerarg value="-proc:only"/>
-                                            <compilerarg value="-AauditXml=${basedir}/src/main/resources/tck-audit.xml"/>
-                                            <classpath>
-                                                <path refid="maven.compile.classpath"/>
-                                            </classpath>
-                                        </javac>
-                                    </tasks>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.apache.ant</groupId>
-                                <artifactId>ant</artifactId>
-                                <version>1.7.0</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>1.5</source>
-                            <target>1.5</target>
-                            <compilerArgument>-proc:none</compilerArgument>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>enforce-versions</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireJavaVersion>
-                                            <version>1.6</version>
-                                        </requireJavaVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>1.2</version>
-                        <executions>
-                            <execution>
-                                <id>attach-artifacts</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>attach-artifact</goal>
-                                </goals>
-                                <configuration>
-                                    <artifacts>
-                                        <artifact>
-                                            <file>${basedir}/src/main/resources/tck-tests.xml</file>
-                                            <type>xml</type>
-                                            <classifier>suite</classifier>
-                                        </artifact>
-                                        <artifact>
-                                            <file>${basedir}/src/main/resources/tck-audit.xml</file>
-                                            <type>xml</type>
-                                            <classifier>audit</classifier>
-                                        </artifact>
-                                        <artifact>
-                                            <file>${basedir}/target/coverage.html</file>
-                                            <type>html</type>
-                                            <classifier>coverage</classifier>
-                                        </artifact>
-                                    </artifacts>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-                <defaultGoal>compile</defaultGoal>
-            </build>
-        </profile>
         <profile>
             <id>release</id>
             <properties>

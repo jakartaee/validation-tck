@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "../tck.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="installation">
+  <title>Installation</title>
+
+  <para>This chapter explains how to obtain the TCK and supporting software
+  and provides recommendations for how to install/extract it on your
+  system.</para>
+
+  <section>
+    <title>Obtaining the Software</title>
+
+    <para>You can obtain a release of the Bean Validation TCK project from the
+    from the <ulink
+    url="http://www.hibernate.org/subprojects/validator/download">download
+    page</ulink> on the Hibernate Validator website. The Bean Validation TCK
+    is distributed as a ZIP file, which contains the TCK artifacts (the test
+    suite binary and source, the test suite descriptor, the audit source and
+    report), the TCK library dependencies in <code>/lib</code> and
+    documentation in <code>/doc</code>.</para>
+
+    <para>You can also download the source code from GitHub - <ulink
+    url="https://github.com/beanvalidation/beanvalidation-tck">https://github.com/beanvalidation/beanvalidation-tck</ulink>.</para>
+
+    <para>The TCK project is available in the JBoss Maven repository as
+    <filename>org.hibernate.beanvalidation.tck<code>:</code>beanvalidation-tck</filename>
+    the POM defines all dependencies required to run the TCK.</para>
+
+    <para>Executing the TCK requires a Java EE 6 or better runtime environment
+    (i.e., application server), to which the test artifacts are deployed and
+    the individual tests are invoked. The TCK does not depend on any
+    particular Java EE implementation.</para>
+
+    <para>The &jsrVersion;: Bean Validation reference implementation (RI)
+    project is named Hibernate Validator. You can obtain the latest Hibernate
+    Validator release from the Hibernate Validator <ulink type=""
+    url="http://www.hibernate.org/subprojects/validator/download">download
+    page</ulink>.</para>
+
+    <note>
+      <para>Hibernate Validator is not required for running the Bean
+      Validation TCK, but it can be used as a reference for familiarizing
+      yourself with the TCK before testing your own Bean Validation
+      implementation.</para>
+    </note>
+  </section>
+
+  <section id="tck-environment">
+    <title>The TCK Environment</title>
+
+    <para>The TCK requires the following two Java runtime environments:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Java 6 or better</para>
+      </listitem>
+
+      <listitem>
+        <para>Java EE 6 or better (e.g., JBoss AS 7.x)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>You should refer to vendor instructions for how to install the
+    runtime.</para>
+
+    <para>The rest of the TCK software can simply be extracted. It's
+    recommended that you create a folder named jsr349 to hold all of the
+    jsr349-related projects. Then, extract the TCK distribution into a
+    subfolder named tck. You can also check out the full Hibernate Validator
+    source into a subfolder ri. This will allow you to run the TCK against
+    Hibernate Validator.</para>
+
+    <programlisting>git clone git://github.com/hibernate/hibernate-validator.git ri
+git checkout 4.2.0.Final // TODO - add right verision number</programlisting>
+
+    <para>If you have downloaded the Hibernate Validator distribution, extract
+    it into a sibling folder named hibernate-validator. The resulting folder
+    structure is shown here:</para>
+
+    <programlisting>jsr349/
+   ri/
+   tck/</programlisting>
+
+    <para>Each test class is treated as an individual artifact (hence the
+    <literal>@Deployment</literal> annotation on the class). All test methods
+    (i.e., methods annotated with <literal>@Test</literal>) in the test class
+    are run.</para>
+
+    <tip id="tck-in-jboss-as">
+      <title>Running the TCK against the Bean Validation RI (Hibernate
+      Validator) and JBoss AS 7</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Install Maven. You can find documention on how to install
+          Maven 2 in the <ulink
+          url="http://www.sonatype.com/books/maven-book/reference/installation-sect-maven-install.html">Maven:
+          The Definitive Guide</ulink> book published by Sonatype. </para>
+        </listitem>
+
+        <listitem>
+          <para>Change to the
+          <filename>ri/hibernate-validator-tck-runner</filename>
+          directory.</para>
+        </listitem>
+
+        <listitem>
+          <para>Next, instruct Maven to run the TCK:</para>
+
+          <programlisting>mvn test -Dincontainer</programlisting>
+        </listitem>
+
+        <listitem>
+          <para>TestNG will report, via Maven, the outcome of the run, and
+          report any failures on the console. Details can be found in
+          <code>target/surefire-reports/TestSuite.txt</code>.</para>
+        </listitem>
+      </itemizedlist>
+    </tip>
+  </section>
+</chapter>

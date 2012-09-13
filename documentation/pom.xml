@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.hibernate.beanvalidation.tck</groupId>
+        <artifactId>tck-parent</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>beanvalidation-tck-documentation</artifactId>
+    <packaging>jdocbook</packaging>
+
+    <name>JSR-349 TCK Documentation</name>
+    <description>>Bean Validation TCK Documentation</description>
+
+    <properties>
+        <jdocbookSourceDirectory>${basedir}/src/main/docbook</jdocbookSourceDirectory>
+        <jdocbook.ignoreTranslations>true</jdocbook.ignoreTranslations>
+        <!-- Skip artifact deployment -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jboss.maven.plugins</groupId>
+                <artifactId>maven-jdocbook-plugin</artifactId>
+                <configuration>
+                    <sourceDirectory>${jdocbookSourceDirectory}</sourceDirectory>
+                    <sourceDocumentName>master.xml</sourceDocumentName>
+                    <masterTranslation>en-US</masterTranslation>
+                    <!--
+                    The jdookbook plug-in doesn't define an expression for this property, therefore
+                    it can't be passed on the command line. To address this issue the value is retrieved
+                    from a custom property, which itself can be set using -DignoreTranslations=...
+                    -->
+                    <ignoreTranslations>${jdocbook.ignoreTranslations}</ignoreTranslations>
+                    <formats>
+                        <format>
+                            <formatName>pdf</formatName>
+                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/pdf.xsl
+                            </stylesheetResource>
+                            <finalName>beanvalidation-tck-documentation.pdf</finalName>
+                        </format>
+                        <format>
+                            <formatName>html_single</formatName>
+                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/xhtml-single.xsl
+                            </stylesheetResource>
+                            <finalName>index.html</finalName>
+                        </format>
+                        <format>
+                            <formatName>html</formatName>
+                            <stylesheetResource>classpath:/xslt/org/hibernate/jdocbook/xslt/xhtml.xsl
+                            </stylesheetResource>
+                            <finalName>index.html</finalName>
+                        </format>
+                    </formats>
+                    <options>
+                        <xincludeSupported>true</xincludeSupported>
+                        <xmlTransformerType>saxon</xmlTransformerType>
+                        <!-- needed for uri-resolvers; can be ommitted if using 'current' uri scheme -->
+                        <!--     could also locate the docbook dependency and inspect its version... -->
+                        <docbookVersion>1.72.0</docbookVersion>
+                        <localeSeparator>-</localeSeparator>
+                        <injectionDateFormat>yyyy-MM-dd</injectionDateFormat>
+                    </options>
+                    <profiling>
+                        <enabled>false</enabled>
+                    </profiling>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!--
+                            here we are attaching the translate goal so that the translations are processed
+                            before compilation so that the translated XML is also transformed during
+                            generation
+                        -->
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>translate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
