@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "../tck.ent">
+<!ENTITY % BOOK_ENTITIES SYSTEM "tck.ent">
 %BOOK_ENTITIES;
 ]>
 <chapter id="appeals-process">
@@ -54,12 +54,13 @@
   <section>
     <title>How these challenges are submitted?</title>
 
-    <para>To submit a challenge, a new issue should be created against <ulink
+    <para>To submit a challenge, a new issue of type Bug should be created
+    against <ulink
     url="https://hibernate.onjira.com/browse/BVTCK">BVTCK</ulink> in the
-    Hibernate JIRA using the Issue Type: Bug. The appellant should complete
-    the Summary, Component (TCK Appeal), Environment and Description Field
-    only. Any communication regarding the issue should be added in the
-    comments of the issue for accurate record.</para>
+    Hibernate JIRA instance. The appellant should complete the Summary,
+    Component (TCK Appeal), Environment and Description Field only. Any
+    communication regarding the issue should be added in the comments of the
+    issue for accurate record.</para>
 
     <para>To submit an issue in the Hibernate JIRA, you must have a (free)
     Jira member account. You can create a member account using the <ulink

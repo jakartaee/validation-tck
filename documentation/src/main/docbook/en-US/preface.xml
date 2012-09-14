@@ -9,7 +9,7 @@
 
   <para>This guide describes how to download, install, configure, and run the
   Technology Compatibility Kit (TCK) used to verify the compatibility of an
-  implementation of &jsrVersion;;: Bean Validation 1.1.</para>
+  implementation of &jsrVersion;: Bean Validation 1.1.</para>
 
   <para>The Bean Validation TCK is built atop <ulink
   url="http://www.jboss.org/arquillian.html">Arquillian</ulink>, a portable
@@ -32,9 +32,9 @@
     <title>Before You Read This Guide</title>
 
     <para>The Bean Validation TCK is based on the Bean Validation
-    specification 1.1 (&jsrVersion;). Information about the specification,
-    including links to the specification documents, can be found on the <ulink
-    url="http://jcp.org/en/jsr/detail?id=303">JSR-349 JCP page</ulink>.</para>
+    specification 1.1 (&jsrVersion;). Information about the specification can
+    be found on the <ulink url="http://jcp.org/en/jsr/detail?id=303">JSR-349
+    JCP page</ulink>.</para>
   </section>
 
   <section id="book-organization">
@@ -50,9 +50,7 @@
         <para><xref linkend="introduction"/> gives an overview of the
         principles that apply generally to all Technology Compatibility Kits
         (TCKs), outlines the appeals process and describes the Bean Validation
-        TCK architecture and components. It also includes a broad overview of
-        how the TCK is executed and lists the platforms on which the TCK has
-        been tested and verified.</para>
+        TCK architecture and components.</para>
       </listitem>
 
       <listitem>
@@ -63,15 +61,14 @@
 
       <listitem>
         <para><xref linkend="installation"/> explains where to obtain the
-        required software for the Bean Validation TCK and how to install it.
-        It covers both the primary TCK components as well as tools useful for
-        troubleshooting tests.</para>
+        required software for the Bean Validation TCK and how to install
+        it.</para>
       </listitem>
 
       <listitem>
         <para><xref linkend="configuration"/> details the configuration of the
-        JBoss Test Harness, how to create a TCK runner for the TCK test suite
-        and the mechanics of how an in-container test is conducted.</para>
+        test harness, how to create a TCK runner for the TCK test suite and
+        the mechanics of how an in-container test is conducted.</para>
       </listitem>
 
       <listitem>

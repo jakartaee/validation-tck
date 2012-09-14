@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "../tck.ent">
+<!ENTITY % BOOK_ENTITIES SYSTEM "tck.ent">
 %BOOK_ENTITIES;
 ]>
 <chapter id="introduction">
@@ -10,7 +10,7 @@
   <para>This chapter explains the purpose of a TCK and identifies the
   foundation elements of the Bean Validation TCK.</para>
 
-  <section>
+  <section id="primer">
     <title>TCK Primer</title>
 
     <para>A TCK, or Technology Compatibility Kit, is one of the three required
@@ -22,13 +22,13 @@
     the tests.</para>
 
     <para>The tests in the TCK are derived from assertions in the written
-    specification document. The assertions are itemized in an XML document,
-    where they each get assigned a unique identifier, and materialize as a
-    suite of automated tests that collectively validate whether an
-    implementation complies with the aforementioned assertions, and in turn
-    the specification. For a particular implementation to be certified, all of
-    the required tests must pass (i.e., the provided test suite must be run
-    unmodified).</para>
+    specification document. The assertions are itemized in an XML document
+    (<filename>tck-audit.xml</filename>), where they each get assigned a
+    unique identifier, and materialize as a suite of automated tests that
+    collectively validate whether an implementation complies with the
+    aforementioned assertions, and in turn the specification. For a particular
+    implementation to be certified, all of the required tests must pass
+    (meaning the provided test suite must be run unmodified).</para>
 
     <para>A TCK is entirely implementation agnostic. It should validate
     assertions by consulting the specficiation's public API.</para>
@@ -98,10 +98,9 @@
 
     <para>The Bean Validation TCK is designed as a portable, configurable and
     automated test suite for verifying the compatibility of an implementation
-    of &jsrVersion;: Bean Validation 1.1 specification. The test suite is built
-    atop TestNG and provides a series of extensions that allow runtime
-    packaging and deployment of JEE artifacts for in-container testing
-    (Arquillian).</para>
+    of &jsrVersion;. The test suite is built atop TestNG and provides a series
+    of extensions that allow runtime packaging and deployment of JEE artifacts
+    for in-container testing (Arquillian).</para>
 
     <para>Each test class in the suite acts as a deployable unit. The
     deployable units, or artifacts, are defined declaratively using
@@ -111,10 +110,12 @@
     a standalone implementation of Bean Validation, accounting for a boost in
     developer productivity. However, an implementation is only valid if all
     tests pass using the in-container execution mode. The standalone mode is
-    merely a developer convenience.</para>
+    merely a developer convenience.<note>
+        <para>TODO - explain the reason for this - BV part of EE</para>
+      </note></para>
 
     <section>
-      <title>Bean Validation TCK Specifications and Requirements</title>
+      <title>TCK Specifications and Requirements</title>
 
       <para>This section lists the applicable requirements and specifications
       for the Bean Validation TCK.</para>
@@ -144,15 +145,15 @@
           <para><emphasis role="bold">Reference runtime</emphasis> - The
           designated reference runtimes for compatibility testing of the Bean
           Validation specification is the Sun Java Platform, Enterprise
-          Edition (Java EE) 6 reference implementation (RI). See details at
+          Edition (Java EE) 7 reference implementation (RI). See details at
           <ulink url="http://java.sun.com/javaee/6/docs/api/">Java EE
-          6</ulink></para>
+          7</ulink> (todo - check link)</para>
         </listitem>
       </itemizedlist>
     </section>
 
     <section>
-      <title>Bean Validation TCK Components</title>
+      <title>TCK Components</title>
 
       <para>The Bean Validation TCK includes the following components:</para>
 
@@ -165,9 +166,10 @@
         </listitem>
 
         <listitem>
-          <para><emphasis role="bold">The TCK audit</emphasis> is used to list
-          out the assertions identified in the Bean Validation specification.
-          It matches the assertions to testcases in the test suite by unique
+          <para><emphasis role="bold">The TCK audit</emphasis>
+          (<filename>tck-audit.xml</filename>) is used to list out the
+          assertions identified in the Bean Validation specification. It
+          matches the assertions to testcases in the test suite by unique
           identifier and produces a coverage report.</para>
 
           <para>The audit document is provided along with the TCK. Each

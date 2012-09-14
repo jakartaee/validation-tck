@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY % BOOK_ENTITIES SYSTEM "../tck.ent">
+<!ENTITY % BOOK_ENTITIES SYSTEM "tck.ent">
 %BOOK_ENTITIES;
 ]>
 <chapter id="sigtest">
@@ -17,9 +17,9 @@
 
     <para>You can obtain the Sigtest tool (at the time of writing the TCK uses
     version 2.1) from the Sigtest home page at <ulink
-    url="https://sigtest.dev.java.net/"></ulink>. The user guide can be found
-    at <ulink
-    url="http://download.oracle.com/javame/test-tools/sigtest/2_1/sigtest2.1_usersguide.pdf"></ulink>.
+    url="https://sigtest.dev.java.net/">https://sigtest.dev.java.net/</ulink>.
+    The user guide can be found at <ulink
+    url="http://download.oracle.com/javame/test-tools/sigtest/2_1/sigtest2.1_usersguide.pdf">http://download.oracle.com/javame/test-tools/sigtest/2_1/sigtest2.1_usersguide.pdf</ulink>.
     The downloadable package contains the jar files used in the commands
     below.</para>
   </section>
