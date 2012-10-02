@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "tck.ent">
+%BOOK_ENTITIES;
+]>
+<chapter id="installation">
+  <title>Installation</title>
+
+  <para>This chapter explains how to obtain the TCK and supporting software
+  and provides recommendations for how to install/extract it on your
+  system.</para>
+
+  <section>
+    <title>Obtaining the Software</title>
+
+    <para>You can obtain a release of the Bean Validation TCK project from the
+    from the <ulink
+    url="http://www.hibernate.org/subprojects/validator/download">download
+    page</ulink> on the Hibernate Validator website. The Bean Validation TCK
+    is distributed as a ZIP file, which contains the TCK artifacts (the test
+    suite binary and source, the test suite descriptor, the audit source and
+    report), the TCK library dependencies in <code>/lib</code> and
+    documentation in <code>/doc</code>. The contents should look like (todo -
+    verify against final dist bundle):</para>
+
+    <para><programlisting>artifacts/
+changelog.txt
+docs/
+lib/
+license.txt
+src/</programlisting>You can also download the source code from GitHub -
+    <ulink
+    url="https://github.com/beanvalidation/beanvalidation-tck">https://github.com/beanvalidation/beanvalidation-tck</ulink>.</para>
+
+    <para>The &jsrVersion; reference implementation (RI) project is named
+    Hibernate Validator. You can obtain the Hibernate Validator release used
+    as reference implementation from the Hibernate Validator <ulink type=""
+    url="http://www.hibernate.org/subprojects/validator/download">download
+    page</ulink>.</para>
+
+    <note>
+      <para>Hibernate Validator is not required for running the Bean
+      Validation TCK, but it can be used as a reference for familiarizing
+      yourself with the TCK before testing your own Bean Validation
+      implementation.</para>
+    </note>
+  </section>
+
+  <section id="tck-environment">
+    <title>The TCK Environment</title>
+
+    <para>The TCK requires the following two Java runtime environments:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Java 6 or better</para>
+      </listitem>
+
+      <listitem>
+        <para>Java EE 7 or better (e.g., JBoss AS 7.x)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>You should refer to vendor instructions for how to install the
+    runtime.</para>
+
+    <para>The rest of the TCK software can simply be extracted. It's
+    recommended that you create a dedicated folder to hold all of the
+    jsr349-related artifacts. This guide assumes the folder is called
+    <filename>jsr349</filename>. Extract the <filename>src</filename> folder
+    of the TCK distribution into a sub-folder named <filename>tck</filename> or
+    use the following git commands to </para>
+
+    <para><programlisting>git clone git://github.com/beanvalidation/beanvalidation-tck tck
+git checkout 1.1.0.Final // TODO - add right version number</programlisting>You
+    can also check out the full Hibernate Validator source into a subfolder
+    ri. This will allow you to run the TCK against Hibernate Validator.</para>
+
+    <programlisting>git clone git://github.com/hibernate/hibernate-validator.git ri
+git checkout 4.2.0.Final // TODO - add right version number</programlisting>
+
+    <para>The resulting folder structure is shown here:</para>
+
+    <programlisting>jsr349/
+   ri/
+   tck/</programlisting>
+
+    <para>Now lets have a look at one concrete test of the TCK, namely
+    <filename>ConstraintInheritanceTest</filename> (found in
+    <filename>tck/tck/src/main/java/org/hibernate/beanvalidation/tck/tests/constraints/inheritance/ConstraintInheritanceTest.java</filename>):</para>
+
+    <para><programlisting>package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
+
+import java.lang.annotation.Annotation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import javax.validation.metadata.BeanDescriptor;
+import javax.validation.metadata.PropertyDescriptor;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
+import org.testng.annotations.Test;
+
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+
+import static org.testng.Assert.assertTrue;
+
+public class ConstraintInheritanceTest extends Arquillian {
+
+    @Deployment
+    public static WebArchive createTestArchive() {
+        return new WebArchiveBuilder()
+                .withTestClassPackage( ConstraintInheritanceTest.class )
+                .build();
+    }
+
+    @Test
+    @SpecAssertion(section = "3.3", id = "b")
+    public void testConstraintsOnSuperClassAreInherited() {
+        Validator validator = TestUtil.getValidatorUnderTest();
+        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+
+        String propertyName = "foo";
+        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
+
+        // cast is required for JDK 5 - at least on Mac OS X
+        Annotation constraintAnnotation = (Annotation) propDescriptor.getConstraintDescriptors()
+                .iterator()
+                .next().getAnnotation();
+        assertTrue( constraintAnnotation.annotationType() == NotNull.class );
+    }
+
+    @Test
+    @SpecAssertions({
+            @SpecAssertion(section = "3.3", id = "a"),
+            @SpecAssertion(section = "3.3", id = "b")
+    })
+    public void testConstraintsOnInterfaceAreInherited() {
+        Validator validator = TestUtil.getValidatorUnderTest();
+        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+
+        String propertyName = "fubar";
+        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
+
+        // cast is required for JDK 5 - at least on Mac OS X
+        Annotation constraintAnnotation = (Annotation) propDescriptor.getConstraintDescriptors()
+                .iterator()
+                .next().getAnnotation();
+        assertTrue( constraintAnnotation.annotationType() == NotNull.class );
+    }
+}</programlisting>Each test class is treated as an individual artifact (hence
+    the <literal>@Deployment</literal> annotation on the class). In most tests
+    the created artifact is a standard <ulink
+    url="http://en.wikipedia.org/wiki/WAR_file_format_%28Sun%29">Web
+    application Archive</ulink> build via <code>WebArchiveBuilder</code> which
+    in turn is a helper class of the TCK itself alleviating the creation of of
+    the artifact. All methods annotated with <literal>@Test</literal> are
+    actual tests which are getting run. Last but not least we see the use of
+    the <code>@SpecAssertion</code> annotation which creates the link between
+    the tck-audit.xml document and the actual test (see <xref
+    linkend="primer"/>).</para>
+
+    <tip id="tck-in-jboss-as">
+      <title>Running the TCK against the Bean Validation RI (Hibernate
+      Validator) and JBoss AS 7</title>
+
+      <itemizedlist>
+        <listitem>
+          <para>Install Maven. You can find documentation on how to install
+          Maven 2 in the <ulink
+          url="http://www.sonatype.com/books/maven-book/reference/installation-sect-maven-install.html">Maven:
+          The Definitive Guide</ulink> book published by Sonatype.</para>
+        </listitem>
+
+        <listitem>
+          <para>Change to the
+          <filename>ri/hibernate-validator-tck-runner</filename>
+          directory.</para>
+        </listitem>
+
+        <listitem>
+          <para>Next, instruct Maven to run the TCK:</para>
+
+          <programlisting>mvn test -Dincontainer</programlisting>
+        </listitem>
+
+        <listitem>
+          <para>TestNG will report, via Maven, the outcome of the run, and
+          report any failures on the console. Details can be found in
+          <code>target/surefire-reports/TestSuite.txt</code>.</para>
+        </listitem>
+      </itemizedlist>
+    </tip>
+  </section>
+</chapter>

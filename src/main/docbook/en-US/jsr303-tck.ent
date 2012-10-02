@@ -1,7 +1,0 @@
-<!ENTITY version "WORKING">
-<!ENTITY today "TODAY">
-<!ENTITY copyrightYear "2009, 2010">
-<!ENTITY copyrightHolder "Red Hat, Inc.">
-<!ENTITY validationApi "1.0.0.GA">
-<!ENTITY referenceImplVersion "4.2.0.Final">
-
