@@ -121,7 +121,7 @@
                                     <classifier>audit</classifier>
                                 </artifact>
                                 <artifact>
-                                    <file>${basedir}/target/coverage.html</file>
+                                    <file>${basedir}/target/coverage-report/coverage-beanvalidation.html</file>
                                     <type>html</type>
                                     <classifier>coverage</classifier>
                                 </artifact>
