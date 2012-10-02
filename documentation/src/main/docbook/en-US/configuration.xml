@@ -10,7 +10,7 @@
   <para>This chapter lays out how to configure the TCK harness by specifying
   the <classname>DeployableContainer</classname>, selecting the container
   interaction style and setting various other switches. Maven 2 is used in the
-  configuration examples, mainly beause it is the de facto standard build tool
+  configuration examples, mainly because it is the de facto standard build tool
   at the time of writing. However, the test harness is not dependent on a
   specific build tool and any other tool, for example Ant or Gradle, work as
   well.</para>
@@ -18,7 +18,7 @@
   <para> If you have not made yourself familiar with the <ulink
   url="https://docs.jboss.org/author/display/ARQ/Reference+Guide">Arquillian
   documentation</ulink> by now, this is a good time to do it. It will give you
-  a deeper understanding of the differnet parts described in the followng
+  a deeper understanding of the different parts described in the following
   sections.<tip>
       <para>If you followed all the steps of <xref linkend="installation"/>
       you find the full <filename>pom.xml</filename> used in the following
@@ -36,7 +36,7 @@
     url="http://testng.org/doc/documentation-main.html">testng.org</ulink>.</para>
 
     <para>The <literal>tck-tests.xml</literal> artifact provided in the TCK
-    distribution must be run by TestNG (described by the TestNG documenation
+    distribution must be run by TestNG (described by the TestNG documentation
     as "with a <literal>testng.xml</literal> file") unmodified for an
     implementation to pass the TCK. For testing purposes it is of course ok to
     modify the file.</para>

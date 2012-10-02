@@ -31,7 +31,7 @@
     (meaning the provided test suite must be run unmodified).</para>
 
     <para>A TCK is entirely implementation agnostic. It should validate
-    assertions by consulting the specficiation's public API.</para>
+    assertions by consulting the specification's public API.</para>
   </section>
 
   <section>
@@ -103,7 +103,7 @@
     for in-container testing (Arquillian).</para>
 
     <para>Each test class in the suite acts as a deployable unit. The
-    deployable units, or artifacts, are defined declaratively using
+    deployable units, or artifacts, are defined in a declarative way using
     annotations.</para>
 
     <para>The declarative approach allows many of the tests to be executed in
@@ -169,7 +169,7 @@
           <para><emphasis role="bold">The TCK audit</emphasis>
           (<filename>tck-audit.xml</filename>) is used to list out the
           assertions identified in the Bean Validation specification. It
-          matches the assertions to testcases in the test suite by unique
+          matches the assertions to test cases in the test suite by unique
           identifier and produces a coverage report.</para>
 
           <para>The audit document is provided along with the TCK. Each

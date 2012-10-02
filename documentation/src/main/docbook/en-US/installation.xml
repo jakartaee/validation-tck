@@ -22,7 +22,7 @@
     suite binary and source, the test suite descriptor, the audit source and
     report), the TCK library dependencies in <code>/lib</code> and
     documentation in <code>/doc</code>. The contents should look like (todo -
-    verift against final dist bundle):</para>
+    verify against final dist bundle):</para>
 
     <para><programlisting>artifacts/
 changelog.txt
@@ -69,7 +69,7 @@ src/</programlisting>You can also download the source code from GitHub -
     recommended that you create a dedicated folder to hold all of the
     jsr349-related artifacts. This guide assumes the folder is called
     <filename>jsr349</filename>. Extract the <filename>src</filename> folder
-    of the TCK distribution into a subfolder named <filename>tck</filename> or
+    of the TCK distribution into a sub-folder named <filename>tck</filename> or
     use the following git commands to </para>
 
     <para><programlisting>git clone git://github.com/beanvalidation/beanvalidation-tck tck
@@ -173,7 +173,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 
       <itemizedlist>
         <listitem>
-          <para>Install Maven. You can find documention on how to install
+          <para>Install Maven. You can find documentation on how to install
           Maven 2 in the <ulink
           url="http://www.sonatype.com/books/maven-book/reference/installation-sect-maven-install.html">Maven:
           The Definitive Guide</ulink> book published by Sonatype.</para>

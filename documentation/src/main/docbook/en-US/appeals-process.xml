@@ -43,7 +43,7 @@
     configuration (e.g. @Deployment, validation.xml), test entities,
     annotations and other resources may be challenged by an appeal.</para>
 
-    <para>What is generally not challengable are the assertions made by the
+    <para>What is generally not challengeable are the assertions made by the
     specification. The specification document is controlled by a separate
     process and challenges to it should be handled through the &jsrVersion; EG
     by sending an e-mail to <ulink
@@ -76,8 +76,8 @@
     <title>How and by whom challenges are addressed?</title>
 
     <para>The challenges will be addressed in a timely fashion by the Bean
-    Validation TCK Project Lead, as designated by Specification Lead, Red Hat
-    Middleware LLC. or his/her designate. The appellant can also monitor the
+    Validation TCK Project Lead, as designated by Specification Lead, Red Hat Inc.
+    or his/her designate. The appellant can also monitor the
     process by watching the issue filed against <ulink
     url="https://hibernate.onjira.com/browse/BVTCK">BVTCK</ulink>.</para>
 
