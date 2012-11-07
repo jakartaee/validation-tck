@@ -19,10 +19,10 @@ limitations under the License.</literallayout></releaseinfo>
   Validation</title>
 
   <subtitle>Specification Lead: Red Hat Inc.</subtitle>
+  <releaseinfo>&version;</releaseinfo>
 
   <copyright>
     <year>&copyrightYear;</year>
-
     <holder>&copyrightHolder;</holder>
   </copyright>
 
