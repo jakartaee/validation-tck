@@ -36,11 +36,13 @@
             <outputDirectory>src</outputDirectory>
             <excludes>
                 <exclude>**/target/**</exclude>
+                <exclude>**/*.iml</exclude>
+                <exclude>.gitignore</exclude>
             </excludes>
             <useDefaultExcludes/>
         </fileSet>
         <fileSet>
-            <directory>../tck/src/main/resources</directory>
+            <directory>../tests/src/main/resources</directory>
             <outputDirectory>/artifacts</outputDirectory>
             <includes>
                 <include>tck-audit.xml</include>
@@ -52,7 +54,7 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>../tck/target</directory>
+            <directory>../test/target</directory>
             <outputDirectory>/artifacts</outputDirectory>
             <includes>
                 <include>coverage.html</include>
