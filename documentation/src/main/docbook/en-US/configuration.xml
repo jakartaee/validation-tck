@@ -10,12 +10,12 @@
   <para>This chapter lays out how to configure the TCK harness by specifying
   the <classname>DeployableContainer</classname>, selecting the container
   interaction style and setting various other switches. Maven 2 is used in the
-  configuration examples, mainly because it is the de facto standard build tool
-  at the time of writing. However, the test harness is not dependent on a
+  configuration examples, mainly because it is the de facto standard build
+  tool at the time of writing. However, the test harness is not dependent on a
   specific build tool and any other tool, for example Ant or Gradle, work as
   well.</para>
 
-  <para> If you have not made yourself familiar with the <ulink
+  <para>If you have not made yourself familiar with the <ulink
   url="https://docs.jboss.org/author/display/ARQ/Reference+Guide">Arquillian
   documentation</ulink> by now, this is a good time to do it. It will give you
   a deeper understanding of the different parts described in the following
@@ -103,7 +103,7 @@
 
     &lt;properties&gt;
         &lt;tck.version&gt;1.1.0-SNAPSHOT&lt;/tck.version&gt;
-        &lt;tck.suite.file&gt;${project.build.directory}/dependency/beanvalidation-tck-suite.xml&lt;/tck.suite.file&gt;
+        &lt;tck.suite.file&gt;${project.build.directory}/dependency/beanvalidation-tck-tests-suite.xml&lt;/tck.suite.file&gt;
         &lt;arquillian.version&gt;1.0.0.Final&lt;/arquillian.version&gt;
         &lt;validation.provider&gt;org.hibernate.validator.HibernateValidator&lt;/validation.provider&gt;
         &lt;remote.debug/&gt;
@@ -124,7 +124,7 @@
         &lt;/dependency&gt;
         &lt;dependency&gt;
             &lt;groupId&gt;org.hibernate.beanvalidation.tck&lt;/groupId&gt;
-            &lt;artifactId&gt;beanvalidation-tck&lt;/artifactId&gt;
+            &lt;artifactId&gt;beanvalidation-tck-tests&lt;/artifactId&gt;
             &lt;version&gt;${tck.version}&lt;/version&gt;
         &lt;/dependency&gt;
         &lt;dependency&gt;
@@ -169,7 +169,7 @@
                             &lt;artifactItems&gt;
                                 &lt;artifactItem&gt;
                                     &lt;groupId&gt;org.hibernate.beanvalidation.tck&lt;/groupId&gt;
-                                    &lt;artifactId&gt;beanvalidation-tck&lt;/artifactId&gt;
+                                    &lt;artifactId&gt;beanvalidation-tck-tests&lt;/artifactId&gt;
                                     &lt;type&gt;xml&lt;/type&gt;
                                     &lt;classifier&gt;suite&lt;/classifier&gt;
                                     &lt;overWrite&gt;false&lt;/overWrite&gt;
@@ -263,7 +263,7 @@
             &lt;dependencies&gt;
                 &lt;dependency&gt;
                     &lt;groupId&gt;org.hibernate.beanvalidation.tck&lt;/groupId&gt;
-                    &lt;artifactId&gt;standalone-container-adapter&lt;/artifactId&gt;
+                    &lt;artifactId&gt;beanvalidation-standalone-container-adapter&lt;/artifactId&gt;
                     &lt;version&gt;${tck.version}&lt;/version&gt;
                 &lt;/dependency&gt;
             &lt;/dependencies&gt;
@@ -271,7 +271,7 @@
     &lt;/profiles&gt;
 &lt;/project&gt;</programlisting>As you can see the <emphasis>local
       </emphasis>profile is activated by default. It adds the dependency
-      <classname>org.hibernate.beanvalidation.tck:standalone-container-adapter</classname>
+      <classname>org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter</classname>
       which contains the <classname>DeployableContainer</classname>
       <classname>BeanValidationLocalContainer</classname>. If the test harness
       is executed with this dependency on the classpath the tests will run in
@@ -282,7 +282,7 @@
           <para>The local execution mode is just a convenience for developers.
           To pass the Bean Validation TCK the test harness has to pass in a
           Java EE container. The reason for this is that Bean Validation is
-          part of the Java EE specification. </para>
+          part of the Java EE specification.</para>
         </note><tip>
           <para>Arquillian will throw an exception in case it finds more than
           one <classname>DeployableContainer</classname> implementations on
@@ -330,7 +330,7 @@
             &lt;dependencies&gt;
                 &lt;dependency&gt;
                     &lt;groupId&gt;org.hibernate.beanvalidation.tck&lt;/groupId&gt;
-                    &lt;artifactId&gt;standalone-container-adapter&lt;/artifactId&gt;
+                    &lt;artifactId&gt;beanvalidation-standalone-container-adapter&lt;/artifactId&gt;
                     &lt;version&gt;${tck.version}&lt;/version&gt;
                 &lt;/dependency&gt;
             &lt;/dependencies&gt;
@@ -475,7 +475,7 @@
             &lt;dependencies&gt;
                 &lt;dependency&gt;
                     &lt;groupId&gt;org.hibernate.beanvalidation.tck&lt;/groupId&gt;
-                    &lt;artifactId&gt;standalone-container-adapter&lt;/artifactId&gt;
+                    &lt;artifactId&gt;beanvalidation-standalone-container-adapter&lt;/artifactId&gt;
                     &lt;version&gt;${tck.version}&lt;/version&gt;
                 &lt;/dependency&gt;
             &lt;/dependencies&gt;
@@ -579,7 +579,7 @@
 &lt;/project&gt;</programlisting>In this you would start the tests via
         (activation order is important):<programlisting>mvn test -Ddebug -Dincontainer</programlisting>The
         test execution would start but then be suspended until the JVM
-        receives a remote debugging request on port 5005. </para>
+        receives a remote debugging request on port 5005.</para>
       </section>
     </section>
   </section>
@@ -634,7 +634,7 @@
     protocol is selected and added to <filename>arquillian.xml</filename> via
     <ulink
     url="http://maven.apache.org/plugins/maven-resources-plugin/examples/filter.html">resource
-    filtering</ulink>. </para>
+    filtering</ulink>.</para>
 
     <para>Another interesting property is
     <property>deploymentExportPath</property> which is optional and instructs

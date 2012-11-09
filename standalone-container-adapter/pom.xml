@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>standalone-container-adapter</artifactId>
+    <artifactId>beanvalidation-standalone-container-adapter</artifactId>
     <packaging>jar</packaging>
 
     <name>JSR-349 TCK Container Adapter</name>

@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>beanvalidation-tck</artifactId>
+    <artifactId>beanvalidation-tck-tests</artifactId>
     <packaging>jar</packaging>
 
     <name>JSR-349 TCK Test Suite</name>
