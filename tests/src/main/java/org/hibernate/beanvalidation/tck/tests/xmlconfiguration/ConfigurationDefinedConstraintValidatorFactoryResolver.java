@@ -26,8 +26,13 @@ import javax.validation.ValidationException;
 public class ConfigurationDefinedConstraintValidatorFactoryResolver implements ConstraintValidatorFactory {
 	public static int numberOfIsReachableCalls = 0;
 
+	@Override
 	public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
 		numberOfIsReachableCalls++;
 		throw new ValidationException( "Exception in ConfigurationDefinedConstraintValidatorFactoryResolver" );
+	}
+
+	@Override
+	public void releaseInstance(ConstraintValidator<?, ?> instance) {
 	}
 }

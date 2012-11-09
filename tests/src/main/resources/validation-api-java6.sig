@@ -102,9 +102,20 @@ CLSS public abstract interface !annotation java.lang.annotation.Target
 intf java.lang.annotation.Annotation
 meth public abstract java.lang.annotation.ElementType[] value()
 
+CLSS public abstract interface javax.validation.BootstrapConfiguration
+meth public abstract java.lang.String getConstraintValidatorFactoryClassName()
+meth public abstract java.lang.String getDefaultProviderClassName()
+meth public abstract java.lang.String getMessageInterpolatorClassName()
+meth public abstract java.lang.String getParameterNameProviderClassName()
+meth public abstract java.lang.String getTraversableResolverClassName()
+meth public abstract java.util.Map<java.lang.String,java.lang.String> getProperties()
+meth public abstract java.util.Set<java.lang.String> getConstraintMappingResourcePaths()
+
 CLSS public abstract interface javax.validation.Configuration<%0 extends javax.validation.Configuration<{javax.validation.Configuration%0}>>
+meth public abstract javax.validation.BootstrapConfiguration getBootstrapConfiguration()
 meth public abstract javax.validation.ConstraintValidatorFactory getDefaultConstraintValidatorFactory()
 meth public abstract javax.validation.MessageInterpolator getDefaultMessageInterpolator()
+meth public abstract javax.validation.ParameterNameProvider getDefaultParameterNameProvider()
 meth public abstract javax.validation.TraversableResolver getDefaultTraversableResolver()
 meth public abstract javax.validation.ValidatorFactory buildValidatorFactory()
 meth public abstract {javax.validation.Configuration%0} addMapping(java.io.InputStream)
@@ -112,6 +123,7 @@ meth public abstract {javax.validation.Configuration%0} addProperty(java.lang.St
 meth public abstract {javax.validation.Configuration%0} constraintValidatorFactory(javax.validation.ConstraintValidatorFactory)
 meth public abstract {javax.validation.Configuration%0} ignoreXmlConfiguration()
 meth public abstract {javax.validation.Configuration%0} messageInterpolator(javax.validation.MessageInterpolator)
+meth public abstract {javax.validation.Configuration%0} parameterNameProvider(javax.validation.ParameterNameProvider)
 meth public abstract {javax.validation.Configuration%0} traversableResolver(javax.validation.TraversableResolver)
 
 CLSS public abstract interface !annotation javax.validation.Constraint
@@ -169,6 +181,7 @@ meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViola
 
 CLSS public abstract interface javax.validation.ConstraintValidatorFactory
 meth public abstract <%0 extends javax.validation.ConstraintValidator<?,?>> {%%0} getInstance(java.lang.Class<{%%0}>)
+meth public abstract void releaseInstance(javax.validation.ConstraintValidator<?,?>)
 
 CLSS public abstract interface javax.validation.ConstraintViolation<%0 extends java.lang.Object>
 meth public abstract java.lang.Class<{javax.validation.ConstraintViolation%0}> getRootBeanClass()
@@ -186,6 +199,25 @@ cons public ConstraintViolationException(java.util.Set<javax.validation.Constrai
 meth public java.util.Set<javax.validation.ConstraintViolation<?>> getConstraintViolations()
 supr javax.validation.ValidationException
 hfds constraintViolations
+
+CLSS public abstract interface !annotation javax.validation.ConvertGroup
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[TYPE, METHOD, CONSTRUCTOR, PARAMETER])
+innr public abstract interface static !annotation List
+intf java.lang.annotation.Annotation
+meth public abstract java.lang.Class<?> from()
+meth public abstract java.lang.Class<?> to()
+
+CLSS public abstract interface static !annotation javax.validation.ConvertGroup$List
+intf java.lang.annotation.Annotation
+meth public abstract javax.validation.ConvertGroup[] value()
+
+CLSS public abstract interface !annotation javax.validation.CrossParameterConstraint
+ anno 0 java.lang.annotation.Documented()
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[ANNOTATION_TYPE])
+intf java.lang.annotation.Annotation
+meth public abstract java.lang.Class<? extends javax.validation.ConstraintValidator<?,?>> validatedBy()
 
 CLSS public javax.validation.GroupDefinitionException
 cons public GroupDefinitionException()
@@ -209,6 +241,12 @@ CLSS public abstract interface static javax.validation.MessageInterpolator$Conte
 meth public abstract java.lang.Object getValidatedValue()
 meth public abstract javax.validation.metadata.ConstraintDescriptor<?> getConstraintDescriptor()
 
+CLSS public abstract interface javax.validation.MethodValidator
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateConstructorParameters(java.lang.reflect.Constructor<{%%0}>,java.lang.Object[],java.lang.Class<?>[])
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateConstructorReturnValue(java.lang.reflect.Constructor<{%%0}>,{%%0},java.lang.Class<?>[])
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateParameters({%%0},java.lang.reflect.Method,java.lang.Object[],java.lang.Class<?>[])
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateReturnValue({%%0},java.lang.reflect.Method,java.lang.Object,java.lang.Class<?>[])
+
 CLSS public abstract interface !annotation javax.validation.OverridesAttribute
  anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
  anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD])
@@ -225,6 +263,10 @@ CLSS public abstract interface static !annotation javax.validation.OverridesAttr
 intf java.lang.annotation.Annotation
 meth public abstract javax.validation.OverridesAttribute[] value()
 
+CLSS public abstract interface javax.validation.ParameterNameProvider
+meth public abstract java.lang.String[] getParameterNames(java.lang.reflect.Constructor<?>)
+meth public abstract java.lang.String[] getParameterNames(java.lang.reflect.Method)
+
 CLSS public abstract interface javax.validation.Path
 innr public abstract interface static Node
 intf java.lang.Iterable<javax.validation.Path$Node>
@@ -234,6 +276,7 @@ meth public abstract boolean isInIterable()
 meth public abstract java.lang.Integer getIndex()
 meth public abstract java.lang.Object getKey()
 meth public abstract java.lang.String getName()
+meth public abstract javax.validation.metadata.ElementDescriptor getElementDescriptor()
 
 CLSS public abstract interface javax.validation.Payload
 
@@ -264,7 +307,7 @@ meth public static <%0 extends javax.validation.Configuration<{%%0}>, %1 extends
 meth public static javax.validation.ValidatorFactory buildDefaultValidatorFactory()
 meth public static javax.validation.bootstrap.GenericBootstrap byDefaultProvider()
 supr java.lang.Object
-hcls DefaultValidationProviderResolver,GenericBootstrapImpl,GetClassLoader,ProviderSpecificBootstrapImpl
+hcls DefaultValidationProviderResolver,GenericBootstrapImpl,GetValidationProviderList,ProviderSpecificBootstrapImpl
 
 CLSS public javax.validation.ValidationException
 cons public ValidationException()
@@ -281,21 +324,25 @@ meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.
 meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateProperty({%%0},java.lang.String,java.lang.Class<?>[])
 meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateValue(java.lang.Class<{%%0}>,java.lang.String,java.lang.Object,java.lang.Class<?>[])
 meth public abstract <%0 extends java.lang.Object> {%%0} unwrap(java.lang.Class<{%%0}>)
+meth public abstract javax.validation.MethodValidator forMethods()
 meth public abstract javax.validation.metadata.BeanDescriptor getConstraintsForClass(java.lang.Class<?>)
 
 CLSS public abstract interface javax.validation.ValidatorContext
 meth public abstract javax.validation.Validator getValidator()
 meth public abstract javax.validation.ValidatorContext constraintValidatorFactory(javax.validation.ConstraintValidatorFactory)
 meth public abstract javax.validation.ValidatorContext messageInterpolator(javax.validation.MessageInterpolator)
+meth public abstract javax.validation.ValidatorContext parameterNameProvider(javax.validation.ParameterNameProvider)
 meth public abstract javax.validation.ValidatorContext traversableResolver(javax.validation.TraversableResolver)
 
 CLSS public abstract interface javax.validation.ValidatorFactory
 meth public abstract <%0 extends java.lang.Object> {%%0} unwrap(java.lang.Class<{%%0}>)
 meth public abstract javax.validation.ConstraintValidatorFactory getConstraintValidatorFactory()
 meth public abstract javax.validation.MessageInterpolator getMessageInterpolator()
+meth public abstract javax.validation.ParameterNameProvider getParameterNameProvider()
 meth public abstract javax.validation.TraversableResolver getTraversableResolver()
 meth public abstract javax.validation.Validator getValidator()
 meth public abstract javax.validation.ValidatorContext usingContext()
+meth public abstract void close()
 
 CLSS public abstract interface javax.validation.bootstrap.GenericBootstrap
 meth public abstract javax.validation.Configuration<?> configure()
@@ -531,9 +578,9 @@ fld public final static javax.validation.constraints.Pattern$Flag DOTALL
 fld public final static javax.validation.constraints.Pattern$Flag MULTILINE
 fld public final static javax.validation.constraints.Pattern$Flag UNICODE_CASE
 fld public final static javax.validation.constraints.Pattern$Flag UNIX_LINES
-meth public final static javax.validation.constraints.Pattern$Flag[] values()
 meth public int getValue()
 meth public static javax.validation.constraints.Pattern$Flag valueOf(java.lang.String)
+meth public static javax.validation.constraints.Pattern$Flag[] values()
 supr java.lang.Enum<javax.validation.constraints.Pattern$Flag>
 hfds value
 
@@ -568,7 +615,11 @@ CLSS public abstract interface javax.validation.groups.Default
 
 CLSS public abstract interface javax.validation.metadata.BeanDescriptor
 intf javax.validation.metadata.ElementDescriptor
+meth public abstract !varargs javax.validation.metadata.ConstructorDescriptor getConstraintsForConstructor(java.lang.Class<?>[])
+meth public abstract !varargs javax.validation.metadata.MethodDescriptor getConstraintsForMethod(java.lang.String,java.lang.Class<?>[])
 meth public abstract boolean isBeanConstrained()
+meth public abstract java.util.Set<javax.validation.metadata.ConstructorDescriptor> getConstrainedConstructors()
+meth public abstract java.util.Set<javax.validation.metadata.MethodDescriptor> getConstrainedMethods()
 meth public abstract java.util.Set<javax.validation.metadata.PropertyDescriptor> getConstrainedProperties()
 meth public abstract javax.validation.metadata.PropertyDescriptor getConstraintsForProperty(java.lang.String)
 
@@ -581,12 +632,22 @@ meth public abstract java.util.Set<java.lang.Class<?>> getGroups()
 meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getComposingConstraints()
 meth public abstract {javax.validation.metadata.ConstraintDescriptor%0} getAnnotation()
 
+CLSS public abstract interface javax.validation.metadata.ConstructorDescriptor
+intf javax.validation.metadata.ElementDescriptor
+meth public abstract boolean areParametersConstrained()
+meth public abstract boolean isReturnValueConstrained()
+meth public abstract java.util.List<javax.validation.metadata.ParameterDescriptor> getParameterDescriptors()
+meth public abstract javax.validation.metadata.ReturnValueDescriptor getReturnValueDescriptor()
+
 CLSS public abstract interface javax.validation.metadata.ElementDescriptor
 innr public abstract interface static ConstraintFinder
+innr public final static !enum Kind
+meth public abstract <%0 extends javax.validation.metadata.ElementDescriptor> {%%0} as(java.lang.Class<{%%0}>)
 meth public abstract boolean hasConstraints()
 meth public abstract java.lang.Class<?> getElementClass()
 meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getConstraintDescriptors()
 meth public abstract javax.validation.metadata.ElementDescriptor$ConstraintFinder findConstraints()
+meth public abstract javax.validation.metadata.ElementDescriptor$Kind getKind()
 
 CLSS public abstract interface static javax.validation.metadata.ElementDescriptor$ConstraintFinder
 meth public abstract !varargs javax.validation.metadata.ElementDescriptor$ConstraintFinder declaredOn(java.lang.annotation.ElementType[])
@@ -595,16 +656,45 @@ meth public abstract boolean hasConstraints()
 meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getConstraintDescriptors()
 meth public abstract javax.validation.metadata.ElementDescriptor$ConstraintFinder lookingAt(javax.validation.metadata.Scope)
 
+CLSS public final static !enum javax.validation.metadata.ElementDescriptor$Kind
+fld public final static javax.validation.metadata.ElementDescriptor$Kind BEAN
+fld public final static javax.validation.metadata.ElementDescriptor$Kind CONSTRUCTOR
+fld public final static javax.validation.metadata.ElementDescriptor$Kind METHOD
+fld public final static javax.validation.metadata.ElementDescriptor$Kind PARAMETER
+fld public final static javax.validation.metadata.ElementDescriptor$Kind PROPERTY
+fld public final static javax.validation.metadata.ElementDescriptor$Kind RETURN_VALUE
+meth public static javax.validation.metadata.ElementDescriptor$Kind valueOf(java.lang.String)
+meth public static javax.validation.metadata.ElementDescriptor$Kind[] values()
+supr java.lang.Enum<javax.validation.metadata.ElementDescriptor$Kind>
+
+CLSS public abstract interface javax.validation.metadata.MethodDescriptor
+intf javax.validation.metadata.ElementDescriptor
+meth public abstract boolean areParametersConstrained()
+meth public abstract boolean isReturnValueConstrained()
+meth public abstract java.lang.String getName()
+meth public abstract java.util.List<javax.validation.metadata.ParameterDescriptor> getParameterDescriptors()
+meth public abstract javax.validation.metadata.ReturnValueDescriptor getReturnValueDescriptor()
+
+CLSS public abstract interface javax.validation.metadata.ParameterDescriptor
+intf javax.validation.metadata.ElementDescriptor
+meth public abstract boolean isCascaded()
+meth public abstract int getIndex()
+meth public abstract java.lang.String getName()
+
 CLSS public abstract interface javax.validation.metadata.PropertyDescriptor
 intf javax.validation.metadata.ElementDescriptor
 meth public abstract boolean isCascaded()
 meth public abstract java.lang.String getPropertyName()
 
+CLSS public abstract interface javax.validation.metadata.ReturnValueDescriptor
+intf javax.validation.metadata.ElementDescriptor
+meth public abstract boolean isCascaded()
+
 CLSS public final !enum javax.validation.metadata.Scope
 fld public final static javax.validation.metadata.Scope HIERARCHY
 fld public final static javax.validation.metadata.Scope LOCAL_ELEMENT
-meth public final static javax.validation.metadata.Scope[] values()
 meth public static javax.validation.metadata.Scope valueOf(java.lang.String)
+meth public static javax.validation.metadata.Scope[] values()
 supr java.lang.Enum<javax.validation.metadata.Scope>
 
 CLSS public abstract interface javax.validation.spi.BootstrapState
@@ -617,7 +707,13 @@ meth public abstract java.util.Map<java.lang.String,java.lang.String> getPropert
 meth public abstract java.util.Set<java.io.InputStream> getMappingStreams()
 meth public abstract javax.validation.ConstraintValidatorFactory getConstraintValidatorFactory()
 meth public abstract javax.validation.MessageInterpolator getMessageInterpolator()
+meth public abstract javax.validation.ParameterNameProvider getParameterNameProvider()
 meth public abstract javax.validation.TraversableResolver getTraversableResolver()
+
+CLSS public abstract interface !annotation javax.validation.spi.MethodValidated
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD, TYPE])
+intf java.lang.annotation.Annotation
 
 CLSS public abstract interface javax.validation.spi.ValidationProvider<%0 extends javax.validation.Configuration<{javax.validation.spi.ValidationProvider%0}>>
 meth public abstract javax.validation.Configuration<?> createGenericConfiguration(javax.validation.spi.BootstrapState)
