@@ -3,6 +3,18 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.Beta1 (09-11-2012)
+------------------------
+
+** Bug
+    * [BVTCK-22] - Update the TCK documentation
+    * [BVTCK-24] - Upload TCK docs to JBoss docs server
+    * [BVTCK-25] - Align TCK with latest Bean Validation API
+
+** Task
+    * [BVTCK-10] - Move the test framework to Arquillian
+
+
 1.0.6.GA (26-07-2011)
 ----------------------
 
