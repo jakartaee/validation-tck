@@ -17,12 +17,13 @@
 package org.hibernate.beanvalidation.tck.common;
 
 import javax.validation.Configuration;
+import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
+import javax.validation.ParameterNameProvider;
+import javax.validation.TraversableResolver;
 import javax.validation.Validator;
 import javax.validation.ValidatorContext;
 import javax.validation.ValidatorFactory;
-import javax.validation.TraversableResolver;
-import javax.validation.ConstraintValidatorFactory;
 import javax.validation.spi.BootstrapState;
 import javax.validation.spi.ConfigurationState;
 import javax.validation.spi.ValidationProvider;
@@ -45,28 +46,43 @@ public class TCKValidationProvider implements ValidationProvider<TCKValidatorCon
 	}
 
 	public static class DummyValidatorFactory implements ValidatorFactory {
-
+		@Override
 		public Validator getValidator() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public ValidatorContext usingContext() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public MessageInterpolator getMessageInterpolator() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public TraversableResolver getTraversableResolver() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public ConstraintValidatorFactory getConstraintValidatorFactory() {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
+		public ParameterNameProvider getParameterNameProvider() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
 		public <T> T unwrap(Class<T> type) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void close() {
 			throw new UnsupportedOperationException();
 		}
 	}

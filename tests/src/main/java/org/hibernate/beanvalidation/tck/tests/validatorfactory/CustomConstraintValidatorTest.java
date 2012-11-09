@@ -70,8 +70,13 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	public void testValidationExceptionIsThrownInCaseFactoryReturnsNull() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().constraintValidatorFactory(
 				new ConstraintValidatorFactory() {
+					@Override
 					public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
 						return null;
+					}
+
+					@Override
+					public void releaseInstance(ConstraintValidator<?, ?> instance) {
 					}
 				}
 		);

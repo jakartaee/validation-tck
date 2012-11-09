@@ -426,10 +426,12 @@ public final class TestUtil {
 			this.name = name;
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
 
+		@Override
 		public boolean isInIterable() {
 			return isInIterable;
 		}
@@ -438,6 +440,7 @@ public final class TestUtil {
 			isInIterable = inIterable;
 		}
 
+		@Override
 		public Integer getIndex() {
 			return index;
 		}
@@ -447,8 +450,14 @@ public final class TestUtil {
 			this.index = index;
 		}
 
+		@Override
 		public Object getKey() {
 			return key;
+		}
+
+		@Override
+		public ElementDescriptor getElementDescriptor() {
+			throw new UnsupportedOperationException();
 		}
 
 		public void setKey(Object key) {
