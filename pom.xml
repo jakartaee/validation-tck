@@ -143,10 +143,9 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
+                    <preparationGoals>clean install</preparationGoals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                     <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
-                    <goals>deploy org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:resources
-                        org.jboss.maven.plugins:maven-jdocbook-plugin:2.2.3:generate assembly:assembly
-                    </goals>
                 </configuration>
             </plugin>
             <plugin>
