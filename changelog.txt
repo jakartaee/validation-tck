@@ -3,6 +3,13 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.Beta2 (29-11-2012)
+------------------------
+
+** Task
+    * [BVTCK-26] - Upgrade to Beta Validation API 1.1.0.Beta2
+
+
 1.1.0.Beta1 (09-11-2012)
 ------------------------
 

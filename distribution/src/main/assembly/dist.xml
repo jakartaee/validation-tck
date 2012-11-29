@@ -14,7 +14,8 @@
             <outputDirectory>artifacts</outputDirectory>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <includes>
-                <include>org.hibernate.beanvalidation.tck:beanvalidation-tck</include>
+                <include>org.hibernate.beanvalidation.tck:beanvalidation-tck-tests</include>
+                <include>org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter</include>
             </includes>
         </dependencySet>
 
@@ -22,7 +23,8 @@
             <outputDirectory>lib</outputDirectory>
             <useTransitiveDependencies>true</useTransitiveDependencies>
             <excludes>
-                <exclude>org.hibernate.beanvalidation.tck:beanvalidation-tck</exclude>
+                <exclude>org.hibernate.beanvalidation.tck:beanvalidation-tck-tests</exclude>
+                <exclude>org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>
