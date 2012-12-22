@@ -53,8 +53,8 @@ public class ExcludeFieldLevelAnnotationsDueToBeanDefaultsTest extends Arquillia
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.2", id = "b"),
-			@SpecAssertion(section = "7.1.1.2", id = "c")
+			@SpecAssertion(section = "8.1.1.2", id = "b"),
+			@SpecAssertion(section = "8.1.1.2", id = "c")
 	})
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();

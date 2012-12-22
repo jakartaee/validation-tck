@@ -53,7 +53,7 @@ public class ValidationProviderResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.4.1", id = "c")
+	@SpecAssertion(section = "5.5.4.1", id = "c")
 	public void testServiceFileExists() {
 		List<Class<?>> providers = readBeanValidationServiceFile();
 		assertTrue( !providers.isEmpty(), "There should be at least one provider" );

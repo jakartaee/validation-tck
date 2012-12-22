@@ -77,9 +77,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "f"),
-			@SpecAssertion(section = "4.2", id = "g"),
-			@SpecAssertion(section = "4.2", id = "m")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "m")
 	})
 	public void testPropertyPathWithConstraintViolationForRootObject() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -97,9 +97,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "f"),
-			@SpecAssertion(section = "4.2", id = "h"),
-			@SpecAssertion(section = "4.2", id = "l")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "l")
 	})
 	public void testPropertyPathTraversedObject() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -121,9 +121,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "f"),
-			@SpecAssertion(section = "4.2", id = "i"),
-			@SpecAssertion(section = "4.2", id = "k")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "i"),
+			@SpecAssertion(section = "5.2", id = "k")
 	})
 	public void testPropertyPathWithList() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -143,9 +143,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "f"),
-			@SpecAssertion(section = "4.2", id = "i"),
-			@SpecAssertion(section = "4.2", id = "k")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "i"),
+			@SpecAssertion(section = "5.2", id = "k")
 	})
 	public void testPropertyPathWithArray() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -165,9 +165,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "f"),
-			@SpecAssertion(section = "4.2", id = "j"),
-			@SpecAssertion(section = "4.2", id = "k")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "j"),
+			@SpecAssertion(section = "5.2", id = "k")
 	})
 	public void testPropertyPathWithMap() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -196,8 +196,8 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "f"),
-			@SpecAssertion(section = "4.2", id = "k")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "k")
 	})
 	public void testPropertyPathSet() {
 		Validator validator = TestUtil.getValidatorUnderTest();

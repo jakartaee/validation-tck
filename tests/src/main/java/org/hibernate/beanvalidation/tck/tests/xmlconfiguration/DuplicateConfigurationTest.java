@@ -75,7 +75,7 @@ public class DuplicateConfigurationTest extends Arquillian {
 
 
 	@Test
-	@SpecAssertion(section = "7.1", id = "a")
+	@SpecAssertion(section = "8.1", id = "a")
 	public void testXmlConfiguredConstraintExposesCorrespondingAnnotationViaMetadata() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
@@ -100,8 +100,8 @@ public class DuplicateConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1", id = "b"),
-			@SpecAssertion(section = "7.1", id = "e")
+			@SpecAssertion(section = "8.1", id = "b"),
+			@SpecAssertion(section = "8.1", id = "e")
 	})
 	public void testBeanCannotBeDescribedMoreThanOnce() {
 		try {
@@ -118,8 +118,8 @@ public class DuplicateConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1", id = "c"),
-			@SpecAssertion(section = "7.1", id = "e")
+			@SpecAssertion(section = "8.1", id = "c"),
+			@SpecAssertion(section = "8.1", id = "e")
 	})
 	public void testFieldMappingCannotOccurMoreThanOnce() {
 		try {
@@ -135,8 +135,8 @@ public class DuplicateConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1", id = "d"),
-			@SpecAssertion(section = "7.1", id = "e")
+			@SpecAssertion(section = "8.1", id = "d"),
+			@SpecAssertion(section = "8.1", id = "e")
 	})
 	public void testGetterMappingCannotOccurMoreThanOnce() {
 		try {

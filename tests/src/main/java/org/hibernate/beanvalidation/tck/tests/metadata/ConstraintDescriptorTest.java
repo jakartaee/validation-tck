@@ -55,7 +55,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "k")
+	@SpecAssertion(section = "6.8", id = "j")
 	public void testReportAsSingleViolation() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		assertFalse( descriptor.isReportAsSingleViolation() );
@@ -65,7 +65,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "l")
+	@SpecAssertion(section = "6.8", id = "k")
 	public void testEmptyComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		assertTrue( descriptor.getComposingConstraints().isEmpty() );
@@ -73,8 +73,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5", id = "a"),
-			@SpecAssertion(section = "5.5", id = "c")
+			@SpecAssertion(section = "6.8", id = "a"),
+			@SpecAssertion(section = "6.8", id = "c")
 	})
 	public void testAnnotationAndMapParametersReflectParameterOverriding() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
@@ -102,7 +102,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "b")
+	@SpecAssertion(section = "6.8", id = "b")
 	public void testGetAttributesFromConstraintDescriptor() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Map<String, Object> attributes = descriptor.getAttributes();
@@ -111,7 +111,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "d")
+	@SpecAssertion(section = "6.8", id = "d")
 	public void testGetGroups() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -120,7 +120,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "d")
+	@SpecAssertion(section = "6.8", id = "d")
 	public void testGetGroupsOnInterface() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -129,7 +129,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "d")
+	@SpecAssertion(section = "6.8", id = "d")
 	public void testGetGroupsWithImplicitGroup() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Man.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -142,7 +142,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "e")
+	@SpecAssertion(section = "6.8", id = "e")
 	public void testDefaultGroupIsReturnedIfNoGroupSpecifiedInDeclaration() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -152,8 +152,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5", id = "f"),
-			@SpecAssertion(section = "5.5", id = "l")
+			@SpecAssertion(section = "6.8", id = "f"),
+			@SpecAssertion(section = "6.8", id = "k")
 	})
 	public void testComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
@@ -166,7 +166,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5", id = "g")
+	@SpecAssertion(section = "6.8", id = "g")
 	public void testPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<? extends Payload>> payload = descriptor.getPayload();
@@ -181,8 +181,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5", id = "h"),
-			@SpecAssertion(section = "5.5", id = "i")
+			@SpecAssertion(section = "6.8", id = "h"),
+			@SpecAssertion(section = "6.8", id = "i")
 	})
 	public void testComposingConstraintsPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );

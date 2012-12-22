@@ -47,21 +47,21 @@ public class PropertyDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.4", id = "a")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsNotCascaded() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( Order.class, "orderNumber" );
 		assertFalse( descriptor.isCascaded(), "Should not be cascaded" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.4", id = "a")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsCascaded() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, "orderList" );
 		assertTrue( descriptor.isCascaded(), "Should be cascaded" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.4", id = "b")
+	@SpecAssertion(section = "6.4", id = "b")
 	public void testPropertyName() {
 		String propertyName = "orderList";
 		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, propertyName );

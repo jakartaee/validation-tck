@@ -49,7 +49,7 @@ public class WrongPropertyNameTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.3", id = "f")
+			@SpecAssertion(section = "8.1.1.3", id = "f")
 	})
 	public void testWrongPropertyNameThrowsException() {
 		try {

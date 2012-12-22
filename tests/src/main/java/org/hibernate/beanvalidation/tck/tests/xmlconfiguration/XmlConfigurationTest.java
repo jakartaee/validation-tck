@@ -73,12 +73,12 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "a"),
-			@SpecAssertion(section = "4.4.6", id = "l"),
-			@SpecAssertion(section = "4.4.6", id = "k"),
-			@SpecAssertion(section = "7.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "a")
+			@SpecAssertion(section = "5.5.6", id = "a"),
+			@SpecAssertion(section = "5.5.6", id = "k"),
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "8.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testClassConstraintDefinedInXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -102,12 +102,12 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "b"),
-			@SpecAssertion(section = "4.4.6", id = "l"),
-			@SpecAssertion(section = "4.4.6", id = "k"),
-			@SpecAssertion(section = "7.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "a")
+			@SpecAssertion(section = "5.5.6", id = "a"),
+			@SpecAssertion(section = "5.5.6", id = "k"),
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "8.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testIgnoreValidationXml() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
@@ -120,12 +120,12 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "a"),
-			@SpecAssertion(section = "4.4.6", id = "l"),
-			@SpecAssertion(section = "4.4.6", id = "k"),
-			@SpecAssertion(section = "7.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "a")
+			@SpecAssertion(section = "5.5.6", id = "a"),
+			@SpecAssertion(section = "5.5.6", id = "k"),
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "8.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testPropertyConstraintDefinedInXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -145,12 +145,12 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "a"),
-			@SpecAssertion(section = "4.4.6", id = "l"),
-			@SpecAssertion(section = "4.4.6", id = "k"),
-			@SpecAssertion(section = "7.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "a")
+			@SpecAssertion(section = "5.5.6", id = "a"),
+			@SpecAssertion(section = "5.5.6", id = "k"),
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "8.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testFieldConstraintDefinedInXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -173,12 +173,12 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "a"),
-			@SpecAssertion(section = "4.4.6", id = "l"),
-			@SpecAssertion(section = "4.4.6", id = "k"),
-			@SpecAssertion(section = "7.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "a")
+			@SpecAssertion(section = "5.5.6", id = "a"),
+			@SpecAssertion(section = "5.5.6", id = "k"),
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "8.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testAnnotationDefinedConstraintApplies() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -200,12 +200,12 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "a"),
-			@SpecAssertion(section = "4.4.6", id = "l"),
-			@SpecAssertion(section = "4.4.6", id = "k"),
-			@SpecAssertion(section = "7.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "a")
+			@SpecAssertion(section = "5.5.6", id = "a"),
+			@SpecAssertion(section = "5.5.6", id = "k"),
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "8.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testCascadingConfiguredInXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -226,7 +226,7 @@ public class XmlConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.6", id = "m")
+	@SpecAssertion(section = "5.5.6", id = "l")
 	public void testMappingFilesAddedViaConfigurationGetAddedToXmlConfiguredMappings() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -252,11 +252,11 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.4", id = "c"),
-			@SpecAssertion(section = "7.1.1.4", id = "d"),
-			@SpecAssertion(section = "7.1.1.4", id = "e"),
-			@SpecAssertion(section = "7.1.1.4", id = "f"),
-			@SpecAssertion(section = "7.1.1.4", id = "g")
+			@SpecAssertion(section = "8.1.1.5", id = "c"),
+			@SpecAssertion(section = "8.1.1.5", id = "d"),
+			@SpecAssertion(section = "8.1.1.5", id = "e"),
+			@SpecAssertion(section = "8.1.1.5", id = "f"),
+			@SpecAssertion(section = "8.1.1.5", id = "g")
 	})
 	public void testElementConversionInXmlConfiguredConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();

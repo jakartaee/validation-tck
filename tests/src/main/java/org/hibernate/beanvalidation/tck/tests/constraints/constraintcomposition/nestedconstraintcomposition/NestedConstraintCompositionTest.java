@@ -52,7 +52,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "2.3", id = "g")
+	@SpecAssertion(section = "3.3", id = "h")
 	public void testCompositeConstraint1WithNestedConstraintSingleViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity1 dummy = new DummyEntity1( "" );
@@ -67,7 +67,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "2.3", id = "g")
+	@SpecAssertion(section = "3.3", id = "h")
 	public void testCompositeConstraint2WithNestedConstraintSingleViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity2 dummy = new DummyEntity2( "" );
@@ -78,7 +78,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "2.3", id = "g")
+	@SpecAssertion(section = "3.3", id = "h")
 	public void testCompositeConstraint3WithNestedConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity3 dummy = new DummyEntity3( "" );
@@ -91,7 +91,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "2.3", id = "g")
+	@SpecAssertion(section = "3.3", id = "h")
 	public void testCompositeConstraint4WithNestedConstraintSingleViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity4 dummy = new DummyEntity4( "" );

@@ -52,10 +52,10 @@ public class SequenceResolutionTest extends Arquillian {
 
 	@Test(expectedExceptions = GroupDefinitionException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.2", id = "e"),
-			@SpecAssertion(section = "3.4.2", id = "f"),
-			@SpecAssertion(section = "3.4.2", id = "i"),
-			@SpecAssertion(section = "8.4", id = "a")
+			@SpecAssertion(section = "4.4.2", id = "e"),
+			@SpecAssertion(section = "4.4.2", id = "f"),
+			@SpecAssertion(section = "4.4.2", id = "i"),
+			@SpecAssertion(section = "9.4", id = "a")
 	})
 	public void testInvalidDefinitionOfDefaultSequenceInEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -65,7 +65,7 @@ public class SequenceResolutionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.2", id = "c")
+			@SpecAssertion(section = "4.4.2", id = "c")
 	})
 	public void testGroupSequenceContainerOtherGroupSequences() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -79,7 +79,7 @@ public class SequenceResolutionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.2", id = "j")
+	@SpecAssertion(section = "4.4.2", id = "j")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Car car = new Car( "USd-298" );

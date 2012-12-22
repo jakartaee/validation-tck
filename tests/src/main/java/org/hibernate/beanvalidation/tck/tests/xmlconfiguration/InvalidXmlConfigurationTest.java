@@ -46,7 +46,7 @@ public class InvalidXmlConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "8", id = "a")
 	public void testInvalidValidationXml() {
 		try {
 			TestUtil.getValidatorUnderTest();

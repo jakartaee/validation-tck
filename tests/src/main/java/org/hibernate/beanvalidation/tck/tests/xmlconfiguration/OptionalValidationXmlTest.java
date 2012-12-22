@@ -49,7 +49,7 @@ public class OptionalValidationXmlTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.6", id = "c")
+			@SpecAssertion(section = "5.5.6", id = "b")
 	})
 	public void testIgnoreValidationXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();

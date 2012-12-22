@@ -51,10 +51,10 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.3", id = "a"),
-			@SpecAssertion(section = "3.1.3", id = "k"),
-			@SpecAssertion(section = "3.5.1", id = "a"),
-			@SpecAssertion(section = "3.5.1", id = "b")
+			@SpecAssertion(section = "4.1.3", id = "a"),
+			@SpecAssertion(section = "4.1.3", id = "k"),
+			@SpecAssertion(section = "4.6.1", id = "a"),
+			@SpecAssertion(section = "4.6.1", id = "b")
 	})
 	public void testGraphNavigationDeterminism() {
 		// build the test object graph
@@ -93,8 +93,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.3", id = "f"),
-			@SpecAssertion(section = "3.5.1", id = "d")
+			@SpecAssertion(section = "4.1.3", id = "g"),
+			@SpecAssertion(section = "4.6.1", id = "d")
 	})
 	public void testNoEndlessLoop() {
 		User john = new User( "John", null );
@@ -131,7 +131,7 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.1.3", id = "b")
+	@SpecAssertion(section = "4.1.3", id = "b")
 	public void testTypeOfContainedValueIsDeterminedAtRuntime() {
 		SingleCage cage = new SingleCage();
 		Elephant elephant = new Elephant();
@@ -145,7 +145,7 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.1.3", id = "e")
+	@SpecAssertion(section = "4.1.3", id = "f")
 	public void testContainedSet() {
 		MultiCage cage = new MultiCage();
 		cage.addAnimal( new Zebra( null ) );
@@ -162,7 +162,7 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.1.3", id = "h")
+	@SpecAssertion(section = "4.1.3", id = "c")
 	public void testContainedIterable() {
 		GameReserve<Zebra> reserve = new GameReserve<Zebra>();
 		Herd<Zebra> zebraHerd = new Herd<Zebra>();
@@ -182,8 +182,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.3", id = "d"),
-			@SpecAssertion(section = "3.1.3", id = "j")
+			@SpecAssertion(section = "4.1.3", id = "e"),
+			@SpecAssertion(section = "4.1.3", id = "j")
 	})
 	public void testTypeOfContainedValuesIsDeterminedAtRuntime() {
 		Zoo zoo = new Zoo();
@@ -208,8 +208,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.3", id = "g"),
-			@SpecAssertion(section = "3.1.3", id = "i")
+			@SpecAssertion(section = "4.1.3", id = "h"),
+			@SpecAssertion(section = "4.1.3", id = "i")
 	})
 	public void testContainedMap() {
 		AnimalCaretaker caretaker = new AnimalCaretaker();
@@ -233,8 +233,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.2", id = "b"),
-			@SpecAssertion(section = "3.4.2", id = "d")
+			@SpecAssertion(section = "4.4.2", id = "b"),
+			@SpecAssertion(section = "4.4.2", id = "d")
 	})
 	public void testFullGraphValidationBeforeNextGroupInSequence() {
 		Parent p = new Parent();
@@ -251,7 +251,7 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.1", id = "c")
+	@SpecAssertion(section = "4.6.1", id = "c")
 	public void testNullReferencesGetIgnored() {
 		Parent p = new Parent();
 		Validator validator = TestUtil.getValidatorUnderTest();

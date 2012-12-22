@@ -49,7 +49,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "b")
+	@SpecAssertion(section = "4.3", id = "b")
 	public void testConstraintsOnSuperClassAreInherited() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
@@ -67,8 +67,8 @@ public class ConstraintInheritanceTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "b")
+			@SpecAssertion(section = "4.3", id = "a"),
+			@SpecAssertion(section = "4.3", id = "b")
 	})
 	public void testConstraintsOnInterfaceAreInherited() {
 		Validator validator = TestUtil.getValidatorUnderTest();

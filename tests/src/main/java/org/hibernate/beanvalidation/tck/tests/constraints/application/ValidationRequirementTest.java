@@ -53,9 +53,9 @@ public class ValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "c"),
-			@SpecAssertion(section = "3.1", id = "d"),
-			@SpecAssertion(section = "3.1.1", id = "a")
+			@SpecAssertion(section = "4.1", id = "c"),
+			@SpecAssertion(section = "4.1", id = "d"),
+			@SpecAssertion(section = "4.1.1", id = "a")
 	})
 	public void testClassLevelConstraints() {
 		Woman sarah = new Woman();
@@ -91,9 +91,9 @@ public class ValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
-			@SpecAssertion(section = "3.1.2", id = "a"),
-			@SpecAssertion(section = "3.1.2", id = "c")
+			@SpecAssertion(section = "4.1", id = "d"),
+			@SpecAssertion(section = "4.1.2", id = "a"),
+			@SpecAssertion(section = "4.1.2", id = "c")
 	})
 	public void testFieldAccess() {
 		SuperWoman superwoman = new SuperWoman();
@@ -110,9 +110,9 @@ public class ValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
-			@SpecAssertion(section = "3.1.2", id = "a"),
-			@SpecAssertion(section = "3.1.2", id = "d")
+			@SpecAssertion(section = "4.1", id = "d"),
+			@SpecAssertion(section = "4.1.2", id = "a"),
+			@SpecAssertion(section = "4.1.2", id = "d")
 	})
 	public void testPropertyAccess() {
 		SuperWoman superwoman = new SuperWoman();
@@ -129,8 +129,8 @@ public class ValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.2", id = "a"),
-			@SpecAssertion(section = "3.1.2", id = "b")
+			@SpecAssertion(section = "4.1.2", id = "a"),
+			@SpecAssertion(section = "4.1.2", id = "b")
 	})
 	public void testConstraintAppliedOnFieldAndProperty() {
 		Building building = new Building( 10000000 );
@@ -143,7 +143,7 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test(enabled = false)
-//	@SpecAssertion(section = "3.1",
+//	@SpecAssertion(section = "4.1",
 //			id = "b",
 //			note = "The spec is not clear about whether validation of static fields/properties should just be ignored or an exception should be thrown.")
 	public void testIgnoreStaticFieldsAndProperties() {
@@ -155,7 +155,7 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.1.2", id = "e")
+	@SpecAssertion(section = "4.1.2", id = "e")
 	public void testFieldAndPropertyVisibilityIsNotConstrained() {
 		Visibility entity = new Visibility();
 

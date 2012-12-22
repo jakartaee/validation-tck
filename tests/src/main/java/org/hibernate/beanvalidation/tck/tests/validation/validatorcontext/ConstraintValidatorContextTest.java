@@ -64,7 +64,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "2.4", id = "l")
+	@SpecAssertion(section = "3.4", id = "l")
 	public void testDefaultError() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -79,7 +79,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "2.4", id = "r")
+	@SpecAssertion(section = "3.4", id = "q")
 	public void testDisableDefaultErrorWithoutAddingCustomError() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -93,7 +93,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.4", id = "m")
+			@SpecAssertion(section = "3.4", id = "m")
 	})
 	public void testDisableDefaultErrorWithCustomErrorNoSubNode() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -113,8 +113,8 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.4", id = "m"),
-			@SpecAssertion(section = "2.4", id = "q")
+			@SpecAssertion(section = "3.4", id = "m"),
+			@SpecAssertion(section = "3.4", id = "p")
 	})
 	public void testDisableDefaultErrorWithCustomErrorWithSubNode() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -134,8 +134,8 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.4", id = "m"),
-			@SpecAssertion(section = "2.4", id = "q")
+			@SpecAssertion(section = "3.4", id = "m"),
+			@SpecAssertion(section = "3.4", id = "p")
 	})
 	public void propertyPathInIterable() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -183,9 +183,11 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	public static class CompatiblePersonsValidator implements ConstraintValidator<CompatiblePersons, Group> {
+		@Override
 		public void initialize(CompatiblePersons constraintAnnotation) {
 		}
 
+		@Override
 		public boolean isValid(Group group, ConstraintValidatorContext constraintValidatorContext) {
 			if ( group == null ) {
 				return true;

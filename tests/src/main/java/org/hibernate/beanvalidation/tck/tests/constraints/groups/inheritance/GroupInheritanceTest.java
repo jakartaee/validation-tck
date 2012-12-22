@@ -54,7 +54,7 @@ public class GroupInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.1", id = "a")
+	@SpecAssertion(section = "4.4.1", id = "a")
 	public void testGroupCanInheritGroupsViaInterfaceInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Part part = new Part();
@@ -71,7 +71,7 @@ public class GroupInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.1", id = "b")
+	@SpecAssertion(section = "4.4.1", id = "b")
 	public void testGroupMembership() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor descriptor = validator.getConstraintsForClass( MiniaturePart.class );
