@@ -75,7 +75,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "a")
+	@SpecAssertion(section = "4.4", id = "a")
 	public void testConstraintWithNoExplicitlySpecifiedGroupBelongsToDefault() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
@@ -95,8 +95,8 @@ public class GroupTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "b"),
-			@SpecAssertion(section = "3.4", id = "d")
+			@SpecAssertion(section = "4.4", id = "b"),
+			@SpecAssertion(section = "4.4", id = "d")
 	})
 	public void testValidateAgainstDifferentGroups() {
 		User user = new User();
@@ -170,7 +170,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "c")
+	@SpecAssertion(section = "4.4", id = "c")
 	public void testConstraintCanBelongToMoreThanOneGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
@@ -184,7 +184,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "d")
+	@SpecAssertion(section = "4.4", id = "d")
 	public void testGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -244,8 +244,8 @@ public class GroupTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.2", id = "b"),
-			@SpecAssertion(section = "3.4.2", id = "d")
+			@SpecAssertion(section = "4.4.2", id = "b"),
+			@SpecAssertion(section = "4.4.2", id = "d")
 	})
 	public void testGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -290,8 +290,8 @@ public class GroupTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "c"),
-			@SpecAssertion(section = "3.5", id = "b")
+			@SpecAssertion(section = "4.4", id = "c"),
+			@SpecAssertion(section = "4.6", id = "b")
 	})
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -310,7 +310,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "d")
+	@SpecAssertion(section = "4.4", id = "d")
 	public void testGroupSequenceFollowedByGroup() {
 		User user = new User();
 		user.setFirstname( "Foo" );
@@ -356,7 +356,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.4", id = "a")
+	@SpecAssertion(section = "4.4.4", id = "a")
 	public void testImplicitGrouping() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
@@ -374,10 +374,10 @@ public class GroupTest extends Arquillian {
 
 	@Test(expectedExceptions = GroupDefinitionException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.2", id = "e"),
-			@SpecAssertion(section = "3.4.2", id = "f"),
-			@SpecAssertion(section = "3.4.2", id = "i"),
-			@SpecAssertion(section = "8.4", id = "a")
+			@SpecAssertion(section = "4.4.2", id = "e"),
+			@SpecAssertion(section = "4.4.2", id = "f"),
+			@SpecAssertion(section = "4.4.2", id = "i"),
+			@SpecAssertion(section = "9.4", id = "a")
 	})
 	public void testCyclicGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();

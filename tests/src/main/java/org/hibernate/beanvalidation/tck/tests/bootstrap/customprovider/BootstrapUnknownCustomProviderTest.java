@@ -45,7 +45,7 @@ public class BootstrapUnknownCustomProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8", id = "a")
+	@SpecAssertion(section = "9", id = "a")
 	public void testWrongProviderConfiguredInValidationXml() {
 		try {
 			Validation.buildDefaultValidatorFactory();

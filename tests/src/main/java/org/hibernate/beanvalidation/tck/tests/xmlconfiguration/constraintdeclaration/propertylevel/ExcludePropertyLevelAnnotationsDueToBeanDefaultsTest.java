@@ -53,8 +53,8 @@ public class ExcludePropertyLevelAnnotationsDueToBeanDefaultsTest extends Arquil
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.3", id = "b"),
-			@SpecAssertion(section = "7.1.1.3", id = "c")
+			@SpecAssertion(section = "8.1.1.3", id = "b"),
+			@SpecAssertion(section = "8.1.1.3", id = "c")
 	})
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();

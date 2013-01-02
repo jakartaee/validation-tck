@@ -74,8 +74,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "c")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "c")
 	})
 	public void testNullConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -96,8 +96,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "d")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "d")
 	})
 	public void testNotNullConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -115,8 +115,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "e")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "e")
 	})
 	public void testAssertTrueConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -144,8 +144,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "f")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "f")
 	})
 	public void testAssertFalseConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -174,8 +174,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "g")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "g")
 	})
 	public void testMinConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -220,8 +220,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "h")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "h")
 	})
 	public void testMaxConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -271,8 +271,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "i")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "i")
 	})
 	public void testDecimalMinConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -317,8 +317,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "j")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "j")
 	})
 	public void testDecimalMaxConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -368,8 +368,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "k")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "k")
 	})
 	public void testSizeConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -409,8 +409,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "l")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "l")
 	})
 	public void testDigitsConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -460,8 +460,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "m")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "m")
 	})
 	public void testPastConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -491,8 +491,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "n")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "n")
 	})
 	public void testFutureConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -522,8 +522,8 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6", id = "a"),
-			@SpecAssertion(section = "6", id = "o")
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "o")
 	})
 	public void testPatternConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();

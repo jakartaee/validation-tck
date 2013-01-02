@@ -52,9 +52,9 @@ public class GroupSequenceIsolationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.3", id = "a"),
-			@SpecAssertion(section = "3.4.3", id = "c"),
-			@SpecAssertion(section = "3.4.5", id = "a")
+			@SpecAssertion(section = "4.4.3", id = "a"),
+			@SpecAssertion(section = "4.4.3", id = "c"),
+			@SpecAssertion(section = "4.4.6", id = "b")
 	})
 	public void testCorrectDefaultSequenceInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -89,9 +89,9 @@ public class GroupSequenceIsolationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.3", id = "a"),
-			@SpecAssertion(section = "3.4.3", id = "c"),
-			@SpecAssertion(section = "3.4.5", id = "a")
+			@SpecAssertion(section = "4.4.3", id = "a"),
+			@SpecAssertion(section = "4.4.3", id = "c"),
+			@SpecAssertion(section = "4.4.6", id = "b")
 	})
 	public void testCorrectDefaultSequenceInheritance2() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -130,7 +130,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.5", id = "b")
+	@SpecAssertion(section = "4.4.6", id = "a")
 	public void testCorrectDefaultSequenceInheritance3() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B3 b = new B3();
@@ -164,7 +164,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.1", id = "e")
+	@SpecAssertion(section = "4.6.1", id = "e")
 	public void testCorrectDefaultSequenceContainedCaseWithoutGroupRedefinitionOnContainedEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		C c = new C();
@@ -196,7 +196,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.1", id = "e")
+	@SpecAssertion(section = "4.6.1", id = "e")
 	public void testCorrectDefaultSequenceContainedCaseWithGroupRedefinitionOnContainedEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		E e = new E();

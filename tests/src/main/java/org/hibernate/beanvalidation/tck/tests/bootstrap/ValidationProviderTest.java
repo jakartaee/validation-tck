@@ -58,7 +58,7 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.4.2", id = "b")
+	@SpecAssertion(section = "5.5.4.2", id = "b")
 	public void testFirstMatchingValidationProviderResolverIsReturned() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
 
@@ -80,7 +80,7 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.4.2", id = "c")
+	@SpecAssertion(section = "5.5.4.2", id = "c")
 	public void testByDefaultProviderUsesTheFirstProviderReturnedByValidationProviderResolver() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
 
@@ -101,7 +101,7 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.4.2", id = "d")
+	@SpecAssertion(section = "5.5.4.2", id = "d")
 	public void testValidationProviderContainsNoArgConstructor() {
 		ValidationProvider<?> validationProviderUnderTest = TestUtil.getValidationProviderUnderTest();
 		try {
@@ -115,8 +115,8 @@ public class ValidationProviderTest extends Arquillian {
 
 	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "f"),
-			@SpecAssertion(section = "4.4.4.2", id = "e")
+			@SpecAssertion(section = "5.5.5", id = "f"),
+			@SpecAssertion(section = "5.5.4.2", id = "e")
 	})
 	public void testValidationExceptionIsThrownInCaseValidatorFactoryCreationFails() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {

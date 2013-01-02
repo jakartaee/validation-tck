@@ -52,7 +52,7 @@ public class BuiltinValidatorOverrideTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6", id = "b")
+	@SpecAssertion(section = "7", id = "b")
 	public void testXmlConfiguredValidatorConfigurationHasPrecedence() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		InputStream in = getInputStreamForPath(

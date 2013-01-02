@@ -46,7 +46,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "a")
+	@SpecAssertion(section = "5.5.3", id = "a")
 	public void testProviderUnderTestDefinesSubInterfaceOfConfiguration() {
 		boolean foundSubinterfaceOfConfiguration = false;
 		Type[] types = TestUtil.getValidationProviderUnderTest().getClass().getGenericInterfaces();

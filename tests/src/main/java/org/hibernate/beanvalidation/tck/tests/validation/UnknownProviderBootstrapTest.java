@@ -49,7 +49,7 @@ public class UnknownProviderBootstrapTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "4.4.5", id = "f")
+	@SpecAssertion(section = "5.5.5", id = "f")
 	public void testUnknownProviderThrowsValidationException() {
 		Validation.byDefaultProvider().configure();
 		//ValidatorFactory factory = configuration.buildValidatorFactory();

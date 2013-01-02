@@ -59,8 +59,8 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.2", id = "b"),
-			@SpecAssertion(section = "7.1.2", id = "e")
+			@SpecAssertion(section = "8.1.2", id = "b"),
+			@SpecAssertion(section = "8.1.2", id = "e")
 	})
 	public <T extends Annotation> void testExcludeExistingValidators() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
@@ -86,9 +86,9 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.2", id = "c"),
-			@SpecAssertion(section = "7.1.2", id = "d"),
-			@SpecAssertion(section = "7.1.2", id = "e")
+			@SpecAssertion(section = "8.1.2", id = "c"),
+			@SpecAssertion(section = "8.1.2", id = "d"),
+			@SpecAssertion(section = "8.1.2", id = "e")
 	})
 	public <T extends Annotation> void testIncludeExistingValidators() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();

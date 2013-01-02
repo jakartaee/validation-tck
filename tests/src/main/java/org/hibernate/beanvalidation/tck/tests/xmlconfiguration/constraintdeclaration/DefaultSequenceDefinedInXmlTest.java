@@ -51,7 +51,7 @@ public class DefaultSequenceDefinedInXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1.1", id = "e")
+	@SpecAssertion(section = "8.1.1.1", id = "e")
 	public void testDefaultGroupDefinitionDefinedInEntityApplies() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Package p = new Package();

@@ -81,9 +81,9 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "a"),
-			@SpecAssertion(section = "3.5.3", id = "e"),
-			@SpecAssertion(section = "5.1", id = "a")
+			@SpecAssertion(section = "4.1", id = "a"),
+			@SpecAssertion(section = "4.6.4", id = "e"),
+			@SpecAssertion(section = "6.1", id = "c")
 	})
 	public void testUnexpectedTypeException() {
 		try {
@@ -97,7 +97,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1", id = "b")
+	@SpecAssertion(section = "6.1", id = "a")
 	public void testConstraintDescriptorWithoutExplicitGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -117,20 +117,20 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1", id = "c")
+	@SpecAssertion(section = "6.1", id = "b")
 	public void testNullParameterToGetConstraintsForClass() {
 		TestUtil.getValidatorUnderTest().getConstraintsForClass( null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "4.1.1", id = "b")
+	@SpecAssertion(section = "5.1.1", id = "b")
 	public void testValidateWithNullValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "4.1.1", id = "b")
+	@SpecAssertion(section = "5.1.1", id = "b")
 	@SuppressWarnings("NullArgumentToVariableArgMethod")
 	public void testValidateWithNullGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -139,8 +139,8 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.1", id = "a"),
-			@SpecAssertion(section = "4.1.1", id = "c")
+			@SpecAssertion(section = "5.1.1", id = "a"),
+			@SpecAssertion(section = "5.1.1", id = "c")
 	})
 
 	public void testMultipleViolationOfTheSameType() {
@@ -161,7 +161,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "c")
+	@SpecAssertion(section = "5.1.1", id = "c")
 	public void testMultipleConstraintViolationOfDifferentTypes() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -177,12 +177,12 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "a"),
-			@SpecAssertion(section = "4.2", id = "a"),
-			@SpecAssertion(section = "4.2", id = "b"),
-			@SpecAssertion(section = "4.2", id = "c"),
-			@SpecAssertion(section = "4.2", id = "d"),
-			@SpecAssertion(section = "4.2", id = "e")
+			@SpecAssertion(section = "4.1", id = "a"),
+			@SpecAssertion(section = "5.2", id = "a"),
+			@SpecAssertion(section = "5.2", id = "b"),
+			@SpecAssertion(section = "5.2", id = "c"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e")
 	})
 	public void testConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -200,7 +200,7 @@ public class ValidateTest extends Arquillian {
 		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
 		// cast is required for JDK 5 - at least on Mac OS X
-		Annotation ann = (Annotation) violation.getConstraintDescriptor().getAnnotation();
+		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
 		assertEquals( ann.annotationType(), Pattern.class, "Wrong annotation type" );
 		assertCorrectPropertyPaths( constraintViolations, "serialNumber" );
 
@@ -211,7 +211,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.4", id = "o")
+			@SpecAssertion(section = "3.4", id = "o")
 	})
 	public void testGraphValidationWithList() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -244,8 +244,8 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.4", id = "o"),
-			@SpecAssertion(section = "3.1.3", id = "c")
+			@SpecAssertion(section = "3.4", id = "o"),
+			@SpecAssertion(section = "4.1.3", id = "d")
 	})
 	public void testGraphValidationWithArray() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -275,7 +275,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "b")
+	@SpecAssertion(section = "5.1.1", id = "b")
 	@SuppressWarnings("NullArgumentToVariableArgMethod")
 	public void testPassingNullAsGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -289,7 +289,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5", id = "b")
+	@SpecAssertion(section = "4.6", id = "b")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Car car = new Car( "USd-298" );
@@ -307,7 +307,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "4.1.1", id = "k")
+	@SpecAssertion(section = "5.1.1", id = "k")
 	public void testUnexpectedExceptionsInValidateGetWrappedInValidationExceptions() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new BadlyBehavedEntity() );

@@ -54,7 +54,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.3", id = "a")
+	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testTargetTypeIsInterface() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -74,7 +74,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.3", id = "a")
+	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testTargetTypeIsClass() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -95,7 +95,7 @@ public class ValidatorResolutionTest {
 
 
 	@Test
-	@SpecAssertion(section = "3.5.3", id = "b")
+	@SpecAssertion(section = "4.6.4", id = "b")
 	public void testTargetedTypeIsField() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -114,7 +114,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.3", id = "c")
+	@SpecAssertion(section = "4.6.4", id = "c")
 	public void testTargetedTypeIsGetter() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -135,7 +135,7 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.5.3", id = "d")
+			@SpecAssertion(section = "4.6.4", id = "d")
 	})
 	public void testResolutionOfMultipleSizeValidators() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -211,7 +211,7 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.5.3", id = "d")
+			@SpecAssertion(section = "4.6.4", id = "d")
 	})
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -223,9 +223,9 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.5.3", id = "e"),
-			@SpecAssertion(section = "2.1", id = "d"),
-			@SpecAssertion(section = "2.4", id = "i")
+			@SpecAssertion(section = "4.6.4", id = "e"),
+			@SpecAssertion(section = "3.1", id = "c"),
+			@SpecAssertion(section = "3.4", id = "i")
 	})
 	public void testUnexpectedTypeInValidatorResolution() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -242,8 +242,8 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.5.3", id = "f"),
-			@SpecAssertion(section = "8.3", id = "b")
+			@SpecAssertion(section = "4.6.4", id = "f"),
+			@SpecAssertion(section = "9.3", id = "b")
 	})
 	public void testAmbiguousValidatorResolution() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -260,7 +260,7 @@ public class ValidatorResolutionTest {
 
 	public class SubClassAHolder {
 		@CustomConstraint
-		private SubClassA subClass;
+		private final SubClassA subClass;
 
 		SubClassAHolder(SubClassA subClass) {
 			this.subClass = subClass;
@@ -272,7 +272,7 @@ public class ValidatorResolutionTest {
 	}
 
 	public class SubClassBHolder {
-		private BaseClass baseClass;
+		private final BaseClass baseClass;
 
 		public SubClassBHolder(SubClassB subClass) {
 			this.baseClass = subClass;

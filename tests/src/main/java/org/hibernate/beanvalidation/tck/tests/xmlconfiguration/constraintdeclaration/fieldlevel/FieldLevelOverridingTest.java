@@ -60,8 +60,8 @@ public class FieldLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.2", id = "a"),
-			@SpecAssertion(section = "7.1.1.2", id = "c")
+			@SpecAssertion(section = "8.1.1.2", id = "a"),
+			@SpecAssertion(section = "8.1.1.2", id = "c")
 	})
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -74,8 +74,8 @@ public class FieldLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.2", id = "a"),
-			@SpecAssertion(section = "7.1.1.2", id = "d")
+			@SpecAssertion(section = "8.1.1.2", id = "a"),
+			@SpecAssertion(section = "8.1.1.2", id = "d")
 	})
 	public void testIncludeAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -108,7 +108,7 @@ public class FieldLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.2", id = "e")
+			@SpecAssertion(section = "8.1.1.2", id = "e")
 	})
 	public void testCascadedConfiguration() {
 		Validator validator = TestUtil.getValidatorUnderTest();

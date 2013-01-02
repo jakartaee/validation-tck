@@ -57,8 +57,8 @@ public class IncludePropertyLevelAnnotationsDueToBeanDefaultsTest extends Arquil
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.3", id = "b"),
-			@SpecAssertion(section = "7.1.1.3", id = "d")
+			@SpecAssertion(section = "8.1.1.3", id = "b"),
+			@SpecAssertion(section = "8.1.1.3", id = "d")
 	})
 	public void testAnnotationsIncluded() {
 		Validator validator = TestUtil.getValidatorUnderTest();
