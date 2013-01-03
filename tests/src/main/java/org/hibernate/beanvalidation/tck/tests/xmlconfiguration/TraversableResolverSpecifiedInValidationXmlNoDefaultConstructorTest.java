@@ -48,7 +48,7 @@ public class TraversableResolverSpecifiedInValidationXmlNoDefaultConstructorTest
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "g"),
-			@SpecAssertion(section = "5.5.6", id = "p")
+			@SpecAssertion(section = "5.5.6", id = "q")
 	})
 	public void testTraversableResolverSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

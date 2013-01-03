@@ -182,7 +182,7 @@ public class ValidateTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "b"),
 			@SpecAssertion(section = "5.2", id = "c"),
 			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "e")
+			@SpecAssertion(section = "5.2", id = "f")
 	})
 	public void testConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -211,7 +211,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "o")
+			@SpecAssertion(section = "3.4", id = "p")
 	})
 	public void testGraphValidationWithList() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -231,7 +231,7 @@ public class ValidateTest extends Arquillian {
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 
-		ConstraintViolation constraintViolation = constraintViolations.iterator().next();
+		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
@@ -244,7 +244,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "o"),
+			@SpecAssertion(section = "3.4", id = "p"),
 			@SpecAssertion(section = "4.1.3", id = "d")
 	})
 	public void testGraphValidationWithArray() {
@@ -263,7 +263,7 @@ public class ValidateTest extends Arquillian {
 
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		ConstraintViolation constraintViolation = constraintViolations.iterator().next();
+		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );

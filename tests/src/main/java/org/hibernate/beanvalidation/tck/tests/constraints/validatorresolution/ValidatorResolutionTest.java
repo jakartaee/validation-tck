@@ -224,8 +224,8 @@ public class ValidatorResolutionTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "e"),
-			@SpecAssertion(section = "3.1", id = "c"),
-			@SpecAssertion(section = "3.4", id = "i")
+			@SpecAssertion(section = "3.1", id = "f"),
+			@SpecAssertion(section = "3.4", id = "j")
 	})
 	public void testUnexpectedTypeInValidatorResolution() {
 		Validator validator = TestUtil.getValidatorUnderTest();

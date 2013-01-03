@@ -112,7 +112,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "b"),
-			@SpecAssertion(section = "3.4", id = "m")
+			@SpecAssertion(section = "3.4", id = "n")
 	})
 	public void testValidationOfMainAnnotationIsAlsoApplied() {
 

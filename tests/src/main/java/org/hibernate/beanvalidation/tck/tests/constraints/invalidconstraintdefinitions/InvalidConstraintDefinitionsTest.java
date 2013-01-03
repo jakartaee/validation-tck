@@ -47,7 +47,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1", id = "b"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -64,7 +64,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.1", id = "a"),
 			@SpecAssertion(section = "5.3.1", id = "b"),
 			@SpecAssertion(section = "5.3.1", id = "c"),
@@ -83,7 +83,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.2", id = "a"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -100,7 +100,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.3", id = "a"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -117,7 +117,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.2", id = "c"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -134,7 +134,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.3", id = "b"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -151,7 +151,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.3", id = "c"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -168,7 +168,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.1", id = "a"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
@@ -185,7 +185,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "d"),
+			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.2", id = "b"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
