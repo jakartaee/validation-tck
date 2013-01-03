@@ -51,8 +51,8 @@ public class ConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1.1", id = "a"),
-			@SpecAssertion(section = "2.2", id = "a")
+			@SpecAssertion(section = "3.1.1", id = "a"),
+			@SpecAssertion(section = "3.2", id = "a")
 	})
 	public void testConstraintWithCustomAttributes() {
 
@@ -75,7 +75,7 @@ public class ConstraintDefinitionsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "2.1.1", id = "f")
+	@SpecAssertion(section = "3.1.1.2", id = "d")
 	public void testDefaultGroupAssumedWhenNoGroupsSpecified() {
 
 		Validator validator = TestUtil.getValidatorUnderTest();

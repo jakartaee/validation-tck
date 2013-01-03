@@ -46,7 +46,7 @@ public class MissingClassNameOnBeanNodeTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1", id = "c")
+	@SpecAssertion(section = "8.1.1", id = "c")
 	public void testClassNameIsMandatory() {
 		try {
 			TestUtil.getValidatorUnderTest();

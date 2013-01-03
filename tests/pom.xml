@@ -75,7 +75,8 @@
                         <processor>org.jboss.test.audit.report.CoverageProcessor</processor>
                     </processors>
                     <compilerArguments>-AauditXml=${basedir}/src/main/resources/tck-audit.xml
-                        -AoutputDir=${basedir}/target/coverage-report
+                        -AoutputDir=${basedir}/target/coverage-report -source ${java.source.version}
+                        -target ${java.target.version}
                     </compilerArguments>
                 </configuration>
                 <executions>

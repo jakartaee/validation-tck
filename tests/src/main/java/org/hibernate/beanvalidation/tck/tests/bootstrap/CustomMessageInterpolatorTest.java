@@ -55,7 +55,7 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.2", id = "b")
+	@SpecAssertion(section = "5.3.2", id = "b")
 	public void testCustomMessageInterpolatorViaConfiguration() {
 		Configuration config = Validation.byDefaultProvider().configure();
 		config = config.messageInterpolator( new DummyMessageInterpolator() );
@@ -66,9 +66,9 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.2", id = "a"),
-			@SpecAssertion(section = "4.4.2", id = "b"),
-			@SpecAssertion(section = "4.3.2", id = "b")
+			@SpecAssertion(section = "5.5.2", id = "a"),
+			@SpecAssertion(section = "5.5.2", id = "c"),
+			@SpecAssertion(section = "5.3.2", id = "b")
 	})
 	public void testCustomMessageInterpolatorViaValidatorContext() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -92,10 +92,12 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 	}
 
 	private static class DummyMessageInterpolator implements MessageInterpolator {
+		@Override
 		public String interpolate(String message, Context context) {
 			return "my custom message";
 		}
 
+		@Override
 		public String interpolate(String message, Context context, Locale locale) {
 			throw new UnsupportedOperationException( "No specific locale is possible" );
 		}

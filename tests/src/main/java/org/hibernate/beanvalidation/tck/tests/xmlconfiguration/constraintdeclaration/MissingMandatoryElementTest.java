@@ -48,7 +48,7 @@ public class MissingMandatoryElementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1.4", id = "h")
+	@SpecAssertion(section = "8.1.1.5", id = "h")
 	public void testMissingMandatoryElementInConstraintDeclaration() {
 		try {
 			TestUtil.getValidatorUnderTest();

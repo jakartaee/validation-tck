@@ -58,8 +58,8 @@ public class ClassLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1.1", id = "c")
+			@SpecAssertion(section = "8.1.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1.1", id = "c")
 	})
 	public void testIgnoreClassLevelAnnotations() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
@@ -74,7 +74,7 @@ public class ClassLevelOverridingTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1.1", id = "b")
+	@SpecAssertion(section = "8.1.1.1", id = "b")
 	public void testIgnoreAnnotationsFromEnclosingBeanIsApplied() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );
@@ -89,8 +89,8 @@ public class ClassLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1.1", id = "a"),
-			@SpecAssertion(section = "7.1.1.1", id = "d")
+			@SpecAssertion(section = "8.1.1.1", id = "a"),
+			@SpecAssertion(section = "8.1.1.1", id = "d")
 	})
 	public void testClassLevelAnnotationsApplied() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();

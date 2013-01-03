@@ -46,7 +46,7 @@ public class ConfiguredBeanNotInClassPathTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1", id = "f")
+	@SpecAssertion(section = "8.1.1", id = "f")
 	public void testExceptionIsThrownForUnknownBeanNameInXml() {
 		try {
 			TestUtil.getValidatorUnderTest();

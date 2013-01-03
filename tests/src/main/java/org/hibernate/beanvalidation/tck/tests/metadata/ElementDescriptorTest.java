@@ -56,7 +56,7 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "a")
+	@SpecAssertion(section = "6.2", id = "a")
 	public void testGetElementClass() {
 		Validator validator = getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SuperClass.class );
@@ -67,21 +67,21 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "b")
+	@SpecAssertion(section = "6.2", id = "b")
 	public void testGetConstraintDescriptors() {
 		ElementDescriptor descriptor = getPropertyDescriptor( SubClass.class, "myField" );
 		assertEquals( descriptor.getConstraintDescriptors().size(), 2, "There should be two constraints on myField" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "c")
+	@SpecAssertion(section = "6.2", id = "c")
 	public void testHasConstraints() {
 		ElementDescriptor descriptor = getPropertyDescriptor( SubClass.class, "myField" );
 		assertTrue( descriptor.hasConstraints() );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "d")
+	@SpecAssertion(section = "6.2", id = "f")
 	public void testUnorderedAndMatchingGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -101,7 +101,7 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "d")
+	@SpecAssertion(section = "6.2", id = "f")
 	public void testUnorderedAndMatchingGroupsWithInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -115,7 +115,7 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "d")
+	@SpecAssertion(section = "6.2", id = "f")
 	public void testUnorderedAndMatchingGroupsWithDefaultGroupOverriding() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -129,7 +129,7 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "6.2", id = "g")
 	public void testDeclaredOn() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -158,7 +158,7 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "f")
+	@SpecAssertion(section = "6.2", id = "h")
 	public void testLookingAt() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );

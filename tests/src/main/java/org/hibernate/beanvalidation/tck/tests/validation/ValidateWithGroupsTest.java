@@ -55,8 +55,8 @@ public class ValidateWithGroupsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.2", id = "a"),
-			@SpecAssertion(section = "4.1.2", id = "b")
+			@SpecAssertion(section = "5.1.3", id = "a"),
+			@SpecAssertion(section = "5.1.3", id = "b")
 	})
 	public void testCorrectGroupsAreAppliedForValidate() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -84,8 +84,8 @@ public class ValidateWithGroupsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.2", id = "a"),
-			@SpecAssertion(section = "4.1.2", id = "b")
+			@SpecAssertion(section = "5.1.3", id = "a"),
+			@SpecAssertion(section = "5.1.3", id = "b")
 	})
 	public void testCorrectGroupsAreAppliedForValidateProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -111,8 +111,8 @@ public class ValidateWithGroupsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.2", id = "a"),
-			@SpecAssertion(section = "4.1.2", id = "b")
+			@SpecAssertion(section = "5.1.3", id = "a"),
+			@SpecAssertion(section = "5.1.3", id = "b")
 	})
 	public void testCorrectGroupsAreAppliedForValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();

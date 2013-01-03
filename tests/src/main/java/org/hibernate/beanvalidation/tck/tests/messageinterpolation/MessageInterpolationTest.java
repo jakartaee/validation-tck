@@ -63,7 +63,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1", id = "a")
+	@SpecAssertion(section = "5.3.1", id = "a")
 	public void testDefaultMessageInterpolatorIsNotNull() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		assertNotNull( interpolator, "Each bean validation provider must provide a default message interpolator." );
@@ -71,8 +71,8 @@ public class MessageInterpolationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.3.1", id = "e"),
-			@SpecAssertion(section = "4.3.1.1", id = "a")
+			@SpecAssertion(section = "5.3.1", id = "e"),
+			@SpecAssertion(section = "5.3.1.1", id = "a")
 	})
 	public void testSuccessfulInterpolationOfValidationMessagesValue() {
 
@@ -98,7 +98,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "b")
+	@SpecAssertion(section = "5.3.1.1", id = "b")
 	public void testRecursiveMessageInterpolation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "fubar" );
@@ -112,7 +112,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1", id = "d")
+	@SpecAssertion(section = "5.3.1", id = "d")
 	public void testMessagesCanBeOverriddenAtConstraintLevel() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<DummyEntity>> constraintViolations = validator.validateProperty(
@@ -127,9 +127,9 @@ public class MessageInterpolationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.3.1", id = "f"),
-			@SpecAssertion(section = "4.3.1", id = "g"),
-			@SpecAssertion(section = "4.3.1", id = "h")
+			@SpecAssertion(section = "5.3.1", id = "f"),
+			@SpecAssertion(section = "5.3.1", id = "g"),
+			@SpecAssertion(section = "5.3.1", id = "h")
 	})
 	public void testLiteralCurlyBraces() {
 
@@ -151,7 +151,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "a")
+	@SpecAssertion(section = "5.3.1.1", id = "a")
 	public void testUnSuccessfulInterpolation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -167,7 +167,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "a")
+	@SpecAssertion(section = "5.3.1.1", id = "a")
 	public void testUnknownTokenInterpolation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -179,7 +179,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "c")
+	@SpecAssertion(section = "5.3.1.1", id = "c")
 	public void testParametersAreExtractedFromBeanValidationProviderBundle() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( Person.class, "birthday" );
@@ -194,7 +194,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "g")
+	@SpecAssertion(section = "5.3.1.1", id = "f")
 	public void testConstraintAttributeValuesAreInterpolated() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "bar" );
@@ -206,7 +206,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "h")
+	@SpecAssertion(section = "5.3.1.1", id = "g")
 	public void testMessageInterpolationWithLocale() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -220,7 +220,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3.1.1", id = "i")
+	@SpecAssertion(section = "5.3.1.1", id = "h")
 	public void testIfNoLocaleIsSpecifiedTheDefaultLocaleIsAssumed() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -251,10 +251,12 @@ public class MessageInterpolationTest extends Arquillian {
 			this.descriptor = descriptor;
 		}
 
+		@Override
 		public ConstraintDescriptor<?> getConstraintDescriptor() {
 			return descriptor;
 		}
 
+		@Override
 		public Object getValidatedValue() {
 			return null;
 		}

@@ -57,8 +57,8 @@ public class ConfigurationViaXmlAndAnnotationsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "7.1.1", id = "e"),
-			@SpecAssertion(section = "7.1.1", id = "a")
+			@SpecAssertion(section = "8.1.1", id = "e"),
+			@SpecAssertion(section = "8.1.1", id = "a")
 	})
 	public void testEntityConfiguredViaAnnotationsAndXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -89,7 +89,7 @@ public class ConfigurationViaXmlAndAnnotationsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1.1", id = "e")
+	@SpecAssertion(section = "8.1.1.1", id = "e")
 	public void testDefaultGroupDefinitionDefinedInEntityApplies() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Package p = new Package();

@@ -50,7 +50,7 @@ public class ConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7.1.1", id = "d")
+	@SpecAssertion(section = "8.1.1", id = "d")
 	public void testConstraintAnnotationsArePerDefaultIgnoredForXmlConfiguredEntities() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Package.class );

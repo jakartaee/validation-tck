@@ -64,7 +64,7 @@ public class ValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = "5.5.5", id = "a")
 	public void testBuildDefaultValidatorFactory() {
 		ValidatorFactory defaultFactory = Validation.buildDefaultValidatorFactory();
 		assertNotNull( defaultFactory, "We should be able to get a factory." );
@@ -77,8 +77,8 @@ public class ValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "b"),
-			@SpecAssertion(section = "4.4.5", id = "e")
+			@SpecAssertion(section = "5.5.5", id = "b"),
+			@SpecAssertion(section = "5.5.5", id = "e")
 	})
 	public void testCustomValidationProviderResolution() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
@@ -99,8 +99,8 @@ public class ValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "c"),
-			@SpecAssertion(section = "4.4.5", id = "e")
+			@SpecAssertion(section = "5.5.5", id = "c"),
+			@SpecAssertion(section = "5.5.5", id = "e")
 	})
 	public void testSpecificValidationProvider() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
@@ -120,7 +120,7 @@ public class ValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "d")
+	@SpecAssertion(section = "5.5.5", id = "d")
 	public void testVerifyMethodsOfValidationObjects() {
 		Class<?> validatorClass = javax.validation.Validation.class;
 

@@ -47,9 +47,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "d"),
-			@SpecAssertion(section = "2.1.1", id = "b"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1", id = "b"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithParameterStartingWithValid() {
 		try {
@@ -64,11 +64,11 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "c"),
-			@SpecAssertion(section = "4.3.1", id = "b"),
-			@SpecAssertion(section = "4.3.1", id = "c"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.1", id = "a"),
+			@SpecAssertion(section = "5.3.1", id = "b"),
+			@SpecAssertion(section = "5.3.1", id = "c"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutMessageParameter() {
 		try {
@@ -83,9 +83,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "d"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.2", id = "a"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutGroupParameter() {
 		try {
@@ -100,9 +100,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "h"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.3", id = "a"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutPayloadParameter() {
 		try {
@@ -117,9 +117,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "e"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.2", id = "c"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongDefaultGroupValue() {
 		try {
@@ -134,9 +134,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "i"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.3", id = "b"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongDefaultPayloadValue() {
 		try {
@@ -151,9 +151,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "j"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.3", id = "c"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongPayloadClass() {
 		try {
@@ -168,9 +168,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "c"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.1", id = "a"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongMessageType() {
 		try {
@@ -185,9 +185,9 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "2.1", id = "c"),
-			@SpecAssertion(section = "2.1.1", id = "g"),
-			@SpecAssertion(section = "8.2", id = "a")
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.2", id = "b"),
+			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongGroupType() {
 		try {

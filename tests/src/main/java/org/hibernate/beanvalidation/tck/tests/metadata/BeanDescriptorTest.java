@@ -64,8 +64,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "a")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testIsBeanConstrainedDueToValidAnnotation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -78,8 +78,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "a")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testIsBeanConstrainedDueToConstraintOnEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -92,8 +92,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "a")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testIsBeanConstrainedDueToConstraintProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -106,8 +106,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "a")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testIsBeanConstrainedDueToConstraintOnInterface() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -120,8 +120,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "a")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testUnconstrainedClass() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -132,8 +132,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "b")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "b")
 	})
 	public void testGetConstraintForConstrainedProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -146,9 +146,9 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.3", id = "b"),
-			@SpecAssertion(section = "5.3", id = "b"),
-			@SpecAssertion(section = "5.4", id = "a")
+			@SpecAssertion(section = "6.3", id = "b"),
+			@SpecAssertion(section = "6.3", id = "b"),
+			@SpecAssertion(section = "6.4", id = "a")
 	})
 	public void testGetConstraintForUnConstrainedProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -162,8 +162,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "b")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "b")
 	})
 	public void testGetConstraintsForNonExistingProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -173,8 +173,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "b")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "b")
 	})
 	public void testGetConstrainedProperties() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -190,8 +190,8 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1", id = "b"),
-			@SpecAssertion(section = "5.3", id = "b")
+			@SpecAssertion(section = "6.1", id = "a"),
+			@SpecAssertion(section = "6.3", id = "b")
 	})
 	public void testGetConstrainedPropertiesForUnconstrainedEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -202,7 +202,7 @@ public class BeanDescriptorTest extends Arquillian {
 
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.3", id = "c")
+	@SpecAssertion(section = "6.3", id = "c")
 	public void testGetConstraintsForNullProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );

@@ -60,7 +60,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "h")
+	@SpecAssertion(section = "5.1.1", id = "h")
 	public void testValidateValueSuccess() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -71,7 +71,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "h")
+	@SpecAssertion(section = "5.1.1", id = "h")
 	public void testValidateValueFailure() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -83,7 +83,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "h")
+	@SpecAssertion(section = "5.1.1", id = "h")
 	public void testValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -103,7 +103,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "i")
+	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithInvalidPropertyPath() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -126,7 +126,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "i")
+	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testExistingPropertyWoConstraintsNorCascaded() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateValue( Customer.class, "middleName", new ArrayList<String>() );
@@ -134,7 +134,7 @@ public class ValidateValueTest extends Arquillian {
 
 	@Test
 	@SuppressWarnings("NullArgumentToVariableArgMethod")
-	@SpecAssertion(section = "4.1.1", id = "i")
+	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValuePassingNullAsGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -148,7 +148,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "i")
+	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithEmptyPropertyPath() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -162,7 +162,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "i")
+	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithNullObject() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		try {
@@ -175,7 +175,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "i")
+	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithNullPropertyName() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		try {
@@ -188,7 +188,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.1", id = "j")
+	@SpecAssertion(section = "5.1.1", id = "j")
 	public void testValidIsNotHonoredValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 

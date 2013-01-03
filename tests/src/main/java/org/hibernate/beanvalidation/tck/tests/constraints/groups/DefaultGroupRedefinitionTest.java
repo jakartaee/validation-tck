@@ -61,7 +61,7 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.3", id = "a")
+	@SpecAssertion(section = "4.4.3", id = "a")
 	public void testRedefiningDefaultGroup() {
 		Address address = new Address();
 		address.setStreet( "Guldmyntgatan" );
@@ -88,7 +88,7 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.3", id = "a")
+	@SpecAssertion(section = "4.4.3", id = "a")
 	public void testValidatingAgainstRedefinedDefaultGroup() {
 		Car car = new Car();
 		car.setType( "A" );
@@ -118,8 +118,8 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.3", id = "c"),
-			@SpecAssertion(section = "3.4.3", id = "d")
+			@SpecAssertion(section = "4.4.3", id = "c"),
+			@SpecAssertion(section = "4.4.3", id = "d")
 	})
 	public void testGroupSequenceContainingDefault() {
 		Address address = new AddressWithDefaultInGroupSequence();
@@ -135,8 +135,8 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4.3", id = "c"),
-			@SpecAssertion(section = "3.4.3", id = "d")
+			@SpecAssertion(section = "4.4.3", id = "c"),
+			@SpecAssertion(section = "4.4.3", id = "d")
 	})
 	public void testGroupSequenceWithNoImplicitDefaultGroup() {
 		Address address = new AddressWithNoImplicitDefaultGroupSequence();

@@ -47,7 +47,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 				.build();
 	}
 
-	@SpecAssertion(section = "2.5", id = "a")
+	@SpecAssertion(section = "3.5", id = "a")
 	@Test
 	public void testDefaultConstructorInValidatorCalled() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -58,14 +58,14 @@ public class CustomConstraintValidatorTest extends Arquillian {
 		);
 	}
 
-	@SpecAssertion(section = "2.5", id = "b")
+	@SpecAssertion(section = "3.5", id = "b")
 	@Test(expectedExceptions = ValidationException.class)
 	public void testRuntimeExceptionInValidatorCreationIsWrapped() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new SecondDummy() );
 	}
 
-	@SpecAssertion(section = "2.5", id = "c")
+	@SpecAssertion(section = "3.5", id = "c")
 	@Test(expectedExceptions = ValidationException.class)
 	public void testValidationExceptionIsThrownInCaseFactoryReturnsNull() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().constraintValidatorFactory(

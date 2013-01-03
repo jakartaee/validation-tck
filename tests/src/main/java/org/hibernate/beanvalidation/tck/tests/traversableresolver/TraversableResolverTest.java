@@ -56,9 +56,9 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.5.2", id = "a"),
-			@SpecAssertion(section = "3.5.2", id = "b"),
-			@SpecAssertion(section = "3.5.2", id = "c")
+			@SpecAssertion(section = "4.6.3", id = "a"),
+			@SpecAssertion(section = "4.6.3", id = "b"),
+			@SpecAssertion(section = "4.6.3", id = "c")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadable() {
 		Suit suit = new Suit();
@@ -82,7 +82,7 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5.2", id = "d")
+	@SpecAssertion(section = "4.6.3", id = "d")
 	public void testCustomTraversableResolverViaConfiguration() {
 
 		// get a new factory using a custom configuration
@@ -98,7 +98,7 @@ public class TraversableResolverTest extends Arquillian {
 
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.5.2", id = "e")
+	@SpecAssertion(section = "4.6.3", id = "e")
 	public void testResolverExceptionsGetWrappedInValidationException() {
 		ExceptionThrowingTraversableResolver resolver = new ExceptionThrowingTraversableResolver();
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
@@ -111,10 +111,12 @@ public class TraversableResolverTest extends Arquillian {
 
 	private static class DummyTraversableResolver implements TraversableResolver {
 
+		@Override
 		public boolean isReachable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
 			return false;
 		}
 
+		@Override
 		public boolean isCascadable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
 			return false;
 		}
