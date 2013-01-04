@@ -5,6 +5,7 @@
 # Build output directories
 /target
 */target
+*/test-output
 
 # IntelliJ specific files/directories
 /out
