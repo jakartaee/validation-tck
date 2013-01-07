@@ -19,6 +19,8 @@ package org.hibernate.beanvalidation.tck.util;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -257,6 +259,39 @@ public final class TestUtil {
 		}
 
 		return !p2Iterator.hasNext();
+	}
+
+	/**
+	 * Retrieves the parameter names from the given set of constraint
+	 * violations, which must represent method or constructor constraint
+	 * violations.
+	 *
+	 * @param constraintViolations The violations to retrieve the names from.
+	 *
+	 * @return The parameter names.
+	 */
+	public static Set<String> getParameterNames(Set<? extends ConstraintViolation<?>> constraintViolations) {
+		Set<String> parameterNames = new HashSet<String>();
+
+		for ( ConstraintViolation<?> constraintViolation : constraintViolations ) {
+			parameterNames.add( getParameterName( constraintViolation.getPropertyPath() ) );
+		}
+
+		return parameterNames;
+	}
+
+	public static String getParameterName(Path path) {
+		Iterator<Node> nodes = path.iterator();
+
+		assertTrue( nodes.hasNext() );
+		nodes.next();
+
+		assertTrue( nodes.hasNext() );
+		return nodes.next().getName();
+	}
+
+	public static <T> Set<T> asSet(T... ts) {
+		return new HashSet<T>( Arrays.asList( ts ) );
 	}
 
 	public static PropertyDescriptor getPropertyDescriptor(Class<?> clazz, String property) {
