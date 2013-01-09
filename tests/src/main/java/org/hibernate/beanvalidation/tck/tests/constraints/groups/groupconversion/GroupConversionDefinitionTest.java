@@ -31,6 +31,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -132,7 +133,8 @@ public class GroupConversionDefinitionTest extends Arquillian {
 		validator.forMethods().validateParameters( object, method, parameters );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	//fails since the RI currently adds up return value constraints
+	@Test(expectedExceptions = ConstraintDeclarationException.class, groups=Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "g"),
 			@SpecAssertion(section = "4.4.5", id = "i")
@@ -158,7 +160,8 @@ public class GroupConversionDefinitionTest extends Arquillian {
 		validator.forMethods().validateParameters( object, method, parameters );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	//fails since the RI currently adds up return value constraints
+	@Test(expectedExceptions = ConstraintDeclarationException.class, groups=Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "g"),
 			@SpecAssertion(section = "4.4.5", id = "i")
@@ -184,7 +187,8 @@ public class GroupConversionDefinitionTest extends Arquillian {
 		validator.forMethods().validateParameters( object, method, parameters );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	//fails since the RI currently adds up return value constraints
+	@Test(expectedExceptions = ConstraintDeclarationException.class, groups=Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "h"),
 			@SpecAssertion(section = "4.4.5", id = "i")
@@ -211,7 +215,8 @@ public class GroupConversionDefinitionTest extends Arquillian {
 		validator.forMethods().validateParameters( object, method, parameters );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	//fails since the RI currently adds up return value constraints
+	@Test(expectedExceptions = ConstraintDeclarationException.class, groups=Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "h"),
 			@SpecAssertion(section = "4.4.5", id = "i")

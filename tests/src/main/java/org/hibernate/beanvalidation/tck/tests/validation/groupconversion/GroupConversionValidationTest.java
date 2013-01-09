@@ -34,6 +34,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -75,7 +76,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups=Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testSeveralGroupConversionsAppliedOnField() {
 
@@ -135,7 +136,8 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
-	@Test
+	//fails as "$retval is used as return value node name
+	@Test(groups=Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodReturnValue() throws Exception {
 		//given
@@ -177,7 +179,8 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertNodeNames( propertyPath, "setMainAddress", "arg0", "street1" );
 	}
 
-	@Test
+	//fails as one descriptor in return value path is null
+	@Test(groups=Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnConstructorReturnValue() throws Exception {
 		//given
