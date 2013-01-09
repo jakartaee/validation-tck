@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -16,10 +16,11 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ElementDescriptor;
 import javax.validation.metadata.ElementDescriptor.Kind;
-import javax.validation.metadata.PropertyDescriptor;
+import javax.validation.metadata.ReturnValueDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -30,7 +31,6 @@ import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -38,71 +38,78 @@ import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class PropertyDescriptorTest extends Arquillian {
+public class ReturnValueDescriptorTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( PropertyDescriptorTest.class )
+				.withTestClass( ReturnValueDescriptorTest.class )
 				.withClasses(
-						Order.class,
-						Person.class,
+						Account.class,
 						Customer.class,
-						Severity.class,
-						NotEmpty.class
+						CustomerService.class,
+						Executables.class,
+						Person.class
 				)
 				.build();
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "a")
-	public void testIsNotCascaded() {
-		PropertyDescriptor descriptor = getPropertyDescriptor( Order.class, "orderNumber" );
+	@SpecAssertion(section = "6.7", id = "a")
+	public void testIsCascadedForMethodReturnValue() {
+		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedMethod()
+				.getReturnValueDescriptor();
 		assertFalse( descriptor.isCascaded(), "Should not be cascaded" );
-	}
 
-	@Test
-	@SpecAssertion(section = "6.4", id = "a")
-	public void testIsCascaded() {
-		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, "orderList" );
+		descriptor = Executables.cascadedReturnValueMethod().getReturnValueDescriptor();
 		assertTrue( descriptor.isCascaded(), "Should be cascaded" );
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "b")
-	public void testPropertyName() {
-		String propertyName = "orderList";
-		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, propertyName );
-		assertEquals( descriptor.getPropertyName(), propertyName, "Wrong property name" );
+	@SpecAssertion(section = "6.7", id = "a")
+	public void testIsCascadedForConstructorReturnValue() {
+		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedConstructor()
+				.getReturnValueDescriptor();
+		assertFalse( descriptor.isCascaded(), "Should not be cascaded" );
+
+		descriptor = Executables.cascadedReturnValueConstructor().getReturnValueDescriptor();
+		assertTrue( descriptor.isCascaded(), "Should be cascaded" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.2", id = "d")
 	public void testGetKind() {
-		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, "orderList" );
+		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedMethod()
+				.getReturnValueDescriptor();
 		assertEquals(
 				descriptor.getKind(),
-				Kind.PROPERTY,
-				"Descriptor should be of kind PROPERTY"
+				Kind.RETURN_VALUE,
+				"Descriptor should be of kind RETURN_VALUE"
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = "6.2", id = "e")
 	public void testAs() {
-		ElementDescriptor elementDescriptor = getPropertyDescriptor( Customer.class, "orderList" );
-		PropertyDescriptor propertyDescriptor = elementDescriptor.as( PropertyDescriptor.class );
-		assertNotNull( propertyDescriptor, "Descriptor should not be null" );
-		assertSame( propertyDescriptor, elementDescriptor, "as() should return the same object" );
+		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedMethod()
+				.getReturnValueDescriptor();
+		ReturnValueDescriptor returnValueDescriptor = elementDescriptor.as( ReturnValueDescriptor.class );
+		assertNotNull( returnValueDescriptor, "Descriptor should not be null" );
+		assertSame(
+				returnValueDescriptor,
+				elementDescriptor,
+				"as() should return the same object"
+		);
 	}
 
 	@Test(expectedExceptions = ClassCastException.class)
 	@SpecAssertion(section = "6.2", id = "e")
 	public void testAsWithWrongType() {
-		ElementDescriptor elementDescriptor = getPropertyDescriptor( Customer.class, "orderList" );
+		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedMethod()
+				.getReturnValueDescriptor();
 		elementDescriptor.as( BeanDescriptor.class );
 	}
 }

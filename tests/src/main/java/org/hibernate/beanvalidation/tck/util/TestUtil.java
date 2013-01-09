@@ -36,8 +36,10 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.ProviderSpecificBootstrap;
 import javax.validation.metadata.ConstraintDescriptor;
+import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.ElementDescriptor;
 import javax.validation.metadata.ElementDescriptor.Kind;
+import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 import javax.validation.spi.ValidationProvider;
 
@@ -297,6 +299,19 @@ public final class TestUtil {
 	public static PropertyDescriptor getPropertyDescriptor(Class<?> clazz, String property) {
 		Validator validator = getValidatorUnderTest();
 		return validator.getConstraintsForClass( clazz ).getConstraintsForProperty( property );
+	}
+
+	public static MethodDescriptor getMethodDescriptor(Class<?> clazz, String name, Class<?>... parameterTypes) {
+		Validator validator = getValidatorUnderTest();
+		return validator.getConstraintsForClass( clazz )
+				.getConstraintsForMethod( name, parameterTypes );
+	}
+
+	public static ConstructorDescriptor getConstructorDescriptor(Class<?> clazz, Class<?>... parameterTypes) {
+		Validator validator = getValidatorUnderTest();
+		return validator.getConstraintsForClass( clazz ).getConstraintsForConstructor(
+				parameterTypes
+		);
 	}
 
 	public static Set<ConstraintDescriptor<?>> getConstraintDescriptorsFor(Class<?> clazz, String property) {
