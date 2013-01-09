@@ -61,6 +61,7 @@ public class XmlConfigurationTest extends Arquillian {
 						CustomConsistentUserValidator.class,
 						Optional.class,
 						Order.class,
+						OrderLine.class,
 						CreditCard.class,
 						TestGroup.class
 				)
