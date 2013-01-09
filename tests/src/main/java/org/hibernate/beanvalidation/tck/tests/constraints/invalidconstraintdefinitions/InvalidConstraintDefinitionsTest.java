@@ -16,7 +16,10 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefinitions;
 
+import java.lang.reflect.Method;
+import java.util.Date;
 import javax.validation.ConstraintDefinitionException;
+import javax.validation.MethodValidator;
 import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -27,6 +30,7 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -45,24 +49,20 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1", id = "b"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithParameterStartingWithValid() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityValidProperty() );
-			fail( "The used constraint does use an invalid property name. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityValidProperty() );
+		fail( "The used constraint does use an invalid property name. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.1", id = "a"),
@@ -71,133 +71,120 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutMessageParameter() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityNoMessage() );
-			fail( "The used constraint does not define a message parameter. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityNoMessage() );
+		fail( "The used constraint does not define a message parameter. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.2", id = "a"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutGroupParameter() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityNoGroups() );
-			fail( "The used constraint does not define a groups parameter. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityNoGroups() );
+		fail( "The used constraint does not define a groups parameter. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.3", id = "a"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutPayloadParameter() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityNoGroups() );
-			fail( "The used constraint does not define a payload parameter. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityNoGroups() );
+		fail( "The used constraint does not define a payload parameter. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.2", id = "c"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongDefaultGroupValue() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityInvalidDefaultGroup() );
-			fail( "The default groups parameter is not the empty array. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityInvalidDefaultGroup() );
+		fail( "The default groups parameter is not the empty array. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.3", id = "b"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongDefaultPayloadValue() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityInvalidDefaultPayload() );
-			fail( "The default payload parameter is not the empty array. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityInvalidDefaultPayload() );
+		fail( "The default payload parameter is not the empty array. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.3", id = "c"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongPayloadClass() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityInvalidPayloadClass() );
-			fail( "The default payload parameter has to be of type Class<? extends Payload>[]. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityInvalidPayloadClass() );
+		fail( "The default payload parameter has to be of type Class<? extends Payload>[]. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.1", id = "a"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongMessageType() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityInvalidMessageType() );
-			fail( "The message parameter has to be of type String. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityInvalidMessageType() );
+		fail( "The message parameter has to be of type String. The validation should have failed." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.2", id = "b"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongGroupType() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.validate( new DummyEntityInvalidGroupsType() );
-			fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
-		}
-		catch ( ConstraintDefinitionException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyEntityInvalidGroupsType() );
+		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
+	}
+
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "3.1", id = "c"),
+			@SpecAssertion(section = "3.1", id = "g")
+	})
+	public void testConstraintDefinitionGenericAndCrossParameterConstraint() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DummyGenericAndCrossParameterConstraint() );
+		fail( "A constraint may either be annotated with @Constraint or @CrossParameterConstraint, but not both. The validation should have failed." );
+	}
+
+	//TODO: Should we more clearly specify which exception shall be raised? The RI throws a declaration
+	//exception as no validator for type Object[] can be found, but one could also specify a definition
+	//exception
+	@Test(expectedExceptions = Exception.class)
+	@SpecAssertion(section = "3.4", id = "e")
+	public void testValidatorForCrossParameterConstraintMustValidateObjectArray() throws Exception {
+		Object object = new CalendarService();
+		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		MethodValidator executableValidator = TestUtil.getValidatorUnderTest().forMethods();
+
+		executableValidator.validateParameters( object, method, parameterValues );
+		fail( "Validators for cross-parameter constraints must validate the type Object[]. Expected exception wasn't thrown." );
 	}
 
 	@InvalidDefaultGroup
@@ -234,5 +221,15 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	@InvalidGroupsType
 	public class DummyEntityInvalidGroupsType {
+	}
+
+	@GenericAndCrossParameterConstraint
+	public class DummyGenericAndCrossParameterConstraint {
+	}
+
+	public static class CalendarService {
+		@InvalidCrossParameterConstraint
+		public void createEvent(Date start, Date end) {
+		}
 	}
 }
