@@ -16,9 +16,14 @@
 */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Set;
 import javax.validation.Configuration;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -30,6 +35,7 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -42,6 +48,10 @@ public class ConfigurationTest extends Arquillian {
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClass( ConfigurationTest.class )
+				.withClass( User.class )
+				.withClass( Address.class )
+				.withResource( "user-constraints-ConfigurationTest.xml" )
+				.withResource( "address-constraints-ConfigurationTest.xml" )
 				.build();
 	}
 
@@ -55,12 +65,202 @@ public class ConfigurationTest extends Arquillian {
 				ParameterizedType paramType = (ParameterizedType) type;
 				Type[] typeArguments = paramType.getActualTypeArguments();
 				for ( Type typeArgument : typeArguments ) {
-					if ( typeArgument instanceof Class && Configuration.class.isAssignableFrom( (Class) typeArgument ) ) {
+					if ( typeArgument instanceof Class && Configuration.class.isAssignableFrom( (Class<?>) typeArgument ) ) {
 						foundSubinterfaceOfConfiguration = true;
 					}
 				}
 			}
 		}
-		assertTrue( foundSubinterfaceOfConfiguration, "Could not find subinterface of Configuration" );
+		assertTrue(
+				foundSubinterfaceOfConfiguration,
+				"Could not find subinterface of Configuration"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "5.5.3", id = "c")
+	public void testMappingsCanBeAddedViaConfiguration() {
+		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
+
+		configuration.addMapping(
+				ConfigurationTest.class.getResourceAsStream(
+						"user-constraints-ConfigurationTest.xml"
+				)
+		);
+		configuration.addMapping(
+				ConfigurationTest.class.getResourceAsStream(
+						"address-constraints-ConfigurationTest.xml"
+				)
+		);
+
+		Validator validator = configuration.buildValidatorFactory().getValidator();
+
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate( new User() );
+		assertCorrectPropertyPaths(
+				constraintViolations,
+				"firstName",
+				"lastName",
+				"address.street"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "5.5.3", id = "d")
+	public void testNonResettableInputStreamCanBeAddedViaConfigurationAndFactoryCanBeCreatedSeveralTimes() {
+		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
+
+		configuration.addMapping(
+				new NonResettableInputStream(
+						ConfigurationTest.class.getResourceAsStream(
+								"user-constraints-ConfigurationTest.xml"
+						)
+				)
+		);
+
+		Validator validator1 = configuration.buildValidatorFactory().getValidator();
+
+		Set<ConstraintViolation<User>> constraintViolations = validator1.validate( new User() );
+		assertCorrectPropertyPaths(
+				constraintViolations,
+				"firstName",
+				"lastName"
+		);
+
+		configuration.addMapping(
+				new NonResettableInputStream(
+						ConfigurationTest.class.getResourceAsStream(
+								"address-constraints-ConfigurationTest.xml"
+						)
+				)
+		);
+
+		//re-reads first stream
+		Validator validator2 = configuration.buildValidatorFactory().getValidator();
+
+		constraintViolations = validator2.validate( new User() );
+		assertCorrectPropertyPaths(
+				constraintViolations,
+				"firstName",
+				"lastName",
+				"address.street"
+		);
+
+		//re-reads both streams
+		validator2 = configuration.buildValidatorFactory().getValidator();
+
+		constraintViolations = validator2.validate( new User() );
+		assertCorrectPropertyPaths(
+				constraintViolations,
+				"firstName",
+				"lastName",
+				"address.street"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "5.5.3", id = "e")
+	public void testSeveralFactoriesCanBeBuildFromOneConfiguration() {
+		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
+		Validator validator1 = configuration.buildValidatorFactory().getValidator();
+
+		Set<ConstraintViolation<User>> constraintViolations = validator1.validate( new User() );
+		assertCorrectPropertyPaths( constraintViolations, "firstName" );
+
+		//add a mapping and get another validator
+		configuration.addMapping(
+				ConfigurationTest.class.getResourceAsStream(
+						"user-constraints-ConfigurationTest.xml"
+				)
+		);
+		Validator validator2 = configuration.buildValidatorFactory().getValidator();
+
+		constraintViolations = validator2.validate( new User() );
+		assertCorrectPropertyPaths( constraintViolations, "firstName", "lastName" );
+
+		//the mapping shouldn't alter the previously created validator
+		constraintViolations = validator1.validate( new User() );
+		assertCorrectPropertyPaths( constraintViolations, "firstName" );
+
+		//add a mapping and get another validator
+		configuration.addMapping(
+				ConfigurationTest.class.getResourceAsStream(
+						"address-constraints-ConfigurationTest.xml"
+				)
+		);
+		Validator validator3 = configuration.buildValidatorFactory().getValidator();
+
+		constraintViolations = validator3.validate( new User() );
+		assertCorrectPropertyPaths(
+				constraintViolations,
+				"firstName",
+				"lastName",
+				"address.street"
+		);
+
+		//the mapping shouldn't alter the previously created validators
+		constraintViolations = validator1.validate( new User() );
+		assertCorrectPropertyPaths( constraintViolations, "firstName" );
+
+		constraintViolations = validator2.validate( new User() );
+		assertCorrectPropertyPaths( constraintViolations, "firstName", "lastName" );
+	}
+
+	/**
+	 * An input stream which does not support the mark/reset contract.
+	 *
+	 * @author Gunnar Morling
+	 */
+	private static class NonResettableInputStream extends InputStream {
+
+		private final InputStream delegate;
+
+		public NonResettableInputStream(InputStream delegate) {
+			this.delegate = delegate;
+		}
+
+		@Override
+		public int available() throws IOException {
+			return delegate.available();
+		}
+
+		@Override
+		public void close() throws IOException {
+			delegate.close();
+		}
+
+		@Override
+		public synchronized void mark(int readlimit) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean markSupported() {
+			return false;
+		}
+
+		@Override
+		public int read() throws IOException {
+			return 0;
+		}
+
+		@Override
+		public int read(byte[] b, int off, int len) throws IOException {
+			return delegate.read( b, off, len );
+		}
+
+		@Override
+		public int read(byte[] b) throws IOException {
+			return delegate.read( b );
+		}
+
+		@Override
+		public synchronized void reset() throws IOException {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public long skip(long n) throws IOException {
+			return delegate.skip( n );
+		}
 	}
 }
