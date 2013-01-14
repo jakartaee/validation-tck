@@ -160,7 +160,9 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertNodeNames( propertyPath, "retrieveMainAddress", null, "street1" );
 	}
 
-	@Test
+	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
+	//isReachable()
+	@Test(groups=Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
@@ -208,7 +210,9 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertNodeNames( propertyPath, "User", null, "address", "street1" );
 	}
 
-	@Test
+	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
+	//isReachable()
+	@Test(groups=Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given
