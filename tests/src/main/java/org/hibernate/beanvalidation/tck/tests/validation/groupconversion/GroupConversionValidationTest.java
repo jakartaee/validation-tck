@@ -66,8 +66,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnField() {
-
-		Set<ConstraintViolation<User>> constraintViolations = validator.validate( Users.withInvalidMainAddress() );
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidMainAddress() );
 
 		assertCorrectPropertyPaths(
 				constraintViolations,
@@ -76,11 +75,14 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testSeveralGroupConversionsAppliedOnField() {
+		User userWithInvalidPreferredShipmentAddress = TestUsers.withInvalidPreferredShipmentAddress();
 
-		Set<ConstraintViolation<User>> constraintViolations = validator.validate( Users.withInvalidPreferredShipmentAddress() );
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate(
+				userWithInvalidPreferredShipmentAddress
+		);
 
 		assertCorrectPropertyPaths(
 				constraintViolations,
@@ -89,7 +91,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 
 		constraintViolations = validator.validate(
-				Users.withInvalidPreferredShipmentAddress(),
+				userWithInvalidPreferredShipmentAddress,
 				Complex.class
 		);
 
@@ -99,7 +101,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 
 		constraintViolations = validator.validate(
-				Users.withInvalidPreferredShipmentAddress(),
+				userWithInvalidPreferredShipmentAddress,
 				Default.class,
 				Complex.class
 		);
@@ -112,7 +114,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 
 		constraintViolations = validator.validate(
-				Users.withInvalidPreferredShipmentAddress(),
+				userWithInvalidPreferredShipmentAddress,
 				Complete.class
 		);
 
@@ -127,7 +129,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnProperty() {
-		Set<ConstraintViolation<User>> constraintViolations = validator.validate( Users.withInvalidShipmentAddress() );
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidShipmentAddress() );
 
 		assertCorrectPropertyPaths(
 				constraintViolations,
@@ -137,13 +139,13 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	//fails as "$retval is used as return value node name
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodReturnValue() throws Exception {
 		//given
-		User user = Users.validUser();
+		User user = TestUsers.validUser();
 		Method method = User.class.getMethod( "retrieveMainAddress" );
-		Object returnValue = Addresses.withInvalidStreet1();
+		Object returnValue = TestAddresses.withInvalidStreet1();
 
 		//when
 		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
@@ -162,9 +164,9 @@ public class GroupConversionValidationTest extends Arquillian {
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
-		User user = Users.validUser();
+		User user = TestUsers.validUser();
 		Method method = User.class.getMethod( "setMainAddress", Address.class );
-		Object[] arguments = new Object[] { Addresses.withInvalidStreet1() };
+		Object[] arguments = new Object[] { TestAddresses.withInvalidStreet1() };
 
 		//when
 		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
@@ -180,12 +182,12 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	//fails as one descriptor in return value path is null
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnConstructorReturnValue() throws Exception {
 		//given
 		Constructor<User> constructor = User.class.getConstructor( Address.class );
-		User createdObject = new User( Addresses.withInvalidStreet1() );
+		User createdObject = new User( TestAddresses.withInvalidStreet1() );
 
 		//when
 		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
@@ -211,7 +213,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given
 		Constructor<User> constructor = User.class.getConstructor( Address.class );
-		Object[] arguments = new Object[] { Addresses.withInvalidStreet1() };
+		Object[] arguments = new Object[] { TestAddresses.withInvalidStreet1() };
 
 		//when
 		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
@@ -229,7 +231,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsNotExecutedRecursively() {
-		Set<ConstraintViolation<User>> constraintViolations = validator.validate( Users.withInvalidOfficeAddress() );
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidOfficeAddress() );
 
 		assertCorrectPropertyPaths(
 				constraintViolations,
@@ -238,7 +240,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 
 		constraintViolations = validator.validate(
-				Users.withInvalidOfficeAddress(),
+				TestUsers.withInvalidOfficeAddress(),
 				BasicPostal.class
 		);
 
@@ -251,7 +253,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.4.5", id = "f")
 	public void testGroupConversionWithSequenceAsTo() {
-		User user = Users.validUser();
+		User user = TestUsers.validUser();
 
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
@@ -265,44 +267,44 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertCorrectPropertyPaths( constraintViolations, "weekendAddress.street1" );
 	}
 
-	private static class Users {
+	private static class TestUsers {
 
 		public static User validUser() {
 			return new User(
-					Addresses.validAddress(),
-					Arrays.asList( Addresses.validAddress() ),
-					Addresses.validAddress(),
-					Addresses.validAddress(),
-					Addresses.validAddress()
+					TestAddresses.validAddress(),
+					Arrays.asList( TestAddresses.validAddress() ),
+					TestAddresses.validAddress(),
+					TestAddresses.validAddress(),
+					TestAddresses.validAddress()
 			);
 		}
 
 		public static User withInvalidMainAddress() {
 			User user = validUser();
-			user.setMainAddress( Addresses.invalidAddress() );
+			user.setMainAddress( TestAddresses.invalidAddress() );
 			return user;
 		}
 
 		public static User withInvalidShipmentAddress() {
 			User user = validUser();
-			user.setShipmentAddresses( Arrays.asList( Addresses.invalidAddress() ) );
+			user.setShipmentAddresses( Arrays.asList( TestAddresses.invalidAddress() ) );
 			return user;
 		}
 
 		public static User withInvalidPreferredShipmentAddress() {
 			User user = validUser();
-			user.setPreferredShipmentAddress( Addresses.invalidAddress() );
+			user.setPreferredShipmentAddress( TestAddresses.invalidAddress() );
 			return user;
 		}
 
 		public static User withInvalidOfficeAddress() {
 			User user = validUser();
-			user.setOfficeAddress( Addresses.invalidAddress() );
+			user.setOfficeAddress( TestAddresses.invalidAddress() );
 			return user;
 		}
 	}
 
-	private static class Addresses {
+	private static class TestAddresses {
 
 		public static Address validAddress() {
 			return new Address( "Main Street", "c/o Hitchcock", "123", "AB" );

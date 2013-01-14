@@ -256,49 +256,49 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_ConstrainedParameter() {
+	public void testGetConstraintsForParameterConstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.parameterConstrainedMethod();
 		assertNotNull( methodDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_CrossParameterConstrained() {
+	public void testGetConstraintsForCrossParameterConstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.crossParameterConstrainedMethod();
 		assertNotNull( methodDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_CascadedParameter() {
+	public void testGetConstraintsForCascadedParameterMethod() {
 		MethodDescriptor methodDescriptor = Executables.cascadedParameterMethod();
 		assertNotNull( methodDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_ReturnValueConstrained() {
+	public void testGetConstraintsForReturnValueConstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.returnValueConstrainedMethod();
 		assertNotNull( methodDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_CascadedReturnValue() {
+	public void testGetConstraintsForCascadedReturnValueMethod() {
 		MethodDescriptor methodDescriptor = Executables.cascadedReturnValueMethod();
 		assertNotNull( methodDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_Unconstrained() {
+	public void testGetConstraintsForUnconstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.unconstrainedMethod();
 		assertNull( methodDescriptor, "Descriptor should be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_NonExistingMethod() {
+	public void testGetConstraintsForNonExistingMethod() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
 		MethodDescriptor methodDescriptor = beanDescriptor.getConstraintsForMethod( "foo" );
 		assertNull( methodDescriptor, "Descriptor should be null" );
@@ -306,7 +306,7 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "6.3", id = "d")
-	public void testGetConstraintsForMethod_NullMethod() {
+	public void testGetConstraintsForNullMethod() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
 		beanDescriptor.getConstraintsForMethod( null );
 	}
@@ -346,49 +346,49 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_ConstrainedParameter() {
+	public void testGetConstraintsForParameterConstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.parameterConstrainedConstructor();
 		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_CrossParameterConstrained() {
+	public void testGetConstraintsForCrossParameterConstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.crossParameterConstrainedConstructor();
 		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_CascadedParameter() {
+	public void testGetConstraintsForCascadedParameterConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.cascadedParameterConstructor();
 		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_ReturnValueConstrained() {
+	public void testGetConstraintsForReturnValueConstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.returnValueConstrainedConstructor();
 		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_CascadedReturnValue() {
+	public void testGetConstraintsForCascadedReturnValueConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.cascadedReturnValueConstructor();
 		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_Unconstrained() {
+	public void testGetConstraintsForUnconstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.unconstrainedConstructor();
 		assertNull( constructorDescriptor, "Descriptor should be null" );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
-	public void testGetConstraintsForConstructor_NonExistingConstructor() {
+	public void testGetConstraintsForNonExistingConstructorConstructor() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
 		ConstructorDescriptor constructorDescriptor = beanDescriptor.getConstraintsForConstructor(
 				Short.class
