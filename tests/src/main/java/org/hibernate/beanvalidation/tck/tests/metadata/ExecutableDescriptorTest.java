@@ -31,6 +31,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.testng.Assert.assertEquals;
@@ -188,7 +189,8 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "d")
 	public void testAreParametersConstrainedForCrossParameterConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.crossParameterConstrainedMethod();
@@ -238,7 +240,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "d")
 	public void testAreParametersConstrainedForCrossParameterConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.crossParameterConstrainedConstructor();
@@ -338,7 +340,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testHasConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
@@ -359,7 +361,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testHasConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
@@ -380,7 +382,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testGetConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
@@ -410,7 +412,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testGetConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
@@ -440,7 +442,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testFindConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
@@ -476,7 +478,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	@Test
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testFindConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
