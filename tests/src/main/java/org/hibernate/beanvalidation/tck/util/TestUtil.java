@@ -19,6 +19,8 @@ package org.hibernate.beanvalidation.tck.util;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -28,16 +30,21 @@ import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.MessageInterpolator;
 import javax.validation.Path;
+import javax.validation.Path.Node;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.bootstrap.ProviderSpecificBootstrap;
 import javax.validation.metadata.ConstraintDescriptor;
+import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.ElementDescriptor;
+import javax.validation.metadata.ElementDescriptor.Kind;
+import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 import javax.validation.spi.ValidationProvider;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.FileAssert.fail;
 
@@ -87,7 +94,8 @@ public final class TestUtil {
 		assertEquals(
 				violations.size(),
 				expectedViolations,
-				"Wrong number of constraint violations. Expected: " + expectedViolations + " Actual: " + violations.size()
+				"Wrong number of constraint violations. Expected: " + expectedViolations + " Actual: " + violations
+						.size()
 		);
 	}
 
@@ -99,7 +107,8 @@ public final class TestUtil {
 
 		assertTrue(
 				actualMessages.size() == messages.length,
-				"Wrong number or error messages. Expected: " + messages.length + " Actual: " + actualMessages.size()
+				"Wrong number or error messages. Expected: " + messages.length + " Actual: " + actualMessages
+						.size()
 		);
 
 		for ( String expectedMessage : messages ) {
@@ -110,7 +119,8 @@ public final class TestUtil {
 			actualMessages.remove( expectedMessage );
 		}
 		assertTrue(
-				actualMessages.isEmpty(), "Actual messages contained more messages as specified expected messages"
+				actualMessages.isEmpty(),
+				"Actual messages contained more messages as specified expected messages"
 		);
 	}
 
@@ -118,12 +128,15 @@ public final class TestUtil {
 		List<String> actualConstraintTypes = new ArrayList<String>();
 		for ( ConstraintViolation<?> violation : violations ) {
 			actualConstraintTypes.add(
-					( (Annotation) violation.getConstraintDescriptor().getAnnotation() ).annotationType().getName()
+					( (Annotation) violation.getConstraintDescriptor()
+							.getAnnotation() ).annotationType().getName()
 			);
 		}
 
 		assertEquals(
-				expectedConstraintTypes.length, actualConstraintTypes.size(), "Wrong number of constraint types."
+				expectedConstraintTypes.length,
+				actualConstraintTypes.size(),
+				"Wrong number of constraint types."
 		);
 
 		for ( Class<?> expectedConstraintType : expectedConstraintTypes ) {
@@ -141,10 +154,9 @@ public final class TestUtil {
 		}
 
 		assertEquals(
-				propertyPaths.length,
 				propertyPathsOfViolations.size(),
-				"Wrong number of property paths. Expected: " + propertyPaths.length + " Actual: " + propertyPathsOfViolations
-						.size()
+				propertyPaths.length,
+				"Wrong number of property paths."
 		);
 
 		for ( String propertyPath : propertyPaths ) {
@@ -179,6 +191,31 @@ public final class TestUtil {
 				"Wrong invalid value."
 		);
 	}
+
+	public static void assertDescriptorKinds(Path path, Kind... kinds) {
+
+		Iterator<Node> pathIterator = path.iterator();
+
+		for ( Kind kind : kinds ) {
+			assertTrue( pathIterator.hasNext() );
+			assertEquals( pathIterator.next().getElementDescriptor().getKind(), kind );
+		}
+
+		assertFalse( pathIterator.hasNext() );
+	}
+
+	public static void assertNodeNames(Path path, String... names) {
+
+		Iterator<Node> pathIterator = path.iterator();
+
+		for ( String name : names ) {
+			assertTrue( pathIterator.hasNext() );
+			assertEquals( pathIterator.next().getName(), name );
+		}
+
+		assertFalse( pathIterator.hasNext() );
+	}
+
 
 	public static boolean assertEqualPaths(Path p1, Path p2) {
 		Iterator<Path.Node> p1Iterator = p1.iterator();
@@ -226,9 +263,55 @@ public final class TestUtil {
 		return !p2Iterator.hasNext();
 	}
 
+	/**
+	 * Retrieves the parameter names from the given set of constraint
+	 * violations, which must represent method or constructor constraint
+	 * violations.
+	 *
+	 * @param constraintViolations The violations to retrieve the names from.
+	 *
+	 * @return The parameter names.
+	 */
+	public static Set<String> getParameterNames(Set<? extends ConstraintViolation<?>> constraintViolations) {
+		Set<String> parameterNames = new HashSet<String>();
+
+		for ( ConstraintViolation<?> constraintViolation : constraintViolations ) {
+			parameterNames.add( getParameterName( constraintViolation.getPropertyPath() ) );
+		}
+
+		return parameterNames;
+	}
+
+	public static String getParameterName(Path path) {
+		Iterator<Node> nodes = path.iterator();
+
+		assertTrue( nodes.hasNext() );
+		nodes.next();
+
+		assertTrue( nodes.hasNext() );
+		return nodes.next().getName();
+	}
+
+	public static <T> Set<T> asSet(T... ts) {
+		return new HashSet<T>( Arrays.asList( ts ) );
+	}
+
 	public static PropertyDescriptor getPropertyDescriptor(Class<?> clazz, String property) {
 		Validator validator = getValidatorUnderTest();
 		return validator.getConstraintsForClass( clazz ).getConstraintsForProperty( property );
+	}
+
+	public static MethodDescriptor getMethodDescriptor(Class<?> clazz, String name, Class<?>... parameterTypes) {
+		Validator validator = getValidatorUnderTest();
+		return validator.getConstraintsForClass( clazz )
+				.getConstraintsForMethod( name, parameterTypes );
+	}
+
+	public static ConstructorDescriptor getConstructorDescriptor(Class<?> clazz, Class<?>... parameterTypes) {
+		Validator validator = getValidatorUnderTest();
+		return validator.getConstraintsForClass( clazz ).getConstraintsForConstructor(
+				parameterTypes
+		);
 	}
 
 	public static Set<ConstraintDescriptor<?>> getConstraintDescriptorsFor(Class<?> clazz, String property) {
@@ -238,7 +321,9 @@ public final class TestUtil {
 
 	public static InputStream getInputStreamForPath(String path) {
 		// try the context class loader first
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( path );
+		InputStream inputStream = Thread.currentThread()
+				.getContextClassLoader()
+				.getResourceAsStream( path );
 
 		// try the current class loader
 		if ( inputStream == null ) {
@@ -259,7 +344,8 @@ public final class TestUtil {
 		Class<U> providerClass;
 		try {
 			@SuppressWarnings("unchecked")
-			Class<U> tmpClazz = (Class<U>) TestUtil.class.getClassLoader().loadClass( validatorProviderClassName );
+			Class<U> tmpClazz = (Class<U>) TestUtil.class.getClassLoader()
+					.loadClass( validatorProviderClassName );
 			providerClass = tmpClazz;
 		}
 		catch ( ClassNotFoundException e ) {
@@ -281,7 +367,9 @@ public final class TestUtil {
 		 *
 		 * @see <a href="http://www.regexplanet.com/simple/index.jsp">Regular expression tester</a>
 		 */
-		private static final Pattern pathPattern = Pattern.compile( "(\\w+)(\\[(\\w*)\\])?(\\.(.*))*" );
+		private static final Pattern pathPattern = Pattern.compile(
+				"(\\w+)(\\[(\\w*)\\])?(\\.(.*))*"
+		);
 		private static final int PROPERTY_NAME_GROUP = 1;
 		private static final int INDEXED_GROUP = 2;
 		private static final int INDEX_GROUP = 3;
@@ -329,6 +417,7 @@ public final class TestUtil {
 			nodeList.add( node );
 		}
 
+		@Override
 		public Iterator<Path.Node> iterator() {
 			return nodeList.iterator();
 		}
