@@ -14,47 +14,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations;
 
 import java.util.Date;
+import java.util.List;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
 
 /**
  * @author Gunnar Morling
  */
-public class CalendarService {
+public interface ICalendarService {
 
-	@OnlineCalendarService
-	public CalendarService() {
-	}
+	CalendarEvent createEvent(Date start, Date end);
 
-	public CalendarService(@NotNull String type) {
-	}
-
-	@ConsistentDateParameters
-	public CalendarService(Date start, Date end) {
-	}
-
-	@ConsistentDateParameters
-	public CalendarService(@NotNull Date start, Date end, Integer numberOfParticipants) {
-	}
-
-	public void setType(@NotNull String type) {
-	}
-
-	@ConsistentDateParameters
-	public void createEvent(Date start, Date end) {
-	}
-
-	@ConsistentDateParameters
-	public void createEvent(@NotNull Date start, Date end, Integer numberOfParticipants) {
-	}
+	CalendarEvent createEvent(Date start, Date end, int duration);
 
 	@NotNull
-	public CalendarEvent findEvents(String name) {
-		return null;
-	}
-
-	public static void createEvent(@NotNull String title, @NotNull Date start, @NotNull Date end) {
-	}
+	CalendarEvent createEvent(Date start, Date end, List<String> participants);
 }

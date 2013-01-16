@@ -14,47 +14,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl;
 
 import java.util.Date;
+import java.util.List;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.AbstractCalendarService;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
 
 /**
  * @author Gunnar Morling
  */
-public class CalendarService {
+public class SubClassAddingParameterConstraints extends AbstractCalendarService {
 
-	@OnlineCalendarService
-	public CalendarService() {
-	}
-
-	public CalendarService(@NotNull String type) {
-	}
-
-	@ConsistentDateParameters
-	public CalendarService(Date start, Date end) {
-	}
-
-	@ConsistentDateParameters
-	public CalendarService(@NotNull Date start, Date end, Integer numberOfParticipants) {
-	}
-
-	public void setType(@NotNull String type) {
-	}
-
-	@ConsistentDateParameters
-	public void createEvent(Date start, Date end) {
-	}
-
-	@ConsistentDateParameters
-	public void createEvent(@NotNull Date start, Date end, Integer numberOfParticipants) {
-	}
-
-	@NotNull
-	public CalendarEvent findEvents(String name) {
-		return null;
-	}
-
-	public static void createEvent(@NotNull String title, @NotNull Date start, @NotNull Date end) {
+	@Override
+	public void createEvent(@NotNull Date start, @NotNull Date end, @NotNull List<Person> participants) {
 	}
 }
