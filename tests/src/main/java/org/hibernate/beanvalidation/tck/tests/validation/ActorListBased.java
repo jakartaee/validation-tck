@@ -26,16 +26,13 @@ import javax.validation.Valid;
 public class ActorListBased extends Actor {
 
 	@Valid
-	private List<Actor> playedWith = new ArrayList<Actor>();
+	private final List<Actor> playedWith = new ArrayList<Actor>();
 
 	public ActorListBased(String firstName, String lastName) {
 		super( firstName, lastName );
 	}
 
-	public List<Actor> getPlayedWith() {
-		return playedWith;
-	}
-
+	@Override
 	public void addPlayedWith(Actor playedWith) {
 		this.playedWith.add( playedWith );
 	}

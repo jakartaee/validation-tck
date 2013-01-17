@@ -47,10 +47,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Tests for the implementation of <code>Validator</code>.
+ * Tests for property paths retrieved via {@link ConstraintViolation#getPropertyPath()}.
  *
  * @author Hardy Ferentschik
  */
@@ -64,6 +65,7 @@ public class PropertyPathTest extends Arquillian {
 				.withClasses(
 						Actor.class,
 						ActorArrayBased.class,
+						ActorCollectionBased.class,
 						ActorListBased.class,
 						PlayedWith.class,
 						Person.class,
@@ -85,13 +87,16 @@ public class PropertyPathTest extends Arquillian {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = validator.validate( new VerySpecialClass() );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator().next();
+		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator()
+				.next();
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 		assertTrue( nodeIter.hasNext() );
 		Path.Node node = nodeIter.next();
 		assertEquals( node.getName(), null );
 		assertFalse( node.isInIterable() );
+		assertNull( node.getIndex() );
+		assertNull( node.getKey() );
 		assertFalse( nodeIter.hasNext() );
 	}
 
@@ -116,6 +121,8 @@ public class PropertyPathTest extends Arquillian {
 		Path.Node node = nodeIter.next();
 		assertEquals( node.getName(), "serialNumber" );
 		assertFalse( node.isInIterable() );
+		assertNull( node.getIndex() );
+		assertNull( node.getKey() );
 		assertFalse( nodeIter.hasNext() );
 	}
 
@@ -166,6 +173,29 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "k"),
+			@SpecAssertion(section = "5.2", id = "m")
+	})
+	public void testPropertyPathWithRuntimeTypeList() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+
+		Actor clint = new ActorCollectionBased( "Clint", "Eastwood" );
+		Actor morgan = new ActorCollectionBased( "Morgan", null );
+		Actor charlie = new ActorCollectionBased( "Charlie", "Sheen" );
+
+		clint.addPlayedWith( charlie );
+		charlie.addPlayedWith( clint );
+		charlie.addPlayedWith( morgan );
+		morgan.addPlayedWith( charlie );
+
+		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
+		checkActorViolations( constraintViolations );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m")
 	})
@@ -185,10 +215,13 @@ public class PropertyPathTest extends Arquillian {
 		Path.Node node = nodeIter.next();
 		assertEquals( node.getName(), "actors" );
 		assertFalse( node.isInIterable() );
+		assertNull( node.getKey() );
+		assertNull( node.getIndex() );
 
 		node = nodeIter.next();
 		assertEquals( node.getName(), "lastName" );
 		assertTrue( node.isInIterable() );
+		assertEquals( node.getIndex(), null );
 		assertEquals( node.getKey(), id );
 
 		assertFalse( nodeIter.hasNext() );
@@ -217,10 +250,14 @@ public class PropertyPathTest extends Arquillian {
 		Path.Node node = nodeIter.next();
 		assertEquals( node.getName(), "orders" );
 		assertFalse( node.isInIterable() );
+		assertNull( node.getIndex() );
+		assertNull( node.getKey() );
 
 		node = nodeIter.next();
 		assertEquals( node.getName(), "orderNumber" );
 		assertTrue( node.isInIterable() );
+		assertNull( node.getIndex() );
+		assertNull( node.getKey() );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -235,16 +272,20 @@ public class PropertyPathTest extends Arquillian {
 		Path.Node node = nodeIter.next();
 		assertEquals( node.getName(), "playedWith" );
 		assertFalse( node.isInIterable() );
+		assertNull( node.getIndex() );
+		assertNull( node.getKey() );
 
 		node = nodeIter.next();
 		assertEquals( node.getName(), "playedWith" );
 		assertTrue( node.isInIterable() );
 		assertEquals( node.getIndex(), new Integer( 0 ) );
+		assertNull( node.getKey() );
 
 		node = nodeIter.next();
 		assertEquals( node.getName(), "lastName" );
 		assertTrue( node.isInIterable() );
 		assertEquals( node.getIndex(), new Integer( 1 ) );
+		assertNull( node.getKey() );
 
 		assertFalse( nodeIter.hasNext() );
 	}
