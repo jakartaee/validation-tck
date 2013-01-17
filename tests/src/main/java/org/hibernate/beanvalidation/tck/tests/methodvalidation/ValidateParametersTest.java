@@ -48,6 +48,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDe
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
@@ -364,5 +365,45 @@ public class ValidateParametersTest extends Arquillian {
 		Object[] parameterValues = new Object[] { "S" };
 
 		executableValidator.validateParameters( object, method, parameterValues );
+	}
+
+
+	@Test
+	@SpecAssertion(section = "5.2", id = "e")
+	public void testGetInvalidValueForCrossParameterConstraint() throws Exception {
+		String methodName = "setAddress";
+
+		Object object = new User();
+		Method method = User.class.getMethod( methodName, String.class, String.class );
+		Object[] parameterValues = new Object[] { "Bob", "Alice" };
+
+		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		assertCorrectNumberOfViolations( violations, 1 );
+		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
+	}
+
+	@Test
+	@SpecAssertion(section = "5.2", id = "e")
+	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
+			throws Exception {
+		String methodName = "setAddress";
+
+		Object object = new User();
+		Method method = User.class.getMethod( methodName );
+		Object[] parameterValues = new Object[] { };
+
+		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		assertCorrectNumberOfViolations( violations, 1 );
+		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}
 }

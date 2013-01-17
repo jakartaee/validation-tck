@@ -34,9 +34,6 @@ public class User {
 	public interface Extended {
 	}
 
-	public User() {
-	}
-
 	//testOneViolation
 	public void setFirstName(@NotNull String firstName) {
 	}
@@ -86,6 +83,7 @@ public class User {
 	}
 
 	//testOneViolationFromCrossParameterConstraint
+	//testGetInvalidValueForCrossParameterConstraint
 	@MyCrossParameterConstraint
 	public void setAddress(String street, String houseNo) {
 	}
@@ -116,5 +114,14 @@ public class User {
 			@MyCrossParameterConstraint(message = "2")
 	})
 	public User(String street, String houseNo, String city) {
+	}
+
+	//testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod
+	@MyCrossParameterConstraint
+	public void setAddress() {
+	}
+
+	@MyCrossParameterConstraint
+	public User() {
 	}
 }
