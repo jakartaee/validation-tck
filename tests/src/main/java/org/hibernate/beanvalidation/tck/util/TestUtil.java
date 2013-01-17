@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -134,8 +135,8 @@ public final class TestUtil {
 		}
 
 		assertEquals(
-				expectedConstraintTypes.length,
 				actualConstraintTypes.size(),
+				expectedConstraintTypes.length,
 				"Wrong number of constraint types."
 		);
 
@@ -172,6 +173,26 @@ public final class TestUtil {
 				fail( expectedPath + " is not in the list of path instances contained in the actual constraint violations: " + propertyPathsOfViolations );
 			}
 		}
+	}
+
+	public static void assertCorrectPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations, PathDescriptorKinds... kinds) {
+		List<PathDescriptorKinds> actualDescriptorKinds = getPathDescriptorKinds( violations );
+		List<PathDescriptorKinds> expectedDescriptorKinds = Arrays.asList( kinds );
+
+		Collections.sort( actualDescriptorKinds );
+		Collections.sort( expectedDescriptorKinds );
+
+		assertEquals( actualDescriptorKinds, expectedDescriptorKinds );
+	}
+
+	public static void assertCorrectPathNodeNames(Set<? extends ConstraintViolation<?>> violations, PathNodeNames... names) {
+		List<PathNodeNames> actualNodeNames = getPathNodeNames( violations );
+		List<PathNodeNames> expectedNodeNames = Arrays.asList( names );
+
+		Collections.sort( actualNodeNames );
+		Collections.sort( expectedNodeNames );
+
+		assertEquals( actualNodeNames, expectedNodeNames );
 	}
 
 	public static <T> void assertConstraintViolation(ConstraintViolation<T> violation, Class<?> rootBean, Object invalidValue, String propertyPath) {
@@ -215,7 +236,6 @@ public final class TestUtil {
 
 		assertFalse( pathIterator.hasNext() );
 	}
-
 
 	public static boolean assertEqualPaths(Path p1, Path p2) {
 		Iterator<Path.Node> p1Iterator = p1.iterator();
@@ -296,6 +316,14 @@ public final class TestUtil {
 		return new HashSet<T>( Arrays.asList( ts ) );
 	}
 
+	public static PathDescriptorKinds kinds(Kind... kinds) {
+		return new PathDescriptorKinds( kinds );
+	}
+
+	public static PathNodeNames names(String... names) {
+		return new PathNodeNames( names );
+	}
+
 	public static PropertyDescriptor getPropertyDescriptor(Class<?> clazz, String property) {
 		Validator validator = getValidatorUnderTest();
 		return validator.getConstraintsForClass( clazz ).getConstraintsForProperty( property );
@@ -358,6 +386,26 @@ public final class TestUtil {
 		catch ( Exception e ) {
 			throw new RuntimeException( "Unable to instantiate " + validatorProviderClassName );
 		}
+	}
+
+	private static List<PathDescriptorKinds> getPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations) {
+		List<PathDescriptorKinds> descriptorKindsOfAllPaths = new ArrayList<PathDescriptorKinds>();
+
+		for ( ConstraintViolation<?> violation : violations ) {
+			descriptorKindsOfAllPaths.add( new PathDescriptorKinds( violation.getPropertyPath() ) );
+		}
+
+		return descriptorKindsOfAllPaths;
+	}
+
+	private static List<PathNodeNames> getPathNodeNames(Set<? extends ConstraintViolation<?>> violations) {
+		List<PathNodeNames> nodeNamesOfAllPaths = new ArrayList<PathNodeNames>();
+
+		for ( ConstraintViolation<?> violation : violations ) {
+			nodeNamesOfAllPaths.add( new PathNodeNames( violation.getPropertyPath() ) );
+		}
+
+		return nodeNamesOfAllPaths;
 	}
 
 	public static class PathImpl implements Path {
@@ -564,6 +612,120 @@ public final class TestUtil {
 			sb.append( ", key=" ).append( key );
 			sb.append( '}' );
 			return sb.toString();
+		}
+	}
+
+	public static class PathDescriptorKinds implements Comparable<PathDescriptorKinds> {
+		private final List<Kind> kinds;
+
+		private PathDescriptorKinds(Kind... kinds) {
+			this.kinds = Arrays.asList( kinds );
+		}
+
+		private PathDescriptorKinds(Path path) {
+			this.kinds = new ArrayList<Kind>();
+			for ( Node node : path ) {
+				kinds.add( node.getElementDescriptor().getKind() );
+			}
+		}
+
+		@Override
+		public int compareTo(PathDescriptorKinds other) {
+			return toString().compareTo( other.toString() );
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ( ( kinds == null ) ? 0 : kinds.hashCode() );
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if ( this == obj ) {
+				return true;
+			}
+			if ( obj == null ) {
+				return false;
+			}
+			if ( getClass() != obj.getClass() ) {
+				return false;
+			}
+			PathDescriptorKinds other = (PathDescriptorKinds) obj;
+			if ( kinds == null ) {
+				if ( other.kinds != null ) {
+					return false;
+				}
+			}
+			else if ( !kinds.equals( other.kinds ) ) {
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "PathDescriptorKinds [kinds=" + kinds + "]";
+		}
+	}
+
+	public static class PathNodeNames implements Comparable<PathNodeNames> {
+
+		private final List<String> nodeNames;
+
+		private PathNodeNames(String... nodeNames) {
+			this.nodeNames = Arrays.asList( nodeNames );
+		}
+
+		private PathNodeNames(Path path) {
+			this.nodeNames = new ArrayList<String>();
+			for ( Node node : path ) {
+				nodeNames.add( node.getName() );
+			}
+		}
+
+		@Override
+		public int compareTo(PathNodeNames other) {
+			return toString().compareTo( other.toString() );
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ( ( nodeNames == null ) ? 0 : nodeNames.hashCode() );
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if ( this == obj ) {
+				return true;
+			}
+			if ( obj == null ) {
+				return false;
+			}
+			if ( getClass() != obj.getClass() ) {
+				return false;
+			}
+			PathNodeNames other = (PathNodeNames) obj;
+			if ( nodeNames == null ) {
+				if ( other.nodeNames != null ) {
+					return false;
+				}
+			}
+			else if ( !nodeNames.equals( other.nodeNames ) ) {
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "PathNodeNames [nodeNames=" + nodeNames + "]";
 		}
 	}
 }
