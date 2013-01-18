@@ -95,8 +95,7 @@ public final class TestUtil {
 		assertEquals(
 				violations.size(),
 				expectedViolations,
-				"Wrong number of constraint violations. Expected: " + expectedViolations + " Actual: " + violations
-						.size()
+				"Wrong number of constraint violations. Actual violations: " + violations
 		);
 	}
 

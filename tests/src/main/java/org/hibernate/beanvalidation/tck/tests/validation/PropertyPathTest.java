@@ -18,18 +18,24 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
+import javax.validation.MethodValidator;
 import javax.validation.Path;
 import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.Validator;
+import javax.validation.metadata.ElementDescriptor.Kind;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -37,14 +43,21 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDescriptorKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
@@ -57,6 +70,10 @@ import static org.testng.Assert.assertTrue;
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class PropertyPathTest extends Arquillian {
+
+	private Validator validator;
+
+	private MethodValidator executableValidator;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -72,9 +89,22 @@ public class PropertyPathTest extends Arquillian {
 						VerySpecialClass.class,
 						Customer.class,
 						Engine.class,
-						Order.class
+						Order.class,
+						Employee.class,
+						Movie.class,
+						MovieStudio.class,
+						CustomParameterNameProvider.class,
+						ValidMovieStudio.class,
+						ValidMovieStudioValidator.class
+
 				)
 				.build();
+	}
+
+	@BeforeMethod
+	public void setupValidators() {
+		validator = TestUtil.getValidatorUnderTest();
+		executableValidator = validator.forMethods();
 	}
 
 	@Test
@@ -84,7 +114,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "o")
 	})
 	public void testPropertyPathWithConstraintViolationForRootObject() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = validator.validate( new VerySpecialClass() );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator()
@@ -107,8 +136,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "n")
 	})
 	public void testPropertyPathTraversedObject() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Engine engine = new Engine();
 		engine.setSerialNumber( "ABCDEFGH1234" );
 		Set<ConstraintViolation<Engine>> constraintViolations = validator.validate( engine );
@@ -133,8 +160,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "m")
 	})
 	public void testPropertyPathWithList() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Actor clint = new ActorListBased( "Clint", "Eastwood" );
 		Actor morgan = new ActorListBased( "Morgan", null );
 		Actor charlie = new ActorListBased( "Charlie", "Sheen" );
@@ -155,8 +180,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "m")
 	})
 	public void testPropertyPathWithArray() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Actor clint = new ActorArrayBased( "Clint", "Eastwood" );
 		Actor morgan = new ActorArrayBased( "Morgan", null );
 		Actor charlie = new ActorArrayBased( "Charlie", "Sheen" );
@@ -178,8 +201,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "m")
 	})
 	public void testPropertyPathWithRuntimeTypeList() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Actor clint = new ActorCollectionBased( "Clint", "Eastwood" );
 		Actor morgan = new ActorCollectionBased( "Morgan", null );
 		Actor charlie = new ActorCollectionBased( "Charlie", "Sheen" );
@@ -200,8 +221,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "m")
 	})
 	public void testPropertyPathWithMap() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		ActorDB db = new ActorDB();
 		Actor morgan = new ActorArrayBased( "Morgan", null );
 		Integer id = db.addActor( morgan );
@@ -233,8 +252,6 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "m")
 	})
 	public void testPropertyPathSet() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Customer customer = new Customer();
 		customer.setFirstName( "John" );
 		customer.setLastName( "Doe" );
@@ -258,6 +275,1011 @@ public class PropertyPathTest extends Arquillian {
 		assertTrue( node.isInIterable() );
 		assertNull( node.getIndex() );
 		assertNull( node.getKey() );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r")
+	})
+	public void testPropertyPathForMethodParameterConstraint() throws Exception {
+		//given
+		String methodName = "makeMovie";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				List.class
+		);
+		Object[] parameterValues = new Object[] { null, null, null };
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertCorrectPathNodeNames(
+				constraintViolations,
+				names( methodName, "arg0" ),
+				names( methodName, "arg1" )
+		);
+		assertCorrectPathDescriptorKinds(
+				constraintViolations,
+				kinds( Kind.METHOD, Kind.PARAMETER ),
+				kinds( Kind.METHOD, Kind.PARAMETER )
+		);
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r")
+	})
+	public void testPropertyPathForMethodParameterConstraintWithCustomParameterNameProvider()
+			throws Exception {
+		//given
+		String methodName = "makeMovie";
+		MethodValidator executableValidator = TestUtil.getConfigurationUnderTest()
+				.parameterNameProvider( new CustomParameterNameProvider() )
+				.buildValidatorFactory()
+				.getValidator()
+				.forMethods();
+
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				List.class
+		);
+		Object[] parameterValues = new Object[] { null, null, null };
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertCorrectPathNodeNames(
+				constraintViolations,
+				names( methodName, "param0" ),
+				names( methodName, "param1" )
+		);
+	}
+
+	//Fails on RI due to wrong return value name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r")
+	})
+	public void testPropertyPathForMethodReturnValueConstraint() throws Exception {
+		//given
+		String methodName = "makeMovie";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				List.class
+		);
+		Object returnValue = null;
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertCorrectPathNodeNames( constraintViolations, names( methodName, null ) );
+		assertCorrectPathDescriptorKinds(
+				constraintViolations,
+				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+		);
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r")
+	})
+	public void testPropertyPathForConstructorParameterConstraint() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class
+		);
+		Object[] parameterValues = new Object[] { null, null };
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertCorrectPathNodeNames(
+				constraintViolations,
+				names( "MovieStudio", "arg0" ),
+				names( "MovieStudio", "arg1" )
+		);
+		assertCorrectPathDescriptorKinds(
+				constraintViolations,
+				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER ),
+				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+		);
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r")
+	})
+	public void testPropertyPathForConstructorParameterConstraintWithCustomParameterNameProvider()
+			throws Exception {
+		//given
+		MethodValidator executableValidator = TestUtil.getConfigurationUnderTest()
+				.parameterNameProvider( new CustomParameterNameProvider() )
+				.buildValidatorFactory()
+				.getValidator()
+				.forMethods();
+
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class
+		);
+		Object[] parameterValues = new Object[] { null, null };
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertCorrectPathNodeNames(
+				constraintViolations,
+				names( "MovieStudio", "param0" ),
+				names( "MovieStudio", "param1" )
+		);
+	}
+
+	//Fails due to wrong return value name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r")
+	})
+	public void testPropertyPathForConstructorReturnValueConstraint() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class
+		);
+		MovieStudio returnValue = new MovieStudio( null );
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorReturnValue(
+				constructor,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertCorrectPathNodeNames( constraintViolations, names( "MovieStudio", null ) );
+		assertCorrectPathDescriptorKinds(
+				constraintViolations,
+				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+		);
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t")
+	})
+	public void testPropertyPathTraversingMethodParameter() throws Exception {
+		//given
+		String methodName = "makeMovie";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				List.class
+		);
+		Object[] parameterValues = new Object[] {
+				validFilmTitle(),
+				employWithoutFirstName(),
+				null
+		};
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg1", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "firstName", Kind.PROPERTY, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodListParameter() throws Exception {
+		//given
+		String methodName = "makeMovie";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				List.class
+		);
+		Object[] parameterValues = new Object[] {
+				validFilmTitle(),
+				validEmployee(),
+				Arrays.asList(
+						validActor(),
+						actorWithoutLastName()
+				)
+		};
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodArrayParameter() throws Exception {
+		//given
+		String methodName = "makeMovieArrayBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				Actor[].class
+		);
+		Object[] parameterValues = new Object[] {
+				validFilmTitle(),
+				validEmployee(),
+				new Actor[] {
+						validActor(),
+						actorWithoutLastName()
+				}
+		};
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-646
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodSetParameter() throws Exception {
+		//given
+		String methodName = "makeMovieSetBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				Set.class
+		);
+		Object[] parameterValues = new Object[] {
+				validFilmTitle(),
+				validEmployee(),
+				asSet( validActor(), actorWithoutLastName() )
+		};
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "v"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodMapParameter() throws Exception {
+		//given
+		String methodName = "makeMovieMapBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				String.class,
+				Person.class,
+				Map.class
+		);
+		Map<String, Actor> actors = new HashMap<String, Actor>();
+		actors.put( "Glen", validActor() );
+		actors.put( "Garry", actorWithoutLastName() );
+		Object[] parameterValues = new Object[] {
+				validFilmTitle(),
+				validEmployee(),
+				actors
+		};
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, "Garry" );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t")
+	})
+	public void testPropertyPathTraversingConstructorParameter() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class
+		);
+		Object[] parameterValues = new Object[] { validStudioName(), employWithoutFirstName() };
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg1", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "firstName", Kind.PROPERTY, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails due to traversable resolver not handling method arguments
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingConstructorListParameter() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class,
+				List.class
+		);
+		Object[] parameterValues = new Object[] {
+				validStudioName(),
+				validEmployee(),
+				Arrays.asList(
+						validActor(),
+						actorWithoutLastName()
+				)
+		};
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingConstructorArrayParameter() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class,
+				Actor[].class
+		);
+		Object[] parameterValues = new Object[] {
+				validStudioName(),
+				validEmployee(),
+				new Actor[] {
+						validActor(),
+						actorWithoutLastName()
+				}
+		};
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-646
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingConstructorSetParameter() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class,
+				Set.class
+		);
+		Object[] parameterValues = new Object[] {
+				validStudioName(),
+				validEmployee(),
+				asSet( validActor(), actorWithoutLastName() )
+		};
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "v"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingConstructorMapParameter() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class,
+				Map.class
+		);
+		Map<String, Actor> actors = new HashMap<String, Actor>();
+		actors.put( "Glen", validActor() );
+		actors.put( "Garry", actorWithoutLastName() );
+		Object[] parameterValues = new Object[] {
+				validStudioName(),
+				validEmployee(),
+				actors
+		};
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, "Garry" );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//Fails on RI due to wrong return value name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t")
+	})
+	public void testPropertyPathTraversingMethodReturnValue() throws Exception {
+		//given
+		String methodName = "getBestSellingMovie";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod( methodName );
+		Object returnValue = new Movie();
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "title", Kind.PROPERTY, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//Fails on RI due to wrong return value name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodListReturnValue() throws Exception {
+		//given
+		String methodName = "getBestSellingMoviesListBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod( methodName );
+		Object returnValue = Arrays.asList(
+				new Movie( validFilmTitle() ),
+				new Movie()
+		);
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, 1, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//Fails on RI due to wrong return value name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodArrayReturnValue() throws Exception {
+		//given
+		String methodName = "getBestSellingMoviesArrayBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod( methodName );
+		Object returnValue = new Movie[] {
+				new Movie( validFilmTitle() ),
+				new Movie()
+		};
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, 1, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-646 and wrong return value node name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodSetReturnValue() throws Exception {
+		//given
+		String methodName = "getBestSellingMoviesSetBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod( methodName );
+		Object returnValue = asSet( new Movie( validFilmTitle() ), new Movie() );
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//fails on RI due to https://hibernate.onjira.com/browse/HV-677 and wrong return value node name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
+			@SpecAssertion(section = "5.2", id = "v"),
+			@SpecAssertion(section = "5.2", id = "w")
+	})
+	public void testPropertyPathTraversingMethodMapReturnValue() throws Exception {
+		//given
+		String methodName = "getBestSellingMoviesMapBased";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod( methodName );
+
+		Map<String, Movie> returnValue = new HashMap<String, Movie>();
+		returnValue.put( "BVDC", new Movie( validFilmTitle() ) );
+		returnValue.put( "NO_TITLE", new Movie() );
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, null, "NO_TITLE" );
+
+		assertFalse( nodeIter.hasNext() );
+	}
+
+	//Fails on RI due to wrong return value name
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t")
+	})
+	public void testPropertyPathTraversingConstructorReturnValue() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor( String.class );
+		MovieStudio returnValue = new MovieStudio( null );
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorReturnValue(
+				constructor,
+				returnValue
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
+				.next()
+				.getPropertyPath()
+				.iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "name", Kind.PROPERTY, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -290,6 +1312,38 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
+	private void assertNode(Path.Node actualNode, String expectedName, Kind expectedKind, boolean expectedInIterable, Integer expectedIndex, Object expectedKey) {
+		assertEquals( actualNode.getName(), expectedName );
+		assertEquals( actualNode.getElementDescriptor().getKind(), expectedKind );
+		assertEquals( actualNode.isInIterable(), expectedInIterable );
+		assertEquals( actualNode.getIndex(), expectedIndex );
+		assertEquals( actualNode.getKey(), expectedKey );
+	}
+
+	private Employee employWithoutFirstName() {
+		return new Employee( null, "Hotchcick" );
+	}
+
+	private Employee validEmployee() {
+		return new Employee( "Albert", "Hotchcick" );
+	}
+
+	private ActorListBased actorWithoutLastName() {
+		return new ActorListBased( "Garry", null );
+	}
+
+	private ActorListBased validActor() {
+		return new ActorListBased( "Glen", "Closed" );
+	}
+
+	private String validFilmTitle() {
+		return "Bean Validation - Director's Cut";
+	}
+
+	private String validStudioName() {
+		return "AcmeStudios";
+	}
+
 	@Special()
 	class VerySpecialClass {
 	}
@@ -298,11 +1352,11 @@ public class PropertyPathTest extends Arquillian {
 	@Target({ TYPE })
 	@Retention(RUNTIME)
 	public @interface Special {
-		public abstract String message() default "special validation failed";
+		String message() default "special validation failed";
 
-		public abstract Class<?>[] groups() default { };
+		Class<?>[] groups() default { };
 
-		public abstract Class<? extends Payload>[] payload() default { };
+		Class<? extends Payload>[] payload() default { };
 	}
 
 	public static class SpecialValidator implements ConstraintValidator<Special, VerySpecialClass> {
