@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation;
+package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
 import java.util.Date;
 import javax.validation.constraints.NotNull;

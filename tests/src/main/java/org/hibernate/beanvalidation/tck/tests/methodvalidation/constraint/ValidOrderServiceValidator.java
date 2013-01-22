@@ -20,25 +20,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderService;
+
 import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
  */
-public class MyCrossParameterConstraintValidator
-		implements ConstraintValidator<MyCrossParameterConstraint, Object[]> {
+public class ValidOrderServiceValidator
+		implements ConstraintValidator<ValidOrderService, OrderService> {
 
 	private int expectedMaxInvocationCount;
 	private AtomicInteger actualInvocationCount;
 
 	@Override
-	public void initialize(MyCrossParameterConstraint constraintAnnotation) {
+	public void initialize(ValidOrderService constraintAnnotation) {
 		expectedMaxInvocationCount = constraintAnnotation.expectedMaxInvocationCount();
 		actualInvocationCount = new AtomicInteger();
 	}
 
 	@Override
-	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
+	public boolean isValid(OrderService value, ConstraintValidatorContext context) {
 		int invocationCount = actualInvocationCount.incrementAndGet();
 		if ( invocationCount > expectedMaxInvocationCount ) {
 			fail(
@@ -49,6 +51,7 @@ public class MyCrossParameterConstraintValidator
 					)
 			);
 		}
-		return false;
+
+		return "valid".equals( value.getName() );
 	}
 }

@@ -14,21 +14,26 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation;
+package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
 
-import javax.validation.constraints.Past;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Order;
 
 /**
  * @author Gunnar Morling
  */
-public class Email {
+public class ValidRetailOrderValidator
+		implements ConstraintValidator<ValidRetailOrder, Order> {
 
-	@Past
-	public Email() {
+	@Override
+	public void initialize(ValidRetailOrder constraintAnnotation) {
+		//nothing to do
 	}
 
-	@Past
-	public String getValue() {
-		return null;
+	@Override
+	public boolean isValid(Order value, ConstraintValidatorContext context) {
+		return false;
 	}
 }

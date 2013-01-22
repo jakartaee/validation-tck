@@ -36,9 +36,12 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.Customer.Basic;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
