@@ -14,30 +14,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
+package org.hibernate.beanvalidation.tck.tests.methodvalidation.service;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidRetailOrder;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidRetailOrderService;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Order;
 
 /**
  * @author Gunnar Morling
  */
-public class ValidCustomerValidator
-		implements ConstraintValidator<ValidCustomer, Customer> {
+public class ExtendedOrderService extends OrderService {
 
-	@Override
-	public void initialize(ValidCustomer constraintAnnotation) {
-		//nothing to do
+	public ExtendedOrderService() {
+	}
+
+	@ValidRetailOrderService
+	public ExtendedOrderService(String customer, Item item, int quantity) {
+		super( customer, item, quantity );
 	}
 
 	@Override
-	public boolean isValid(Customer value, ConstraintValidatorContext context) {
-		if ( value == null ) {
-			return false;
-		}
-
-		return value.getName() != null;
+	@ValidRetailOrder
+	public Order placeOrder(String customer, Item item, int quantity) {
+		return null;
 	}
 }

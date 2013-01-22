@@ -14,21 +14,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation;
+package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
-import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 
 /**
  * @author Gunnar Morling
  */
-public class Address {
+public class Item {
 
-	public Address() {
+	public interface Basic {
 	}
 
-	public void setName(@Past String name) {
-	}
+	@Size(min = 5, groups = { Basic.class, Default.class })
+	private final String name;
 
-	public Address(@Past String name) {
+	public Item(String name) {
+		this.name = name;
 	}
 }

@@ -20,7 +20,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import javax.validation.CrossParameterConstraint;
+import javax.validation.Constraint;
 import javax.validation.Payload;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
@@ -33,21 +33,22 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Target({ METHOD, CONSTRUCTOR, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@CrossParameterConstraint(validatedBy = MyCrossParameterConstraintValidator.class)
+@Constraint(validatedBy = {
+		ValidRetailOrderServiceValidator.class,
+		ValidRetailOrderServiceValidatorForOrderServiceWithRedefinedDefaultGroupSequence.class
+})
 @Documented
-public @interface MyCrossParameterConstraint {
-	String message() default "{MyCrossParameterConstraint.message}";
+public @interface ValidRetailOrderService {
+	String message() default "{ValidRetailOrderService.message}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	int expectedMaxInvocationCount() default Integer.MAX_VALUE;
-
 	@Target({ METHOD, CONSTRUCTOR, ANNOTATION_TYPE })
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		MyCrossParameterConstraint[] value();
+		ValidRetailOrderService[] value();
 	}
 }
