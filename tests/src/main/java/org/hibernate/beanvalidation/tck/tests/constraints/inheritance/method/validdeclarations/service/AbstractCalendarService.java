@@ -14,23 +14,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service;
 
 import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
 
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidAbstractCalendarService;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
 
 /**
  * @author Gunnar Morling
  */
-public interface ICalendarService {
+public abstract class AbstractCalendarService {
 
-	CalendarEvent createEvent(Date start, Date end);
+	public AbstractCalendarService(@Max(5) int mode) {
+	}
 
-	CalendarEvent createEvent(Date start, Date end, int duration);
+	public AbstractCalendarService(CalendarEvent defaultEvent) {
+	}
 
-	@NotNull
-	CalendarEvent createEvent(Date start, Date end, List<String> participants);
+	@ValidAbstractCalendarService
+	public AbstractCalendarService(String type) {
+	}
+
+	@Valid
+	public AbstractCalendarService(long mode) {
+	}
+
+	public abstract CalendarEvent createEvent(Date start, Date end);
+
+	public abstract CalendarEvent createEvent(Date start, Date end, int duration);
 }

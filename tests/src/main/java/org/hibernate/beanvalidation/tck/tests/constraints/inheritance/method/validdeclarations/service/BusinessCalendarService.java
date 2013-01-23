@@ -14,18 +14,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service;
 
 import java.util.Date;
 import java.util.List;
-import javax.validation.Valid;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidBusinessCalendarEvent;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
 
 /**
  * @author Gunnar Morling
  */
-public interface IYetAnotherCalendarService {
+public interface BusinessCalendarService extends CalendarService {
 
-	void createEvent(Date start, Date end, @Valid List<Person> participants);
+	@Override
+	@ValidBusinessCalendarEvent
+	CalendarEvent createEvent(Date start, Date end, List<String> participants);
 }

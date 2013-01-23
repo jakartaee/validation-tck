@@ -37,10 +37,11 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidBusinessCalendarEvent;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidCalendarEvent;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidCalendarServiceSubClass;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.impl.BusinessCalendarServiceImplementation;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.impl.CalendarServiceImplementation;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.impl.CalendarServiceSubClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.CalendarService;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.BusinessCalendarServiceImplementation;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceImplementation;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceSubClass;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -60,9 +61,10 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClassPackage( ValidMethodConstraintDeclarationTest.class )
-				.withPackage( CalendarServiceImplementation.class.getPackage() )
-				.withPackage( CalendarEvent.class.getPackage() )
 				.withPackage( ValidCalendarEvent.class.getPackage() )
+				.withPackage( CalendarEvent.class.getPackage() )
+				.withPackage( CalendarServiceImplementation.class.getPackage() )
+				.withPackage( CalendarService.class.getPackage() )
 				.build();
 	}
 
@@ -288,7 +290,8 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		);
 	}
 
-	private Method getCreateEventWithParticipantsMethod(Object object) throws NoSuchMethodException {
+	private Method getCreateEventWithParticipantsMethod(Object object)
+			throws NoSuchMethodException {
 		return object.getClass().getMethod(
 				"createEvent",
 				Date.class,

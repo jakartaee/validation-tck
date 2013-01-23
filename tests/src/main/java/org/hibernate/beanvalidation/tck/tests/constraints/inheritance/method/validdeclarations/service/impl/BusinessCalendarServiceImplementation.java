@@ -14,35 +14,33 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl;
 
 import java.util.Date;
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
+import java.util.List;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidAbstractCalendarService;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidCalendarEvent;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.BusinessCalendarService;
 
 /**
  * @author Gunnar Morling
  */
-public abstract class AbstractCalendarService {
+public class BusinessCalendarServiceImplementation implements BusinessCalendarService {
 
-	public AbstractCalendarService(@Max(5) int mode) {
+	@Override
+	public CalendarEvent createEvent(Date start, Date end) {
+		return null;
 	}
 
-	public AbstractCalendarService(CalendarEvent defaultEvent) {
+	@Override
+	public CalendarEvent createEvent(Date start, Date end, int duration) {
+		return null;
 	}
 
-	@ValidAbstractCalendarService
-	public AbstractCalendarService(String type) {
+	@Override
+	@ValidCalendarEvent
+	public CalendarEvent createEvent(Date start, Date end, List<String> participants) {
+		return null;
 	}
-
-	@Valid
-	public AbstractCalendarService(long mode) {
-	}
-
-	public abstract CalendarEvent createEvent(Date start, Date end);
-
-	public abstract CalendarEvent createEvent(Date start, Date end, int duration);
 }

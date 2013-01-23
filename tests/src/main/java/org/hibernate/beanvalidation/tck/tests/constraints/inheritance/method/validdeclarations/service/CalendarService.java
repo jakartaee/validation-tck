@@ -14,33 +14,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service;
 
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.IBusinessCalendarService;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidCalendarEvent;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
 
 /**
  * @author Gunnar Morling
  */
-public class BusinessCalendarServiceImplementation implements IBusinessCalendarService {
+public interface CalendarService {
 
-	@Override
-	public CalendarEvent createEvent(Date start, Date end) {
-		return null;
-	}
+	CalendarEvent createEvent(Date start, Date end);
 
-	@Override
-	public CalendarEvent createEvent(Date start, Date end, int duration) {
-		return null;
-	}
+	CalendarEvent createEvent(Date start, Date end, int duration);
 
-	@Override
-	@ValidCalendarEvent
-	public CalendarEvent createEvent(Date start, Date end, List<String> participants) {
-		return null;
-	}
+	@NotNull
+	CalendarEvent createEvent(Date start, Date end, List<String> participants);
 }

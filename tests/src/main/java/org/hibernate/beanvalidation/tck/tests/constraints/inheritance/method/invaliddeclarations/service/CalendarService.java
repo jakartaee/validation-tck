@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 /**
  * @author Gunnar Morling
  */
-public interface ICalendarService {
+public interface CalendarService {
 
 	void createEvent(Date start, Date end, List<Person> participants);
 }

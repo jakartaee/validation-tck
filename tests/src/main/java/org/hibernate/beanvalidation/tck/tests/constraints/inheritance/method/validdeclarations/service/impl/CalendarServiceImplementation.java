@@ -14,46 +14,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl;
 
 import java.util.Date;
+import java.util.List;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.AbstractCalendarService;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidCalendarServiceSubClass;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidCalendarEvent;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.CalendarService;
 
 /**
  * @author Gunnar Morling
  */
-public class CalendarServiceSubClass extends AbstractCalendarService {
-
-	@Min(1)
-	private long mode;
-
-	public CalendarServiceSubClass() {
-		super( 0 );
-	}
-
-	public CalendarServiceSubClass(@Min(5) int mode) {
-		super( mode );
-	}
-
-	@ValidCalendarServiceSubClass
-	public CalendarServiceSubClass(String type) {
-		super( type );
-	}
-
-	@Valid
-	public CalendarServiceSubClass(long mode) {
-		super( mode );
-	}
-
-	public CalendarServiceSubClass(@Valid CalendarEvent defaultEvent) {
-		super( defaultEvent );
-	}
+public class CalendarServiceImplementation implements CalendarService {
 
 	@Override
 	@NotNull
@@ -64,6 +39,12 @@ public class CalendarServiceSubClass extends AbstractCalendarService {
 	@Override
 	@Valid
 	public CalendarEvent createEvent(Date start, Date end, int duration) {
+		return null;
+	}
+
+	@Override
+	@ValidCalendarEvent
+	public CalendarEvent createEvent(Date start, Date end, List<String> participants) {
 		return null;
 	}
 }

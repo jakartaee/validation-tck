@@ -14,20 +14,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl;
 
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.AbstractCalendarService;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.IAnotherCalendarService;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.AbstractCalendarService;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.YetAnotherCalendarService;
 
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass
-		extends AbstractCalendarService implements IAnotherCalendarService {
+public class ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass
+		extends AbstractCalendarService implements YetAnotherCalendarService {
 
 	@Override
 	public void createEvent(Date start, Date end, List<Person> participants) {

@@ -30,19 +30,20 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ExtendedOrderServiceImplementation;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ImplementationAddingParameterConstraints;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ImplementationMarkingParameterAsCascaded;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ImplementationOfCascadingAndNonCascadingInterfaces;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ImplementationOfConstrainedAndUnconstrainedInterfaces;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.OrderServiceImplementation;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.OrderServiceSubClass;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.SubClassAddingParameterConstraints;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl.SubClassMarkingParameterAsCascaded;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.AbstractCalendarService;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ExtendedOrderServiceImplementation;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ImplementationAddingParameterConstraints;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ImplementationMarkingParameterAsCascaded;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ImplementationOfCascadingAndNonCascadingInterfaces;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ImplementationOfConstrainedAndUnconstrainedInterfaces;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.OrderServiceImplementation;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.OrderServiceSubClass;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassAddingParameterConstraints;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassMarkingParameterAsCascaded;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -62,6 +63,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		return new WebArchiveBuilder()
 				.withTestClassPackage( InvalidMethodConstraintDeclarationTest.class )
 				.withPackage( ImplementationAddingParameterConstraints.class.getPackage() )
+				.withPackage( AbstractCalendarService.class.getPackage() )
 				.withPackage( Person.class.getPackage() )
 				.build();
 	}
@@ -73,7 +75,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "a")
-	public void testParameterConstraintsAddedInInterfaceImplementation() throws Exception {
+	public void testParameterConstraintsAddedInInterfaceImplementationCausesException()
+			throws Exception {
 		Object object = new ImplementationAddingParameterConstraints();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -84,7 +87,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "a")
-	public void testParameterConstraintsAddedInSubClass() throws Exception {
+	public void testParameterConstraintsAddedInSubClassCausesException() throws Exception {
 		Object object = new SubClassAddingParameterConstraints();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -95,7 +98,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "a")
-	public void testParameterMarkedAsCascadedInInterfaceImplementation() throws Exception {
+	public void testParameterMarkedAsCascadedInInterfaceImplementationCausesException()
+			throws Exception {
 		Object object = new ImplementationMarkingParameterAsCascaded();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -106,7 +110,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "a")
-	public void testParameterMarkedAsCascadedInSubClass() throws Exception {
+	public void testParameterMarkedAsCascadedInSubClassCausesException() throws Exception {
 		Object object = new SubClassMarkingParameterAsCascaded();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -117,7 +121,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "b")
-	public void testParameterIsConstrainedInParallelInterfaceMethod() throws Exception {
+	public void testConstrainedParameterInOneMethodOfParallelInterfacesCausesException()
+			throws Exception {
 		Object object = new ImplementationOfConstrainedAndUnconstrainedInterfaces();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -128,7 +133,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "b")
-	public void testParameterIsConstrainedInInterfaceMethodAndSuperClassMethod() throws Exception {
+	public void testParameterIsConstrainedInInterfaceMethodAndSuperClassMethodCausesException()
+			throws Exception {
 		Object object = new ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -139,7 +145,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "b")
-	public void testParameterIsCascadingInParallelInterfaceMethod() throws Exception {
+	public void testParameterIsCascadingInOneMethodOfParallelInterfacesCausesException()
+			throws Exception {
 		Object object = new ImplementationOfCascadingAndNonCascadingInterfaces();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -150,7 +157,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "b")
-	public void testParameterIsCascadingInInterfaceMethodAndSuperClassMethod() throws Exception {
+	public void testParameterIsCascadingInInterfaceMethodAndSuperClassMethodCausesException()
+			throws Exception {
 		Object object = new ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass();
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
@@ -161,7 +169,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.5", id = "d")
-	public void testReturnValueIsMarkedAsCascadedInInterfaceAndImplementation() throws Exception {
+	public void testReturnValueIsMarkedAsCascadedInInterfaceAndImplementationCausesException()
+			throws Exception {
 		Object object = new OrderServiceImplementation();
 		Method method = getPlaceOrderMethod( object );
 		Object returnValue = new Order();
@@ -172,7 +181,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.5", id = "d")
-	public void testReturnValueIsMarkedAsCascadedInBaseAndSubClass() throws Exception {
+	public void testReturnValueIsMarkedAsCascadedInBaseAndSubClassCausesException()
+			throws Exception {
 		Object object = new OrderServiceSubClass();
 		Method method = getPlaceOrderMethod( object );
 		Object returnValue = new Order();
@@ -183,7 +193,8 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.5", id = "d")
-	public void testReturnValueIsMarkedAsCascadedInSuperAndDerivedInterface() throws Exception {
+	public void testReturnValueIsMarkedAsCascadedInSuperAndDerivedInterfaceCausesException()
+			throws Exception {
 		Object object = new ExtendedOrderServiceImplementation();
 		Method method = getPlaceOrderMethod( object );
 		Object returnValue = new Order();

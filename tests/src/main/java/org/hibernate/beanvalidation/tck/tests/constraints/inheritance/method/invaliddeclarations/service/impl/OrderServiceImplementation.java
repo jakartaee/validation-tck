@@ -14,17 +14,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl;
 
 import javax.validation.Valid;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.IOrderService;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.OrderService;
 
 /**
  * @author Gunnar Morling
  */
-public class OrderServiceImplementation implements IOrderService {
+public class OrderServiceImplementation implements OrderService {
 
 	@Override
 	@Valid

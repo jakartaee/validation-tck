@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.va
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.AbstractCalendarService;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.AbstractCalendarService;
 
 /**
  * @author Gunnar Morling

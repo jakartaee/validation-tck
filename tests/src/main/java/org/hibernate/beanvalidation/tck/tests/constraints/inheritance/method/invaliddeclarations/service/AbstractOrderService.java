@@ -14,22 +14,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service;
 
-import java.util.Date;
-import java.util.List;
+import javax.validation.Valid;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.ICalendarService;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.IYetAnotherCalendarService;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
 
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfCascadingAndNonCascadingInterfaces
-		implements ICalendarService, IYetAnotherCalendarService {
+public abstract class AbstractOrderService {
 
-	@Override
-	public void createEvent(Date start, Date end, List<Person> participants) {
-	}
+	@Valid
+	public abstract Order placeOrder(String item, int quantity);
 }

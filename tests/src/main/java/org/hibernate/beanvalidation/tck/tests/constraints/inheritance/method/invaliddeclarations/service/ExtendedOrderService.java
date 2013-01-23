@@ -14,21 +14,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service;
 
-import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.AbstractCalendarService;
-import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
 
 /**
  * @author Gunnar Morling
  */
-public class SubClassMarkingParameterAsCascaded extends AbstractCalendarService {
+public interface ExtendedOrderService extends OrderService {
 
 	@Override
-	public void createEvent(@NotNull Date start, @NotNull Date end, @NotNull List<Person> participants) {
-	}
+	@Valid
+	Order placeOrder(String item, int quantity);
 }

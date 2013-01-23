@@ -62,16 +62,16 @@ public class MethodValidationRequirementTest extends Arquillian {
 		executableValidator = TestUtil.getValidatorUnderTest().forMethods();
 	}
 
-	@Test(groups = Groups.NOT_IMPLEMENTED)
-	@SpecAssertion(section = "4.5", id = "a")
-	public void testGettersAreNotConsideredMethods() {
-	}
-
 	@Test(expectedExceptions = Exception.class)
 	@SpecAssertion(section = "4.5.1", id = "a")
 	public void testValidatedMethodsMustNotBeStatic() throws Exception {
 		Object object = new CalendarService();
-		Method method = getStaticMethod();
+		Method method = CalendarService.class.getMethod(
+				"createEvent",
+				String.class,
+				Date.class,
+				Date.class
+		);
 		Object[] parameterValues = new Object[3];
 
 		executableValidator.validateParameters( object, method, parameterValues );
@@ -80,9 +80,9 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.2", id = "a")
-	public void testMethodParameterConstraint() throws Exception {
+	public void testMethodParameterConstraintsAreDeclaredByAnnotingParameters() throws Exception {
 		Object object = new CalendarService();
-		Method method = getParameterConstrainedMethod();
+		Method method = CalendarService.class.getMethod( "setType", String.class );
 		Object[] parameterValues = new Object[1];
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
@@ -97,10 +97,11 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.2", id = "a")
-	public void testConstructorParameterConstraint() throws Exception {
+	public void testConstructorParameterConstraintsAreDeclaredByAnnotingParameters()
+			throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getParameterConstrainedConstructor();
-		Constructor constructor = getParameterConstrainedConstructor();
+		Constructor constructor = CalendarService.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[1];
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
@@ -115,9 +116,9 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.2.1", id = "a")
-	public void testMethodCrossParameterConstraint() throws Exception {
+	public void testCrossParameterConstraintsAreDeclaredByAnnotatingMethods() throws Exception {
 		Object object = new CalendarService();
-		Method method = getCrossParameterConstrainedMethod();
+		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[] {
 				new Date(),
 				new Date( new Date().getTime() - 1000 )
@@ -135,10 +136,11 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.2.1", id = "a")
-	public void testConstructorCrossParameterConstraint() throws Exception {
+	public void testCrossParameterConstraintsAreDeclaredByAnnotatingConstructors()
+			throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getParameterConstrainedConstructor();
-		Constructor constructor = getCrossParameterConstrainedConstructor();
+		Constructor constructor = CalendarService.class.getConstructor( Date.class, Date.class );
 		Object[] parameterValues = new Object[] {
 				new Date(),
 				new Date( new Date().getTime() - 1000 )
@@ -158,7 +160,12 @@ public class MethodValidationRequirementTest extends Arquillian {
 	public void testMethodParameterAndCrossParameterConstraintsAreEvaluatedAtTheSameTime()
 			throws Exception {
 		Object object = new CalendarService();
-		Method method = getParameterAndCrossParameterConstrainedMethod();
+		Method method = CalendarService.class.getMethod(
+				"createEvent",
+				Date.class,
+				Date.class,
+				Integer.class
+		);
 		Object[] parameterValues = new Object[3];
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
@@ -181,7 +188,11 @@ public class MethodValidationRequirementTest extends Arquillian {
 			throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getParameterAndCrossParameterConstrainedConstructor();
-		Constructor constructor = getParameterAndCrossParameterConstrainedConstructor();
+		Constructor constructor = CalendarService.class.getConstructor(
+				Date.class,
+				Date.class,
+				Integer.class
+		);
 		Object[] parameterValues = new Object[3];
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
@@ -199,9 +210,9 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.3", id = "a")
-	public void testMethodReturnValueConstraint() throws Exception {
+	public void testReturnValueConstraintsAreDeclaredByAnnotatingMethods() throws Exception {
 		Object object = new CalendarService();
-		Method method = getReturnValueConstrainedMethod();
+		Method method = CalendarService.class.getMethod( "findEvents", String.class );
 		Object returnValue = null;
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
@@ -216,10 +227,10 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.3", id = "a")
-	public void testConstructorReturnValueConstraint() throws Exception {
+	public void testReturnValueConstraintsAreDeclaredByAnnotatingConstructors() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getReturnValueConstrainedConstructor();
-		Constructor constructor = getReturnValueConstrainedConstructor();
+		Constructor constructor = CalendarService.class.getConstructor();
 		Object returnValue = new CalendarService();
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorReturnValue(
@@ -232,11 +243,11 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "a")
-	public void testCascadedMethodParameter() throws Exception {
+	public void testMethodParameterIsMarkedAsCascaded() throws Exception {
 		Object object = new CalendarEvent();
-		Method method = getMethodWithCascadedParameter();
+		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
 		Object[] parameterValues = new Object[] { new User() };
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
@@ -256,12 +267,12 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "a")
-	public void testCascadedConstructorParameter() throws Exception {
+	public void testConstructorParameterIsMarkedAsCascaded() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getConstructorWithCascadedParameter();		
-		Constructor constructor = getConstructorWithCascadedParameter();
+		Constructor constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[] { new User() };
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
@@ -282,9 +293,9 @@ public class MethodValidationRequirementTest extends Arquillian {
 	//fails in RI due to wrong name for return value node
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "a")
-	public void testCascadedMethodReturnValue() throws Exception {
+	public void testMethodReturnValueIsMarkedAsCascaded() throws Exception {
 		Object object = new CalendarEvent();
-		Method method = getMethodWithCascadedReturnValue();
+		Method method = CalendarEvent.class.getMethod( "getUser" );
 		Object returnValue = new User();
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
@@ -306,10 +317,10 @@ public class MethodValidationRequirementTest extends Arquillian {
 	//fails in RI due to wrong name for return value node
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "a")
-	public void testCascadedConstructorReturnValue() throws Exception {
+	public void testConstructorReturnValueIsMarkedAsCascaded() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getConstructorWithCascadedReturnValue();		
-		Constructor constructor = getConstructorWithCascadedReturnValue();
+		Constructor constructor = CalendarEvent.class.getConstructor( String.class );
 		Object returnValue = new CalendarEvent( null, null );
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorReturnValue(
@@ -328,11 +339,11 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "b")
-	public void testCascadedMethodParameterWithNullValue() throws Exception {
+	public void testPassingNullToCascadedMethodParameterCausesNoViolation() throws Exception {
 		Object object = new CalendarEvent();
-		Method method = getMethodWithCascadedParameter();
+		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
 		Object[] parameterValues = new Object[1];
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
@@ -345,12 +356,12 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "b")
-	public void testCascadedConstructorParameterWithNullValue() throws Exception {
+	public void testPassingNullToCascadedConstructorParameterCausesNoViolation() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getConstructorWithCascadedParameter();		
-		Constructor constructor = getConstructorWithCascadedParameter();
+		Constructor constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[1];
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
@@ -363,9 +374,9 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.4", id = "b")
-	public void testCascadedMethodReturnValueWithNullValue() throws Exception {
+	public void testReturningNullFromCascadedMethodCausesNoViolation() throws Exception {
 		Object object = new CalendarEvent();
-		Method method = getMethodWithCascadedReturnValue();
+		Method method = CalendarEvent.class.getMethod( "getUser" );
 		Object returnValue = null;
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
@@ -378,11 +389,11 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedMethodParameterIsValidatedRecursively() throws Exception {
 		Object object = new CalendarEvent();
-		Method method = getMethodWithCascadedParameter();
+		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
 		Object[] parameterValues = new Object[] { new User( new Account() ) };
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
@@ -403,12 +414,12 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedConstructorParameterIsValidatedRecursively() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getConstructorWithCascadedParameter();		
-		Constructor constructor = getConstructorWithCascadedParameter();
+		Constructor constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[] { new User( new Account() ) };
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
@@ -432,7 +443,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedMethodReturnValueIsValidatedRecursively() throws Exception {
 		Object object = new CalendarEvent();
-		Method method = getMethodWithCascadedReturnValue();
+		Method method = CalendarEvent.class.getMethod( "getUser" );
 		Object returnValue = new User( new Account() );
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
@@ -458,7 +469,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 	public void testCascadedConstructorReturnValueIsValidatedRecursively() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
 		//Constructor<?> constructor = getConstructorWithCascadedReturnValue();		
-		Constructor constructor = getConstructorWithCascadedReturnValue();
+		Constructor constructor = CalendarEvent.class.getConstructor( String.class );
 		Object returnValue = new CalendarEvent();
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorReturnValue(
@@ -475,71 +486,5 @@ public class MethodValidationRequirementTest extends Arquillian {
 				"user",
 				"name"
 		);
-	}
-
-	private Method getStaticMethod() throws Exception {
-		return CalendarService.class.getMethod(
-				"createEvent",
-				String.class,
-				Date.class,
-				Date.class
-		);
-	}
-
-	private Method getParameterConstrainedMethod() throws Exception {
-		return CalendarService.class.getMethod( "setType", String.class );
-	}
-
-	private Method getCrossParameterConstrainedMethod() throws Exception {
-		return CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
-	}
-
-	private Method getParameterAndCrossParameterConstrainedMethod() throws Exception {
-		return CalendarService.class.getMethod(
-				"createEvent",
-				Date.class,
-				Date.class,
-				Integer.class
-		);
-	}
-
-	private Method getMethodWithCascadedParameter() throws Exception {
-		return CalendarEvent.class.getMethod( "setUser", User.class );
-	}
-
-	private Method getReturnValueConstrainedMethod() throws Exception {
-		return CalendarService.class.getMethod( "findEvents", String.class );
-	}
-
-	private Method getMethodWithCascadedReturnValue() throws Exception {
-		return CalendarEvent.class.getMethod( "getUser" );
-	}
-
-	private Constructor<?> getParameterConstrainedConstructor() throws Exception {
-		return CalendarService.class.getConstructor( String.class );
-	}
-
-	private Constructor<?> getCrossParameterConstrainedConstructor() throws Exception {
-		return CalendarService.class.getConstructor( Date.class, Date.class );
-	}
-
-	private Constructor<?> getParameterAndCrossParameterConstrainedConstructor() throws Exception {
-		return CalendarService.class.getConstructor(
-				Date.class,
-				Date.class,
-				Integer.class
-		);
-	}
-
-	private Constructor<?> getConstructorWithCascadedParameter() throws Exception {
-		return CalendarEvent.class.getConstructor( User.class );
-	}
-
-	private Constructor<?> getReturnValueConstrainedConstructor() throws Exception {
-		return CalendarService.class.getConstructor();
-	}
-
-	private Constructor<?> getConstructorWithCascadedReturnValue() throws Exception {
-		return CalendarEvent.class.getConstructor( String.class );
 	}
 }
