@@ -79,8 +79,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "g"),
-			@SpecAssertion(section = "5.1.2", id = "h")
+			@SpecAssertion(section = "5.1.2", id = "j"),
+			@SpecAssertion(section = "5.1.2", id = "k")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
@@ -103,7 +103,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testTwoViolations() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( String.class );
 		Customer returnValue = null;
@@ -130,7 +130,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( CharSequence.class );
 		Customer returnValue = new Customer();
@@ -156,7 +156,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testNoViolations() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer( "Bob" );
@@ -171,7 +171,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( long.class );
 		Customer returnValue = null;
@@ -199,7 +199,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testValidationWithSeveralGroups() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( Date.class );
 		Customer returnValue = null;
@@ -232,7 +232,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "g")
+	@SpecAssertion(section = "5.1.2", id = "j")
 	public void testUnexpectedType() throws Exception {
 		Constructor<Email> constructor = Email.class.getConstructor();
 		Email returnValue = new Email();

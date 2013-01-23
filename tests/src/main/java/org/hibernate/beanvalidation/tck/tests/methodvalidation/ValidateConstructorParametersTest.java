@@ -77,8 +77,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "e"),
-			@SpecAssertion(section = "5.1.2", id = "f")
+			@SpecAssertion(section = "5.1.2", id = "g"),
+			@SpecAssertion(section = "5.1.2", id = "h")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
@@ -97,7 +97,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testOneViolationFromCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { null, null };
@@ -117,7 +117,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoViolations() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -146,7 +146,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoViolationsOnSameParameter() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, int.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -172,7 +172,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( CharSequence.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -198,7 +198,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testCrossParameterConstraintGivenSeveralTimes() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -228,7 +228,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testNoViolations() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -245,7 +245,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, long.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -269,7 +269,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testCrossParameterConstraintValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				CharSequence.class,
@@ -296,7 +296,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testValidationWithSeveralGroups() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -335,7 +335,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = "5.1.2", id = "g")
 	public void testUnexpectedType() throws Exception {
 		Constructor<Address> constructor = Address.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -344,7 +344,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "5.2", id = "g")
 	public void testGetInvalidValueForCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { "Bob", "Alice" };
@@ -359,7 +359,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "5.2", id = "g")
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
 			throws Exception {
 		Constructor<User> constructor = User.class.getConstructor();
