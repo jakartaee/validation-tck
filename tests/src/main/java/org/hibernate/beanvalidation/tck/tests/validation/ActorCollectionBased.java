@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -9,16 +9,36 @@
 * You may obtain a copy of the License at
 * http://www.apache.org/licenses/LICENSE-2.0
 * Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
+* distributed under the License is distributed on an "AS IS" BASIS,  
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.validation.Valid;
+
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
-public interface PlayedWith {
-	void addPlayedWith(Actor playedWith);
+public class ActorCollectionBased extends Actor {
+
+	@Valid
+	private final Collection<Actor> playedWith = new ArrayList<Actor>();
+
+	public ActorCollectionBased(String firstName, String lastName) {
+		super( firstName, lastName );
+	}
+
+	@Override
+	public void addPlayedWith(Actor playedWith) {
+		this.playedWith.add( playedWith );
+	}
+
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 }

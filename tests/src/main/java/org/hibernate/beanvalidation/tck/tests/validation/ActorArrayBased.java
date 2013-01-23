@@ -16,8 +16,6 @@
 */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import java.util.Arrays;
-import java.util.List;
 import javax.validation.Valid;
 
 /**
@@ -27,7 +25,7 @@ public class ActorArrayBased extends Actor {
 	public static final int MAX_ACTOR_SIZE = 100;
 
 	@Valid
-	private Actor[] playedWith = new Actor[MAX_ACTOR_SIZE];
+	private final Actor[] playedWith = new Actor[MAX_ACTOR_SIZE];
 
 	int currentPointer = 0;
 
@@ -35,10 +33,7 @@ public class ActorArrayBased extends Actor {
 		super( firstName, lastName );
 	}
 
-	public List<Actor> getPlayedWith() {
-		return Arrays.asList( playedWith );
-	}
-
+	@Override
 	public void addPlayedWith(Actor playedWith) {
 		if ( currentPointer == MAX_ACTOR_SIZE ) {
 			throw new RuntimeException( "Exceeded allowed number of actors." );

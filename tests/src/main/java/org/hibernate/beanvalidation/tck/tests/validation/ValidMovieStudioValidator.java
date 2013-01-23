@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -16,9 +16,21 @@
 */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
-public interface PlayedWith {
-	void addPlayedWith(Actor playedWith);
+public class ValidMovieStudioValidator
+		implements ConstraintValidator<ValidMovieStudio, MovieStudio> {
+
+	@Override
+	public void initialize(ValidMovieStudio constraint) {
+	}
+
+	@Override
+	public boolean isValid(MovieStudio studio, ConstraintValidatorContext constraintValidatorContext) {
+		return studio.getName() != null;
+	}
 }

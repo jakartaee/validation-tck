@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -14,11 +14,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.validation;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service;
+
+import java.util.Date;
+import java.util.List;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
 
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
-public interface PlayedWith {
-	void addPlayedWith(Actor playedWith);
+public interface AnotherCalendarService {
+
+	void createEvent(@NotNull Date start, @NotNull Date end, @NotNull List<Person> participants);
 }

@@ -31,14 +31,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.ImplementationOfParallelInterfacesWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.InterfaceImplementationWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.InterfaceImplementationWithGroupConversionOnReturnValue;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.SubClassWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl.SubClassWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationConstructorParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue;
@@ -48,6 +40,15 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationOnProperty;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionWithSequenceAsFrom;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithSeveralGroupConversionsForSameFrom;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserReadService;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnParameter;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnReturnValue;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnParameter;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -66,8 +67,9 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClassPackage( InvalidGroupDefinitionsTest.class )
-				.withPackage( SubClassWithGroupConversionOnParameter.class.getPackage() )
 				.withPackage( User.class.getPackage() )
+				.withPackage( SubClassWithGroupConversionOnParameter.class.getPackage() )
+				.withPackage( UserReadService.class.getPackage() )
 				.build();
 	}
 

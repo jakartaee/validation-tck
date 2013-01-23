@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -16,9 +16,24 @@
 */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import javax.validation.constraints.NotNull;
+
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
-public interface PlayedWith {
-	void addPlayedWith(Actor playedWith);
+public class Movie {
+
+	@NotNull
+	private String title;
+
+	public Movie() {
+	}
+
+	public Movie(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
+	}
 }

@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -17,8 +17,30 @@
 package org.hibernate.beanvalidation.tck.tests.validation;
 
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
-public interface PlayedWith {
-	void addPlayedWith(Actor playedWith);
+public class Employee implements Person {
+
+	private final String firstName;
+	private final String lastName;
+
+	public Employee(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+	}
+
+	@Override
+	public String getFirstName() {
+		return firstName;
+	}
+
+	@Override
+	public String getMiddleName() {
+		return null;
+	}
+
+	@Override
+	public String getLastName() {
+		return lastName;
+	}
 }

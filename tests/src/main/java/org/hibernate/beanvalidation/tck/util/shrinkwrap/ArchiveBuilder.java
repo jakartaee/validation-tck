@@ -8,6 +8,8 @@ import org.jboss.shrinkwrap.api.container.ClassContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
 import org.jboss.shrinkwrap.impl.base.URLPackageScanner;
 
+import org.hibernate.beanvalidation.tck.util.PathDescriptorKinds;
+import org.hibernate.beanvalidation.tck.util.PathNodeNames;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 
 /**
@@ -121,7 +123,8 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 			this.resources = new ArrayList<ResourceDescriptor>();
 		}
 
-		this.resources.add( new ResourceDescriptor( source, target, useTestPackageToLocateSource ) );
+		this.resources
+				.add( new ResourceDescriptor( source, target, useTestPackageToLocateSource ) );
 		return self();
 	}
 
@@ -143,7 +146,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 		}
 
 		// add test classes which should be part of all deployments
-		withClasses( TestUtil.class );
+		withClasses( TestUtil.class, PathDescriptorKinds.class, PathNodeNames.class );
 
 		return buildInternal();
 	}
@@ -162,6 +165,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 		for ( String pack : packages ) {
 
 			final URLPackageScanner.Callback callback = new URLPackageScanner.Callback() {
+				@Override
 				public void classFound(String className) {
 					archive.addClass( className );
 				}
@@ -173,7 +177,12 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 				classLoader = getClass().getClassLoader();
 			}
 
-			final URLPackageScanner scanner = URLPackageScanner.newInstance( false, classLoader, callback, pack );
+			final URLPackageScanner scanner = URLPackageScanner.newInstance(
+					false,
+					classLoader,
+					callback,
+					pack
+			);
 			scanner.scanPackage();
 		}
 	}
@@ -213,9 +222,9 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	 * @author Martin Kouba
 	 */
 	protected class ServiceProviderDescriptor {
-		private Class<?> serviceInterface;
+		private final Class<?> serviceInterface;
 
-		private Class<?>[] serviceImplementations;
+		private final Class<?>[] serviceImplementations;
 
 		public ServiceProviderDescriptor(Class<?> serviceInterface, Class<?>... serviceImplementations) {
 			super();
@@ -239,8 +248,8 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	 */
 	protected class ResourceDescriptor {
 
-		private String source;
-		private String target;
+		private final String source;
+		private final String target;
 		private boolean useTestPackageToLocateSource = true;
 
 		public ResourceDescriptor(String source, String target, boolean useTestPackageToLocateSource) {

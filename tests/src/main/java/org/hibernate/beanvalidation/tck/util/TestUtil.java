@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -94,8 +95,7 @@ public final class TestUtil {
 		assertEquals(
 				violations.size(),
 				expectedViolations,
-				"Wrong number of constraint violations. Expected: " + expectedViolations + " Actual: " + violations
-						.size()
+				"Wrong number of constraint violations. Actual violations: " + violations
 		);
 	}
 
@@ -134,8 +134,8 @@ public final class TestUtil {
 		}
 
 		assertEquals(
-				expectedConstraintTypes.length,
 				actualConstraintTypes.size(),
+				expectedConstraintTypes.length,
 				"Wrong number of constraint types."
 		);
 
@@ -172,6 +172,26 @@ public final class TestUtil {
 				fail( expectedPath + " is not in the list of path instances contained in the actual constraint violations: " + propertyPathsOfViolations );
 			}
 		}
+	}
+
+	public static void assertCorrectPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations, PathDescriptorKinds... kinds) {
+		List<PathDescriptorKinds> actualDescriptorKinds = getPathDescriptorKinds( violations );
+		List<PathDescriptorKinds> expectedDescriptorKinds = Arrays.asList( kinds );
+
+		Collections.sort( actualDescriptorKinds );
+		Collections.sort( expectedDescriptorKinds );
+
+		assertEquals( actualDescriptorKinds, expectedDescriptorKinds );
+	}
+
+	public static void assertCorrectPathNodeNames(Set<? extends ConstraintViolation<?>> violations, PathNodeNames... names) {
+		List<PathNodeNames> actualNodeNames = getPathNodeNames( violations );
+		List<PathNodeNames> expectedNodeNames = Arrays.asList( names );
+
+		Collections.sort( actualNodeNames );
+		Collections.sort( expectedNodeNames );
+
+		assertEquals( actualNodeNames, expectedNodeNames );
 	}
 
 	public static <T> void assertConstraintViolation(ConstraintViolation<T> violation, Class<?> rootBean, Object invalidValue, String propertyPath) {
@@ -215,7 +235,6 @@ public final class TestUtil {
 
 		assertFalse( pathIterator.hasNext() );
 	}
-
 
 	public static boolean assertEqualPaths(Path p1, Path p2) {
 		Iterator<Path.Node> p1Iterator = p1.iterator();
@@ -296,6 +315,14 @@ public final class TestUtil {
 		return new HashSet<T>( Arrays.asList( ts ) );
 	}
 
+	public static PathDescriptorKinds kinds(Kind... kinds) {
+		return new PathDescriptorKinds( kinds );
+	}
+
+	public static PathNodeNames names(String... names) {
+		return new PathNodeNames( names );
+	}
+
 	public static PropertyDescriptor getPropertyDescriptor(Class<?> clazz, String property) {
 		Validator validator = getValidatorUnderTest();
 		return validator.getConstraintsForClass( clazz ).getConstraintsForProperty( property );
@@ -358,6 +385,26 @@ public final class TestUtil {
 		catch ( Exception e ) {
 			throw new RuntimeException( "Unable to instantiate " + validatorProviderClassName );
 		}
+	}
+
+	private static List<PathDescriptorKinds> getPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations) {
+		List<PathDescriptorKinds> descriptorKindsOfAllPaths = new ArrayList<PathDescriptorKinds>();
+
+		for ( ConstraintViolation<?> violation : violations ) {
+			descriptorKindsOfAllPaths.add( new PathDescriptorKinds( violation.getPropertyPath() ) );
+		}
+
+		return descriptorKindsOfAllPaths;
+	}
+
+	private static List<PathNodeNames> getPathNodeNames(Set<? extends ConstraintViolation<?>> violations) {
+		List<PathNodeNames> nodeNamesOfAllPaths = new ArrayList<PathNodeNames>();
+
+		for ( ConstraintViolation<?> violation : violations ) {
+			nodeNamesOfAllPaths.add( new PathNodeNames( violation.getPropertyPath() ) );
+		}
+
+		return nodeNamesOfAllPaths;
 	}
 
 	public static class PathImpl implements Path {
