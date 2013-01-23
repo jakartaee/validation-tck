@@ -80,8 +80,8 @@ public class ValidateReturnValueTest extends Arquillian {
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "c"),
-			@SpecAssertion(section = "5.1.2", id = "d")
+			@SpecAssertion(section = "5.1.2", id = "d"),
+			@SpecAssertion(section = "5.1.2", id = "e")
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
@@ -105,7 +105,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testTwoViolations() throws Exception {
 		String methodName = "getFirstName";
 
@@ -136,7 +136,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		String methodName = "getLastName";
 
@@ -166,7 +166,7 @@ public class ValidateReturnValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testNoViolations() throws Exception {
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( "getFirstName", String.class );
@@ -183,7 +183,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testValidationWithGroup() throws Exception {
 		String methodName = "getLastName";
 
@@ -213,7 +213,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testValidationWithSeveralGroups() throws Exception {
 		String methodName = "getAllData";
 
@@ -251,7 +251,7 @@ public class ValidateReturnValueTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "c")
+	@SpecAssertion(section = "5.1.2", id = "d")
 	public void testUnexpectedType() throws Exception {
 		String methodName = "getValue";
 
