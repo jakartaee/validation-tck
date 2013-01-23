@@ -81,7 +81,14 @@ public class Executables {
 				CustomerService.class,
 				String.class,
 				String.class
+		);
+	}
 
+	public static ConstructorDescriptor parameterConstrainedConstructorOfInnerClass() {
+		return getConstructorDescriptor(
+				CustomerService.InnerClass.class,
+				CustomerService.class,
+				String.class
 		);
 	}
 
