@@ -108,6 +108,18 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
+	//fails due to https://hibernate.onjira.com/browse/HV-674
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "6.5", id = "b")
+	public void testGetParameterDescriptorsForConstructorOfInnerClass() {
+		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructorOfInnerClass();
+		assertEquals(
+				descriptor.getParameterDescriptors().size(),
+				2,
+				"Size of parameter descriptor list doesn't match constructor parameter count"
+		);
+	}
+
 	@Test
 	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetParameterDescriptorsForParameterlessConstructor() {
