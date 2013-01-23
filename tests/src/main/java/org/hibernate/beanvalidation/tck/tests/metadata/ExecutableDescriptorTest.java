@@ -22,6 +22,7 @@ import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.ElementDescriptor;
 import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.MethodDescriptor;
+import javax.validation.metadata.Scope;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -55,6 +56,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 						Account.class,
 						Customer.class,
 						CustomerService.class,
+						CustomerServiceExtension.class,
 						Executables.class,
 						Person.class
 				)
@@ -101,6 +103,18 @@ public class ExecutableDescriptorTest extends Arquillian {
 	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetParameterDescriptorsForConstructor() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructor();
+		assertEquals(
+				descriptor.getParameterDescriptors().size(),
+				2,
+				"Size of parameter descriptor list doesn't match constructor parameter count"
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-674
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "6.5", id = "b")
+	public void testGetParameterDescriptorsForConstructorOfInnerClass() {
+		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructorOfInnerClass();
 		assertEquals(
 				descriptor.getParameterDescriptors().size(),
 				2,
@@ -467,6 +481,38 @@ public class ExecutableDescriptorTest extends Arquillian {
 						.size(),
 				1,
 				"Should have constraints"
+		);
+
+		assertEquals(
+				crossParameterConstrainedDescriptor.getConstraintDescriptors()
+						.iterator()
+						.next()
+						.getAnnotation()
+						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+		);
+	}
+
+	//Fails due to https://hibernate.onjira.com/browse/HV-682
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "6.5", id = "f")
+	public void testFindConstraintsForMethodLookingAt() {
+		MethodDescriptor crossParameterConstrainedDescriptor = Executables.methodOverridingCrossParameterConstrainedMethod();
+		assertEquals(
+				crossParameterConstrainedDescriptor.findConstraints()
+						.lookingAt( Scope.LOCAL_ELEMENT )
+						.getConstraintDescriptors()
+						.size(),
+				0,
+				"Should have no local constraints"
+		);
+
+		crossParameterConstrainedDescriptor = Executables.methodOverridingCrossParameterConstrainedMethod();
+		assertEquals(
+				crossParameterConstrainedDescriptor.findConstraints().lookingAt( Scope.HIERARCHY )
+						.getConstraintDescriptors()
+						.size(),
+				1,
+				"Should have one hierarchy constraint"
 		);
 
 		assertEquals(

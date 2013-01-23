@@ -145,4 +145,10 @@ public class CustomerService {
 			return false;
 		}
 	}
+
+	public class InnerClass {
+		//constrained parameter on inner class constructor
+		public InnerClass(@NotNull @Size(min = 3) String firstName) {
+		}
+	}
 }

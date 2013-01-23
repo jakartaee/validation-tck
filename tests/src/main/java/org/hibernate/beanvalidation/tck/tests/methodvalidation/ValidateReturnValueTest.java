@@ -36,9 +36,12 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.Customer.Basic;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -77,8 +80,8 @@ public class ValidateReturnValueTest extends Arquillian {
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "c"),
-			@SpecAssertion(section = "5.1.2", id = "d")
+			@SpecAssertion(section = "5.1.2", id = "d"),
+			@SpecAssertion(section = "5.1.2", id = "e")
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
@@ -102,7 +105,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testTwoViolations() throws Exception {
 		String methodName = "getFirstName";
 
@@ -133,7 +136,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		String methodName = "getLastName";
 
@@ -163,7 +166,7 @@ public class ValidateReturnValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testNoViolations() throws Exception {
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( "getFirstName", String.class );
@@ -180,7 +183,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testValidationWithGroup() throws Exception {
 		String methodName = "getLastName";
 
@@ -210,7 +213,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testValidationWithSeveralGroups() throws Exception {
 		String methodName = "getAllData";
 
@@ -248,7 +251,7 @@ public class ValidateReturnValueTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "c")
+	@SpecAssertion(section = "5.1.2", id = "d")
 	public void testUnexpectedType() throws Exception {
 		String methodName = "getValue";
 
@@ -257,5 +260,65 @@ public class ValidateReturnValueTest extends Arquillian {
 		Object returnValue = "S";
 
 		executableValidator.validateReturnValue( object, method, returnValue );
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedForObjectCausesException() throws Exception {
+		Object object = null;
+		Method method = Customer.class.getMethod( "getAddress" );
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedForMethodCausesException() throws Exception {
+		Object object = new Customer();
+		Method method = null;
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedForGroupsCausesException() throws Exception {
+		Object object = new Customer();
+		Method method = Customer.class.getMethod( "getAddress" );
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue,
+				(Class<?>[]) null
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedAsSingleGroupCausesException() throws Exception {
+		Object object = new Customer();
+		Method method = Customer.class.getMethod( "getAddress" );
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue,
+				(Class<?>) null
+		);
 	}
 }

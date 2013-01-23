@@ -36,9 +36,12 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.User.Basic;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.User.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -48,6 +51,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDe
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -75,8 +79,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "e"),
-			@SpecAssertion(section = "5.1.2", id = "f")
+			@SpecAssertion(section = "5.1.2", id = "g"),
+			@SpecAssertion(section = "5.1.2", id = "h")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
@@ -95,7 +99,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testOneViolationFromCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { null, null };
@@ -115,7 +119,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoViolations() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -144,7 +148,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoViolationsOnSameParameter() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, int.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -170,7 +174,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( CharSequence.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -196,7 +200,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testCrossParameterConstraintGivenSeveralTimes() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -226,7 +230,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testNoViolations() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -243,7 +247,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, long.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -267,7 +271,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testCrossParameterConstraintValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				CharSequence.class,
@@ -294,7 +298,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testValidationWithSeveralGroups() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -333,7 +337,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = "5.1.2", id = "g")
 	public void testUnexpectedType() throws Exception {
 		Constructor<Address> constructor = Address.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -342,7 +346,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "5.2", id = "g")
 	public void testGetInvalidValueForCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { "Bob", "Alice" };
@@ -357,7 +361,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "5.2", id = "g")
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
 			throws Exception {
 		Constructor<User> constructor = User.class.getConstructor();
@@ -370,5 +374,57 @@ public class ValidateConstructorParametersTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "i")
+	public void testNullPassedForConstructorCausesException() throws Exception {
+		Constructor<User> constructor = null;
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "i")
+	public void testNullPassedForParameterValuesCausesException() throws Exception {
+		Constructor<User> constructor = User.class.getConstructor( String.class );
+		Object[] parameterValues = null;
+
+		executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "i")
+	public void testNullPassedForGroupsCausesException() throws Exception {
+		Constructor<User> constructor = User.class.getConstructor( String.class );
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues,
+				(Class<?>[]) null
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "i")
+	public void testNullPassedAsSingleGroupCausesException() throws Exception {
+		Constructor<User> constructor = User.class.getConstructor( String.class );
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues,
+				(Class<?>) null
+		);
 	}
 }

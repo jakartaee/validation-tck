@@ -68,6 +68,14 @@ public class Executables {
 		);
 	}
 
+	public static MethodDescriptor methodOverridingCrossParameterConstrainedMethod() {
+		return getMethodDescriptor(
+				CustomerServiceExtension.class,
+				"removeCustomer",
+				Customer.class
+		);
+	}
+
 	public static MethodDescriptor unconstrainedMethod() {
 		return getMethodDescriptor(
 				CustomerService.class,
@@ -81,7 +89,14 @@ public class Executables {
 				CustomerService.class,
 				String.class,
 				String.class
+		);
+	}
 
+	public static ConstructorDescriptor parameterConstrainedConstructorOfInnerClass() {
+		return getConstructorDescriptor(
+				CustomerService.InnerClass.class,
+				CustomerService.class,
+				String.class
 		);
 	}
 

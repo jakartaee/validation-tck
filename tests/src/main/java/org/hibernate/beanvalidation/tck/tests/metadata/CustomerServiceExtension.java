@@ -14,30 +14,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+package org.hibernate.beanvalidation.tck.tests.metadata;
 
 /**
  * @author Gunnar Morling
  */
-public class ValidCustomerValidator
-		implements ConstraintValidator<ValidCustomer, Customer> {
-
-	@Override
-	public void initialize(ValidCustomer constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
-	public boolean isValid(Customer value, ConstraintValidatorContext context) {
-		if ( value == null ) {
-			return false;
-		}
-
-		return value.getName() != null;
-	}
+public class CustomerServiceExtension extends CustomerService {
 }

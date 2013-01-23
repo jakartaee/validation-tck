@@ -14,30 +14,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
+package org.hibernate.beanvalidation.tck.tests.methodvalidation.service;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidOrder;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Order;
 
 /**
  * @author Gunnar Morling
  */
-public class ValidCustomerValidator
-		implements ConstraintValidator<ValidCustomer, Customer> {
+public interface IOrderService {
 
-	@Override
-	public void initialize(ValidCustomer constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
-	public boolean isValid(Customer value, ConstraintValidatorContext context) {
-		if ( value == null ) {
-			return false;
-		}
-
-		return value.getName() != null;
-	}
+	@MyCrossParameterConstraint
+	@ValidOrder
+	@Valid
+	Order placeOrder(@NotNull String customer, @Valid Item item, @Min(1) int quantity);
 }

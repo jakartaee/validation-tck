@@ -34,10 +34,13 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.Customer.Basic;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidCustomer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -76,8 +79,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "g"),
-			@SpecAssertion(section = "5.1.2", id = "h")
+			@SpecAssertion(section = "5.1.2", id = "j"),
+			@SpecAssertion(section = "5.1.2", id = "k")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
@@ -100,7 +103,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testTwoViolations() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( String.class );
 		Customer returnValue = null;
@@ -127,7 +130,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( CharSequence.class );
 		Customer returnValue = new Customer();
@@ -153,7 +156,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testNoViolations() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer( "Bob" );
@@ -168,7 +171,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( long.class );
 		Customer returnValue = null;
@@ -196,7 +199,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	//fails on RI due to wrong return value node name
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testValidationWithSeveralGroups() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( Date.class );
 		Customer returnValue = null;
@@ -229,11 +232,63 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "g")
+	@SpecAssertion(section = "5.1.2", id = "j")
 	public void testUnexpectedType() throws Exception {
 		Constructor<Email> constructor = Email.class.getConstructor();
 		Email returnValue = new Email();
 
 		executableValidator.validateConstructorReturnValue( constructor, returnValue );
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "l")
+	public void testNullPassedForConstructorCausesException() throws Exception {
+		Constructor<Customer> constructor = null;
+		Customer returnValue = new Customer();
+
+		executableValidator.validateConstructorReturnValue(
+				constructor,
+				returnValue
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "l")
+	public void testNullPassedForReturnValueCausesException() throws Exception {
+		Constructor<Customer> constructor = Customer.class.getConstructor();
+		Customer returnValue = null;
+
+		executableValidator.validateConstructorReturnValue(
+				constructor,
+				returnValue
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "l")
+	public void testNullPassedForGroupsCausesException() throws Exception {
+		Constructor<Customer> constructor = Customer.class.getConstructor();
+		Customer returnValue = new Customer();
+
+		executableValidator.validateConstructorReturnValue(
+				constructor,
+				returnValue,
+				(Class<?>[]) null
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "l")
+	public void testNullPassedAsSingleGroupCausesException() throws Exception {
+		Constructor<Customer> constructor = Customer.class.getConstructor();
+		Customer returnValue = new Customer();
+
+		executableValidator.validateConstructorReturnValue(
+				constructor,
+				returnValue,
+				(Class<?>) null
+		);
 	}
 }
