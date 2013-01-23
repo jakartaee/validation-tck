@@ -14,15 +14,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion;
+package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl;
 
+import javax.validation.ConvertGroup;
+import javax.validation.Valid;
+import javax.validation.groups.Default;
+
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.BasicPostal;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserReadServiceBase;
 
 /**
  * @author Gunnar Morling
  */
-public class UserReadService {
+public class SubClassWithGroupConversionOnReturnValue extends UserReadServiceBase {
 
+	@Override
+	@Valid
+	@ConvertGroup(from = Default.class, to = BasicPostal.class)
 	public User getUser() {
 		return null;
 	}

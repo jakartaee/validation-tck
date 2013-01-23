@@ -14,19 +14,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.IUserWriteServiceWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.UserWriteService;
+import javax.validation.ConvertGroup;
+import javax.validation.Valid;
+import javax.validation.groups.Default;
+
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.BasicPostal;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
 
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter
-		extends UserWriteService implements IUserWriteServiceWithGroupConversionOnParameter {
+public interface UserReadServiceWithGroupConversionOnReturnValue {
 
-	@Override
-	public void addUser(User user) {
-	}
+	@Valid
+	@ConvertGroup(from = Default.class, to = BasicPostal.class)
+	public User getUser();
 }

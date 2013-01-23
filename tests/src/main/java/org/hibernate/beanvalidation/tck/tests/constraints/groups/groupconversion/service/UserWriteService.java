@@ -14,14 +14,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion;
+package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
 
 /**
  * @author Gunnar Morling
  */
-public interface IUserWriteService {
+public interface UserWriteService {
 
 	void addUser(User user);
 }

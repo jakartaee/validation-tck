@@ -14,17 +14,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.IUserReadServiceWithGroupConversionOnReturnValue;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.UserReadService;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserReadService;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserReadServiceWithGroupConversionOnReturnValue;
 
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue
-		extends UserReadService implements IUserReadServiceWithGroupConversionOnReturnValue {
+public class ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue
+		implements UserReadService, UserReadServiceWithGroupConversionOnReturnValue {
 
 	@Override
 	public User getUser() {

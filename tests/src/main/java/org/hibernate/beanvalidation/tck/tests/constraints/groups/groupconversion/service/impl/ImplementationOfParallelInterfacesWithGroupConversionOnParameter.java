@@ -14,20 +14,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.impl;
+package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.IUserReadService;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.IUserReadServiceWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserWriteService;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserWriteServiceWithGroupConversionOnParameter;
 
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue
-		implements IUserReadService, IUserReadServiceWithGroupConversionOnReturnValue {
+public class ImplementationOfParallelInterfacesWithGroupConversionOnParameter
+		implements UserWriteService, UserWriteServiceWithGroupConversionOnParameter {
 
 	@Override
-	public User getUser() {
-		return null;
+	public void addUser(User user) {
 	}
 }

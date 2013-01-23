@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion;
+package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service;
 
 import javax.validation.ConvertGroup;
 import javax.validation.Valid;
@@ -26,9 +26,10 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 /**
  * @author Gunnar Morling
  */
-public interface IUserReadServiceWithGroupConversionOnReturnValue {
+public interface UserWriteServiceWithGroupConversionOnParameter {
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = BasicPostal.class)
-	public User getUser();
+	void addUser(
+			@Valid
+			@ConvertGroup(from = Default.class, to = BasicPostal.class)
+			User user);
 }
