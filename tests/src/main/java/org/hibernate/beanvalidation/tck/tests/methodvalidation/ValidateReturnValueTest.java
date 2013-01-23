@@ -261,4 +261,64 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		executableValidator.validateReturnValue( object, method, returnValue );
 	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedForObjectCausesException() throws Exception {
+		Object object = null;
+		Method method = Customer.class.getMethod( "getAddress" );
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedForMethodCausesException() throws Exception {
+		Object object = new Customer();
+		Method method = null;
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedForGroupsCausesException() throws Exception {
+		Object object = new Customer();
+		Method method = Customer.class.getMethod( "getAddress" );
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue,
+				(Class<?>[]) null
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "f")
+	public void testNullPassedAsSingleGroupCausesException() throws Exception {
+		Object object = new Customer();
+		Method method = Customer.class.getMethod( "getAddress" );
+		Object returnValue = null;
+
+		executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue,
+				(Class<?>) null
+		);
+	}
 }

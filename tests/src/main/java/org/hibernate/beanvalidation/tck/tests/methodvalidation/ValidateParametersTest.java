@@ -41,6 +41,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -50,6 +51,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDe
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -407,5 +409,79 @@ public class ValidateParametersTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "c")
+	public void testNullPassedForObjectCausesException() throws Exception {
+		Object object = null;
+		Method method = User.class.getMethod( "setFirstName", String.class );
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "c")
+	public void testNullPassedForMethodCausesException() throws Exception {
+		Object object = new User();
+		Method method = null;
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "c")
+	public void testNullPassedForParameterValuesCausesException() throws Exception {
+		Object object = new User();
+		Method method = User.class.getMethod( "setFirstName", String.class );
+		Object[] parameterValues = null;
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	@SpecAssertion(section = "5.1.2", id = "c")
+	public void testNullPassedForGroupsCausesException() throws Exception {
+		Object object = new User();
+		Method method = User.class.getMethod( "setFirstName", String.class );
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues,
+				(Class<?>[]) null
+		);
+	}
+
+	//fails due to https://hibernate.onjira.com/browse/HV-681
+	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "5.1.2", id = "c")
+	public void testNullPassedAsSingleGroupCausesException() throws Exception {
+		Object object = new User();
+		Method method = User.class.getMethod( "setFirstName", String.class );
+		Object[] parameterValues = new Object[] { null };
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues,
+				(Class<?>) null
+		);
 	}
 }
