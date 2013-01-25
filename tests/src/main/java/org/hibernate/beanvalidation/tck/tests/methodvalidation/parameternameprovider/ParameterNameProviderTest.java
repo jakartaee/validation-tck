@@ -64,7 +64,7 @@ public class ParameterNameProviderTest extends Arquillian {
 			Method method = User.class.getMethod( "setNames", String.class, String.class );
 			Object[] parameters = new Object[] { null, null };
 
-			validator.forMethods().validateParameters( object, method, parameters );
+			validator.forExecutables().validateParameters( object, method, parameters );
 			fail( "Expected exception wasn't thrown" );
 		}
 		catch ( ValidationException e ) {

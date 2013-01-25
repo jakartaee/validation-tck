@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 import java.lang.reflect.Method;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.MethodValidator;
+import javax.validation.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -67,7 +67,7 @@ public class ParameterNameProviderSpecifiedInValidationXmlTest extends Arquillia
 		);
 		Object[] parameterValues = new Object[] { null };
 
-		MethodValidator validator = TestUtil.getValidatorUnderTest().forMethods();
+		ExecutableValidator validator = TestUtil.getValidatorUnderTest().forExecutables();
 
 		//when
 		Set<ConstraintViolation<Object>> violations = validator.validateParameters(

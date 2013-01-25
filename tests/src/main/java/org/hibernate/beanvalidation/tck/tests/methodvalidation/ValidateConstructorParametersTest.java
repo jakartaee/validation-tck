@@ -20,7 +20,7 @@ import java.lang.reflect.Constructor;
 import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.MethodValidator;
+import javax.validation.ExecutableValidator;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -56,7 +56,7 @@ import static org.testng.Assert.assertEquals;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ValidateConstructorParametersTest extends Arquillian {
 
-	private MethodValidator executableValidator;
+	private ExecutableValidator executableValidator;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -70,7 +70,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 
 	@BeforeMethod
 	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forMethods();
+		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test

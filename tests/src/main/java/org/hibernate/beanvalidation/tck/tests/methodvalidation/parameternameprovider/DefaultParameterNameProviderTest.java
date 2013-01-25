@@ -70,7 +70,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		Method method = User.class.getMethod( "setNames", String.class, String.class );
 		Object[] parameters = new Object[] { null, null };
 
-		Set<ConstraintViolation<Object>> constraintViolations = validator.forMethods()
+		Set<ConstraintViolation<Object>> constraintViolations = validator.forExecutables()
 				.validateParameters( object, method, parameters );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 
@@ -90,7 +90,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null, null, null };
 
-		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
+		Set<ConstraintViolation<User>> constraintViolations = validator.forExecutables()
 				.validateConstructorParameters( constructor, parameters );
 		assertCorrectNumberOfViolations( constraintViolations, 3 );
 

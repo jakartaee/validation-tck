@@ -30,7 +30,7 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
-import javax.validation.MethodValidator;
+import javax.validation.ExecutableValidator;
 import javax.validation.Path;
 import javax.validation.Payload;
 import javax.validation.Valid;
@@ -73,7 +73,7 @@ public class PropertyPathTest extends Arquillian {
 
 	private Validator validator;
 
-	private MethodValidator executableValidator;
+	private ExecutableValidator executableValidator;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -104,7 +104,7 @@ public class PropertyPathTest extends Arquillian {
 	@BeforeMethod
 	public void setupValidators() {
 		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forMethods();
+		executableValidator = validator.forExecutables();
 	}
 
 	@Test
@@ -331,11 +331,11 @@ public class PropertyPathTest extends Arquillian {
 			throws Exception {
 		//given
 		String methodName = "makeMovie";
-		MethodValidator executableValidator = TestUtil.getConfigurationUnderTest()
+		ExecutableValidator executableValidator = TestUtil.getConfigurationUnderTest()
 				.parameterNameProvider( new CustomParameterNameProvider() )
 				.buildValidatorFactory()
 				.getValidator()
-				.forMethods();
+				.forExecutables();
 
 		Object object = new MovieStudio();
 		Method method = MovieStudio.class.getMethod(
@@ -444,11 +444,11 @@ public class PropertyPathTest extends Arquillian {
 	public void testPropertyPathForConstructorParameterConstraintWithCustomParameterNameProvider()
 			throws Exception {
 		//given
-		MethodValidator executableValidator = TestUtil.getConfigurationUnderTest()
+		ExecutableValidator executableValidator = TestUtil.getConfigurationUnderTest()
 				.parameterNameProvider( new CustomParameterNameProvider() )
 				.buildValidatorFactory()
 				.getValidator()
-				.forMethods();
+				.forExecutables();
 
 		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
 				String.class,
