@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefi
 import java.lang.reflect.Method;
 import java.util.Date;
 import javax.validation.ConstraintDefinitionException;
-import javax.validation.MethodValidator;
+import javax.validation.ExecutableValidator;
 import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -181,7 +181,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		MethodValidator executableValidator = TestUtil.getValidatorUnderTest().forMethods();
+		ExecutableValidator executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 
 		executableValidator.validateParameters( object, method, parameterValues );
 		fail( "Validators for cross-parameter constraints must validate the type Object[]. Expected exception wasn't thrown." );

@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import javax.validation.ConstraintDeclarationException;
-import javax.validation.MethodValidator;
+import javax.validation.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -56,7 +56,7 @@ import static org.testng.Assert.fail;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
-	private MethodValidator executableValidator;
+	private ExecutableValidator executableValidator;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -70,7 +70,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 
 	@BeforeMethod
 	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forMethods();
+		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)

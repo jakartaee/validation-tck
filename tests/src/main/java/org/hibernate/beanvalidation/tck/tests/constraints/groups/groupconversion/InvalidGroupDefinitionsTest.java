@@ -99,7 +99,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object returnValue = null;
 
-		validator.forMethods().validateReturnValue( object, method, returnValue );
+		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -112,7 +112,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forMethods().validateParameters( object, method, parameters );
+		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -123,7 +123,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		Constructor<UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue> constructor = UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue.class
 				.getConstructor();
 
-		validator.forMethods().validateConstructorReturnValue( constructor, object );
+		validator.forExecutables().validateConstructorReturnValue( constructor, object );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -133,7 +133,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.getConstructor( List.class );
 		Object[] parameters = new Object[] { null };
 
-		validator.forMethods().validateConstructorParameters( constructor, parameters );
+		validator.forExecutables().validateConstructorParameters( constructor, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -162,7 +162,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forMethods().validateParameters( object, method, parameters );
+		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
 	//fails since the RI currently adds up return value constraints
@@ -176,7 +176,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		Method method = SubClassWithGroupConversionOnReturnValue.class.getMethod( "getUser" );
 		Object returnValue = null;
 
-		validator.forMethods().validateReturnValue( object, method, returnValue );
+		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -192,7 +192,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forMethods().validateParameters( object, method, parameters );
+		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
 	//fails since the RI currently adds up return value constraints
@@ -208,7 +208,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object returnValue = null;
 
-		validator.forMethods().validateReturnValue( object, method, returnValue );
+		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -224,7 +224,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forMethods().validateParameters( object, method, parameters );
+		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
 	//fails since the RI currently adds up return value constraints
@@ -240,7 +240,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object returnValue = null;
 
-		validator.forMethods().validateReturnValue( object, method, returnValue );
+		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -255,7 +255,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.getMethod( "addUser", User.class );
 		Object[] parameters = new Object[] { null };
 
-		validator.forMethods().validateParameters( object, method, parameters );
+		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
 	//fails since the RI currently adds up return value constraints
@@ -271,7 +271,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.getMethod( "getUser" );
 		Object returnValue = null;
 
-		validator.forMethods().validateReturnValue( object, method, returnValue );
+		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
 
 }

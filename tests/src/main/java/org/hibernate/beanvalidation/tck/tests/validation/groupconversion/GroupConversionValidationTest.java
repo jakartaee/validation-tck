@@ -148,7 +148,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		Object returnValue = TestAddresses.withInvalidStreet1();
 
 		//when
-		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
+		Set<ConstraintViolation<User>> constraintViolations = validator.forExecutables()
 				.validateReturnValue( user, method, returnValue );
 
 		//then
@@ -162,7 +162,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
 	//isReachable()
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
@@ -171,7 +171,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		Object[] arguments = new Object[] { TestAddresses.withInvalidStreet1() };
 
 		//when
-		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
+		Set<ConstraintViolation<User>> constraintViolations = validator.forExecutables()
 				.validateParameters( user, method, arguments );
 
 		//then
@@ -192,7 +192,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		User createdObject = new User( TestAddresses.withInvalidStreet1() );
 
 		//when
-		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
+		Set<ConstraintViolation<User>> constraintViolations = validator.forExecutables()
 				.validateConstructorReturnValue( constructor, createdObject );
 
 		//then
@@ -212,7 +212,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
 	//isReachable()
-	@Test(groups=Groups.FAILING_IN_RI)
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given
@@ -220,7 +220,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		Object[] arguments = new Object[] { TestAddresses.withInvalidStreet1() };
 
 		//when
-		Set<ConstraintViolation<User>> constraintViolations = validator.forMethods()
+		Set<ConstraintViolation<User>> constraintViolations = validator.forExecutables()
 				.validateConstructorParameters( constructor, arguments );
 
 		//then
