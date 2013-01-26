@@ -868,8 +868,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" ),
-				names( methodName, "$retval", "name" )
+				names( methodName, null ),
+				names( methodName, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -909,9 +909,9 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" ),
-				names( methodName, "$retval" ),
-				names( methodName, "$retval", "name" )
+				names( methodName, null ),
+				names( methodName, null ),
+				names( methodName, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -953,9 +953,9 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" ),
-				names( methodName, "$retval" ),
-				names( methodName, "$retval", "name" )
+				names( methodName, null ),
+				names( methodName, null ),
+				names( methodName, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -996,7 +996,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" )
+				names( methodName, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1019,8 +1019,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval", "name" ),
-				names( methodName, "$retval" )
+				names( methodName, null, "name" ),
+				names( methodName, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1054,7 +1054,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "$retval", "name" ) );
+		assertCorrectPathNodeNames( violations, names( methodName, null, "name" ) );
 		assertCorrectPathDescriptorKinds(
 				violations,
 				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
@@ -1094,7 +1094,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" )
+				names( methodName, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1133,8 +1133,8 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidOrder.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" ),
-				names( methodName, "$retval", "name" )
+				names( methodName, null ),
+				names( methodName, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1158,7 +1158,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectPathNodeNames(
 				violations,
 				names( methodName ),
-				names( methodName, "$retval" )
+				names( methodName, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1197,8 +1197,8 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Size.class, ValidOrder.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" ),
-				names( methodName, "$retval", "name" )
+				names( methodName, null ),
+				names( methodName, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1221,8 +1221,8 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Size.class, ValidRetailOrder.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName, "$retval" ),
-				names( methodName, "$retval", "name" )
+				names( methodName, null ),
+				names( methodName, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1259,8 +1259,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" ),
-				names( className, "$retval", "name" )
+				names( className, null ),
+				names( className, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1295,7 +1295,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" )
+				names( className, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1331,7 +1331,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" )
+				names( className, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1353,8 +1353,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval", "name" ),
-				names( className, "$retval" )
+				names( className, null, "name" ),
+				names( className, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1385,7 +1385,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( className, "$retval", "name" ) );
+		assertCorrectPathNodeNames( violations, names( className, null, "name" ) );
 		assertCorrectPathDescriptorKinds(
 				violations,
 				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
@@ -1422,7 +1422,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" )
+				names( className, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1458,8 +1458,8 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidOrderService.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" ),
-				names( className, "$retval", "name" )
+				names( className, null ),
+				names( className, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1482,7 +1482,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectPathNodeNames(
 				violations,
 				names( className ),
-				names( className, "$retval" )
+				names( className, null )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1522,8 +1522,8 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Size.class, ValidOrderService.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" ),
-				names( className, "$retval", "name" )
+				names( className, null ),
+				names( className, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -1544,8 +1544,8 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Pattern.class, ValidRetailOrderService.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( className, "$retval" ),
-				names( className, "$retval", "name" )
+				names( className, null ),
+				names( className, null, "name" )
 		);
 		assertCorrectPathDescriptorKinds(
 				violations,
