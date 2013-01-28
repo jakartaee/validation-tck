@@ -42,7 +42,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -77,8 +76,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "d"),
 			@SpecAssertion(section = "5.1.2", id = "e")
@@ -103,8 +101,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		assertCorrectPathDescriptorKinds( violations, kinds( Kind.METHOD, Kind.RETURN_VALUE ) );
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testTwoViolations() throws Exception {
 		String methodName = "getFirstName";
@@ -134,8 +131,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		String methodName = "getLastName";
@@ -181,8 +177,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 0 );
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testValidationWithGroup() throws Exception {
 		String methodName = "getLastName";
@@ -211,8 +206,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		assertCorrectPathDescriptorKinds( violations, kinds( Kind.METHOD, Kind.RETURN_VALUE ) );
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "e")
 	public void testValidationWithSeveralGroups() throws Exception {
 		String methodName = "getAllData";
@@ -262,8 +256,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		executableValidator.validateReturnValue( object, method, returnValue );
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-681
-	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "f")
 	public void testNullPassedForObjectCausesException() throws Exception {
 		Object object = null;
@@ -306,8 +299,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-681
-	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "f")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
 		Object object = new Customer();

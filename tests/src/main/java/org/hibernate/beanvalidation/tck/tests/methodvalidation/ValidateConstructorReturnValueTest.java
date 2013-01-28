@@ -76,8 +76,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "j"),
 			@SpecAssertion(section = "5.1.2", id = "k")
@@ -128,8 +127,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( CharSequence.class );
@@ -252,8 +250,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-681
-	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "l")
 	public void testNullPassedForReturnValueCausesException() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
@@ -278,8 +275,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-681
-	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "l")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();

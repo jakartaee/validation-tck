@@ -138,8 +138,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
-	//fails as "$retval is used as return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodReturnValue() throws Exception {
 		//given

@@ -105,8 +105,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, NotNull.class );
 	}
 
-	//Fails due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.5", id = "c")
 	public void testReturnValueMarkedAsCascadedInInterfaceImplementation() throws Exception {
 		Object object = new CalendarServiceImplementation();
@@ -165,8 +164,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		);
 	}
 
-	//Fails due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.5", id = "c")
 	public void testReturnValueMarkedAsCascadedInSubClass() throws Exception {
 		Object object = new CalendarServiceSubClass();
@@ -227,8 +225,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		);
 	}
 
-	//Fails due to wrong return type node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testReturnValueConstraintAddedToConstructorInSubClass() throws Exception {
 		//Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( String.class );
@@ -250,8 +247,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		);
 	}
 
-	//Fails due to wrong return type node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testReturnValueMarkedAsCascadedAtConstructorInSuperAndSubClass() throws Exception {
 		//Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( long.class );
