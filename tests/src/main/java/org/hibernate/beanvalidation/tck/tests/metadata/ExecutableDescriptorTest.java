@@ -110,8 +110,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-674
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetParameterDescriptorsForConstructorOfInnerClass() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructorOfInnerClass();
