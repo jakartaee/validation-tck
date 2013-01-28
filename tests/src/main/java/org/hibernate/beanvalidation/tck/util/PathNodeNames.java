@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import javax.validation.Path;
 import javax.validation.Path.Node;
@@ -88,6 +89,20 @@ public class PathNodeNames implements Comparable<PathNodeNames> {
 
 	@Override
 	public String toString() {
-		return "PathNodeNames [nodeNames=" + nodeNames + "]";
+		StringBuilder sb = new StringBuilder();
+
+		Iterator<String> nodeNameIterator = nodeNames.iterator();
+
+		while ( nodeNameIterator.hasNext() ) {
+			sb.append( nodeNameIterator.next() );
+			if ( nodeNameIterator.hasNext() ) {
+				sb.append( "." );
+			}
+			else {
+				return sb.toString();
+			}
+		}
+
+		return sb.toString();
 	}
 }
