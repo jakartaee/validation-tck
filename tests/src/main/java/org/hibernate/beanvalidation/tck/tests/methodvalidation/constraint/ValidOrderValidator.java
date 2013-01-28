@@ -40,7 +40,7 @@ public class ValidOrderValidator
 	}
 
 	@Override
-	public boolean isValid(Order value, ConstraintValidatorContext context) {
+	public boolean isValid(Order order, ConstraintValidatorContext context) {
 		int invocationCount = actualInvocationCount.incrementAndGet();
 		if ( invocationCount > expectedMaxInvocationCount ) {
 			fail(
@@ -52,6 +52,6 @@ public class ValidOrderValidator
 			);
 		}
 
-		return "valid".equals( value.getName() );
+		return order == null ? true : order.getName().length() >= 5;
 	}
 }

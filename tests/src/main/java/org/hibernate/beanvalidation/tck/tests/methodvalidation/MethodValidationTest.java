@@ -837,8 +837,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
@@ -878,8 +877,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationIncludesConstraintsFromSuperClass() throws Exception {
 		String methodName = "placeOrder";
@@ -921,8 +919,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationIncludesConstraintsFromImplementedInterface()
 			throws Exception {
@@ -965,8 +962,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String methodName = "placeOrder";
@@ -1102,8 +1098,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "b"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -1130,7 +1125,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 2 );
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, ValidOrder.class );
+		assertCorrectConstraintTypes( violations, ValidOrder.class, Size.class );
 		assertCorrectPathNodeNames(
 				violations,
 				names( methodName, null ),
@@ -1157,7 +1152,6 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidRetailOrder.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( methodName ),
 				names( methodName, null )
 		);
 		assertCorrectPathDescriptorKinds(
@@ -1231,8 +1225,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
@@ -1303,8 +1296,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String className = "OrderService";
@@ -1430,8 +1422,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "b"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -1455,7 +1446,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 2 );
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, ValidOrderService.class );
+		assertCorrectConstraintTypes( violations, ValidOrderService.class, Size.class );
 		assertCorrectPathNodeNames(
 				violations,
 				names( className, null ),
@@ -1467,7 +1458,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
 		);
 
-		returnValue = new OrderService( "valid" );
+		returnValue = new OrderService( "valid order service" );
 
 		violations = executableValidator.validateConstructorReturnValue(
 				constructor,
@@ -1481,7 +1472,6 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidRetailOrderService.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( className ),
 				names( className, null )
 		);
 		assertCorrectPathDescriptorKinds(
@@ -1490,7 +1480,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-680
+	//fails due to https://hibernate.onjira.com/browse/HV-679
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "b"),

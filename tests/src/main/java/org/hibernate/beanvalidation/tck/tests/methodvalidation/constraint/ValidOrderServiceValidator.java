@@ -40,7 +40,7 @@ public class ValidOrderServiceValidator
 	}
 
 	@Override
-	public boolean isValid(OrderService value, ConstraintValidatorContext context) {
+	public boolean isValid(OrderService orderService, ConstraintValidatorContext context) {
 		int invocationCount = actualInvocationCount.incrementAndGet();
 		if ( invocationCount > expectedMaxInvocationCount ) {
 			fail(
@@ -52,6 +52,6 @@ public class ValidOrderServiceValidator
 			);
 		}
 
-		return "valid".equals( value.getName() );
+		return orderService == null ? true : orderService.getName().length() >= 5;
 	}
 }

@@ -78,6 +78,7 @@ public class OrderService {
 	@MyCrossParameterConstraint(groups = Basic.class)
 	@ValidOrder
 	@ValidRetailOrder(groups = Basic.class)
+	@Valid
 	public Order placeOrder(@NotNull(groups = Basic.class) String customer, @Valid Item item, @Min(1) Integer quantity) {
 		return null;
 	}
@@ -85,6 +86,7 @@ public class OrderService {
 	@MyCrossParameterConstraint(groups = Basic.class)
 	@ValidOrderService
 	@ValidRetailOrderService(groups = Basic.class)
+	@Valid
 	public OrderService(@NotNull(groups = Basic.class) String customer, @Valid Item item, @Min(1) Integer quantity) {
 	}
 

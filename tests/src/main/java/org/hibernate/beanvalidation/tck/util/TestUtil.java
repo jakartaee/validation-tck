@@ -17,7 +17,6 @@
 package org.hibernate.beanvalidation.tck.util;
 
 import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -125,26 +124,25 @@ public final class TestUtil {
 	}
 
 	public static <T> void assertCorrectConstraintTypes(Set<ConstraintViolation<T>> violations, Class<?>... expectedConstraintTypes) {
-		List<String> actualConstraintTypes = new ArrayList<String>();
+		List<String> actualConstraintTypeNames = new ArrayList<String>();
 		for ( ConstraintViolation<?> violation : violations ) {
-			actualConstraintTypes.add(
-					( (Annotation) violation.getConstraintDescriptor()
-							.getAnnotation() ).annotationType().getName()
+			actualConstraintTypeNames.add(
+					violation.getConstraintDescriptor()
+							.getAnnotation()
+							.annotationType()
+							.getName()
 			);
 		}
 
-		assertEquals(
-				actualConstraintTypes.size(),
-				expectedConstraintTypes.length,
-				"Wrong number of constraint types."
-		);
-
+		List<String> expectedConstraintTypeNames = new ArrayList<String>();
 		for ( Class<?> expectedConstraintType : expectedConstraintTypes ) {
-			assertTrue(
-					actualConstraintTypes.contains( expectedConstraintType.getName() ),
-					"The constraint type " + expectedConstraintType.getName() + " is not in the list of actual violated constraint types: " + actualConstraintTypes
-			);
+			expectedConstraintTypeNames.add( expectedConstraintType.getName() );
 		}
+
+		Collections.sort( actualConstraintTypeNames );
+		Collections.sort( expectedConstraintTypeNames );
+
+		assertEquals( actualConstraintTypeNames, expectedConstraintTypeNames );
 	}
 
 	public static <T> void assertCorrectPropertyPaths(Set<ConstraintViolation<T>> violations, String... propertyPaths) {
