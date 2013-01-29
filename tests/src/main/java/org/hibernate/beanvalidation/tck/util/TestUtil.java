@@ -211,7 +211,6 @@ public final class TestUtil {
 	}
 
 	public static void assertDescriptorKinds(Path path, Kind... kinds) {
-
 		Iterator<Node> pathIterator = path.iterator();
 
 		for ( Kind kind : kinds ) {
@@ -223,7 +222,6 @@ public final class TestUtil {
 	}
 
 	public static void assertNodeNames(Path path, String... names) {
-
 		Iterator<Node> pathIterator = path.iterator();
 
 		for ( String name : names ) {
@@ -406,7 +404,6 @@ public final class TestUtil {
 	}
 
 	public static class PathImpl implements Path {
-
 		/**
 		 * Regular expression used to split a string path into its elements.
 		 *
