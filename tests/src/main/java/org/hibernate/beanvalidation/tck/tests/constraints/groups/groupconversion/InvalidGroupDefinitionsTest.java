@@ -46,9 +46,7 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -165,20 +163,6 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
-	//fails since the RI currently adds up return value constraints
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "g"),
-			@SpecAssertion(section = "4.4.5", id = "i")
-	})
-	public void testGroupConversionGivenOnReturnValueInSubClass() throws Exception {
-		Object object = new SubClassWithGroupConversionOnReturnValue();
-		Method method = SubClassWithGroupConversionOnReturnValue.class.getMethod( "getUser" );
-		Object returnValue = null;
-
-		validator.forExecutables().validateReturnValue( object, method, returnValue );
-	}
-
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "g"),
@@ -193,22 +177,6 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		Object[] parameters = new Object[] { null };
 
 		validator.forExecutables().validateParameters( object, method, parameters );
-	}
-
-	//fails since the RI currently adds up return value constraints
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "g"),
-			@SpecAssertion(section = "4.4.5", id = "i")
-	})
-	public void testGroupConversionGivenOnReturnValueInImplementingClass() throws Exception {
-		Object object = new InterfaceImplementationWithGroupConversionOnReturnValue();
-		Method method = InterfaceImplementationWithGroupConversionOnReturnValue.class.getMethod(
-				"getUser"
-		);
-		Object returnValue = null;
-
-		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -227,7 +195,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
-	//fails since the RI currently adds up return value constraints
+	//Currently not clear whether that test makes sense. See BVAL-365
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "h"),
@@ -258,7 +226,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
-	//fails since the RI currently adds up return value constraints
+	//Currently not clear whether that test makes sense. See BVAL-365
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "h"),
@@ -273,5 +241,4 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 
 		validator.forExecutables().validateReturnValue( object, method, returnValue );
 	}
-
 }

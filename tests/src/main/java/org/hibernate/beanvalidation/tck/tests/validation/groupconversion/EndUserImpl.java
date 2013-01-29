@@ -14,25 +14,39 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl;
+package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
+import java.util.List;
 import javax.validation.ConvertGroup;
 import javax.validation.Valid;
 import javax.validation.groups.Default;
 
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.BasicPostal;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserReadServiceBase;
-
 /**
  * @author Gunnar Morling
  */
-public class InterfaceImplementationWithGroupConversionOnReturnValue extends UserReadServiceBase {
+public class EndUserImpl extends User implements EndUser {
 
-	@Override
+	public EndUserImpl(Address mainAddress, List<Address> shipmentAddresses, Address preferredShipmentAddress, Address officeAddress, Address weekendAddress) {
+		super(
+				mainAddress,
+				shipmentAddresses,
+				preferredShipmentAddress,
+				officeAddress,
+				weekendAddress
+		);
+	}
+
 	@Valid
 	@ConvertGroup(from = Default.class, to = BasicPostal.class)
-	public User getUser() {
+	@Override
+	public Address retrieveWeekendAddress() {
+		return null;
+	}
+
+	@Valid
+	@ConvertGroup(from = Default.class, to = BasicPostal.class)
+	@Override
+	public Address retrieveFallbackAddress() {
 		return null;
 	}
 }

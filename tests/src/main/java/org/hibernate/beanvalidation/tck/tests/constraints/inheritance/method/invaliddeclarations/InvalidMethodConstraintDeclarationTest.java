@@ -44,7 +44,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.OrderServiceSubClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassAddingParameterConstraints;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassMarkingParameterAsCascaded;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -167,7 +166,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		fail( "A method defined in an interface and a superclass not implementing this interface must have no parameters marked as cascaded. Expected exception wasn't thrown." );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "d")
 	public void testReturnValueIsMarkedAsCascadedInInterfaceAndImplementationCausesException()
 			throws Exception {
@@ -179,7 +178,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		fail( "A method must not mark the return value as cascaded if the implemented interface method is cascaded, too. Expected exception wasn't thrown." );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "d")
 	public void testReturnValueIsMarkedAsCascadedInBaseAndSubClassCausesException()
 			throws Exception {
@@ -191,7 +190,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		fail( "A method must not mark the return value as cascaded if the overridden superclass method is cascaded, too. Expected exception wasn't thrown." );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.5.5", id = "d")
 	public void testReturnValueIsMarkedAsCascadedInSuperAndDerivedInterfaceCausesException()
 			throws Exception {

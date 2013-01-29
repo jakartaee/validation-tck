@@ -159,6 +159,50 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertNodeNames( propertyPath, "retrieveMainAddress", null, "street1" );
 	}
 
+	@Test
+	@SpecAssertion(section = "4.4.5", id = "b")
+	public void testGroupConversionDefinedInSubClassIsAppliedOnMethodReturnValue()
+			throws Exception {
+		//given
+		EndUserImpl user = TestUsers.validEndUser();
+		Method method = EndUserImpl.class.getMethod( "retrieveWeekendAddress" );
+		Object returnValue = TestAddresses.withInvalidStreet1();
+
+		//when
+		Set<ConstraintViolation<EndUserImpl>> constraintViolations = validator.forExecutables()
+				.validateReturnValue( user, method, returnValue );
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
+
+		assertDescriptorKinds( propertyPath, Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY );
+		assertNodeNames( propertyPath, "retrieveWeekendAddress", null, "street1" );
+	}
+
+	@Test
+	@SpecAssertion(section = "4.4.5", id = "b")
+	public void testGroupConversionDefinedInImplementedClassIsAppliedOnMethodReturnValue()
+			throws Exception {
+		//given
+		EndUserImpl user = TestUsers.validEndUser();
+		Method method = EndUserImpl.class.getMethod( "retrieveFallbackAddress" );
+		Object returnValue = TestAddresses.withInvalidStreet1();
+
+		//when
+		Set<ConstraintViolation<EndUserImpl>> constraintViolations = validator.forExecutables()
+				.validateReturnValue( user, method, returnValue );
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
+
+		assertDescriptorKinds( propertyPath, Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY );
+		assertNodeNames( propertyPath, "retrieveFallbackAddress", null, "street1" );
+	}
+
 	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
 	//isReachable()
 	@Test(groups = Groups.FAILING_IN_RI)
@@ -274,6 +318,16 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		public static User validUser() {
 			return new User(
+					TestAddresses.validAddress(),
+					Arrays.asList( TestAddresses.validAddress() ),
+					TestAddresses.validAddress(),
+					TestAddresses.validAddress(),
+					TestAddresses.validAddress()
+			);
+		}
+
+		public static EndUserImpl validEndUser() {
+			return new EndUserImpl(
 					TestAddresses.validAddress(),
 					Arrays.asList( TestAddresses.validAddress() ),
 					TestAddresses.validAddress(),

@@ -107,4 +107,8 @@ public class User {
 	public Address retrieveMainAddress() {
 		return mainAddress;
 	}
+
+	public Address retrieveWeekendAddress() {
+		return weekendAddress;
+	}
 }
