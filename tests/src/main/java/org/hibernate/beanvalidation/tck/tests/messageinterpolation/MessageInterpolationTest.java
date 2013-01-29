@@ -261,10 +261,10 @@ public class MessageInterpolationTest extends Arquillian {
 			return null;
 		}
 
-        @Override
-        public <T> T unwrap(Class<T> type) {
-	        return null;
-        }
+		@Override
+		public <T> T unwrap(Class<T> type) {
+			throw new RuntimeException( "ups" );
+		}
 	}
 
 	public class DummyEntity {

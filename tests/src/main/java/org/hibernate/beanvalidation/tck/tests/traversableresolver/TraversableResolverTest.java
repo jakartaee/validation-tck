@@ -17,9 +17,12 @@
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
 import java.lang.annotation.ElementType;
+import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
+import javax.validation.ExecutableValidator;
 import javax.validation.Path;
 import javax.validation.TraversableResolver;
 import javax.validation.ValidationException;
@@ -68,7 +71,76 @@ public class TraversableResolverTest extends Arquillian {
 		suit.getTrousers().setLength( 32321 );
 		suit.getJacket().setWidth( 432432 );
 
-		SnifferTraversableResolver resolver = new SnifferTraversableResolver( suit );
+		Set<Call> expectedReachCalls = new HashSet<Call>();
+		Set<Call> expectedCascadeCalls = new HashSet<Call>();
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"size",
+						Suit.class,
+						ElementType.FIELD,
+						new String[] { null }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"trousers",
+						Suit.class,
+						ElementType.FIELD,
+						new String[] { null }
+				)
+		);
+		expectedCascadeCalls.add(
+				new Call(
+						suit,
+						"trousers",
+						Suit.class,
+						ElementType.FIELD,
+						new String[] { null }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit.getTrousers(),
+						"length",
+						Suit.class,
+						ElementType.FIELD,
+						new String[] { "trousers" }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"jacket",
+						Suit.class,
+						ElementType.METHOD,
+						new String[] { null }
+				)
+		);
+		expectedCascadeCalls.add(
+				new Call(
+						suit,
+						"jacket",
+						Suit.class,
+						ElementType.METHOD,
+						new String[] { null }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit.getJacket(),
+						"width",
+						Suit.class,
+						ElementType.METHOD,
+						new String[] { "jacket" }
+				)
+		);
+
+		SnifferTraversableResolver resolver = new SnifferTraversableResolver(
+				expectedReachCalls,
+				expectedCascadeCalls
+		);
 
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
 
@@ -77,14 +149,213 @@ public class TraversableResolverTest extends Arquillian {
 
 		v.validate( suit );
 
-		assertEquals( resolver.getReachPaths().size(), 5 );
-		assertEquals( resolver.getCascadePaths().size(), 2 );
+		assertEquals( resolver.getReachableCallCount(), 5 );
+		assertEquals( resolver.getCascadableCallCount(), 2 );
+	}
+
+	@Test
+	// TODO needs spec assertion
+	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
+		Suit suit = new Suit();
+		suit.setTrousers( new Trousers() );
+		suit.setJacket( new Jacket() );
+		suit.setSize( 3333 );
+		suit.getTrousers().setLength( 32321 );
+		suit.getJacket().setWidth( 432432 );
+
+		Set<Call> expectedReachCalls = new HashSet<Call>();
+		Set<Call> expectedCascadeCalls = new HashSet<Call>();
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"size",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "wearSuit", "arg0" }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"trousers",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "wearSuit", "arg0" }
+				)
+		);
+		expectedCascadeCalls.add(
+				new Call(
+						suit,
+						"trousers",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "wearSuit", "arg0" }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit.getTrousers(),
+						"length",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "wearSuit", "arg0", "trousers" }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"jacket",
+						Gentleman.class,
+						ElementType.METHOD,
+						new String[] { "wearSuit", "arg0" }
+				)
+		);
+		expectedCascadeCalls.add(
+				new Call(
+						suit,
+						"jacket",
+						Gentleman.class,
+						ElementType.METHOD,
+						new String[] { "wearSuit", "arg0" }
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit.getJacket(),
+						"width",
+						Gentleman.class,
+						ElementType.METHOD,
+						new String[] { "wearSuit", "arg0", "jacket" }
+				)
+		);
+
+		SnifferTraversableResolver resolver = new SnifferTraversableResolver(
+				expectedReachCalls,
+				expectedCascadeCalls
+		);
+
+		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
+
+		ValidatorFactory factory = config.buildValidatorFactory();
+		ExecutableValidator executableValidator = factory.getValidator().forExecutables();
+
+		Object gentleman = new Gentleman();
+		Method method = Gentleman.class.getMethod( "wearSuit", Suit.class );
+		Object[] parameterValues = new Object[] { suit };
+
+		executableValidator.validateParameters(
+				gentleman,
+				method,
+				parameterValues
+		);
+
+		assertEquals( resolver.getReachableCallCount(), 5 );
+		assertEquals( resolver.getCascadableCallCount(), 2 );
+	}
+
+	@Test
+	// TODO needs spec assertion
+	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
+		Suit suit = new Suit();
+		suit.setTrousers( new Trousers() );
+		suit.setJacket( new Jacket() );
+		suit.setSize( 3333 );
+		suit.getTrousers().setLength( 32321 );
+		suit.getJacket().setWidth( 432432 );
+
+		Set<Call> expectedReachCalls = new HashSet<Call>();
+		Set<Call> expectedCascadeCalls = new HashSet<Call>();
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"size",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "undress", null }  // null is the name of the return value node
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"trousers",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "undress", null }  // null is the name of the return value node
+				)
+		);
+		expectedCascadeCalls.add(
+				new Call(
+						suit,
+						"trousers",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "undress", null }  // null is the name of the return value node
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit.getTrousers(),
+						"length",
+						Gentleman.class,
+						ElementType.FIELD,
+						new String[] { "undress", null, "trousers" } // null is the name of the return value node
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit,
+						"jacket",
+						Gentleman.class,
+						ElementType.METHOD,
+						new String[] { "undress", null } // null is the name of the return value node
+				)
+		);
+		expectedCascadeCalls.add(
+				new Call(
+						suit,
+						"jacket",
+						Gentleman.class,
+						ElementType.METHOD,
+						new String[] { "undress", null } // null is the name of the return value node
+				)
+		);
+		expectedReachCalls.add(
+				new Call(
+						suit.getJacket(),
+						"width",
+						Gentleman.class,
+						ElementType.METHOD,
+						new String[] { "undress", null, "jacket" } // null is the name of the return value node
+				)
+		);
+
+		SnifferTraversableResolver resolver = new SnifferTraversableResolver(
+				expectedReachCalls,
+				expectedCascadeCalls
+		);
+
+		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
+
+		ValidatorFactory factory = config.buildValidatorFactory();
+		ExecutableValidator executableValidator = factory.getValidator().forExecutables();
+
+		Gentleman gentleman = new Gentleman();
+		gentleman.wearSuit( suit );
+		Method method = Gentleman.class.getMethod( "undress" );
+
+		executableValidator.validateReturnValue(
+				gentleman,
+				method,
+				suit
+		);
+
+		assertEquals( resolver.getReachableCallCount(), 5 );
+		assertEquals( resolver.getCascadableCallCount(), 2 );
 	}
 
 	@Test
 	@SpecAssertion(section = "4.6.3", id = "d")
 	public void testCustomTraversableResolverViaConfiguration() {
-
 		// get a new factory using a custom configuration
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		configuration.traversableResolver( new DummyTraversableResolver() );

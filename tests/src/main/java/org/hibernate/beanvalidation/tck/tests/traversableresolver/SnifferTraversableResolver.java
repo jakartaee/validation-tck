@@ -18,160 +18,94 @@ package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
 import java.lang.annotation.ElementType;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.validation.Path;
 import javax.validation.TraversableResolver;
+
+import static org.testng.Assert.fail;
 
 /**
  * @author Emmanuel Bernard
  * @author Hardy Ferentschik
  */
 public class SnifferTraversableResolver implements TraversableResolver {
-	Set<String> reachPaths = new HashSet<String>();
-	Set<String> cascadePaths = new HashSet<String>();
+	int isReachableCallCount = 0;
+	int isCascadableCallCount = 0;
 	Set<Call> expectedReachCalls = new HashSet<Call>();
 	Set<Call> expectedCascadeCalls = new HashSet<Call>();
 	Set<Call> executedReachableCalls = new HashSet<Call>();
 
-	public SnifferTraversableResolver(Suit suit) {
-		expectedReachCalls.add( new Call( suit, "size", Suit.class, "", ElementType.FIELD ) );
-		expectedReachCalls.add( new Call( suit, "trousers", Suit.class, "", ElementType.FIELD ) );
-		expectedCascadeCalls.add( new Call( suit, "trousers", Suit.class, "", ElementType.FIELD ) );
-		expectedReachCalls.add( new Call( suit.getTrousers(), "length", Suit.class, "trousers", ElementType.FIELD ) );
-		expectedReachCalls.add( new Call( suit, "jacket", Suit.class, "", ElementType.METHOD ) );
-		expectedCascadeCalls.add( new Call( suit, "jacket", Suit.class, "", ElementType.METHOD ) );
-		expectedReachCalls.add( new Call( suit.getJacket(), "width", Suit.class, "jacket", ElementType.METHOD ) );
+	public SnifferTraversableResolver(Set<Call> expectedReachCalls, Set<Call> expectedCascadeCalls) {
+		this.expectedReachCalls.addAll( expectedReachCalls );
+		this.expectedCascadeCalls.addAll( expectedCascadeCalls );
 	}
 
-	public Set<String> getReachPaths() {
-		return reachPaths;
+	public int getReachableCallCount() {
+		return isReachableCallCount;
 	}
 
-	public Set<String> getCascadePaths() {
-		return cascadePaths;
-	}
-
-	public boolean isTraversable(Set<Call> calls, Set<String> paths, Call call, String traversableProperty, String pathToTraversableObject) {
-		String path = "";
-		if ( !( pathToTraversableObject == null || pathToTraversableObject.length() == 0 ) ) {
-			path = pathToTraversableObject + ".";
-		}
-		paths.add( path + traversableProperty );
-
-		if ( !calls.contains( call ) ) {
-			throw new IllegalStateException( "Unexpected " + call.toString() );
-		}
-		return true;
+	public int getCascadableCallCount() {
+		return isCascadableCallCount;
 	}
 
 	public boolean isReachable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
+		List<String> names = extractNodeName( pathToTraversableObject );
 		Call call = new Call(
 				traversableObject,
 				traversableProperty.getName(),
 				rootBeanType,
-				pathToTraversableObject.toString(),
-				elementType
+				elementType,
+				names.toArray( new String[names.size()] )
 		);
 		executedReachableCalls.add( call );
+		isReachableCallCount++;
 
-		return isTraversable(
+		return assertIsExpectedCall(
 				expectedReachCalls,
-				reachPaths,
-				call,
-				traversableProperty.getName(),
-				pathToTraversableObject.toString()
+				call
 		);
 	}
 
 	public boolean isCascadable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
+		List<String> names = extractNodeName( pathToTraversableObject );
 		Call call = new Call(
 				traversableObject,
 				traversableProperty.getName(),
 				rootBeanType,
-				pathToTraversableObject.toString(),
-				elementType
+				elementType,
+				names.toArray( new String[names.size()] )
 		);
 		if ( !executedReachableCalls.contains( call ) ) {
 			throw new IllegalStateException( "isCascadable called before a matching  isReachable call: " + call.toString() );
 		}
 
-
-		return isTraversable(
+		isCascadableCallCount++;
+		return assertIsExpectedCall(
 				expectedCascadeCalls,
-				cascadePaths,
-				call,
-				traversableProperty.getName(),
-				pathToTraversableObject.toString()
+				call
 		);
 	}
 
-	/**
-	 * Wrapper class for keeping track of the parameters for a single call to {@link SnifferTraversableResolver#isReachable} and {@link SnifferTraversableResolver#isCascadable}.
-	 */
-	private static final class Call {
-		private Object traversableObject;
-		private String traversableProperty;
-		private Class<?> rootBeanType;
-		private String pathToTraversableObject;
-		private ElementType elementType;
-
-		private Call(Object traversableObject, String traversableProperty, Class<?> rootBeanType, String pathToTraversableObject, ElementType elementType) {
-			this.traversableObject = traversableObject;
-			this.traversableProperty = traversableProperty;
-			this.rootBeanType = rootBeanType;
-			this.pathToTraversableObject = pathToTraversableObject;
-			this.elementType = elementType;
+	private boolean assertIsExpectedCall(Set<Call> calls, Call call) {
+		if ( !calls.contains( call ) ) {
+			fail( "Unexpected call to " + call.toString() );
 		}
+		return true;
+	}
 
-		@Override
-		public boolean equals(Object o) {
-			if ( this == o ) {
-				return true;
-			}
-			if ( o == null || getClass() != o.getClass() ) {
-				return false;
-			}
+	private void registerPath(Set<Path> cascadePaths, Path pathToTraversableObject) {
+		cascadePaths.add( pathToTraversableObject );
+	}
 
-			Call call = ( Call ) o;
-
-			if ( elementType != call.elementType ) {
-				return false;
-			}
-			if ( !pathToTraversableObject.equals( call.pathToTraversableObject ) ) {
-				return false;
-			}
-			if ( !rootBeanType.equals( call.rootBeanType ) ) {
-				return false;
-			}
-			if ( traversableObject != null ? !( traversableObject == call.traversableObject ) : call.traversableObject != null ) {
-				return false;
-			}
-			if ( !traversableProperty.equals( call.traversableProperty ) ) {
-				return false;
-			}
-
-			return true;
+	private List<String> extractNodeName(Path path) {
+		LinkedList<String> names = new LinkedList<String>();
+		Iterator<Path.Node> iter = path.iterator();
+		while ( iter.hasNext() ) {
+			names.add( iter.next().getName() );
 		}
-
-		@Override
-		public int hashCode() {
-			int result = traversableObject != null ? traversableObject.hashCode() : 0;
-			result = 31 * result + traversableProperty.hashCode();
-			result = 31 * result + rootBeanType.hashCode();
-			result = 31 * result + pathToTraversableObject.hashCode();
-			result = 31 * result + elementType.hashCode();
-			return result;
-		}
-
-		@Override
-		public String toString() {
-			return "Call{" +
-					"traversableObject=" + traversableObject +
-					", traversableProperty='" + traversableProperty + '\'' +
-					", rootBeanType=" + rootBeanType +
-					", pathToTraversableObject='" + pathToTraversableObject + '\'' +
-					", elementType=" + elementType +
-					'}';
-		}
+		return names;
 	}
 }
