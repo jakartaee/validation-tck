@@ -491,8 +491,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 		);
 	}
 
-	//Fails due to https://hibernate.onjira.com/browse/HV-682
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "6.5", id = "f")
 	public void testFindConstraintsForMethodLookingAt() {
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.methodOverridingCrossParameterConstrainedMethod();
