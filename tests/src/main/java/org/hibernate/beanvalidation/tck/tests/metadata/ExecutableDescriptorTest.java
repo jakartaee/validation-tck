@@ -504,7 +504,36 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no local constraints"
 		);
 
-		crossParameterConstrainedDescriptor = Executables.methodOverridingCrossParameterConstrainedMethod();
+		assertEquals(
+				crossParameterConstrainedDescriptor.findConstraints().lookingAt( Scope.HIERARCHY )
+						.getConstraintDescriptors()
+						.size(),
+				1,
+				"Should have one hierarchy constraint"
+		);
+
+		assertEquals(
+				crossParameterConstrainedDescriptor.getConstraintDescriptors()
+						.iterator()
+						.next()
+						.getAnnotation()
+						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "6.5", id = "f")
+	public void testFindConstraintsForMethodDefinedOnSuperTypeLookingAt() {
+		MethodDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedMethodFromSuperType();
+		assertEquals(
+				crossParameterConstrainedDescriptor.findConstraints()
+						.lookingAt( Scope.LOCAL_ELEMENT )
+						.getConstraintDescriptors()
+						.size(),
+				0,
+				"Should have no local constraints"
+		);
+
 		assertEquals(
 				crossParameterConstrainedDescriptor.findConstraints().lookingAt( Scope.HIERARCHY )
 						.getConstraintDescriptors()
