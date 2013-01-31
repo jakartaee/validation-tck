@@ -316,7 +316,6 @@ public class BeanDescriptorTest extends Arquillian {
 	public void testGetConstrainedMethods() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods();
-		assertEquals( methodDescriptors.size(), 5, "Wrong number of descriptors" );
 
 		Set<String> actualMethodNames = new HashSet<String>();
 		for ( MethodDescriptor methodDescriptor : methodDescriptors ) {
@@ -330,7 +329,8 @@ public class BeanDescriptorTest extends Arquillian {
 						"reset",
 						"removeCustomer",
 						"findCustomer",
-						"updateAccount"
+						"updateAccount",
+						"updateCustomer"
 				),
 				"Wrong methods"
 		);

@@ -20,4 +20,8 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
  * @author Gunnar Morling
  */
 public class CustomerServiceExtension extends CustomerService {
+
+	@Override
+	public void removeCustomer(Customer customer) {
+	}
 }

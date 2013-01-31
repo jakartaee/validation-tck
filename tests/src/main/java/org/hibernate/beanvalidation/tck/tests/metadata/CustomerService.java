@@ -77,6 +77,11 @@ public class CustomerService {
 	public void removeCustomer(Customer customer) {
 	}
 
+	//cross-parameter constrained
+	@MyCrossParameterConstraint
+	public void updateCustomer(Customer customer) {
+	}
+
 	//cascaded parameter
 	public Customer updateAccount(@Valid Account account) {
 		return null;

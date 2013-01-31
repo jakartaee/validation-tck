@@ -76,6 +76,14 @@ public class Executables {
 		);
 	}
 
+	public static MethodDescriptor crossParameterConstrainedMethodFromSuperType() {
+		return getMethodDescriptor(
+				CustomerServiceExtension.class,
+				"updateCustomer",
+				Customer.class
+		);
+	}
+
 	public static MethodDescriptor unconstrainedMethod() {
 		return getMethodDescriptor(
 				CustomerService.class,
