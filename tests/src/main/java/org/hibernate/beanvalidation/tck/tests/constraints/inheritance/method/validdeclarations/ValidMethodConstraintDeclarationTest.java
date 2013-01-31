@@ -189,9 +189,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testParameterConstraintAddedToConstructorInSubClass() throws Exception {
-		//Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( int.class );
-		//TODO: Use wildcard constructor
-		Constructor constructor = CalendarServiceSubClass.class.getConstructor( int.class );
+		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( int.class );
 		Object[] parameterValues = new Object[] { 4 };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorParameters(
@@ -206,9 +204,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testParameterConstraintMarkedAsCascadedAtConstructorInSubClass() throws Exception {
-		//Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( CalendarEvent.class );
-		//TODO: Use wildcard constructor
-		Constructor constructor = CalendarServiceSubClass.class.getConstructor( CalendarEvent.class );
+		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( CalendarEvent.class );
 		Object[] parameterValues = new Object[] { new CalendarEvent() };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorParameters(
@@ -228,9 +224,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testReturnValueConstraintAddedToConstructorInSubClass() throws Exception {
-		//Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( String.class );
-		//TODO: Use wildcard constructor
-		Constructor constructor = CalendarServiceSubClass.class.getConstructor( String.class );
+		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( String.class );
 		Object returnValue = new CalendarServiceSubClass();
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorReturnValue(
@@ -250,9 +244,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testReturnValueMarkedAsCascadedAtConstructorInSuperAndSubClass() throws Exception {
-		//Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( long.class );
-		//TODO: Use wildcard constructor
-		Constructor constructor = CalendarServiceSubClass.class.getConstructor( long.class );
+		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( long.class );
 		Object returnValue = new CalendarServiceSubClass();
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorReturnValue(
