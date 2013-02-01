@@ -41,7 +41,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -51,7 +50,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDe
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
-
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -439,8 +437,7 @@ public class ValidateParametersTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-681
-	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "c")
 	public void testNullPassedForParameterValuesCausesException() throws Exception {
 		Object object = new User();
@@ -469,8 +466,7 @@ public class ValidateParametersTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-681
-	@Test(expectedExceptions = IllegalArgumentException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "c")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
 		Object object = new User();

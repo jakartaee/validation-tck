@@ -16,12 +16,12 @@
 */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.service;
 
-import javax.validation.ConvertGroup;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -33,7 +33,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Order;
 
 /**
- * Provides test methods used in {@link MethodValidationTest}.
+ * Provides test methods used in {@link org.hibernate.beanvalidation.tck.tests.methodvalidation.MethodValidationTest}.
  *
  * @author Gunnar Morling
  */

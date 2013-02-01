@@ -16,7 +16,7 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model;
 
-import javax.validation.ConvertGroup;
+import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 /**

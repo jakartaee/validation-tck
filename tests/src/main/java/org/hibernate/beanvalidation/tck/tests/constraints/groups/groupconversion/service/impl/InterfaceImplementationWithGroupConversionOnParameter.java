@@ -16,8 +16,8 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl;
 
-import javax.validation.ConvertGroup;
 import javax.validation.Valid;
+import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.BasicPostal;

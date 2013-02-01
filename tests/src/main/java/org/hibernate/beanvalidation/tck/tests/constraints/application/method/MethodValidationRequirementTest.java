@@ -290,8 +290,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to wrong name for return value node
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "a")
 	public void testMethodReturnValueIsMarkedAsCascaded() throws Exception {
 		Object object = new CalendarEvent();
@@ -314,8 +313,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to wrong name for return value node
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "a")
 	public void testConstructorReturnValueIsMarkedAsCascaded() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
@@ -438,8 +436,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to wrong name for return value node
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedMethodReturnValueIsValidatedRecursively() throws Exception {
 		Object object = new CalendarEvent();
@@ -463,8 +460,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to wrong name for return value node
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedConstructorReturnValueIsValidatedRecursively() throws Exception {
 		//TODO Use wildcard constructor once BV API is updated (BVAL-358)
