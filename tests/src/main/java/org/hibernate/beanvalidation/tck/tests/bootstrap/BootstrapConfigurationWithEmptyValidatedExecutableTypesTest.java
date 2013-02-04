@@ -17,6 +17,7 @@
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
 import javax.validation.BootstrapConfiguration;
+import javax.validation.ValidationException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -28,45 +29,26 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class BootstrapConfigurationWithoutValidationXmlTest extends Arquillian {
+public class BootstrapConfigurationWithEmptyValidatedExecutableTypesTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( BootstrapConfigurationWithoutValidationXmlTest.class )
+				.withTestClass( BootstrapConfigurationWithEmptyValidatedExecutableTypesTest.class )
+				.withValidationXml( "validation-BootstrapConfigurationWithEmptyValidatedExecutableTypesTest.xml" )
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "5.5.3", id = "b")
-	public void testGetBootstrapConfigurationNoValidationXml() {
+	public void testEmptyExecutableTypesCauseValidationException() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
-		assertNotNull( bootstrapConfiguration );
-
-		assertNotNull( bootstrapConfiguration.getConstraintMappingResourcePaths() );
-		assertTrue( bootstrapConfiguration.getConstraintMappingResourcePaths().isEmpty() );
-
-		assertNull( bootstrapConfiguration.getConstraintValidatorFactoryClassName() );
-		assertNull( bootstrapConfiguration.getDefaultProviderClassName() );
-		assertNull( bootstrapConfiguration.getMessageInterpolatorClassName() );
-		assertNull( bootstrapConfiguration.getParameterNameProviderClassName() );
-
-		assertNotNull( bootstrapConfiguration.getValidatedExecutableTypes() );
-		assertTrue( bootstrapConfiguration.getValidatedExecutableTypes().isEmpty() );
-
-		assertNotNull( bootstrapConfiguration.getProperties() );
-		assertTrue( bootstrapConfiguration.getProperties().isEmpty() );
-
-		assertNull( bootstrapConfiguration.getTraversableResolverClassName() );
+		bootstrapConfiguration.getValidatedExecutableTypes();
 	}
 }
