@@ -75,6 +75,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
+	//not sure why this tests fails.
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testSeveralGroupConversionsAppliedOnField() {
@@ -203,9 +204,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertNodeNames( propertyPath, "retrieveFallbackAddress", null, "street1" );
 	}
 
-	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
-	//isReachable()
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
@@ -226,8 +225,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertNodeNames( propertyPath, "setMainAddress", "arg0", "street1" );
 	}
 
-	//fails as one descriptor in return value path is null
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnConstructorReturnValue() throws Exception {
 		//given
@@ -250,12 +248,10 @@ public class GroupConversionValidationTest extends Arquillian {
 				Kind.PROPERTY,
 				Kind.PROPERTY
 		);
-		assertNodeNames( propertyPath, "User", null, "address", "street1" );
+		assertNodeNames( propertyPath, "User", null, "mainAddress", "street1" );
 	}
 
-	//fails in the RI since JPATraversableResolver can't handle method parameters passed to
-	//isReachable()
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.4.5", id = "b")
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given

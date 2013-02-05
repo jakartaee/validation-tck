@@ -260,6 +260,11 @@ public class MessageInterpolationTest extends Arquillian {
 		public Object getValidatedValue() {
 			return null;
 		}
+
+        @Override
+        public <T> T unwrap(Class<T> type) {
+	        return null;
+        }
 	}
 
 	public class DummyEntity {

@@ -55,6 +55,7 @@ public class OrderServiceWithRedefinedDefaultGroupSequence {
 	@MyCrossParameterConstraint
 	@ValidOrder(groups = Basic.class)
 	@ValidRetailOrder
+	@Valid
 	public Order placeOrder(
 			@NotNull(groups = Basic.class) String customer,
 			@Valid Item item,
@@ -65,6 +66,7 @@ public class OrderServiceWithRedefinedDefaultGroupSequence {
 	@MyCrossParameterConstraint
 	@ValidOrderService(groups = Basic.class)
 	@ValidRetailOrderService
+	@Valid
 	public OrderServiceWithRedefinedDefaultGroupSequence(@NotNull(groups = Basic.class) String customer, @Valid Item item, @Min(
 			value = 1) byte quantity) {
 	}

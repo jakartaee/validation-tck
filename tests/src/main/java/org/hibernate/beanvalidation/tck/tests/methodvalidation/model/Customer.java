@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidBusinessCustomer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidCustomer;
 
 /**
@@ -54,8 +55,8 @@ public class Customer {
 		return null;
 	}
 
-	@NotNull
 	@ValidCustomer
+	@ValidBusinessCustomer
 	public Customer(String name) {
 		this.name = name;
 	}
@@ -66,7 +67,7 @@ public class Customer {
 		return null;
 	}
 
-	@NotNull(groups = Extended.class)
+	@ValidCustomer(groups = Extended.class)
 	public Customer(long l) {
 	}
 
@@ -93,8 +94,8 @@ public class Customer {
 		return null;
 	}
 
-	@NotNull(groups = Extended.class)
-	@ValidCustomer(groups = Basic.class)
+	@ValidCustomer(groups = Extended.class)
+	@ValidBusinessCustomer(groups = Basic.class)
 	public Customer(Date dateOfBirth) {
 	}
 

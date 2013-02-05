@@ -22,7 +22,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ExecutableValidator;
 import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
 import javax.validation.metadata.ElementDescriptor.Kind;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -35,13 +34,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidBusinessCustomer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidCustomer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -100,12 +99,11 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testTwoViolations() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( String.class );
-		Customer returnValue = null;
+		Customer returnValue = new Customer();
 
 		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
 				constructor,
@@ -114,7 +112,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 2 );
 
-		assertCorrectConstraintTypes( violations, NotNull.class, ValidCustomer.class );
+		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
 		assertCorrectPathNodeNames(
 				violations,
 				names( "Customer", null ),
@@ -167,12 +165,11 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 0 );
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( long.class );
-		Customer returnValue = null;
+		Customer returnValue = new Customer();
 
 		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
 				constructor,
@@ -187,7 +184,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertCorrectConstraintTypes( violations, ValidCustomer.class );
 		assertCorrectPathNodeNames( violations, names( "Customer", null ) );
 		assertCorrectPathDescriptorKinds(
 				violations,
@@ -195,12 +192,11 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		);
 	}
 
-	//fails on RI due to wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "5.1.2", id = "k")
 	public void testValidationWithSeveralGroups() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor( Date.class );
-		Customer returnValue = null;
+		Customer returnValue = new Customer();
 
 		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
 				constructor,
@@ -216,7 +212,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class, ValidCustomer.class );
+		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
 		assertCorrectPathNodeNames(
 				violations,
 				names( "Customer", null ),
