@@ -81,6 +81,7 @@ public final class TestUtil {
 			instantiateValidationProviderUnderTest();
 		}
 
+		@SuppressWarnings("unchecked")
 		ProviderSpecificBootstrap<?> bootstrap = Validation.byProvider( validationProviderUnderTest.getClass() );
 		return bootstrap.configure();
 	}
