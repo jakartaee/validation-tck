@@ -42,7 +42,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.val
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.BusinessCalendarServiceImplementation;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceImplementation;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceSubClass;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -200,8 +199,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Min.class );
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.5", id = "e")
 	public void testParameterConstraintMarkedAsCascadedAtConstructorInSubClass() throws Exception {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( CalendarEvent.class );

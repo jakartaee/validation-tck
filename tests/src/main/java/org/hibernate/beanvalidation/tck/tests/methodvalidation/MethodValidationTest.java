@@ -86,8 +86,7 @@ public class MethodValidationTest extends Arquillian {
 		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationTargetsParameterCrossParameterAndCascadedConstraints()
 			throws Exception {
@@ -131,8 +130,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationIncludesConstraintsFromSuperClass() throws Exception {
 		String methodName = "placeOrder";
@@ -175,8 +173,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationIncludesConstraintsFromImplementedInterface()
 			throws Exception {
@@ -220,8 +217,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationIsAppliedGroupWise() throws Exception {
 		String methodName = "placeOrder";
@@ -283,8 +279,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationPerformsGroupConversion() throws Exception {
 		String methodName = "placeOrder";
@@ -361,8 +356,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -418,8 +412,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -486,8 +479,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void constructorParameterValidationTargetsParameterCrossParameterAndCascadedConstraints()
 			throws Exception {
@@ -547,8 +539,7 @@ public class MethodValidationTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 0 );
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void constructorParameterValidationIsAppliedGroupWise() throws Exception {
 		String className = "OrderService";
@@ -606,8 +597,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "a")
 	public void constructorParameterValidationPerformsGroupConversion() throws Exception {
 		String className = "OrderService";
@@ -678,8 +668,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -731,8 +720,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -975,8 +963,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationPerformsGroupConversion() throws Exception {
 		String methodName = "placeOrder";
@@ -1284,8 +1271,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationPerformsGroupConversion() throws Exception {
 		String className = "OrderService";

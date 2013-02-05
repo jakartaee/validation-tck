@@ -46,7 +46,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -279,8 +278,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "p"),
@@ -320,8 +318,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "q"),
@@ -397,8 +394,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "p"),
@@ -433,8 +429,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "q"),
@@ -500,8 +495,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -551,8 +545,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -607,8 +600,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -663,8 +655,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -715,8 +706,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -771,8 +761,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -813,8 +802,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -865,8 +853,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -917,8 +904,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -965,8 +951,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails due to HV-673
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),

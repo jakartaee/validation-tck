@@ -32,7 +32,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -234,8 +233,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertCorrectConstraintTypes( constraintViolations, OnlineCalendarService.class );
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "a")
 	public void testMethodParameterIsMarkedAsCascaded() throws Exception {
 		Object object = new CalendarEvent();
@@ -258,8 +256,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "a")
 	public void testConstructorParameterIsMarkedAsCascaded() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
@@ -324,8 +321,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "b")
 	public void testPassingNullToCascadedMethodParameterCausesNoViolation() throws Exception {
 		Object object = new CalendarEvent();
@@ -341,8 +337,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "b")
 	public void testPassingNullToCascadedConstructorParameterCausesNoViolation() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
@@ -372,8 +367,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedMethodParameterIsValidatedRecursively() throws Exception {
 		Object object = new CalendarEvent();
@@ -397,8 +391,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 	}
 
-	//fails in RI due to traversable resolver not handling method arguments correctly
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.5.4", id = "c")
 	public void testCascadedConstructorParameterIsValidatedRecursively() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
