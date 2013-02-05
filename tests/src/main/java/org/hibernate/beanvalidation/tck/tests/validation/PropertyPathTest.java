@@ -279,7 +279,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -320,7 +320,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -362,8 +362,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//Fails on RI due to wrong return value name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "p"),
@@ -398,7 +397,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -434,7 +433,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -471,8 +470,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//Fails due to wrong return value name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "p"),
@@ -502,7 +500,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -553,7 +551,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -609,7 +607,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -665,7 +663,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-646
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -717,7 +715,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -773,7 +771,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -815,7 +813,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails due to traversable resolver not handling method arguments
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -867,7 +865,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -919,7 +917,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-646
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -967,7 +965,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-677
+	//Fails due to HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
@@ -1019,8 +1017,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails on RI due to wrong return value name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1053,7 +1050,7 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", Kind.PROPERTY, false, null, null );
@@ -1061,8 +1058,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails on RI due to wrong return value name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1100,7 +1096,7 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, 1, null );
@@ -1108,8 +1104,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails on RI due to wrong return value name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1147,7 +1142,7 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, 1, null );
@@ -1155,8 +1150,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-646 and wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1190,7 +1184,7 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, null, null );
@@ -1198,8 +1192,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//fails on RI due to https://hibernate.onjira.com/browse/HV-677 and wrong return value node name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1237,7 +1230,7 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, null, "NO_TITLE" );
@@ -1245,8 +1238,7 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	//Fails on RI due to wrong return value name
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1276,7 +1268,7 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "null", Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "name", Kind.PROPERTY, false, null, null );
