@@ -142,7 +142,11 @@ public final class TestUtil {
 		Collections.sort( actualConstraintTypeNames );
 		Collections.sort( expectedConstraintTypeNames );
 
-		assertEquals( actualConstraintTypeNames, expectedConstraintTypeNames );
+		assertEquals(
+				actualConstraintTypeNames,
+				expectedConstraintTypeNames,
+				String.format( "Expected %s, but got %s", expectedConstraintTypeNames, actualConstraintTypeNames )
+		);
 	}
 
 	public static <T> void assertCorrectPropertyPaths(Set<ConstraintViolation<T>> violations, String... propertyPaths) {

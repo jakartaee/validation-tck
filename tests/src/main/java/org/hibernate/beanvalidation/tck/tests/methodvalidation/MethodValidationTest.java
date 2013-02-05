@@ -108,8 +108,6 @@ public class MethodValidationTest extends Arquillian {
 				parameterValues
 		);
 
-		assertCorrectNumberOfViolations( violations, 4 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				NotNull.class,
@@ -153,8 +151,6 @@ public class MethodValidationTest extends Arquillian {
 				method,
 				parameterValues
 		);
-
-		assertCorrectNumberOfViolations( violations, 4 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -200,8 +196,6 @@ public class MethodValidationTest extends Arquillian {
 				method,
 				parameterValues
 		);
-
-		assertCorrectNumberOfViolations( violations, 4 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -249,8 +243,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				NotNull.class,
@@ -274,8 +266,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				Min.class,
@@ -315,8 +305,6 @@ public class MethodValidationTest extends Arquillian {
 				Basic.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, "arg1", "name" ) );
 		assertCorrectPathDescriptorKinds(
@@ -349,8 +337,6 @@ public class MethodValidationTest extends Arquillian {
 				parameterValues,
 				Basic.class, Default.class
 		);
-
-		assertCorrectNumberOfViolations( violations, 4 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -400,8 +386,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
 		assertCorrectPathNodeNames(
@@ -424,8 +408,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
 		assertCorrectPathNodeNames( violations, names( methodName ), names( methodName, "arg2" ) );
@@ -436,7 +418,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-679
+	//fails due to https://hibernate.onjira.com/browse/HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
@@ -460,8 +442,6 @@ public class MethodValidationTest extends Arquillian {
 				parameterValues
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
@@ -476,15 +456,13 @@ public class MethodValidationTest extends Arquillian {
 				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY )
 		);
 
-		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), 0 };
+		parameterValues = new Object[] { "Bob", new Item( "" ), 0 };
 
 		violations = executableValidator.validateParameters(
 				object,
 				method,
 				parameterValues
 		);
-
-		assertCorrectNumberOfViolations( violations, 3 );
 
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
@@ -526,8 +504,6 @@ public class MethodValidationTest extends Arquillian {
 				constructor,
 				parameterValues
 		);
-
-		assertCorrectNumberOfViolations( violations, 4 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -591,8 +567,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				NotNull.class,
@@ -615,8 +589,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				Min.class,
@@ -653,8 +625,6 @@ public class MethodValidationTest extends Arquillian {
 				Basic.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( className, "arg1", "name" ) );
 		assertCorrectPathDescriptorKinds(
@@ -684,8 +654,6 @@ public class MethodValidationTest extends Arquillian {
 				parameterValues,
 				Basic.class, Default.class
 		);
-
-		assertCorrectNumberOfViolations( violations, 4 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -732,8 +700,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
 		assertCorrectPathNodeNames(
@@ -755,8 +721,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
 		assertCorrectPathNodeNames( violations, names( className ), names( className, "arg2" ) );
@@ -767,7 +731,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-679
+	//fails due to https://hibernate.onjira.com/browse/HV-673
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
@@ -790,8 +754,6 @@ public class MethodValidationTest extends Arquillian {
 						parameterValues
 				);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
@@ -806,14 +768,12 @@ public class MethodValidationTest extends Arquillian {
 				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY )
 		);
 
-		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), 0 };
+		parameterValues = new Object[] { "Bob", new Item( "" ), 0 };
 
 		violations = executableValidator.validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
-
-		assertCorrectNumberOfViolations( violations, 3 );
 
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
@@ -858,8 +818,6 @@ public class MethodValidationTest extends Arquillian {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				ValidOrder.class,
@@ -896,8 +854,6 @@ public class MethodValidationTest extends Arquillian {
 				method,
 				returnValue
 		);
-
-		assertCorrectNumberOfViolations( violations, 3 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -939,8 +895,6 @@ public class MethodValidationTest extends Arquillian {
 				method,
 				returnValue
 		);
-
-		assertCorrectNumberOfViolations( violations, 3 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -984,8 +938,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				ValidRetailOrder.class
@@ -1006,8 +958,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				ValidOrder.class,
@@ -1047,8 +997,6 @@ public class MethodValidationTest extends Arquillian {
 				Basic.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, null, "name" ) );
 		assertCorrectPathDescriptorKinds(
@@ -1081,8 +1029,6 @@ public class MethodValidationTest extends Arquillian {
 				returnValue,
 				Basic.class, Default.class
 		);
-
-		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -1122,8 +1068,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, ValidOrder.class, Size.class );
 		assertCorrectPathNodeNames(
@@ -1146,8 +1090,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, ValidRetailOrder.class );
 		assertCorrectPathNodeNames(
@@ -1160,8 +1102,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-679
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "b"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -1184,8 +1125,6 @@ public class MethodValidationTest extends Arquillian {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Order should fail
 		assertCorrectConstraintTypes( violations, Size.class, ValidOrder.class );
@@ -1207,8 +1146,6 @@ public class MethodValidationTest extends Arquillian {
 				method,
 				returnValue
 		);
-
-		assertCorrectNumberOfViolations( violations, 2 );
 
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Order should fail
@@ -1242,8 +1179,6 @@ public class MethodValidationTest extends Arquillian {
 				constructor,
 				returnValue
 		);
-
-		assertCorrectNumberOfViolations( violations, 2 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -1280,8 +1215,6 @@ public class MethodValidationTest extends Arquillian {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				ValidRetailOrderService.class
@@ -1315,8 +1248,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				ValidRetailOrderService.class
@@ -1336,8 +1267,6 @@ public class MethodValidationTest extends Arquillian {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		assertCorrectConstraintTypes(
 				violations,
 				ValidOrderService.class,
@@ -1374,8 +1303,6 @@ public class MethodValidationTest extends Arquillian {
 				Basic.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( className, null, "name" ) );
 		assertCorrectPathDescriptorKinds(
@@ -1405,8 +1332,6 @@ public class MethodValidationTest extends Arquillian {
 				returnValue,
 				Basic.class, Default.class
 		);
-
-		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes(
 				violations,
@@ -1443,8 +1368,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, ValidOrderService.class, Size.class );
 		assertCorrectPathNodeNames(
@@ -1466,8 +1389,6 @@ public class MethodValidationTest extends Arquillian {
 				OrderServiceSequence.class
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
-
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, ValidRetailOrderService.class );
 		assertCorrectPathNodeNames(
@@ -1480,8 +1401,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-679
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "b"),
 			@SpecAssertion(section = "4.6.2", id = "d")
@@ -1506,8 +1426,6 @@ public class MethodValidationTest extends Arquillian {
 						returnValue
 				);
 
-		assertCorrectNumberOfViolations( violations, 2 );
-
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, Size.class, ValidOrderService.class );
 		assertCorrectPathNodeNames(
@@ -1527,8 +1445,6 @@ public class MethodValidationTest extends Arquillian {
 				constructor,
 				returnValue
 		);
-
-		assertCorrectNumberOfViolations( violations, 2 );
 
 		//Now the constraints of the Default group should fail
 		assertCorrectConstraintTypes( violations, Pattern.class, ValidRetailOrderService.class );
