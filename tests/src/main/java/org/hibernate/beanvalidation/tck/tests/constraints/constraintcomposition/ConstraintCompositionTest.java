@@ -68,7 +68,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "l")
+			@SpecAssertion(section = "3.3", id = "o")
 	})
 	public void testComposedConstraints() {
 
@@ -90,7 +90,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "l")
+			@SpecAssertion(section = "3.3", id = "o")
 	})
 	public void testComposedConstraintsAreRecursive() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -112,7 +112,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "b"),
-			@SpecAssertion(section = "3.4", id = "n")
+			@SpecAssertion(section = "3.4", id = "q")
 	})
 	public void testValidationOfMainAnnotationIsAlsoApplied() {
 
@@ -128,10 +128,10 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "c"),
-			@SpecAssertion(section = "3.3", id = "j"),
 			@SpecAssertion(section = "3.3", id = "m"),
-			@SpecAssertion(section = "3.3", id = "n"),
-			@SpecAssertion(section = "3.3", id = "o")
+			@SpecAssertion(section = "3.3", id = "p"),
+			@SpecAssertion(section = "3.3", id = "q"),
+			@SpecAssertion(section = "3.3", id = "r")
 	})
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 
@@ -193,7 +193,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "h")
+	@SpecAssertion(section = "3.3", id = "k")
 	public void testOnlySingleConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -214,7 +214,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "i")
+	@SpecAssertion(section = "3.3", id = "l")
 	public void testAttributesDefinedOnComposingConstraints() {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -243,8 +243,8 @@ public class ConstraintCompositionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "k"),
-			@SpecAssertion(section = "3.3", id = "p")
+			@SpecAssertion(section = "3.3", id = "n"),
+			@SpecAssertion(section = "3.3", id = "s")
 	})
 	public void testOverriddenAttributesMustMatchInType() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -258,7 +258,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "g")
+	@SpecAssertion(section = "3.3", id = "j")
 	public void testAllComposingConstraintsMustBeApplicableToAnnotatedType() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		try {
@@ -271,7 +271,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "f")
+	@SpecAssertion(section = "3.3", id = "g")
 	public void testPayloadPropagationInComposedConstraints() {
 		Friend john = new Friend( "John", "Doe" );
 

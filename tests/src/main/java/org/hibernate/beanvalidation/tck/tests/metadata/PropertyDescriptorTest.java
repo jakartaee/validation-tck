@@ -72,7 +72,7 @@ public class PropertyDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = "6.6", id = "a")
 	public void testPropertyName() {
 		String propertyName = "orderList";
 		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, propertyName );

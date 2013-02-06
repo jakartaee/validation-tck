@@ -58,7 +58,7 @@ public class ReturnValueDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "a")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsCascadedForMethodReturnValue() {
 		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedMethod()
 				.getReturnValueDescriptor();
@@ -69,7 +69,7 @@ public class ReturnValueDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "a")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsCascadedForConstructorReturnValue() {
 		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedConstructor()
 				.getReturnValueDescriptor();

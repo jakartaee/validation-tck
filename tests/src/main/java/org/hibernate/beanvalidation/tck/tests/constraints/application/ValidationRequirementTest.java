@@ -54,7 +54,7 @@ public class ValidationRequirementTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "c"),
-			@SpecAssertion(section = "4.1", id = "d"),
+			@SpecAssertion(section = "4.1", id = "e"),
 			@SpecAssertion(section = "4.1.1", id = "a")
 	})
 	public void testClassLevelConstraints() {
@@ -91,7 +91,7 @@ public class ValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "d"),
+			@SpecAssertion(section = "4.1", id = "e"),
 			@SpecAssertion(section = "4.1.2", id = "a"),
 			@SpecAssertion(section = "4.1.2", id = "c")
 	})
@@ -110,7 +110,7 @@ public class ValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "d"),
+			@SpecAssertion(section = "4.1", id = "e"),
 			@SpecAssertion(section = "4.1.2", id = "a"),
 			@SpecAssertion(section = "4.1.2", id = "d")
 	})

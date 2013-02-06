@@ -161,10 +161,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1", id = "c"),
-			@SpecAssertion(section = "3.1", id = "g")
-	})
+	//TODO: Adapt to latest spec
 	public void testConstraintDefinitionGenericAndCrossParameterConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyGenericAndCrossParameterConstraint() );
