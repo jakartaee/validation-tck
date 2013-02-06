@@ -206,7 +206,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "g")
+	@SpecAssertion(section = "5.3.1.2", id = "a")
 	public void testMessageInterpolationWithLocale() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -220,7 +220,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "h")
+	@SpecAssertion(section = "5.3.1.2", id = "b")
 	public void testIfNoLocaleIsSpecifiedTheDefaultLocaleIsAssumed() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );

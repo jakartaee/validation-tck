@@ -61,7 +61,7 @@ public class DefaultProviderSpecifiedInValidationXmlTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "e"),
-			@SpecAssertion(section = "5.5.6", id = "j")
+			@SpecAssertion(section = "5.5.6", id = "k")
 	})
 	public void testProviderSpecifiedInValidationXml() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {

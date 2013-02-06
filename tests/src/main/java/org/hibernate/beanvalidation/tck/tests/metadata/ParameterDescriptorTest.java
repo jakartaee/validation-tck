@@ -59,7 +59,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.6", id = "a")
+	@SpecAssertion(section = "6.8", id = "a")
 	public void testGetIndexForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -69,7 +69,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.6", id = "a")
+	@SpecAssertion(section = "6.8", id = "a")
 	public void testGetIndexForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
@@ -79,7 +79,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.6", id = "b")
+	@SpecAssertion(section = "6.8", id = "b")
 	public void testGetNameForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -89,7 +89,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.6", id = "b")
+	@SpecAssertion(section = "6.8", id = "b")
 	public void testGetNameForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
@@ -99,7 +99,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.6", id = "c")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsCascadedForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -110,7 +110,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.6", id = "c")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsCascadedForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();

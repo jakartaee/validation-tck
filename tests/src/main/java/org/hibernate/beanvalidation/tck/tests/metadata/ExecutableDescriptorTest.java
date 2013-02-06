@@ -16,7 +16,6 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.ElementDescriptor;
@@ -32,7 +31,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.MyCrossParameterConstraint;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.testng.Assert.assertEquals;
@@ -64,21 +62,21 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "a")
+	@SpecAssertion(section = "6.7", id = "a")
 	public void testGetNameForMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
 		assertEquals( descriptor.getName(), "createCustomer" );
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "a")
+	@SpecAssertion(section = "6.7", id = "a")
 	public void testGetNameForConstructor() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructor();
 		assertEquals( descriptor.getName(), "CustomerService" );
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = "6.7", id = "b")
 	public void testGetParameterDescriptorsForMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
 		assertEquals(
@@ -89,7 +87,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = "6.7", id = "b")
 	public void testGetParameterDescriptorsForParameterlessMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
 		assertEquals(
@@ -100,7 +98,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = "6.7", id = "b")
 	public void testGetParameterDescriptorsForConstructor() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructor();
 		assertEquals(
@@ -111,7 +109,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = "6.7", id = "b")
 	public void testGetParameterDescriptorsForConstructorOfInnerClass() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructorOfInnerClass();
 		assertEquals(
@@ -122,7 +120,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = "6.7", id = "b")
 	public void testGetParameterDescriptorsForParameterlessConstructor() {
 		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
 		assertEquals(
@@ -133,7 +131,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "c")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetReturnValueDescriptorForMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
 		assertNotNull(
@@ -143,7 +141,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "c")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetUnconstrainedReturnValueDescriptorForMethod() {
 		MethodDescriptor descriptor = Executables.cascadedParameterMethod();
 		assertNotNull(
@@ -153,7 +151,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "c")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testReturnValueDescriptorForVoidMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
 		assertNull(
@@ -163,7 +161,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "c")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetReturnValueDescriptorForConstructor() {
 		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
 		assertNotNull(
@@ -173,7 +171,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "c")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetUnconstrainedReturnValueDescriptorForConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedParameterConstructor();
 		assertNotNull(
@@ -183,7 +181,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
 		assertTrue(
@@ -193,7 +191,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForCascadedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedParameterMethod();
 		assertTrue(
@@ -204,7 +202,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForCrossParameterConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.crossParameterConstrainedMethod();
 		assertTrue(
@@ -214,7 +212,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForNotConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedReturnValueMethod();
 		assertFalse(
@@ -224,7 +222,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForParameterlessMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
 		assertFalse(
@@ -234,7 +232,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructor();
 		assertTrue(
@@ -244,7 +242,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForCascadedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedParameterConstructor();
 		assertTrue(
@@ -254,7 +252,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForCrossParameterConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.crossParameterConstrainedConstructor();
 		assertTrue(
@@ -264,7 +262,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForNotConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedReturnValueConstructor();
 		assertFalse(
@@ -274,7 +272,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "d")
+	@SpecAssertion(section = "6.7", id = "d")
 	public void testAreParametersConstrainedForParameterlessConstructor() {
 		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
 		assertFalse(
@@ -284,7 +282,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
 		assertTrue(
@@ -294,7 +292,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForCascadedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedReturnValueMethod();
 		assertTrue(
@@ -304,7 +302,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForNotConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedParameterMethod();
 		assertFalse(
@@ -314,7 +312,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForVoidMethod() {
 		MethodDescriptor descriptor = Executables.crossParameterConstrainedMethod();
 		assertFalse(
@@ -324,7 +322,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
 		assertTrue(
@@ -334,7 +332,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForCascadedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedReturnValueConstructor();
 		assertTrue(
@@ -344,7 +342,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "e")
+	@SpecAssertion(section = "6.7", id = "e")
 	public void testIsReturnValueConstrainedForNotConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedParameterConstructor();
 		assertFalse(
@@ -354,7 +352,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testHasConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
 		assertFalse(
@@ -375,7 +373,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testHasConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
 		assertFalse(
@@ -396,7 +394,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testGetConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
 		assertTrue(
@@ -426,7 +424,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testGetConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
 		assertTrue(
@@ -456,7 +454,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testFindConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
 		assertTrue(
@@ -492,7 +490,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testFindConstraintsForMethodLookingAt() {
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.methodOverridingCrossParameterConstrainedMethod();
 		assertEquals(
@@ -522,7 +520,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testFindConstraintsForMethodDefinedOnSuperTypeLookingAt() {
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedMethodFromSuperType();
 		assertEquals(
@@ -552,7 +550,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.5", id = "f")
+	@SpecAssertion(section = "6.7", id = "f")
 	public void testFindConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
 		assertTrue(

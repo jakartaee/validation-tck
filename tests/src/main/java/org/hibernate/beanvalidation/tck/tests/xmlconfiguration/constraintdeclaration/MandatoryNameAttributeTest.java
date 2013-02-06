@@ -47,7 +47,7 @@ public class MandatoryNameAttributeTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "a")
+	@SpecAssertion(section = "8.1.1.6", id = "a")
 	public void testNameAttributeIsMandatory() {
 		try {
 			TestUtil.getValidatorUnderTest();
