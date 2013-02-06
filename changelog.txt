@@ -3,6 +3,23 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.Beta3 (06-02-2013)
+------------------------
+
+** Bug
+    * [BVTCK-36] - Update UnknownProviderBootstrapTest to request an explicit provider
+
+** Improvement
+    * [BVTCK-27] - Do not append assembly id when creating the distribution bundle
+
+** New Feature
+    * [BVTCK-28] - Update TCK to match chapters/sections as of BV 1.1
+
+** Task
+    * [BVTCK-31] - Add assertions for BV 1.1 functionality
+    * [BVTCK-32] - Implement TCK tests for new BV 1.1 functionality
+
+
 1.1.0.Beta2 (29-11-2012)
 ------------------------
 
