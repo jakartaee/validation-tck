@@ -28,15 +28,19 @@ import javax.validation.TraversableResolver;
 import static org.testng.Assert.fail;
 
 /**
+ * A {@link TraversableResolver} implementation used for asserting that the
+ * actual calls to the resolver by the engine under test match the expected
+ * calls.
+ *
  * @author Emmanuel Bernard
  * @author Hardy Ferentschik
  */
 public class SnifferTraversableResolver implements TraversableResolver {
-	int isReachableCallCount = 0;
-	int isCascadableCallCount = 0;
-	Set<Call> expectedReachCalls = new HashSet<Call>();
-	Set<Call> expectedCascadeCalls = new HashSet<Call>();
-	Set<Call> executedReachableCalls = new HashSet<Call>();
+	private int isReachableCallCount = 0;
+	private int isCascadableCallCount = 0;
+	private final Set<Call> expectedReachCalls = new HashSet<Call>();
+	private final Set<Call> expectedCascadeCalls = new HashSet<Call>();
+	private final Set<Call> executedReachableCalls = new HashSet<Call>();
 
 	public SnifferTraversableResolver(Set<Call> expectedReachCalls, Set<Call> expectedCascadeCalls) {
 		this.expectedReachCalls.addAll( expectedReachCalls );
@@ -51,6 +55,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 		return isCascadableCallCount;
 	}
 
+	@Override
 	public boolean isReachable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
 		List<String> names = extractNodeName( pathToTraversableObject );
 		Call call = new Call(
@@ -69,6 +74,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 		);
 	}
 
+	@Override
 	public boolean isCascadable(Object traversableObject, Path.Node traversableProperty, Class<?> rootBeanType, Path pathToTraversableObject, ElementType elementType) {
 		List<String> names = extractNodeName( pathToTraversableObject );
 		Call call = new Call(
@@ -94,10 +100,6 @@ public class SnifferTraversableResolver implements TraversableResolver {
 			fail( "Unexpected call to " + call.toString() );
 		}
 		return true;
-	}
-
-	private void registerPath(Set<Path> cascadePaths, Path pathToTraversableObject) {
-		cascadePaths.add( pathToTraversableObject );
 	}
 
 	private List<String> extractNodeName(Path path) {

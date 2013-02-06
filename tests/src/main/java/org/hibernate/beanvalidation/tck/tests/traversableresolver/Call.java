@@ -16,9 +16,6 @@
 */
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
-/**
- * @author Hardy Ferentschik
- */
 
 import java.lang.annotation.ElementType;
 import java.util.Arrays;
@@ -26,13 +23,15 @@ import java.util.Arrays;
 /**
  * Wrapper class for keeping track of the parameters for a single call to {@link SnifferTraversableResolver#isReachable}
  * and {@link SnifferTraversableResolver#isCascadable}.
+ *
+ * @author Hardy Ferentschik
  */
 final class Call {
-	private Object traversableObject;
-	private String traversableProperty;
-	private Class<?> rootBeanType;
-	private String[] nodeNamesToTraversableObject;
-	private ElementType elementType;
+	private final Object traversableObject;
+	private final String traversableProperty;
+	private final Class<?> rootBeanType;
+	private final String[] nodeNamesToTraversableObject;
+	private final ElementType elementType;
 
 	Call(Object traversableObject,
 		 String traversableProperty,
@@ -103,5 +102,3 @@ final class Call {
 		return sb.toString();
 	}
 }
-
-
