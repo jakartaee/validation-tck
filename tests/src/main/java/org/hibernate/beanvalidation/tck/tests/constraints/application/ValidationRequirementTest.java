@@ -67,9 +67,9 @@ public class ValidationRequirementTest extends Arquillian {
 		Set<ConstraintViolation<Woman>> violations = validator.validate( sarah );
 
 		assertCorrectNumberOfViolations(
-				violations, 1
-		); // SecurityCheck for Default in Person
-		assertCorrectConstraintTypes( violations, SecurityCheck.class );
+				violations, 2
+		); // SecurityCheck for Default in Person and Citizen
+		assertCorrectConstraintTypes( violations, SecurityCheck.class, SecurityCheck.class );
 
 		violations = validator.validate( sarah, TightSecurity.class );
 		assertCorrectNumberOfViolations(
