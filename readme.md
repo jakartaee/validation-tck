@@ -3,11 +3,12 @@ Version: 1.1.0-SNAPSHOT
 
 This repository contains the Bean Validation TCK - ([JSR 349](http://www.jcp.org/en/jsr/detail?id=349)).
 
-# Building
+## Build from Source
 
-To build the TCK run
+You can build the TCK from source by cloning the git repository git://github.com/beanvalidation/beanvalidation-tck.git.
+You will also need a JDK 6 or 7 and a Maven 3. With these prerequisites in place you can compile the source via
 
-    mvn clean install
+    mvn clean install -s settings-example.xml
 
 After successful execution you can find the full distribution bundles in _distribution/target_. To inspect the different test artifacts
 and the TCK coverage report refer to _tests/target/artifacts_ and _tests/target/coverage-report_ respectively.
