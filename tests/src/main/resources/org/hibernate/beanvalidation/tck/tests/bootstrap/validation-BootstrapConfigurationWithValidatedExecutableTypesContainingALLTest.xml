@@ -23,6 +23,6 @@
 
     <validated-executables>
         <executable-type>ALL</executable-type>
-        <executable-type>CONSTRUCTOR</executable-type>
+        <executable-type>CONSTRUCTORS</executable-type>
     </validated-executables>
 </validation-config>
