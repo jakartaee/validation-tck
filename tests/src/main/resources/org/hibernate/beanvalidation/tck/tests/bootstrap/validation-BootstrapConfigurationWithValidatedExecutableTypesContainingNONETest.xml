@@ -23,8 +23,8 @@
 
     <validated-executables>
         <executable-type>NONE</executable-type>
-        <executable-type>CONSTRUCTOR</executable-type>
-        <executable-type>NO_GETTER_METHODS</executable-type>
+        <executable-type>CONSTRUCTORS</executable-type>
+        <executable-type>NON_GETTER_METHODS</executable-type>
         <executable-type>GETTER_METHODS</executable-type>
     </validated-executables>
 </validation-config>

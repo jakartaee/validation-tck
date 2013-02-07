@@ -22,7 +22,7 @@
         version="1.1">
 
     <validated-executables>
-        <executable-type>CONSTRUCTOR</executable-type>
-        <executable-type>NO_GETTER_METHODS</executable-type>
+        <executable-type>CONSTRUCTORS</executable-type>
+        <executable-type>NON_GETTER_METHODS</executable-type>
     </validated-executables>
 </validation-config>
