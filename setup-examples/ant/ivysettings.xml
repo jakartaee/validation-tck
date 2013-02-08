@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ivysettings>
+    <settings defaultResolver="default"/>
+    <resolvers>
+        <chain name="default">
+            <ibiblio name="jboss-public" m2compatible="true" checksums="" root="https://repository.jboss.org/nexus/content/groups/public-jboss"/>
+            <ibiblio name="maven2" m2compatible="true"/>
+        </chain>
+    </resolvers>
+</ivysettings>

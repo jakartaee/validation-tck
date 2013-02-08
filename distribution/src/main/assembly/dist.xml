@@ -40,8 +40,14 @@
                 <exclude>**/target/**</exclude>
                 <exclude>**/*.iml</exclude>
                 <exclude>.gitignore</exclude>
+                <exclude>setup-examples/**</exclude>
             </excludes>
             <useDefaultExcludes/>
+        </fileSet>
+        <fileSet>
+            <directory>../setup-examples</directory>
+            <outputDirectory>setup-examples</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
         </fileSet>
         <fileSet>
             <directory>../tests/src/main/resources</directory>
