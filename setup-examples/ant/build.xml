@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="JSR-349 TCK" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <!-- ====================================================================== -->
+    <!-- Build environment properties                                           -->
+    <!-- ====================================================================== -->
+
+    <!-- Allow the user to override values in build.properties. Ignored via .gitignore -->
+    <property file="user-build.properties"/>
+
+    <!-- Defines build specific properties -->
+    <property file="build.properties"/>
+
+    <!-- Define source and output directories for the build -->
+    <property name="project.build.directory" value="target"/>
+    <property name="project.testResource.directory" value="src/test/resources"/>
+    <property name="project.testResource.outputDirectory" value="${project.build.directory}/resources"/>
+    <property name="project.test.reportsOutputDirectory" value="${project.build.directory}/test-results"/>
+
+    <!-- Remote repositories and ivy settings -->
+    <property name="maven.repo.central" value="http://repo1.maven.org/maven2"/>
+    <property name="maven.repo.jboss-public" value="https://repository.jboss.org/nexus/content/groups/public-jboss"/>
+    <property name="ivy.install.version" value="2.2.0-rc1"/>
+    <property name="ivy.jar.dir" value="${basedir}/.ivy"/>
+    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
+
+    <!-- Build the remote path to the testng suite file-->
+    <property name="remote.tck.suite.file"
+              value="${maven.repo.jboss-public}/org/hibernate/beanvalidation/tck/beanvalidation-tck-tests/${version.tck}/beanvalidation-tck-tests-${version.tck}-suite.xml"/>
+
+    <!-- ====================================================================== -->
+    <!-- Ivy bootstrap targets                                                  -->
+    <!-- ====================================================================== -->
+
+    <target name="init-ivy">
+        <available property="ivy.installed" value="true" file="${ivy.jar.file}" type="file"/>
+    </target>
+
+    <target name="download-ivy" depends="init-ivy" unless="ivy.installed">
+        <mkdir dir="${ivy.jar.dir}"/>
+        <echo message="Installing ivy..."/>
+        <get src="${maven.repo.central}/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+             dest="${ivy.jar.file}"/>
+    </target>
+
+    <target name="load-ivy" depends="init-ivy,download-ivy">
+        <path id="ivy.lib.path">
+            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+        </path>
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+        <ivy:settings file="${basedir}/ivysettings.xml"/>
+    </target>
+
+    <target name="clean-ivy" depends="load-ivy">
+        <ivy:cleancache/>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- Initialization targets                                                 -->
+    <!-- ====================================================================== -->
+
+    <target name="init" depends="load-ivy,get-testng-suite">
+    </target>
+
+    <target name="install-testng-jar">
+        <mkdir dir=".lib"/>
+        <get src="${maven.repo.central}/org/testng/testng/${version.testng}/testng-${version.testng}.jar"
+             dest=".lib/testng.jar"
+             skipexisting="true"/>
+    </target>
+
+    <target name="get-testng-suite">
+        <mkdir dir="${project.build.directory}"/>
+        <get src="${remote.tck.suite.file}"
+             dest="${project.build.directory}/${tck.suite.file}"
+             skipexisting="true"/>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- Cleaning up target                                                     -->
+    <!-- ====================================================================== -->
+
+    <target name="clean" description="Clean the output directory">
+        <delete dir="${project.build.directory}"/>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- Test targets                                                           -->
+    <!-- ====================================================================== -->
+
+    <target name="copy-test-resources">
+        <copy todir="${project.testResource.outputDirectory}">
+            <fileset dir="${project.testResource.directory}"/>
+            <filterset>
+                <filter token="JBOSS.HOME" value="${container.home}"/>
+                <filter token="VALIDATION.PROVIDER" value="${validation.provider}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <taskdef resource="testngtasks" classpath=".lib/testng.jar"/>
+    <target name="test" depends="init,copy-test-resources">
+        <mkdir dir="${project.test.reportsOutputDirectory}"/>
+        <ivy:resolve conf="test-incontainer"/>
+        <ivy:cachepath pathid="build.test.classpath.container" conf="test-incontainer"/>
+        <path id="test.path">
+            <path refid="build.test.classpath.container"/>
+            <pathelement location="${project.testResource.outputDirectory}"/>
+        </path>
+        <testng classpathref="test.path"
+                outputDir="${project.test.reportsOutputDirectory}"
+                haltOnfailure="true">
+            <xmlfileset dir="${project.build.directory}" includes="${tck.suite.file}"/>
+            <jvmarg value="-Xmx1024m"/>
+            <!-- Container qualifier used in arquillian.xml -->
+            <sysproperty key="arquillian.launch" value="incontainer"/>
+            <!-- Make sure also tests marked with @IntegrationTest and only runnable in a container are included -->
+            <sysproperty key="includeIntegrationTests" value="true"/>
+            <!-- Specify the Bean Validation provider under test -->
+            <sysproperty key="validation.provider" value="${validation.provider}"/>
+        </testng>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- Dependency reports                                                     -->
+    <!-- ====================================================================== -->
+
+    <target name="dependency-report" depends="init">
+        <ivy:resolve conf="test-incontainer"/>
+        <ivy:report todir="${project.build.directory}/dependency-reports/test-jbossas7"
+                    conf="test-incontainer"/>
+    </target>
+</project>

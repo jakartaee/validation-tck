@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+    <info organisation="org.hibernate.beanvalidation.tck"
+          module="tck-runner"
+          revision="1.0">
+    </info>
+
+    <configurations>
+        <conf name="default" visibility="public"/>
+        <conf name="test" visibility="public"/>
+        <conf name="test-incontainer" visibility="private" extends="test"/>
+    </configurations>
+
+    <dependencies>
+        <!-- General testing dependencies not TCK specific-->
+        <dependency org="org.jboss.arquillian.testng" name="arquillian-testng-container" rev="${version.arquillian}" conf="test->default(*)"/>
+        <dependency org="org.jboss.arquillian.protocol" name="arquillian-protocol-servlet" rev="${version.arquillian}" conf="test->default(*)"/>
+        <dependency org="org.testng" name="testng" rev="${version.testng}" conf="test->default(*)"/>
+
+        <!-- The actual TCK dependency -->
+        <dependency org="org.hibernate.beanvalidation.tck" name="beanvalidation-tck-tests" rev="${version.tck}" conf="test->default(*)"/>
+
+        <!-- The Arquillian container adapter for the container under test. Specific to the container in which to run the tests -->
+        <dependency org="org.hibernate" name="hibernate-validator" rev="${version.hv}" conf="test->default(*)"/>
+        <dependency org="org.jboss.as" name="jboss-as-arquillian-container-managed" rev="${version.jbossas}" conf="test-incontainer->default(*)"/>
+    </dependencies>
+</ivy-module>
