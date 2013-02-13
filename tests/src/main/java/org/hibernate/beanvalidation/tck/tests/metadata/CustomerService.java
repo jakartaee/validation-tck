@@ -27,6 +27,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -41,6 +43,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 public class CustomerService {
 
+	public interface BasicChecks {
+	}
+
+	public interface StrictCustomerServiceChecks {
+	}
+
+	public interface StrictChecks {
+	}
+
 	//constrained parameter
 	public CustomerService(@NotNull @Size(min = 3) String firstName, @NotNull @Size(min = 3) String lastName) {
 	}
@@ -54,6 +65,17 @@ public class CustomerService {
 	public CustomerService(@Valid Account account) {
 	}
 
+	//parameter with group conversions
+	public CustomerService(
+			int i,
+			@Valid
+			@ConvertGroup.List({
+					@ConvertGroup(from = Default.class, to = BasicChecks.class),
+					@ConvertGroup(from = StrictCustomerServiceChecks.class, to = StrictChecks.class)
+			})
+			Account account) {
+	}
+
 	//constrained return value
 	@ValidCustomerService
 	public CustomerService() {
@@ -62,6 +84,15 @@ public class CustomerService {
 	//cascaded return value
 	@Valid
 	public CustomerService(long id) {
+	}
+
+	//return value with group conversions
+	@Valid
+	@ConvertGroup.List({
+			@ConvertGroup(from = Default.class, to = BasicChecks.class),
+			@ConvertGroup(from = StrictCustomerServiceChecks.class, to = StrictChecks.class)
+	})
+	public CustomerService(long id, int i) {
 	}
 
 	//unconstrained
@@ -87,6 +118,17 @@ public class CustomerService {
 		return null;
 	}
 
+	//parameter with group conversions
+	public Customer updateAccountStrictly(
+			@Valid
+			@ConvertGroup.List({
+					@ConvertGroup(from = Default.class, to = BasicChecks.class),
+					@ConvertGroup(from = StrictCustomerServiceChecks.class, to = StrictChecks.class)
+			})
+			Account account) {
+		return null;
+	}
+
 	//constrained return value
 	@Min(0)
 	public int reset() {
@@ -96,6 +138,16 @@ public class CustomerService {
 	//cascaded return value
 	@Valid
 	public Customer findCustomer(long id) {
+		return null;
+	}
+
+	//return value with group conversions
+	@Valid
+	@ConvertGroup.List({
+			@ConvertGroup(from = Default.class, to = BasicChecks.class),
+			@ConvertGroup(from = StrictCustomerServiceChecks.class, to = StrictChecks.class)
+	})
+	public Customer findCustomer(long id, int i) {
 		return null;
 	}
 

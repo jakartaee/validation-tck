@@ -19,17 +19,32 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik
  */
 public class Customer implements Person {
 
+	public interface BasicChecks {
+	}
+
+	public interface StrictCustomerChecks {
+	}
+
+	public interface StrictChecks {
+	}
+
 	private String firstName;
 	private String middleName;
 	private String lastName;
 
 	@Valid
+	@ConvertGroup.List({
+			@ConvertGroup(from = Default.class, to = BasicChecks.class),
+			@ConvertGroup(from = StrictCustomerChecks.class, to = StrictChecks.class)
+	})
 	private List<Order> orderList = new ArrayList<Order>();
 
 	public void addOrder(Order order) {
@@ -62,5 +77,14 @@ public class Customer implements Person {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Valid
+	@ConvertGroup.List({
+			@ConvertGroup(from = Default.class, to = BasicChecks.class),
+			@ConvertGroup(from = StrictCustomerChecks.class, to = StrictChecks.class)
+	})
+	public Account getAccount() {
+		return null;
 	}
 }

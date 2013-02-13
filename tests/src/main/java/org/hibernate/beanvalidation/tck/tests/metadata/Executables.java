@@ -44,6 +44,14 @@ public class Executables {
 		);
 	}
 
+	public static MethodDescriptor methodWithGroupConversionOnParameter() {
+		return getMethodDescriptor(
+				CustomerService.class,
+				"updateAccountStrictly",
+				Account.class
+		);
+	}
+
 	public static MethodDescriptor returnValueConstrainedMethod() {
 		return getMethodDescriptor(
 				CustomerService.class,
@@ -57,6 +65,15 @@ public class Executables {
 				CustomerService.class,
 				"findCustomer",
 				long.class
+		);
+	}
+
+	public static MethodDescriptor methodWithGroupConversionOnReturnValue() {
+		return getMethodDescriptor(
+				CustomerService.class,
+				"findCustomer",
+				long.class,
+				int.class
 		);
 	}
 
@@ -115,6 +132,14 @@ public class Executables {
 		);
 	}
 
+	public static ConstructorDescriptor constructorWithGroupConversionOnParameter() {
+		return getConstructorDescriptor(
+				CustomerService.class,
+				int.class,
+				Account.class
+		);
+	}
+
 	public static ConstructorDescriptor returnValueConstrainedConstructor() {
 		return getConstructorDescriptor(
 				CustomerService.class
@@ -125,6 +150,14 @@ public class Executables {
 		return getConstructorDescriptor(
 				CustomerService.class,
 				long.class
+		);
+	}
+
+	public static ConstructorDescriptor constructorWithGroupConversionOnReturnValue() {
+		return getConstructorDescriptor(
+				CustomerService.class,
+				long.class,
+				int.class
 		);
 	}
 
