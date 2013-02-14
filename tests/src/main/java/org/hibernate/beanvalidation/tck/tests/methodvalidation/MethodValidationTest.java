@@ -20,13 +20,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.ExecutableValidator;
+import javax.validation.ElementKind;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.validation.executable.ExecutableValidator;
 import javax.validation.groups.Default;
-import javax.validation.metadata.ElementDescriptor.Kind;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -56,7 +56,7 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDescriptorKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
@@ -121,12 +121,12 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg1", "name" ),
 				names( methodName, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -164,12 +164,12 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg1", "name" ),
 				names( methodName, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -208,12 +208,12 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg1", "name" ),
 				names( methodName, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -249,10 +249,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName ),
 				names( methodName, "arg0" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 
 		violations = executableValidator.validateParameters(
@@ -272,10 +272,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg1", "name" ),
 				names( methodName, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -302,9 +302,9 @@ public class MethodValidationTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, "arg1", "name" ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 	}
 
@@ -347,12 +347,12 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg1", "name" ),
 				names( methodName, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -387,10 +387,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg0" ),
 				names( methodName, "arg1", "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), 0 };
@@ -405,10 +405,10 @@ public class MethodValidationTest extends Arquillian {
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
 		assertCorrectPathNodeNames( violations, names( methodName ), names( methodName, "arg2" ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -443,10 +443,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg0" ),
 				names( methodName, "arg1", "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), 0 };
@@ -471,11 +471,11 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, "arg1", "name" ),
 				names( methodName, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD ),
-				kinds( Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -511,12 +511,12 @@ public class MethodValidationTest extends Arquillian {
 				names( className, "arg1", "name" ),
 				names( className, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 	}
 
@@ -568,10 +568,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className ),
 				names( className, "arg0" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 
 		violations = executableValidator.validateConstructorParameters(
@@ -590,10 +590,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, "arg1", "name" ),
 				names( className, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 	}
 
@@ -617,9 +617,9 @@ public class MethodValidationTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( className, "arg1", "name" ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 	}
 
@@ -659,12 +659,12 @@ public class MethodValidationTest extends Arquillian {
 				names( className, "arg1", "name" ),
 				names( className, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 	}
 
@@ -696,10 +696,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, "arg0" ),
 				names( className, "arg1", "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), 0 };
@@ -713,10 +713,10 @@ public class MethodValidationTest extends Arquillian {
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
 		assertCorrectPathNodeNames( violations, names( className ), names( className, "arg2" ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 	}
 
@@ -750,10 +750,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, "arg0" ),
 				names( className, "arg1", "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), 0 };
@@ -777,11 +777,11 @@ public class MethodValidationTest extends Arquillian {
 				names( className, "arg1", "name" ),
 				names( className, "arg2" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 	}
 
@@ -816,10 +816,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -855,11 +855,11 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -896,11 +896,11 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -934,9 +934,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 
 		violations = executableValidator.validateReturnValue(
@@ -956,10 +956,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null, "name" ),
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -986,9 +986,9 @@ public class MethodValidationTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, null, "name" ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -1025,9 +1025,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -1062,10 +1062,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 
 		returnValue = new Order( "BV Specification" );
@@ -1083,9 +1083,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -1120,10 +1120,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 
 		returnValue = new Order( "valid" );
@@ -1142,10 +1142,10 @@ public class MethodValidationTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -1177,10 +1177,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, null ),
 				names( className, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -1210,9 +1210,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( className, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -1243,9 +1243,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( className, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 
 		violations = executableValidator.validateConstructorReturnValue(
@@ -1264,10 +1264,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, null, "name" ),
 				names( className, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -1291,9 +1291,9 @@ public class MethodValidationTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( className, null, "name" ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 
@@ -1327,9 +1327,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( className, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -1361,10 +1361,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, null ),
 				names( className, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 
 		returnValue = new OrderService( "valid order service" );
@@ -1381,9 +1381,9 @@ public class MethodValidationTest extends Arquillian {
 				violations,
 				names( className, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -1419,10 +1419,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, null ),
 				names( className, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 
 		returnValue = new OrderServiceWithRedefinedDefaultGroupSequence( "valid" );
@@ -1439,10 +1439,10 @@ public class MethodValidationTest extends Arquillian {
 				names( className, null ),
 				names( className, null, "name" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE, Kind.PROPERTY )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
 		);
 	}
 }

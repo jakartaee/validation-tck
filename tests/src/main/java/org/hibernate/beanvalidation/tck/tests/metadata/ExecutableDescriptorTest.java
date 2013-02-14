@@ -16,10 +16,7 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.ElementDescriptor;
-import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.Scope;
 
@@ -37,7 +34,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -583,63 +579,5 @@ public class ExecutableDescriptorTest extends Arquillian {
 						.getAnnotation()
 						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
 		);
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	public void testGetKindForMethod() {
-		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
-		assertEquals(
-				descriptor.getKind(),
-				Kind.METHOD,
-				"Descriptor should be of kind METHOD"
-		);
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	public void testGetKindForConstructor() {
-		ElementDescriptor descriptor = Executables.returnValueConstrainedConstructor();
-		assertEquals(
-				descriptor.getKind(),
-				Kind.CONSTRUCTOR,
-				"Descriptor should be of kind CONSTRUCTOR"
-		);
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsForMethod() {
-		ElementDescriptor elementDescriptor = Executables.parameterConstrainedMethod();
-		MethodDescriptor methodDescriptor = elementDescriptor.as( MethodDescriptor.class );
-		assertNotNull( methodDescriptor, "Descriptor should not be null" );
-		assertSame( methodDescriptor, elementDescriptor, "as() should return the same object" );
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsForConstructor() {
-		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedConstructor();
-		ConstructorDescriptor constructorDescriptor = elementDescriptor.as( ConstructorDescriptor.class );
-		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
-		assertSame(
-				constructorDescriptor,
-				elementDescriptor,
-				"as() should return the same object"
-		);
-	}
-
-	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsForMethodWithWrongType() {
-		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedConstructor();
-		elementDescriptor.as( BeanDescriptor.class );
-	}
-
-	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsForConstructorWithWrongType() {
-		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedConstructor();
-		elementDescriptor.as( BeanDescriptor.class );
 	}
 }

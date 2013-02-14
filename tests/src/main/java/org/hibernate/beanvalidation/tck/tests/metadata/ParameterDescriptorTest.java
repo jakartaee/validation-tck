@@ -16,11 +16,7 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-
 import java.util.List;
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ElementDescriptor;
-import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.ParameterDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -34,8 +30,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -118,38 +112,5 @@ public class ParameterDescriptorTest extends Arquillian {
 
 		parameters = Executables.cascadedParameterConstructor().getParameterDescriptors();
 		assertTrue( parameters.get( 0 ).isCascaded(), "Should be cascaded" );
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	public void testGetKind() {
-		ParameterDescriptor descriptor = Executables.parameterConstrainedMethod()
-				.getParameterDescriptors()
-				.get( 0 );
-		assertEquals(
-				descriptor.getKind(),
-				Kind.PARAMETER,
-				"Descriptor should be of kind PARAMETER"
-		);
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAs() {
-		ElementDescriptor elementDescriptor = Executables.parameterConstrainedMethod()
-				.getParameterDescriptors()
-				.get( 0 );
-		ParameterDescriptor parameterDescriptor = elementDescriptor.as( ParameterDescriptor.class );
-		assertNotNull( parameterDescriptor, "Descriptor should not be null" );
-		assertSame( parameterDescriptor, elementDescriptor, "as() should return the same object" );
-	}
-
-	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsWithWrongType() {
-		ElementDescriptor elementDescriptor = Executables.parameterConstrainedMethod()
-				.getParameterDescriptors()
-				.get( 0 );
-		elementDescriptor.as( BeanDescriptor.class );
 	}
 }

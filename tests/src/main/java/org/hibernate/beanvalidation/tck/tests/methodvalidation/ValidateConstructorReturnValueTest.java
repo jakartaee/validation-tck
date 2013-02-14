@@ -20,9 +20,9 @@ import java.lang.reflect.Constructor;
 import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.ExecutableValidator;
+import javax.validation.ElementKind;
 import javax.validation.ValidationException;
-import javax.validation.metadata.ElementDescriptor.Kind;
+import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -46,7 +46,7 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDescriptorKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
@@ -93,9 +93,9 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, ValidCustomer.class );
 		assertCorrectPathNodeNames( violations, names( "Customer", null ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -118,10 +118,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				names( "Customer", null ),
 				names( "Customer", null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -144,10 +144,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				names( "Customer", null ),
 				names( "Customer", null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -186,9 +186,9 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, ValidCustomer.class );
 		assertCorrectPathNodeNames( violations, names( "Customer", null ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -218,10 +218,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				names( "Customer", null ),
 				names( "Customer", null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE ),
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 

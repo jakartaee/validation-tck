@@ -16,9 +16,6 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ElementDescriptor;
-import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.PropertyDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -33,8 +30,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -77,32 +72,5 @@ public class PropertyDescriptorTest extends Arquillian {
 		String propertyName = "orderList";
 		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, propertyName );
 		assertEquals( descriptor.getPropertyName(), propertyName, "Wrong property name" );
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	public void testGetKind() {
-		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, "orderList" );
-		assertEquals(
-				descriptor.getKind(),
-				Kind.PROPERTY,
-				"Descriptor should be of kind PROPERTY"
-		);
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAs() {
-		ElementDescriptor elementDescriptor = getPropertyDescriptor( Customer.class, "orderList" );
-		PropertyDescriptor propertyDescriptor = elementDescriptor.as( PropertyDescriptor.class );
-		assertNotNull( propertyDescriptor, "Descriptor should not be null" );
-		assertSame( propertyDescriptor, elementDescriptor, "as() should return the same object" );
-	}
-
-	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsWithWrongType() {
-		ElementDescriptor elementDescriptor = getPropertyDescriptor( Customer.class, "orderList" );
-		elementDescriptor.as( BeanDescriptor.class );
 	}
 }

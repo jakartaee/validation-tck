@@ -25,8 +25,6 @@ import java.util.Set;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.ElementDescriptor;
-import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
@@ -48,7 +46,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -422,29 +419,6 @@ public class BeanDescriptorTest extends Arquillian {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
 		Set<ConstructorDescriptor> constructorDescriptors = beanDescriptor.getConstrainedConstructors();
 		assertEquals( constructorDescriptors.size(), 0, "We should get the empty set." );
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	public void testGetKind() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
-		assertEquals( beanDescriptor.getKind(), Kind.BEAN, "Descriptor should be of kind BEAN" );
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAs() {
-		ElementDescriptor elementDescriptor = validator.getConstraintsForClass( Order.class );
-		BeanDescriptor beanDescriptor = elementDescriptor.as( BeanDescriptor.class );
-		assertNotNull( beanDescriptor, "Descriptor should not be null" );
-		assertSame( beanDescriptor, elementDescriptor, "as() should return the same object" );
-	}
-
-	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsWithWrongType() {
-		ElementDescriptor elementDescriptor = validator.getConstraintsForClass( Order.class );
-		elementDescriptor.as( PropertyDescriptor.class );
 	}
 
 	private Set<List<Class<?>>> getParameterTypes(Set<ConstructorDescriptor> constructorDescriptors) {

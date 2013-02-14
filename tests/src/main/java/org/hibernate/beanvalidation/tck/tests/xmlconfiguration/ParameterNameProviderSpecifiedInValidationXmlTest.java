@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 import java.lang.reflect.Method;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.ExecutableValidator;
+import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
