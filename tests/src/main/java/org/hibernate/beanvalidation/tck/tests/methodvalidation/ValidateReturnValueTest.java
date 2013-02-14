@@ -21,11 +21,11 @@ import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
-import javax.validation.ExecutableValidator;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;

@@ -21,8 +21,8 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.ExecutableValidator;
 import javax.validation.constraints.NotNull;
+import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;

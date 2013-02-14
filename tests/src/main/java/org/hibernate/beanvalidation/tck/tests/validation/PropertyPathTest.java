@@ -31,11 +31,11 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
-import javax.validation.ExecutableValidator;
 import javax.validation.Path;
 import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.Validator;
+import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
