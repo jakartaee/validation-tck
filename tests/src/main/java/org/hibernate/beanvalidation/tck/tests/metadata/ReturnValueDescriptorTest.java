@@ -16,10 +16,6 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ElementDescriptor;
-import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.ReturnValueDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -31,10 +27,7 @@ import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -77,39 +70,5 @@ public class ReturnValueDescriptorTest extends Arquillian {
 
 		descriptor = Executables.cascadedReturnValueConstructor().getReturnValueDescriptor();
 		assertTrue( descriptor.isCascaded(), "Should be cascaded" );
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	public void testGetKind() {
-		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedMethod()
-				.getReturnValueDescriptor();
-		assertEquals(
-				descriptor.getKind(),
-				Kind.RETURN_VALUE,
-				"Descriptor should be of kind RETURN_VALUE"
-		);
-	}
-
-	@Test
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAs() {
-		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedMethod()
-				.getReturnValueDescriptor();
-		ReturnValueDescriptor returnValueDescriptor = elementDescriptor.as( ReturnValueDescriptor.class );
-		assertNotNull( returnValueDescriptor, "Descriptor should not be null" );
-		assertSame(
-				returnValueDescriptor,
-				elementDescriptor,
-				"as() should return the same object"
-		);
-	}
-
-	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "6.2", id = "e")
-	public void testAsWithWrongType() {
-		ElementDescriptor elementDescriptor = Executables.returnValueConstrainedMethod()
-				.getReturnValueDescriptor();
-		elementDescriptor.as( BeanDescriptor.class );
 	}
 }

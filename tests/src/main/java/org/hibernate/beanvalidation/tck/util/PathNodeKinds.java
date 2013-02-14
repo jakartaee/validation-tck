@@ -19,13 +19,13 @@ package org.hibernate.beanvalidation.tck.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.validation.ElementKind;
 import javax.validation.Path;
 import javax.validation.Path.Node;
-import javax.validation.metadata.ElementDescriptor.Kind;
 
 /**
  * <p>
- * A list of descriptor {@link Kind}s, representing the kinds of the nodes of a
+ * A list of {@link ElementKind}s, representing the kinds of the nodes of a
  * given {@link Path}. Instances are retrieved via
  * {@link TestUtil#kinds(Kind...)}.
  * </p>
@@ -36,23 +36,23 @@ import javax.validation.metadata.ElementDescriptor.Kind;
  *
  * @author Gunnar Morling
  */
-public class PathDescriptorKinds implements Comparable<PathDescriptorKinds> {
+public class PathNodeKinds implements Comparable<PathNodeKinds> {
 
-	private final List<Kind> kinds;
+	private final List<ElementKind> kinds;
 
-	PathDescriptorKinds(Kind... kinds) {
+	PathNodeKinds(ElementKind... kinds) {
 		this.kinds = Arrays.asList( kinds );
 	}
 
-	PathDescriptorKinds(Path path) {
-		this.kinds = new ArrayList<Kind>();
+	PathNodeKinds(Path path) {
+		this.kinds = new ArrayList<ElementKind>();
 		for ( Node node : path ) {
-			kinds.add( node.getElementDescriptor().getKind() );
+			kinds.add( node.getKind() );
 		}
 	}
 
 	@Override
-	public int compareTo(PathDescriptorKinds other) {
+	public int compareTo(PathNodeKinds other) {
 		return toString().compareTo( other.toString() );
 	}
 
@@ -75,7 +75,7 @@ public class PathDescriptorKinds implements Comparable<PathDescriptorKinds> {
 		if ( getClass() != obj.getClass() ) {
 			return false;
 		}
-		PathDescriptorKinds other = (PathDescriptorKinds) obj;
+		PathNodeKinds other = (PathNodeKinds) obj;
 		if ( kinds == null ) {
 			if ( other.kinds != null ) {
 				return false;

@@ -76,8 +76,8 @@
     <properties>
         <java.source.version>1.6</java.source.version>
         <java.target.version>1.6</java.target.version>
-        <jboss.test.audit.version>1.1.0.CR3</jboss.test.audit.version>
-        <validation.api.version>1.1.0.Beta3</validation.api.version>
+        <jboss.test.audit.version>1.1.0.Final</jboss.test.audit.version>
+        <validation.api.version>1.1.0-SNAPSHOT</validation.api.version>
         <arquillian.version>1.0.0.Final</arquillian.version>
         <shrinkwrap.version>1.0.0</shrinkwrap.version>
         <shrinkwrap.descriptors.version>2.0.0-alpha-2</shrinkwrap.descriptors.version>

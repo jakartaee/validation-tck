@@ -30,12 +30,12 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
 import javax.validation.ExecutableValidator;
 import javax.validation.Path;
 import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.Validator;
-import javax.validation.metadata.ElementDescriptor.Kind;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -53,7 +53,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDescriptorKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
@@ -121,10 +121,7 @@ public class PropertyPathTest extends Arquillian {
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 		assertTrue( nodeIter.hasNext() );
 		Path.Node node = nodeIter.next();
-		assertEquals( node.getName(), null );
-		assertFalse( node.isInIterable() );
-		assertNull( node.getIndex() );
-		assertNull( node.getKey() );
+		assertNode( node, null, ElementKind.BEAN, false, null, null );
 		assertFalse( nodeIter.hasNext() );
 	}
 
@@ -311,10 +308,10 @@ public class PropertyPathTest extends Arquillian {
 				names( methodName, "arg0" ),
 				names( methodName, "arg1" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				constraintViolations,
-				kinds( Kind.METHOD, Kind.PARAMETER ),
-				kinds( Kind.METHOD, Kind.PARAMETER )
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
+				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 	}
 
@@ -388,9 +385,9 @@ public class PropertyPathTest extends Arquillian {
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectPathNodeNames( constraintViolations, names( methodName, null ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				constraintViolations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -422,10 +419,10 @@ public class PropertyPathTest extends Arquillian {
 				names( "MovieStudio", "arg0" ),
 				names( "MovieStudio", "arg1" )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				constraintViolations,
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER ),
-				kinds( Kind.CONSTRUCTOR, Kind.PARAMETER )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 	}
 
@@ -489,9 +486,9 @@ public class PropertyPathTest extends Arquillian {
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectPathNodeNames( constraintViolations, names( "MovieStudio", null ) );
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				constraintViolations,
-				kinds( Kind.CONSTRUCTOR, Kind.RETURN_VALUE )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -534,13 +531,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg1", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg1", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "firstName", Kind.PROPERTY, false, null, null );
+		assertNode( nodeIter.next(), "firstName", ElementKind.PROPERTY, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -589,13 +586,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -644,13 +641,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -695,13 +692,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, null );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -750,13 +747,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, "Garry" );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, "Garry" );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -791,13 +788,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg1", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg1", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "firstName", Kind.PROPERTY, false, null, null );
+		assertNode( nodeIter.next(), "firstName", ElementKind.PROPERTY, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -842,13 +839,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -893,13 +890,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, 1, null );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -940,13 +937,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, null );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -991,13 +988,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "arg2", Kind.PARAMETER, false, null, null );
+		assertNode( nodeIter.next(), "arg2", ElementKind.PARAMETER, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "lastName", Kind.PROPERTY, true, null, "Garry" );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, "Garry" );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1032,13 +1029,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "title", Kind.PROPERTY, false, null, null );
+		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1078,13 +1075,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, 1, null );
+		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1124,13 +1121,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, 1, null );
+		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1166,13 +1163,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, null, null );
+		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1212,13 +1209,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), methodName, Kind.METHOD, false, null, null );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "title", Kind.PROPERTY, true, null, "NO_TITLE" );
+		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, null, "NO_TITLE" );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1250,13 +1247,13 @@ public class PropertyPathTest extends Arquillian {
 				.iterator();
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "MovieStudio", Kind.CONSTRUCTOR, false, null, null );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), null, Kind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), null, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), "name", Kind.PROPERTY, false, null, null );
+		assertNode( nodeIter.next(), "name", ElementKind.PROPERTY, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1289,9 +1286,9 @@ public class PropertyPathTest extends Arquillian {
 		assertFalse( nodeIter.hasNext() );
 	}
 
-	private void assertNode(Path.Node actualNode, String expectedName, Kind expectedKind, boolean expectedInIterable, Integer expectedIndex, Object expectedKey) {
+	private void assertNode(Path.Node actualNode, String expectedName, ElementKind expectedKind, boolean expectedInIterable, Integer expectedIndex, Object expectedKey) {
 		assertEquals( actualNode.getName(), expectedName );
-		assertEquals( actualNode.getElementDescriptor().getKind(), expectedKind );
+		assertEquals( actualNode.getKind(), expectedKind );
 		assertEquals( actualNode.isInIterable(), expectedInIterable );
 		assertEquals( actualNode.getIndex(), expectedIndex );
 		assertEquals( actualNode.getKey(), expectedKey );

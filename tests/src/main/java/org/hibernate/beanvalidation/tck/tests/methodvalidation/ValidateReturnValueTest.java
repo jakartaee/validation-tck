@@ -20,12 +20,12 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
 import javax.validation.ExecutableValidator;
 import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.metadata.ElementDescriptor.Kind;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -47,7 +47,7 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathDescriptorKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
@@ -98,7 +98,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
 		assertCorrectPathNodeNames( violations, names( methodName, null ) );
-		assertCorrectPathDescriptorKinds( violations, kinds( Kind.METHOD, Kind.RETURN_VALUE ) );
+		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 	}
 
 	@Test
@@ -124,10 +124,10 @@ public class ValidateReturnValueTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -154,10 +154,10 @@ public class ValidateReturnValueTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 
@@ -203,7 +203,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, null ) );
-		assertCorrectPathDescriptorKinds( violations, kinds( Kind.METHOD, Kind.RETURN_VALUE ) );
+		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 	}
 
 	@Test
@@ -237,10 +237,10 @@ public class ValidateReturnValueTest extends Arquillian {
 				names( methodName, null ),
 				names( methodName, null )
 		);
-		assertCorrectPathDescriptorKinds(
+		assertCorrectPathNodeKinds(
 				violations,
-				kinds( Kind.METHOD, Kind.RETURN_VALUE ),
-				kinds( Kind.METHOD, Kind.RETURN_VALUE )
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
+				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 	}
 

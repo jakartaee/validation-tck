@@ -8,7 +8,7 @@ import org.jboss.shrinkwrap.api.container.ClassContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
 import org.jboss.shrinkwrap.impl.base.URLPackageScanner;
 
-import org.hibernate.beanvalidation.tck.util.PathDescriptorKinds;
+import org.hibernate.beanvalidation.tck.util.PathNodeKinds;
 import org.hibernate.beanvalidation.tck.util.PathNodeNames;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 
@@ -146,7 +146,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 		}
 
 		// add test classes which should be part of all deployments
-		withClasses( TestUtil.class, PathDescriptorKinds.class, PathNodeNames.class );
+		withClasses( TestUtil.class, PathNodeKinds.class, PathNodeNames.class );
 
 		return buildInternal();
 	}

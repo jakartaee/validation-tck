@@ -21,10 +21,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
 import javax.validation.Path;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
-import javax.validation.metadata.ElementDescriptor.Kind;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -156,7 +156,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
-		assertDescriptorKinds( propertyPath, Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY );
+		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY );
 		assertNodeNames( propertyPath, "retrieveMainAddress", null, "street1" );
 	}
 
@@ -178,7 +178,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
-		assertDescriptorKinds( propertyPath, Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY );
+		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY );
 		assertNodeNames( propertyPath, "retrieveWeekendAddress", null, "street1" );
 	}
 
@@ -200,7 +200,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
-		assertDescriptorKinds( propertyPath, Kind.METHOD, Kind.RETURN_VALUE, Kind.PROPERTY );
+		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY );
 		assertNodeNames( propertyPath, "retrieveFallbackAddress", null, "street1" );
 	}
 
@@ -221,7 +221,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
-		assertDescriptorKinds( propertyPath, Kind.METHOD, Kind.PARAMETER, Kind.PROPERTY );
+		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY );
 		assertNodeNames( propertyPath, "setMainAddress", "arg0", "street1" );
 	}
 
@@ -243,10 +243,10 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		assertDescriptorKinds(
 				propertyPath,
-				Kind.CONSTRUCTOR,
-				Kind.RETURN_VALUE,
-				Kind.PROPERTY,
-				Kind.PROPERTY
+				ElementKind.CONSTRUCTOR,
+				ElementKind.RETURN_VALUE,
+				ElementKind.PROPERTY,
+				ElementKind.PROPERTY
 		);
 		assertNodeNames( propertyPath, "User", null, "mainAddress", "street1" );
 	}
@@ -267,7 +267,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
-		assertDescriptorKinds( propertyPath, Kind.CONSTRUCTOR, Kind.PARAMETER, Kind.PROPERTY );
+		assertDescriptorKinds( propertyPath, ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY );
 		assertNodeNames( propertyPath, "User", "arg0", "street1" );
 	}
 

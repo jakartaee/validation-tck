@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
 import javax.validation.MessageInterpolator;
 import javax.validation.Path;
 import javax.validation.Path.Node;
@@ -38,7 +39,6 @@ import javax.validation.bootstrap.ProviderSpecificBootstrap;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.ElementDescriptor;
-import javax.validation.metadata.ElementDescriptor.Kind;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 import javax.validation.spi.ValidationProvider;
@@ -177,9 +177,9 @@ public final class TestUtil {
 		}
 	}
 
-	public static void assertCorrectPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations, PathDescriptorKinds... kinds) {
-		List<PathDescriptorKinds> actualDescriptorKinds = getPathDescriptorKinds( violations );
-		List<PathDescriptorKinds> expectedDescriptorKinds = Arrays.asList( kinds );
+	public static void assertCorrectPathNodeKinds(Set<? extends ConstraintViolation<?>> violations, PathNodeKinds... kinds) {
+		List<PathNodeKinds> actualDescriptorKinds = getPathDescriptorKinds( violations );
+		List<PathNodeKinds> expectedDescriptorKinds = Arrays.asList( kinds );
 
 		Collections.sort( actualDescriptorKinds );
 		Collections.sort( expectedDescriptorKinds );
@@ -215,12 +215,12 @@ public final class TestUtil {
 		);
 	}
 
-	public static void assertDescriptorKinds(Path path, Kind... kinds) {
+	public static void assertDescriptorKinds(Path path, ElementKind... kinds) {
 		Iterator<Node> pathIterator = path.iterator();
 
-		for ( Kind kind : kinds ) {
+		for ( ElementKind kind : kinds ) {
 			assertTrue( pathIterator.hasNext() );
-			assertEquals( pathIterator.next().getElementDescriptor().getKind(), kind );
+			assertEquals( pathIterator.next().getKind(), kind );
 		}
 
 		assertFalse( pathIterator.hasNext() );
@@ -316,8 +316,8 @@ public final class TestUtil {
 		return new HashSet<T>( Arrays.asList( ts ) );
 	}
 
-	public static PathDescriptorKinds kinds(Kind... kinds) {
-		return new PathDescriptorKinds( kinds );
+	public static PathNodeKinds kinds(ElementKind... kinds) {
+		return new PathNodeKinds( kinds );
 	}
 
 	public static PathNodeNames names(String... names) {
@@ -388,11 +388,11 @@ public final class TestUtil {
 		}
 	}
 
-	private static List<PathDescriptorKinds> getPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations) {
-		List<PathDescriptorKinds> descriptorKindsOfAllPaths = new ArrayList<PathDescriptorKinds>();
+	private static List<PathNodeKinds> getPathDescriptorKinds(Set<? extends ConstraintViolation<?>> violations) {
+		List<PathNodeKinds> descriptorKindsOfAllPaths = new ArrayList<PathNodeKinds>();
 
 		for ( ConstraintViolation<?> violation : violations ) {
-			descriptorKindsOfAllPaths.add( new PathDescriptorKinds( violation.getPropertyPath() ) );
+			descriptorKindsOfAllPaths.add( new PathNodeKinds( violation.getPropertyPath() ) );
 		}
 
 		return descriptorKindsOfAllPaths;
@@ -592,7 +592,12 @@ public final class TestUtil {
 		}
 
 		@Override
-		public ElementDescriptor getElementDescriptor() {
+		public ElementKind getKind() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public <T extends Node> T as(Class<T> nodeType) {
 			throw new UnsupportedOperationException();
 		}
 
