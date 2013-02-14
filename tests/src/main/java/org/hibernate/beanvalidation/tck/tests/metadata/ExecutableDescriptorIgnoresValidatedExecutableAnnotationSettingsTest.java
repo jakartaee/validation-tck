@@ -37,12 +37,12 @@ import static org.testng.Assert.assertNotNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class ExecutableDescriptorIgnoresValidatedExecutableSettingsTest extends Arquillian {
+public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( ExecutableDescriptorIgnoresValidatedExecutableSettingsTest.class )
+				.withTestClass( ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTest.class )
 				.withClasses(
 						Item.class,
 						OrderLine.class
