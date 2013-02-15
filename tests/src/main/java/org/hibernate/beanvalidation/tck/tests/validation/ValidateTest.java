@@ -199,7 +199,6 @@ public class ValidateTest extends Arquillian {
 		assertEquals( violation.getRootBean(), engine, "Wrong root entity." );
 		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
-		// cast is required for JDK 5 - at least on Mac OS X
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
 		assertEquals( ann.annotationType(), Pattern.class, "Wrong annotation type" );
 		assertCorrectPropertyPaths( constraintViolations, "serialNumber" );

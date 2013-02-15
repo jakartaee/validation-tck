@@ -39,7 +39,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstr
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -59,22 +58,6 @@ public class MethodValidationRequirementTest extends Arquillian {
 	@BeforeMethod
 	public void setupValidator() {
 		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
-	}
-
-	@Test(expectedExceptions = Exception.class)
-	@SpecAssertion(section = "4.5.1", id = "a")
-	public void testValidatedMethodsMustNotBeStatic() throws Exception {
-		Object object = new CalendarService();
-		Method method = CalendarService.class.getMethod(
-				"createEvent",
-				String.class,
-				Date.class,
-				Date.class
-		);
-		Object[] parameterValues = new Object[3];
-
-		executableValidator.validateParameters( object, method, parameterValues );
-		fail( "Validated methods must not be static. Expected exception wasn't thrown." );
 	}
 
 	@Test

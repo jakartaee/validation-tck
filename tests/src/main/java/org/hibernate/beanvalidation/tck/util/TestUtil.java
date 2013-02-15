@@ -194,7 +194,11 @@ public final class TestUtil {
 		Collections.sort( actualNodeNames );
 		Collections.sort( expectedNodeNames );
 
-		assertEquals( actualNodeNames, expectedNodeNames );
+		assertEquals(
+				actualNodeNames,
+				expectedNodeNames,
+				String.format( "Expected path node names %s, but found %s.", expectedNodeNames, actualNodeNames )
+		);
 	}
 
 	public static <T> void assertConstraintViolation(ConstraintViolation<T> violation, Class<?> rootBean, Object invalidValue, String propertyPath) {

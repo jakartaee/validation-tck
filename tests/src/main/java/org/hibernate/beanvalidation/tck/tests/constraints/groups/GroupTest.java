@@ -84,7 +84,7 @@ public class GroupTest extends Arquillian {
 		PropertyDescriptor propDesc = beanDescriptor.getConstraintsForProperty( "firstname" );
 		assertTrue( propDesc.getConstraintDescriptors().size() == 1 );
 
-		ConstraintDescriptor descriptor = propDesc.getConstraintDescriptors().iterator().next();
+		ConstraintDescriptor<?> descriptor = propDesc.getConstraintDescriptors().iterator().next();
 		assertTrue( descriptor.getGroups().size() == 1 );
 		assertEquals(
 				descriptor.getGroups().iterator().next(),
@@ -179,7 +179,7 @@ public class GroupTest extends Arquillian {
 		PropertyDescriptor propDesc = beanDescriptor.getConstraintsForProperty( "defaultCreditCard" );
 		assertTrue( propDesc.getConstraintDescriptors().size() == 1 );
 
-		ConstraintDescriptor descriptor = propDesc.getConstraintDescriptors().iterator().next();
+		ConstraintDescriptor<?> descriptor = propDesc.getConstraintDescriptors().iterator().next();
 		assertTrue( descriptor.getGroups().size() == 2 );
 	}
 
@@ -204,7 +204,7 @@ public class GroupTest extends Arquillian {
 		author.setLastName( "King" );
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
-		ConstraintViolation constraintViolation = constraintViolations.iterator().next();
+		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), book.getTitle(), "Wrong value" );
@@ -265,7 +265,7 @@ public class GroupTest extends Arquillian {
 		constraintViolations = validator.validate( book, Book.All.class );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "The book title cannot be null" );
-		ConstraintViolation constraintViolation = constraintViolations.iterator().next();
+		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), book.getTitle(), "Wrong value" );
 		assertCorrectPropertyPaths( constraintViolations, "title" );

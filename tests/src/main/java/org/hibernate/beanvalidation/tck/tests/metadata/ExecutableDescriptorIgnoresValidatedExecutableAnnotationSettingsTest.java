@@ -37,12 +37,12 @@ import static org.testng.Assert.assertNotNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class ExecutableDescriptorIgnoresValidatedExecutableSettingsTest extends Arquillian {
+public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( ExecutableDescriptorIgnoresValidatedExecutableSettingsTest.class )
+				.withTestClass( ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTest.class )
 				.withClasses(
 						Item.class,
 						OrderLine.class
@@ -51,7 +51,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableSettingsTest extends 
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnTypeLevel() {
 		MethodDescriptor descriptor = getMethodDescriptor(
 				OrderLine.class,
@@ -65,7 +65,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableSettingsTest extends 
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnTypeLevel() {
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
 				OrderLine.class,
@@ -78,7 +78,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableSettingsTest extends 
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnMethodLevel() {
 		MethodDescriptor descriptor = getMethodDescriptor(
 				Item.class,
@@ -92,7 +92,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableSettingsTest extends 
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnConstructorLevel() {
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
 				Item.class,
