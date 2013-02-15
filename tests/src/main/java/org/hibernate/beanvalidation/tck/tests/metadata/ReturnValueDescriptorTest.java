@@ -16,19 +16,29 @@
 */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import java.util.Set;
+import javax.validation.groups.Default;
+import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.BasicChecks;
+import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictChecks;
+import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictCustomerServiceChecks;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -70,5 +80,91 @@ public class ReturnValueDescriptorTest extends Arquillian {
 
 		descriptor = Executables.cascadedReturnValueConstructor().getReturnValueDescriptor();
 		assertTrue( descriptor.isCascaded(), "Should be cascaded" );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "6.4", id = "b"),
+			@SpecAssertion(section = "6.5", id = "a"),
+			@SpecAssertion(section = "6.5", id = "b")
+	})
+	public void testGetGroupConversionsForConstructorReturnValue() {
+		ReturnValueDescriptor returnValueDescriptor = Executables.constructorWithGroupConversionOnReturnValue()
+				.getReturnValueDescriptor();
+		Set<GroupConversionDescriptor> groupConversions = returnValueDescriptor.getGroupConversions();
+
+		assertEquals( groupConversions.size(), 2 );
+
+		for ( GroupConversionDescriptor groupConversionDescriptor : groupConversions ) {
+			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), BasicChecks.class );
+			}
+			else if ( groupConversionDescriptor.getFrom().equals( StrictCustomerServiceChecks.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), StrictChecks.class );
+			}
+			else {
+				fail(
+						String.format(
+								"Encountered unexpected group conversion from %s to %s",
+								groupConversionDescriptor.getFrom().getName(),
+								groupConversionDescriptor.getTo().getName()
+						)
+				);
+			}
+		}
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "6.4", id = "b"),
+			@SpecAssertion(section = "6.5", id = "a"),
+			@SpecAssertion(section = "6.5", id = "b")
+	})
+	public void testGetGroupConversionsForMethodReturnValue() {
+		ReturnValueDescriptor returnValueDescriptor = Executables.methodWithGroupConversionOnReturnValue()
+				.getReturnValueDescriptor();
+		Set<GroupConversionDescriptor> groupConversions = returnValueDescriptor.getGroupConversions();
+
+		assertEquals( groupConversions.size(), 2 );
+
+		for ( GroupConversionDescriptor groupConversionDescriptor : groupConversions ) {
+			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), BasicChecks.class );
+			}
+			else if ( groupConversionDescriptor.getFrom().equals( StrictCustomerServiceChecks.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), StrictChecks.class );
+			}
+			else {
+				fail(
+						String.format(
+								"Encountered unexpected group conversion from %s to %s",
+								groupConversionDescriptor.getFrom().getName(),
+								groupConversionDescriptor.getTo().getName()
+						)
+				);
+			}
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "6.4", id = "b")
+	public void testGetGroupConversionsReturnsEmptySetForConstructorReturnValue() {
+		ReturnValueDescriptor returnValueDescriptor = Executables.cascadedReturnValueMethod()
+				.getReturnValueDescriptor();
+		Set<GroupConversionDescriptor> groupConversions = returnValueDescriptor.getGroupConversions();
+
+		assertNotNull( groupConversions );
+		assertTrue( groupConversions.isEmpty() );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.4", id = "b")
+	public void testGetGroupConversionsReturnsEmptySetForMethodReturnValue() {
+		ReturnValueDescriptor returnValueDescriptor = Executables.cascadedReturnValueConstructor()
+				.getReturnValueDescriptor();
+		Set<GroupConversionDescriptor> groupConversions = returnValueDescriptor.getGroupConversions();
+
+		assertNotNull( groupConversions );
+		assertTrue( groupConversions.isEmpty() );
 	}
 }

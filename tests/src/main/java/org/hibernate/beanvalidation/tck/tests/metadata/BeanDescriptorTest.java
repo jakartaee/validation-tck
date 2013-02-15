@@ -314,23 +314,26 @@ public class BeanDescriptorTest extends Arquillian {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods();
 
-		Set<String> actualMethodNames = new HashSet<String>();
+		List<String> actualMethodNames = new ArrayList<String>();
 		for ( MethodDescriptor methodDescriptor : methodDescriptors ) {
 			actualMethodNames.add( methodDescriptor.getName() );
 		}
 
-		assertEquals(
-				actualMethodNames,
-				asSet(
-						"createCustomer",
-						"reset",
-						"removeCustomer",
-						"findCustomer",
-						"updateAccount",
-						"updateCustomer"
-				),
-				"Wrong methods"
+		List<String> expectedMethodNames = Arrays.asList(
+				"createCustomer",
+				"reset",
+				"removeCustomer",
+				"findCustomer",
+				"findCustomer",
+				"updateAccount",
+				"updateAccountStrictly",
+				"updateCustomer"
 		);
+
+		Collections.sort( actualMethodNames );
+		Collections.sort( expectedMethodNames );
+
+		assertEquals( actualMethodNames, expectedMethodNames );
 	}
 
 	@Test
@@ -398,7 +401,6 @@ public class BeanDescriptorTest extends Arquillian {
 	public void testGetConstrainedConstructors() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
 		Set<ConstructorDescriptor> constructorDescriptors = beanDescriptor.getConstrainedConstructors();
-		assertEquals( constructorDescriptors.size(), 5, "Wrong number of descriptors" );
 
 		Set<List<Class<?>>> actualParameterTypes = getParameterTypes( constructorDescriptors );
 
@@ -408,7 +410,9 @@ public class BeanDescriptorTest extends Arquillian {
 				Arrays.<Class<?>>asList( String.class, String.class ),
 				Arrays.<Class<?>>asList( Customer.class ),
 				Arrays.<Class<?>>asList( Account.class ),
-				Arrays.<Class<?>>asList( long.class )
+				Arrays.<Class<?>>asList( int.class, Account.class ),
+				Arrays.<Class<?>>asList( long.class ),
+				Arrays.<Class<?>>asList( long.class, int.class )
 		);
 		assertEquals( actualParameterTypes, expectedParameterTypes, "Wrong constructors" );
 	}

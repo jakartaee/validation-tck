@@ -16,7 +16,9 @@
 */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import java.util.EnumSet;
 import javax.validation.BootstrapConfiguration;
+import javax.validation.executable.ExecutableType;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -28,6 +30,7 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
@@ -62,7 +65,10 @@ public class BootstrapConfigurationWithoutValidationXmlTest extends Arquillian {
 		assertNull( bootstrapConfiguration.getParameterNameProviderClassName() );
 
 		assertNotNull( bootstrapConfiguration.getValidatedExecutableTypes() );
-		assertTrue( bootstrapConfiguration.getValidatedExecutableTypes().isEmpty() );
+		assertEquals(
+				bootstrapConfiguration.getValidatedExecutableTypes(),
+				EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS )
+		);
 
 		assertNotNull( bootstrapConfiguration.getProperties() );
 		assertTrue( bootstrapConfiguration.getProperties().isEmpty() );

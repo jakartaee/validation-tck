@@ -16,7 +16,9 @@
 */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import java.util.EnumSet;
 import javax.validation.BootstrapConfiguration;
+import javax.validation.executable.ExecutableType;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -85,6 +87,12 @@ public class BootstrapConfigurationTest extends Arquillian {
 		assertEquals(
 				bootstrapConfiguration.getTraversableResolverClassName(),
 				"com.acme.TraversableResolver"
+		);
+
+		assertNotNull( bootstrapConfiguration.getValidatedExecutableTypes() );
+		assertEquals(
+				bootstrapConfiguration.getValidatedExecutableTypes(),
+				EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS )
 		);
 	}
 }
