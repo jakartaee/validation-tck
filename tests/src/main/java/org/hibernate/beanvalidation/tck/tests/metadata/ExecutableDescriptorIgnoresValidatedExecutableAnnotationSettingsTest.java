@@ -51,7 +51,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnTypeLevel() {
 		MethodDescriptor descriptor = getMethodDescriptor(
 				OrderLine.class,
@@ -65,7 +65,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnTypeLevel() {
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
 				OrderLine.class,
@@ -78,7 +78,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnMethodLevel() {
 		MethodDescriptor descriptor = getMethodDescriptor(
 				Item.class,
@@ -92,7 +92,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "g")
+	@SpecAssertion(section = "6.7", id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnConstructorLevel() {
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
 				Item.class,
