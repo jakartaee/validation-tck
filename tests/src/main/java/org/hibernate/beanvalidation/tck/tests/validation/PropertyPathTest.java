@@ -82,6 +82,7 @@ public class PropertyPathTest extends Arquillian {
 						Actor.class,
 						ActorArrayBased.class,
 						ActorCollectionBased.class,
+						ActorLikesGenre.class,
 						ActorListBased.class,
 						PlayedWith.class,
 						Person.class,
@@ -395,6 +396,42 @@ public class PropertyPathTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "r"),
+			@SpecAssertion(section = "5.2", id = "t")
+	})
+	public void testPropertyPathForMethodCrossParameterConstraint() throws Exception {
+		//given
+		String methodName = "makeMovie";
+		Object object = new MovieStudio();
+		Method method = MovieStudio.class.getMethod(
+				methodName,
+				Actor.class,
+				String.class
+		);
+		Object[] parameterValues = new Object[] { null, null };
+
+		//when
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+
+		//then
+		assertCorrectPathNodeNames(
+				constraintViolations,
+				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME )
+		);
+		assertCorrectPathNodeKinds(
+				constraintViolations,
+				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER )
+		);
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "p"),
 			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "t")
 	})
@@ -459,6 +496,38 @@ public class PropertyPathTest extends Arquillian {
 				constraintViolations,
 				names( "MovieStudio", "param0" ),
 				names( "MovieStudio", "param1" )
+		);
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "r"),
+			@SpecAssertion(section = "5.2", id = "t")
+	})
+	public void testPropertyPathForConstructorCrossParameterConstraint() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				Actor.class,
+				String.class
+		);
+		Object[] parameterValues = new Object[] { null, null };
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectPathNodeNames(
+				constraintViolations,
+				names( "MovieStudio", TestUtil.CROSS_PARAMETER_NODE_NAME )
+		);
+		assertCorrectPathNodeKinds(
+				constraintViolations,
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER )
 		);
 	}
 
