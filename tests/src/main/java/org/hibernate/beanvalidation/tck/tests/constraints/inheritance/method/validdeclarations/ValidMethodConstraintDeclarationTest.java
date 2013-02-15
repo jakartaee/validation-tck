@@ -121,7 +121,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertNodeNames(
 				violations.iterator().next().getPropertyPath(),
 				"createEvent",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"name"
 		);
 	}
@@ -180,7 +180,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertNodeNames(
 				violations.iterator().next().getPropertyPath(),
 				"createEvent",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"name"
 		);
 	}
@@ -235,7 +235,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertNodeNames(
 				violations.iterator().next().getPropertyPath(),
 				"CalendarServiceSubClass",
-				null
+				TestUtil.RETURN_VALUE_NODE_NAME
 		);
 	}
 
@@ -254,7 +254,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertNodeNames(
 				violations.iterator().next().getPropertyPath(),
 				"CalendarServiceSubClass",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"mode"
 		);
 	}

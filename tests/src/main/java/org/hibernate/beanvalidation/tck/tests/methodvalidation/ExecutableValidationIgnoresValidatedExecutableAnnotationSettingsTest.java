@@ -122,7 +122,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, null ) );
+		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 	}
 
@@ -139,7 +139,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, ValidLineItem.class );
-		assertCorrectPathNodeNames( violations, names( LineItem.class.getSimpleName(), null ) );
+		assertCorrectPathNodeNames( violations, names( LineItem.class.getSimpleName(), TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ) );
 	}
 
@@ -196,7 +196,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, null ) );
+		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 	}
 
@@ -213,7 +213,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, ValidWarehouseItem.class );
-		assertCorrectPathNodeNames( violations, names( WarehouseItem.class.getSimpleName(), null ) );
+		assertCorrectPathNodeNames( violations, names( WarehouseItem.class.getSimpleName(), TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ) );
 	}
 }
