@@ -23,7 +23,7 @@ import javax.validation.executable.ValidateExecutable;
 /**
  * @author Gunnar Morling
  */
-@ValidateExecutable(type = ExecutableType.NONE)
+@ValidateExecutable(ExecutableType.NONE)
 public class OrderLine {
 
 	public OrderLine(@NotNull String item) {

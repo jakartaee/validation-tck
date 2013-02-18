@@ -25,7 +25,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidL
 /**
  * @author Gunnar Morling
  */
-@ValidateExecutable(type = ExecutableType.NONE)
+@ValidateExecutable(ExecutableType.NONE)
 public class LineItem {
 
 	@ValidLineItem
