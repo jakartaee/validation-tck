@@ -44,6 +44,7 @@ import static org.testng.Assert.fail;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
+//TODO Add tests for hasConstraints(), getConstraints() and findConstraints()
 public class ReturnValueDescriptorTest extends Arquillian {
 
 	@Deployment
@@ -58,6 +59,27 @@ public class ReturnValueDescriptorTest extends Arquillian {
 						Person.class
 				)
 				.build();
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForMethod() {
+		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedMethod().getReturnValueDescriptor();
+		assertEquals( descriptor.getElementClass(), int.class );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForVoidMethod() {
+		ReturnValueDescriptor descriptor = Executables.parameterConstrainedMethod().getReturnValueDescriptor();
+		assertEquals( descriptor.getElementClass(), void.class );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForConstructor() {
+		ReturnValueDescriptor descriptor = Executables.returnValueConstrainedConstructor().getReturnValueDescriptor();
+		assertEquals( descriptor.getElementClass(), CustomerService.class );
 	}
 
 	@Test
@@ -80,6 +102,13 @@ public class ReturnValueDescriptorTest extends Arquillian {
 
 		descriptor = Executables.cascadedReturnValueConstructor().getReturnValueDescriptor();
 		assertTrue( descriptor.isCascaded(), "Should be cascaded" );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.4", id = "a")
+	public void testIsCascadedForVoidMethod() {
+		ReturnValueDescriptor descriptor = Executables.parameterConstrainedMethod().getReturnValueDescriptor();
+		assertFalse( descriptor.isCascaded() );
 	}
 
 	@Test
@@ -112,6 +141,17 @@ public class ReturnValueDescriptorTest extends Arquillian {
 				);
 			}
 		}
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "6.4", id = "b"),
+			@SpecAssertion(section = "6.5", id = "a"),
+			@SpecAssertion(section = "6.5", id = "b")
+	})
+	public void testGetGroupConversionsForVoidMethod() {
+		ReturnValueDescriptor descriptor = Executables.parameterConstrainedMethod().getReturnValueDescriptor();
+		assertTrue( descriptor.getGroupConversions().isEmpty() );
 	}
 
 	@Test

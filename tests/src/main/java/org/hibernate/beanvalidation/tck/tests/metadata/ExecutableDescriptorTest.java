@@ -32,7 +32,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -54,6 +53,27 @@ public class ExecutableDescriptorTest extends Arquillian {
 						Person.class
 				)
 				.build();
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForMethod() {
+		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
+		assertEquals( descriptor.getElementClass(), int.class );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForVoidMethod() {
+		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
+		assertEquals( descriptor.getElementClass(), void.class );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForConstructor() {
+		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
+		assertEquals( descriptor.getElementClass(), CustomerService.class );
 	}
 
 	@Test
@@ -189,9 +209,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 	@SpecAssertion(section = "6.7", id = "d")
 	public void testReturnValueDescriptorForVoidMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
-		assertNull(
+		assertNotNull(
 				descriptor.getReturnValueDescriptor(),
-				"Return value descriptor should be null"
+				"Return value descriptor should not be null"
 		);
 	}
 
