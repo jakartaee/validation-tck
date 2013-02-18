@@ -92,7 +92,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes( violations, ValidCustomer.class );
-		assertCorrectPathNodeNames( violations, names( "Customer", null ) );
+		assertCorrectPathNodeNames( violations, names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds(
 				violations,
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
@@ -115,8 +115,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "Customer", null ),
-				names( "Customer", null )
+				names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME ),
+				names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME )
 		);
 		assertCorrectPathNodeKinds(
 				violations,
@@ -141,8 +141,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidCustomer.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "Customer", null ),
-				names( "Customer", null )
+				names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME ),
+				names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME )
 		);
 		assertCorrectPathNodeKinds(
 				violations,
@@ -185,7 +185,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		);
 
 		assertCorrectConstraintTypes( violations, ValidCustomer.class );
-		assertCorrectPathNodeNames( violations, names( "Customer", null ) );
+		assertCorrectPathNodeNames( violations, names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds(
 				violations,
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
@@ -215,8 +215,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "Customer", null ),
-				names( "Customer", null )
+				names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME ),
+				names( "Customer", TestUtil.RETURN_VALUE_NODE_NAME )
 		);
 		assertCorrectPathNodeKinds(
 				violations,

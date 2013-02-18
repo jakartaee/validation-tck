@@ -53,7 +53,17 @@ import static org.testng.FileAssert.fail;
  */
 public final class TestUtil {
 
-	private static String VALIDATION_PROVIDER_TEST_CLASS = "validation.provider";
+	/**
+	 * Expected name for return value nodes.
+	 */
+	public static final String RETURN_VALUE_NODE_NAME = "<return value>";
+
+	/**
+	 * Expected name for cross-parameter nodes.
+	 */
+	public static final String CROSS_PARAMETER_NODE_NAME = "<cross-parameter>";
+
+	private static final String VALIDATION_PROVIDER_TEST_CLASS = "validation.provider";
 
 	private static ValidationProvider<?> validationProviderUnderTest;
 

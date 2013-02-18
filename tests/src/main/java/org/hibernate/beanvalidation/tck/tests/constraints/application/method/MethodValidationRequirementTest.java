@@ -278,7 +278,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertNodeNames(
 				constraintViolations.iterator().next().getPropertyPath(),
 				"getUser",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"name"
 		);
 	}
@@ -299,7 +299,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertNodeNames(
 				constraintViolations.iterator().next().getPropertyPath(),
 				"CalendarEvent",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"type"
 		);
 	}
@@ -414,7 +414,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertNodeNames(
 				constraintViolations.iterator().next().getPropertyPath(),
 				"getUser",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"account",
 				"login"
 		);
@@ -436,7 +436,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		assertNodeNames(
 				constraintViolations.iterator().next().getPropertyPath(),
 				"CalendarEvent",
-				null,
+				TestUtil.RETURN_VALUE_NODE_NAME,
 				"user",
 				"name"
 		);

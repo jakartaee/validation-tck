@@ -110,8 +110,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class );
-		assertCorrectPathNodeNames( violations, names( "User" ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR ) );
+		assertCorrectPathNodeNames( violations, names( "User", TestUtil.CROSS_PARAMETER_NODE_NAME ) );
+		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ) );
 
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}
@@ -219,11 +219,15 @@ public class ValidateConstructorParametersTest extends Arquillian {
 				MyCrossParameterConstraint.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames( violations, names( "User" ), names( "User" ) );
+		assertCorrectPathNodeNames(
+				violations,
+				names( "User", TestUtil.CROSS_PARAMETER_NODE_NAME ),
+				names( "User", TestUtil.CROSS_PARAMETER_NODE_NAME )
+		);
 		assertCorrectPathNodeKinds(
 				violations,
-				kinds( ElementKind.CONSTRUCTOR ),
-				kinds( ElementKind.CONSTRUCTOR )
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ),
+				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER )
 		);
 	}
 
@@ -291,8 +295,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class );
-		assertCorrectPathNodeNames( violations, names( "User" ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR ) );
+		assertCorrectPathNodeNames( violations, names( "User", TestUtil.CROSS_PARAMETER_NODE_NAME ) );
+		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ) );
 	}
 
 	@Test

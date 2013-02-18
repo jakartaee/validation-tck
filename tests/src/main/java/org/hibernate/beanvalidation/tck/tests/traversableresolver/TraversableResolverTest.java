@@ -62,7 +62,8 @@ public class TraversableResolverTest extends Arquillian {
 			@SpecAssertion(section = "4.6.3", id = "a"),
 			@SpecAssertion(section = "4.6.3", id = "b"),
 			@SpecAssertion(section = "4.6.3", id = "c"),
-			@SpecAssertion(section = "4.6.3", id = "i")
+			@SpecAssertion(section = "4.6.3", id = "i"),
+			@SpecAssertion(section = "4.6.3", id = "j")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadable() {
 		Suit suit = new Suit();
@@ -155,7 +156,10 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.3", id = "i")
+	@SpecAssertions({
+		@SpecAssertion(section = "4.6.3", id = "i"),
+		@SpecAssertion(section = "4.6.3", id = "j")
+	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
 		Suit suit = new Suit();
 		suit.setTrousers( new Trousers() );
@@ -255,7 +259,10 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.3", id = "i")
+	@SpecAssertions({
+		@SpecAssertion(section = "4.6.3", id = "i"),
+		@SpecAssertion(section = "4.6.3", id = "j")
+	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
 		Suit suit = new Suit();
 		suit.setTrousers( new Trousers() );
@@ -272,7 +279,7 @@ public class TraversableResolverTest extends Arquillian {
 						"size",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", null }  // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedReachCalls.add(
@@ -281,7 +288,7 @@ public class TraversableResolverTest extends Arquillian {
 						"trousers",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", null }  // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedCascadeCalls.add(
@@ -290,7 +297,7 @@ public class TraversableResolverTest extends Arquillian {
 						"trousers",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", null }  // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedReachCalls.add(
@@ -299,7 +306,7 @@ public class TraversableResolverTest extends Arquillian {
 						"length",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", null, "trousers" } // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME, "trousers" }
 				)
 		);
 		expectedReachCalls.add(
@@ -308,7 +315,7 @@ public class TraversableResolverTest extends Arquillian {
 						"jacket",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "undress", null } // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedCascadeCalls.add(
@@ -317,7 +324,7 @@ public class TraversableResolverTest extends Arquillian {
 						"jacket",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "undress", null } // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedReachCalls.add(
@@ -326,7 +333,7 @@ public class TraversableResolverTest extends Arquillian {
 						"width",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "undress", null, "jacket" } // null is the name of the return value node
+						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME, "jacket" }
 				)
 		);
 

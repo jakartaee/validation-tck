@@ -60,6 +60,11 @@ public class MovieStudio {
 		this.name = name;
 	}
 
+	@ActorLikesGenre
+	public MovieStudio(Actor mainActor, String genre) {
+		this.name = null;
+	}
+
 	@NotNull
 	public Movie makeMovie(@NotNull String title, @NotNull @Valid Person director, @Valid List<Actor> actors) {
 		return null;
@@ -74,6 +79,11 @@ public class MovieStudio {
 	}
 
 	public Movie makeMovieMapBased(String title, Person director, @Valid Map<String, Actor> actors) {
+		return null;
+	}
+
+	@ActorLikesGenre
+	public Movie makeMovie(Actor mainActor, String genre) {
 		return null;
 	}
 

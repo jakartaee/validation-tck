@@ -27,13 +27,11 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -55,6 +53,27 @@ public class ExecutableDescriptorTest extends Arquillian {
 						Person.class
 				)
 				.build();
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForMethod() {
+		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
+		assertEquals( descriptor.getElementClass(), int.class );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForVoidMethod() {
+		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
+		assertEquals( descriptor.getElementClass(), void.class );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForConstructor() {
+		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
+		assertEquals( descriptor.getElementClass(), CustomerService.class );
 	}
 
 	@Test
@@ -127,6 +146,46 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
+	@SpecAssertion(section = "6.7", id = "c")
+	public void testGetCrossParameterDescriptorForMethod() {
+		MethodDescriptor descriptor = Executables.crossParameterConstrainedMethod();
+		assertNotNull(
+				descriptor.getCrossParameterDescriptor(),
+				"Cross-parameter descriptor should not be null"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "6.7", id = "c")
+	public void testGetCrossParameterDescriptorForMethodWithoutCrossParameterConstraints() {
+		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
+		assertNotNull(
+				descriptor.getCrossParameterDescriptor(),
+				"Cross-parameter descriptor should not be null"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "6.7", id = "c")
+	public void testGetCrossParameterDescriptorForConstructor() {
+		ConstructorDescriptor descriptor = Executables.crossParameterConstrainedConstructor();
+		assertNotNull(
+				descriptor.getCrossParameterDescriptor(),
+				"Cross-parameter descriptor should not be null"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "6.7", id = "c")
+	public void testGetCrossParameterDescriptorForConstructorWithoutCrossParameterConstraints() {
+		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
+		assertNotNull(
+				descriptor.getCrossParameterDescriptor(),
+				"Cross-parameter descriptor should not be null"
+		);
+	}
+
+	@Test
 	@SpecAssertion(section = "6.7", id = "d")
 	public void testGetReturnValueDescriptorForMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
@@ -150,9 +209,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 	@SpecAssertion(section = "6.7", id = "d")
 	public void testReturnValueDescriptorForVoidMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
-		assertNull(
+		assertNotNull(
 				descriptor.getReturnValueDescriptor(),
-				"Return value descriptor should be null"
+				"Return value descriptor should not be null"
 		);
 	}
 
@@ -362,9 +421,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no constraints"
 		);
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedMethod();
-		assertTrue(
+		assertFalse(
 				crossParameterConstrainedDescriptor.hasConstraints(),
-				"Should have constraints"
+				"Should have no constraints"
 		);
 	}
 
@@ -383,9 +442,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no constraints"
 		);
 		ConstructorDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedConstructor();
-		assertTrue(
+		assertFalse(
 				crossParameterConstrainedDescriptor.hasConstraints(),
-				"Should have constraints"
+				"Should have no constraints"
 		);
 	}
 
@@ -404,18 +463,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no constraints"
 		);
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedMethod();
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors().size(),
-				1,
-				"Should have constraints"
-		);
-
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors()
-						.iterator()
-						.next()
-						.getAnnotation()
-						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+		assertTrue(
+				crossParameterConstrainedDescriptor.getConstraintDescriptors().isEmpty(),
+				"Should have no constraints"
 		);
 	}
 
@@ -434,18 +484,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no constraints"
 		);
 		ConstructorDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedConstructor();
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors().size(),
-				1,
-				"Should have constraints"
-		);
-
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors()
-						.iterator()
-						.next()
-						.getAnnotation()
-						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+		assertTrue(
+				crossParameterConstrainedDescriptor.getConstraintDescriptors().isEmpty(),
+				"Should have no constraints"
 		);
 	}
 
@@ -468,20 +509,11 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no constraints"
 		);
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedMethod();
-		assertEquals(
+		assertTrue(
 				crossParameterConstrainedDescriptor.findConstraints()
 						.getConstraintDescriptors()
-						.size(),
-				1,
-				"Should have constraints"
-		);
-
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors()
-						.iterator()
-						.next()
-						.getAnnotation()
-						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+						.isEmpty(),
+				"Should have no constraints"
 		);
 	}
 
@@ -498,20 +530,11 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no local constraints"
 		);
 
-		assertEquals(
+		assertTrue(
 				crossParameterConstrainedDescriptor.findConstraints().lookingAt( Scope.HIERARCHY )
 						.getConstraintDescriptors()
-						.size(),
-				1,
-				"Should have one hierarchy constraint"
-		);
-
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors()
-						.iterator()
-						.next()
-						.getAnnotation()
-						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+						.isEmpty(),
+				"Should have no hierarchy constraints"
 		);
 	}
 
@@ -528,20 +551,11 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no local constraints"
 		);
 
-		assertEquals(
+		assertTrue(
 				crossParameterConstrainedDescriptor.findConstraints().lookingAt( Scope.HIERARCHY )
 						.getConstraintDescriptors()
-						.size(),
-				1,
-				"Should have one hierarchy constraint"
-		);
-
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors()
-						.iterator()
-						.next()
-						.getAnnotation()
-						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+						.isEmpty(),
+				"Should have no hierarchy constraint"
 		);
 	}
 
@@ -564,20 +578,11 @@ public class ExecutableDescriptorTest extends Arquillian {
 				"Should have no constraints"
 		);
 		ConstructorDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedConstructor();
-		assertEquals(
+		assertTrue(
 				crossParameterConstrainedDescriptor.findConstraints()
 						.getConstraintDescriptors()
-						.size(),
-				1,
-				"Should have constraints"
-		);
-
-		assertEquals(
-				crossParameterConstrainedDescriptor.getConstraintDescriptors()
-						.iterator()
-						.next()
-						.getAnnotation()
-						.annotationType(), MyCrossParameterConstraint.class, "Wrong constraint type"
+						.isEmpty(),
+				"Should have no constraints"
 		);
 	}
 }

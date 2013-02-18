@@ -25,11 +25,11 @@ import javax.validation.executable.ValidateExecutable;
  */
 public class Item {
 
-	@ValidateExecutable(type = ExecutableType.NONE)
+	@ValidateExecutable(ExecutableType.NONE)
 	public Item(@NotNull String name) {
 	}
 
-	@ValidateExecutable(type = ExecutableType.NONE)
+	@ValidateExecutable(ExecutableType.NONE)
 	public void setName(@NotNull String name) {
 	}
 }

@@ -136,7 +136,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, null ) );
+		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 	}
 
@@ -158,7 +158,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		);
 
 		assertCorrectConstraintTypes( violations, ValidStockItem.class );
-		assertCorrectPathNodeNames( violations, names( StockItem.class.getSimpleName(), null ) );
+		assertCorrectPathNodeNames( violations, names( StockItem.class.getSimpleName(), TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ) );
 	}
 }

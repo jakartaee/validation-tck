@@ -27,12 +27,12 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidW
  */
 public class WarehouseItem {
 
-	@ValidateExecutable(type = ExecutableType.NONE)
+	@ValidateExecutable(ExecutableType.NONE)
 	@ValidWarehouseItem
 	public WarehouseItem(@NotNull String name) {
 	}
 
-	@ValidateExecutable(type = ExecutableType.NONE)
+	@ValidateExecutable(ExecutableType.NONE)
 	@NotNull
 	public String setName(@NotNull String name) {
 		return null;
