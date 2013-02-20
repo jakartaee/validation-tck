@@ -117,11 +117,13 @@ public class User {
 	}
 
 	//testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod
-	@MyCrossParameterConstraint
+	// @MyCrossParameterConstraint
+	// https://hibernate.onjira.com/browse/BVTCK-40
 	public void setAddress() {
 	}
 
-	@MyCrossParameterConstraint
+	// @MyCrossParameterConstraint
+	// TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public User() {
 	}
 }

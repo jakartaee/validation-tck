@@ -397,8 +397,9 @@ public class ValidateParametersTest extends Arquillian {
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}
 
-	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+//	@Test
+//	@SpecAssertion(section = "5.2", id = "e")
+//	TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
 			throws Exception {
 		String methodName = "setAddress";
