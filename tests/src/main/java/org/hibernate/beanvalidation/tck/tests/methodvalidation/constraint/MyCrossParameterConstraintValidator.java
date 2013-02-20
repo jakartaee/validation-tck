@@ -19,12 +19,15 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
 import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
  */
+@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 public class MyCrossParameterConstraintValidator
 		implements ConstraintValidator<MyCrossParameterConstraint, Object[]> {
 

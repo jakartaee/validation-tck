@@ -62,7 +62,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.2", id = "a")
-	public void testMethodParameterConstraintsAreDeclaredByAnnotingParameters() throws Exception {
+	public void testMethodParameterConstraintsAreDeclaredByAnnotatingParameters() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "setType", String.class );
 		Object[] parameterValues = new Object[1];
@@ -79,7 +79,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "4.5.2", id = "a")
-	public void testConstructorParameterConstraintsAreDeclaredByAnnotingParameters()
+	public void testConstructorParameterConstraintsAreDeclaredByAnnotatingParameters()
 			throws Exception {
 		Constructor<?> constructor = CalendarService.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[1];

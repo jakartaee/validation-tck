@@ -28,24 +28,24 @@ import javax.validation.ParameterNameProvider;
 public class CustomParameterNameProvider implements ParameterNameProvider {
 
 	@Override
-	public String[] getParameterNames(Constructor<?> constructor) {
+	public List<String> getParameterNames(Constructor<?> constructor) {
 		List<String> names = new ArrayList<String>();
 
 		for ( int i = 0; i < constructor.getParameterTypes().length; i++ ) {
 			names.add( "param" + i );
 		}
 
-		return names.toArray( new String[names.size()] );
+		return names;
 	}
 
 	@Override
-	public String[] getParameterNames(Method method) {
+	public List<String> getParameterNames(Method method) {
 		List<String> names = new ArrayList<String>();
 
 		for ( int i = 0; i < method.getParameterTypes().length; i++ ) {
 			names.add( "param" + i );
 		}
 
-		return names.toArray( new String[names.size()] );
+		return names;
 	}
 }

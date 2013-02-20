@@ -21,12 +21,13 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.CrossParameterConstraint;
 import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
@@ -157,7 +158,7 @@ public class CustomerService {
 
 	@Target({ METHOD, ANNOTATION_TYPE, CONSTRUCTOR })
 	@Retention(RUNTIME)
-	@CrossParameterConstraint(validatedBy = MyCrossParameterConstraintValidator.class)
+	@Constraint(validatedBy = MyCrossParameterConstraintValidator.class)
 	public @interface MyCrossParameterConstraint {
 		String message() default "";
 
@@ -166,6 +167,7 @@ public class CustomerService {
 		Class<? extends Payload>[] payload() default { };
 	}
 
+	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 	public static class MyCrossParameterConstraintValidator
 			implements ConstraintValidator<MyCrossParameterConstraint, Object[]> {
 
