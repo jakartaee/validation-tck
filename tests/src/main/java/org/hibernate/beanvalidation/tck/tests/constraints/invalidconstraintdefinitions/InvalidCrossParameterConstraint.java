@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefi
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import javax.validation.CrossParameterConstraint;
+import javax.validation.Constraint;
 import javax.validation.Payload;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
@@ -29,7 +29,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * @author Gunnar Morling
  */
-@CrossParameterConstraint(validatedBy = InvalidCrossParameterConstraintValidator.class)
+@Constraint(validatedBy = InvalidCrossParameterConstraintValidator.class)
 @Target({ METHOD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
 @Documented

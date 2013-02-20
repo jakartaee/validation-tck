@@ -18,12 +18,14 @@ package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
 /**
  * @author Gunnar Morling
  */
-public class ConsistentDateParameterValidator
-		implements ConstraintValidator<ConsistentDateParameters, Object[]> {
+@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
+public class ConsistentDateParameterValidator implements ConstraintValidator<ConsistentDateParameters, Object[]> {
 
 	@Override
 	public void initialize(ConsistentDateParameters constraintAnnotation) {

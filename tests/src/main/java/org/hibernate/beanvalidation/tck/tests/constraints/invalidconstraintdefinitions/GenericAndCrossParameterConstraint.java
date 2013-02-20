@@ -22,8 +22,9 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.CrossParameterConstraint;
 import javax.validation.Payload;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -32,8 +33,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Gunnar Morling
  */
 @Documented
-@Constraint(validatedBy = GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintObjectValidator.class)
-@CrossParameterConstraint(validatedBy = GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintParametersValidator.class)
+@Constraint(validatedBy = {
+		GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintObjectValidator.class,
+		GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintParametersValidator.class
+})
 @Target({ TYPE })
 @Retention(RUNTIME)
 public @interface GenericAndCrossParameterConstraint {
@@ -56,6 +59,7 @@ public @interface GenericAndCrossParameterConstraint {
 		}
 	}
 
+	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 	public static class GenericAndCrossParameterConstraintParametersValidator
 			implements ConstraintValidator<GenericAndCrossParameterConstraint, Object[]> {
 
