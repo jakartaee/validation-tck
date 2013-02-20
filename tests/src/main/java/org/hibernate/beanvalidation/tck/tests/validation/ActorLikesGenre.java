@@ -23,6 +23,8 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -43,6 +45,7 @@ public @interface ActorLikesGenre {
 
 	Class<? extends Payload>[] payload() default { };
 
+	@SupportedValidationTarget( value = ValidationTarget.PARAMETERS)
 	public static class Validator implements ConstraintValidator<ActorLikesGenre, Object[]> {
 
 		@Override
