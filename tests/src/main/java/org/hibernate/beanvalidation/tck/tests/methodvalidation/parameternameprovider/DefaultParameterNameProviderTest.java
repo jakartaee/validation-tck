@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternamepro
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -118,12 +119,12 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		);
 		assertEquals(
 				defaultParameterNameProvider.getParameterNames( constructor ),
-				new String[] { "arg0", "arg1", "arg2" },
+				Arrays.asList( "arg0", "arg1", "arg2" ),
 				"Wrong constructor parameter names returned by default provider"
 		);
 		assertEquals(
 				defaultParameterNameProvider.getParameterNames( method ),
-				new String[] { "arg0", "arg1" },
+				Arrays.asList( "arg0", "arg1" ),
 				"Wrong method parameter names returned by default provider"
 		);
 	}
