@@ -51,6 +51,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 /**
  * @author Gunnar Morling
@@ -78,7 +79,9 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "g"),
-			@SpecAssertion(section = "5.1.2", id = "h")
+			@SpecAssertion(section = "5.1.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e"),
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
@@ -94,6 +97,10 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, NotNull.class );
 		assertCorrectPathNodeNames( violations, names( "User", "arg0" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
+
+		ConstraintViolation<User> violation = violations.iterator().next();
+		assertNull( violation.getRootBean() );
+		assertEquals( violation.getRootBeanClass(), User.class );
 	}
 
 	@Test
@@ -362,7 +369,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}
 
-//	@Test
+	//	@Test
 //	@SpecAssertion(section = "5.2", id = "j")
 //  TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()

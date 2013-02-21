@@ -51,6 +51,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
@@ -79,7 +80,9 @@ public class ValidateReturnValueTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "d"),
-			@SpecAssertion(section = "5.1.2", id = "e")
+			@SpecAssertion(section = "5.1.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e"),
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
@@ -99,6 +102,10 @@ public class ValidateReturnValueTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, NotNull.class );
 		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
+
+		ConstraintViolation<Object> violation = violations.iterator().next();
+		assertEquals( violation.getRootBean(), object );
+		assertEquals( violation.getRootBeanClass(), Customer.class );
 	}
 
 	@Test

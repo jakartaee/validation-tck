@@ -25,6 +25,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -36,6 +37,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstr
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
 /**
@@ -83,7 +85,11 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "h")
+	@SpecAssertions({
+			@SpecAssertion(section = "5.1.1", id = "h"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e")
+	})
 	public void testValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -97,6 +103,7 @@ public class ValidateValueTest extends Arquillian {
 		ConstraintViolation<Order> constraintViolation = constraintViolations.iterator().next();
 		assertConstraintViolation( constraintViolation, Order.class, null, "orderNumber" );
 		assertEquals( constraintViolation.getRootBeanClass(), Order.class, "Wrong root bean class" );
+		assertNull( constraintViolation.getRootBean() );
 
 		constraintViolations = validator.validateValue( Order.class, "orderNumber", 1234 );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
@@ -132,59 +139,32 @@ public class ValidateValueTest extends Arquillian {
 		validator.validateValue( Customer.class, "middleName", new ArrayList<String>() );
 	}
 
-	@Test
-	@SuppressWarnings("NullArgumentToVariableArgMethod")
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValuePassingNullAsGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-
-		try {
-			validator.validateValue( Customer.class, "firstName", "foobar", null );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateValue( Customer.class, "firstName", "foobar", (Class<?>) null );
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithEmptyPropertyPath() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-
-		try {
-			validator.validateValue( Customer.class, "", null );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateValue( Customer.class, "", null );
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithNullObject() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		try {
-			validator.validateValue( null, "firstName", "foobar" );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateValue( null, "firstName", "foobar" );
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "i")
 	public void testValidateValueWithNullPropertyName() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		try {
-			validator.validateValue( Customer.class, null, "foobar" );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateValue( Customer.class, null, "foobar" );
 	}
 
 	@Test

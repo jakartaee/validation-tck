@@ -37,6 +37,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintVio
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 /**
@@ -55,33 +56,19 @@ public class ValidatePropertyTest extends Arquillian {
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
-	@SuppressWarnings("NullArgumentToVariableArgMethod")
 	public void testPassingNullAsGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Customer customer = new Customer();
-
-		try {
-			validator.validateProperty( customer, "firstName", null );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateProperty( customer, "firstName", (Class<?>) null );
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testIllegalArgumentExceptionIsThrownForNullValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		try {
-			validator.validateProperty( null, "firstName" );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateProperty( null, "firstName" );
 	}
 
 	@Test
@@ -112,23 +99,15 @@ public class ValidatePropertyTest extends Arquillian {
 		}
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testValidatePropertyWithNullProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Customer customer = new Customer();
-
-		try {
-			validator.validateProperty( customer, null );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateProperty( customer, null );
 	}
 
-	@Test
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testValidatePropertyWithEmptyProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -137,20 +116,16 @@ public class ValidatePropertyTest extends Arquillian {
 		Order order = new Order();
 		customer.addOrder( order );
 
-		try {
-			validator.validateProperty( customer, "" );
-			fail();
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
+		validator.validateProperty( customer, "" );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.1", id = "c"),
 			@SpecAssertion(section = "5.1.1", id = "d"),
-			@SpecAssertion(section = "5.1.1", id = "f")
+			@SpecAssertion(section = "5.1.1", id = "f"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e")
 	})
 	public void testValidateProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -166,6 +141,7 @@ public class ValidatePropertyTest extends Arquillian {
 		assertCorrectConstraintTypes( constraintViolations, Size.class );
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
 		assertConstraintViolation( violation, Address.class, townInNorthWales, "city" );
+		assertEquals( violation.getRootBean(), address );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "City name cannot be longer than 30 characters."
 		);

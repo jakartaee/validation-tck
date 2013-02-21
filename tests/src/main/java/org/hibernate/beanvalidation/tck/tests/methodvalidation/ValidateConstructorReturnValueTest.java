@@ -50,6 +50,8 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 /**
  * @author Gunnar Morling
@@ -78,7 +80,9 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "j"),
-			@SpecAssertion(section = "5.1.2", id = "k")
+			@SpecAssertion(section = "5.1.2", id = "k"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e"),
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
@@ -97,6 +101,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				violations,
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
+
+		ConstraintViolation<Customer> violation = violations.iterator().next();
+		assertNull( violation.getRootBean() );
+		assertEquals( violation.getRootBeanClass(), Customer.class );
 	}
 
 	@Test
