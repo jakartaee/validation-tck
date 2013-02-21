@@ -223,9 +223,9 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "e"),
-			@SpecAssertion(section = "3.1", id = "f"),
-			@SpecAssertion(section = "3.4", id = "j")
+			@SpecAssertion(section = "4.6.4", id = "g"),
+			@SpecAssertion(section = "3.1", id = "e"),
+			@SpecAssertion(section = "3.4", id = "l")
 	})
 	public void testUnexpectedTypeInValidatorResolution() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -242,7 +242,7 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "f"),
+			@SpecAssertion(section = "4.6.4", id = "j"),
 			@SpecAssertion(section = "9.3", id = "b")
 	})
 	public void testAmbiguousValidatorResolution() {

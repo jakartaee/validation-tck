@@ -186,7 +186,7 @@ public class CrossParameterDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "f"),
+			@SpecAssertion(section = "6.2", id = "g"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})
 	public void testFindConstraintsForMethodLookingAt() {
@@ -217,7 +217,7 @@ public class CrossParameterDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "f"),
+			@SpecAssertion(section = "6.2", id = "g"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})
 	public void testFindConstraintsForMethodDefinedOnSuperTypeLookingAt() {

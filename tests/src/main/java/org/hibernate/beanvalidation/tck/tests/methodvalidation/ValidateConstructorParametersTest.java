@@ -348,7 +348,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "g")
+	@SpecAssertion(section = "5.2", id = "j")
 	public void testGetInvalidValueForCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { "Bob", "Alice" };
@@ -363,7 +363,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	}
 
 //	@Test
-//	@SpecAssertion(section = "5.2", id = "g")
+//	@SpecAssertion(section = "5.2", id = "j")
 //  TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
 			throws Exception {

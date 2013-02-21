@@ -379,7 +379,7 @@ public class ValidateParametersTest extends Arquillian {
 
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "5.2", id = "j")
 	public void testGetInvalidValueForCrossParameterConstraint() throws Exception {
 		String methodName = "setAddress";
 
@@ -398,7 +398,7 @@ public class ValidateParametersTest extends Arquillian {
 	}
 
 //	@Test
-//	@SpecAssertion(section = "5.2", id = "e")
+//	@SpecAssertion(section = "5.2", id = "j")
 //	TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
 			throws Exception {

@@ -172,7 +172,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	//exception as no validator for type Object[] can be found, but one could also specify a definition
 	//exception
 	@Test(expectedExceptions = Exception.class)
-	@SpecAssertion(section = "3.4", id = "e")
+	@SpecAssertion(section = "3.4", id = "g")
 	public void testValidatorForCrossParameterConstraintMustValidateObjectArray() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );

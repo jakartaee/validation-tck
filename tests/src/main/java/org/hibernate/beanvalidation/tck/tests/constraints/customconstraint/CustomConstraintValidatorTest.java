@@ -58,7 +58,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "3.4", id = "a"),
 			@SpecAssertion(section = "3.4", id = "b"),
-			@SpecAssertion(section = "3.4", id = "f")
+			@SpecAssertion(section = "3.4", id = "h")
 	})
 	public void testRightValidatorIsSelectedAndInitializedCalled() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -85,7 +85,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "3.4", id = "a"),
 			@SpecAssertion(section = "3.4", id = "b"),
-			@SpecAssertion(section = "3.4", id = "g")
+			@SpecAssertion(section = "3.4", id = "i")
 	})
 	public void testIsValidIsCalledForEachValidation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -122,14 +122,14 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 
-	@SpecAssertion(section = "3.4", id = "j")
+	@SpecAssertion(section = "3.4", id = "l")
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	public void testUnexpectedTypeExceptionIsRaisedForInvalidType() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new OddShoe() );
 	}
 
-	@SpecAssertion(section = "3.4", id = "k")
+	@SpecAssertion(section = "3.4", id = "m")
 	@Test(expectedExceptions = ValidationException.class)
 	public void testRuntimeExceptionFromIsValidIsWrapped() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -139,7 +139,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 		validator.validate( shoe );
 	}
 
-	@SpecAssertion(section = "3.4", id = "k")
+	@SpecAssertion(section = "3.4", id = "m")
 	@Test(expectedExceptions = ValidationException.class)
 	public void testRuntimeExceptionFromInitializeIsWrapped() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -147,7 +147,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "m")
+	@SpecAssertion(section = "3.4", id = "o")
 	public void testOneConstraintViolationPerFailingConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -174,7 +174,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "o")
+	@SpecAssertion(section = "3.4", id = "q")
 	public void testNonInterpolatedMessageParameterIsUsed() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -193,7 +193,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "p")
+	@SpecAssertion(section = "3.4", id = "r")
 	public void testDefaultPropertyPath() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 

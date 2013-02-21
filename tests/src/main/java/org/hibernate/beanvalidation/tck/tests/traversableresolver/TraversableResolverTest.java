@@ -62,8 +62,8 @@ public class TraversableResolverTest extends Arquillian {
 			@SpecAssertion(section = "4.6.3", id = "a"),
 			@SpecAssertion(section = "4.6.3", id = "b"),
 			@SpecAssertion(section = "4.6.3", id = "c"),
-			@SpecAssertion(section = "4.6.3", id = "i"),
-			@SpecAssertion(section = "4.6.3", id = "j")
+			@SpecAssertion(section = "4.6.3", id = "f"),
+			@SpecAssertion(section = "4.6.3", id = "g")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadable() {
 		Suit suit = new Suit();
@@ -157,8 +157,8 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-		@SpecAssertion(section = "4.6.3", id = "i"),
-		@SpecAssertion(section = "4.6.3", id = "j")
+		@SpecAssertion(section = "4.6.3", id = "f"),
+		@SpecAssertion(section = "4.6.3", id = "g")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
 		Suit suit = new Suit();
@@ -260,8 +260,8 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-		@SpecAssertion(section = "4.6.3", id = "i"),
-		@SpecAssertion(section = "4.6.3", id = "j")
+		@SpecAssertion(section = "4.6.3", id = "f"),
+		@SpecAssertion(section = "4.6.3", id = "g")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
 		Suit suit = new Suit();
