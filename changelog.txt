@@ -3,6 +3,20 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.CR1 (21-02-2013)
+------------------------
+
+** Bug
+    * [BVTCK-11] - Wrong usage of context classloader to discover resources in META-INF/services
+
+** New Feature
+    * [BVTCK-39] - Implement/update TCK tests after 1.1.0.Beta3
+
+** Task
+    * [BVTCK-30] - Provide exemplary settings.xml
+    * [BVTCK-33] - Provide minimal TCK setup example in TCK docs
+
+
 1.1.0.Beta3 (06-02-2013)
 ------------------------
 
