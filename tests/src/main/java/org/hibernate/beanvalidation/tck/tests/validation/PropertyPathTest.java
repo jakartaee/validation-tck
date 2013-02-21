@@ -109,9 +109,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "i"),
-			@SpecAssertion(section = "5.2", id = "o")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "v"),
+			@SpecAssertion(section = "5.2", id = "ab")
 	})
 	public void testPropertyPathWithConstraintViolationForRootObject() {
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = validator.validate( new VerySpecialClass() );
@@ -128,9 +128,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "j"),
-			@SpecAssertion(section = "5.2", id = "n")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "w"),
+			@SpecAssertion(section = "5.2", id = "aa")
 	})
 	public void testPropertyPathTraversedObject() {
 		Engine engine = new Engine();
@@ -152,9 +152,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "k"),
-			@SpecAssertion(section = "5.2", id = "m")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "x"),
+			@SpecAssertion(section = "5.2", id = "z")
 	})
 	public void testPropertyPathWithList() {
 		Actor clint = new ActorListBased( "Clint", "Eastwood" );
@@ -172,9 +172,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "k"),
-			@SpecAssertion(section = "5.2", id = "m")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "x"),
+			@SpecAssertion(section = "5.2", id = "z")
 	})
 	public void testPropertyPathWithArray() {
 		Actor clint = new ActorArrayBased( "Clint", "Eastwood" );
@@ -192,10 +192,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "k"),
-			@SpecAssertion(section = "5.2", id = "m")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "u"),
+			@SpecAssertion(section = "5.2", id = "x"),
+			@SpecAssertion(section = "5.2", id = "z")
 	})
 	public void testPropertyPathWithRuntimeTypeList() {
 		Actor clint = new ActorCollectionBased( "Clint", "Eastwood" );
@@ -213,9 +213,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m")
+			@SpecAssertion(section = "5.2", id = "y"),
+			@SpecAssertion(section = "5.2", id = "z")
 	})
 	public void testPropertyPathWithMap() {
 		ActorDB db = new ActorDB();
@@ -245,8 +245,8 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "m")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "z")
 	})
 	public void testPropertyPathSet() {
 		Customer customer = new Customer();
@@ -278,10 +278,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ac"),
+			@SpecAssertion(section = "5.2", id = "ad"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForMethodParameterConstraint() throws Exception {
 		//given
@@ -318,9 +318,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ad"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForMethodParameterConstraintWithCustomParameterNameProvider()
 			throws Exception {
@@ -359,10 +359,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "s"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ac"),
+			@SpecAssertion(section = "5.2", id = "af"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForMethodReturnValueConstraint() throws Exception {
 		//given
@@ -394,10 +394,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ac"),
+			@SpecAssertion(section = "5.2", id = "ae"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForMethodCrossParameterConstraint() throws Exception {
 		//given
@@ -430,10 +430,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ac"),
+			@SpecAssertion(section = "5.2", id = "ad"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForConstructorParameterConstraint() throws Exception {
 		//given
@@ -465,9 +465,9 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ad"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForConstructorParameterConstraintWithCustomParameterNameProvider()
 			throws Exception {
@@ -501,10 +501,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ac"),
+			@SpecAssertion(section = "5.2", id = "ae"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForConstructorCrossParameterConstraint() throws Exception {
 		//given
@@ -533,10 +533,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "s"),
-			@SpecAssertion(section = "5.2", id = "t")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "ac"),
+			@SpecAssertion(section = "5.2", id = "af"),
+			@SpecAssertion(section = "5.2", id = "ag")
 	})
 	public void testPropertyPathForConstructorReturnValueConstraint() throws Exception {
 		//given
@@ -563,10 +563,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai")
 	})
 	public void testPropertyPathTraversingMethodParameter() throws Exception {
 		//given
@@ -613,12 +613,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "ak"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodListParameter() throws Exception {
 		//given
@@ -668,12 +668,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "ak"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodArrayParameter() throws Exception {
 		//given
@@ -723,11 +723,11 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodSetParameter() throws Exception {
 		//given
@@ -774,12 +774,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "y"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "al"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodMapParameter() throws Exception {
 		//given
@@ -829,10 +829,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai")
 	})
 	public void testPropertyPathTraversingConstructorParameter() throws Exception {
 		//given
@@ -870,12 +870,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "ak"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingConstructorListParameter() throws Exception {
 		//given
@@ -921,12 +921,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "ak"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingConstructorArrayParameter() throws Exception {
 		//given
@@ -972,11 +972,11 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingConstructorSetParameter() throws Exception {
 		//given
@@ -1019,12 +1019,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "y"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "ai"),
+			@SpecAssertion(section = "5.2", id = "al"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingConstructorMapParameter() throws Exception {
 		//given
@@ -1070,10 +1070,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "w")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "aj")
 	})
 	public void testPropertyPathTraversingMethodReturnValue() throws Exception {
 		//given
@@ -1111,12 +1111,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "w"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "aj"),
+			@SpecAssertion(section = "5.2", id = "ak"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodListReturnValue() throws Exception {
 		//given
@@ -1157,12 +1157,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "w"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "aj"),
+			@SpecAssertion(section = "5.2", id = "ak"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodArrayReturnValue() throws Exception {
 		//given
@@ -1203,11 +1203,11 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "w"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "aj"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodSetReturnValue() throws Exception {
 		//given
@@ -1245,12 +1245,12 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "w"),
-			@SpecAssertion(section = "5.2", id = "y"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "aj"),
+			@SpecAssertion(section = "5.2", id = "al"),
+			@SpecAssertion(section = "5.2", id = "am")
 	})
 	public void testPropertyPathTraversingMethodMapReturnValue() throws Exception {
 		//given
@@ -1291,10 +1291,10 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "w")
+			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "aa"),
+			@SpecAssertion(section = "5.2", id = "ah"),
+			@SpecAssertion(section = "5.2", id = "aj")
 	})
 	public void testPropertyPathTraversingConstructorReturnValue() throws Exception {
 		//given

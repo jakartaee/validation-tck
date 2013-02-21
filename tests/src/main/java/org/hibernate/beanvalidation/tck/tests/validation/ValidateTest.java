@@ -82,7 +82,7 @@ public class ValidateTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "a"),
-			@SpecAssertion(section = "4.6.4", id = "e"),
+			@SpecAssertion(section = "4.6.4", id = "g"),
 			@SpecAssertion(section = "6.1", id = "c")
 	})
 	public void testUnexpectedTypeException() {
@@ -181,8 +181,8 @@ public class ValidateTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "a"),
 			@SpecAssertion(section = "5.2", id = "b"),
 			@SpecAssertion(section = "5.2", id = "c"),
-			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "f")
+			@SpecAssertion(section = "5.2", id = "i"),
+			@SpecAssertion(section = "5.2", id = "k")
 	})
 	public void testConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -210,7 +210,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "p")
+			@SpecAssertion(section = "3.4", id = "r")
 	})
 	public void testGraphValidationWithList() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -243,7 +243,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "p"),
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "4.1.3", id = "d")
 	})
 	public void testGraphValidationWithArray() {
@@ -287,6 +287,7 @@ public class ValidateTest extends Arquillian {
 		}
 	}
 
+	//TODO 4.6 b marked as non-testable
 	@Test
 	@SpecAssertion(section = "4.6", id = "b")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
