@@ -131,10 +131,9 @@ public class ValidateTest extends Arquillian {
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "b")
-	@SuppressWarnings("NullArgumentToVariableArgMethod")
 	public void testValidateWithNullGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new Boy(), null );
+		validator.validate( new Boy(), (Class<?>) null );
 	}
 
 	@Test
@@ -181,6 +180,8 @@ public class ValidateTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "a"),
 			@SpecAssertion(section = "5.2", id = "b"),
 			@SpecAssertion(section = "5.2", id = "c"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "i"),
 			@SpecAssertion(section = "5.2", id = "k")
 	})
@@ -197,6 +198,7 @@ public class ValidateTest extends Arquillian {
 		assertEquals( violation.getMessage(), "must match ^....-....-....$", "Wrong message" );
 		assertEquals( violation.getMessageTemplate(), "must match {regexp}", "Wrong message template" );
 		assertEquals( violation.getRootBean(), engine, "Wrong root entity." );
+		assertEquals( violation.getRootBeanClass(), Engine.class, "Wrong root bean class." );
 		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
@@ -271,20 +273,6 @@ public class ValidateTest extends Arquillian {
 				"playedWith[0].playedWith[1].lastName",
 				"playedWith[1].lastName"
 		);
-	}
-
-	@Test
-	@SpecAssertion(section = "5.1.1", id = "b")
-	@SuppressWarnings("NullArgumentToVariableArgMethod")
-	public void testPassingNullAsGroup() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		Customer customer = new Customer();
-		try {
-			validator.validate( customer, null );
-		}
-		catch ( IllegalArgumentException e ) {
-			// success
-		}
 	}
 
 	//TODO 4.6 b marked as non-testable

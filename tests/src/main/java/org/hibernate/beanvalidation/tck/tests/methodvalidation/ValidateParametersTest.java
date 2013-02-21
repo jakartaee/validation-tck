@@ -78,7 +78,9 @@ public class ValidateParametersTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "a"),
-			@SpecAssertion(section = "5.1.2", id = "b")
+			@SpecAssertion(section = "5.1.2", id = "b"),
+			@SpecAssertion(section = "5.2", id = "d"),
+			@SpecAssertion(section = "5.2", id = "e"),
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "setFirstName";
@@ -98,6 +100,10 @@ public class ValidateParametersTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, NotNull.class );
 		assertCorrectPathNodeNames( violations, names( methodName, "arg0" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.PARAMETER ) );
+
+		ConstraintViolation<Object> violation = violations.iterator().next();
+		assertEquals( violation.getRootBean(), object );
+		assertEquals( violation.getRootBeanClass(), User.class );
 	}
 
 	@Test
@@ -397,7 +403,7 @@ public class ValidateParametersTest extends Arquillian {
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}
 
-//	@Test
+	//	@Test
 //	@SpecAssertion(section = "5.2", id = "j")
 //	TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
