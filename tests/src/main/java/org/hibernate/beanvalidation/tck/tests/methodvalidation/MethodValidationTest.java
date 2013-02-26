@@ -64,7 +64,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 /**
  * @author Gunnar Morling
  */
-//TODO Add tests for not reachable/cascadable parameters/return values
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class MethodValidationTest extends Arquillian {
 

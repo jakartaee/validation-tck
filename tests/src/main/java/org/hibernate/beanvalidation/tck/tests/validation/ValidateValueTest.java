@@ -88,7 +88,8 @@ public class ValidateValueTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.1", id = "h"),
 			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "e")
+			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -104,6 +105,7 @@ public class ValidateValueTest extends Arquillian {
 		assertConstraintViolation( constraintViolation, Order.class, null, "orderNumber" );
 		assertEquals( constraintViolation.getRootBeanClass(), Order.class, "Wrong root bean class" );
 		assertNull( constraintViolation.getRootBean() );
+		assertNull( constraintViolation.getLeafBean() );
 
 		constraintViolations = validator.validateValue( Order.class, "orderNumber", 1234 );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );

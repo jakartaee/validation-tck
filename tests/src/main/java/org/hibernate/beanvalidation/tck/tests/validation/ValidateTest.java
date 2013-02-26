@@ -17,8 +17,16 @@
 package org.hibernate.beanvalidation.tck.tests.validation;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.Set;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
+import javax.validation.Payload;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
@@ -40,14 +48,19 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -79,21 +92,16 @@ public class ValidateTest extends Arquillian {
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = UnexpectedTypeException.class)
+	// UnexpectedTypeException is a subclass of ValidationException
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "a"),
 			@SpecAssertion(section = "4.6.4", id = "g"),
 			@SpecAssertion(section = "6.1", id = "c")
 	})
 	public void testUnexpectedTypeException() {
-		try {
-			Boy boy = new Boy();
-			TestUtil.getValidatorUnderTest().validate( boy );
-			fail();
-		}
-		catch ( UnexpectedTypeException e ) {  // UnexpectedTypeException is a subclass of ValidationException
-			// success
-		}
+		Boy boy = new Boy();
+		TestUtil.getValidatorUnderTest().validate( boy );
 	}
 
 	@Test
@@ -182,6 +190,7 @@ public class ValidateTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "c"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "i"),
 			@SpecAssertion(section = "5.2", id = "k")
 	})
@@ -199,6 +208,7 @@ public class ValidateTest extends Arquillian {
 		assertEquals( violation.getMessageTemplate(), "must match {regexp}", "Wrong message template" );
 		assertEquals( violation.getRootBean(), engine, "Wrong root entity." );
 		assertEquals( violation.getRootBeanClass(), Engine.class, "Wrong root bean class." );
+		assertEquals( violation.getLeafBean(), engine );
 		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
@@ -212,7 +222,37 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r")
+			@SpecAssertion(section = "5.2", id = "c"),
+			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "i")
+	})
+	public void testClassLevelConstraintViolation() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+
+		DirtBike bike = new DirtBike();
+		Set<ConstraintViolation<DirtBike>> constraintViolations = validator.validate( bike );
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		ConstraintViolation<DirtBike> violation = constraintViolations.iterator().next();
+
+		assertEquals( violation.getRootBean(), bike, "Wrong root entity." );
+		assertEquals( violation.getRootBeanClass(), DirtBike.class, "Wrong root bean class." );
+		assertEquals( violation.getLeafBean(), bike, "Wrong leaf bean." );
+		assertEquals( violation.getInvalidValue(), bike, "Wrong validated value" );
+		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
+
+		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
+		assertEquals( ann.annotationType(), ValidDirtBike.class, "Wrong annotation type" );
+
+		assertCorrectPathNodeKinds( constraintViolations, kinds( ElementKind.BEAN ) );
+		assertCorrectPathNodeNames( constraintViolations, names( (String) null ) );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "5.2", id = "f")
 	})
 	public void testGraphValidationWithList() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -228,13 +268,13 @@ public class ValidateTest extends Arquillian {
 		morgan.addPlayedWith( clint );
 		clint.addPlayedWith( morgan );
 
-
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
+		assertEquals( constraintViolation.getLeafBean(), morgan );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
 		assertCorrectPropertyPaths(
 				constraintViolations,
@@ -329,27 +369,7 @@ public class ValidateTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
-	// TODO - map or remove
-	@Test
-	public void testObjectTraversion() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
-		Customer customer = new Customer();
-		customer.setFirstName( "John" );
-		customer.setLastName( "Doe" );
-
-		for ( int i = 0; i < 100; i++ ) {
-			Order order = new Order();
-			customer.addOrder( order );
-		}
-
-		Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(
-				customer, Default.class, First.class, Second.class, Last.class
-		);
-		assertCorrectNumberOfViolations( constraintViolations, 100 );
-	}
-
-	class Car {
+	private static class Car {
 		@Pattern(regexp = "[A-Z][A-Z][A-Z]-[0-9][0-9][0-9]", groups = { First.class, Second.class })
 		private String licensePlateNumber;
 
@@ -357,6 +377,7 @@ public class ValidateTest extends Arquillian {
 			this.licensePlateNumber = licensePlateNumber;
 		}
 
+		@SuppressWarnings("unused")
 		public String getLicensePlateNumber() {
 			return licensePlateNumber;
 		}
@@ -366,9 +387,38 @@ public class ValidateTest extends Arquillian {
 		}
 	}
 
-	interface First {
+	@ValidDirtBike
+	private static class DirtBike {
+
 	}
 
-	interface Second {
+	private interface First {
+	}
+
+	private interface Second {
+	}
+
+	@Constraint(validatedBy = ValidDirtBike.Validator.class)
+	@Documented
+	@Target({ TYPE })
+	@Retention(RUNTIME)
+	public @interface ValidDirtBike {
+		String message() default "{ValidDirtBike.message}";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default { };
+
+		public static class Validator implements ConstraintValidator<ValidDirtBike, DirtBike> {
+
+			@Override
+			public void initialize(ValidDirtBike constraint) {
+			}
+
+			@Override
+			public boolean isValid(DirtBike bike, ConstraintValidatorContext constraintValidatorContext) {
+				return false;
+			}
+		}
 	}
 }

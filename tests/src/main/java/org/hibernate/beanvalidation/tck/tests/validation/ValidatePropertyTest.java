@@ -125,7 +125,8 @@ public class ValidatePropertyTest extends Arquillian {
 			@SpecAssertion(section = "5.1.1", id = "d"),
 			@SpecAssertion(section = "5.1.1", id = "f"),
 			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "e")
+			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f")
 	})
 	public void testValidateProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -139,9 +140,11 @@ public class ValidatePropertyTest extends Arquillian {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateProperty( address, "city" );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, Size.class );
+
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
 		assertConstraintViolation( violation, Address.class, townInNorthWales, "city" );
 		assertEquals( violation.getRootBean(), address );
+		assertEquals( violation.getLeafBean(), address );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "City name cannot be longer than 30 characters."
 		);

@@ -42,6 +42,8 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -69,6 +71,8 @@ public class ValidateReturnValueTest extends Arquillian {
 				.withClass( Address.class )
 				.withClass( Customer.class )
 				.withClass( Email.class )
+				.withClass( Item.class )
+				.withClass( OrderLine.class )
 				.build();
 	}
 
@@ -83,6 +87,7 @@ public class ValidateReturnValueTest extends Arquillian {
 			@SpecAssertion(section = "5.1.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f")
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
@@ -106,6 +111,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		ConstraintViolation<Object> violation = violations.iterator().next();
 		assertEquals( violation.getRootBean(), object );
 		assertEquals( violation.getRootBeanClass(), Customer.class );
+		assertEquals( violation.getLeafBean(), object );
 	}
 
 	@Test
@@ -319,5 +325,29 @@ public class ValidateReturnValueTest extends Arquillian {
 				returnValue,
 				(Class<?>) null
 		);
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "f")
+	})
+	public void testOneViolationForCascadedValidation() throws Exception {
+		String methodName = "getItem";
+
+		Object object = new OrderLine( null );
+		Item returnValue = new Item( "foo" );
+		Method method = OrderLine.class.getMethod( methodName );
+
+		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		assertCorrectNumberOfViolations( violations, 1 );
+
+		ConstraintViolation<Object> violation = violations.iterator().next();
+
+		assertEquals( violation.getLeafBean(), returnValue );
 	}
 }
