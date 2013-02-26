@@ -32,6 +32,14 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.Path;
+import javax.validation.Path.BeanNode;
+import javax.validation.Path.ConstructorNode;
+import javax.validation.Path.CrossParameterNode;
+import javax.validation.Path.MethodNode;
+import javax.validation.Path.Node;
+import javax.validation.Path.ParameterNode;
+import javax.validation.Path.PropertyNode;
+import javax.validation.Path.ReturnValueNode;
 import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.Validator;
@@ -53,13 +61,10 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -110,6 +115,12 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r"),
 			@SpecAssertion(section = "5.2", id = "v"),
 			@SpecAssertion(section = "5.2", id = "ab")
 	})
@@ -120,15 +131,25 @@ public class PropertyPathTest extends Arquillian {
 				.next();
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+
 		assertTrue( nodeIter.hasNext() );
-		Path.Node node = nodeIter.next();
-		assertNode( node, null, ElementKind.BEAN, false, null, null );
+		Node node = nodeIter.next();
+		assertNode( node, TestUtil.BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
+		BeanNode beanNode = node.as( BeanNode.class );
+		assertNotNull( beanNode );
+
 		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r"),
 			@SpecAssertion(section = "5.2", id = "w"),
 			@SpecAssertion(section = "5.2", id = "aa")
 	})
@@ -141,18 +162,23 @@ public class PropertyPathTest extends Arquillian {
 		ConstraintViolation<Engine> constraintViolation = constraintViolations.iterator().next();
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+
 		assertTrue( nodeIter.hasNext() );
-		Path.Node node = nodeIter.next();
-		assertEquals( node.getName(), "serialNumber" );
-		assertFalse( node.isInIterable() );
-		assertNull( node.getIndex() );
-		assertNull( node.getKey() );
+		Node node = nodeIter.next();
+		assertNode( node, "serialNumber", ElementKind.PROPERTY, false, null, null );
+		PropertyNode propertyNode = node.as( PropertyNode.class );
+		assertNotNull( propertyNode );
 		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "x"),
 			@SpecAssertion(section = "5.2", id = "z")
 	})
@@ -173,6 +199,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "x"),
 			@SpecAssertion(section = "5.2", id = "z")
 	})
@@ -193,6 +224,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "u"),
 			@SpecAssertion(section = "5.2", id = "x"),
 			@SpecAssertion(section = "5.2", id = "z")
@@ -214,6 +250,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "y"),
 			@SpecAssertion(section = "5.2", id = "z")
 	})
@@ -226,19 +267,14 @@ public class PropertyPathTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<ActorDB> constraintViolation = constraintViolations.iterator().next();
-		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
-		assertTrue( nodeIter.hasNext() );
-		Path.Node node = nodeIter.next();
-		assertEquals( node.getName(), "actors" );
-		assertFalse( node.isInIterable() );
-		assertNull( node.getKey() );
-		assertNull( node.getIndex() );
 
-		node = nodeIter.next();
-		assertEquals( node.getName(), "lastName" );
-		assertTrue( node.isInIterable() );
-		assertEquals( node.getIndex(), null );
-		assertEquals( node.getKey(), id );
+		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "actors", ElementKind.PROPERTY, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, id );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -246,6 +282,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "z")
 	})
 	public void testPropertyPathSet() {
@@ -260,18 +301,12 @@ public class PropertyPathTest extends Arquillian {
 
 		ConstraintViolation<Customer> constraintViolation = constraintViolations.iterator().next();
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
-		assertTrue( nodeIter.hasNext() );
-		Path.Node node = nodeIter.next();
-		assertEquals( node.getName(), "orders" );
-		assertFalse( node.isInIterable() );
-		assertNull( node.getIndex() );
-		assertNull( node.getKey() );
 
-		node = nodeIter.next();
-		assertEquals( node.getName(), "orderNumber" );
-		assertTrue( node.isInIterable() );
-		assertNull( node.getIndex() );
-		assertNull( node.getKey() );
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "orders", ElementKind.PROPERTY, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "orderNumber", ElementKind.PROPERTY, true, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -279,6 +314,14 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
 			@SpecAssertion(section = "5.2", id = "ac"),
 			@SpecAssertion(section = "5.2", id = "ad"),
 			@SpecAssertion(section = "5.2", id = "ag")
@@ -304,21 +347,57 @@ public class PropertyPathTest extends Arquillian {
 
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		assertCorrectPathNodeNames(
+
+		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
-				names( methodName, "arg0" ),
-				names( methodName, "arg1" )
+				"arg0"
+		).getPropertyPath().iterator();
+
+		//parameter 0
+		assertTrue( nodeIter.hasNext() );
+		Node nextNode = nodeIter.next();
+		assertNode( nextNode, methodName, ElementKind.METHOD, false, null, null );
+
+		MethodNode methodNode = nextNode.as( MethodNode.class );
+		assertNotNull( methodNode );
+		assertEquals(
+				methodNode.getParameterTypes(),
+				Arrays.<Class<?>>asList( String.class, Person.class, List.class )
 		);
-		assertCorrectPathNodeKinds(
-				constraintViolations,
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
-		);
+
+		assertTrue( nodeIter.hasNext() );
+		nextNode = nodeIter.next();
+		assertNode( nextNode, "arg0", ElementKind.PARAMETER, false, null, null );
+		ParameterNode parameterNode = nextNode.as( ParameterNode.class );
+		assertNotNull( parameterNode );
+		assertEquals( parameterNode.getParameterIndex(), 0 );
+
+		assertFalse( nodeIter.hasNext() );
+
+		//parameter 1
+		nodeIter = getConstraintViolationForParameter( constraintViolations, "arg1" ).getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		nextNode = nodeIter.next();
+		assertNode( nextNode, "arg1", ElementKind.PARAMETER, false, null, null );
+		parameterNode = nextNode.as( ParameterNode.class );
+		assertNotNull( parameterNode );
+		assertEquals( parameterNode.getParameterIndex(), 1 );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "ad"),
 			@SpecAssertion(section = "5.2", id = "ag")
 	})
@@ -350,16 +429,40 @@ public class PropertyPathTest extends Arquillian {
 
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		assertCorrectPathNodeNames(
+
+		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
-				names( methodName, "param0" ),
-				names( methodName, "param1" )
-		);
+				"param0"
+		).getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "param0", ElementKind.PARAMETER, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+
+		nodeIter = getConstraintViolationForParameter( constraintViolations, "param1" ).getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "param1", ElementKind.PARAMETER, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "r"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "ac"),
 			@SpecAssertion(section = "5.2", id = "af"),
 			@SpecAssertion(section = "5.2", id = "ag")
@@ -385,16 +488,29 @@ public class PropertyPathTest extends Arquillian {
 
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		assertCorrectPathNodeNames( constraintViolations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds(
-				constraintViolations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
-		);
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		Node nextNode = nodeIter.next();
+		assertNode( nextNode, TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+
+		ReturnValueNode returnValueNode = nextNode.as( ReturnValueNode.class );
+		assertNotNull( returnValueNode );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "ac"),
 			@SpecAssertion(section = "5.2", id = "ae"),
 			@SpecAssertion(section = "5.2", id = "ag")
@@ -418,19 +534,36 @@ public class PropertyPathTest extends Arquillian {
 		);
 
 		//then
-		assertCorrectPathNodeNames(
-				constraintViolations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME )
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode(
+				nodeIter.next(),
+				TestUtil.CROSS_PARAMETER_NODE_NAME,
+				ElementKind.CROSS_PARAMETER,
+				false,
+				null,
+				null
 		);
-		assertCorrectPathNodeKinds(
-				constraintViolations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER )
-		);
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r"),
+			@SpecAssertion(section = "5.2", id = "s"),
+			@SpecAssertion(section = "5.2", id = "t"),
 			@SpecAssertion(section = "5.2", id = "ac"),
 			@SpecAssertion(section = "5.2", id = "ad"),
 			@SpecAssertion(section = "5.2", id = "ag")
@@ -451,21 +584,54 @@ public class PropertyPathTest extends Arquillian {
 
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		assertCorrectPathNodeNames(
+
+		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
-				names( "MovieStudio", "arg0" ),
-				names( "MovieStudio", "arg1" )
-		);
-		assertCorrectPathNodeKinds(
-				constraintViolations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
-		);
+				"arg0"
+		).getPropertyPath().iterator();
+
+		//parameter 0
+		assertTrue( nodeIter.hasNext() );
+		Node nextNode = nodeIter.next();
+		assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		ConstructorNode constructorNode = nextNode.as( ConstructorNode.class );
+		assertNotNull( constructorNode );
+		assertEquals( constructorNode.getParameterTypes(), Arrays.<Class<?>>asList( String.class, Person.class ) );
+
+		assertTrue( nodeIter.hasNext() );
+		nextNode = nodeIter.next();
+		assertNode( nextNode, "arg0", ElementKind.PARAMETER, false, null, null );
+		ParameterNode parameterNode = nextNode.as( ParameterNode.class );
+		assertNotNull( parameterNode );
+		assertEquals( parameterNode.getParameterIndex(), 0 );
+
+		assertFalse( nodeIter.hasNext() );
+
+		//parameter 1
+		nodeIter = getConstraintViolationForParameter( constraintViolations, "arg1" ).getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		nextNode = nodeIter.next();
+		assertNode( nextNode, "arg1", ElementKind.PARAMETER, false, null, null );
+		parameterNode = nextNode.as( ParameterNode.class );
+		assertNotNull( parameterNode );
+		assertEquals( parameterNode.getParameterIndex(), 1 );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "ad"),
 			@SpecAssertion(section = "5.2", id = "ag")
 	})
@@ -491,17 +657,39 @@ public class PropertyPathTest extends Arquillian {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
-		assertCorrectPathNodeNames(
+		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
-				names( "MovieStudio", "param0" ),
-				names( "MovieStudio", "param1" )
-		);
+				"param0"
+		).getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "param0", ElementKind.PARAMETER, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
+
+		nodeIter = getConstraintViolationForParameter( constraintViolations, "param1" ).getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "param1", ElementKind.PARAMETER, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
+			@SpecAssertion(section = "5.2", id = "r"),
 			@SpecAssertion(section = "5.2", id = "ac"),
 			@SpecAssertion(section = "5.2", id = "ae"),
 			@SpecAssertion(section = "5.2", id = "ag")
@@ -521,19 +709,36 @@ public class PropertyPathTest extends Arquillian {
 		);
 
 		//then
-		assertCorrectPathNodeNames(
-				constraintViolations,
-				names( "MovieStudio", TestUtil.CROSS_PARAMETER_NODE_NAME )
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		Node nextNode = nodeIter.next();
+		assertNode(
+				nextNode,
+				TestUtil.CROSS_PARAMETER_NODE_NAME,
+				ElementKind.CROSS_PARAMETER,
+				false,
+				null,
+				null
 		);
-		assertCorrectPathNodeKinds(
-				constraintViolations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER )
-		);
+
+		CrossParameterNode crossParameterNode = nextNode.as( CrossParameterNode.class );
+		assertNotNull( crossParameterNode );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "ac"),
 			@SpecAssertion(section = "5.2", id = "af"),
 			@SpecAssertion(section = "5.2", id = "ag")
@@ -554,16 +759,25 @@ public class PropertyPathTest extends Arquillian {
 
 		//then
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		assertCorrectPathNodeNames( constraintViolations, names( "MovieStudio", TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds(
-				constraintViolations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
-		);
+		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai")
@@ -614,6 +828,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -669,6 +888,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -724,6 +948,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -775,6 +1004,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -830,6 +1064,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai")
@@ -871,6 +1110,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -922,6 +1166,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -973,6 +1222,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -1020,6 +1274,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "ai"),
@@ -1071,6 +1330,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "aj")
@@ -1112,6 +1376,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "aj"),
@@ -1158,6 +1427,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "aj"),
@@ -1204,6 +1478,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "aj"),
@@ -1246,6 +1525,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "aj"),
@@ -1292,6 +1576,11 @@ public class PropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
+			@SpecAssertion(section = "5.2", id = "m"),
+			@SpecAssertion(section = "5.2", id = "n"),
+			@SpecAssertion(section = "5.2", id = "o"),
+			@SpecAssertion(section = "5.2", id = "p"),
+			@SpecAssertion(section = "5.2", id = "q"),
 			@SpecAssertion(section = "5.2", id = "aa"),
 			@SpecAssertion(section = "5.2", id = "ah"),
 			@SpecAssertion(section = "5.2", id = "aj")
@@ -1333,24 +1622,15 @@ public class PropertyPathTest extends Arquillian {
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+
 		assertTrue( nodeIter.hasNext() );
-		Path.Node node = nodeIter.next();
-		assertEquals( node.getName(), "playedWith" );
-		assertFalse( node.isInIterable() );
-		assertNull( node.getIndex() );
-		assertNull( node.getKey() );
+		assertNode( nodeIter.next(), "playedWith", ElementKind.PROPERTY, false, null, null );
 
-		node = nodeIter.next();
-		assertEquals( node.getName(), "playedWith" );
-		assertTrue( node.isInIterable() );
-		assertEquals( node.getIndex(), new Integer( 0 ) );
-		assertNull( node.getKey() );
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "playedWith", ElementKind.PROPERTY, true, 0, null );
 
-		node = nodeIter.next();
-		assertEquals( node.getName(), "lastName" );
-		assertTrue( node.isInIterable() );
-		assertEquals( node.getIndex(), new Integer( 1 ) );
-		assertNull( node.getKey() );
+		assertTrue( nodeIter.hasNext() );
+		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1387,7 +1667,7 @@ public class PropertyPathTest extends Arquillian {
 		return "AcmeStudios";
 	}
 
-	@Special()
+	@Special
 	class VerySpecialClass {
 	}
 
