@@ -54,6 +54,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 /**
  * @author Gunnar Morling
@@ -87,7 +88,9 @@ public class ValidateReturnValueTest extends Arquillian {
 			@SpecAssertion(section = "5.1.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h")
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
@@ -112,6 +115,8 @@ public class ValidateReturnValueTest extends Arquillian {
 		assertEquals( violation.getRootBean(), object );
 		assertEquals( violation.getRootBeanClass(), Customer.class );
 		assertEquals( violation.getLeafBean(), object );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
 
 	@Test
@@ -329,7 +334,9 @@ public class ValidateReturnValueTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "f")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h")
 	})
 	public void testOneViolationForCascadedValidation() throws Exception {
 		String methodName = "getItem";
@@ -349,5 +356,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		ConstraintViolation<Object> violation = violations.iterator().next();
 
 		assertEquals( violation.getLeafBean(), returnValue );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
 }

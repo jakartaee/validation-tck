@@ -60,6 +60,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -188,10 +189,11 @@ public class ValidateTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "a"),
 			@SpecAssertion(section = "5.2", id = "b"),
 			@SpecAssertion(section = "5.2", id = "c"),
-			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "i"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
 			@SpecAssertion(section = "5.2", id = "k")
 	})
 	public void testConstraintViolation() {
@@ -210,6 +212,8 @@ public class ValidateTest extends Arquillian {
 		assertEquals( violation.getRootBeanClass(), Engine.class, "Wrong root bean class." );
 		assertEquals( violation.getLeafBean(), engine );
 		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
+		assertNull( violation.getExecutableParameters() );
+		assertNull( violation.getExecutableReturnValue() );
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
 		assertEquals( ann.annotationType(), Pattern.class, "Wrong annotation type" );

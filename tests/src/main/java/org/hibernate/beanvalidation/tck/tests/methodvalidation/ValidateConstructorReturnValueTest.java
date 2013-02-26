@@ -87,7 +87,9 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 			@SpecAssertion(section = "5.1.2", id = "k"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
@@ -111,6 +113,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		assertNull( violation.getRootBean() );
 		assertEquals( violation.getRootBeanClass(), Customer.class );
 		assertEquals( violation.getLeafBean(), returnValue );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
 
 	@Test
@@ -300,7 +304,9 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "f")
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h")
 	})
 	public void testOneViolationForCascadedValidation() throws Exception {
 		Item leaf = new Item( "foo" );
@@ -317,5 +323,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		ConstraintViolation<Object> violation = violations.iterator().next();
 
 		assertEquals( violation.getLeafBean(), leaf );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), createdObject );
 	}
 }
