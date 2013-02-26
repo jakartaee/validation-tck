@@ -88,11 +88,13 @@ public class ValidateConstructorParametersTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h")
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
-		Object[] parameterValues = new Object[] { null };
+		String arg0 = "B";
+		Object[] parameterValues = new Object[] { arg0 };
 
 		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
 				constructor,
@@ -101,7 +103,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 1 );
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( "User", "arg0" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
 
@@ -109,6 +111,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertNull( violation.getRootBean() );
 		assertEquals( violation.getRootBeanClass(), User.class );
 		assertNull( violation.getLeafBean() );
+		assertEquals( violation.getInvalidValue(), arg0 );
 		assertEquals( violation.getExecutableParameters(), parameterValues );
 		assertNull( violation.getExecutableReturnValue() );
 	}
@@ -117,6 +120,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "5.1.2", id = "h"),
 			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "j")
 	})
 	public void testOneViolationFromCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
@@ -370,21 +374,6 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		executableValidator.validateConstructorParameters( constructor, parameterValues );
 	}
 
-	@Test
-	@SpecAssertion(section = "5.2", id = "j")
-	public void testGetInvalidValueForCrossParameterConstraint() throws Exception {
-		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
-		Object[] parameterValues = new Object[] { "Bob", "Alice" };
-
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
-				constructor,
-				parameterValues
-		);
-
-		assertCorrectNumberOfViolations( violations, 1 );
-		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
-	}
-
 	//	@Test
 //	@SpecAssertion(section = "5.2", id = "j")
 //  TODO - https://hibernate.onjira.com/browse/BVTCK-40
@@ -456,7 +445,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h")
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testOneViolationForCascadedValidation() throws Exception {
 		Item leaf = new Item( "foo" );
@@ -473,6 +463,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		ConstraintViolation<OrderLine> violation = violations.iterator().next();
 
 		assertEquals( violation.getLeafBean(), leaf );
+		assertEquals( violation.getInvalidValue(), "foo" );
 		assertEquals( violation.getExecutableParameters(), parameterValues );
 		assertNull( violation.getExecutableReturnValue() );
 	}

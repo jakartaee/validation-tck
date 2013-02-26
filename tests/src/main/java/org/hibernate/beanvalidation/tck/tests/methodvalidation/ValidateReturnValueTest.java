@@ -22,7 +22,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.executable.ExecutableValidator;
@@ -90,14 +89,15 @@ public class ValidateReturnValueTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h")
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
 
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( methodName );
-		Object returnValue = null;
+		Object returnValue = "B";
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
 				object,
@@ -107,7 +107,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 1 );
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 
@@ -115,6 +115,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		assertEquals( violation.getRootBean(), object );
 		assertEquals( violation.getRootBeanClass(), Customer.class );
 		assertEquals( violation.getLeafBean(), object );
+		assertEquals( violation.getInvalidValue(), returnValue );
 		assertNull( violation.getExecutableParameters() );
 		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
@@ -336,7 +337,8 @@ public class ValidateReturnValueTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h")
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testOneViolationForCascadedValidation() throws Exception {
 		String methodName = "getItem";
@@ -356,6 +358,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		ConstraintViolation<Object> violation = violations.iterator().next();
 
 		assertEquals( violation.getLeafBean(), returnValue );
+		assertEquals( violation.getInvalidValue(), "foo" );
 		assertNull( violation.getExecutableParameters() );
 		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}

@@ -128,7 +128,8 @@ public class ValidatePropertyTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h")
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testValidateProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -147,6 +148,7 @@ public class ValidatePropertyTest extends Arquillian {
 		assertConstraintViolation( violation, Address.class, townInNorthWales, "city" );
 		assertEquals( violation.getRootBean(), address );
 		assertEquals( violation.getLeafBean(), address );
+		assertEquals( violation.getInvalidValue(), townInNorthWales );
 		assertNull( violation.getExecutableParameters() );
 		assertNull( violation.getExecutableReturnValue() );
 		assertCorrectConstraintViolationMessages(
