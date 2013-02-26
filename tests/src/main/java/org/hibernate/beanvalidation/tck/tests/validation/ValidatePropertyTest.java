@@ -38,6 +38,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstr
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
 /**
@@ -124,8 +125,11 @@ public class ValidatePropertyTest extends Arquillian {
 			@SpecAssertion(section = "5.1.1", id = "c"),
 			@SpecAssertion(section = "5.1.1", id = "d"),
 			@SpecAssertion(section = "5.1.1", id = "f"),
-			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "e")
+			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testValidateProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -139,9 +143,14 @@ public class ValidatePropertyTest extends Arquillian {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateProperty( address, "city" );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, Size.class );
+
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
 		assertConstraintViolation( violation, Address.class, townInNorthWales, "city" );
 		assertEquals( violation.getRootBean(), address );
+		assertEquals( violation.getLeafBean(), address );
+		assertEquals( violation.getInvalidValue(), townInNorthWales );
+		assertNull( violation.getExecutableParameters() );
+		assertNull( violation.getExecutableReturnValue() );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "City name cannot be longer than 30 characters."
 		);

@@ -22,7 +22,6 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.executable.ExecutableValidator;
@@ -42,6 +41,8 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -52,6 +53,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 /**
  * @author Gunnar Morling
@@ -69,6 +71,8 @@ public class ValidateReturnValueTest extends Arquillian {
 				.withClass( Address.class )
 				.withClass( Customer.class )
 				.withClass( Email.class )
+				.withClass( Item.class )
+				.withClass( OrderLine.class )
 				.build();
 	}
 
@@ -83,13 +87,17 @@ public class ValidateReturnValueTest extends Arquillian {
 			@SpecAssertion(section = "5.1.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
 
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( methodName );
-		Object returnValue = null;
+		Object returnValue = "B";
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
 				object,
@@ -99,13 +107,17 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 1 );
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
 		assertEquals( violation.getRootBean(), object );
 		assertEquals( violation.getRootBeanClass(), Customer.class );
+		assertEquals( violation.getLeafBean(), object );
+		assertEquals( violation.getInvalidValue(), returnValue );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
 
 	@Test
@@ -319,5 +331,35 @@ public class ValidateReturnValueTest extends Arquillian {
 				returnValue,
 				(Class<?>) null
 		);
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
+	})
+	public void testOneViolationForCascadedValidation() throws Exception {
+		String methodName = "getItem";
+
+		Object object = new OrderLine( null );
+		Item returnValue = new Item( "foo" );
+		Method method = OrderLine.class.getMethod( methodName );
+
+		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		assertCorrectNumberOfViolations( violations, 1 );
+
+		ConstraintViolation<Object> violation = violations.iterator().next();
+
+		assertEquals( violation.getLeafBean(), returnValue );
+		assertEquals( violation.getInvalidValue(), "foo" );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
 }

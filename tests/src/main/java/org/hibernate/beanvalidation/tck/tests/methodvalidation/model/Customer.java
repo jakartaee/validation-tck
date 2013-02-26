@@ -17,7 +17,6 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
 import java.util.Date;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -38,8 +37,8 @@ public class Customer {
 	}
 
 	//testOneViolation
-	@NotNull
-	public Address getAddress() {
+	@Size(min = 3)
+	public String getAddress() {
 		return null;
 	}
 

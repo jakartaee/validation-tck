@@ -41,6 +41,8 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -69,6 +71,8 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				.withClass( Address.class )
 				.withClass( Customer.class )
 				.withClass( Email.class )
+				.withClass( Item.class )
+				.withClass( OrderLine.class )
 				.build();
 	}
 
@@ -83,6 +87,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 			@SpecAssertion(section = "5.1.2", id = "k"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testOneViolation() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
@@ -105,6 +113,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		ConstraintViolation<Customer> violation = violations.iterator().next();
 		assertNull( violation.getRootBean() );
 		assertEquals( violation.getRootBeanClass(), Customer.class );
+		assertEquals( violation.getLeafBean(), returnValue );
+		assertEquals( violation.getInvalidValue(), returnValue );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), returnValue );
 	}
 
 	@Test
@@ -290,5 +302,32 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				returnValue,
 				(Class<?>) null
 		);
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.2", id = "f"),
+			@SpecAssertion(section = "5.2", id = "g"),
+			@SpecAssertion(section = "5.2", id = "h"),
+			@SpecAssertion(section = "5.2", id = "i")
+	})
+	public void testOneViolationForCascadedValidation() throws Exception {
+		Item leaf = new Item( "foo" );
+		Object createdObject = new OrderLine( leaf );
+		Constructor<OrderLine> constructor = OrderLine.class.getConstructor( Item.class );
+
+		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorReturnValue(
+				constructor,
+				createdObject
+		);
+
+		assertCorrectNumberOfViolations( violations, 1 );
+
+		ConstraintViolation<Object> violation = violations.iterator().next();
+
+		assertEquals( violation.getLeafBean(), leaf );
+		assertEquals( violation.getInvalidValue(), "foo" );
+		assertNull( violation.getExecutableParameters() );
+		assertEquals( violation.getExecutableReturnValue(), createdObject );
 	}
 }

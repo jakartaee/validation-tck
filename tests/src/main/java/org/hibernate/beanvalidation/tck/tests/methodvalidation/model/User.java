@@ -35,10 +35,10 @@ public class User {
 	}
 
 	//testOneViolation
-	public void setFirstName(@NotNull String firstName) {
+	public void setFirstName(@Size(min = 3) String firstName) {
 	}
 
-	public User(@NotNull String firstName) {
+	public User(@Size(min = 3) String firstName) {
 	}
 
 	//testTwoViolationsOnSameParameter

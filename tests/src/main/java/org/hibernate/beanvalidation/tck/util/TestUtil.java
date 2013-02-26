@@ -50,8 +50,14 @@ import static org.testng.FileAssert.fail;
 
 /**
  * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
 public final class TestUtil {
+
+	/**
+	 * Expected name for return value nodes.
+	 */
+	public static final String BEAN_NODE_NAME = null;
 
 	/**
 	 * Expected name for return value nodes.
@@ -314,6 +320,16 @@ public final class TestUtil {
 		}
 
 		return parameterNames;
+	}
+
+	public static <T> ConstraintViolation<T> getConstraintViolationForParameter(Set<ConstraintViolation<T>> constraintViolations, String parameterName) {
+		for ( ConstraintViolation<T> constraintViolation : constraintViolations ) {
+			if ( parameterName.equals( getParameterName( constraintViolation.getPropertyPath() ) ) ) {
+				return constraintViolation;
+			}
+		}
+
+		throw new IllegalArgumentException( "Found no violation for parameter " + parameterName );
 	}
 
 	public static String getParameterName(Path path) {

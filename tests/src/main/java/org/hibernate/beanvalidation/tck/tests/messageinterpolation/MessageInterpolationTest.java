@@ -129,10 +129,10 @@ public class MessageInterpolationTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "5.3.1", id = "f"),
 			@SpecAssertion(section = "5.3.1", id = "g"),
-			@SpecAssertion(section = "5.3.1", id = "h")
+			@SpecAssertion(section = "5.3.1", id = "h"),
+			@SpecAssertion(section = "5.3.1", id = "i")
 	})
-	public void testLiteralCurlyBraces() {
-
+	public void testEscapedCharactersAreConsideredAsLiterals() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
 		MessageInterpolator.Context context = new TestContext( descriptor );
@@ -147,6 +147,10 @@ public class MessageInterpolationTest extends Arquillian {
 
 		expected = "\\";
 		actual = interpolator.interpolate( "\\", context );
+		assertEquals( actual, expected, "Wrong substitution" );
+
+		expected = "$";
+		actual = interpolator.interpolate( "\\$", context );
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
 
