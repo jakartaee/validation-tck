@@ -4,5 +4,8 @@
     <bean class="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.fieldlevel.User"
           ignore-annotations="false">
         <field name="firstname"/>
+        <field name="firstCreditCard">
+            <valid/>
+        </field>
     </bean>
 </constraint-mappings>
