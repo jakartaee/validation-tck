@@ -20,35 +20,44 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
-import javax.validation.OverridesAttribute;
+import javax.validation.ConstraintTarget;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * @author Emmanuel Bernard
+ * @author Gunnar Morling
  */
 @Documented
-@Constraint(validatedBy = { })
+@Constraint(validatedBy = { CustomConstraint.Validator.class })
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
-@ReportAsSingleViolation
-@NotNull(payload = NotEmpty.UnusedPayload.class)
-@Size
-public @interface NotEmpty {
-	String message() default "cannot be empty";
+@CustomComposingConstraint(validationAppliesTo = ConstraintTarget.PARAMETERS)
+public @interface CustomConstraint {
+	String message() default "CustomConstraint.message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	@OverridesAttribute(constraint = Size.class, name = "min") int min() default 5;
+	ConstraintTarget validationAppliesTo() default ConstraintTarget.IMPLICIT;
 
-	static class UnusedPayload implements Payload {
+	@SupportedValidationTarget({ ValidationTarget.ANNOTATED_ELEMENT, ValidationTarget.PARAMETERS })
+	public static class Validator implements ConstraintValidator<CustomConstraint, Object> {
+
+		@Override
+		public void initialize(CustomConstraint constraintAnnotation) {
+		}
+
+		@Override
+		public boolean isValid(Object value, ConstraintValidatorContext context) {
+			return false;
+		}
 	}
 }

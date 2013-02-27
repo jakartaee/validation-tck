@@ -45,7 +45,7 @@ public class Customer implements Person {
 			@ConvertGroup(from = Default.class, to = BasicChecks.class),
 			@ConvertGroup(from = StrictCustomerChecks.class, to = StrictChecks.class)
 	})
-	private List<Order> orderList = new ArrayList<Order>();
+	private final List<Order> orderList = new ArrayList<Order>();
 
 	public void addOrder(Order order) {
 		orderList.add( order );
@@ -55,6 +55,7 @@ public class Customer implements Person {
 		return orderList;
 	}
 
+	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -63,6 +64,7 @@ public class Customer implements Person {
 		this.firstName = firstName;
 	}
 
+	@Override
 	public String getMiddleName() {
 		return middleName;
 	}
@@ -71,6 +73,7 @@ public class Customer implements Person {
 		this.middleName = middleName;
 	}
 
+	@Override
 	public String getLastName() {
 		return lastName;
 	}
@@ -86,5 +89,10 @@ public class Customer implements Person {
 	})
 	public Account getAccount() {
 		return null;
+	}
+
+	@Override
+	public int getAge() {
+		return 0;
 	}
 }

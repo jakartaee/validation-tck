@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import java.util.Map;
 import java.util.Set;
+import javax.validation.ConstraintTarget;
 import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +38,8 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintDescriptorsFor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
@@ -50,7 +53,15 @@ public class ConstraintDescriptorTest extends Arquillian {
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClass( ConstraintDescriptorTest.class )
-				.withClasses( Order.class, Person.class, Man.class, Severity.class, NotEmpty.class )
+				.withClasses(
+						Order.class,
+						Person.class,
+						Man.class,
+						Severity.class,
+						NotEmpty.class,
+						CustomConstraint.class,
+						CustomComposingConstraint.class
+				)
 				.build();
 	}
 
@@ -108,6 +119,14 @@ public class ConstraintDescriptorTest extends Arquillian {
 		Map<String, Object> attributes = descriptor.getAttributes();
 		assertTrue( attributes.containsKey( "message" ) );
 		assertTrue( attributes.containsKey( "groups" ) );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.11", id = "d")
+	public void testGetMessageTemplate() {
+		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "middleName" );
+		String messageTemplate = descriptor.getMessageTemplate();
+		assertEquals( messageTemplate, "must at least be {min} characters long" );
 	}
 
 	@Test
@@ -192,6 +211,36 @@ public class ConstraintDescriptorTest extends Arquillian {
 			assertTrue( desc.getGroups().size() == 1 );
 			assertEquals( desc.getPayload().iterator().next(), Severity.Info.class, "Wrong payload" );
 		}
+	}
+
+	@Test
+	@SpecAssertion(section = "6.11", id = "k")
+	public void testGetValidationAppliesTo() {
+		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "age" );
+		ConstraintTarget constraintTarget = descriptor.getValidationAppliesTo();
+		assertNotNull( constraintTarget );
+		assertEquals( constraintTarget, ConstraintTarget.RETURN_VALUE );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.11", id = "k")
+	public void testGetValidationAppliesToFromComposingConstraint() {
+		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "age" );
+
+		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
+		assertEquals( composingDescriptors.size(), 1, "Wrong number of composing constraints" );
+
+		ConstraintTarget constraintTarget = composingDescriptors.iterator().next().getValidationAppliesTo();
+		assertNotNull( constraintTarget );
+		assertEquals( constraintTarget, ConstraintTarget.RETURN_VALUE );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.11", id = "k")
+	public void testGetValidationAppliesToReturnsNull() {
+		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
+		ConstraintTarget constraintTarget = descriptor.getValidationAppliesTo();
+		assertNull( constraintTarget );
 	}
 
 	private ConstraintDescriptor<?> getConstraintDescriptor(Class<?> clazz, String property) {

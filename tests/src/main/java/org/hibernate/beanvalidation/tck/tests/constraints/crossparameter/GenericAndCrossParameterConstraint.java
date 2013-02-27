@@ -38,8 +38,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Constraint(validatedBy = {
-		GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintObjectValidator.class,
-		GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintParametersValidator.class
+		GenericAndCrossParameterConstraint.ObjectValidator.class,
+		GenericAndCrossParameterConstraint.ParametersValidator.class
 })
 @Target({ METHOD, CONSTRUCTOR, TYPE, FIELD })
 @Retention(RUNTIME)
@@ -52,7 +52,7 @@ public @interface GenericAndCrossParameterConstraint {
 
 	ConstraintTarget validationAppliesTo() default ConstraintTarget.IMPLICIT;
 
-	public static class GenericAndCrossParameterConstraintObjectValidator
+	public static class ObjectValidator
 			implements ConstraintValidator<GenericAndCrossParameterConstraint, Object> {
 
 		@Override
@@ -66,7 +66,7 @@ public @interface GenericAndCrossParameterConstraint {
 	}
 
 	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
-	public static class GenericAndCrossParameterConstraintParametersValidator
+	public static class ParametersValidator
 			implements ConstraintValidator<GenericAndCrossParameterConstraint, Object[]> {
 
 		@Override
