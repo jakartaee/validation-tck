@@ -26,12 +26,15 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertEquals;
@@ -46,6 +49,8 @@ import static org.testng.Assert.fail;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ValidatorResolutionTest {
 
+	private Validator validator;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
@@ -53,12 +58,14 @@ public class ValidatorResolutionTest {
 				.build();
 	}
 
+	@BeforeMethod
+	public void setupValidator() {
+		validator = TestUtil.getValidatorUnderTest();
+	}
+
 	@Test
 	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testTargetTypeIsInterface() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
-
 		assertEquals(
 				CustomConstraint.ValidatorForCustomInterface.callCounter,
 				0,
@@ -76,9 +83,6 @@ public class ValidatorResolutionTest {
 	@Test
 	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testTargetTypeIsClass() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
-
 		assertEquals(
 				CustomConstraint.ValidatorForCustomClass.callCounter,
 				0,
@@ -93,12 +97,9 @@ public class ValidatorResolutionTest {
 		);
 	}
 
-
 	@Test
 	@SpecAssertion(section = "4.6.4", id = "b")
 	public void testTargetedTypeIsField() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassA.callCounter,
 				0,
@@ -116,8 +117,6 @@ public class ValidatorResolutionTest {
 	@Test
 	@SpecAssertion(section = "4.6.4", id = "c")
 	public void testTargetedTypeIsGetter() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassB.callCounter,
 				0,
@@ -132,14 +131,11 @@ public class ValidatorResolutionTest {
 		);
 	}
 
-
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "d")
 	})
 	public void testResolutionOfMultipleSizeValidators() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Suburb suburb = new Suburb();
 
 		// all values are null and should pass
@@ -214,64 +210,67 @@ public class ValidatorResolutionTest {
 			@SpecAssertion(section = "4.6.4", id = "d")
 	})
 	public void testResolutionOfMinMaxForDifferentTypes() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		MinMax minMax = new MinMax( "5", 5 );
 		Set<ConstraintViolation<MinMax>> constraintViolations = validator.validate( minMax );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 		assertCorrectPropertyPaths( constraintViolations, "number", "numberAsString" );
 	}
 
-	@Test
+	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "g"),
 			@SpecAssertion(section = "3.1", id = "e"),
 			@SpecAssertion(section = "3.4", id = "l")
 	})
 	public void testUnexpectedTypeInValidatorResolution() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Bar bar = new Bar();
-		try {
-			validator.validate( bar );
-			fail();
-		}
-		catch ( UnexpectedTypeException e ) {
-			// success
-		}
+		validator.validate( bar );
 	}
 
-	@Test
+	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "j"),
 			@SpecAssertion(section = "9.3", id = "b")
 	})
 	public void testAmbiguousValidatorResolution() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Foo foo = new Foo( new SerializableBarSubclass() );
-		try {
-			validator.validate( foo );
-			fail( "The test should have failed due to ambiguous validator resolution." );
-		}
-		catch ( UnexpectedTypeException e ) {
-			// success
-		}
+		validator.validate( foo );
+		fail( "The test should have failed due to ambiguous validator resolution." );
 	}
 
-	public class SubClassAHolder {
+	@Test
+	@SpecAssertion(section = "4.6.4", id = "f")
+
+	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
+		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
+		Set<ConstraintViolation<PrimitiveHolder>> violations = validator.validate( primitiveHolder );
+
+		assertCorrectNumberOfViolations( violations, 2 );
+		assertCorrectConstraintTypes( violations, ValidInteger.class, ValidLong.class );
+	}
+
+	//Fails due to HV-733
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "4.6.4", id = "f")
+
+	public void testValidatorForWrapperTypeArrayIsAppliedForPrimitiveTypeArray() {
+		PrimitiveArrayHolder primitiveHolder = new PrimitiveArrayHolder();
+		Set<ConstraintViolation<PrimitiveArrayHolder>> violations = validator.validate( primitiveHolder );
+
+		assertCorrectNumberOfViolations( violations, 2 );
+		assertCorrectConstraintTypes( violations, ValidIntegerArray.class, ValidLongArray.class );
+	}
+
+	private static class SubClassAHolder {
 		@CustomConstraint
 		private final SubClassA subClass;
 
 		SubClassAHolder(SubClassA subClass) {
 			this.subClass = subClass;
 		}
-
-		public BaseClass getSubClass() {
-			return subClass;
-		}
 	}
 
-	public class SubClassBHolder {
+	private static class SubClassBHolder {
 		private final BaseClass baseClass;
 
 		public SubClassBHolder(SubClassB subClass) {
@@ -285,15 +284,33 @@ public class ValidatorResolutionTest {
 	}
 
 	@CustomConstraint
-	public class CustomClass {
+	static class CustomClass {
 
 	}
 
 	@CustomConstraint
-	public interface CustomInterface {
+	interface CustomInterface {
 	}
 
-	public class CustomInterfaceImpl implements CustomInterface {
+	private static class CustomInterfaceImpl implements CustomInterface {
 
+	}
+
+	private static class PrimitiveHolder {
+
+		@ValidInteger
+		private int intValue;
+
+		@ValidLong
+		private long longValue;
+	}
+
+	private static class PrimitiveArrayHolder {
+
+		@ValidIntegerArray
+		private int[] ints;
+
+		@ValidLongArray
+		private long[] longs;
 	}
 }
