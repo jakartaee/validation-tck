@@ -5,5 +5,8 @@
     <bean class="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.propertylevel.User"
           ignore-annotations="false">
         <getter name="firstname"/>
+        <getter name="firstCreditCard">
+            <valid/>
+        </getter>
     </bean>
 </constraint-mappings>
