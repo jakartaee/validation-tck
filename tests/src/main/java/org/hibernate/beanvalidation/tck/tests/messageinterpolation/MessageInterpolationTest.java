@@ -23,6 +23,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.MessageInterpolator;
 import javax.validation.Validator;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -75,7 +76,6 @@ public class MessageInterpolationTest extends Arquillian {
 			@SpecAssertion(section = "5.3.1.1", id = "a")
 	})
 	public void testSuccessfulInterpolationOfValidationMessagesValue() {
-
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
 		MessageInterpolator.Context context = new TestContext( descriptor );
@@ -210,6 +210,31 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
+	@SpecAssertion(section = "5.3.1.1", id = "f")
+	public void testParameterInterpolationHasPrecedenceOverExpressionEvaluation() {
+		MessageInterpolator interpolator = getDefaultMessageInterpolator();
+		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "amount" );
+		MessageInterpolator.Context context = new TestContext( descriptor );
+
+		//if EL evaluation kicked in first, the "$" would be gone
+		String expected = "must be $5 at least";
+		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
+		assertEquals( actual, expected, "Wrong substitution" );
+	}
+
+	@Test
+	@SpecAssertion(section = "5.3.1.1", id = "g")
+	public void testElExpressionsAreInterpolated() {
+		MessageInterpolator interpolator = getDefaultMessageInterpolator();
+		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "doubleAmount" );
+		MessageInterpolator.Context context = new TestContext( descriptor );
+
+		String expected = "must be 10 at least";
+		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
+		assertEquals( actual, expected, "Wrong substitution" );
+	}
+
+	@Test
 	@SpecAssertion(section = "5.3.1.2", id = "a")
 	public void testMessageInterpolationWithLocale() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
@@ -283,6 +308,12 @@ public class MessageInterpolationTest extends Arquillian {
 
 		@NotNull(message = "messages can also be overridden at constraint declaration.")
 		String snafu;
+
+		@Min(value = 5, message = "must be ${value} at least")
+		Integer amount = 3;
+
+		@Min(value = 5, message = "must be ${value * 2} at least")
+		Integer doubleAmount = 3;
 	}
 
 	public class Person {
