@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mappings
+        xmlns="http://jboss.org/xml/ns/javax/validation/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.1.xsd" version="1.1">
+
+    <default-package>org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation</default-package>
+    <bean class="CustomerRepository">
+        <constructor>
+            <return-value>
+                <valid/>
+            </return-value>
+        </constructor>
+        <constructor>
+            <parameter type="java.lang.String">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <return-value>
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </return-value>
+        </constructor>
+        <constructor>
+            <parameter type="org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation.CustomerRepository">
+                <valid/>
+                <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <return-value>
+                <valid/>
+                <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
+            </return-value>
+        </constructor>
+        <constructor>
+            <parameter type="java.lang.String">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <parameter type="[LCustomer;">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+        </constructor>
+        <constructor>
+            <parameter type="org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation.CustomerRepository">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <parameter type="CustomerRepository">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <cross-parameter>
+                <constraint annotation="CrossRepositoryConstraint"/>
+            </cross-parameter>
+        </constructor>
+    </bean>
+</constraint-mappings>

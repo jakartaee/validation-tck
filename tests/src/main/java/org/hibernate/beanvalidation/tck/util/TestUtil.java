@@ -17,6 +17,7 @@
 package org.hibernate.beanvalidation.tck.util;
 
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -329,7 +330,18 @@ public final class TestUtil {
 			}
 		}
 
-		throw new IllegalArgumentException( "Found no violation for parameter " + parameterName );
+		throw new IllegalArgumentException( "Found no constraint violation for parameter " + parameterName );
+	}
+
+	public static <T> ConstraintViolation<T> getConstraintViolationForConstraintType(Set<ConstraintViolation<T>> constraintViolations,
+																					 Class<? extends Annotation> constraint) {
+		for ( ConstraintViolation<T> constraintViolation : constraintViolations ) {
+			if ( constraintViolation.getConstraintDescriptor().getAnnotation().annotationType().equals( constraint ) ) {
+				return constraintViolation;
+			}
+		}
+
+		throw new IllegalArgumentException( "Found no constraint violation for constraint " + constraint.getSimpleName() );
 	}
 
 	public static String getParameterName(Path path) {
@@ -389,7 +401,6 @@ public final class TestUtil {
 		}
 		return inputStream;
 	}
-
 
 	private static <U extends ValidationProvider<?>> void instantiateValidationProviderUnderTest() {
 		String validatorProviderClassName = System.getProperty( VALIDATION_PROVIDER_TEST_CLASS );
