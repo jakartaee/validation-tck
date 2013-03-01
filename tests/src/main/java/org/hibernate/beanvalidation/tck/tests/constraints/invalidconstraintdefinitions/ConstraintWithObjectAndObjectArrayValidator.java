@@ -26,7 +26,7 @@ import javax.validation.Payload;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -34,37 +34,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Documented
 @Constraint(validatedBy = {
-		GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintObjectValidator.class,
-		GenericAndCrossParameterConstraint.GenericAndCrossParameterConstraintParametersValidator.class
+		ConstraintWithObjectAndObjectArrayValidator.Validator.class,
+		ConstraintWithObjectAndObjectArrayValidator.AnotherValidator.class
 })
-@Target({ TYPE })
+@Target({ METHOD })
 @Retention(RUNTIME)
-public @interface GenericAndCrossParameterConstraint {
+public @interface ConstraintWithObjectAndObjectArrayValidator {
 	String message() default "default message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	public static class GenericAndCrossParameterConstraintObjectValidator
-			implements ConstraintValidator<GenericAndCrossParameterConstraint, Object> {
+	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
+	public static class Validator
+			implements ConstraintValidator<ConstraintWithObjectAndObjectArrayValidator, Object> {
 
 		@Override
-		public void initialize(GenericAndCrossParameterConstraint parameters) {
+		public void initialize(ConstraintWithObjectAndObjectArrayValidator parameters) {
 		}
 
 		@Override
-		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
+		public boolean isValid(Object parameters, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
 	}
 
 	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
-	public static class GenericAndCrossParameterConstraintParametersValidator
-			implements ConstraintValidator<GenericAndCrossParameterConstraint, Object[]> {
+	public static class AnotherValidator
+			implements ConstraintValidator<ConstraintWithObjectAndObjectArrayValidator, Object[]> {
 
 		@Override
-		public void initialize(GenericAndCrossParameterConstraint parameters) {
+		public void initialize(ConstraintWithObjectAndObjectArrayValidator parameters) {
 		}
 
 		@Override

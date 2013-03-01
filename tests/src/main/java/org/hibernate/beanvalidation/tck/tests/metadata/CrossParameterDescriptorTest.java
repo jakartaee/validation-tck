@@ -162,11 +162,9 @@ public class CrossParameterDescriptorTest extends Arquillian {
 		assertEquals( constraints.size(), 0, "Should have no constraints" );
 	}
 
-
-	//TODO add "tck-testable"
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "x"),
+			@SpecAssertion(section = "6.2", id = "d"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})
 	public void testFindConstraintsForMethod() {
@@ -246,10 +244,9 @@ public class CrossParameterDescriptorTest extends Arquillian {
 		);
 	}
 
-	//TODO Add tck-testable"
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "x"),
+			@SpecAssertion(section = "6.2", id = "d"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})
 	public void testFindConstraintsForMethodWithoutCrossParameterConstraints() {
@@ -260,10 +257,9 @@ public class CrossParameterDescriptorTest extends Arquillian {
 		assertEquals( constraints.size(), 0, "Should have no constraints" );
 	}
 
-	//TODO Add tck-testable"
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "x"),
+			@SpecAssertion(section = "6.2", id = "d"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})
 	public void testFindConstraintsForConstructor() {
@@ -281,10 +277,9 @@ public class CrossParameterDescriptorTest extends Arquillian {
 		);
 	}
 
-	//TODO Add tck-testable"
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "x"),
+			@SpecAssertion(section = "6.2", id = "d"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})
 	public void testFindConstraintsForConstructorWithoutCrossParameterConstraints() {

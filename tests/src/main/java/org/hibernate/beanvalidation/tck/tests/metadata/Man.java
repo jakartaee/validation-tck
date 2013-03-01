@@ -25,7 +25,7 @@ public class Man implements Person {
 	private String middleName;
 	private String lastName;
 
-
+	@Override
 	public String getFirstName() {
 		return firstName;
 	}
@@ -34,6 +34,7 @@ public class Man implements Person {
 		this.firstName = firstName;
 	}
 
+	@Override
 	public String getMiddleName() {
 		return middleName;
 	}
@@ -42,11 +43,17 @@ public class Man implements Person {
 		this.middleName = middleName;
 	}
 
+	@Override
 	public String getLastName() {
 		return lastName;
 	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Override
+	public int getAge() {
+		return 0;
 	}
 }

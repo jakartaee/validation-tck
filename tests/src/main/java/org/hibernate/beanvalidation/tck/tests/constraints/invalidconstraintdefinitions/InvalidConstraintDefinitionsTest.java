@@ -30,7 +30,6 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -38,6 +37,7 @@ import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class InvalidConstraintDefinitionsTest extends Arquillian {
@@ -160,14 +160,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
-	//TODO: Adapt to latest spec
-	public void testConstraintDefinitionGenericAndCrossParameterConstraint() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new DummyGenericAndCrossParameterConstraint() );
-		fail( "A constraint may either be annotated with @Constraint or @CrossParameterConstraint, but not both. The validation should have failed." );
-	}
-
 	//TODO: Should we more clearly specify which exception shall be raised? The RI throws a declaration
 	//exception as no validator for type Object[] can be found, but one could also specify a definition
 	//exception
@@ -182,6 +174,36 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 		executableValidator.validateParameters( object, method, parameterValues );
 		fail( "Validators for cross-parameter constraints must validate the type Object[]. Expected exception wasn't thrown." );
+	}
+
+	// TODO The exception type anticipates that it will be changed with
+	// BVAL-429. Confirm that this issue is resolved.
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@SpecAssertion(section = "3.1", id = "f")
+	public void testCrossParameterConstraintWithSeveralValidatorsCausesException() throws Exception {
+		Object object = new OnlineCalendarService();
+		Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		ExecutableValidator executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
+
+		executableValidator.validateParameters( object, method, parameterValues );
+		fail( "There must be only one validators for a cross-parameter constraint. Expected exception wasn't thrown." );
+	}
+
+	// TODO The exception type anticipates that it will be changed with
+	// BVAL-429. Confirm that this issue is resolved.
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@SpecAssertion(section = "3.1", id = "f")
+	public void testCrossParameterConstraintWithValidatorForObjectAndObjectArrayCausesException() throws Exception {
+		Object object = new AdvancedCalendarService();
+		Method method = AdvancedCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		ExecutableValidator executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
+
+		executableValidator.validateParameters( object, method, parameterValues );
+		fail( "There must be only one validators for a cross-parameter constraint. Expected exception wasn't thrown." );
 	}
 
 	@InvalidDefaultGroup
@@ -220,12 +242,20 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	public class DummyEntityInvalidGroupsType {
 	}
 
-	@GenericAndCrossParameterConstraint
-	public class DummyGenericAndCrossParameterConstraint {
+	private static class CalendarService {
+		@InvalidCrossParameterConstraint
+		public void createEvent(Date start, Date end) {
+		}
 	}
 
-	public static class CalendarService {
-		@InvalidCrossParameterConstraint
+	private static class OnlineCalendarService {
+		@ConstraintWithTwoCrossParameterValidators
+		public void createEvent(Date start, Date end) {
+		}
+	}
+
+	private static class AdvancedCalendarService {
+		@ConstraintWithObjectAndObjectArrayValidator
 		public void createEvent(Date start, Date end) {
 		}
 	}

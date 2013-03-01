@@ -17,17 +17,18 @@
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import java.lang.annotation.Documented;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
 import java.lang.annotation.Retention;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
-import javax.validation.Payload;
 import javax.validation.OverridesAttribute;
+import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author Emmanuel Bernard
@@ -37,17 +38,17 @@ import javax.validation.constraints.Size;
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
 @ReportAsSingleViolation
-@NotNull(payload= NotEmpty.UnusedPayload.class)
+@NotNull(payload = NotEmpty.UnusedPayload.class)
 @Size
 public @interface NotEmpty {
-	public abstract String message() default "cannot be empty";
+	String message() default "cannot be empty";
 
-	public abstract Class<?>[] groups() default { };
+	Class<?>[] groups() default { };
 
-	public abstract Class<? extends Payload>[] payload() default { };
+	Class<? extends Payload>[] payload() default { };
 
-	@OverridesAttribute(constraint = Size.class, name = "min")
-	public abstract int min() default 5;
+	@OverridesAttribute(constraint = Size.class, name = "min") int min() default 5;
 
-	static class UnusedPayload implements Payload {}
+	static class UnusedPayload implements Payload {
+	}
 }
