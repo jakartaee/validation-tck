@@ -18,6 +18,8 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclar
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik
@@ -49,6 +51,7 @@ public class User {
 		this.lastname = lastname;
 	}
 
+	@ConvertGroup(from = Default.class, to = CreditRatingA.class)
 	public CreditCard getFirstCreditCard() {
 		return firstCreditCard;
 	}
@@ -64,5 +67,11 @@ public class User {
 
 	public void setSecondCreditCard(CreditCard secondCreditCard) {
 		this.secondCreditCard = secondCreditCard;
+	}
+
+	public interface CreditRatingA {
+	}
+
+	public interface CreditRatingAA {
 	}
 }

@@ -21,8 +21,10 @@ import java.util.Set;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
+import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -121,5 +123,46 @@ public class PropertyLevelOverridingTest extends Arquillian {
 
 		propDescriptor = beanDescriptor.getConstraintsForProperty( "secondCreditCard" );
 		assertNull( propDescriptor, "The @Valid annotation should be ignored." );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "8.1.1.3", id = "f")
+	})
+	public void testGroupConversionsAreAdditive() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
+		assertNotNull( beanDescriptor );
+
+		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstCreditCard" );
+		assertNotNull( propDescriptor );
+		assertTrue( propDescriptor.isCascaded(), "Cascaded validation is configured via xml." );
+		Set<GroupConversionDescriptor> groupConversionDescriptorSet = propDescriptor.getGroupConversions();
+
+		assertTrue(
+				groupConversionDescriptorSet.size() == 2,
+				"There should be two group conversions. One configured via annotations and one via XML"
+		);
+
+		boolean foundDefaultToRatingA = false;
+		boolean foundDefaultToRatingAA = false;
+		for ( GroupConversionDescriptor groupConversionDescriptor : groupConversionDescriptorSet ) {
+			if ( groupConversionDescriptor.getFrom().equals( Default.class )
+					&& groupConversionDescriptor.getTo().equals( User.CreditRatingA.class ) ) {
+				foundDefaultToRatingA = true;
+			}
+			else if ( groupConversionDescriptor.getFrom().equals( User.CreditRatingA.class )
+					&& groupConversionDescriptor.getTo().equals( User.CreditRatingAA.class ) ) {
+				foundDefaultToRatingAA = true;
+			}
+			else {
+				fail( "Unexpected group conversion" );
+			}
+		}
+
+		assertTrue(
+				foundDefaultToRatingA && foundDefaultToRatingAA,
+				"Group conversions defined via XML and Annotation are additive"
+		);
 	}
 }
