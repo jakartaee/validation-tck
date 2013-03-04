@@ -17,7 +17,6 @@
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import javax.validation.ValidationException;
-import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -33,20 +32,19 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class UnknownVersionTest extends Arquillian {
+public class UnknownVersionInValidationXmlTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClassPackage( UnknownVersionTest.class )
-				.withValidationXml( "validation-UnknownVersionTest.xml" )
+				.withTestClass( UnknownVersionInValidationXmlTest.class )
+				.withValidationXml( "validation-UnknownVersionInValidationXmlTest.xml" )
 				.build();
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "8.1.4", id = "c")
 	public void testValidationXmlWithUnknownSchemaVersion() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new User() );
+		TestUtil.getValidatorUnderTest();
 	}
 }
