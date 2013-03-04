@@ -14,25 +14,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraintvalidation.SupportedValidationTarget;
-import javax.validation.constraintvalidation.ValidationTarget;
+package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation;
 
 /**
  * @author Hardy Ferentschik
  */
-@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
-public class CrossRepositoryConstraintValidator implements ConstraintValidator<CrossRepositoryConstraint, Object[]> {
-
-	@Override
-	public void initialize(CrossRepositoryConstraint constraintAnnotation) {
-	}
-
-	@Override
-	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
-		return false;
-	}
+public interface RepositoryGroup {
 }

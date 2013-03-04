@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.1.xsd" version="1.1">
 
-    <default-package>org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation</default-package>
+    <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation</default-package>
     <bean class="CustomerRepository">
         <constructor>
             <return-value>
@@ -20,7 +20,7 @@
             </return-value>
         </constructor>
         <constructor>
-            <parameter type="org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation.CustomerRepository">
+            <parameter type="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation.CustomerRepository">
                 <valid/>
                 <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
                 <constraint annotation="javax.validation.constraints.NotNull"/>
@@ -39,7 +39,7 @@
             </parameter>
         </constructor>
         <constructor>
-            <parameter type="org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation.CustomerRepository">
+            <parameter type="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation.CustomerRepository">
                 <constraint annotation="javax.validation.constraints.NotNull"/>
             </parameter>
             <parameter type="CustomerRepository">
