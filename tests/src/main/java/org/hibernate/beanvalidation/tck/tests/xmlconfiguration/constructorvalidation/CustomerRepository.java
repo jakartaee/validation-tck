@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation;
+package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

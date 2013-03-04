@@ -14,10 +14,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.methodvalidation.constructorvalidation;
+package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation;
 
-/**
- * @author Hardy Ferentschik
- */
-public interface RepositoryGroup {
+import javax.validation.constraints.NotNull;
+
+public class Customer {
+	public final String name;
+
+	public Customer(String name) {
+		this.name = name;
+	}
+
+	@NotNull
+	public String getName() {
+		return name;
+	}
+
 }
