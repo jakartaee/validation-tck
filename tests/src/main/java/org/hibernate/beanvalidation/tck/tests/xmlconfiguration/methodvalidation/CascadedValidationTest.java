@@ -16,7 +16,6 @@
 */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
-import javax.validation.Valid;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
@@ -48,15 +47,6 @@ public class CascadedValidationTest extends Arquillian {
 				.withValidationXml( "validation-CascadedValidationTest.xml" )
 				.withResource( "CascadedValidationTest.xml" )
 				.build();
-	}
-
-	// used by the test framework
-	public CascadedValidationTest() {
-	}
-
-
-	@Valid
-	CascadedValidationTest(@Valid String s) {
 	}
 
 	@Test
