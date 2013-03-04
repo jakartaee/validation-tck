@@ -16,7 +16,7 @@
 */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import javax.validation.ValidationException;
+import javax.validation.Configuration;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -28,28 +28,30 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.testng.Assert.assertEquals;
+
 /**
- * @author Gunnar Morling
+ * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class UnknownVersionInMappingXmlTest extends Arquillian {
-
-	private static final String MAPPING_FILE = "UnknownVersionInMappingXmlTest.xml";
+public class Version10InValidationXmlTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( UnknownVersionInMappingXmlTest.class )
-				.withResource( MAPPING_FILE )
+				.withTestClass( Version10InValidationXmlTest.class )
+				.withValidationXml( "validation-Version10InValidationXmlTest.xml" )
 				.build();
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.2", id = "c")
-	public void testConstraintMappingWithUnknownSchemaVersion() {
-		TestUtil.getConfigurationUnderTest()
-				.addMapping( UnknownVersionInMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
-				.buildValidatorFactory()
-				.getValidator();
+	@Test
+	@SpecAssertion(section = "8.1.4", id = "a")
+	public void testValidationXmlVersion10() {
+		Configuration config = TestUtil.getConfigurationUnderTest();
+		assertEquals(
+				config.getBootstrapConfiguration().getMessageInterpolatorClassName(),
+				"org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyMessageInterpolator",
+				"Wrong message interpolator class name."
+		);
 	}
 }
