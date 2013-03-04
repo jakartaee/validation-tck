@@ -17,14 +17,12 @@
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import javax.validation.ValidationException;
-import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -34,25 +32,24 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class VersionNotGivenTest extends Arquillian {
+public class UnknownVersionInMappingXmlTest extends Arquillian {
+
+	private static final String MAPPING_FILE = "UnknownVersionInMappingXmlTest.xml";
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClassPackage( VersionNotGivenTest.class )
-				.withValidationXml( "validation-VersionNotGivenTest.xml" )
+				.withTestClassPackage( UnknownVersionInMappingXmlTest.class )
+				.withResource( MAPPING_FILE )
 				.build();
 	}
 
-	@BeforeMethod
-	public void setupValidator() {
-
-	}
-
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.1.4", id = "b")
-	public void testValidationXmlWithoutSchemaVersionIsHandledAs10() throws Exception {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new User() );
+	@SpecAssertion(section = "8.2", id = "c")
+	public void testConstraintMappingWithUnknownSchemaVersion() {
+		TestUtil.getConfigurationUnderTest()
+				.addMapping( UnknownVersionInMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
+				.buildValidatorFactory()
+				.getValidator();
 	}
 }
