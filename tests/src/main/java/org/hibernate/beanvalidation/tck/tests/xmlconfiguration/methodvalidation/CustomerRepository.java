@@ -64,6 +64,10 @@ public class CustomerRepository {
 		return Collections.emptyList();
 	}
 
+	public String getRepositoryId() {
+		return repositoryId;
+	}
+
 	@Constraint(validatedBy = { ValidB2BRepositoryValidator.class })
 	@Target({ TYPE, CONSTRUCTOR })
 	@Retention(RUNTIME)

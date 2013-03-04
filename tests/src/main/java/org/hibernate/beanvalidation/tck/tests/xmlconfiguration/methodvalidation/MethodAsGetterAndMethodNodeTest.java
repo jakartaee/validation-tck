@@ -16,9 +16,8 @@
 */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
-import javax.validation.metadata.MethodDescriptor;
-import javax.validation.metadata.ParameterDescriptor;
-import javax.validation.metadata.ReturnValueDescriptor;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -30,39 +29,25 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-
 /**
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class DisabledCascadedValidationTest extends Arquillian {
+public class MethodAsGetterAndMethodNodeTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( DisabledCascadedValidationTest.class )
-				.withClass( Cascaded.class )
-				.withValidationXml( "validation-DisabledCascadedValidationTest.xml" )
-				.withResource( "DisabledCascadedValidationTest.xml" )
+				.withTestClassPackage( MethodAsGetterAndMethodNodeTest.class )
+				.withValidationXml( "validation-MethodAsGetterAndMethodNodeTest.xml" )
+				.withResource( "MethodAsGetterAndMethodNodeTest.xml" )
 				.build();
 	}
 
-	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "p")
-	public void testValidAnnotationIsIgnored() throws Exception {
-		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
-				org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation.Cascaded.class,
-				"cascade",
-				String.class
-		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
-
-		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertFalse( returnValueDescriptor.isCascaded(), "Cascaded validation should be ignored" );
-
-		ParameterDescriptor parameterDescriptor = descriptor.getParameterDescriptors().get( 0 );
-		assertFalse( parameterDescriptor.isCascaded(), "Cascaded validation should be ignored" );
+	@Test(expectedExceptions = ValidationException.class)
+	@SpecAssertion(section = "8.1.1.5", id = "d")
+	public void testUnknownConfiguredMethodThrowsException() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.getConstraintsForClass( CustomerRepository.class );
 	}
 }
