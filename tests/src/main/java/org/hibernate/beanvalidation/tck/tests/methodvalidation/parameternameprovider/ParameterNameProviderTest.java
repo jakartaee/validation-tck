@@ -73,7 +73,7 @@ public class ParameterNameProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "b")
+	@SpecAssertion(section = "5.5.2", id = "e")
 	public void testGetParameterNameProviderFromValidatorFactory() {
 		CustomParameterNameProvider parameterNameProvider = new CustomParameterNameProvider();
 

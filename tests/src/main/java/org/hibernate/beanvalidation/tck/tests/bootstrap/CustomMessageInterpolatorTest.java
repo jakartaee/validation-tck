@@ -55,9 +55,9 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.2", id = "b")
+	@SpecAssertion(section = "5.3.2", id = "e")
 	public void testCustomMessageInterpolatorViaConfiguration() {
-		Configuration config = Validation.byDefaultProvider().configure();
+		Configuration<?> config = Validation.byDefaultProvider().configure();
 		config = config.messageInterpolator( new DummyMessageInterpolator() );
 		Validator validator = config.buildValidatorFactory().getValidator();
 
@@ -66,9 +66,9 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.2", id = "a"),
-			@SpecAssertion(section = "5.5.2", id = "c"),
-			@SpecAssertion(section = "5.3.2", id = "b")
+			@SpecAssertion(section = "5.5.2", id = "b"),
+			@SpecAssertion(section = "5.5.2", id = "g"),
+			@SpecAssertion(section = "5.3.2", id = "e")
 	})
 	public void testCustomMessageInterpolatorViaValidatorContext() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

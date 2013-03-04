@@ -97,7 +97,7 @@ public class ValidateTest extends Arquillian {
 	// UnexpectedTypeException is a subclass of ValidationException
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "a"),
-			@SpecAssertion(section = "4.6.4", id = "g"),
+			@SpecAssertion(section = "4.6.4", id = "h"),
 			@SpecAssertion(section = "6.1", id = "c")
 	})
 	public void testUnexpectedTypeException() {
@@ -321,7 +321,7 @@ public class ValidateTest extends Arquillian {
 
 	//TODO 4.6 b marked as non-testable
 	@Test
-	@SpecAssertion(section = "4.6", id = "b")
+	@SpecAssertion(section = "4.6", id = "c")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Car car = new Car( "USd-298" );

@@ -49,7 +49,7 @@ public class BootstrapConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "b")
+	@SpecAssertion(section = "5.5.3", id = "f")
 	public void testGetBootstrapConfiguration() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();

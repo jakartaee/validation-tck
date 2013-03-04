@@ -292,7 +292,7 @@ public class GroupTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4", id = "c"),
-			@SpecAssertion(section = "4.6", id = "b")
+			@SpecAssertion(section = "4.6", id = "c")
 	})
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();

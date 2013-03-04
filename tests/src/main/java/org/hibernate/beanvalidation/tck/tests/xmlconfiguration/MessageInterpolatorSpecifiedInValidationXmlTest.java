@@ -58,7 +58,7 @@ public class MessageInterpolatorSpecifiedInValidationXmlTest extends Arquillian 
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "f")
+	@SpecAssertion(section = "5.5.6", id = "g")
 	public void testMessageInterpolatorSpecifiedInValidationXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -72,8 +72,8 @@ public class MessageInterpolatorSpecifiedInValidationXmlTest extends Arquillian 
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "d"),
-			@SpecAssertion(section = "5.5.6", id = "f")
+			@SpecAssertion(section = "5.5.6", id = "e"),
+			@SpecAssertion(section = "5.5.6", id = "g")
 	})
 	public void testMessageInterpolatorSpecifiedInValidationXmlCanBeOverridden() {
 		Configuration<?> configuration = Validation

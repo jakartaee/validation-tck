@@ -56,7 +56,7 @@ public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends Arqu
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "h")
+	@SpecAssertion(section = "5.5.6", id = "i")
 	public void testConstraintValidatorFactorySpecifiedInValidationXml() {
 		try {
 			Validator validator = TestUtil.getValidatorUnderTest();
@@ -72,8 +72,8 @@ public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends Arqu
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "h"),
-			@SpecAssertion(section = "5.5.6", id = "g")
+			@SpecAssertion(section = "5.5.6", id = "i"),
+			@SpecAssertion(section = "5.5.6", id = "h")
 	})
 	public void testConstraintValidatorFactorySpecifiedInValidationXmlCanBeOverridden() {
 		try {

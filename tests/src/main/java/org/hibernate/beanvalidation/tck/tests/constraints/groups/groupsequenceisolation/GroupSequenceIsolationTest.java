@@ -54,7 +54,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.3", id = "a"),
 			@SpecAssertion(section = "4.4.3", id = "c"),
-			@SpecAssertion(section = "4.4.6", id = "b")
+			@SpecAssertion(section = "4.4.6", id = "c")
 	})
 	public void testCorrectDefaultSequenceInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -91,7 +91,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.3", id = "a"),
 			@SpecAssertion(section = "4.4.3", id = "c"),
-			@SpecAssertion(section = "4.4.6", id = "b")
+			@SpecAssertion(section = "4.4.6", id = "c")
 	})
 	public void testCorrectDefaultSequenceInheritance2() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -130,7 +130,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.6", id = "a")
+	@SpecAssertion(section = "4.4.6", id = "b")
 	public void testCorrectDefaultSequenceInheritance3() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B3 b = new B3();

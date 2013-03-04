@@ -49,7 +49,7 @@ public class BootstrapConfigurationWithoutValidationXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "b")
+	@SpecAssertion(section = "5.5.3", id = "f")
 	public void testGetBootstrapConfigurationNoValidationXml() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();

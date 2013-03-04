@@ -135,22 +135,22 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "d")
+	@SpecAssertion(section = "4.4.5", id = "e")
 	public void testSeveralGroupConversionsWithSameFrom() {
 		//TODO GM: Should we test property, return value etc., too?
 		validator.validate( new UserWithSeveralGroupConversionsForSameFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "e")
+	@SpecAssertion(section = "4.4.5", id = "f")
 	public void testGroupConversionWithSequenceAsFrom() {
 		validator.validate( new UserWithGroupConversionWithSequenceAsFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "g"),
-			@SpecAssertion(section = "4.4.5", id = "i")
+			@SpecAssertion(section = "4.4.5", id = "h"),
+			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnParameterInSubClass() throws Exception {
 		Object object = new SubClassWithGroupConversionOnParameter();
@@ -165,8 +165,8 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "g"),
-			@SpecAssertion(section = "4.4.5", id = "i")
+			@SpecAssertion(section = "4.4.5", id = "h"),
+			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnParameterInImplementingClass() throws Exception {
 		Object object = new InterfaceImplementationWithGroupConversionOnParameter();
@@ -181,8 +181,8 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "h"),
-			@SpecAssertion(section = "4.4.5", id = "i")
+			@SpecAssertion(section = "4.4.5", id = "i"),
+			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnParameterInParallelInterfaces() throws Exception {
 		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnParameter();
@@ -198,8 +198,8 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 	//Currently not clear whether that test makes sense. See BVAL-365
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "h"),
-			@SpecAssertion(section = "4.4.5", id = "i")
+			@SpecAssertion(section = "4.4.5", id = "i"),
+			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnReturnValueInParallelInterfaces() throws Exception {
 		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue();
@@ -213,8 +213,8 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "h"),
-			@SpecAssertion(section = "4.4.5", id = "i")
+			@SpecAssertion(section = "4.4.5", id = "i"),
+			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnParameterInSuperClassAndImplementedInterface()
 			throws Exception {
@@ -229,8 +229,8 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 	//Currently not clear whether that test makes sense. See BVAL-365
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "h"),
-			@SpecAssertion(section = "4.4.5", id = "i")
+			@SpecAssertion(section = "4.4.5", id = "i"),
+			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnReturnValueInSuperClassAndImplementedInterface()
 			throws Exception {

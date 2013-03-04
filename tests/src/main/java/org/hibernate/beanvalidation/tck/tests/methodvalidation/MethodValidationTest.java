@@ -313,7 +313,7 @@ public class MethodValidationTest extends Arquillian {
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "x")
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void methodParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
@@ -360,7 +360,7 @@ public class MethodValidationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void methodParameterValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
@@ -420,7 +420,7 @@ public class MethodValidationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void methodParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
@@ -634,7 +634,7 @@ public class MethodValidationTest extends Arquillian {
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "x")
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void constructorParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
@@ -678,7 +678,7 @@ public class MethodValidationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void constructorParameterValidationUsingSequence() throws Exception {
 		String className = "OrderService";
@@ -734,7 +734,7 @@ public class MethodValidationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void constructorParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String className = "OrderServiceWithRedefinedDefaultGroupSequence";
@@ -797,7 +797,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -835,7 +835,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationIncludesConstraintsFromSuperClass() throws Exception {
 		String methodName = "placeOrder";
 
@@ -875,7 +875,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationIncludesConstraintsFromImplementedInterface()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -916,7 +916,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String methodName = "placeOrder";
 
@@ -975,7 +975,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationPerformsGroupConversion() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1008,8 +1008,8 @@ public class MethodValidationTest extends Arquillian {
 	//will not be processed more than once per validation." which was removed
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "b"),
-			@SpecAssertion(section = "4.6.2", id = "x")
+			@SpecAssertion(section = "4.6.2", id = "c"),
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void methodReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
@@ -1046,8 +1046,8 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "b"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "c"),
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void methodReturnValueValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
@@ -1104,8 +1104,8 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "b"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "c"),
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void methodReturnValueValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
@@ -1163,7 +1163,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
 		String className = "OrderService";
@@ -1198,7 +1198,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationDoesNotIncludeConstraintsFromSuperClass()
 			throws Exception {
 		String className = "ExtendedOrderService";
@@ -1230,7 +1230,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String className = "OrderService";
 
@@ -1285,7 +1285,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationPerformsGroupConversion() throws Exception {
 		String className = "OrderService";
 
@@ -1315,8 +1315,8 @@ public class MethodValidationTest extends Arquillian {
 	//will not be processed more than once per validation." which was removed
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "b"),
-			@SpecAssertion(section = "4.6.2", id = "x")
+			@SpecAssertion(section = "4.6.2", id = "c"),
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void constructorReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
@@ -1350,8 +1350,8 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "b"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "c"),
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void constructorReturnValueValidationUsingSequence() throws Exception {
 		String className = "OrderService";
@@ -1404,8 +1404,8 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "b"),
-			@SpecAssertion(section = "4.6.2", id = "c")
+			@SpecAssertion(section = "4.6.2", id = "c"),
+			@SpecAssertion(section = "4.6.2", id = "todo")
 	})
 	public void constructorReturnValueValidationWithRedefinedDefaultGroupSequence()
 			throws Exception {

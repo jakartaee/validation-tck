@@ -63,8 +63,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "b")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "d")
 	})
 	public void testConstraintTargetImplicitOnMethodWithParametersAndReturnValueCausesException() throws Exception {
 		Object object = new Foo();
@@ -77,8 +77,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "b")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "d")
 	})
 	public void testConstraintTargetImplicitOnConstructorWithParametersCausesException() throws Exception {
 		Constructor<?> constructor = Bar.class.getConstructor( Date.class, Date.class );
@@ -91,8 +91,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "c")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "e")
 	})
 	public void testConstraintTargetParametersOnMethodWithoutParametersCausesException() throws Exception {
 		Object object = new Qux();
@@ -106,8 +106,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "c")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "e")
 	})
 	public void testConstraintTargetParametersOnConstructorWithoutParametersCausesException() throws Exception {
 		Constructor<?> constructor = Baz.class.getConstructor();
@@ -119,8 +119,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "d")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "f")
 	})
 	public void testConstraintTargetReturnValueOnVoidMethodCausesException() throws Exception {
 		Object object = new Zap();
@@ -134,8 +134,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "g")
 	})
 	public void testConstraintTargetParametersOnClassCausesException() throws Exception {
 		validator.validate( new TypeWithConstraintTargetParameter() );
@@ -145,8 +145,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "g")
 	})
 	public void testConstraintTargetReturnValueOnClassCausesException() throws Exception {
 		validator.validate( new TypeWithConstraintTargetReturnValue() );
@@ -156,8 +156,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "g")
 	})
 	public void testConstraintTargetParametersOnInterfaceCausesException() throws Exception {
 		validator.validate( new InterfaceWithConstraintTargetParameterImpl() );
@@ -167,8 +167,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "g")
 	})
 	public void testConstraintTargetReturnValueOnInterfaceCausesException() throws Exception {
 		validator.validate( new InterfaceWithConstraintTargetReturnValueImpl() );
@@ -178,8 +178,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "g")
 	})
 	public void testConstraintTargetParametersOnFieldCausesException() throws Exception {
 		validator.validate( new TypeWithFieldWithConstraintTargetParameter() );
@@ -189,8 +189,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	//Fails due to HV-731
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "a"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "c"),
+			@SpecAssertion(section = "3.1.1.4", id = "g")
 	})
 	public void testConstraintTargetReturnValueOnFieldCausesException() throws Exception {
 		validator.validate( new TypeWithFieldWithConstraintTargetReturnValue() );

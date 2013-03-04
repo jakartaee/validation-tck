@@ -50,8 +50,8 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingALLTest
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.3", id = "b"),
-			@SpecAssertion(section = "5.5.6", id = "j")
+			@SpecAssertion(section = "5.5.3", id = "f"),
+			@SpecAssertion(section = "5.5.6", id = "k")
 	})
 	public void testGetValidatedExecutableTypesReturnsSetWithAllOptionsIfALLIsContained() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()

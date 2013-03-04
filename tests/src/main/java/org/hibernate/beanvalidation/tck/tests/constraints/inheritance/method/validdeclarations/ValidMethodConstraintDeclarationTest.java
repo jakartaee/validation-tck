@@ -186,7 +186,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = "4.5.5", id = "f")
 	public void testParameterConstraintAddedToConstructorInSubClass() throws Exception {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( int.class );
 		Object[] parameterValues = new Object[] { 4 };
@@ -200,7 +200,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = "4.5.5", id = "f")
 	public void testParameterConstraintMarkedAsCascadedAtConstructorInSubClass() throws Exception {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( CalendarEvent.class );
 		Object[] parameterValues = new Object[] { new CalendarEvent() };
@@ -220,7 +220,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = "4.5.5", id = "f")
 	public void testReturnValueConstraintAddedToConstructorInSubClass() throws Exception {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( String.class );
 		Object returnValue = new CalendarServiceSubClass();
@@ -240,7 +240,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = "4.5.5", id = "f")
 	public void testReturnValueMarkedAsCascadedAtConstructorInSuperAndSubClass() throws Exception {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( long.class );
 		Object returnValue = new CalendarServiceSubClass();
