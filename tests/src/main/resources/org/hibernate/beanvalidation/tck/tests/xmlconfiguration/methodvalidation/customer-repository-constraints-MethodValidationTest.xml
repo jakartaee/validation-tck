@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mappings
+        xmlns="http://jboss.org/xml/ns/javax/validation/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.1.xsd" version="1.1">
+
+    <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation</default-package>
+    <bean class="CustomerRepository">
+        <method name="listCustomers">
+            <return-value>
+                <valid/>
+            </return-value>
+        </method>
+        <method name="findCustomer">
+            <parameter type="java.lang.String">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <return-value>
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </return-value>
+        </method>
+        <method name="isCustomer">
+            <parameter type="java.lang.String">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+        </method>
+
+        <method name="addCustomers">
+            <parameter type="[LCustomer;">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+        </method>
+
+        <method name="notifyCustomer">
+            <parameter type="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation.Customer">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <parameter type="java.lang.String">
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </parameter>
+            <cross-parameter>
+                <constraint annotation="CrossRepositoryConstraint"/>
+            </cross-parameter>
+            <return-value>
+                <constraint annotation="javax.validation.constraints.NotNull"/>
+            </return-value>
+        </method>
+
+        <method name="findByExample">
+            <parameter type="Customer">
+                <valid/>
+                <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
+            </parameter>
+            <return-value>
+                <valid/>
+                <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
+            </return-value>
+        </method>
+    </bean>
+</constraint-mappings>
