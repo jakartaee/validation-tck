@@ -64,7 +64,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = "4.6.4", id = "b")
 	public void testTargetTypeIsInterface() {
 		assertEquals(
 				CustomConstraint.ValidatorForCustomInterface.callCounter,
@@ -81,7 +81,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = "4.6.4", id = "b")
 	public void testTargetTypeIsClass() {
 		assertEquals(
 				CustomConstraint.ValidatorForCustomClass.callCounter,
@@ -98,7 +98,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "b")
+	@SpecAssertion(section = "4.6.4", id = "c")
 	public void testTargetedTypeIsField() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassA.callCounter,
@@ -115,7 +115,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "c")
+	@SpecAssertion(section = "4.6.4", id = "d")
 	public void testTargetedTypeIsGetter() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassB.callCounter,
@@ -133,7 +133,7 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "d")
+			@SpecAssertion(section = "4.6.4", id = "e")
 	})
 	public void testResolutionOfMultipleSizeValidators() {
 		Suburb suburb = new Suburb();
@@ -207,7 +207,7 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "d")
+			@SpecAssertion(section = "4.6.4", id = "e")
 	})
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
@@ -218,7 +218,7 @@ public class ValidatorResolutionTest {
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "g"),
+			@SpecAssertion(section = "4.6.4", id = "h"),
 			@SpecAssertion(section = "3.1", id = "e"),
 			@SpecAssertion(section = "3.4", id = "l")
 	})
@@ -229,7 +229,7 @@ public class ValidatorResolutionTest {
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "j"),
+			@SpecAssertion(section = "4.6.4", id = "k"),
 			@SpecAssertion(section = "9.3", id = "b")
 	})
 	public void testAmbiguousValidatorResolution() {
@@ -239,7 +239,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "f")
+	@SpecAssertion(section = "4.6.4", id = "g")
 
 	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
@@ -251,7 +251,7 @@ public class ValidatorResolutionTest {
 
 	//Fails due to HV-733
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "4.6.4", id = "f")
+	@SpecAssertion(section = "4.6.4", id = "g")
 
 	public void testValidatorForWrapperTypeArrayIsAppliedForPrimitiveTypeArray() {
 		PrimitiveArrayHolder primitiveHolder = new PrimitiveArrayHolder();

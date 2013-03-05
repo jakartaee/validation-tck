@@ -52,7 +52,7 @@ public class GraphNavigationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1.3", id = "a"),
-			@SpecAssertion(section = "4.1.3", id = "k"),
+			@SpecAssertion(section = "4.1.3", id = "l"),
 			@SpecAssertion(section = "4.6.1", id = "a"),
 			@SpecAssertion(section = "4.6.1", id = "b")
 	})
@@ -183,7 +183,7 @@ public class GraphNavigationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1.3", id = "e"),
-			@SpecAssertion(section = "4.1.3", id = "j")
+			@SpecAssertion(section = "4.1.3", id = "k")
 	})
 	public void testTypeOfContainedValuesIsDeterminedAtRuntime() {
 		Zoo zoo = new Zoo();
@@ -209,7 +209,7 @@ public class GraphNavigationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1.3", id = "h"),
-			@SpecAssertion(section = "4.1.3", id = "i")
+			@SpecAssertion(section = "4.1.3", id = "j")
 	})
 	public void testContainedMap() {
 		AnimalCaretaker caretaker = new AnimalCaretaker();

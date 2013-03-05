@@ -102,7 +102,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "a")
+	@SpecAssertion(section = "5.5.3", id = "d")
 	public void testGetDefaultParameterNameProviderFromConfiguration() throws Exception {
 		Method method = User.class.getMethod( "setNames", String.class, String.class );
 		Constructor<User> constructor = User.class.getConstructor(

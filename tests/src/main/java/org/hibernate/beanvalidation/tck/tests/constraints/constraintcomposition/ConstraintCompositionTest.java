@@ -82,7 +82,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "o")
+			@SpecAssertion(section = "3.3", id = "p")
 	})
 	public void testComposedConstraints() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
@@ -102,7 +102,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "o")
+			@SpecAssertion(section = "3.3", id = "p")
 	})
 	public void testComposedConstraintsAreRecursive() {
 		GermanAddress address = new GermanAddress();
@@ -136,10 +136,10 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "c"),
-			@SpecAssertion(section = "3.3", id = "m"),
-			@SpecAssertion(section = "3.3", id = "p"),
+			@SpecAssertion(section = "3.3", id = "n"),
 			@SpecAssertion(section = "3.3", id = "q"),
-			@SpecAssertion(section = "3.3", id = "r")
+			@SpecAssertion(section = "3.3", id = "r"),
+			@SpecAssertion(section = "3.3", id = "s")
 	})
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
@@ -197,7 +197,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "k")
+	@SpecAssertion(section = "3.3", id = "l")
 	public void testOnlySingleConstraintViolation() {
 		GermanAddress address = new GermanAddress();
 		address.setAddressline1( "Rathausstrasse 5" );
@@ -216,7 +216,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "l")
+	@SpecAssertion(section = "3.3", id = "m")
 	public void testAttributesDefinedOnComposingConstraints() {
 		BeanDescriptor descriptor = validator.getConstraintsForClass( FrenchAddress.class );
 		Set<ConstraintDescriptor<?>> constraintDescriptors = descriptor.getConstraintsForProperty( "zipCode" )
@@ -243,8 +243,8 @@ public class ConstraintCompositionTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "n"),
-			@SpecAssertion(section = "3.3", id = "s")
+			@SpecAssertion(section = "3.3", id = "o"),
+			@SpecAssertion(section = "3.3", id = "t")
 	})
 	public void testOverriddenAttributesMustMatchInType() {
 		validator.validate( new DummyEntityWithZipCode( "foobar" ) );

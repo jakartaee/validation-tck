@@ -56,7 +56,7 @@ public class IgnoreAnnotationsOnMethodTest extends Arquillian {
 			@SpecAssertion(section = "8.1.1.5", id = "l"),
 			@SpecAssertion(section = "8.1.1.5", id = "m"),
 			@SpecAssertion(section = "8.1.1.5", id = "n"),
-			@SpecAssertion(section = "8.1.1.5", id = "q")
+			@SpecAssertion(section = "8.1.1.5", id = "p")
 	})
 	public void testIgnoreAnnotationsOnMethodLevel() {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(

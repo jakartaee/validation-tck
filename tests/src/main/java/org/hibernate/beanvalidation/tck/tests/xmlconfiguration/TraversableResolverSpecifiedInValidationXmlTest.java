@@ -58,7 +58,7 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends Arquillian 
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "g")
+	@SpecAssertion(section = "5.5.6", id = "h")
 	public void testTraversableResolverSpecifiedInValidationXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -74,8 +74,8 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends Arquillian 
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "d"),
-			@SpecAssertion(section = "5.5.6", id = "g")
+			@SpecAssertion(section = "5.5.6", id = "e"),
+			@SpecAssertion(section = "5.5.6", id = "h")
 	})
 	public void testTraversableResolverSpecifiedInValidationXmlCanBeOverridden() {
 		Configuration<?> configuration = Validation

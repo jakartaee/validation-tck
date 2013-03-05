@@ -64,7 +64,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsAppliedOnField() {
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidMainAddress() );
 
@@ -77,7 +77,7 @@ public class GroupConversionValidationTest extends Arquillian {
 
 	//not sure why this tests fails.
 	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testSeveralGroupConversionsAppliedOnField() {
 		User userWithInvalidPreferredShipmentAddress = TestUsers.withInvalidPreferredShipmentAddress();
 
@@ -128,7 +128,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsAppliedOnProperty() {
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidShipmentAddress() );
 
@@ -140,7 +140,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsAppliedOnMethodReturnValue() throws Exception {
 		//given
 		User user = TestUsers.validUser();
@@ -161,7 +161,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionDefinedInSubClassIsAppliedOnMethodReturnValue()
 			throws Exception {
 		//given
@@ -183,7 +183,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionDefinedInImplementedClassIsAppliedOnMethodReturnValue()
 			throws Exception {
 		//given
@@ -205,7 +205,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
 		User user = TestUsers.validUser();
@@ -226,7 +226,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsAppliedOnConstructorReturnValue() throws Exception {
 		//given
 		Constructor<User> constructor = User.class.getConstructor( Address.class );
@@ -252,7 +252,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given
 		Constructor<User> constructor = User.class.getConstructor( Address.class );
@@ -272,7 +272,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = "4.4.5", id = "d")
 	public void testGroupConversionIsNotExecutedRecursively() {
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidOfficeAddress() );
 
@@ -294,7 +294,7 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "f")
+	@SpecAssertion(section = "4.4.5", id = "g")
 	public void testGroupConversionWithSequenceAsTo() {
 		User user = TestUsers.validUser();
 

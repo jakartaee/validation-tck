@@ -53,7 +53,7 @@ public class ReservedElementNameTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.6", id = "b")
+	@SpecAssertion(section = "8.1.1.6", id = "c")
 	public void testGroupIsNotAllowedAsElementName() {
 		try {
 			Configuration<?> config = TestUtil.getConfigurationUnderTest();
@@ -67,7 +67,7 @@ public class ReservedElementNameTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.6", id = "b")
+	@SpecAssertion(section = "8.1.1.6", id = "c")
 	public void testMessageIsNotAllowedAsElementName() {
 		try {
 			Configuration<?> config = TestUtil.getConfigurationUnderTest();

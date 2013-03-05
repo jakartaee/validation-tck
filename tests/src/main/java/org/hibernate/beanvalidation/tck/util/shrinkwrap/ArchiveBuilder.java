@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.container.ClassContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
 import org.jboss.shrinkwrap.impl.base.URLPackageScanner;
@@ -118,19 +119,20 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	}
 
 	public T withResource(String source, String target, boolean useTestPackageToLocateSource) {
-
 		if ( this.resources == null ) {
 			this.resources = new ArrayList<ResourceDescriptor>();
 		}
 
-		this.resources
-				.add( new ResourceDescriptor( source, target, useTestPackageToLocateSource ) );
+		this.resources.add( new ResourceDescriptor( source, target, useTestPackageToLocateSource ) );
+
 		return self();
 	}
 
 	public T withValidationXml(String source) {
 		return withResource( source, "META-INF/validation.xml", true );
 	}
+
+	public abstract T withEmptyBeansXml();
 
 	/**
 	 * @return self to enable generic builder
@@ -207,11 +209,16 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 		}
 
 		for ( ResourceDescriptor resource : resources ) {
-			if ( resource.getTarget() == null ) {
-				archive.addAsResource( resource.getSource() );
+			if ( resource.getSource() != null ) {
+				if ( resource.getTarget() == null ) {
+					archive.addAsResource( resource.getSource() );
+				}
+				else {
+					archive.addAsResource( resource.getSource(), resource.getTarget() );
+				}
 			}
-			else {
-				archive.addAsResource( resource.getSource(), resource.getTarget() );
+			else if ( resource.getAsset() != null ) {
+				archive.addAsResource( resource.getAsset(), resource.getTarget() );
 			}
 		}
 	}
@@ -248,15 +255,27 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	 */
 	protected class ResourceDescriptor {
 
+		private final Asset asset;
 		private final String source;
 		private final String target;
-		private boolean useTestPackageToLocateSource = true;
+		private final boolean useTestPackageToLocateSource;
 
 		public ResourceDescriptor(String source, String target, boolean useTestPackageToLocateSource) {
-			super();
+			this.asset = null;
 			this.source = source;
 			this.target = target;
 			this.useTestPackageToLocateSource = useTestPackageToLocateSource;
+		}
+
+		public ResourceDescriptor(Asset asset, String target) {
+			this.asset = asset;
+			this.source = null;
+			this.target = target;
+			this.useTestPackageToLocateSource = false;
+		}
+
+		public Asset getAsset() {
+			return asset;
 		}
 
 		public String getSource() {
@@ -270,7 +289,6 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 		public String getTarget() {
 			return target;
 		}
-
 	}
 
 	private String getTestPackagePath() {
@@ -284,6 +302,3 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 		return name;
 	}
 }
-
-
-

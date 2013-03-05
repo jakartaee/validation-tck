@@ -56,7 +56,7 @@ public class IgnoreAnnotationsOnConstructorTest extends Arquillian {
 			@SpecAssertion(section = "8.1.1.4", id = "k"),
 			@SpecAssertion(section = "8.1.1.4", id = "l"),
 			@SpecAssertion(section = "8.1.1.4", id = "m"),
-			@SpecAssertion(section = "8.1.1.4", id = "p")
+			@SpecAssertion(section = "8.1.1.4", id = "o")
 	})
 	public void testIgnoreAnnotationsOnConstructorLevel() {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
