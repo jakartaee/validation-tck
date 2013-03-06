@@ -28,8 +28,10 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -42,11 +44,20 @@ import static org.testng.Assert.fail;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class InvalidConstraintDefinitionsTest extends Arquillian {
 
+	private Validator validator;
+	private ExecutableValidator executableValidator;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClassPackage( InvalidConstraintDefinitionsTest.class )
 				.build();
+	}
+
+	@BeforeMethod
+	public void setupValidators() {
+		validator = TestUtil.getValidatorUnderTest();
+		executableValidator = validator.forExecutables();
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
@@ -56,8 +67,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithParameterStartingWithValid() {
-
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityValidProperty() );
 		fail( "The used constraint does use an invalid property name. The validation should have failed." );
 	}
@@ -71,7 +80,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutMessageParameter() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityNoMessage() );
 		fail( "The used constraint does not define a message parameter. The validation should have failed." );
 	}
@@ -83,7 +91,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutGroupParameter() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityNoGroups() );
 		fail( "The used constraint does not define a groups parameter. The validation should have failed." );
 	}
@@ -95,7 +102,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithoutPayloadParameter() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityNoGroups() );
 		fail( "The used constraint does not define a payload parameter. The validation should have failed." );
 	}
@@ -107,7 +113,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongDefaultGroupValue() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityInvalidDefaultGroup() );
 		fail( "The default groups parameter is not the empty array. The validation should have failed." );
 	}
@@ -119,7 +124,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongDefaultPayloadValue() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityInvalidDefaultPayload() );
 		fail( "The default payload parameter is not the empty array. The validation should have failed." );
 	}
@@ -131,7 +135,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongPayloadClass() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityInvalidPayloadClass() );
 		fail( "The default payload parameter has to be of type Class<? extends Payload>[]. The validation should have failed." );
 	}
@@ -143,7 +146,6 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongMessageType() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityInvalidMessageType() );
 		fail( "The message parameter has to be of type String. The validation should have failed." );
 	}
@@ -155,14 +157,13 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "9.2", id = "a")
 	})
 	public void testConstraintDefinitionWithWrongGroupType() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new DummyEntityInvalidGroupsType() );
 		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
 	}
 
-	//TODO: Should we more clearly specify which exception shall be raised? The RI throws a declaration
-	//exception as no validator for type Object[] can be found, but one could also specify a definition
-	//exception
+	// TODO BVAL-434: Should we more clearly specify which exception shall be
+	// raised? The RI throws a declaration exception as no validator for type
+	// Object[] can be found, but one could also specify a definition exception
 	@Test(expectedExceptions = Exception.class)
 	@SpecAssertion(section = "3.4", id = "g")
 	public void testValidatorForCrossParameterConstraintMustValidateObjectArray() throws Exception {
@@ -170,40 +171,108 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		ExecutableValidator executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
-
 		executableValidator.validateParameters( object, method, parameterValues );
 		fail( "Validators for cross-parameter constraints must validate the type Object[]. Expected exception wasn't thrown." );
 	}
 
-	// TODO The exception type anticipates that it will be changed with
-	// BVAL-429. Confirm that this issue is resolved.
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.1", id = "f")
-	public void testCrossParameterConstraintWithSeveralValidatorsCausesException() throws Exception {
+	public void testCrossParameterConstraintWithSeveralValidatorsCausesException()
+			throws Exception {
 		Object object = new OnlineCalendarService();
-		Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Method method = OnlineCalendarService.class.getMethod(
+				"createEvent",
+				Date.class,
+				Date.class
+		);
 		Object[] parameterValues = new Object[2];
 
-		ExecutableValidator executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
-
 		executableValidator.validateParameters( object, method, parameterValues );
-		fail( "There must be only one validators for a cross-parameter constraint. Expected exception wasn't thrown." );
+		fail( "There must be only one validator for a cross-parameter constraint. Expected exception wasn't thrown." );
 	}
 
-	// TODO The exception type anticipates that it will be changed with
-	// BVAL-429. Confirm that this issue is resolved.
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.1", id = "f")
-	public void testCrossParameterConstraintWithValidatorForObjectAndObjectArrayCausesException() throws Exception {
+	public void testCrossParameterConstraintWithValidatorForObjectAndObjectArrayCausesException()
+			throws Exception {
 		Object object = new AdvancedCalendarService();
-		Method method = AdvancedCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Method method = AdvancedCalendarService.class.getMethod(
+				"createEvent",
+				Date.class,
+				Date.class
+		);
 		Object[] parameterValues = new Object[2];
 
-		ExecutableValidator executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
+		executableValidator.validateParameters( object, method, parameterValues );
+		fail( "There must be only one validator for a cross-parameter constraint. Expected exception wasn't thrown." );
+	}
+
+	//TODO Fails due to HV-738
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.4", id = "a"),
+			@SpecAssertion(section = "9.2", id = "a")
+	})
+	public void testGenericAndCrossParameterConstraintWithoutValidationAppliesToCausesException() {
+		validator.validate( new DummyEntityNoValidationAppliesTo() );
+		fail( "A constraint which is generic and cross-parameter needs to define a member validationAppliesTo. The validation should have failed." );
+	}
+
+	//TODO Fails due to HV-738
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.4", id = "a"),
+			@SpecAssertion(section = "9.2", id = "a")
+	})
+	public void testGenericConstraintWithValidationAppliesToCausesException() {
+		validator.validate( new DummyEntityWithUnexpectedValidationAppliesTo() );
+		fail( "A pure generic constraint must not define a member validationAppliesTo. The validation should have failed." );
+	}
+
+	//TODO Fails due to HV-738
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.4", id = "a"),
+			@SpecAssertion(section = "9.2", id = "a")
+	})
+	public void testCrossParameterConstraintWithValidationAppliesToCausesException()
+			throws Exception {
+		Object object = new PaperCalendarService();
+		Method method = PaperCalendarService.class.getMethod(
+				"createEvent",
+				Date.class,
+				Date.class
+		);
+		Object[] parameterValues = new Object[2];
 
 		executableValidator.validateParameters( object, method, parameterValues );
-		fail( "There must be only one validators for a cross-parameter constraint. Expected exception wasn't thrown." );
+		fail( "A pure cross-parameter constraint must not define a member validationAppliesTo. The validation should have failed." );
+	}
+
+	//TODO Fails due to HV-738
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.4", id = "b"),
+			@SpecAssertion(section = "9.2", id = "a")
+	})
+	public void testConstraintDefinitionWithWrongValidationAppliesToType() {
+		validator.validate( new DummyEntityWithValidationAppliesToOfWrongType() );
+		fail( "The validationAppliesTo parameter has to be of type ConstraintTarget. The validation should have failed." );
+	}
+
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.4", id = "b"),
+			@SpecAssertion(section = "9.2", id = "a")
+	})
+	public void testConstraintDefinitionWithWrongDefaultValidationAppliesTo() {
+		validator.validate( new DummyEntityWithValidationAppliesToWithWrongDefaultValue() );
+		fail( "The validationAppliesTo parameter must have a default value of ConstraintTarget.IMPLICIT. The validation should have failed." );
 	}
 
 	@InvalidDefaultGroup
@@ -242,6 +311,22 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	public class DummyEntityInvalidGroupsType {
 	}
 
+	@InvalidGenericAndCrossParameterConstraint
+	private static class DummyEntityNoValidationAppliesTo {
+	}
+
+	@GenericConstraintWithValidationAppliesTo
+	private static class DummyEntityWithUnexpectedValidationAppliesTo {
+	}
+
+	@GenericAndCrossParameterConstraintWithValidationAppliesToOfWrongType
+	private static class DummyEntityWithValidationAppliesToOfWrongType {
+	}
+
+	@GenericAndCrossParameterConstraintWithValidationAppliesToWithWrongDefaultValue
+	private static class DummyEntityWithValidationAppliesToWithWrongDefaultValue {
+	}
+
 	private static class CalendarService {
 		@InvalidCrossParameterConstraint
 		public void createEvent(Date start, Date end) {
@@ -256,6 +341,12 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 
 	private static class AdvancedCalendarService {
 		@ConstraintWithObjectAndObjectArrayValidator
+		public void createEvent(Date start, Date end) {
+		}
+	}
+
+	private static class PaperCalendarService {
+		@CrossParameterConstraintWithValidationAppliesTo
 		public void createEvent(Date start, Date end) {
 		}
 	}
