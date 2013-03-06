@@ -44,6 +44,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -305,6 +306,43 @@ public class ConstraintCompositionTest extends Arquillian {
 		);
 	}
 
+	//TODO Fails due to HV-739
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "3.3", id = "k")
+	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
+			throws Exception {
+		Object object = new DummyEntityWithIllegallyComposedConstraint();
+		Method method = DummyEntityWithIllegallyComposedConstraint.class.getMethod(
+				"doSomething",
+				int.class
+		);
+		Object[] parameterValues = new Object[0];
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+	}
+
+	//TODO Fails due to HV-739
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "3.3", id = "k")
+	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
+		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
+		Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(
+				"doSomething",
+				int.class
+		);
+		Object[] parameterValues = new Object[0];
+
+		executableValidator.validateParameters(
+				object,
+				method,
+				parameterValues
+		);
+	}
+
 	private FrenchAddress getFrenchAddressWithoutZipCode() {
 		FrenchAddress address = new FrenchAddress();
 		address.setAddressline1( "10 rue des Treuils" );
@@ -326,6 +364,19 @@ public class ConstraintCompositionTest extends Arquillian {
 		@ComposedGenericAndCrossParameterConstraint(validationAppliesTo = ConstraintTarget.PARAMETERS)
 		public Object doSomething(int i) {
 			return null;
+		}
+	}
+
+	private static class DummyEntityWithIllegallyComposedConstraint {
+		@ParametersNotEmpty
+		public Object doSomething(int i) {
+			return null;
+		}
+	}
+
+	private static class DummyEntityWithAnotherIllegallyComposedConstraint {
+		@ComposedConstraint
+		public void doSomething(int i) {
 		}
 	}
 }
