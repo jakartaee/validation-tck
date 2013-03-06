@@ -12,6 +12,7 @@
         <groups>
             <run>
                 <exclude name="FAILING_IN_RI"/>
+                <exclude name="FAILING_ON_AS"/>
             </run>
         </groups>
 

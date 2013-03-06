@@ -14,19 +14,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.util;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+
+import java.util.Locale;
+import javax.inject.Inject;
+import javax.validation.MessageInterpolator;
 
 /**
- * Identifiers for TestNG test groups. To be removed once the TCK is updated and
- * the RI passes all tests.
- *
  * @author Gunnar Morling
  */
-public final class Groups {
+public class MessageInterpolatorUsingDependencyInjection implements MessageInterpolator {
 
-	public static final String NOT_IMPLEMENTED = "NOT_IMPLEMENTED";
+	@Inject
+	private Greeter greeter;
 
-	public static final String FAILING_IN_RI = "FAILING_IN_RI";
+	@Override
+	public String interpolate(String messageTemplate, Context context) {
+		return greeter.greet();
+	}
 
-	public static final String FAILING_ON_AS = "FAILING_ON_AS";
+	@Override
+	public String interpolate(String messageTemplate, Context context, Locale locale) {
+		return greeter.greet();
+	}
 }
