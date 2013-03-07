@@ -14,19 +14,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.util;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+
+import javax.inject.Inject;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorFactory;
 
 /**
- * Identifiers for TestNG test groups. To be removed once the TCK is updated and
- * the RI passes all tests.
- *
  * @author Gunnar Morling
  */
-public final class Groups {
+public class ConstraintValidatorFactoryUsingDependencyInjection
+		implements ConstraintValidatorFactory {
 
-	public static final String NOT_IMPLEMENTED = "NOT_IMPLEMENTED";
+	@Inject
+	private Greeter greeter;
 
-	public static final String FAILING_IN_RI = "FAILING_IN_RI";
+	@Override
+	public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
+		GreetingConstraintValidator validator = new GreetingConstraintValidator( greeter.greet() );
+		@SuppressWarnings("unchecked")
+		T instance = (T) validator;
+		return instance;
+	}
 
-	public static final String FAILING_ON_AS = "FAILING_ON_AS";
+	@Override
+	public void releaseInstance(ConstraintValidator<?, ?> instance) {
+	}
 }

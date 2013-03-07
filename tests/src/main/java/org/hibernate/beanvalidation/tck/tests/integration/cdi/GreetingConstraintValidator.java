@@ -14,19 +14,33 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.util;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.constraints.NotNull;
 
 /**
- * Identifiers for TestNG test groups. To be removed once the TCK is updated and
- * the RI passes all tests.
- *
  * @author Gunnar Morling
  */
-public final class Groups {
+public class GreetingConstraintValidator implements ConstraintValidator<NotNull, Object> {
 
-	public static final String NOT_IMPLEMENTED = "NOT_IMPLEMENTED";
+	private final String message;
 
-	public static final String FAILING_IN_RI = "FAILING_IN_RI";
+	public GreetingConstraintValidator(String message) {
+		this.message = message;
+	}
 
-	public static final String FAILING_ON_AS = "FAILING_ON_AS";
+	@Override
+	public void initialize(NotNull constraintAnnotation) {
+	}
+
+	@Override
+	public boolean isValid(Object value, ConstraintValidatorContext context) {
+		return false;
+	}
+
+	public String getMessage() {
+		return message;
+	}
 }

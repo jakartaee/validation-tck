@@ -14,15 +14,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefinitions;
+package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -30,14 +34,28 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * @author Gunnar Morling
  */
-@Constraint(validatedBy = InvalidCrossParameterConstraintValidator.class)
-@Target({ TYPE, METHOD, ANNOTATION_TYPE })
-@Retention(RUNTIME)
 @Documented
-public @interface InvalidCrossParameterConstraint {
-	String message() default "{validation.invalidCrossParameterConstraint}";
+@Constraint(validatedBy = ComposingConstraintSupportingParameters.Validator.class)
+@Target({ TYPE, METHOD, FIELD })
+@Retention(RUNTIME)
+public @interface ComposingConstraintSupportingParameters {
+	String message() default "{constraint.message}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+
+	@SupportedValidationTarget(ValidationTarget.PARAMETERS)
+	public class Validator
+			implements ConstraintValidator<ComposingConstraintSupportingParameters, Object> {
+
+		@Override
+		public void initialize(ComposingConstraintSupportingParameters parameters) {
+		}
+
+		@Override
+		public boolean isValid(Object parameters, ConstraintValidatorContext constraintValidatorContext) {
+			return true;
+		}
+	}
 }

@@ -290,6 +290,7 @@ public class ValidateTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "4.1.3", id = "i"),
 			@SpecAssertion(section = "4.1.3", id = "d")
 	})
 	public void testGraphValidationWithArray() {

@@ -28,6 +28,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -62,14 +63,18 @@ public class DefaultInjectionTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClassPackage( DefaultInjectionTest.class )
-				.withValidationXml( "test-validation.xml" )
+				.withTestClass( DefaultInjectionTest.class )
+				.withClass( ConstantMessageInterpolator.class )
+				.withValidationXml( "validation-DefaultInjectionTest.xml" )
 				.withEmptyBeansXml()
 				.build();
 	}
 
-	@SpecAssertion(section = "10.3.1", id = "a")
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.3.1", id = "a")
+	})
 	private void testDefaultValidatorFactoryGetsInjected() {
 		assertNotNull( defaultValidatorFactory, "Default validator factory should be injectable." );
 		assertTrue(
@@ -84,8 +89,11 @@ public class DefaultInjectionTest extends Arquillian {
 		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
 	}
 
-	@SpecAssertion(section = "10.3.1", id = "a")
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.3.1", id = "a")
+	})
 	private void testQualifiedDefaultValidatorFactoryGetsInjected() {
 		assertNotNull(
 				qualifiedDefaultValidatorFactory,
@@ -103,8 +111,11 @@ public class DefaultInjectionTest extends Arquillian {
 		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
 	}
 
-	@SpecAssertion(section = "10.3.1", id = "a")
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.3.1", id = "a")
+	})
 	private void testDefaultValidatorGetsInjected() {
 		assertNotNull( defaultValidator, "Default validator should be injectable." );
 
@@ -114,8 +125,11 @@ public class DefaultInjectionTest extends Arquillian {
 		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
 	}
 
-	@SpecAssertion(section = "10.3.1", id = "a")
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.3.1", id = "a")
+	})
 	private void testQualifiedDefaultValidatorGetsInjected() {
 		assertNotNull(
 				qualifiedDefaultValidator,

@@ -14,19 +14,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.util;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi;
 
 /**
- * Identifiers for TestNG test groups. To be removed once the TCK is updated and
- * the RI passes all tests.
- *
  * @author Gunnar Morling
  */
-public final class Groups {
+public class Greeter {
 
-	public static final String NOT_IMPLEMENTED = "NOT_IMPLEMENTED";
+	public final static String MESSAGE = "Hello from Greeter!";
 
-	public static final String FAILING_IN_RI = "FAILING_IN_RI";
-
-	public static final String FAILING_ON_AS = "FAILING_ON_AS";
+	public String greet() {
+		return MESSAGE;
+	}
 }

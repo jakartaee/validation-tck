@@ -14,15 +14,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefinitions;
+package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
+import javax.validation.constraintvalidation.ValidationTarget;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -30,14 +36,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * @author Gunnar Morling
  */
-@Constraint(validatedBy = InvalidCrossParameterConstraintValidator.class)
-@Target({ TYPE, METHOD, ANNOTATION_TYPE })
-@Retention(RUNTIME)
 @Documented
-public @interface InvalidCrossParameterConstraint {
-	String message() default "{validation.invalidCrossParameterConstraint}";
+@NotNull(message = "may not be null")
+@Size(min = 1)
+@Constraint(validatedBy = ParametersNotEmpty.Validator.class)
+@Target({ TYPE, METHOD, FIELD })
+@Retention(RUNTIME)
+public @interface ParametersNotEmpty {
+	String message() default "{constraint.notEmpty}";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+
+	@SupportedValidationTarget(ValidationTarget.PARAMETERS)
+	public class Validator implements ConstraintValidator<ParametersNotEmpty, Object[]> {
+
+		@Override
+		public void initialize(ParametersNotEmpty parameters) {
+		}
+
+		@Override
+		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {
+			return true;
+		}
+	}
 }
