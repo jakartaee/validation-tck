@@ -145,7 +145,10 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.3", id = "f")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.1.3", id = "f"),
+			@SpecAssertion(section = "4.1.3", id = "i")
+	})
 	public void testContainedSet() {
 		MultiCage cage = new MultiCage();
 		cage.addAnimal( new Zebra( null ) );
@@ -162,7 +165,10 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.3", id = "c")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.1.3", id = "c"),
+			@SpecAssertion(section = "4.1.3", id = "i")
+	})
 	public void testContainedIterable() {
 		GameReserve<Zebra> reserve = new GameReserve<Zebra>();
 		Herd<Zebra> zebraHerd = new Herd<Zebra>();
@@ -209,6 +215,7 @@ public class GraphNavigationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1.3", id = "h"),
+			@SpecAssertion(section = "4.1.3", id = "i"),
 			@SpecAssertion(section = "4.1.3", id = "j")
 	})
 	public void testContainedMap() {
