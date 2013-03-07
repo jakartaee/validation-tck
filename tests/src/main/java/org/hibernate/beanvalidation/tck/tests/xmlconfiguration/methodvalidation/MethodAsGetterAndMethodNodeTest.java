@@ -46,7 +46,7 @@ public class MethodAsGetterAndMethodNodeTest extends Arquillian {
 
 	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "8.1.1.5", id = "d")
-	public void testUnknownConfiguredMethodThrowsException() {
+	public void testMethodConfiguredWithMethodAndGetterNodeThrowsException() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.getConstraintsForClass( CustomerRepository.class );
 	}

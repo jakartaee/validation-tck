@@ -50,7 +50,7 @@ public class DisabledCascadedValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "o")
+	@SpecAssertion(section = "8.1.1.4", id = "n")
 	public void testValidAnnotationIsIgnored() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor( Cascaded.class, String.class );
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );

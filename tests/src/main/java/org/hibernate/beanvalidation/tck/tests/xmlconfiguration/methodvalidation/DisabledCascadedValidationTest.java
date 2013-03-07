@@ -50,7 +50,7 @@ public class DisabledCascadedValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "p")
+	@SpecAssertion(section = "8.1.1.5", id = "o")
 	public void testValidAnnotationIsIgnored() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation.Cascaded.class,

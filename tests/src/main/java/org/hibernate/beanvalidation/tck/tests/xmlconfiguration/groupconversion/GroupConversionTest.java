@@ -56,8 +56,8 @@ public class GroupConversionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.7 ", id = "a"),
-			@SpecAssertion(section = "8.1.1.7 ", id = "b")
+			@SpecAssertion(section = "8.1.1.7", id = "a"),
+			@SpecAssertion(section = "8.1.1.7", id = "b")
 	})
 	public void testGroupConversionsAppliedOnMethod() throws Exception {
 		MethodDescriptor methodDescriptor = TestUtil.getMethodDescriptor(
