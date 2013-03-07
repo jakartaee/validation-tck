@@ -30,35 +30,35 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class CascadedValidationTest extends Arquillian {
+public class DisabledCascadedValidationTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( CascadedValidationTest.class )
+				.withTestClass( DisabledCascadedValidationTest.class )
 				.withClass( Cascaded.class )
-				.withValidationXml( "validation-CascadedValidationTest.xml" )
-				.withResource( "CascadedValidationTest.xml" )
+				.withValidationXml( "validation-DisabledCascadedValidationTest.xml" )
+				.withResource( "DisabledCascadedValidationTest.xml" )
 				.build();
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "n")
-	public void testValidaAnnotationIsApplied() throws Exception {
+	@SpecAssertion(section = "8.1.1.4", id = "o")
+	public void testValidAnnotationIsIgnored() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor( Cascaded.class, String.class );
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertTrue( returnValueDescriptor.isCascaded(), "Cascaded validation should be applied" );
+		assertFalse( returnValueDescriptor.isCascaded(), "Cascaded validation should disabled" );
 
 		ParameterDescriptor parameterDescriptor = descriptor.getParameterDescriptors().get( 0 );
-		assertTrue( parameterDescriptor.isCascaded(), "Cascaded validation should be applied" );
+		assertFalse( parameterDescriptor.isCascaded(), "Cascaded validation should disabled" );
 	}
 }

@@ -14,11 +14,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation;
+package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.ParameterDescriptor;
-import javax.validation.metadata.ReturnValueDescriptor;
+import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -30,35 +28,33 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
 
 /**
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class CascadedValidationTest extends Arquillian {
+public class Version10InMappingXmlTest extends Arquillian {
+
+	private static final String MAPPING_FILE = "Version10InMappingXmlTest.xml";
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( CascadedValidationTest.class )
-				.withClass( Cascaded.class )
-				.withValidationXml( "validation-CascadedValidationTest.xml" )
-				.withResource( "CascadedValidationTest.xml" )
+				.withTestClass( Version10InMappingXmlTest.class )
+				.withClass( TestEntity.class )
+				.withResource( MAPPING_FILE )
 				.build();
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "n")
-	public void testValidaAnnotationIsApplied() throws Exception {
-		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor( Cascaded.class, String.class );
-		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
+	@SpecAssertion(section = "8.2", id = "a")
+	public void testValidBeanValidation10Mapping() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addMapping( Version10InMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
+				.buildValidatorFactory()
+				.getValidator();
 
-		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertTrue( returnValueDescriptor.isCascaded(), "Cascaded validation should be applied" );
-
-		ParameterDescriptor parameterDescriptor = descriptor.getParameterDescriptors().get( 0 );
-		assertTrue( parameterDescriptor.isCascaded(), "Cascaded validation should be applied" );
+		assertFalse( validator.getConstraintsForClass( TestEntity.class ).isBeanConstrained() );
 	}
 }

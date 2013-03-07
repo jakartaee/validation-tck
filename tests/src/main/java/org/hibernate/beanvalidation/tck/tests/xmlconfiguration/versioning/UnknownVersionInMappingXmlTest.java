@@ -39,7 +39,7 @@ public class UnknownVersionInMappingXmlTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClassPackage( UnknownVersionInMappingXmlTest.class )
+				.withTestClass( UnknownVersionInMappingXmlTest.class )
 				.withResource( MAPPING_FILE )
 				.build();
 	}
