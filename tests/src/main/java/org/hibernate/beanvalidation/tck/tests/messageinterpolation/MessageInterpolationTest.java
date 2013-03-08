@@ -16,12 +16,22 @@
 */
 package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.MessageInterpolator;
+import javax.validation.Payload;
+import javax.validation.Validation;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -40,6 +50,8 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getDefaultMessageInterpolator;
@@ -47,9 +59,11 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTe
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class MessageInterpolationTest extends Arquillian {
@@ -64,7 +78,11 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "5.3.1", id = "a"),
+			@SpecAssertion(section = "5.3.2", id = "f"),
+			@SpecAssertion(section = "5.5.3", id = "a")
+	})
 	public void testDefaultMessageInterpolatorIsNotNull() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		assertNotNull( interpolator, "Each bean validation provider must provide a default message interpolator." );
@@ -73,7 +91,9 @@ public class MessageInterpolationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.3.1", id = "e"),
-			@SpecAssertion(section = "5.3.1.1", id = "a")
+			@SpecAssertion(section = "5.3.1.1", id = "a"),
+			@SpecAssertion(section = "5.3.2", id = "f"),
+			@SpecAssertion(section = "5.5.3", id = "a")
 	})
 	public void testSuccessfulInterpolationOfValidationMessagesValue() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
@@ -264,6 +284,72 @@ public class MessageInterpolationTest extends Arquillian {
 		assertEquals( messageInterpolatedWithNoLocale, messageInterpolatedWithDefaultLocale, "Wrong substitution" );
 	}
 
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.3.2", id = "a"),
+			@SpecAssertion(section = "5.3.2", id = "b"),
+			@SpecAssertion(section = "5.3.2", id = "c")
+	})
+	public void testCorrectValuesArePassedToInterpolateForPropertyConstraint() {
+		TestMessageInterpolator messageInterpolator = new TestMessageInterpolator();
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.messageInterpolator( messageInterpolator )
+				.buildValidatorFactory()
+				.getValidator();
+
+		String name = "Bob";
+		validator.validate( new TestBeanWithPropertyConstraint( name ) );
+
+		assertEquals( messageInterpolator.messageTemplate, TestBeanWithPropertyConstraint.MESSAGE );
+
+		ConstraintDescriptor<?> constraintDescriptor = messageInterpolator.constraintDescriptor;
+		assertEquals( constraintDescriptor.getAnnotation().annotationType(), Size.class );
+		assertEquals( constraintDescriptor.getMessageTemplate(), TestBeanWithPropertyConstraint.MESSAGE );
+
+		assertEquals( messageInterpolator.validatedValue, name );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.3.2", id = "a"),
+			@SpecAssertion(section = "5.3.2", id = "b"),
+			@SpecAssertion(section = "5.3.2", id = "c")
+	})
+	public void testCorrectValuesArePassedToInterpolateForClassLevelConstraint() {
+		TestMessageInterpolator messageInterpolator = new TestMessageInterpolator();
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.messageInterpolator( messageInterpolator )
+				.buildValidatorFactory()
+				.getValidator();
+
+		TestBeanWithClassLevelConstraint testBean = new TestBeanWithClassLevelConstraint();
+		validator.validate( testBean );
+
+		assertEquals( messageInterpolator.messageTemplate, TestBeanWithClassLevelConstraint.MESSAGE );
+
+		ConstraintDescriptor<?> constraintDescriptor = messageInterpolator.constraintDescriptor;
+		assertEquals( constraintDescriptor.getAnnotation().annotationType(), ValidTestBean.class );
+		assertEquals( constraintDescriptor.getMessageTemplate(), TestBeanWithClassLevelConstraint.MESSAGE );
+
+		assertEquals( messageInterpolator.validatedValue, testBean );
+	}
+
+	@Test
+	@SpecAssertion(section = "5.3.2", id = "g")
+	public void testExceptionDuringMessageInterpolationIsWrappedIntoValidationException() {
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		ExceptionThrowingMessageInterpolator interpolator = new ExceptionThrowingMessageInterpolator();
+		Validator validator = factory.usingContext().messageInterpolator( interpolator ).getValidator();
+
+		try {
+			validator.validate( new TestBeanWithPropertyConstraint( "Bob" ) );
+			fail( "Expected exception wasn't thrown." );
+		}
+		catch ( ValidationException ve ) {
+			assertEquals( ve.getCause(), interpolator.exception );
+		}
+	}
+
 	private ConstraintDescriptor<?> getDescriptorFor(Class<?> clazz, String propertyName) {
 		Validator validator = getValidatorUnderTest();
 		return validator.getConstraintsForClass( clazz )
@@ -322,5 +408,86 @@ public class MessageInterpolationTest extends Arquillian {
 
 		@Past
 		Date birthday;
+	}
+
+	private static class TestBeanWithPropertyConstraint {
+
+		private static final String MESSAGE = "name must not be null";
+
+		@Size(message = MESSAGE, min = 5)
+		private final String name;
+
+		public TestBeanWithPropertyConstraint(String name) {
+			this.name = name;
+		}
+	}
+
+	@ValidTestBean(message = TestBeanWithClassLevelConstraint.MESSAGE)
+	private static class TestBeanWithClassLevelConstraint {
+
+		public static final String MESSAGE = "Invalid test bean";
+	}
+
+	private static class TestMessageInterpolator implements MessageInterpolator {
+
+		public String messageTemplate;
+		public ConstraintDescriptor<?> constraintDescriptor;
+		public Object validatedValue;
+
+		@Override
+		public String interpolate(String messageTemplate, Context context) {
+			this.messageTemplate = messageTemplate;
+			this.constraintDescriptor = context.getConstraintDescriptor();
+			this.validatedValue = context.getValidatedValue();
+
+			return null;
+		}
+
+		@Override
+		public String interpolate(String messageTemplate, Context context, Locale locale) {
+			throw new UnsupportedOperationException( "No specific locale is possible" );
+		}
+	}
+
+	@Documented
+	@Constraint(validatedBy = { ValidTestBean.Validator.class })
+	@Target({ TYPE })
+	@Retention(RUNTIME)
+	public @interface ValidTestBean {
+		String message() default "default message";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default { };
+
+		public static class Validator implements ConstraintValidator<ValidTestBean, TestBeanWithClassLevelConstraint> {
+
+			@Override
+			public void initialize(ValidTestBean annotation) {
+			}
+
+			@Override
+			public boolean isValid(TestBeanWithClassLevelConstraint object, ConstraintValidatorContext constraintValidatorContext) {
+				return false;
+			}
+		}
+	}
+
+	private static class ExceptionThrowingMessageInterpolator implements MessageInterpolator {
+
+		private final RuntimeException exception = new MyInterpolationException();
+
+		@Override
+		public String interpolate(String messageTemplate, Context context) {
+			throw exception;
+		}
+
+		@Override
+		public String interpolate(String messageTemplate, Context context, Locale locale) {
+			throw new UnsupportedOperationException( "No specific locale is possible" );
+		}
+	}
+
+	private static class MyInterpolationException extends RuntimeException {
 	}
 }

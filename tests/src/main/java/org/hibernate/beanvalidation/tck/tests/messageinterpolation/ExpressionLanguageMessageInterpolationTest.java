@@ -16,8 +16,14 @@
 */
 package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.Locale;
 import java.util.Set;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.Validator;
@@ -40,6 +46,8 @@ import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 
 /**
@@ -95,10 +103,27 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "5.3.1.3", id = "a"),
+			@SpecAssertion(section = "5.3.1.3", id = "f"),
+	})
 	public void testInterpolationWithUnknownElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "houseNo" );
 		assertCorrectConstraintViolationMessages( violations, "${unknown}" );
+	}
+
+	@Test
+	@SpecAssertion(section = "5.3.1.3", id = "f")
+	public void testInterpolationWithInvalidElExpression() {
+		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "addition" );
+		assertCorrectConstraintViolationMessages( violations, "${1*}" );
+	}
+
+	@Test
+	@SpecAssertion(section = "5.3.1.3", id = "f")
+	public void testInterpolationWithElExpressionThrowingAnException() {
+		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "continent" );
+		assertCorrectConstraintViolationMessages( violations, "${validatedValue}" );
 	}
 
 	@Test
@@ -220,5 +245,43 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 
 		@NotNull(message = "${incomplete")
 		private final Integer zipCode = null;
+
+		@NotNull(message = "${1*}")
+		private final String addition = null;
+
+		@ValidContinent(message = "${validatedValue}")
+		private final Continent continent = new Continent();
+	}
+
+	private static class Continent {
+
+		@Override
+		public String toString() {
+			throw new RuntimeException( "Invalid continent" );
+		}
+	}
+
+	@Documented
+	@Constraint(validatedBy = { ValidContinent.Validator.class })
+	@Target({ FIELD })
+	@Retention(RUNTIME)
+	public @interface ValidContinent {
+		String message() default "default message";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default { };
+
+		public static class Validator implements ConstraintValidator<ValidContinent, Continent> {
+
+			@Override
+			public void initialize(ValidContinent annotation) {
+			}
+
+			@Override
+			public boolean isValid(Continent continent, ConstraintValidatorContext constraintValidatorContext) {
+				return false;
+			}
+		}
 	}
 }
