@@ -1,5 +1,5 @@
 # Bean Validation TCK
-Version: 1.1.0.CR1
+Version: 1.1.0.CR2
 
 This repository contains the Bean Validation TCK - ([JSR 349](http://www.jcp.org/en/jsr/detail?id=349)).
 

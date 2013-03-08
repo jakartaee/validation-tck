@@ -3,6 +3,13 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.CR2 (08-03-2013)
+----------------------
+
+** Improvement
+    * [BVTCK-42] - Create and map tests for BV 1.1 assertions
+
+
 1.1.0.CR1 (21-02-2013)
 ------------------------
 
