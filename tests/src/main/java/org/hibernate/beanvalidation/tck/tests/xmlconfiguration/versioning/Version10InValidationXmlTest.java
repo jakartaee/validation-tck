@@ -22,6 +22,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -45,9 +46,12 @@ public class Version10InValidationXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.4", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "5.5.6", id = "d"),
+			@SpecAssertion(section = "8.1.4", id = "a")
+	})
 	public void testValidationXmlVersion10() {
-		Configuration config = TestUtil.getConfigurationUnderTest();
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertEquals(
 				config.getBootstrapConfiguration().getMessageInterpolatorClassName(),
 				"org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyMessageInterpolator",

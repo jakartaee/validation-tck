@@ -108,7 +108,10 @@ public class ConstructorValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "g")
+	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "a"),
+			@SpecAssertion(section = "8.1.1.4", id = "g")
+	})
 	public void testConstraintOnConstructorReturnValueAndParameter() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
 				CustomerRepository.class,
@@ -152,14 +155,14 @@ public class ConstructorValidationTest extends Arquillian {
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertTrue(returnValueDescriptor.isCascaded(), "<valid/> is used to configure cascading");
+		assertTrue( returnValueDescriptor.isCascaded(), "<valid/> is used to configure cascading" );
 
 
 		List<ParameterDescriptor> parameterDescriptors = descriptor.getParameterDescriptors();
 		assertTrue( parameterDescriptors.size() == 1 );
 
 		ParameterDescriptor parameterDescriptor = parameterDescriptors.get( 0 );
-		assertTrue(parameterDescriptor.isCascaded(), "<valid/> is used to configure cascading");
+		assertTrue( parameterDescriptor.isCascaded(), "<valid/> is used to configure cascading" );
 	}
 
 	@Test

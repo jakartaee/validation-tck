@@ -16,12 +16,8 @@
 */
 package org.hibernate.beanvalidation.tck.tests.validatorfactory;
 
-import javax.validation.Configuration;
-import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -33,19 +29,19 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class CustomConstraintValidatorTest extends Arquillian {
+public class DefaultConstraintValidatorFactoryTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( CustomConstraintValidatorTest.class )
+				.withTestClass( DefaultConstraintValidatorFactoryTest.class )
 				.withClass( MyConstraint.class )
 				.withClass( MyConstraintValidator.class )
 				.withClass( MySecondConstraint.class )
@@ -54,68 +50,22 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5", id = "b")
+	@SpecAssertion(section = "5.5.3", id = "c")
 	public void testDefaultConstructorInValidatorCalled() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new Dummy() );
+		ConstraintValidatorFactory factory = TestUtil.getConfigurationUnderTest()
+				.getDefaultConstraintValidatorFactory();
+		factory.getInstance( MyConstraintValidator.class );
 		assertTrue(
 				MyConstraintValidator.defaultConstructorCalled,
 				"The no-arg default constructor should have been called."
 		);
 	}
 
+	@SpecAssertion(section = "5.5.3", id = "c")
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.5", id = "c")
 	public void testRuntimeExceptionInValidatorCreationIsWrapped() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new SecondDummy() );
-	}
-
-	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.5", id = "d")
-	public void testValidationExceptionIsThrownInCaseFactoryReturnsNull() {
-		Configuration<?> config = TestUtil.getConfigurationUnderTest().constraintValidatorFactory(
-				new CustomConstraintValidatorFactory()
-		);
-		Validator validator = config.buildValidatorFactory().getValidator();
-		validator.validate( new SecondDummy() );
-	}
-
-	@Test
-	@SpecAssertion(section = "5.5.2", id = "d")
-	public void testGetConstraintValidatorFactoryFromValidatorFactory() {
-		CustomConstraintValidatorFactory constraintValidatorFactory = new CustomConstraintValidatorFactory();
-
-		ValidatorFactory validatorFactory = TestUtil.getConfigurationUnderTest()
-				.constraintValidatorFactory( constraintValidatorFactory )
-				.buildValidatorFactory();
-
-		assertSame(
-				validatorFactory.getConstraintValidatorFactory(),
-				constraintValidatorFactory,
-				"getConstraintValidatorFactory() should return the parameter name provider set via configuration"
-		);
-	}
-
-	private class CustomConstraintValidatorFactory implements ConstraintValidatorFactory {
-
-		@Override
-		public <T extends ConstraintValidator<?, ?>> T getInstance(Class<T> key) {
-			return null;
-		}
-
-		@Override
-		public void releaseInstance(ConstraintValidator<?, ?> instance) {
-		}
-	}
-
-	private static class Dummy {
-		@MyConstraint
-		public int value;
-	}
-
-	private static class SecondDummy {
-		@MySecondConstraint
-		public int value;
+		ConstraintValidatorFactory factory = TestUtil.getConfigurationUnderTest()
+				.getDefaultConstraintValidatorFactory();
+		factory.getInstance( MySecondConstraintValidator.class );
 	}
 }

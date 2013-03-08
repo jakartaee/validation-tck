@@ -37,6 +37,7 @@ import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -59,6 +60,7 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "o"),
 			@SpecAssertion(section = "8.1.2", id = "b"),
 			@SpecAssertion(section = "8.1.2", id = "e")
 	})
@@ -86,6 +88,7 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "o"),
 			@SpecAssertion(section = "8.1.2", id = "c"),
 			@SpecAssertion(section = "8.1.2", id = "d"),
 			@SpecAssertion(section = "8.1.2", id = "e")
@@ -107,5 +110,13 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 		List<Class<? extends ConstraintValidator<T, ?>>> validators = descriptor.getConstraintValidatorClasses();
 
 		assertEquals( validators.size(), 2, "One validator should be defined in annotation and one in xml" );
+		assertTrue(
+				validators.contains( LengthValidator.class ),
+				"Validator configured in annotation should be present"
+		);
+		assertTrue(
+				validators.contains( DummyLengthValidator.class ),
+				"Validator configured via XML should be present"
+		);
 	}
 }

@@ -76,6 +76,7 @@ public class PropertyLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "a"),
 			@SpecAssertion(section = "8.1.1.3", id = "a"),
 			@SpecAssertion(section = "8.1.1.3", id = "d")
 	})

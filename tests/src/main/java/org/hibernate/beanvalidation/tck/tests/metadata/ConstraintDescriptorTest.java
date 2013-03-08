@@ -84,6 +84,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "a"),
 			@SpecAssertion(section = "6.11", id = "b"),
 			@SpecAssertion(section = "6.11", id = "d")
 	})
