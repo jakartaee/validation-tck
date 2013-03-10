@@ -29,7 +29,6 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-
 /**
  * @author Hardy Ferentschik
  */
@@ -38,23 +37,40 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ METHOD, FIELD, TYPE })
 @Retention(RUNTIME)
 public @interface ConsistentUserInformation {
-	public abstract String message() default "User information is not consistent.";
+	String message() default "User information is not consistent.";
 
-	public abstract Class<?>[] groups() default { };
+	Class<?>[] groups() default { };
 
-	public abstract Class<? extends Payload>[] payload() default { };
+	Class<? extends Payload>[] payload() default { };
 
-	public abstract String stringParam() default "";
+	byte byteParam() default 0;
 
-	public abstract Class<?> classParam() default void.class;
+	short shortParam() default 0;
 
-	public abstract String[] stringArrayParam() default { };
+	int intParam() default 0;
 
-	public abstract int intParam() default 0;
+	long longParam() default 0;
 
-	public abstract Max max() default @Max(value = 10);
+	float floatParam() default 0;
 
-	public abstract Pattern[] patterns();
+	double doubleParam() default 0;
 
-	public abstract UserType userType() default UserType.BUYER;
+	boolean booleanParam() default false;
+
+	char charParam() default 0;
+
+	String stringParam() default "";
+
+	Class<?> classParam() default void.class;
+
+	Class<?> unqualifiedClassParam() default void.class;
+
+	String[] stringArrayParam() default { };
+
+
+	Max max() default @Max(value = 10);
+
+	Pattern[] patterns();
+
+	UserType userType() default UserType.BUYER;
 }
