@@ -17,16 +17,17 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
 import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import java.lang.annotation.Target;
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 /**
  * A test constraint which can lead to a error when trying to resolve the validator.
@@ -38,24 +39,27 @@ import javax.validation.ConstraintValidatorContext;
 		CustomConstraint.ValidatorForSubClassA.class,
 		CustomConstraint.ValidatorForSubClassB.class,
 		CustomConstraint.ValidatorForCustomClass.class,
-		CustomConstraint.ValidatorForCustomInterface.class
+		CustomConstraint.ValidatorForCustomInterface.class,
+		CustomConstraint.ValidatorForAnotherBaseClass.class,
+		CustomConstraint.ValidatorForAnotherSubClass.class
 })
 @Documented
 @Target({ METHOD, FIELD, TYPE })
 @Retention(RUNTIME)
 public @interface CustomConstraint {
-	public abstract String message() default "my custom constraint";
+	String message() default "my custom constraint";
 
-	public abstract Class<?>[] groups() default { };
+	Class<?>[] groups() default { };
 
-	public abstract Class<? extends Payload>[] payload() default { };
-
+	Class<? extends Payload>[] payload() default { };
 
 	public class ValidatorBaseClass implements ConstraintValidator<CustomConstraint, BaseClass> {
 
+		@Override
 		public void initialize(CustomConstraint parameters) {
 		}
 
+		@Override
 		public boolean isValid(BaseClass baseClass, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
@@ -64,9 +68,11 @@ public @interface CustomConstraint {
 	public class ValidatorForSubClassA implements ConstraintValidator<CustomConstraint, SubClassA> {
 		static int callCounter = 0;
 
+		@Override
 		public void initialize(CustomConstraint parameters) {
 		}
 
+		@Override
 		public boolean isValid(SubClassA subClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
@@ -79,9 +85,11 @@ public @interface CustomConstraint {
 	public class ValidatorForSubClassB implements ConstraintValidator<CustomConstraint, SubClassB> {
 		static int callCounter = 0;
 
+		@Override
 		public void initialize(CustomConstraint parameters) {
 		}
 
+		@Override
 		public boolean isValid(SubClassB subClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
@@ -95,9 +103,11 @@ public @interface CustomConstraint {
 			implements ConstraintValidator<CustomConstraint, ValidatorResolutionTest.CustomClass> {
 		static int callCounter = 0;
 
+		@Override
 		public void initialize(CustomConstraint parameters) {
 		}
 
+		@Override
 		public boolean isValid(ValidatorResolutionTest.CustomClass customClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
@@ -111,10 +121,48 @@ public @interface CustomConstraint {
 			implements ConstraintValidator<CustomConstraint, ValidatorResolutionTest.CustomInterface> {
 		static int callCounter = 0;
 
+		@Override
 		public void initialize(CustomConstraint parameters) {
 		}
 
+		@Override
 		public boolean isValid(ValidatorResolutionTest.CustomInterface customInterface, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForAnotherBaseClass
+			implements ConstraintValidator<CustomConstraint, ValidatorResolutionTest.AnotherBaseClass> {
+		static int callCounter = 0;
+
+		@Override
+		public void initialize(CustomConstraint parameters) {
+		}
+
+		@Override
+		public boolean isValid(ValidatorResolutionTest.AnotherBaseClass anotherCustomInterfaceImpl, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForAnotherSubClass
+			implements ConstraintValidator<CustomConstraint, ValidatorResolutionTest.AnotherSubClass> {
+		static int callCounter = 0;
+
+		@Override
+		public void initialize(CustomConstraint parameters) {
+		}
+
+		@Override
+		public boolean isValid(ValidatorResolutionTest.AnotherSubClass anotherSubClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
 				throw new IllegalStateException( "This method should have been only called once during the tests." );
