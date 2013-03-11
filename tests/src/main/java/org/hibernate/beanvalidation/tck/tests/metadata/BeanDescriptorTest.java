@@ -220,7 +220,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "c")
+			@SpecAssertion(section = "6.3", id = "e")
 	})
 	public void testGetConstrainedProperties() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
@@ -236,7 +236,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "c")
+			@SpecAssertion(section = "6.3", id = "e")
 	})
 	public void testGetConstrainedPropertiesForUnconstrainedEntity() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );

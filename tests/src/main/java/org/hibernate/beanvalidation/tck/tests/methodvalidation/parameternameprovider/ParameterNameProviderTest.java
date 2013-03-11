@@ -84,7 +84,7 @@ public class ParameterNameProviderTest extends Arquillian {
 		assertSame(
 				validatorFactory.getParameterNameProvider(),
 				parameterNameProvider,
-				"getParameterNameProvider() should return the parameter name provider set via context"
+				"getParameterNameProvider() should return the parameter name provider set via configuration"
 		);
 	}
 }

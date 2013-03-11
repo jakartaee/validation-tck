@@ -17,14 +17,22 @@
                 <payload>
                     <value>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.Error</value>
                 </payload>
+                <element name="byteParam">127</element>
+                <element name="shortParam">32767</element>
+                <element name="intParam">
+                    <value>2147483647</value>
+                </element>
+                <element name="longParam">9223372036854775807</element>
+                <element name="floatParam">3.4028235E38</element>
+                <element name="doubleParam">1.7976931348623157E308</element>
+                <element name="booleanParam">true</element>
+                <element name="charParam">A</element>
                 <element name="stringParam">foobar</element>
                 <element name="classParam">java.lang.String</element>
+                <element name="unqualifiedClassParam">UserType</element>
                 <element name="stringArrayParam">
                     <value>foo</value>
                     <value>bar</value>
-                </element>
-                <element name="intParam">
-                    <value>42</value>
                 </element>
                 <element name="patterns">
                     <annotation>

@@ -58,7 +58,10 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "6.2", id = "a"),
+			@SpecAssertion(section = "6.9", id = "a")
+	})
 	public void testGetElementClass() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -98,6 +101,7 @@ public class CrossParameterDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "a"),
 			@SpecAssertion(section = "6.2", id = "b"),
 			@SpecAssertion(section = "6.7", id = "c")
 	})

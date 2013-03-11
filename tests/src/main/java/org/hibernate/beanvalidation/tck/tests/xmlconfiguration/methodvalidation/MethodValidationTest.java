@@ -113,7 +113,10 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "h")
+	@SpecAssertions({
+			@SpecAssertion(section = "6.11", id = "a"),
+			@SpecAssertion(section = "8.1.1.5", id = "h")
+	})
 	public void testConstraintOnConstructorReturnValueAndParameter() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				CustomerRepository.class,

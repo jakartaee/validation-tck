@@ -122,22 +122,15 @@ public final class TestUtil {
 			actualMessages.add( violation.getMessage() );
 		}
 
-		assertTrue(
-				actualMessages.size() == messages.length,
-				"Wrong number or error messages. Expected: " + messages.length + " Actual: " + actualMessages
-						.size()
-		);
+		List<String> expectedMessages = Arrays.asList( messages );
 
-		for ( String expectedMessage : messages ) {
-			assertTrue(
-					actualMessages.contains( expectedMessage ),
-					"The message '" + expectedMessage + "' should have been in the list of actual messages: " + actualMessages
-			);
-			actualMessages.remove( expectedMessage );
-		}
-		assertTrue(
-				actualMessages.isEmpty(),
-				"Actual messages contained more messages as specified expected messages"
+		Collections.sort( actualMessages );
+		Collections.sort( expectedMessages );
+
+		assertEquals(
+				actualMessages,
+				expectedMessages,
+				String.format( "Expected messages %s, but got %s.", expectedMessages, actualMessages )
 		);
 	}
 

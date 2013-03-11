@@ -16,7 +16,11 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
+import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.Set;
+import javax.validation.ConstraintDefinitionException;
+import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.Validator;
@@ -35,6 +39,7 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertEquals;
@@ -45,6 +50,7 @@ import static org.testng.Assert.fail;
  * Tests for constraint validator resolution.
  *
  * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ValidatorResolutionTest {
@@ -98,7 +104,10 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "c")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.6.4", id = "c"),
+			@SpecAssertion(section = "4.6.4", id = "j")
+	})
 	public void testTargetedTypeIsField() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassA.callCounter,
@@ -115,7 +124,10 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "d")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.6.4", id = "d"),
+			@SpecAssertion(section = "4.6.4", id = "j")
+	})
 	public void testTargetedTypeIsGetter() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassB.callCounter,
@@ -128,6 +140,23 @@ public class ValidatorResolutionTest {
 		assertTrue(
 				CustomConstraint.ValidatorForSubClassB.callCounter > 0,
 				"The validate method of ValidatorForSubClassB should have been called."
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "4.6.4", id = "j")
+	public void testClassLevelValidatorForSubTypeHasPredenceOverValidatorForSuperClass() {
+		assertEquals(
+				CustomConstraint.ValidatorForAnotherSubClass.callCounter,
+				0,
+				"The validate method of ValidatorForAnotherSubClass should not have been called yet."
+		);
+
+		validator.validate( new AnotherSubClass() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForAnotherSubClass.callCounter > 0,
+				"The validate method of ValidatorForAnotherSubClass should have been called."
 		);
 	}
 
@@ -240,7 +269,6 @@ public class ValidatorResolutionTest {
 
 	@Test
 	@SpecAssertion(section = "4.6.4", id = "g")
-
 	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
 		Set<ConstraintViolation<PrimitiveHolder>> violations = validator.validate( primitiveHolder );
@@ -252,13 +280,83 @@ public class ValidatorResolutionTest {
 	//Fails due to HV-733
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.6.4", id = "g")
-
 	public void testValidatorForWrapperTypeArrayIsAppliedForPrimitiveTypeArray() {
 		PrimitiveArrayHolder primitiveHolder = new PrimitiveArrayHolder();
 		Set<ConstraintViolation<PrimitiveArrayHolder>> violations = validator.validate( primitiveHolder );
 
 		assertCorrectNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, ValidIntegerArray.class, ValidLongArray.class );
+	}
+
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@SpecAssertion(section = "4.6.4", id = "a")
+	public void testSeveralCrossParameterValidatorsCauseConstraintDefinitionException() throws Exception {
+		Object object = new CalendarService();
+		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		validator.forExecutables().validateParameters( object, method, parameterValues );
+	}
+
+	//TODO Fails due to HV-746
+	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "4.6.4", id = "a")
+	public void testCrossParameterConstraintWithoutValidatorCausesConstraintDefinitionException() throws Exception {
+		Object object = new OnlineCalendarService();
+		Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		validator.forExecutables().validateParameters( object, method, parameterValues );
+	}
+
+	@Test
+	@SpecAssertion(section = "4.6.4", id = "a")
+	public void testCrossParameterValidatorIsUsedForConstraintImplicitlyTargetingParameters() throws Exception {
+		Object object = new OfflineCalendarService();
+		Method method = OfflineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+				.validateParameters( object, method, parameterValues );
+
+		assertCorrectConstraintViolationMessages( violations, "violation created by cross-parameter validator" );
+	}
+
+	@Test
+	@SpecAssertion(section = "4.6.4", id = "a")
+	public void testCrossParameterValidatorIsUsedForConstraintExplicitlyTargetingParameters() throws Exception {
+		Object object = new AdvancedCalendarService();
+		Method method = AdvancedCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+				.validateParameters( object, method, parameterValues );
+		assertCorrectConstraintViolationMessages( violations, "violation created by cross-parameter validator" );
+	}
+
+	@Test
+	@SpecAssertion(section = "4.6.4", id = "f")
+	public void testGenericValidatorIsUsedForConstraintTargetingMethodReturnValue() throws Exception {
+		Object object = new AnotherCalendarService();
+		Method method = AnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object returnValue = null;
+
+		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+				.validateReturnValue( object, method, returnValue );
+		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
+	}
+
+	@Test
+	@SpecAssertion(section = "4.6.4", id = "f")
+	public void testGenericValidatorIsUsedForConstraintTargetingField() {
+		Set<ConstraintViolation<TestBean>> violations = validator.validate( new TestBean() );
+		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
+	}
+
+	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@SpecAssertion(section = "4.6.4", id = "k")
+	public void testTwoValidatorsForSameTypeCauseUnexpectedTypeException() {
+		validator.validate( new AnotherBean() );
 	}
 
 	private static class SubClassAHolder {
@@ -296,6 +394,15 @@ public class ValidatorResolutionTest {
 
 	}
 
+	static class AnotherBaseClass {
+
+	}
+
+	@CustomConstraint
+	static class AnotherSubClass extends AnotherBaseClass {
+
+	}
+
 	private static class PrimitiveHolder {
 
 		@ValidInteger
@@ -312,5 +419,52 @@ public class ValidatorResolutionTest {
 
 		@ValidLongArray
 		private long[] longs;
+	}
+
+	private static class CalendarService {
+
+		@CrossParameterConstraintWithSeveralValidators
+		public void createEvent(Date startDate, Date endDate) {
+		}
+	}
+
+	private static class OnlineCalendarService {
+
+		@CrossParameterConstraintWithoutValidator(validationAppliesTo = ConstraintTarget.PARAMETERS)
+		public void createEvent(Date startDate, Date endDate) {
+		}
+	}
+
+	private static class OfflineCalendarService {
+
+		@GenericAndCrossParameterConstraint
+		public void createEvent(Date startDate, Date endDate) {
+		}
+	}
+
+	private static class AdvancedCalendarService {
+
+		@GenericAndCrossParameterConstraint(validationAppliesTo = ConstraintTarget.PARAMETERS)
+		public Object createEvent(Date startDate, Date endDate) {
+			return null;
+		}
+	}
+
+	private static class AnotherCalendarService {
+
+		@GenericAndCrossParameterConstraint(validationAppliesTo = ConstraintTarget.RETURN_VALUE)
+		public Object createEvent(Date startDate, Date endDate) {
+			return null;
+		}
+	}
+
+	private static class TestBean {
+
+		@GenericAndCrossParameterConstraint
+		public String foo;
+	}
+
+	@ConstraintWithTwoValidatorsForTheSameType
+	private static class AnotherBean {
 	}
 }

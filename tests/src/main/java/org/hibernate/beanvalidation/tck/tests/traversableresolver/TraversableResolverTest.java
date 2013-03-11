@@ -42,6 +42,8 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertSame;
 
 /**
  * @author Emmanuel Bernard
@@ -157,8 +159,8 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-		@SpecAssertion(section = "4.6.3", id = "k"),
-		@SpecAssertion(section = "4.6.3", id = "l")
+			@SpecAssertion(section = "4.6.3", id = "k"),
+			@SpecAssertion(section = "4.6.3", id = "l")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
 		Suit suit = new Suit();
@@ -260,8 +262,8 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-		@SpecAssertion(section = "4.6.3", id = "k"),
-		@SpecAssertion(section = "4.6.3", id = "l")
+			@SpecAssertion(section = "4.6.3", id = "k"),
+			@SpecAssertion(section = "4.6.3", id = "l")
 	})
 	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
 		Suit suit = new Suit();
@@ -375,6 +377,17 @@ public class TraversableResolverTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
+	@Test
+	@SpecAssertion(section = "5.5.2", id = "c")
+	public void testTraversableResolverFromValidatorFactory() {
+		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
+		DummyTraversableResolver traversableResolver = new DummyTraversableResolver();
+
+		configuration.traversableResolver( traversableResolver );
+		ValidatorFactory factory = configuration.buildValidatorFactory();
+
+		assertSame( factory.getTraversableResolver(), traversableResolver );
+	}
 
 	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "4.6.3", id = "j")
@@ -386,6 +399,13 @@ public class TraversableResolverTest extends Arquillian {
 		Validator v = factory.getValidator();
 
 		v.validate( new Suit() );
+	}
+
+	@Test
+	@SpecAssertion(section = "5.5.3", id = "b")
+	public void testDefaultTraversableResolverIsNotNull() {
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		assertNotNull( config.getDefaultTraversableResolver() );
 	}
 
 	private static class DummyTraversableResolver implements TraversableResolver {

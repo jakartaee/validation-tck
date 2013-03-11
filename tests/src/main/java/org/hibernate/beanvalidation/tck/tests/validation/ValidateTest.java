@@ -194,7 +194,8 @@ public class ValidateTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "i"),
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "k")
+			@SpecAssertion(section = "5.2", id = "k"),
+			@SpecAssertion(section = "6.11", id = "a"),
 	})
 	public void testConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();

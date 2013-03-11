@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -14,63 +14,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
+package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
+import javax.validation.ConstraintTarget;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Pattern;
 
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * @author Hardy Ferentschik
+ * @author Gunnar Morling
  */
-@Constraint(validatedBy = ConsistentUserValidator.class)
 @Documented
-@Target({ METHOD, FIELD, TYPE })
+@Constraint(validatedBy = CrossParameterConstraintWithoutValidator.Validator.class)
+@Target({ METHOD, CONSTRUCTOR, TYPE, FIELD })
 @Retention(RUNTIME)
-public @interface ConsistentUserInformation {
-	String message() default "User information is not consistent.";
+public @interface CrossParameterConstraintWithoutValidator {
+	String message() default "default message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	byte byteParam() default 0;
+	ConstraintTarget validationAppliesTo() default ConstraintTarget.IMPLICIT;
 
-	short shortParam() default 0;
+	public static class Validator implements ConstraintValidator<CrossParameterConstraintWithoutValidator, Object> {
 
-	int intParam() default 0;
+		@Override
+		public void initialize(CrossParameterConstraintWithoutValidator parameters) {
+		}
 
-	long longParam() default 0;
-
-	float floatParam() default 0;
-
-	double doubleParam() default 0;
-
-	boolean booleanParam() default false;
-
-	char charParam() default 0;
-
-	String stringParam() default "";
-
-	Class<?> classParam() default void.class;
-
-	Class<?> unqualifiedClassParam() default void.class;
-
-	String[] stringArrayParam() default { };
-
-
-	Max max() default @Max(value = 10);
-
-	Pattern[] patterns();
-
-	UserType userType() default UserType.BUYER;
+		@Override
+		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
+			return false;
+		}
+	}
 }

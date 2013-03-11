@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
@@ -31,6 +32,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -48,6 +50,8 @@ import static org.testng.Assert.assertTrue;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class XmlConfigurationTest extends Arquillian {
 
+	private Validator validator;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
@@ -63,13 +67,20 @@ public class XmlConfigurationTest extends Arquillian {
 						Order.class,
 						OrderLine.class,
 						CreditCard.class,
-						TestGroup.class
+						TestGroup.class,
+						SuperUser.class
 				)
 				.withValidationXml( "validation-XmlConfigurationTest.xml" )
 				.withResource( "user-constraints.xml" )
+				.withResource( "superuser-constraints.xml" )
 				.withResource( "order-constraints.xml" )
 				.withResource( "order-constraints-XmlConfigurationTest.xml" )
 				.build();
+	}
+
+	@BeforeMethod
+	public void setupValidator() {
+		validator = TestUtil.getValidatorUnderTest();
 	}
 
 	@Test
@@ -82,8 +93,6 @@ public class XmlConfigurationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testClassConstraintDefinedInXml() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
@@ -129,8 +138,6 @@ public class XmlConfigurationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testPropertyConstraintDefinedInXml() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		User user = new User();
 		user.setConsistent( true );
 		user.setFirstname( "Wolfeschlegelsteinhausenbergerdorff" );
@@ -154,8 +161,6 @@ public class XmlConfigurationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testFieldConstraintDefinedInXml() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		User user = new User();
 		user.setConsistent( true );
 		user.setFirstname( "Wolfgang" );
@@ -182,8 +187,6 @@ public class XmlConfigurationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testAnnotationDefinedConstraintApplies() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		User user = new User();
 		user.setConsistent( true );
 		user.setPhoneNumber( "police" );
@@ -209,8 +212,6 @@ public class XmlConfigurationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.2", id = "a")
 	})
 	public void testCascadingConfiguredInXml() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		User user = new User();
 		user.setConsistent( true );
 		CreditCard card = new CreditCard();
@@ -229,8 +230,6 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "5.5.6", id = "o")
 	public void testMappingFilesAddedViaConfigurationGetAddedToXmlConfiguredMappings() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		assertFalse(
 				validator.getConstraintsForClass( Order.class ).isBeanConstrained(),
 				"Without additional mapping Order should be unconstrained"
@@ -243,7 +242,7 @@ public class XmlConfigurationTest extends Arquillian {
 						"/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/order-constraints-XmlConfigurationTest.xml"
 				)
 		);
-		validator = config.buildValidatorFactory().getValidator();
+		Validator validator = config.buildValidatorFactory().getValidator();
 
 		assertTrue(
 				validator.getConstraintsForClass( Order.class ).isBeanConstrained(),
@@ -257,10 +256,20 @@ public class XmlConfigurationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.1.6", id = "e"),
 			@SpecAssertion(section = "8.1.1.6", id = "f"),
 			@SpecAssertion(section = "8.1.1.6", id = "g"),
-			@SpecAssertion(section = "8.1.1.6", id = "h")
+			@SpecAssertion(section = "8.1.1.6", id = "h"),
+			@SpecAssertion(section = "8.1.3", id = "a"),
+			@SpecAssertion(section = "8.1.3", id = "b"),
+			@SpecAssertion(section = "8.1.3", id = "c"),
+			@SpecAssertion(section = "8.1.3", id = "d"),
+			@SpecAssertion(section = "8.1.3", id = "e"),
+			@SpecAssertion(section = "8.1.3", id = "f"),
+			@SpecAssertion(section = "8.1.3", id = "g"),
+			@SpecAssertion(section = "8.1.3", id = "h"),
+			@SpecAssertion(section = "8.1.3", id = "i"),
+			@SpecAssertion(section = "8.1.3", id = "j"),
+			@SpecAssertion(section = "8.1.3", id = "k")
 	})
 	public void testElementConversionInXmlConfiguredConstraint() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
 		assertTrue( beanDescriptor.isBeanConstrained() );
 
@@ -270,8 +279,19 @@ public class XmlConfigurationTest extends Arquillian {
 		ConstraintDescriptor<?> descriptor = constraintDescriptors.iterator().next();
 		ConsistentUserInformation constraintAnnotation = (ConsistentUserInformation) descriptor.getAnnotation();
 
+		assertEquals( constraintAnnotation.byteParam(), Byte.MAX_VALUE, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.shortParam(), Short.MAX_VALUE, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.intParam(), Integer.MAX_VALUE, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.longParam(), Long.MAX_VALUE, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.floatParam(), Float.MAX_VALUE, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.doubleParam(), Double.MAX_VALUE, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.booleanParam(), true, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.charParam(), 'A', "Wrong parameter value" );
+
 		assertEquals( constraintAnnotation.stringParam(), "foobar", "Wrong parameter value" );
 		assertEquals( constraintAnnotation.classParam(), String.class, "Wrong parameter value" );
+		assertEquals( constraintAnnotation.unqualifiedClassParam(), UserType.class, "Wrong parameter value" );
+
 		assertEquals( constraintAnnotation.userType(), UserType.SELLER, "Wrong parameter value" );
 
 		assertEquals( constraintAnnotation.stringArrayParam(), new String[] { "foo", "bar" }, "Wrong parameter value" );
@@ -280,6 +300,15 @@ public class XmlConfigurationTest extends Arquillian {
 		assertEquals( constraintAnnotation.patterns().length, 2, "Wrong array size" );
 	}
 
+	@Test(expectedExceptions = ValidationException.class)
+	@SpecAssertion(section = "8.1.3", id = "l")
+	public void testIllegalAnnotationValueInXmlMappingCausesException() {
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		config.addMapping( getStream( "superuser-constraints.xml" ) );
+		Validator validator = config.buildValidatorFactory().getValidator();
+
+		validator.getConstraintsForClass( SuperUser.class );
+	}
 
 	private InputStream getStream(String fileName) {
 		return this.getClass().getResourceAsStream( fileName );
