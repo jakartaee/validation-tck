@@ -92,7 +92,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "e"),
+			@SpecAssertion(section = "4.5.2.1", id = "b")
 	})
 	public void testConstraintTargetParametersOnMethodWithoutParametersCausesException() throws Exception {
 		Object object = new Qux();
@@ -107,7 +108,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "e")
+			@SpecAssertion(section = "3.1.1.4", id = "e"),
+			@SpecAssertion(section = "4.5.2.1", id = "b")
 	})
 	public void testConstraintTargetParametersOnConstructorWithoutParametersCausesException() throws Exception {
 		Constructor<?> constructor = Baz.class.getConstructor();

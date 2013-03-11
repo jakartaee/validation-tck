@@ -26,6 +26,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -73,7 +74,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "a"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterConstraintsAddedInInterfaceImplementationCausesException()
 			throws Exception {
 		Object object = new ImplementationAddingParameterConstraints();
@@ -85,7 +89,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "a"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterConstraintsAddedInSubClassCausesException() throws Exception {
 		Object object = new SubClassAddingParameterConstraints();
 		Method method = getCreateEventMethod( object );
@@ -96,7 +103,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "a"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterMarkedAsCascadedInInterfaceImplementationCausesException()
 			throws Exception {
 		Object object = new ImplementationMarkingParameterAsCascaded();
@@ -108,7 +118,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "a"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterMarkedAsCascadedInSubClassCausesException() throws Exception {
 		Object object = new SubClassMarkingParameterAsCascaded();
 		Method method = getCreateEventMethod( object );
@@ -119,7 +132,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "b"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testConstrainedParameterInOneMethodOfParallelInterfacesCausesException()
 			throws Exception {
 		Object object = new ImplementationOfConstrainedAndUnconstrainedInterfaces();
@@ -131,7 +147,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "b"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterIsConstrainedInInterfaceMethodAndSuperClassMethodCausesException()
 			throws Exception {
 		Object object = new ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass();
@@ -143,7 +162,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "b"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterIsCascadingInOneMethodOfParallelInterfacesCausesException()
 			throws Exception {
 		Object object = new ImplementationOfCascadingAndNonCascadingInterfaces();
@@ -155,7 +177,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "b"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testParameterIsCascadingInInterfaceMethodAndSuperClassMethodCausesException()
 			throws Exception {
 		Object object = new ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass();
@@ -167,7 +192,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "d")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "d"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testReturnValueIsMarkedAsCascadedInInterfaceAndImplementationCausesException()
 			throws Exception {
 		Object object = new OrderServiceImplementation();
@@ -179,7 +207,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "d")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "d"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testReturnValueIsMarkedAsCascadedInBaseAndSubClassCausesException()
 			throws Exception {
 		Object object = new OrderServiceSubClass();
@@ -191,7 +222,10 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "d")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.5.5", id = "d"),
+			@SpecAssertion(section = "4.5.5", id = "e")
+	})
 	public void testReturnValueIsMarkedAsCascadedInSuperAndDerivedInterfaceCausesException()
 			throws Exception {
 		Object object = new ExtendedOrderServiceImplementation();
