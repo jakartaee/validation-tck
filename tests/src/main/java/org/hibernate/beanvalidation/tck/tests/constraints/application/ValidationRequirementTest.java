@@ -55,7 +55,8 @@ public class ValidationRequirementTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "c"),
 			@SpecAssertion(section = "4.1", id = "e"),
-			@SpecAssertion(section = "4.1.1", id = "a")
+			@SpecAssertion(section = "4.1.1", id = "a"),
+			@SpecAssertion(section = "4.1.1", id = "b")
 	})
 	public void testClassLevelConstraints() {
 		Woman sarah = new Woman();

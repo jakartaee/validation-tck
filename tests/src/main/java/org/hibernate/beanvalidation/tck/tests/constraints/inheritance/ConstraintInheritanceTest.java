@@ -17,9 +17,14 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Validator;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.validation.metadata.BeanDescriptor;
+import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -33,6 +38,7 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
@@ -58,8 +64,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
-		// cast is required for JDK 5 - at least on Mac OS X
-		Annotation constraintAnnotation = (Annotation) propDescriptor.getConstraintDescriptors()
+		Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
 				.iterator()
 				.next().getAnnotation();
 		assertTrue( constraintAnnotation.annotationType() == NotNull.class );
@@ -78,10 +83,59 @@ public class ConstraintInheritanceTest extends Arquillian {
 		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
-		// cast is required for JDK 5 - at least on Mac OS X
-		Annotation constraintAnnotation = (Annotation) propDescriptor.getConstraintDescriptors()
+		Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
 				.iterator()
 				.next().getAnnotation();
 		assertTrue( constraintAnnotation.annotationType() == NotNull.class );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "4.3", id = "a"),
+			@SpecAssertion(section = "4.3", id = "c")
+	})
+	public void testConstraintsOnInterfaceAndImplementationAddUp() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+
+		String propertyName = "name";
+		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
+
+		List<Class<? extends Annotation>> constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
+
+		assertEquals( constraintTypes.size(), 2 );
+		assertTrue( constraintTypes.contains( DecimalMin.class ) );
+		assertTrue( constraintTypes.contains( Size.class ) );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "4.3", id = "a"),
+			@SpecAssertion(section = "4.3", id = "c")
+	})
+	public void testConstraintsOnSuperAndSubClassAddUp() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+
+		String propertyName = "lastName";
+		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
+
+		List<Class<? extends Annotation>> constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
+
+		assertEquals( constraintTypes.size(), 2 );
+		assertTrue( constraintTypes.contains( DecimalMin.class ) );
+		assertTrue( constraintTypes.contains( Size.class ) );
+	}
+
+	private List<Class<? extends Annotation>> getConstraintTypes(Iterable<ConstraintDescriptor<?>> descriptors) {
+		List<Class<? extends Annotation>> constraintTypes = new ArrayList<Class<? extends Annotation>>();
+
+		for ( ConstraintDescriptor<?> constraintDescriptor : descriptors ) {
+			constraintTypes.add( constraintDescriptor.getAnnotation().annotationType() );
+		}
+
+		return constraintTypes;
 	}
 }

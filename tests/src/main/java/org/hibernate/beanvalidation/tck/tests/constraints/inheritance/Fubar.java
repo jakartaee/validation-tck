@@ -17,6 +17,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author Hardy Ferentschik
@@ -24,4 +25,7 @@ import javax.validation.constraints.NotNull;
 public interface Fubar {
 	@NotNull
 	String getFubar();
+
+	@Size(min=5)
+	String getName();
 }

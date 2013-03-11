@@ -17,6 +17,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author Hardy Ferentschik
@@ -31,5 +32,10 @@ public class Foo {
 
 	public void setFoo(String foo) {
 		this.foo = foo;
+	}
+
+	@Size(min = 5)
+	public String getLastName() {
+		return null;
 	}
 }

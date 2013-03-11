@@ -16,12 +16,27 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
+import javax.validation.constraints.DecimalMin;
+
 /**
  * @author Hardy Ferentschik
  */
 public class Bar extends Foo implements Fubar {
 
+	@Override
 	public String getFubar() {
 		return null;
+	}
+
+	@Override
+	@DecimalMin("10")
+	public String getName() {
+		return "3";
+	}
+
+	@Override
+	@DecimalMin("10")
+	public String getLastName() {
+		return "3";
 	}
 }
