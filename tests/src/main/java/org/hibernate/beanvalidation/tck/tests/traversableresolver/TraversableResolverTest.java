@@ -64,10 +64,15 @@ public class TraversableResolverTest extends Arquillian {
 			@SpecAssertion(section = "4.6.3", id = "a"),
 			@SpecAssertion(section = "4.6.3", id = "b"),
 			@SpecAssertion(section = "4.6.3", id = "c"),
+			@SpecAssertion(section = "4.6.3", id = "d"),
+			@SpecAssertion(section = "4.6.3", id = "e"),
+			@SpecAssertion(section = "4.6.3", id = "f"),
+			@SpecAssertion(section = "4.6.3", id = "g"),
+			@SpecAssertion(section = "4.6.3", id = "h"),
 			@SpecAssertion(section = "4.6.3", id = "k"),
 			@SpecAssertion(section = "4.6.3", id = "l")
 	})
-	public void testCorrectNumberOfCallsToIsReachableAndIsCascadable() {
+	public void testCorrectCallsToIsReachableAndIsCascadable() {
 		Suit suit = new Suit();
 		suit.setTrousers( new Trousers() );
 		suit.setJacket( new Jacket() );
@@ -159,10 +164,62 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "4.6.3", id = "a"),
+			@SpecAssertion(section = "4.6.3", id = "b"),
+			@SpecAssertion(section = "4.6.3", id = "c"),
+			@SpecAssertion(section = "4.6.3", id = "d"),
+			@SpecAssertion(section = "4.6.3", id = "e"),
+			@SpecAssertion(section = "4.6.3", id = "f"),
+			@SpecAssertion(section = "4.6.3", id = "g"),
+			@SpecAssertion(section = "4.6.3", id = "h")
+	})
+	public void testCorrectCallsToIsReachableAndIsCascadableForValidateValue() {
+		Suit suit = new Suit();
+		suit.setTrousers( new Trousers() );
+		suit.setJacket( new Jacket() );
+		suit.setSize( 3333 );
+		suit.getTrousers().setLength( 32321 );
+		suit.getJacket().setWidth( 432432 );
+
+		Set<Call> expectedReachCalls = new HashSet<Call>();
+		Set<Call> expectedCascadeCalls = new HashSet<Call>();
+		expectedReachCalls.add(
+				new Call(
+						null,
+						"size",
+						Suit.class,
+						ElementType.FIELD,
+						new String[] { null }
+				)
+		);
+
+		SnifferTraversableResolver resolver = new SnifferTraversableResolver(
+				expectedReachCalls,
+				expectedCascadeCalls
+		);
+
+		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
+
+		ValidatorFactory factory = config.buildValidatorFactory();
+		Validator v = factory.getValidator();
+
+		v.validateValue( Suit.class, "size", 3333 );
+
+		assertEquals( resolver.getReachableCallCount(), 1 );
+		assertEquals( resolver.getCascadableCallCount(), 0 );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "4.6.3", id = "d"),
+			@SpecAssertion(section = "4.6.3", id = "e"),
+			@SpecAssertion(section = "4.6.3", id = "f"),
+			@SpecAssertion(section = "4.6.3", id = "g"),
+			@SpecAssertion(section = "4.6.3", id = "h"),
 			@SpecAssertion(section = "4.6.3", id = "k"),
 			@SpecAssertion(section = "4.6.3", id = "l")
 	})
-	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
+	public void testCorrectCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
 		Suit suit = new Suit();
 		suit.setTrousers( new Trousers() );
 		suit.setJacket( new Jacket() );
@@ -262,10 +319,15 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "4.6.3", id = "d"),
+			@SpecAssertion(section = "4.6.3", id = "e"),
+			@SpecAssertion(section = "4.6.3", id = "f"),
+			@SpecAssertion(section = "4.6.3", id = "g"),
+			@SpecAssertion(section = "4.6.3", id = "h"),
 			@SpecAssertion(section = "4.6.3", id = "k"),
 			@SpecAssertion(section = "4.6.3", id = "l")
 	})
-	public void testCorrectNumberOfCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
+	public void testCorrectCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
 		Suit suit = new Suit();
 		suit.setTrousers( new Trousers() );
 		suit.setJacket( new Jacket() );
