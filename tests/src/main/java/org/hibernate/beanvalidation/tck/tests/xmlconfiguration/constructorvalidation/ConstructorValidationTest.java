@@ -65,15 +65,15 @@ public class ConstructorValidationTest extends Arquillian {
 	public void testXmlConfiguredConstructors() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor( CustomerRepository.class );
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
-		assertTrue( descriptor.isReturnValueConstrained() );
+		assertTrue( descriptor.hasConstrainedReturnValue() );
 
 		descriptor = TestUtil.getConstructorDescriptor( CustomerRepository.class, String.class );
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
-		assertTrue( descriptor.areParametersConstrained() );
+		assertTrue( descriptor.hasConstrainedParameters() );
 
 		descriptor = TestUtil.getConstructorDescriptor( CustomerRepository.class, CustomerRepository.class );
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
-		assertTrue( descriptor.areParametersConstrained() );
+		assertTrue( descriptor.hasConstrainedParameters() );
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class ConstructorValidationTest extends Arquillian {
 				Customer[].class
 		);
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
-		assertTrue( descriptor.areParametersConstrained() );
+		assertTrue( descriptor.hasConstrainedParameters() );
 	}
 
 	@Test

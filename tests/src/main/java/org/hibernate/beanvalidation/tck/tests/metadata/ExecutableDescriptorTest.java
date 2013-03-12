@@ -241,7 +241,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.parameterConstrainedMethod();
 		assertTrue(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should be constrained on parameters"
 		);
 	}
@@ -251,7 +251,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForCascadedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedParameterMethod();
 		assertTrue(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should be constrained on parameters"
 		);
 	}
@@ -262,7 +262,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForCrossParameterConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.crossParameterConstrainedMethod();
 		assertTrue(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should be constrained on parameters"
 		);
 	}
@@ -272,7 +272,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForNotConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedReturnValueMethod();
 		assertFalse(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should not be constrained on parameters"
 		);
 	}
@@ -282,7 +282,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForParameterlessMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
 		assertFalse(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should not be constrained on parameters"
 		);
 	}
@@ -292,7 +292,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.parameterConstrainedConstructor();
 		assertTrue(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should be constrained on parameters"
 		);
 	}
@@ -302,7 +302,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForCascadedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedParameterConstructor();
 		assertTrue(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should be constrained on parameters"
 		);
 	}
@@ -312,7 +312,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForCrossParameterConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.crossParameterConstrainedConstructor();
 		assertTrue(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should be constrained on parameters"
 		);
 	}
@@ -322,7 +322,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForNotConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedReturnValueConstructor();
 		assertFalse(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should not be constrained on parameters"
 		);
 	}
@@ -332,7 +332,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testAreParametersConstrainedForParameterlessConstructor() {
 		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
 		assertFalse(
-				descriptor.areParametersConstrained(),
+				descriptor.hasConstrainedParameters(),
 				"Should not be constrained on parameters"
 		);
 	}
@@ -342,7 +342,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.returnValueConstrainedMethod();
 		assertTrue(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should be constrained on return value"
 		);
 	}
@@ -352,7 +352,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForCascadedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedReturnValueMethod();
 		assertTrue(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should be constrained on return value"
 		);
 	}
@@ -362,7 +362,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForNotConstrainedMethod() {
 		MethodDescriptor descriptor = Executables.cascadedParameterMethod();
 		assertFalse(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should not be constrained on return value"
 		);
 	}
@@ -372,7 +372,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForVoidMethod() {
 		MethodDescriptor descriptor = Executables.crossParameterConstrainedMethod();
 		assertFalse(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should not be constrained on return value"
 		);
 	}
@@ -382,7 +382,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.returnValueConstrainedConstructor();
 		assertTrue(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should be constrained on return value"
 		);
 	}
@@ -392,7 +392,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForCascadedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedReturnValueConstructor();
 		assertTrue(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should be constrained on return value"
 		);
 	}
@@ -402,7 +402,7 @@ public class ExecutableDescriptorTest extends Arquillian {
 	public void testIsReturnValueConstrainedForNotConstrainedConstructor() {
 		ConstructorDescriptor descriptor = Executables.cascadedParameterConstructor();
 		assertFalse(
-				descriptor.isReturnValueConstrained(),
+				descriptor.hasConstrainedReturnValue(),
 				"Should not be constrained on return value"
 		);
 	}

@@ -66,18 +66,18 @@ public class MethodValidationTest extends Arquillian {
 	public void testXmlMethodConfigurationApplied() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "listCustomers" );
 		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.isReturnValueConstrained() );
-		assertFalse( descriptor.areParametersConstrained() );
+		assertTrue( descriptor.hasConstrainedReturnValue() );
+		assertFalse( descriptor.hasConstrainedParameters() );
 
 		descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "findCustomer", String.class );
 		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.isReturnValueConstrained() );
-		assertTrue( descriptor.areParametersConstrained() );
+		assertTrue( descriptor.hasConstrainedReturnValue() );
+		assertTrue( descriptor.hasConstrainedParameters() );
 
 		descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "isCustomer", String.class );
 		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertFalse( descriptor.isReturnValueConstrained() );
-		assertTrue( descriptor.areParametersConstrained() );
+		assertFalse( descriptor.hasConstrainedReturnValue() );
+		assertTrue( descriptor.hasConstrainedParameters() );
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class MethodValidationTest extends Arquillian {
 				Customer[].class
 		);
 		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.areParametersConstrained() );
+		assertTrue( descriptor.hasConstrainedParameters() );
 	}
 
 	@Test
