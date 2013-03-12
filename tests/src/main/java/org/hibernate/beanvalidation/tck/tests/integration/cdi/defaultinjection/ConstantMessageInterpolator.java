@@ -14,27 +14,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.defaultinjection;
 
 import java.util.Locale;
-import javax.inject.Inject;
 import javax.validation.MessageInterpolator;
 
 /**
  * @author Gunnar Morling
  */
-public class MessageInterpolatorUsingDependencyInjection implements MessageInterpolator {
-
-	@Inject
-	private Greeter greeter;
+public class ConstantMessageInterpolator implements MessageInterpolator {
 
 	@Override
 	public String interpolate(String messageTemplate, Context context) {
-		return greeter.greet();
+		return "Invalid constraint";
 	}
 
 	@Override
 	public String interpolate(String messageTemplate, Context context, Locale locale) {
-		return greeter.greet();
+		return "Invalid constraint";
 	}
 }

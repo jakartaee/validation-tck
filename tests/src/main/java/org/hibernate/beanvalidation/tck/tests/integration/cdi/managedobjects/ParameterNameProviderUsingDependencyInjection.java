@@ -14,33 +14,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.NotNull;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import javax.inject.Inject;
+import javax.validation.ParameterNameProvider;
 
 /**
  * @author Gunnar Morling
  */
-public class GreetingConstraintValidator implements ConstraintValidator<NotNull, Object> {
+public class ParameterNameProviderUsingDependencyInjection implements ParameterNameProvider {
 
-	private final String message;
+	@Inject
+	private Greeter greeter;
 
-	public GreetingConstraintValidator(String message) {
-		this.message = message;
+	@Override
+	public List<String> getParameterNames(Constructor<?> constructor) {
+		return Arrays.asList( greeter.greet() );
 	}
 
 	@Override
-	public void initialize(NotNull constraintAnnotation) {
-	}
-
-	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext context) {
-		return false;
-	}
-
-	public String getMessage() {
-		return message;
+	public List<String> getParameterNames(Method method) {
+		return null;
 	}
 }

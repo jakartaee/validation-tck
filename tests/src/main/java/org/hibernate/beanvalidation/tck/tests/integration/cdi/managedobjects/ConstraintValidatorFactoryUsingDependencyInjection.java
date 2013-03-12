@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;

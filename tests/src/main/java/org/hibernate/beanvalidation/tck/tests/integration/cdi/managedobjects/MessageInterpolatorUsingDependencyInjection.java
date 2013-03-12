@@ -14,37 +14,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import java.lang.annotation.ElementType;
+import java.util.Locale;
 import javax.inject.Inject;
-import javax.validation.Path;
-import javax.validation.Path.Node;
-import javax.validation.TraversableResolver;
+import javax.validation.MessageInterpolator;
 
 /**
  * @author Gunnar Morling
  */
-public class TraversableResolverUsingDependencyInjection implements TraversableResolver {
+public class MessageInterpolatorUsingDependencyInjection implements MessageInterpolator {
 
 	@Inject
 	private Greeter greeter;
 
 	@Override
-	public boolean isReachable(Object traversableObject,
-							   Node traversableProperty, Class<?> rootBeanType,
-							   Path pathToTraversableObject, ElementType elementType) {
-
-		( (MessageHolder) traversableObject ).setValue( greeter.greet() );
-		return false;
+	public String interpolate(String messageTemplate, Context context) {
+		return greeter.greet();
 	}
 
 	@Override
-	public boolean isCascadable(Object traversableObject,
-								Node traversableProperty, Class<?> rootBeanType,
-								Path pathToTraversableObject, ElementType elementType) {
-
-		( (MessageHolder) traversableObject ).setValue( greeter.greet() );
-		return false;
+	public String interpolate(String messageTemplate, Context context, Locale locale) {
+		return greeter.greet();
 	}
 }

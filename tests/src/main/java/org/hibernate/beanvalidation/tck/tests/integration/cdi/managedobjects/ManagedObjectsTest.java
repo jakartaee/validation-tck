@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
@@ -61,15 +61,7 @@ public class ManagedObjectsTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( ManagedObjectsTest.class )
-				.withClass( MessageInterpolatorUsingDependencyInjection.class )
-				.withClass( Greeter.class )
-				.withClass( GreetingConstraintValidator.class )
-				.withClass( MessageHolder.class )
-				.withClass( MessageInterpolatorUsingDependencyInjection.class )
-				.withClass( TraversableResolverUsingDependencyInjection.class )
-				.withClass( ConstraintValidatorFactoryUsingDependencyInjection.class )
-				.withClass( ParameterNameProviderUsingDependencyInjection.class )
+				.withTestClassPackage( ManagedObjectsTest.class )
 				.withValidationXml( "validation-ManagedObjectsTest.xml" )
 				.withEmptyBeansXml()
 				.build();
@@ -80,7 +72,7 @@ public class ManagedObjectsTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a")
 	})
-	private void testMessageInterpolatorIsSubjectToDependencyInjection() {
+	public void testMessageInterpolatorIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		MessageInterpolator messageInterpolator = defaultValidatorFactory.getMessageInterpolator();
 
@@ -92,7 +84,7 @@ public class ManagedObjectsTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a")
 	})
-	private void testTraversableResolverIsSubjectToDependencyInjection() {
+	public void testTraversableResolverIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
 		TraversableResolver traversableResolver = defaultValidatorFactory.getTraversableResolver();
@@ -107,7 +99,7 @@ public class ManagedObjectsTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a")
 	})
-	private void testConstraintValidatorFactoryIsSubjectToDependencyInjection() {
+	public void testConstraintValidatorFactoryIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
 		ConstraintValidatorFactory constraintValidatorFactory = defaultValidatorFactory.getConstraintValidatorFactory();
@@ -123,7 +115,7 @@ public class ManagedObjectsTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a")
 	})
-	private void testParameterNameProviderIsSubjectToDependencyInjection() {
+	public void testParameterNameProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ParameterNameProvider parameterNameProvider = defaultValidatorFactory.getParameterNameProvider();
 

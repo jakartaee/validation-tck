@@ -14,23 +14,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import java.util.Locale;
-import javax.validation.MessageInterpolator;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author Gunnar Morling
  */
-public class ConstantMessageInterpolator implements MessageInterpolator {
+@Constraint(validatedBy = { GreetingConstraintValidator.class })
+@Documented
+@Target({ METHOD, FIELD, TYPE })
+@Retention(RUNTIME)
+public @interface GreetingConstraint {
+	String message() default "my custom constraint";
 
-	@Override
-	public String interpolate(String messageTemplate, Context context) {
-		return "Invalid constraint";
-	}
+	Class<?>[] groups() default { };
 
-	@Override
-	public String interpolate(String messageTemplate, Context context, Locale locale) {
-		return "Invalid constraint";
-	}
+	Class<? extends Payload>[] payload() default { };
 }

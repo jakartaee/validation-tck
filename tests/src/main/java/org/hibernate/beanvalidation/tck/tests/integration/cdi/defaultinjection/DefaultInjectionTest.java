@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.defaultinjection;
 
 import java.util.Set;
 import javax.enterprise.inject.Default;
@@ -63,8 +63,7 @@ public class DefaultInjectionTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( DefaultInjectionTest.class )
-				.withClass( ConstantMessageInterpolator.class )
+				.withTestClassPackage( DefaultInjectionTest.class )
 				.withValidationXml( "validation-DefaultInjectionTest.xml" )
 				.withEmptyBeansXml()
 				.build();
@@ -75,7 +74,7 @@ public class DefaultInjectionTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "a"),
 			@SpecAssertion(section = "10.3.1", id = "a")
 	})
-	private void testDefaultValidatorFactoryGetsInjected() {
+	public void testDefaultValidatorFactoryGetsInjected() {
 		assertNotNull( defaultValidatorFactory, "Default validator factory should be injectable." );
 		assertTrue(
 				defaultValidatorFactory.getMessageInterpolator() instanceof ConstantMessageInterpolator,
@@ -94,7 +93,7 @@ public class DefaultInjectionTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "a"),
 			@SpecAssertion(section = "10.3.1", id = "a")
 	})
-	private void testQualifiedDefaultValidatorFactoryGetsInjected() {
+	public void testQualifiedDefaultValidatorFactoryGetsInjected() {
 		assertNotNull(
 				qualifiedDefaultValidatorFactory,
 				"Qualified default validator factory should be injectable."
@@ -116,7 +115,7 @@ public class DefaultInjectionTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "a"),
 			@SpecAssertion(section = "10.3.1", id = "a")
 	})
-	private void testDefaultValidatorGetsInjected() {
+	public void testDefaultValidatorGetsInjected() {
 		assertNotNull( defaultValidator, "Default validator should be injectable." );
 
 		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( new Foo() );
@@ -130,7 +129,7 @@ public class DefaultInjectionTest extends Arquillian {
 			@SpecAssertion(section = "10.1.1", id = "a"),
 			@SpecAssertion(section = "10.3.1", id = "a")
 	})
-	private void testQualifiedDefaultValidatorGetsInjected() {
+	public void testQualifiedDefaultValidatorGetsInjected() {
 		assertNotNull(
 				qualifiedDefaultValidator,
 				"Qualified default validator should be injectable."
