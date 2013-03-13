@@ -72,7 +72,8 @@ public class DefaultInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "a"),
-			@SpecAssertion(section = "10.3.1", id = "a")
+			@SpecAssertion(section = "10.3.1", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
 	public void testDefaultValidatorFactoryGetsInjected() {
 		assertNotNull( defaultValidatorFactory, "Default validator factory should be injectable." );
@@ -113,7 +114,8 @@ public class DefaultInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "a"),
-			@SpecAssertion(section = "10.3.1", id = "a")
+			@SpecAssertion(section = "10.3.1", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
 	public void testDefaultValidatorGetsInjected() {
 		assertNotNull( defaultValidator, "Default validator should be injectable." );

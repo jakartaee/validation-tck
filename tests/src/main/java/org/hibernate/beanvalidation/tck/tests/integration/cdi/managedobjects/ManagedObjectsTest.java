@@ -70,7 +70,8 @@ public class ManagedObjectsTest extends Arquillian {
 	@Test(groups = Groups.FAILING_ON_AS)
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
-			@SpecAssertion(section = "10.3.2", id = "a")
+			@SpecAssertion(section = "10.3.2", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
 	public void testMessageInterpolatorIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
@@ -82,7 +83,8 @@ public class ManagedObjectsTest extends Arquillian {
 	@Test(groups = Groups.FAILING_ON_AS)
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
-			@SpecAssertion(section = "10.3.2", id = "a")
+			@SpecAssertion(section = "10.3.2", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
 	public void testTraversableResolverIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
@@ -97,7 +99,8 @@ public class ManagedObjectsTest extends Arquillian {
 	@Test(groups = Groups.FAILING_ON_AS)
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
-			@SpecAssertion(section = "10.3.2", id = "a")
+			@SpecAssertion(section = "10.3.2", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
 	public void testConstraintValidatorFactoryIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
@@ -113,7 +116,8 @@ public class ManagedObjectsTest extends Arquillian {
 	@Test(groups = Groups.FAILING_ON_AS)
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
-			@SpecAssertion(section = "10.3.2", id = "a")
+			@SpecAssertion(section = "10.3.2", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
 	public void testParameterNameProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
