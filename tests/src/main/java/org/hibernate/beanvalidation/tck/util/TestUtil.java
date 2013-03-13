@@ -134,7 +134,7 @@ public final class TestUtil {
 		);
 	}
 
-	public static <T> void assertCorrectConstraintTypes(Set<ConstraintViolation<T>> violations, Class<?>... expectedConstraintTypes) {
+	public static void assertCorrectConstraintTypes(Set<? extends ConstraintViolation<?>> violations, Class<?>... expectedConstraintTypes) {
 		List<String> actualConstraintTypeNames = new ArrayList<String>();
 		for ( ConstraintViolation<?> violation : violations ) {
 			actualConstraintTypeNames.add(
