@@ -29,7 +29,6 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -53,8 +52,7 @@ public class ConstraintValidatorInjectionTest extends Arquillian {
 				.build();
 	}
 
-
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "b"),
 			@SpecAssertion(section = "10.3", id = "a")

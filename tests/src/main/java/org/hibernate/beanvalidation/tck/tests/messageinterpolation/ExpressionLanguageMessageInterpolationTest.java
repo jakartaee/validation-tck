@@ -42,7 +42,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -173,8 +172,7 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 		assertCorrectConstraintViolationMessages( violations, "Foo is not long enough" );
 	}
 
-	//Currently fails when running in AS due to var-args bug in JBoss EL
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.3.1.3", id = "a"),
 			@SpecAssertion(section = "5.3.1.3", id = "e")
@@ -184,8 +182,7 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 		assertCorrectConstraintViolationMessages( violations, "98.12 must be larger than 100" );
 	}
 
-	//Currently fails when running in AS due to var-args bug in JBoss EL
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.3.1.3", id = "a"),
 			@SpecAssertion(section = "5.3.1.3", id = "e")
@@ -195,8 +192,7 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 		assertCorrectConstraintViolationMessages( violations, "98.12 (that is, 98.1235) must be larger than 100" );
 	}
 
-	//Currently fails when running in AS due to var-args bug in JBoss EL
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.3.1.3", id = "a"),
 			@SpecAssertion(section = "5.3.1.3", id = "e")

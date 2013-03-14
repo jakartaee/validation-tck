@@ -74,7 +74,7 @@ public class ExecutableValidationTest extends Arquillian {
 				.build();
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
@@ -98,7 +98,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
@@ -115,7 +115,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
@@ -127,7 +127,7 @@ public class ExecutableValidationTest extends Arquillian {
 		assertNull( event, "The event should be null, since getters are not validated by default." );
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
@@ -144,7 +144,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
@@ -161,7 +161,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "e")
 	public void testValidationOfConstrainedMethodAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
@@ -183,7 +183,7 @@ public class ExecutableValidationTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "f")
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {

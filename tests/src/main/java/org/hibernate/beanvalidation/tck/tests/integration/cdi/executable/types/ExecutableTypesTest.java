@@ -88,7 +88,7 @@ public class ExecutableTypesTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "i")
 	public void testValidationOfConstrainedMethodWithExecutableTypeNONEAndOther() {
 		try {
@@ -103,7 +103,7 @@ public class ExecutableTypesTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "j")
 	public void testValidationOfConstrainedConstructorParametersWithExecutableTypeCONSTRUCTORS() {
 		try {
@@ -118,7 +118,7 @@ public class ExecutableTypesTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "j")
 	public void testValidationOfConstrainedConstructorReturnValueWithExecutableTypeCONSTRUCTORS() {
 		try {
@@ -143,7 +143,7 @@ public class ExecutableTypesTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "k")
 	public void testValidationOfConstrainedMethodParametersWithExecutableTypeNON_GETTER_METHODS() {
 		try {
@@ -158,7 +158,7 @@ public class ExecutableTypesTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "k")
 	public void testValidationOfConstrainedMethodReturnValueWithExecutableTypeNON_GETTER_METHODS() {
 		try {
@@ -183,7 +183,7 @@ public class ExecutableTypesTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "l")
 	public void testValidationOfConstrainedGetterReturnValueWithExecutableTypeGETTER_METHODS() {
 		try {
@@ -208,7 +208,7 @@ public class ExecutableTypesTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "m")
 	public void testValidationOfConstrainedMethodWithExecutableTypeALL() {
 		try {
@@ -223,7 +223,7 @@ public class ExecutableTypesTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "m")
 	public void testValidationOfConstrainedGetterWithExecutableTypeALL() {
 		try {
@@ -238,7 +238,7 @@ public class ExecutableTypesTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "m")
 	public void testValidationOfConstrainedConstructorWithExecutableTypeALL() {
 		try {
@@ -253,7 +253,7 @@ public class ExecutableTypesTest extends Arquillian {
 		}
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "m")
 	public void testValidationOfConstrainedMethodWithExecutableTypesALLAndNONE() {
 		try {

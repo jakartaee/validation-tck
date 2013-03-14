@@ -34,7 +34,6 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -67,7 +66,7 @@ public class ManagedObjectsTest extends Arquillian {
 				.build();
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
@@ -80,7 +79,7 @@ public class ManagedObjectsTest extends Arquillian {
 		assertEquals( messageInterpolator.interpolate( null, null ), Greeter.MESSAGE );
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
@@ -96,7 +95,7 @@ public class ManagedObjectsTest extends Arquillian {
 		assertEquals( message.getValue(), Greeter.MESSAGE );
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
@@ -113,7 +112,7 @@ public class ManagedObjectsTest extends Arquillian {
 		assertEquals( validator.getMessage(), Greeter.MESSAGE );
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
