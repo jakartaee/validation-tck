@@ -33,7 +33,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -88,8 +87,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.IMPLICIT not allowed for constructors with parameters. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "e"),
@@ -104,8 +102,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed for methods without parameters. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "e"),
@@ -133,8 +130,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed for methods without return value. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "g")
@@ -144,8 +140,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on type definitions. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "g")
@@ -155,8 +150,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on type definitions. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "g")
@@ -166,8 +160,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on interface definitions. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "g")
@@ -177,8 +170,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on interface definitions. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "g")
@@ -188,8 +180,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on fields. Expected exception wasn't thrown." );
 	}
 
-	//Fails due to HV-731
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
 			@SpecAssertion(section = "3.1.1.4", id = "g")
@@ -247,14 +238,15 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	private interface InterfaceWithConstraintTargetParameter {
 	}
 
-	private static class InterfaceWithConstraintTargetParameterImpl {
+	private static class InterfaceWithConstraintTargetParameterImpl implements InterfaceWithConstraintTargetParameter {
 	}
 
 	@GenericAndCrossParameterConstraint(validationAppliesTo = ConstraintTarget.RETURN_VALUE)
 	private interface InterfaceWithConstraintTargetReturnValue {
 	}
 
-	private static class InterfaceWithConstraintTargetReturnValueImpl {
+	private static class InterfaceWithConstraintTargetReturnValueImpl
+			implements InterfaceWithConstraintTargetReturnValue {
 	}
 
 	private static class TypeWithFieldWithConstraintTargetParameter {
