@@ -44,7 +44,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -306,8 +305,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		);
 	}
 
-	//TODO Fails due to HV-739
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.3", id = "k")
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
@@ -325,8 +323,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		);
 	}
 
-	//TODO Fails due to HV-739
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.3", id = "k")
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
 		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
