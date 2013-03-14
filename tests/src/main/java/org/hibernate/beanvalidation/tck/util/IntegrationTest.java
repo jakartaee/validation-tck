@@ -19,7 +19,6 @@ package org.hibernate.beanvalidation.tck.util;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import javax.validation.Constraint;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -28,7 +27,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Hardy Ferentschik
  */
 @Documented
-@Constraint(validatedBy = { })
 @Target({ TYPE })
 @Retention(RUNTIME)
 public @interface IntegrationTest {
