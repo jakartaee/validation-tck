@@ -48,7 +48,7 @@ public class MessageInterpolatorSpecifiedInValidationXmlNoDefaultConstructorTest
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "g"),
-			@SpecAssertion(section = "5.5.6", id = "s")
+			@SpecAssertion(section = "5.5.6", id = "t")
 	})
 	public void testMessageInterpolatorSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

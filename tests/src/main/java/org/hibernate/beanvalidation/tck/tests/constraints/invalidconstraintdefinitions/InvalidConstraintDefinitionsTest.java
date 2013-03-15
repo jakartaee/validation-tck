@@ -160,10 +160,8 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
 	}
 
-	// TODO BVAL-434: Should we more clearly specify which exception shall be
-	// raised? The RI throws a declaration exception as no validator for type
-	// Object[] can be found, but one could also specify a definition exception
-	@Test(expectedExceptions = Exception.class)
+	//TODO Add test case for Object
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.4", id = "g")
 	public void testValidatorForCrossParameterConstraintMustValidateObjectArray() throws Exception {
 		Object object = new CalendarService();

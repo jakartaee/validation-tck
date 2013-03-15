@@ -53,7 +53,7 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingSomeTes
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.3", id = "f"),
-			@SpecAssertion(section = "5.5.6", id = "k")
+			@SpecAssertion(section = "5.5.6", id = "l")
 	})
 	public void testGetDefaultValidatedExecutableTypesReturnsSetWithConfiguredValues() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
