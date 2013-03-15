@@ -334,6 +334,36 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "g"),
+			@SpecAssertion(section = "4.6.4", id = "a")
+	})
+	public void testCrossParameterValidatorValidatingObjectArray() throws Exception {
+		Object object = new YetAnotherCalendarService();
+		Method method = YetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+				.validateParameters( object, method, parameterValues );
+		assertCorrectConstraintViolationMessages( violations, "violation created by validator for Object[]" );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "g"),
+			@SpecAssertion(section = "4.6.4", id = "a")
+	})
+	public void testCrossParameterValidatorValidatingObject() throws Exception {
+		Object object = new EvenYetAnotherCalendarService();
+		Method method = EvenYetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+		Object[] parameterValues = new Object[2];
+
+		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+				.validateParameters( object, method, parameterValues );
+		assertCorrectConstraintViolationMessages( violations, "violation created by validator for Object" );
+	}
+
+	@Test
 	@SpecAssertion(section = "4.6.4", id = "f")
 	public void testGenericValidatorIsUsedForConstraintTargetingMethodReturnValue() throws Exception {
 		Object object = new AnotherCalendarService();
@@ -454,6 +484,20 @@ public class ValidatorResolutionTest {
 		@GenericAndCrossParameterConstraint(validationAppliesTo = ConstraintTarget.RETURN_VALUE)
 		public Object createEvent(Date startDate, Date endDate) {
 			return null;
+		}
+	}
+
+	private static class YetAnotherCalendarService {
+
+		@CrossParameterConstraintWithObjectArrayValidator
+		public void createEvent(Date startDate, Date endDate) {
+		}
+	}
+
+	private static class EvenYetAnotherCalendarService {
+
+		@CrossParameterConstraintWithObjectValidator
+		public void createEvent(Date startDate, Date endDate) {
 		}
 	}
 

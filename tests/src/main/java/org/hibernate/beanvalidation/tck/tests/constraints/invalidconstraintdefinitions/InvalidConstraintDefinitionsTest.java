@@ -160,16 +160,15 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
 	}
 
-	//TODO Add test case for Object
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.4", id = "g")
-	public void testValidatorForCrossParameterConstraintMustValidateObjectArray() throws Exception {
+	public void testValidatorForCrossParameterConstraintMustValidateObjectOrObjectArray() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
 		executableValidator.validateParameters( object, method, parameterValues );
-		fail( "Validators for cross-parameter constraints must validate the type Object[]. Expected exception wasn't thrown." );
+		fail( "Validators for cross-parameter constraints must validate the type Object or Object[]. Expected exception wasn't thrown." );
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
