@@ -29,7 +29,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -77,8 +76,7 @@ public class ExecutableTypesTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	//TODO Fails due to HV-757
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "i")
 	public void testValidationOfConstrainedMethodWithEmptyExecutableTypes() {
 		Event event = calendar.createEvent( -10 );
