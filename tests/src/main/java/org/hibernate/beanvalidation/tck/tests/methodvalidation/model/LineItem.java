@@ -18,14 +18,14 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidLineItem;
 
 /**
  * @author Gunnar Morling
  */
-@ValidateExecutable(ExecutableType.NONE)
+@ValidateOnExecution(type = ExecutableType.NONE)
 public class LineItem {
 
 	@ValidLineItem

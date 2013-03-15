@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 import javax.inject.Inject;
 import javax.validation.constraints.Size;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
@@ -27,7 +27,7 @@ import javax.validation.executable.ValidateExecutable;
 public class AnotherCalendarService {
 
 	@Inject
-	@ValidateExecutable(ExecutableType.NON_GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 	public AnotherCalendarService(@Size(min = 5) String name) {
 	}
 }

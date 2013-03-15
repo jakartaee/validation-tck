@@ -24,9 +24,5 @@ package org.hibernate.beanvalidation.tck.util;
  */
 public final class Groups {
 
-	public static final String NOT_IMPLEMENTED = "NOT_IMPLEMENTED";
-
 	public static final String FAILING_IN_RI = "FAILING_IN_RI";
-
-	public static final String FAILING_ON_AS = "FAILING_ON_AS";
 }

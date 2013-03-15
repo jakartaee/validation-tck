@@ -18,12 +18,12 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ValidateExecutable(ExecutableType.NONE)
+@ValidateOnExecution(type = ExecutableType.NONE)
 public class OrderLine {
 
 	public OrderLine(@NotNull String item) {

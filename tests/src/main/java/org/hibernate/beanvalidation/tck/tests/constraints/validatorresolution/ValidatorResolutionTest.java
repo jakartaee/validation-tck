@@ -298,8 +298,7 @@ public class ValidatorResolutionTest {
 		validator.forExecutables().validateParameters( object, method, parameterValues );
 	}
 
-	//TODO Fails due to HV-746
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testCrossParameterConstraintWithoutValidatorCausesConstraintDefinitionException() throws Exception {
 		Object object = new OnlineCalendarService();

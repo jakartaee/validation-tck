@@ -89,9 +89,9 @@ public class BootstrapConfigurationTest extends Arquillian {
 				"com.acme.TraversableResolver"
 		);
 
-		assertNotNull( bootstrapConfiguration.getValidatedExecutableTypes() );
+		assertNotNull( bootstrapConfiguration.getDefaultValidatedExecutableTypes() );
 		assertEquals(
-				bootstrapConfiguration.getValidatedExecutableTypes(),
+				bootstrapConfiguration.getDefaultValidatedExecutableTypes(),
 				EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS )
 		);
 	}

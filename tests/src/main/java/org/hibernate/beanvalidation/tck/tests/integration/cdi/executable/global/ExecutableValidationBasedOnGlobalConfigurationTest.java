@@ -27,7 +27,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -54,7 +53,7 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Arquilli
 				.build();
 	}
 
-	@Test(groups = Groups.FAILING_ON_AS)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "g")
 	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {

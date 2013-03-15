@@ -64,9 +64,9 @@ public class BootstrapConfigurationWithoutValidationXmlTest extends Arquillian {
 		assertNull( bootstrapConfiguration.getMessageInterpolatorClassName() );
 		assertNull( bootstrapConfiguration.getParameterNameProviderClassName() );
 
-		assertNotNull( bootstrapConfiguration.getValidatedExecutableTypes() );
+		assertNotNull( bootstrapConfiguration.getDefaultValidatedExecutableTypes() );
 		assertEquals(
-				bootstrapConfiguration.getValidatedExecutableTypes(),
+				bootstrapConfiguration.getDefaultValidatedExecutableTypes(),
 				EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS )
 		);
 

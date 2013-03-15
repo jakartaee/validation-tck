@@ -23,8 +23,6 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
@@ -37,8 +35,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Gunnar Morling
  */
 @Documented
-@NotNull(message = "may not be null")
-@Size(min = 1)
+@ComposingConstraintSupportingAnnotatedElement
 @Constraint(validatedBy = ParametersNotEmpty.Validator.class)
 @Target({ TYPE, METHOD, FIELD })
 @Retention(RUNTIME)

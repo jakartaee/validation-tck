@@ -53,14 +53,14 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingNONETes
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.3", id = "f"),
-			@SpecAssertion(section = "5.5.6", id = "k")
+			@SpecAssertion(section = "5.5.6", id = "l")
 	})
-	public void testGetValidatedExecutableTypesReturnsEmptySetIfNONEIsContained() {
+	public void testGetDefaultValidatedExecutableTypesReturnsEmptySetIfNONEIsContained() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
 		assertNotNull( bootstrapConfiguration );
 
-		assertEquals( bootstrapConfiguration.getValidatedExecutableTypes(), EnumSet.noneOf( ExecutableType.class ) );
+		assertEquals( bootstrapConfiguration.getDefaultValidatedExecutableTypes(), EnumSet.noneOf( ExecutableType.class ) );
 	}
 }

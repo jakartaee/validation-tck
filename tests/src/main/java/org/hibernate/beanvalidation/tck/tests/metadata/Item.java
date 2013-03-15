@@ -18,18 +18,18 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
 public class Item {
 
-	@ValidateExecutable(ExecutableType.NONE)
+	@ValidateOnExecution(type = ExecutableType.NONE)
 	public Item(@NotNull String name) {
 	}
 
-	@ValidateExecutable(ExecutableType.NONE)
+	@ValidateOnExecution(type = ExecutableType.NONE)
 	public void setName(@NotNull String name) {
 	}
 }

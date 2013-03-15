@@ -53,15 +53,15 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingALLAndN
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.3", id = "f"),
-			@SpecAssertion(section = "5.5.6", id = "k")
+			@SpecAssertion(section = "5.5.6", id = "l")
 	})
-	public void testGetValidatedExecutableTypesReturnsSetWithAllOptionsIfALLAndNONEAreContained() {
+	public void testGetDefaultValidatedExecutableTypesReturnsSetWithAllOptionsIfALLAndNONEAreContained() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
 		assertNotNull( bootstrapConfiguration );
 		assertEquals(
-				bootstrapConfiguration.getValidatedExecutableTypes(),
+				bootstrapConfiguration.getDefaultValidatedExecutableTypes(),
 				EnumSet.of(
 						ExecutableType.CONSTRUCTORS,
 						ExecutableType.GETTER_METHODS,

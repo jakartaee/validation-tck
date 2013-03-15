@@ -31,7 +31,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -161,10 +160,8 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
 	}
 
-	// TODO BVAL-434: Should we more clearly specify which exception shall be
-	// raised? The RI throws a declaration exception as no validator for type
-	// Object[] can be found, but one could also specify a definition exception
-	@Test(expectedExceptions = Exception.class)
+	//TODO Add test case for Object
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "3.4", id = "g")
 	public void testValidatorForCrossParameterConstraintMustValidateObjectArray() throws Exception {
 		Object object = new CalendarService();
@@ -207,8 +204,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "There must be only one validator for a cross-parameter constraint. Expected exception wasn't thrown." );
 	}
 
-	//TODO Fails due to HV-738
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.4", id = "a"),
@@ -219,8 +215,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "A constraint which is generic and cross-parameter needs to define a member validationAppliesTo. The validation should have failed." );
 	}
 
-	//TODO Fails due to HV-738
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.4", id = "a"),
@@ -231,8 +226,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "A pure generic constraint must not define a member validationAppliesTo. The validation should have failed." );
 	}
 
-	//TODO Fails due to HV-738
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.4", id = "a"),
@@ -252,8 +246,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "A pure cross-parameter constraint must not define a member validationAppliesTo. The validation should have failed." );
 	}
 
-	//TODO Fails due to HV-738
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.4", id = "b"),
@@ -264,7 +257,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		fail( "The validationAppliesTo parameter has to be of type ConstraintTarget. The validation should have failed." );
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
 			@SpecAssertion(section = "3.1.1.4", id = "b"),

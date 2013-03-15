@@ -18,7 +18,7 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidWarehouseItem;
 
@@ -27,12 +27,12 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidW
  */
 public class WarehouseItem {
 
-	@ValidateExecutable(ExecutableType.NONE)
+	@ValidateOnExecution(type = ExecutableType.NONE)
 	@ValidWarehouseItem
 	public WarehouseItem(@NotNull String name) {
 	}
 
-	@ValidateExecutable(ExecutableType.NONE)
+	@ValidateOnExecution(type = ExecutableType.NONE)
 	@NotNull
 	public String setName(@NotNull String name) {
 		return null;

@@ -73,7 +73,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	@SpecAssertion(section = "5.1.2", id = "m")
 	public void testValidateParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml() throws Exception {
 		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getValidatedExecutableTypes(),
+				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
 				Collections.emptySet()
 		);
 
@@ -98,7 +98,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	public void testValidateConstructorParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
 		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getValidatedExecutableTypes(),
+				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
 				Collections.emptySet()
 		);
 
@@ -120,7 +120,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	public void testValidateReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
 		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getValidatedExecutableTypes(),
+				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
 				Collections.emptySet()
 		);
 
@@ -145,7 +145,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	public void testValidateConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
 		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getValidatedExecutableTypes(),
+				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
 				Collections.emptySet()
 		);
 
