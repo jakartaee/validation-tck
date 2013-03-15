@@ -26,6 +26,7 @@ import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.MethodDescriptor;
+import javax.validation.metadata.MethodType;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
@@ -310,9 +311,9 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "g")
-	public void testGetConstrainedMethods() {
+	public void testGetConstrainedMethodsTypeNON_GETTER() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
-		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods();
+		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods( MethodType.NON_GETTER );
 
 		List<String> actualMethodNames = new ArrayList<String>();
 		for ( MethodDescriptor methodDescriptor : methodDescriptors ) {
@@ -338,9 +339,54 @@ public class BeanDescriptorTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "g")
+	public void testGetConstrainedMethodsTypeGETTER() {
+		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods( MethodType.GETTER );
+
+		assertEquals( methodDescriptors.size(), 1 );
+		assertEquals( methodDescriptors.iterator().next().getName(), "getBestCustomer" );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.3", id = "g")
+	public void testGetConstrainedMethodsTypesGETTERAndNON_GETTER() {
+		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods(
+				MethodType.GETTER,
+				MethodType.NON_GETTER
+		);
+
+		List<String> actualMethodNames = new ArrayList<String>();
+		for ( MethodDescriptor methodDescriptor : methodDescriptors ) {
+			actualMethodNames.add( methodDescriptor.getName() );
+		}
+
+		List<String> expectedMethodNames = Arrays.asList(
+				"createCustomer",
+				"reset",
+				"removeCustomer",
+				"findCustomer",
+				"findCustomer",
+				"updateAccount",
+				"updateAccountStrictly",
+				"updateCustomer",
+				"getBestCustomer"
+		);
+
+		Collections.sort( actualMethodNames );
+		Collections.sort( expectedMethodNames );
+
+		assertEquals( actualMethodNames, expectedMethodNames );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.3", id = "g")
 	public void testGetConstrainedMethodsForUnconstrainedEntity() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
-		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods();
+		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods(
+				MethodType.GETTER,
+				MethodType.NON_GETTER
+		);
 		assertEquals( methodDescriptors.size(), 0, "We should get the empty set." );
 	}
 

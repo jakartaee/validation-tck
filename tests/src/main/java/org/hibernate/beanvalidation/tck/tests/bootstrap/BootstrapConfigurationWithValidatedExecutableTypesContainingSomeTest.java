@@ -55,13 +55,13 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingSomeTes
 			@SpecAssertion(section = "5.5.3", id = "f"),
 			@SpecAssertion(section = "5.5.6", id = "k")
 	})
-	public void testGetValidatedExecutableTypesReturnsSetWithConfiguredValues() {
+	public void testGetDefaultValidatedExecutableTypesReturnsSetWithConfiguredValues() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
 		assertNotNull( bootstrapConfiguration );
 		assertEquals(
-				bootstrapConfiguration.getValidatedExecutableTypes(),
+				bootstrapConfiguration.getDefaultValidatedExecutableTypes(),
 				EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS )
 		);
 	}

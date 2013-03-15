@@ -49,6 +49,6 @@ public class BootstrapConfigurationWithEmptyValidatedExecutableTypesTest extends
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
-		bootstrapConfiguration.getValidatedExecutableTypes();
+		bootstrapConfiguration.getDefaultValidatedExecutableTypes();
 	}
 }

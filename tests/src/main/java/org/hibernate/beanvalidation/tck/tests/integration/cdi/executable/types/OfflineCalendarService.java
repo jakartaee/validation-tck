@@ -17,14 +17,14 @@
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
 public class OfflineCalendarService {
 
-	@ValidateExecutable(ExecutableType.CONSTRUCTORS)
+	@ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
 	@ValidOjbect
 	public OfflineCalendarService() {
 	}

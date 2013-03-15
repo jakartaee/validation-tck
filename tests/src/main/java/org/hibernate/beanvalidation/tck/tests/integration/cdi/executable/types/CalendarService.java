@@ -19,7 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
@@ -28,34 +28,34 @@ public class CalendarService {
 
 	//NONE
 
-	@ValidateExecutable(ExecutableType.NONE)
+	@ValidateOnExecution(type = ExecutableType.NONE)
 	public Event createEvent(@NotNull String title) {
 		return new Event();
 	}
 
-	@ValidateExecutable({ })
+	@ValidateOnExecution(type = { })
 	public Event createEvent(@Min(0) int duration) {
 		return new Event();
 	}
 
-	@ValidateExecutable({ ExecutableType.NONE, ExecutableType.NON_GETTER_METHODS })
+	@ValidateOnExecution(type = { ExecutableType.NONE, ExecutableType.NON_GETTER_METHODS })
 	public void createEvent(@Min(0) long duration) {
 	}
 
 	//NON_GETTER_METHODS
 
-	@ValidateExecutable(ExecutableType.NON_GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 	public Event createEvent(@Min(0) short duration) {
 		return new Event();
 	}
 
-	@ValidateExecutable(ExecutableType.NON_GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 	@ValidOjbect
 	public Event createEvent(byte duration) {
 		return new Event();
 	}
 
-	@ValidateExecutable(ExecutableType.NON_GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 	@ValidOjbect
 	public Event getEvent() {
 		return new Event();
@@ -63,13 +63,13 @@ public class CalendarService {
 
 	//GETTER_METHODS
 
-	@ValidateExecutable(ExecutableType.GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.GETTER_METHODS)
 	@ValidOjbect
 	public Event getSpecialEvent() {
 		return new Event();
 	}
 
-	@ValidateExecutable(ExecutableType.GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.GETTER_METHODS)
 	@ValidOjbect
 	public Event getSpecialEvent(int duration) {
 		return new Event();
@@ -77,18 +77,18 @@ public class CalendarService {
 
 	//ALL
 
-	@ValidateExecutable(ExecutableType.ALL)
+	@ValidateOnExecution(type = ExecutableType.ALL)
 	public Event createEvent(@Min(0) double duration) {
 		return new Event();
 	}
 
-	@ValidateExecutable(ExecutableType.ALL)
+	@ValidateOnExecution(type = ExecutableType.ALL)
 	@ValidOjbect
 	public Event getVerySpecialEvent() {
 		return new Event();
 	}
 
-	@ValidateExecutable({ ExecutableType.ALL, ExecutableType.NONE })
+	@ValidateOnExecution(type = { ExecutableType.ALL, ExecutableType.NONE })
 	public Event createEvent(@Min(0) float duration) {
 		return new Event();
 	}

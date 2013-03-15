@@ -56,7 +56,10 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 	@SpecAssertion(section = "6.7", id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEInXml() {
 		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getValidatedExecutableTypes(),
+				Validation.byDefaultProvider()
+						.configure()
+						.getBootstrapConfiguration()
+						.getDefaultValidatedExecutableTypes(),
 				Collections.emptySet()
 		);
 
@@ -75,7 +78,10 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 	@SpecAssertion(section = "6.7", id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEInXml() {
 		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getValidatedExecutableTypes(),
+				Validation.byDefaultProvider()
+						.configure()
+						.getBootstrapConfiguration()
+						.getDefaultValidatedExecutableTypes(),
 				Collections.emptySet()
 		);
 

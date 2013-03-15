@@ -156,6 +156,12 @@ public class CustomerService {
 	public void shutDown(String pk) {
 	}
 
+	//constrained getter
+	@NotNull
+	public Customer getBestCustomer() {
+		return null;
+	}
+
 	@Target({ METHOD, ANNOTATION_TYPE, CONSTRUCTOR })
 	@Retention(RUNTIME)
 	@Constraint(validatedBy = MyCrossParameterConstraintValidator.class)

@@ -19,19 +19,19 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateExecutable;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ValidateExecutable(ExecutableType.NONE)
+@ValidateOnExecution(type = ExecutableType.NONE)
 public class AnnotatedCalendarService {
 
-	@ValidateExecutable(ExecutableType.NON_GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
 	public void createEvent(@NotNull String name) {
 	}
 
-	@ValidateExecutable(ExecutableType.GETTER_METHODS)
+	@ValidateOnExecution(type = ExecutableType.GETTER_METHODS)
 	public Event createEvent(@Min(0) int duration) {
 		return new Event();
 	}
