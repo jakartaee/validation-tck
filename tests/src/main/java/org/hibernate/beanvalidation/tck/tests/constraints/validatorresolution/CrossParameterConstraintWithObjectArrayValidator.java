@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefinitions;
+package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -26,7 +26,8 @@ import javax.validation.Payload;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -34,26 +35,32 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * @author Gunnar Morling
  */
-@Constraint(validatedBy = InvalidCrossParameterConstraint.Validator.class)
-@Target({ TYPE, METHOD, ANNOTATION_TYPE })
-@Retention(RUNTIME)
 @Documented
-public @interface InvalidCrossParameterConstraint {
-	String message() default "{validation.invalidCrossParameterConstraint}";
+@Constraint(validatedBy = CrossParameterConstraintWithObjectArrayValidator.Validator.class)
+@Target({ METHOD, CONSTRUCTOR, TYPE, FIELD })
+@Retention(RUNTIME)
+public @interface CrossParameterConstraintWithObjectArrayValidator {
+	String message() default "default message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	@SupportedValidationTarget(ValidationTarget.PARAMETERS)
-	public static class Validator implements ConstraintValidator<InvalidCrossParameterConstraint, Integer> {
+	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
+	public static class Validator
+			implements ConstraintValidator<CrossParameterConstraintWithObjectArrayValidator, Object[]> {
 
 		@Override
-		public void initialize(InvalidCrossParameterConstraint constraintAnnotation) {
+		public void initialize(CrossParameterConstraintWithObjectArrayValidator parameters) {
 		}
 
 		@Override
-		public boolean isValid(Integer value, ConstraintValidatorContext context) {
+		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {
+			constraintValidatorContext.disableDefaultConstraintViolation();
+			constraintValidatorContext.buildConstraintViolationWithTemplate(
+					"violation created by validator for Object[]"
+			).addConstraintViolation();
+
 			return false;
 		}
 	}

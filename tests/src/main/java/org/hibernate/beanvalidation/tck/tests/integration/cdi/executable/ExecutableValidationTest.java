@@ -32,7 +32,6 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -205,8 +204,7 @@ public class ExecutableValidationTest extends Arquillian {
 		// expected since the executable type is not given in @ValidateOnExecution
 	}
 
-	//TODO Fails due to HV-755
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "f")
 	public void testValidationOfConstrainedMethodOnInterfaceAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
@@ -218,8 +216,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	//TODO Fails due to HV-755
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "f")
 	public void testValidationOfConstrainedMethodOnInterfaceAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Order order = orderService.placeOrder( null );
