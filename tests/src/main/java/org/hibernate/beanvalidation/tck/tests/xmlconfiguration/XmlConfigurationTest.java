@@ -94,7 +94,7 @@ public class XmlConfigurationTest extends Arquillian {
 	})
 	public void testClassConstraintDefinedInXml() {
 		User user = new User();
-		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
+		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user, TestGroup.class );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "Message from xml"
@@ -235,7 +235,6 @@ public class XmlConfigurationTest extends Arquillian {
 				"Without additional mapping Order should be unconstrained"
 		);
 
-
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping(
 				getStream(
@@ -252,6 +251,7 @@ public class XmlConfigurationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "8.1.1.6", id = "a"),
 			@SpecAssertion(section = "8.1.1.6", id = "d"),
 			@SpecAssertion(section = "8.1.1.6", id = "e"),
 			@SpecAssertion(section = "8.1.1.6", id = "f"),
@@ -277,6 +277,10 @@ public class XmlConfigurationTest extends Arquillian {
 		assertTrue( constraintDescriptors.size() == 1 );
 
 		ConstraintDescriptor<?> descriptor = constraintDescriptors.iterator().next();
+		assertEquals( descriptor.getMessageTemplate(), "Message from xml" );
+		assertEquals( descriptor.getGroups(), TestUtil.<Class<?>>asSet( TestGroup.class ) );
+		assertEquals( descriptor.getPayload(), TestUtil.<Class<?>>asSet( Error.class ) );
+
 		ConsistentUserInformation constraintAnnotation = (ConsistentUserInformation) descriptor.getAnnotation();
 
 		assertEquals( constraintAnnotation.byteParam(), Byte.MAX_VALUE, "Wrong parameter value" );

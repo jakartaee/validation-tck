@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
+import javax.validation.metadata.CrossParameterDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
@@ -97,14 +98,25 @@ public class ConstructorValidationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.1.4", id = "f"),
 			@SpecAssertion(section = "8.1.1.4", id = "j")
 	})
-	public void tesConstructorCrossParameterParameter() throws Exception {
+	public void testConstructorCrossParameterConstraint() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
 				CustomerRepository.class,
 				CustomerRepository.class,
 				CustomerRepository.class
 		);
 		assertNotNull( descriptor, "the specified constructor should be configured in xml" );
-		assertTrue( descriptor.getCrossParameterDescriptor().hasConstraints() );
+		CrossParameterDescriptor crossParameterDescriptor = descriptor.getCrossParameterDescriptor();
+		assertTrue( crossParameterDescriptor.hasConstraints() );
+
+		Set<ConstraintDescriptor<?>> constraintDescriptors = crossParameterDescriptor.getConstraintDescriptors();
+		assertTrue( constraintDescriptors.size() == 1 );
+
+		ConstraintDescriptor<?> constraintDescriptor = constraintDescriptors.iterator().next();
+		assertEquals(
+				constraintDescriptor.getAnnotation().annotationType(),
+				CrossRepositoryConstraint.class,
+				"Unexpected constraint type"
+		);
 	}
 
 	@Test
