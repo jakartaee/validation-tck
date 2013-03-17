@@ -16,16 +16,27 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 
-import javax.validation.executable.ExecutableType;
+import javax.validation.constraints.NotNull;
 import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-public class OfflineCalendarService {
+@ValidateOnExecution
+public class DeliveryService {
 
-	@ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
-	@ValidObject
-	public OfflineCalendarService() {
+	@ValidateOnExecution
+	public void findDelivery(@NotNull String id) {
+	}
+
+	@ValidateOnExecution
+	@NotNull
+	public Delivery getDelivery() {
+		return null;
+	}
+
+	@NotNull
+	public Delivery getAnotherDelivery() {
+		return null;
 	}
 }

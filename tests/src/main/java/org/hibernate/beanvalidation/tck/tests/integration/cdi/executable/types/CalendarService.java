@@ -50,13 +50,13 @@ public class CalendarService {
 	}
 
 	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
-	@ValidOjbect
+	@ValidObject
 	public Event createEvent(byte duration) {
 		return new Event();
 	}
 
 	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
-	@ValidOjbect
+	@ValidObject
 	public Event getEvent() {
 		return new Event();
 	}
@@ -64,13 +64,13 @@ public class CalendarService {
 	//GETTER_METHODS
 
 	@ValidateOnExecution(type = ExecutableType.GETTER_METHODS)
-	@ValidOjbect
+	@ValidObject
 	public Event getSpecialEvent() {
 		return new Event();
 	}
 
 	@ValidateOnExecution(type = ExecutableType.GETTER_METHODS)
-	@ValidOjbect
+	@ValidObject
 	public Event getSpecialEvent(int duration) {
 		return new Event();
 	}
@@ -83,7 +83,7 @@ public class CalendarService {
 	}
 
 	@ValidateOnExecution(type = ExecutableType.ALL)
-	@ValidOjbect
+	@ValidObject
 	public Event getVerySpecialEvent() {
 		return new Event();
 	}

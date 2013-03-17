@@ -16,16 +16,17 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 
-import javax.validation.executable.ExecutableType;
+import javax.inject.Inject;
+import javax.validation.constraints.Size;
 import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-public class OfflineCalendarService {
+public class AnotherDeliveryService {
 
-	@ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
-	@ValidObject
-	public OfflineCalendarService() {
+	@Inject
+	@ValidateOnExecution
+	public AnotherDeliveryService(@Size(min = 5) String id) {
 	}
 }
