@@ -20,6 +20,7 @@ import java.util.Calendar;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,6 +37,7 @@ import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -49,6 +51,18 @@ public class ExecutableValidationTest extends Arquillian {
 
 	@Inject
 	private CalendarService calendar;
+
+	@Inject
+	private CalendarServiceWithCascadingReturnValue cascadingCalendar;
+
+	@Inject
+	private BookingService bookingService;
+
+	@Inject
+	private Instance<AnotherBookingService> anotherBookingService;
+
+	@Inject
+	private NameProducer nameProducer;
 
 	@Inject
 	private AnnotatedCalendarService annotatedCalendar;
@@ -121,6 +135,23 @@ public class ExecutableValidationTest extends Arquillian {
 			@SpecAssertion(section = "10.1.2", id = "c"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
+	public void testCascadedReturnValueValidationOfConstrainedMethod() {
+		try {
+			cascadingCalendar.createValidEvent();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.2", id = "a"),
+			@SpecAssertion(section = "10.1.2", id = "b"),
+			@SpecAssertion(section = "10.1.2", id = "c"),
+			@SpecAssertion(section = "10.3", id = "a")
+	})
 	public void testGettersAreNotValidatedByDefault() {
 		Event event = calendar.getEvent();
 		assertNull( event, "The event should be null, since getters are not validated by default." );
@@ -135,6 +166,7 @@ public class ExecutableValidationTest extends Arquillian {
 	})
 	public void testParameterValidationOfConstrainedConstructor() {
 		try {
+			nameProducer.setName( "Bob" );
 			userServiceInstance.get();
 			fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
@@ -224,5 +256,82 @@ public class ExecutableValidationTest extends Arquillian {
 
 		// success; the constraint is invalid, but no violation exception is
 		// expected since the executable type is not given in @ValidateOnExecution
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.4", id = "a"),
+			@SpecAssertion(section = "5.4", id = "b")
+	})
+	public void testMethodValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
+		//parameter constraint is violated
+		try {
+			bookingService.placeBooking( "9999" );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class );
+		}
+
+		//method should not be invoked
+		assertEquals( bookingService.getInvocationCount(), 0 );
+
+		//parameter constraint is valid, but return value constraint is violated
+		try {
+			bookingService.placeBooking( "10000" );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), DecimalMin.class );
+		}
+
+		//method should have been invoked
+		assertEquals( bookingService.getInvocationCount(), 1 );
+
+		//valid invocation
+		String booking = bookingService.placeBooking( "10001" );
+		assertEquals( booking, "10001" );
+
+		assertEquals( bookingService.getInvocationCount(), 2 );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.4", id = "a"),
+			@SpecAssertion(section = "5.4", id = "b")
+	})
+	public void testConstructorValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
+		nameProducer.setName( "9999" );
+		//parameter constraint is violated
+		try {
+			anotherBookingService.get();
+			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class );
+		}
+
+		//constructor should not be invoked
+		assertEquals( AnotherBookingService.getInvocationCount(), 0 );
+
+		//parameter constraint is valid, but return value constraint is violated
+		nameProducer.setName( "10000" );
+		try {
+			anotherBookingService.get();
+			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), ValidAnotherBookingService.class );
+		}
+
+		//constructor should have been invoked
+		assertEquals( AnotherBookingService.getInvocationCount(), 1 );
+
+		//valid invocation
+		nameProducer.setName( "10001" );
+		AnotherBookingService instance = anotherBookingService.get();
+		assertNotNull( instance );
+
+		assertEquals( AnotherBookingService.getInvocationCount(), 2 );
 	}
 }
