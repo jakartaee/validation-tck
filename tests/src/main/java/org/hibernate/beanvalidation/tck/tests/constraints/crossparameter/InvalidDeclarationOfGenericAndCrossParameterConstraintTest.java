@@ -63,7 +63,9 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "d")
+			@SpecAssertion(section = "3.1.1.4", id = "d"),
+			@SpecAssertion(section = "4.5.2.1", id = "c"),
+			@SpecAssertion(section = "4.5.3", id = "b")
 	})
 	public void testConstraintTargetImplicitOnMethodWithParametersAndReturnValueCausesException() throws Exception {
 		Object object = new Foo();
@@ -77,7 +79,9 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "d")
+			@SpecAssertion(section = "3.1.1.4", id = "d"),
+			@SpecAssertion(section = "4.5.2.1", id = "c"),
+			@SpecAssertion(section = "4.5.3", id = "b")
 	})
 	public void testConstraintTargetImplicitOnConstructorWithParametersCausesException() throws Exception {
 		Constructor<?> constructor = Bar.class.getConstructor( Date.class, Date.class );

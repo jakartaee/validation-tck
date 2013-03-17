@@ -23,7 +23,9 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.Path;
+import javax.validation.Valid;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -42,6 +44,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumber
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
+import static org.testng.Assert.assertTrue;
 
 /**
  * @author Gunnar Morling
@@ -75,6 +78,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
+	//TODO HV-767
 	//not sure why this tests fails.
 	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertion(section = "4.4.5", id = "c")
@@ -310,6 +314,16 @@ public class GroupConversionValidationTest extends Arquillian {
 		assertCorrectPropertyPaths( constraintViolations, "weekendAddress.street1" );
 	}
 
+	@Test
+	@SpecAssertion(section = "4.4.5", id = "b")
+	public void testGroupIsPassedAsIsToNestedElementWithoutConversion() {
+		Set<ConstraintViolation<FooHolder>> constraintViolations = validator.validate( new FooHolder() );
+		assertTrue( constraintViolations.isEmpty(), "No violations expected for default group" );
+
+		constraintViolations = validator.validate( new FooHolder(), Complex.class );
+		assertCorrectPropertyPaths( constraintViolations, "foo.bar" );
+	}
+
 	private static class TestUsers {
 
 		public static User validUser() {
@@ -372,5 +386,17 @@ public class GroupConversionValidationTest extends Arquillian {
 			address.setStreet1( null );
 			return address;
 		}
+	}
+
+	private static class FooHolder {
+
+		@Valid
+		private final Foo foo = new Foo();
+	}
+
+	private static class Foo {
+
+		@NotNull(groups = Complex.class)
+		private String bar;
 	}
 }
