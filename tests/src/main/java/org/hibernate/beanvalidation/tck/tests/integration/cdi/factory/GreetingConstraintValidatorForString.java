@@ -16,6 +16,7 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.factory;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -33,9 +34,14 @@ public class GreetingConstraintValidatorForString implements ConstraintValidator
 	public GreetingConstraintValidatorForString() {
 	}
 
+	@PostConstruct
+	private void initialize() {
+		name = "Mr. ";
+	}
+
 	@Override
 	public void initialize(GreetingConstraint constraintAnnotation) {
-		this.name = constraintAnnotation.name();
+		name = name + constraintAnnotation.name();
 	}
 
 	@Override
