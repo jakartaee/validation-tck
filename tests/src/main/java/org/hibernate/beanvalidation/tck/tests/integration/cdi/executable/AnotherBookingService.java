@@ -16,25 +16,35 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public class AnotherBookingService {
 
-	private String name = "Bob";
+	public interface IgnoredValidationGroup {
+	}
 
-	@Produces
-	@Dependent
-	public String getName() {
+	private static int invocationCount = 0;
+
+	private static String name;
+
+	@Inject
+	@ValidAnotherBookingService
+	@Null(groups = IgnoredValidationGroup.class)
+	public AnotherBookingService(@Size(min = 5) @Null(groups = IgnoredValidationGroup.class) String name) {
+		this.name = name;
+		invocationCount++;
+	}
+
+	public static String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public static int getInvocationCount() {
+		return invocationCount;
 	}
 }

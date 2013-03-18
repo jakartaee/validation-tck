@@ -12,7 +12,7 @@
             <constraint annotation="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.ConsistentUserInformation">
                 <message>Message from xml</message>
                 <groups>
-                    <value>javax.validation.groups.Default</value>
+                    <value>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.TestGroup</value>
                 </groups>
                 <payload>
                     <value>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.Error</value>

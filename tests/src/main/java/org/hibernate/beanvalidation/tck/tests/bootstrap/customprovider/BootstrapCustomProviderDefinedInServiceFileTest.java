@@ -41,7 +41,7 @@ import static org.testng.Assert.assertTrue;
  * @author Hardy Ferentschik
  */
 @IntegrationTest
-@SpecVersion(spec = "beanvalidation", version = "1.1.0") 
+@SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian {
 
 	@Deployment
@@ -60,6 +60,7 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5", id = "a"),
+			@SpecAssertion(section = "5.5.3", id = "l"),
 			@SpecAssertion(section = "5.5.4.2", id = "a")
 	})
 	public void testGetFactoryByProviderSpecifiedProgrammatically() {
@@ -70,7 +71,10 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.4.1", id = "a")
+	@SpecAssertions({
+			@SpecAssertion(section = "5.5.3", id = "l"),
+			@SpecAssertion(section = "5.5.4.1", id = "a")
+	})
 	public void testProviderResolverReturnsListOfAvailableProviders() {
 
 		// really an indirect test since there is no way to get hold of the default provider resolver.
@@ -80,6 +84,7 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 		ValidatorFactory factory = configuration.buildValidatorFactory();
 		assertNotNull( factory );
 
+		@SuppressWarnings("unchecked")
 		Configuration<?> config = Validation.byProvider( TestUtil.getValidationProviderUnderTest().getClass() )
 				.configure();
 		factory = config.buildValidatorFactory();

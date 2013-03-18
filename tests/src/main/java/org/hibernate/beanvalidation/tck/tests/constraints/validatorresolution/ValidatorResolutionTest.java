@@ -33,7 +33,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -277,17 +276,6 @@ public class ValidatorResolutionTest {
 		assertCorrectConstraintTypes( violations, ValidInteger.class, ValidLong.class );
 	}
 
-	//Fails due to HV-733
-	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertion(section = "4.6.4", id = "g")
-	public void testValidatorForWrapperTypeArrayIsAppliedForPrimitiveTypeArray() {
-		PrimitiveArrayHolder primitiveHolder = new PrimitiveArrayHolder();
-		Set<ConstraintViolation<PrimitiveArrayHolder>> violations = validator.validate( primitiveHolder );
-
-		assertCorrectNumberOfViolations( violations, 2 );
-		assertCorrectConstraintTypes( violations, ValidIntegerArray.class, ValidLongArray.class );
-	}
-
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testSeveralCrossParameterValidatorsCauseConstraintDefinitionException() throws Exception {
@@ -439,15 +427,6 @@ public class ValidatorResolutionTest {
 
 		@ValidLong
 		private long longValue;
-	}
-
-	private static class PrimitiveArrayHolder {
-
-		@ValidIntegerArray
-		private int[] ints;
-
-		@ValidLongArray
-		private long[] longs;
 	}
 
 	private static class CalendarService {

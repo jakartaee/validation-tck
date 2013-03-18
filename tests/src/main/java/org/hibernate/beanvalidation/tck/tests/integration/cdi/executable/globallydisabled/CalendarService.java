@@ -14,27 +14,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.globallydisabled;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.constraints.NotNull;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+@ValidateOnExecution(type = ExecutableType.ALL)
+public class CalendarService {
 
-	private String name = "Bob";
-
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
+	public Event createEvent(@NotNull String title) {
+		return new Event();
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	@NotNull
+	public Event getEvent() {
+		return null;
 	}
 }

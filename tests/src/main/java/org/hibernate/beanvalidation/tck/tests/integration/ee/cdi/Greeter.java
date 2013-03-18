@@ -14,27 +14,22 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+package org.hibernate.beanvalidation.tck.tests.integration.ee.cdi;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public class Greeter {
 
-	private String name = "Bob";
+	public final static String MESSAGE = "Hello, %s!";
 
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
+	public final static String FORMAL_MESSAGE = "Good morning, %s!";
+
+	public String greet(String name) {
+		return String.format( MESSAGE, name );
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String greetFormally(String name) {
+		return String.format( FORMAL_MESSAGE, name );
 	}
 }

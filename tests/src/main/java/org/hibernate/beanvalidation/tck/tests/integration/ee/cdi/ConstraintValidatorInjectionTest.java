@@ -14,11 +14,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global;
+package org.hibernate.beanvalidation.tck.tests.integration.ee.cdi;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotNull;
+import java.util.Set;
+import javax.naming.InitialContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidatorFactory;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -31,51 +32,46 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
  */
 @IntegrationTest
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class ExecutableValidationBasedOnGlobalConfigurationTest extends Arquillian {
-
-	@Inject
-	private CalendarService calendar;
+public class ConstraintValidatorInjectionTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClassPackage( ExecutableValidationBasedOnGlobalConfigurationTest.class )
-				.withValidationXml( "validation-ExecutableValidationBasedOnGlobalConfigurationTest.xml" )
+				.withTestClassPackage( ConstraintValidatorInjectionTest.class )
 				.withEmptyBeansXml()
 				.build();
 	}
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "k"),
-			@SpecAssertion(section = "10.1.2", id = "g")
+			@SpecAssertion(section = "10.2", id = "c"),
+			@SpecAssertion(section = "10.3", id = "a")
 	})
-	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionContainingExecutableType() {
-		try {
-			calendar.getEvent();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
-		}
-		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
-		}
+	public void testJndiBoundValidatorFactoryIsCdiEnabled() throws Exception {
+		ValidatorFactory validatorFactory = InitialContext.doLookup( "java:comp/ValidatorFactory" );
+		assertNotNull(
+				validatorFactory,
+				"Default validator factory should be bound to JNDI tree."
+		);
+
+		Set<ConstraintViolation<Foo>> violations = validatorFactory.getValidator().validate( new Foo() );
+
+		assertCorrectConstraintViolationMessages( violations, "Hello, bar!", "Good morning, qux!" );
 	}
 
-	@Test
-	@SpecAssertion(section = "10.1.2", id = "g")
-	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
-		Event event = calendar.createEvent( null );
-		assertNotNull( event );
+	private static class Foo {
+		@GreetingConstraint(name = "bar")
+		public String bar;
 
-		// success; the constraint is invalid, but no violation exception is
-		// expected since the executable type is not given in META-INF/validation.xml
+		@GreetingConstraint(name = "qux")
+		public Integer qux;
 	}
 }

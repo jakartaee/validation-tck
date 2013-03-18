@@ -14,27 +14,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
+package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import java.util.Date;
+import javax.validation.Valid;
+
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public interface AnotherInterfaceMarkingReturnValueAsCascaded {
 
-	private String name = "Bob";
-
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	@Valid
+	CalendarEvent createEvent(Date start, Date end);
 }

@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
+import javax.validation.metadata.CrossParameterDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
@@ -101,7 +102,7 @@ public class MethodValidationTest extends Arquillian {
 			@SpecAssertion(section = "8.1.1.5", id = "g"),
 			@SpecAssertion(section = "8.1.1.5", id = "k")
 	})
-	public void tesConstructorCrossParameterParameter() throws Exception {
+	public void testMethodCrossParameterConstraint() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				CustomerRepository.class,
 				"notifyCustomer",
@@ -109,7 +110,18 @@ public class MethodValidationTest extends Arquillian {
 				String.class
 		);
 		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.getCrossParameterDescriptor().hasConstraints() );
+		CrossParameterDescriptor crossParameterDescriptor = descriptor.getCrossParameterDescriptor();
+		assertTrue( crossParameterDescriptor.hasConstraints() );
+
+		Set<ConstraintDescriptor<?>> constraintDescriptors = crossParameterDescriptor.getConstraintDescriptors();
+		assertTrue( constraintDescriptors.size() == 1 );
+
+		ConstraintDescriptor<?> constraintDescriptor = constraintDescriptors.iterator().next();
+		assertEquals(
+				constraintDescriptor.getAnnotation().annotationType(),
+				CrossRepositoryConstraint.class,
+				"Unexpected constraint type"
+		);
 	}
 
 	@Test
@@ -117,7 +129,7 @@ public class MethodValidationTest extends Arquillian {
 			@SpecAssertion(section = "6.11", id = "a"),
 			@SpecAssertion(section = "8.1.1.5", id = "h")
 	})
-	public void testConstraintOnConstructorReturnValueAndParameter() throws Exception {
+	public void testConstraintOnMethodReturnValueAndParameter() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				CustomerRepository.class,
 				"notifyCustomer",

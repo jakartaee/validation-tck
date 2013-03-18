@@ -16,25 +16,17 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public class Shipment {
 
-	private String name = "Bob";
+	@NotNull
+	private String name;
 
-	@Produces
-	@Dependent
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 }

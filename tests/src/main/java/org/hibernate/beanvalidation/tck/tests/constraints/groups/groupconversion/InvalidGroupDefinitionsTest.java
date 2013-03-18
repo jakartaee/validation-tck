@@ -47,7 +47,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -181,7 +180,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "i"),
+			@SpecAssertion(section = "4.4.5", id = "h"),
 			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnParameterInParallelInterfaces() throws Exception {
@@ -195,8 +194,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
-	//Currently not clear whether that test makes sense. See BVAL-365
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "i"),
 			@SpecAssertion(section = "4.4.5", id = "j")
@@ -213,7 +211,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.5", id = "i"),
+			@SpecAssertion(section = "4.4.5", id = "h"),
 			@SpecAssertion(section = "4.4.5", id = "j")
 	})
 	public void testGroupConversionGivenOnParameterInSuperClassAndImplementedInterface()
@@ -226,8 +224,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		validator.forExecutables().validateParameters( object, method, parameters );
 	}
 
-	//Currently not clear whether that test makes sense. See BVAL-365
-	@Test(expectedExceptions = ConstraintDeclarationException.class, groups = Groups.FAILING_IN_RI)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "4.4.5", id = "i"),
 			@SpecAssertion(section = "4.4.5", id = "j")

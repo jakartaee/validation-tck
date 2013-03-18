@@ -16,25 +16,17 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+@ValidateOnExecution(type = ExecutableType.IMPLICIT)
+public class AnotherShipmentService1stInHierarchyImpl implements AnotherShipmentService1stInHierarchy {
 
-	private String name = "Bob";
-
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public Shipment getShipment() {
+		return null;
 	}
 }

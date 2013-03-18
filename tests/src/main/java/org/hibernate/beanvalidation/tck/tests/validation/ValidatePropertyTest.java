@@ -9,7 +9,7 @@
 * You may obtain a copy of the License at
 * http://www.apache.org/licenses/LICENSE-2.0
 * Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,  
+* distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
@@ -28,6 +28,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -49,6 +50,8 @@ import static org.testng.Assert.fail;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ValidatePropertyTest extends Arquillian {
 
+	private Validator validator;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
@@ -57,10 +60,14 @@ public class ValidatePropertyTest extends Arquillian {
 				.build();
 	}
 
+	@BeforeMethod
+	public void setupValidator() {
+		validator = TestUtil.getValidatorUnderTest();
+	}
+
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testPassingNullAsGroup() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		Customer customer = new Customer();
 		validator.validateProperty( customer, "firstName", (Class<?>) null );
 	}
@@ -68,7 +75,6 @@ public class ValidatePropertyTest extends Arquillian {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testIllegalArgumentExceptionIsThrownForNullValue() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateProperty( null, "firstName" );
 	}
 
@@ -78,8 +84,6 @@ public class ValidatePropertyTest extends Arquillian {
 			@SpecAssertion(section = "5.1.1", id = "f")
 	})
 	public void testValidatePropertyWithInvalidPropertyPath() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Customer customer = new Customer();
 		try {
 			validator.validateProperty( customer, "foobar" );
@@ -103,7 +107,6 @@ public class ValidatePropertyTest extends Arquillian {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testValidatePropertyWithNullProperty() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		Customer customer = new Customer();
 		validator.validateProperty( customer, null );
 	}
@@ -111,8 +114,6 @@ public class ValidatePropertyTest extends Arquillian {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testValidatePropertyWithEmptyProperty() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Customer customer = new Customer();
 		Order order = new Order();
 		customer.addOrder( order );
@@ -132,8 +133,6 @@ public class ValidatePropertyTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "i")
 	})
 	public void testValidateProperty() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Address address = new Address();
 		address.setStreet( null );
 		address.setZipCode( null );
@@ -163,8 +162,6 @@ public class ValidatePropertyTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "5.1.1", id = "g")
 	public void testValidIsNotHonoredValidateProperty() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
 		Customer customer = new Customer();
 		Order order = new Order();
 		customer.addOrder( order );
@@ -176,7 +173,6 @@ public class ValidatePropertyTest extends Arquillian {
 	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "5.1.1", id = "k")
 	public void testUnexpectedExceptionsInValidatePropertyGetWrappedInValidationExceptions() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateProperty( new BadlyBehavedEntity(), "value" );
 	}
 }

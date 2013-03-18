@@ -14,68 +14,55 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
 import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotNull;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.assertTrue;
 
 /**
+ * Test for the priority of the validation interceptor (which should be 4800).
+ * Two other interceptors with priorities 4799 and 4801 are registered as well
+ * and expected to be invoked before and after the validation interceptor,
+ * respectively.
+ *
  * @author Gunnar Morling
  */
 @IntegrationTest
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-public class ExecutableValidationBasedOnGlobalConfigurationTest extends Arquillian {
+public class ValidationInterceptorPriorityTest extends Arquillian {
 
 	@Inject
 	private CalendarService calendar;
 
+	@Inject
+	private InvocationTracker invocationTracker;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClassPackage( ExecutableValidationBasedOnGlobalConfigurationTest.class )
-				.withValidationXml( "validation-ExecutableValidationBasedOnGlobalConfigurationTest.xml" )
+				.withTestClassPackage( ValidationInterceptorPriorityTest.class )
 				.withEmptyBeansXml()
 				.build();
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "k"),
-			@SpecAssertion(section = "10.1.2", id = "g")
-	})
-	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionContainingExecutableType() {
-		try {
-			calendar.getEvent();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
-		}
-		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
-		}
-	}
+	@SpecAssertion(section = "10.3.3", id = "a")
+	public void testValidationInterceptorHasPriority4800() {
+		calendar.createEvent( null );
 
-	@Test
-	@SpecAssertion(section = "10.1.2", id = "g")
-	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
-		Event event = calendar.createEvent( null );
-		assertNotNull( event );
-
-		// success; the constraint is invalid, but no violation exception is
-		// expected since the executable type is not given in META-INF/validation.xml
+		assertTrue( invocationTracker.isEarlierInterceptorInvoked() );
+		assertTrue( invocationTracker.isValidatorInvoked() );
+		assertTrue( invocationTracker.isLaterInterceptorInvoked() );
 	}
 }

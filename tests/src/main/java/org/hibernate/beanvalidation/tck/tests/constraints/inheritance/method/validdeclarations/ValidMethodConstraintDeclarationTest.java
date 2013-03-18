@@ -42,6 +42,7 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.val
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.BusinessCalendarServiceImplementation;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceImplementation;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceSubClass;
+import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.ImplementationOfParallelInterfacesMarkingReturnValueAsCascaded;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -256,6 +257,28 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 				"CalendarServiceSubClass",
 				TestUtil.RETURN_VALUE_NODE_NAME,
 				"mode"
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = "4.5.5", id = "d")
+	public void testReturnValueMarkedAsCascadedInParallelInterfaces() throws Exception {
+		Object object = new ImplementationOfParallelInterfacesMarkingReturnValueAsCascaded();
+		Method method = getCreateEventMethod( object );
+		Object returnValue = new CalendarEvent();
+
+		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+				object,
+				method,
+				returnValue
+		);
+
+		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertNodeNames(
+				violations.iterator().next().getPropertyPath(),
+				"createEvent",
+				TestUtil.RETURN_VALUE_NODE_NAME,
+				"name"
 		);
 	}
 

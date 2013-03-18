@@ -14,27 +14,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
+package org.hibernate.beanvalidation.tck.tests.integration.ee.cdi;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public class GreetingConstraintValidatorForString implements ConstraintValidator<GreetingConstraint, String> {
 
-	private String name = "Bob";
+	@Inject
+	private Greeter greeter;
 
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
+	private String name;
+
+	public GreetingConstraintValidatorForString() {
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public void initialize(GreetingConstraint constraintAnnotation) {
+		this.name = constraintAnnotation.name();
+	}
+
+	@Override
+	public boolean isValid(String value, ConstraintValidatorContext context) {
+		context.disableDefaultConstraintViolation();
+		context.buildConstraintViolationWithTemplate( greeter.greet( name ) ).addConstraintViolation();
+
+		return false;
 	}
 }

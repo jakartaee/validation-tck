@@ -16,25 +16,32 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.constraints.NotNull;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public class ShipmentServiceSubClass extends ShipmentBase {
 
-	private String name = "Bob";
+	// The @ValidateOnExecution annotations here are expected to be ignored
+	// since the methods override super-type methods
 
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
+	@ValidateOnExecution(type = ExecutableType.NONE)
+	@Override
+	public void findShipment(@NotNull String id) {
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	@ValidateOnExecution(type = ExecutableType.NONE)
+	@Override
+	public Shipment getShipment() {
+		return null;
+	}
+
+	@ValidateOnExecution(type = ExecutableType.NONE)
+	@Override
+	public Shipment getAnotherShipment() {
+		return null;
 	}
 }

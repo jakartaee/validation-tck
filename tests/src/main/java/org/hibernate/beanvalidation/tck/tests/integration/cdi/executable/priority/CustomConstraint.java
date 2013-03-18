@@ -14,46 +14,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author Gunnar Morling
  */
 @Documented
-@Constraint(validatedBy = ValidIntegerArray.Validator.class)
-@Target({ METHOD, CONSTRUCTOR, TYPE, FIELD })
+@Constraint(validatedBy = CustomConstraintValidator.class)
+@Target({ PARAMETER })
 @Retention(RUNTIME)
-public @interface ValidIntegerArray {
+public @interface CustomConstraint {
 	String message() default "default message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
-
-	public static class Validator
-			implements ConstraintValidator<ValidIntegerArray, Integer[]> {
-
-		@Override
-		public void initialize(ValidIntegerArray annotation) {
-		}
-
-		@Override
-		public boolean isValid(Integer[] object, ConstraintValidatorContext constraintValidatorContext) {
-			return false;
-		}
-	}
 }

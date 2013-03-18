@@ -16,25 +16,28 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public class BookingService {
 
-	private String name = "Bob";
+	public interface IgnoredValidationGroup {
+	}
 
-	@Produces
-	@Dependent
-	public String getName() {
+	private int invocationCount = 0;
+
+	@DecimalMin("10001")
+	@Null(groups = IgnoredValidationGroup.class)
+	public String placeBooking(@Size(min = 5) @Null(groups = IgnoredValidationGroup.class) String name) {
+		invocationCount++;
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public int getInvocationCount() {
+		return invocationCount;
 	}
 }

@@ -20,6 +20,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -29,11 +30,13 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
 /**
@@ -57,6 +60,12 @@ public class ExecutableTypesTest extends Arquillian {
 
 	@Inject
 	private Instance<YetAnotherCalendarService> yetAnotherCalendar;
+
+	@Inject
+	private DeliveryService deliveryService;
+
+	@Inject
+	private Instance<AnotherDeliveryService> anotherDeliveryService;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -126,7 +135,7 @@ public class ExecutableTypesTest extends Arquillian {
 		catch ( ConstraintViolationException e ) {
 			assertCorrectConstraintTypes(
 					e.getConstraintViolations(),
-					ValidOjbect.class
+					ValidObject.class
 			);
 		}
 	}
@@ -166,7 +175,7 @@ public class ExecutableTypesTest extends Arquillian {
 		catch ( ConstraintViolationException e ) {
 			assertCorrectConstraintTypes(
 					e.getConstraintViolations(),
-					ValidOjbect.class
+					ValidObject.class
 			);
 		}
 	}
@@ -191,7 +200,7 @@ public class ExecutableTypesTest extends Arquillian {
 		catch ( ConstraintViolationException e ) {
 			assertCorrectConstraintTypes(
 					e.getConstraintViolations(),
-					ValidOjbect.class
+					ValidObject.class
 			);
 		}
 	}
@@ -231,7 +240,7 @@ public class ExecutableTypesTest extends Arquillian {
 		catch ( ConstraintViolationException e ) {
 			assertCorrectConstraintTypes(
 					e.getConstraintViolations(),
-					ValidOjbect.class
+					ValidObject.class
 			);
 		}
 	}
@@ -262,6 +271,63 @@ public class ExecutableTypesTest extends Arquillian {
 			assertCorrectConstraintTypes(
 					e.getConstraintViolations(),
 					Min.class
+			);
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "n")
+	public void testValidationOfConstrainedMethodWithExecutableTypeIMPLICIT() {
+		try {
+			deliveryService.findDelivery( null );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes(
+					e.getConstraintViolations(),
+					NotNull.class
+			);
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "n")
+	public void testValidationOfConstrainedGetterWithExecutableTypeIMPLICIT() {
+		try {
+			deliveryService.getDelivery();
+			fail( "Getter invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes(
+					e.getConstraintViolations(),
+					NotNull.class
+			);
+		}
+	}
+
+	//TODO Fails due to HV-773
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "n")
+	public void testValidationOfConstrainedGetterWithExecutableTypeIMPLICITOnTypeLevel() {
+		Delivery delivery = deliveryService.getAnotherDelivery();
+		assertNull( delivery );
+
+		// success; the constraint is invalid, but no violation exception is
+		// expected since @ValidateOnExecution(type=IMPLICIT) on the type-level
+		// should have no effect and thus the default settings apply
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "n")
+	public void testValidationOfConstrainedConstructorWithExecutableTypeIMPLICIT() {
+		try {
+			anotherDeliveryService.get();
+			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes(
+					e.getConstraintViolations(),
+					Size.class
 			);
 		}
 	}

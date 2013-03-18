@@ -16,9 +16,17 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Gunnar Morling
  */
 public class Event {
 
+	@NotNull
+	private String name;
+
+	public String getName() {
+		return name;
+	}
 }

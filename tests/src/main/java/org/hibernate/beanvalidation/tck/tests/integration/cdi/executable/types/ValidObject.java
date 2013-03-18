@@ -34,20 +34,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Gunnar Morling
  */
 @Documented
-@Constraint(validatedBy = ValidOjbect.Validator.class)
+@Constraint(validatedBy = ValidObject.Validator.class)
 @Target({ METHOD, CONSTRUCTOR, TYPE, FIELD })
 @Retention(RUNTIME)
-public @interface ValidOjbect {
+public @interface ValidObject {
 	String message() default "default message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	public static class Validator implements ConstraintValidator<ValidOjbect, Object> {
+	public static class Validator implements ConstraintValidator<ValidObject, Object> {
 
 		@Override
-		public void initialize(ValidOjbect parameters) {
+		public void initialize(ValidObject parameters) {
 		}
 
 		@Override

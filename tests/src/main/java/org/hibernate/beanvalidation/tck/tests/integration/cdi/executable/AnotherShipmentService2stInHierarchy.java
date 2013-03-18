@@ -16,25 +16,16 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.constraints.NotNull;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+public interface AnotherShipmentService2stInHierarchy {
 
-	private String name = "Bob";
-
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	@NotNull
+	@ValidateOnExecution(type = ExecutableType.ALL)
+	public Shipment getShipment();
 }

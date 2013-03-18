@@ -42,7 +42,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0") 
+@SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class BootstrapCustomProviderDefinedInValidationXmlTest extends Arquillian {
 
 	@Deployment
@@ -57,12 +57,14 @@ public class BootstrapCustomProviderDefinedInValidationXmlTest extends Arquillia
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5", id = "a"),
+			@SpecAssertion(section = "5.5.3", id = "l"),
 			@SpecAssertion(section = "5.5.4.2", id = "a")
 	})
 	public void testGetFactoryByProviderSpecifiedInValidationXml() {
 
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
 
+			@Override
 			public List<ValidationProvider<?>> getValidationProviders() {
 				List<ValidationProvider<?>> list = new ArrayList<ValidationProvider<?>>();
 				list.add( TestUtil.getValidationProviderUnderTest() );

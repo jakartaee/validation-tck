@@ -14,27 +14,41 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
 
 /**
  * @author Gunnar Morling
  */
 @ApplicationScoped
-public class NameProducer {
+public class InvocationTracker {
 
-	private String name = "Bob";
+	private boolean earlierInterceptorInvoked = false;
+	private boolean laterInterceptorInvoked = false;
+	private boolean validatorInvoked = false;
 
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
+	public boolean isEarlierInterceptorInvoked() {
+		return earlierInterceptorInvoked;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEarlierInterceptorInvoked(boolean earlierInterceptorInvoked) {
+		this.earlierInterceptorInvoked = earlierInterceptorInvoked;
+	}
+
+	public boolean isLaterInterceptorInvoked() {
+		return laterInterceptorInvoked;
+	}
+
+	public void setLaterInterceptorInvoked(boolean laterInterceptorInvoked) {
+		this.laterInterceptorInvoked = laterInterceptorInvoked;
+	}
+
+	public boolean isValidatorInvoked() {
+		return validatorInvoked;
+	}
+
+	public void setValidatorInvoked(boolean validatorInvoked) {
+		this.validatorInvoked = validatorInvoked;
 	}
 }

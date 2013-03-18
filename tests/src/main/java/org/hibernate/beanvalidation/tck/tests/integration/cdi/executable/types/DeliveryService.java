@@ -14,27 +14,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Produces;
+import javax.validation.constraints.NotNull;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-@ApplicationScoped
-public class NameProducer {
+@ValidateOnExecution
+public class DeliveryService {
 
-	private String name = "Bob";
-
-	@Produces
-	@Dependent
-	public String getName() {
-		return name;
+	@ValidateOnExecution
+	public void findDelivery(@NotNull String id) {
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	@ValidateOnExecution
+	@NotNull
+	public Delivery getDelivery() {
+		return null;
+	}
+
+	@NotNull
+	public Delivery getAnotherDelivery() {
+		return null;
 	}
 }

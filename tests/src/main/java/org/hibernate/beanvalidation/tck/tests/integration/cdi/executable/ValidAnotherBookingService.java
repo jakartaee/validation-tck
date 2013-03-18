@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
+package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -34,26 +34,25 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Gunnar Morling
  */
 @Documented
-@Constraint(validatedBy = ValidLongArray.Validator.class)
+@Constraint(validatedBy = ValidAnotherBookingService.Validator.class)
 @Target({ METHOD, CONSTRUCTOR, TYPE, FIELD })
 @Retention(RUNTIME)
-public @interface ValidLongArray {
+public @interface ValidAnotherBookingService {
 	String message() default "default message";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
 
-	public static class Validator
-			implements ConstraintValidator<ValidLongArray, Long[]> {
+	public static class Validator implements ConstraintValidator<ValidAnotherBookingService, AnotherBookingService> {
 
 		@Override
-		public void initialize(ValidLongArray annotation) {
+		public void initialize(ValidAnotherBookingService parameters) {
 		}
 
 		@Override
-		public boolean isValid(Long[] object, ConstraintValidatorContext constraintValidatorContext) {
-			return false;
+		public boolean isValid(AnotherBookingService service, ConstraintValidatorContext constraintValidatorContext) {
+			return Integer.parseInt( AnotherBookingService.getName() ) > 10000;
 		}
 	}
 }

@@ -77,7 +77,7 @@
         <java.source.version>1.6</java.source.version>
         <java.target.version>1.6</java.target.version>
         <jboss.test.audit.version>1.1.0.Final</jboss.test.audit.version>
-	<validation.api.version>1.1.0.CR2</validation.api.version>
+        <validation.api.version>1.1.0.CR2</validation.api.version>
         <arquillian.version>1.0.0.Final</arquillian.version>
         <shrinkwrap.version>1.0.0</shrinkwrap.version>
         <shrinkwrap.descriptors.version>2.0.0-alpha-2</shrinkwrap.descriptors.version>
@@ -126,9 +126,19 @@
                 <version>1.1-PFD</version>
             </dependency>
             <dependency>
+                <groupId>org.jboss.spec.javax.interceptor</groupId>
+                <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
+                <version>1.0.0.Alpha1</version>
+            </dependency>
+            <dependency>
                 <groupId>org.jboss.spec.javax.ejb</groupId>
                 <artifactId>jboss-ejb-api_3.2_spec</artifactId>
                 <version>1.0.0.Alpha2</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>1.2-b02</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

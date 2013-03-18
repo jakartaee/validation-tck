@@ -25,7 +25,7 @@ import javax.validation.executable.ValidateOnExecution;
 public class OfflineCalendarService {
 
 	@ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
-	@ValidOjbect
+	@ValidObject
 	public OfflineCalendarService() {
 	}
 }

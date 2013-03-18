@@ -20,6 +20,7 @@ import java.util.Calendar;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,10 +33,12 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -51,6 +54,18 @@ public class ExecutableValidationTest extends Arquillian {
 	private CalendarService calendar;
 
 	@Inject
+	private CalendarServiceWithCascadingReturnValue cascadingCalendar;
+
+	@Inject
+	private BookingService bookingService;
+
+	@Inject
+	private Instance<AnotherBookingService> anotherBookingService;
+
+	@Inject
+	private NameProducer nameProducer;
+
+	@Inject
 	private AnnotatedCalendarService annotatedCalendar;
 
 	@Inject
@@ -64,6 +79,15 @@ public class ExecutableValidationTest extends Arquillian {
 
 	@Inject
 	private OrderService orderService;
+
+	@Inject
+	private ShipmentService shipmentService;
+
+	@Inject
+	private ShipmentServiceSubClass shipmentServiceSubClass;
+
+	@Inject
+	private AnotherShipmentService2stInHierarchy anotherShipmentService;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -114,6 +138,24 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
+	//TODO Fails due to HV-770
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.2", id = "a"),
+			@SpecAssertion(section = "10.1.2", id = "b"),
+			@SpecAssertion(section = "10.1.2", id = "c"),
+			@SpecAssertion(section = "10.3", id = "a")
+	})
+	public void testCascadedReturnValueValidationOfConstrainedMethod() {
+		try {
+			cascadingCalendar.createValidEvent();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
@@ -135,6 +177,7 @@ public class ExecutableValidationTest extends Arquillian {
 	})
 	public void testParameterValidationOfConstrainedConstructor() {
 		try {
+			nameProducer.setName( "Bob" );
 			userServiceInstance.get();
 			fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
@@ -224,5 +267,171 @@ public class ExecutableValidationTest extends Arquillian {
 
 		// success; the constraint is invalid, but no violation exception is
 		// expected since the executable type is not given in @ValidateOnExecution
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.4", id = "a"),
+			@SpecAssertion(section = "5.4", id = "b")
+	})
+	public void testMethodValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
+		//parameter constraint is violated
+		try {
+			bookingService.placeBooking( "9999" );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class );
+		}
+
+		//method should not be invoked
+		assertEquals( bookingService.getInvocationCount(), 0 );
+
+		//parameter constraint is valid, but return value constraint is violated
+		try {
+			bookingService.placeBooking( "10000" );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), DecimalMin.class );
+		}
+
+		//method should have been invoked
+		assertEquals( bookingService.getInvocationCount(), 1 );
+
+		//valid invocation
+		String booking = bookingService.placeBooking( "10001" );
+		assertEquals( booking, "10001" );
+
+		assertEquals( bookingService.getInvocationCount(), 2 );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "5.4", id = "a"),
+			@SpecAssertion(section = "5.4", id = "b")
+	})
+	public void testConstructorValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
+		nameProducer.setName( "9999" );
+		//parameter constraint is violated
+		try {
+			anotherBookingService.get();
+			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class );
+		}
+
+		//constructor should not be invoked
+		assertEquals( AnotherBookingService.getInvocationCount(), 0 );
+
+		//parameter constraint is valid, but return value constraint is violated
+		nameProducer.setName( "10000" );
+		try {
+			anotherBookingService.get();
+			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), ValidAnotherBookingService.class );
+		}
+
+		//constructor should have been invoked
+		assertEquals( AnotherBookingService.getInvocationCount(), 1 );
+
+		//valid invocation
+		nameProducer.setName( "10001" );
+		AnotherBookingService instance = anotherBookingService.get();
+		assertNotNull( instance );
+
+		assertEquals( AnotherBookingService.getInvocationCount(), 2 );
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesDefaultSettingSinceValidatedMethodImplementsAnInterfaceMethod() {
+		try {
+			shipmentService.findShipment( null );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodImplementsAnInterfaceMethod() {
+		try {
+			shipmentService.getShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodImplementsAnInterfaceMethod() {
+		try {
+			shipmentService.getAnotherShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-771
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesDefaultSettingIfValidatedMethodOverridesASuperTypeMethod() {
+		try {
+			shipmentServiceSubClass.findShipment( null );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-771
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodOverridesASuperTypeMethod() {
+		try {
+			shipmentServiceSubClass.getShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-771
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodOverridesASuperTypeMethod() {
+		try {
+			shipmentServiceSubClass.getAnotherShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-772
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod()
+			throws Exception {
+		try {
+			anotherShipmentService.getShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
 	}
 }
