@@ -77,42 +77,6 @@ public class PathUtil {
 		}
 	}
 
-	/**
-	 * Asserts that the given violations contain the given expected property
-	 * path.
-	 *
-	 * @param actualViolations A set of constraint violations.
-	 * @param paths An expected property path.
-	 */
-	public static void assertViolationsContainPath(Set<? extends ConstraintViolation<?>> actualViolations, PathExpectation expectedPath) {
-		assertNotNull( actualViolations );
-		assertNotNull( expectedPath );
-
-		List<PathExpectation> actualPaths = new ArrayList<PathExpectation>();
-		for ( ConstraintViolation<?> violation : actualViolations ) {
-			PathExpectation actual = new PathExpectation( violation.getPropertyPath() );
-			if ( actual.equals( expectedPath ) ) {
-				return;
-			}
-			actualPaths.add( actual );
-		}
-
-		fail( String.format( "Didn't find path %s in actual paths %s.", expectedPath, actualPaths ) );
-	}
-
-	/**
-	 * Asserts that the given violations contain the given expected property
-	 * paths (other paths might exist in addition).
-	 *
-	 * @param actualViolations A set of constraint violations.
-	 * @param paths One or more expected property paths.
-	 */
-	public static void assertViolationsContainPaths(Set<? extends ConstraintViolation<?>> actualViolations, PathExpectation... expectedPaths) {
-		for ( PathExpectation pathExpectation : expectedPaths ) {
-			assertViolationsContainPath( actualViolations, pathExpectation );
-		}
-	}
-
 	public static class PathExpectation {
 
 		private final List<NodeExpectation> nodes = new ArrayList<NodeExpectation>();

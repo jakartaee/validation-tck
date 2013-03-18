@@ -48,7 +48,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainOnlyPaths;
-import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainPaths;
 import static org.hibernate.beanvalidation.tck.util.PathUtil.pathWith;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 
@@ -117,12 +116,32 @@ public class CustomPropertyPathTest extends Arquillian {
 	public void testAddingNodesInClassLevelConstraintKeepsInIterableKeyAndIndex() {
 		Set<ConstraintViolation<FooContainer>> constraintViolations = validator.validate( new FooContainer() );
 
-		assertViolationsContainPaths(
+		assertViolationsContainOnlyPaths(
 				constraintViolations,
 				pathWith().property( "fooList" ).property( "myNode1", true, null, 1 ),
+				pathWith().property( "fooList" ).property( "myNode2", true, null, 1 ).property( "myNode3" ),
+				pathWith().property( "fooList" ).property( "myNode4", true, null, 1 ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooList" ).property( "myNode6", true, null, 1 ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooList" ).property( "myNode8", true, null, 1 ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooList" ).property( "myNode10", true, null, 1 ).property( "myNode11", true, null, null ).property( "myNode12" ),
 				pathWith().property( "fooArray" ).property( "myNode1", true, null, 1 ),
+				pathWith().property( "fooArray" ).property( "myNode2", true, null, 1 ).property( "myNode3" ),
+				pathWith().property( "fooArray" ).property( "myNode4", true, null, 1 ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooArray" ).property( "myNode6", true, null, 1 ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooArray" ).property( "myNode8", true, null, 1 ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooArray" ).property( "myNode10", true, null, 1 ).property( "myNode11", true, null, null ).property( "myNode12" ),
 				pathWith().property( "fooSet" ).property( "myNode1", true, null, null ),
-				pathWith().property( "fooMap" ).property( "myNode1", true, "MapKey", null )
+				pathWith().property( "fooSet" ).property( "myNode2", true, null, null ).property( "myNode3" ),
+				pathWith().property( "fooSet" ).property( "myNode4", true, null, null ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooSet" ).property( "myNode6", true, null, null ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooSet" ).property( "myNode8", true, null, null ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooSet" ).property( "myNode10", true, null, null ).property( "myNode11", true, null, null ).property( "myNode12" ),
+				pathWith().property( "fooMap" ).property( "myNode1", true, "MapKey", null ),
+				pathWith().property( "fooMap" ).property( "myNode2", true, "MapKey", null ).property( "myNode3" ),
+				pathWith().property( "fooMap" ).property( "myNode4", true, "MapKey", null ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooMap" ).property( "myNode6", true, "MapKey", null ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooMap" ).property( "myNode8", true, "MapKey", null ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooMap" ).property( "myNode10", true, "MapKey", null ).property( "myNode11", true, null, null ).property( "myNode12" )
 		);
 	}
 
@@ -193,6 +212,7 @@ public class CustomPropertyPathTest extends Arquillian {
 	}
 
 	private static class FooContainer {
+
 		@Valid
 		private final List<Foo> fooList = Arrays.asList( null, new Foo() );
 
@@ -209,7 +229,6 @@ public class CustomPropertyPathTest extends Arquillian {
 			fooMap = new HashMap<String, Foo>();
 			fooMap.put( "MapKey", new Foo() );
 		}
-
 	}
 
 	private static class Bar {
