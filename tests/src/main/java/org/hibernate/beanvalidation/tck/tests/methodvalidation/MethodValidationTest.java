@@ -372,7 +372,7 @@ public class MethodValidationTest extends Arquillian {
 				Item.class,
 				byte.class
 		);
-		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
+		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
 				object,
@@ -394,7 +394,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
-		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), 0 };
+		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
 
 		violations = executableValidator.validateParameters(
 				object,
@@ -432,7 +432,7 @@ public class MethodValidationTest extends Arquillian {
 				Item.class,
 				byte.class
 		);
-		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
+		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
 				object,
@@ -454,7 +454,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
-		parameterValues = new Object[] { "Bob", new Item( "" ), 0 };
+		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
 
 		violations = executableValidator.validateParameters(
 				object,
@@ -688,7 +688,7 @@ public class MethodValidationTest extends Arquillian {
 				Item.class,
 				byte.class
 		);
-		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
+		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
 		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
 				constructor,
@@ -709,7 +709,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
-		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), 0 };
+		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
 
 		violations = executableValidator.validateConstructorParameters(
 				constructor,
@@ -745,7 +745,7 @@ public class MethodValidationTest extends Arquillian {
 						Item.class,
 						byte.class
 				);
-		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
+		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
 		Set<ConstraintViolation<OrderServiceWithRedefinedDefaultGroupSequence>> violations = executableValidator
 				.validateConstructorParameters(
@@ -767,7 +767,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
 		);
 
-		parameterValues = new Object[] { "Bob", new Item( "" ), 0 };
+		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
 
 		violations = executableValidator.validateConstructorParameters(
 				constructor,
