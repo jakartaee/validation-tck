@@ -33,6 +33,7 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -78,6 +79,15 @@ public class ExecutableValidationTest extends Arquillian {
 
 	@Inject
 	private OrderService orderService;
+
+	@Inject
+	private ShipmentService shipmentService;
+
+	@Inject
+	private ShipmentServiceSubClass shipmentServiceSubClass;
+
+	@Inject
+	private AnotherShipmentService2stInHierarchy anotherShipmentService;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -128,7 +138,8 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	@Test
+	//TODO Fails due to HV-770
+	@Test(groups = Groups.FAILING_IN_RI)
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
@@ -333,5 +344,94 @@ public class ExecutableValidationTest extends Arquillian {
 		assertNotNull( instance );
 
 		assertEquals( AnotherBookingService.getInvocationCount(), 2 );
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesDefaultSettingSinceValidatedMethodImplementsAnInterfaceMethod() {
+		try {
+			shipmentService.findShipment( null );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodImplementsAnInterfaceMethod() {
+		try {
+			shipmentService.getShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodImplementsAnInterfaceMethod() {
+		try {
+			shipmentService.getAnotherShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-771
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesDefaultSettingIfValidatedMethodOverridesASuperTypeMethod() {
+		try {
+			shipmentServiceSubClass.findShipment( null );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-771
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodOverridesASuperTypeMethod() {
+		try {
+			shipmentServiceSubClass.getShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-771
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodOverridesASuperTypeMethod() {
+		try {
+			shipmentServiceSubClass.getAnotherShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+	}
+
+	//TODO Fails due to HV-772
+	@Test(groups = Groups.FAILING_IN_RI)
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod()
+			throws Exception {
+		try {
+			anotherShipmentService.getShipment();
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
 	}
 }
