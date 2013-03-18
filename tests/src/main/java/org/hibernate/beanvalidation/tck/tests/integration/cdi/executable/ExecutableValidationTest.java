@@ -138,8 +138,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	//TODO Fails due to HV-770
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.2", id = "a"),
 			@SpecAssertion(section = "10.1.2", id = "b"),
