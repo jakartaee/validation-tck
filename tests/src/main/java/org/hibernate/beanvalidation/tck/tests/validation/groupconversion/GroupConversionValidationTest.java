@@ -36,7 +36,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -78,9 +77,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		);
 	}
 
-	//TODO HV-767
-	//not sure why this tests fails.
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "4.4.5", id = "c")
 	public void testSeveralGroupConversionsAppliedOnField() {
 		User userWithInvalidPreferredShipmentAddress = TestUsers.withInvalidPreferredShipmentAddress();
