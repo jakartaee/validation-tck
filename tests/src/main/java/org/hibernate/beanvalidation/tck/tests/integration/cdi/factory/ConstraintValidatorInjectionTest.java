@@ -55,12 +55,13 @@ public class ConstraintValidatorInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "b"),
-			@SpecAssertion(section = "10.3", id = "a")
+			@SpecAssertion(section = "10.3", id = "a"),
+			@SpecAssertion(section = "10.3.2", id = "b")
 	})
 	public void testDependencyInjectionIntoConstraintValidator() {
 		Set<ConstraintViolation<Foo>> violations = defaultValidatorFactory.getValidator().validate( new Foo() );
 
-		assertCorrectConstraintViolationMessages( violations, "Hello, bar!", "Good morning, qux!" );
+		assertCorrectConstraintViolationMessages( violations, "Hello, Mr. bar!", "Good morning, Mr. qux!" );
 	}
 
 	private static class Foo {
