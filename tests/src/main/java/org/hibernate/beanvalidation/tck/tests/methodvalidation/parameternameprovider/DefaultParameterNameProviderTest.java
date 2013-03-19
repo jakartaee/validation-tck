@@ -54,7 +54,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClass( DefaultParameterNameProviderTest.class )
-				.withClass( CustomParameterNameProvider.class )
+				.withClass( BrokenCustomParameterNameProvider.class )
 				.withClass( User.class )
 				.build();
 	}

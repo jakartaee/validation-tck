@@ -38,9 +38,10 @@ import static org.testng.Assert.fail;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ReservedElementNameTest extends Arquillian {
 
-	public final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdeclaration/";
-	public final static String mappingFile1 = "constraints-GroupIsNotAllowedAsElementNameTest.xml";
-	public final static String mappingFile2 = "constraints-MessageIsNotAllowedAsElementNameTest.xml";
+	private final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdeclaration/";
+	private final static String mappingFile1 = "constraints-GroupIsNotAllowedAsElementNameTest.xml";
+	private final static String mappingFile2 = "constraints-MessageIsNotAllowedAsElementNameTest.xml";
+	private final static String mappingFile3 = "constraints-PayloadIsNotAllowedAsElementNameTest.xml";
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -49,35 +50,34 @@ public class ReservedElementNameTest extends Arquillian {
 				.withClasses( User.class )
 				.withResource( ReservedElementNameTest.mappingFile1 )
 				.withResource( ReservedElementNameTest.mappingFile2 )
+				.withResource( ReservedElementNameTest.mappingFile3 )
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "8.1.1.6", id = "c")
 	public void testGroupIsNotAllowedAsElementName() {
-		try {
-			Configuration<?> config = TestUtil.getConfigurationUnderTest();
-			config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
-			config.buildValidatorFactory().getValidator();
-			fail( "Validator creation should have failed since <element name=\"groups\"> was used." );
-		}
-		catch ( ValidationException e ) {
-			// success
-		}
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
+		config.buildValidatorFactory().getValidator();
+		fail( "Validator creation should have failed since <element name=\"groups\"> was used." );
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "8.1.1.6", id = "c")
 	public void testMessageIsNotAllowedAsElementName() {
-		try {
-			Configuration<?> config = TestUtil.getConfigurationUnderTest();
-			config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );
-			config.buildValidatorFactory().getValidator();
-			fail( "Validator creation should have failed since <element name=\"message\"> was used." );
-		}
-		catch ( ValidationException e ) {
-			// success
-			System.err.println( e.getMessage() );
-		}
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );
+		config.buildValidatorFactory().getValidator();
+		fail( "Validator creation should have failed since <element name=\"message\"> was used." );
+	}
+
+	@Test(expectedExceptions = ValidationException.class)
+	@SpecAssertion(section = "8.1.1.6", id = "c")
+	public void testPayloadIsNotAllowedAsElementName() {
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
+		config.buildValidatorFactory().getValidator();
+		fail( "Validator creation should have failed since <element name=\"groups\"> was used." );
 	}
 }

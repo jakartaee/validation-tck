@@ -306,7 +306,10 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "3.3", id = "k")
+	@SpecAssertions({
+			@SpecAssertion(section = "3.3", id = "k"),
+			@SpecAssertion(section = "3.3", id = "t")
+	})
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
 		Object object = new DummyEntityWithIllegallyComposedConstraint();
@@ -324,7 +327,10 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "3.3", id = "k")
+	@SpecAssertions({
+			@SpecAssertion(section = "3.3", id = "k"),
+			@SpecAssertion(section = "3.3", id = "t")
+	})
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
 		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
 		Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(

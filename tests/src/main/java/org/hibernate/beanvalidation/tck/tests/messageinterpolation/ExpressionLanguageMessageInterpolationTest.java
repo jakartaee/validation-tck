@@ -83,6 +83,7 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "5.3.1", id = "e"),
 			@SpecAssertion(section = "5.3.1.3", id = "a"),
 			@SpecAssertion(section = "5.3.1.3", id = "b")
 	})

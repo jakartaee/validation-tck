@@ -63,6 +63,13 @@ public class PropertyDescriptorTest extends Arquillian {
 	}
 
 	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClass() {
+		PropertyDescriptor descriptor = getPropertyDescriptor( Order.class, "orderNumber" );
+		assertEquals( descriptor.getElementClass(), Integer.class, "Wrong element class" );
+	}
+
+	@Test
 	@SpecAssertion(section = "6.4", id = "a")
 	public void testIsNotCascaded() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( Order.class, "orderNumber" );

@@ -92,7 +92,6 @@
                 with which the the constraint declaration is associated. The type of the payload
                 parameter is Payload[].
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="b">
             <text>The default value must be an empty array.</text>
@@ -149,7 +148,6 @@
             <text>More formally, each constraint annotation hosted on a constraint annotation is
                 applied to the target element and this is done recursively.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="b">
             <text>Note that the main annotation and its constraint validation implementation is also
@@ -204,7 +202,6 @@
                 (excluding groups, payload and validationAppliesTo) but these are fixed in the
                 composed constraint definition.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="n">
             <text>It is possible to override attributes and messages defined on a composing
@@ -242,7 +239,6 @@
                 generic and cross-parameter) etc. a ConstraintDefinitionException is raised either
                 at validation time or when the metadata is requested.
             </text>
-            <note>Needs update</note>
         </assertion>
     </section>
     <section id="3.4" title="Constraint validation implementation">
@@ -255,7 +251,6 @@
             <text>The implementation classes are specified by the validatedBy element of the
                 @Constraint annotation that decorates the constraint definition.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="c" testable="false">
             <text>The constraint validation implementation implements the ConstraintValidator
@@ -286,7 +281,6 @@
                 resolve to Object[] (or Object) in order to have the array of parameter values
                 passed to the isValid() method. A ConstraintDefinitionException is raised otherwise.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="h">
             <text>The initialize() method is called by the Bean validation provider prior to any use
@@ -342,7 +336,6 @@
                 bean, property, parameter, cross-parameter or return value hosting the constraint
                 (see 5.2 for more information).
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="s">
             <text>You can point it to a subpath of this default path by using the constraint
@@ -773,7 +766,6 @@
             <text>Static methods are ignored by validation. Putting constraints on a static method
                 is not portable.
             </text>
-            <note>Needs update</note>
         </assertion>
     </section>
     <section id="4.5.2" title="Declaring parameter constraints">
@@ -1217,7 +1209,6 @@
                 arguments (as given in parameterValues) for the parameters of a given method
                 (identified by method). Cross-parameter constraints are also validated.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="b">
             <text>A set containing all ConstraintViolation objects representing the failing
@@ -1230,7 +1221,6 @@
                 parameters or if the parameters don't match with each other (i.e. object and method
                 don't match, parameterValues and method don't match).
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="d">
             <text>&lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt; validateReturnValue(T object,
@@ -1249,7 +1239,6 @@
                 parameters object, method and groups or if the parameters don't match with each
                 other (i.e. object and method don't match, returnValue and method don't match).
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="g">
             <text>&lt;T&gt; Set&lt;ConstraintViolation&lt;T&gt;&gt;
@@ -1258,7 +1247,6 @@
                 parameterValues) for the parameters of a given constructor (identified by
                 constructor). Cross-parameter constraints are also validated.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="h">
             <text>A set containing all ConstraintViolation objects representing the failing
@@ -1347,7 +1335,6 @@
                 cross-parameter constraint, null. If a constructor return value constraint, the
                 object the constructor has created.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="g">
             <text>The getExecutableParameters() returns the parameters provided to the method or
@@ -1366,7 +1353,6 @@
                 method/constructor parameter, method/constructor return value or validated object)
                 being passed to isValid().
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="j">
             <text>For a cross-parameter constraint failure, an Object[] representing the
@@ -1381,7 +1367,6 @@
             <text>The getPropertyPath() method returns the Path object representing the navigation
                 path from the root object to the failing object.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="m">
             <text>getName() returns the name of the element which the node represents</text>
@@ -1411,7 +1396,6 @@
             <text>as(Class&lt;? extends Node&gt;) returns the node instance narrowed to the type
                 passed as a parameter or ClassCastException if the type and node don't match.
             </text>
-            <note>Needs update (GM: manually added this note)</note>
         </assertion>
         <assertion id="s">
             <text>In particular, MethodNode and ConstructorNode host getParameterTypes() which
@@ -1433,14 +1417,12 @@
             <text>If the failing object is the root object, a BeanNode with name set to null is
                 added to the Path. The ElementKind of the node is ElementKind.BEAN.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="w">
             <text>A PropertyNode object whose name equals the name of the association property
                 (field name or Java Bean property name) is added to Path. The ElementKind of the
                 node is ElementKind.PROPERTY.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="x">
             <text>If the association is a List or an array, the following Node object added contains
@@ -1463,14 +1445,12 @@
                 name). The ElementKind of the is ElementKind.PROPERTY. the property path is
                 considered complete
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="ab">
             <text>For a class level constraint: a BeanNode object is added to Path whose name is
                 null. The ElementKind of the node is ElementKind.BEAN. the property path is
                 considered complete
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="ac">
             <text>A MethodNode respectively a ConstructorNode object is added to the Path which
@@ -1594,7 +1574,6 @@
                 parameters or expressions. Message parameters and expressions are string literals
                 enclosed in {} or ${} respectively.
             </text>
-            <note>Needs update (GM: manually added this note)</note>
         </assertion>
         <assertion id="f">
             <text>\{ is considered as the literal { instead of being considered as the beginning of
@@ -1647,7 +1626,6 @@
                 {value} as message parameter has precedence over evaluating ${value} as message
                 expression.
             </text>
-            <note>Needs update (GM: manually added this note)</note>
         </assertion>
         <assertion id="g">
             <text>Message expressions are extracted from the message string and evaluated using
@@ -1796,7 +1774,6 @@
                 ValidatorFactory's MessageInterpolator, TraversableResolver,
                 ConstraintValidatorFactory or ParameterNameProvider instances.
             </text>
-            <note>Needs update</note>
         </assertion>
     </section>
     <section id="5.5.3" title="Configuration">
@@ -1962,7 +1939,6 @@
                 either fails or if the expected provider is not found, a ValidationException is
                 raised.
             </text>
-            <note>Needs update</note>
         </assertion>
     </section>
     <section id="5.5.6" title="XML Configuration: META-INF/validation.xml">
@@ -2036,7 +2012,6 @@
                 parameter-name-provider, executable-validation and
                 default-validated-executable-types are optional.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="n">
             <text>constraint-mapping: represents the resource path of an XML mapping file.</text>
@@ -2056,13 +2031,11 @@
             <text>Properties defined via Configuration.addProperty(String, String) are added to the
                 properties defined via property.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="s" testable="false">
             <text>If a property with the same name are defined in both XML and via the programmatic
                 API, the value provided via programmatic API has priority.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="t">
             <text>If a public no-arg constructor is missing, a ValidationException is raised during
@@ -2108,7 +2081,6 @@
                 type when invoked on ConstructorDescriptor, MethodDescriptor or
                 ReturnValueDescriptor.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="b">
             <text>getConstraintDescriptors() returns all the ConstraintDescriptors (see 6.11) hosted
@@ -2182,7 +2154,6 @@
                 MethodTypes provided as parameter and having at least one constraint or cascaded
                 parameter or return value.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="g">
             <text>getConstraintsForConstructor() returns a ConstructorDescriptor object describing
@@ -2235,7 +2206,6 @@
                 synthetic parameters. An empty list will be returned in case the method or
                 constructor has no parameters.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="c">
             <text>getCrossParameterDescriptor() returns a descriptor containing cross-parameter
@@ -2248,7 +2218,6 @@
                 return value. A descriptor representing the special class void, without any
                 constraint descriptors, will be returned for executables which have no return value.
             </text>
-            <note>Needs update (GM: Manually added this note)</note>
         </assertion>
         <assertion id="e">
             <text>hasConstrainedParameters() returns true if any of the parameters is constrained or
@@ -2271,7 +2240,6 @@
                 CrossParameterDescriptor object and constraint descriptors for the return value can
                 be obtained from ReturnValueDescriptor.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="h">
             <text>None of the metadata API methods honor the XML configuration around executable
@@ -2532,7 +2500,6 @@
         </assertion>
         <assertion id="e">
             <text>@Valid is considered unless the valid element is explicitly used.</text>
-            <note>Needs update (GM: Manually added this note)</note>
         </assertion>
         <assertion id="f">
             <text>Group conversions declared in XML and via the @ConvertGroup annotation are added
@@ -2572,7 +2539,6 @@
         </assertion>
         <assertion id="e">
             <text>@Valid is considered unless the valid element is explicitly used.</text>
-            <note>Needs update (GM: Manually added this note)</note>
         </assertion>
         <assertion id="f">
             <text>Group conversions declared in XML and via the @ConvertGroup annotation are added
@@ -2595,7 +2561,6 @@
                 parameter types are specified using their fully qualified name using the syntax
                 described in the documentation of java.lang.Class.getName().
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="b">
             <text>Varargs parameters are specified using the corresponding array type, e.g. a
@@ -2642,7 +2607,6 @@
             <text>The cross-parameter constraints applied on a constructor parameter list are
                 specified by adding constraint elements to the cross-parameter element.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="k">
             <text>If ignore-annotations is declared on the parameter, cross-parameter element or
@@ -2651,7 +2615,6 @@
                 Validation must honor this value. Otherwise, the default value declared in the
                 encapsulating bean element is considered.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="l">
             <text>When ignore-annotations is true, Bean Validation annotations on the targeted
@@ -2683,7 +2646,6 @@
                 types are specified using their fully qualified name using the syntax described in
                 the documentation of java.lang.Class.getName().
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="b">
             <text>Varargs parameters are specified using the corresponding array type, e.g. a
@@ -2737,7 +2699,6 @@
             <text>The cross-parameter constraints applied on a method parameter list are specified
                 by adding constraint elements to the cross-parameter element.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="l">
             <text>If ignore-annotations is declared on the parameter, cross-parameter element or
@@ -2746,7 +2707,6 @@
                 must honor this value. Otherwise, the default value declared in the encapsulating
                 bean element is considered.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="m">
             <text>When ignore-annotations is true, Bean Validation annotations on the targeted
@@ -2787,7 +2747,6 @@
             <text>Message, groups and payload are not permitted names, use the message, groups or
                 payload elements instead. Otherwise a ValidationException is raised.
             </text>
-            <note>Needs update</note>
         </assertion>
         <assertion id="d">
             <text>If the element represents a primitive type, a class or an enum, the string

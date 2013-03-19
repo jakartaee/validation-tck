@@ -83,6 +83,7 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "8.1.1.5", id = "a"),
 			@SpecAssertion(section = "8.1.1.5", id = "b"),
 			@SpecAssertion(section = "8.1.1.5", id = "c")
 	})

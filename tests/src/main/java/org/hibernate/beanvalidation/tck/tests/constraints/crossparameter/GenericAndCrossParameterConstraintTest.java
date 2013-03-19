@@ -63,7 +63,10 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "e")
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "b"),
+			@SpecAssertion(section = "3.4", id = "e")
+	})
 	public void testAnnotatedElementIsTargetedByDefault() throws Exception {
 		Object object = new Calendar();
 		Method method = Calendar.class.getMethod( "createEvent", Date.class, Date.class );
@@ -127,9 +130,9 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-		@SpecAssertion(section = "3.4", id = "f"),
-		@SpecAssertion(section = "4.5.2.1", id = "c"),
-		@SpecAssertion(section = "4.5.3", id = "b")
+			@SpecAssertion(section = "3.4", id = "f"),
+			@SpecAssertion(section = "4.5.2.1", id = "c"),
+			@SpecAssertion(section = "4.5.3", id = "b")
 	})
 	public void testOneValidatorSupportsBothValidationTargets() throws Exception {
 		Object object = new MobileCalendar();
