@@ -44,7 +44,6 @@ import static org.testng.Assert.fail;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
-//TODO Add tests for hasConstraints(), getConstraints() and findConstraints()
 public class ReturnValueDescriptorTest extends Arquillian {
 
 	@Deployment

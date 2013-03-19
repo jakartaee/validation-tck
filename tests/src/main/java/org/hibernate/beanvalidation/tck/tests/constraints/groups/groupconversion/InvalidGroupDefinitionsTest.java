@@ -136,7 +136,6 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.4.5", id = "e")
 	public void testSeveralGroupConversionsWithSameFrom() {
-		//TODO GM: Should we test property, return value etc., too?
 		validator.validate( new UserWithSeveralGroupConversionsForSameFrom() );
 	}
 

@@ -405,27 +405,6 @@ public class ValidateParametersTest extends Arquillian {
 		executableValidator.validateParameters( object, method, parameterValues );
 	}
 
-	//	@Test
-//	@SpecAssertion(section = "5.2", id = "j")
-//	TODO - https://hibernate.onjira.com/browse/BVTCK-40
-	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
-			throws Exception {
-		String methodName = "setAddress";
-
-		Object object = new User();
-		Method method = User.class.getMethod( methodName );
-		Object[] parameterValues = new Object[] { };
-
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
-				object,
-				method,
-				parameterValues
-		);
-
-		assertCorrectNumberOfViolations( violations, 1 );
-		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
-	}
-
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "c")
 	public void testNullPassedForObjectCausesException() throws Exception {

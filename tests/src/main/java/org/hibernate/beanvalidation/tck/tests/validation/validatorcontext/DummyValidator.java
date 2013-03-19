@@ -30,9 +30,12 @@ public class DummyValidator implements ConstraintValidator<Dummy, String> {
 	private static Map<String, String> errorMessages;
 
 
+	@Override
 	public void initialize(Dummy parameters) {
 	}
 
+	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
 		if ( disableDefaultError ) {
 			constraintValidatorContext.disableDefaultConstraintViolation();
@@ -41,7 +44,8 @@ public class DummyValidator implements ConstraintValidator<Dummy, String> {
 		if ( errorMessages != null ) {
 			for ( Map.Entry<String, String> entry : errorMessages.entrySet() ) {
 				if ( entry.getKey() == null ) {
-					constraintValidatorContext.buildConstraintViolationWithTemplate( entry.getValue() ).addConstraintViolation();
+					constraintValidatorContext.buildConstraintViolationWithTemplate( entry.getValue() )
+							.addConstraintViolation();
 				}
 				else {
 					constraintValidatorContext.buildConstraintViolationWithTemplate( entry.getValue() )

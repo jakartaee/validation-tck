@@ -374,23 +374,6 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		executableValidator.validateConstructorParameters( constructor, parameterValues );
 	}
 
-	//	@Test
-//	@SpecAssertion(section = "5.2", id = "j")
-//  TODO - https://hibernate.onjira.com/browse/BVTCK-40
-	public void testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod()
-			throws Exception {
-		Constructor<User> constructor = User.class.getConstructor();
-		Object[] parameterValues = new Object[] { };
-
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
-				constructor,
-				parameterValues
-		);
-
-		assertCorrectNumberOfViolations( violations, 1 );
-		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
-	}
-
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.2", id = "i")
 	public void testNullPassedForConstructorCausesException() throws Exception {

@@ -116,14 +116,6 @@ public class User {
 	public User(String street, String houseNo, String city) {
 	}
 
-	//testGetInvalidValueForCrossParameterConstraintOnParameterlessMethod
-	// @MyCrossParameterConstraint
-	// https://hibernate.onjira.com/browse/BVTCK-40
-	public void setAddress() {
-	}
-
-	// @MyCrossParameterConstraint
-	// TODO - https://hibernate.onjira.com/browse/BVTCK-40
 	public User() {
 	}
 }

@@ -50,7 +50,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
@@ -344,34 +343,6 @@ public class ValidateTest extends Arquillian {
 	public void testUnexpectedExceptionsInValidateGetWrappedInValidationExceptions() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new BadlyBehavedEntity() );
-	}
-
-	// TODO - map or remove
-	@Test
-	public void testValidationIsPolymorphic() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-
-		Customer customer = new Customer();
-		customer.setFirstName( "Foo" );
-		customer.setLastName( "Bar" );
-
-		Order order = new Order();
-		customer.addOrder( order );
-
-		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( (Person) customer );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
-
-		assertConstraintViolation(
-				constraintViolations.iterator().next(),
-				Customer.class,
-				null,
-				"orders[].orderNumber"
-		);
-
-		order.setOrderNumber( 123 );
-
-		constraintViolations = validator.validate( (Person) customer );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
 	private static class Car {

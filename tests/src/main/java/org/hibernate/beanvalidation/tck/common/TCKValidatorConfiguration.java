@@ -30,13 +30,13 @@ import javax.validation.spi.ValidationProvider;
  * @author Hardy Ferentschik
  */
 public class TCKValidatorConfiguration implements Configuration<TCKValidatorConfiguration> {
-	private final ValidationProvider provider;
+	private final ValidationProvider<?> provider;
 
 	public TCKValidatorConfiguration() {
 		provider = null;
 	}
 
-	public TCKValidatorConfiguration(ValidationProvider provider) {
+	public TCKValidatorConfiguration(ValidationProvider<?> provider) {
 		this.provider = provider;
 	}
 

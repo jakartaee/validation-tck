@@ -187,6 +187,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 		public void initialize(CompatiblePersons constraintAnnotation) {
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public boolean isValid(Group group, ConstraintValidatorContext constraintValidatorContext) {
 			if ( group == null ) {
