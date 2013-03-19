@@ -33,7 +33,6 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -381,8 +380,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	//TODO Fails due to HV-771
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "h")
 	public void testExecutableValidationUsesDefaultSettingIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
@@ -394,8 +392,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	//TODO Fails due to HV-771
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
@@ -407,8 +404,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	//TODO Fails due to HV-771
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
@@ -420,8 +416,7 @@ public class ExecutableValidationTest extends Arquillian {
 		}
 	}
 
-	//TODO Fails due to HV-772
-	@Test(groups = Groups.FAILING_IN_RI)
+	@Test
 	@SpecAssertion(section = "10.1.2", id = "h")
 	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod()
 			throws Exception {
