@@ -68,7 +68,7 @@ public class ManagedObjectsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "c"),
+			@SpecAssertion(section = "10.1.1", id = "d"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
@@ -81,7 +81,7 @@ public class ManagedObjectsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "c"),
+			@SpecAssertion(section = "10.1.1", id = "d"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
@@ -97,7 +97,7 @@ public class ManagedObjectsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "c"),
+			@SpecAssertion(section = "10.1.1", id = "d"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
@@ -114,7 +114,7 @@ public class ManagedObjectsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "c"),
+			@SpecAssertion(section = "10.1.1", id = "d"),
 			@SpecAssertion(section = "10.3.2", id = "a"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
