@@ -32,6 +32,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -66,7 +67,10 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.4.5", id = "c"),
+			@SpecAssertion(section = "4.6", id = "a")
+	})
 	public void testGroupConversionIsAppliedOnField() {
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( TestUsers.withInvalidMainAddress() );
 
@@ -78,7 +82,10 @@ public class GroupConversionValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.4.5", id = "c"),
+			@SpecAssertion(section = "4.6", id = "a")
+	})
 	public void testSeveralGroupConversionsAppliedOnField() {
 		User userWithInvalidPreferredShipmentAddress = TestUsers.withInvalidPreferredShipmentAddress();
 

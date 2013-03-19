@@ -168,7 +168,10 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "c")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.6", id = "d"),
+			@SpecAssertion(section = "5.1.1", id = "c")
+	})
 	public void testMultipleConstraintViolationOfDifferentTypes() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -185,6 +188,8 @@ public class ValidateTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "a"),
+			@SpecAssertion(section = "4.6", id = "a"),
+			@SpecAssertion(section = "4.6", id = "d"),
 			@SpecAssertion(section = "5.2", id = "a"),
 			@SpecAssertion(section = "5.2", id = "b"),
 			@SpecAssertion(section = "5.2", id = "c"),
@@ -226,6 +231,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "4.6", id = "a"),
 			@SpecAssertion(section = "5.2", id = "c"),
 			@SpecAssertion(section = "5.2", id = "e"),
 			@SpecAssertion(section = "5.2", id = "f"),
@@ -256,6 +262,7 @@ public class ValidateTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "4.6", id = "a"),
 			@SpecAssertion(section = "5.2", id = "f")
 	})
 	public void testGraphValidationWithList() {

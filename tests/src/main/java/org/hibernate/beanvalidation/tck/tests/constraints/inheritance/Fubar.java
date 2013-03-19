@@ -22,10 +22,11 @@ import javax.validation.constraints.Size;
 /**
  * @author Hardy Ferentschik
  */
+@ValidFubar
 public interface Fubar {
 	@NotNull
 	String getFubar();
 
-	@Size(min=5)
+	@Size(min = 5)
 	String getName();
 }

@@ -21,6 +21,7 @@ import javax.validation.constraints.DecimalMin;
 /**
  * @author Hardy Ferentschik
  */
+@ValidBar
 public class Bar extends Foo implements Fubar {
 
 	@Override

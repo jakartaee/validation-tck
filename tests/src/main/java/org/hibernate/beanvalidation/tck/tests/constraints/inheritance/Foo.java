@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 /**
  * @author Hardy Ferentschik
  */
+@ValidFoo
 public class Foo {
 	@NotNull
 	private String foo;
