@@ -36,7 +36,7 @@ public class AnotherBookingService {
 	@ValidAnotherBookingService
 	@Null(groups = IgnoredValidationGroup.class)
 	public AnotherBookingService(@Size(min = 5) @Null(groups = IgnoredValidationGroup.class) String name) {
-		this.name = name;
+		AnotherBookingService.name = name;
 		invocationCount++;
 	}
 

@@ -30,7 +30,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.LineItem;
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * @author Gunnar Morling

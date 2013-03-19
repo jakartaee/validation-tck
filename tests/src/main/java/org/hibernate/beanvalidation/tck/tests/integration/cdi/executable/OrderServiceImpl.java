@@ -16,11 +16,12 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
+@ValidateOnExecution
 public class OrderServiceImpl implements OrderService {
 
 	@Override
@@ -30,12 +31,6 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order getOrder() {
-		return null;
-	}
-
-	//TODO Added this only to make the type discovered by the PE
-	@NotNull
-	public String getFoo() {
 		return null;
 	}
 }

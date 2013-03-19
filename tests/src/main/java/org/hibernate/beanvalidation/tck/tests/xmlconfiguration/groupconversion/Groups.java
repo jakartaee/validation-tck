@@ -19,6 +19,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion;
 /**
  * @author Hardy Ferentschik
  */
+@SuppressWarnings("unused")
 public class Groups {
 
 	private String foo;
@@ -28,9 +29,8 @@ public class Groups {
 	public String getSnafu() {
 		return snafu;
 	}
+
 	private String convert(String s) {
 		return null;
 	}
 }
-
-
