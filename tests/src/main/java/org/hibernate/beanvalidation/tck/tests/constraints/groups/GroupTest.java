@@ -289,7 +289,10 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "c")
+	@SpecAssertions({
+			@SpecAssertion(section = "4.4", id = "c"),
+			@SpecAssertion(section = "4.6", id = "a")
+	})
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Animal elephant = new Animal();
@@ -374,6 +377,7 @@ public class GroupTest extends Arquillian {
 			@SpecAssertion(section = "4.4.2", id = "e"),
 			@SpecAssertion(section = "4.4.2", id = "f"),
 			@SpecAssertion(section = "4.4.2", id = "i"),
+			@SpecAssertion(section = "4.4.6", id = "j"),
 			@SpecAssertion(section = "9.4", id = "a")
 	})
 	public void testCyclicGroupSequence() {

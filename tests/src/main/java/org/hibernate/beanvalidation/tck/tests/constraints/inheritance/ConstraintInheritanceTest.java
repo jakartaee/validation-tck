@@ -19,6 +19,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -33,11 +35,13 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -47,6 +51,8 @@ import static org.testng.Assert.assertTrue;
 @SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ConstraintInheritanceTest extends Arquillian {
 
+	private Validator validator;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
@@ -54,10 +60,14 @@ public class ConstraintInheritanceTest extends Arquillian {
 				.build();
 	}
 
+	@BeforeMethod
+	public void setupValidator() {
+		validator = TestUtil.getValidatorUnderTest();
+	}
+
 	@Test
 	@SpecAssertion(section = "4.3", id = "b")
 	public void testConstraintsOnSuperClassAreInherited() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
 		String propertyName = "foo";
@@ -76,7 +86,6 @@ public class ConstraintInheritanceTest extends Arquillian {
 			@SpecAssertion(section = "4.3", id = "b")
 	})
 	public void testConstraintsOnInterfaceAreInherited() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
 		String propertyName = "fubar";
@@ -95,7 +104,6 @@ public class ConstraintInheritanceTest extends Arquillian {
 			@SpecAssertion(section = "4.3", id = "c")
 	})
 	public void testConstraintsOnInterfaceAndImplementationAddUp() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
 		String propertyName = "name";
@@ -115,7 +123,6 @@ public class ConstraintInheritanceTest extends Arquillian {
 			@SpecAssertion(section = "4.3", id = "c")
 	})
 	public void testConstraintsOnSuperAndSubClassAddUp() {
-		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
 		String propertyName = "lastName";
@@ -127,6 +134,18 @@ public class ConstraintInheritanceTest extends Arquillian {
 		assertEquals( constraintTypes.size(), 2 );
 		assertTrue( constraintTypes.contains( DecimalMin.class ) );
 		assertTrue( constraintTypes.contains( Size.class ) );
+	}
+
+	@Test
+	@SpecAssertion(section = "4.6", id = "a")
+	public void testValidationConsidersConstraintsFromSuperTypes() {
+		Set<ConstraintViolation<Bar>> violations = validator.validate( new Bar() );
+		assertCorrectConstraintTypes(
+				violations,
+				DecimalMin.class, DecimalMin.class, ValidBar.class, //Bar
+				NotNull.class, Size.class, ValidFoo.class, //Foo
+				NotNull.class, Size.class, ValidFubar.class //Fubar
+		);
 	}
 
 	private List<Class<? extends Annotation>> getConstraintTypes(Iterable<ConstraintDescriptor<?>> descriptors) {

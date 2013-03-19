@@ -61,6 +61,7 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "4.6", id = "a"),
 			@SpecAssertion(section = "4.6.3", id = "a"),
 			@SpecAssertion(section = "4.6.3", id = "b"),
 			@SpecAssertion(section = "4.6.3", id = "c"),
