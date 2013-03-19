@@ -288,12 +288,8 @@ public class GroupTest extends Arquillian {
 		assertEquals( constraintViolations.size(), 0, "Wrong number of constraints" );
 	}
 
-	//TODO 4.6 b marked as non-testable
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4", id = "c"),
-			@SpecAssertion(section = "4.6", id = "c")
-	})
+	@SpecAssertion(section = "4.4", id = "c")
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Animal elephant = new Animal();
