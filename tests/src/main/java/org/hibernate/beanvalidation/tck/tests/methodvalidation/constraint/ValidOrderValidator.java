@@ -16,13 +16,10 @@
 */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Order;
-
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -30,28 +27,12 @@ import static org.testng.Assert.fail;
 public class ValidOrderValidator
 		implements ConstraintValidator<ValidOrder, Order> {
 
-	private int expectedMaxInvocationCount;
-	private AtomicInteger actualInvocationCount;
-
 	@Override
 	public void initialize(ValidOrder constraintAnnotation) {
-		expectedMaxInvocationCount = constraintAnnotation.expectedMaxInvocationCount();
-		actualInvocationCount = new AtomicInteger();
 	}
 
 	@Override
 	public boolean isValid(Order order, ConstraintValidatorContext context) {
-		int invocationCount = actualInvocationCount.incrementAndGet();
-		if ( invocationCount > expectedMaxInvocationCount ) {
-			fail(
-					String.format(
-							"Constraint validator was expected to be invoked only %s times but was invoked %s times.",
-							expectedMaxInvocationCount,
-							actualInvocationCount
-					)
-			);
-		}
-
 		return order == null ? true : order.getName().length() >= 5;
 	}
 }

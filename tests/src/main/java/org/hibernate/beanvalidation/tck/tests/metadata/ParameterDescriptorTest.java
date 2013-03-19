@@ -62,6 +62,24 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForMethod() {
+		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
+				.getParameterDescriptors();
+
+		assertEquals( parameters.get( 0 ).getElementClass(), String.class, "Wrong parameter class" );
+	}
+
+	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassForConstructor() {
+		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
+				.getParameterDescriptors();
+
+		assertEquals( parameters.get( 0 ).getElementClass(), String.class, "Wrong parameter class" );
+	}
+
+	@Test
 	@SpecAssertion(section = "6.8", id = "a")
 	public void testGetIndexForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()

@@ -54,7 +54,7 @@ public class ConstraintValidatorInjectionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "b"),
+			@SpecAssertion(section = "10.1.1", id = "c"),
 			@SpecAssertion(section = "10.3", id = "a"),
 			@SpecAssertion(section = "10.3.2", id = "b")
 	})

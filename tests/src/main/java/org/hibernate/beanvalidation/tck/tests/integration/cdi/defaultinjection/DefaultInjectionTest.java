@@ -72,6 +72,7 @@ public class DefaultInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.1.1", id = "b"),
 			@SpecAssertion(section = "10.3.1", id = "a"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
@@ -92,6 +93,7 @@ public class DefaultInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.1.1", id = "b"),
 			@SpecAssertion(section = "10.3.1", id = "a")
 	})
 	public void testQualifiedDefaultValidatorFactoryGetsInjected() {
@@ -114,6 +116,7 @@ public class DefaultInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.1.1", id = "b"),
 			@SpecAssertion(section = "10.3.1", id = "a"),
 			@SpecAssertion(section = "10.3", id = "a")
 	})
@@ -129,6 +132,7 @@ public class DefaultInjectionTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "10.1.1", id = "a"),
+			@SpecAssertion(section = "10.1.1", id = "b"),
 			@SpecAssertion(section = "10.3.1", id = "a")
 	})
 	public void testQualifiedDefaultValidatorGetsInjected() {

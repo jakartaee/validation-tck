@@ -17,9 +17,12 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
 import java.lang.reflect.Method;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -31,6 +34,10 @@ import org.testng.annotations.Test;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.fail;
 
@@ -45,6 +52,7 @@ public class ParameterNameProviderTest extends Arquillian {
 		return new WebArchiveBuilder()
 				.withTestClass( ParameterNameProviderTest.class )
 				.withClass( CustomParameterNameProvider.class )
+				.withClass( BrokenCustomParameterNameProvider.class )
 				.withClass( User.class )
 				.build();
 	}
@@ -55,7 +63,7 @@ public class ParameterNameProviderTest extends Arquillian {
 	public void testExceptionInParameterNameProviderIsWrappedIntoValidationException()
 			throws Throwable {
 		Validator validator = TestUtil.getConfigurationUnderTest()
-				.parameterNameProvider( new CustomParameterNameProvider() )
+				.parameterNameProvider( new BrokenCustomParameterNameProvider() )
 				.buildValidatorFactory()
 				.getValidator();
 
@@ -75,7 +83,7 @@ public class ParameterNameProviderTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "5.5.2", id = "e")
 	public void testGetParameterNameProviderFromValidatorFactory() {
-		CustomParameterNameProvider parameterNameProvider = new CustomParameterNameProvider();
+		BrokenCustomParameterNameProvider parameterNameProvider = new BrokenCustomParameterNameProvider();
 
 		ValidatorFactory validatorFactory = TestUtil.getConfigurationUnderTest()
 				.parameterNameProvider( parameterNameProvider )
@@ -86,5 +94,30 @@ public class ParameterNameProviderTest extends Arquillian {
 				parameterNameProvider,
 				"getParameterNameProvider() should return the parameter name provider set via configuration"
 		);
+	}
+
+	@Test
+	@SpecAssertion(section = "5.5.2", id = "g")
+	public void testParameterNameProviderSetUsingContext() throws Exception {
+		Object object = new User();
+		Method method = User.class.getMethod( "setNames", String.class, String.class );
+		Object[] parameters = new Object[] { null, null };
+
+		ExecutableValidator executableValidator = TestUtil.getValidatorFactoryUnderTest()
+				.usingContext()
+				.parameterNameProvider( new CustomParameterNameProvider() )
+				.getValidator()
+				.forExecutables();
+		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+				object,
+				method,
+				parameters
+		);
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+
+		Set<String> actualParameterNames = getParameterNames( constraintViolations );
+		Set<String> expectedParameterNames = asSet( "param0", "param1" );
+
+		assertEquals( actualParameterNames, expectedParameterNames );
 	}
 }

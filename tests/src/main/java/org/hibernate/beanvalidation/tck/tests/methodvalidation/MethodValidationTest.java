@@ -32,7 +32,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -50,7 +49,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServ
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderService.OrderServiceSequence;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceImpl;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceWithRedefinedDefaultGroupSequence;
-import org.hibernate.beanvalidation.tck.util.Groups;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -307,14 +305,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-678
-	//TODO 4.6.2 x was for "Note that this implies that a given validation constraint
-	//will not be processed more than once per validation." which was removed 
-	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@Test
+	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
 
@@ -325,7 +317,7 @@ public class MethodValidationTest extends Arquillian {
 				Item.class,
 				short.class
 		);
-		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
+		Object[] parameterValues = new Object[] { null, new Item( "" ), (short) 0 };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
 				object,
@@ -358,10 +350,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -418,10 +407,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "a")
 	public void methodParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -628,14 +614,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-678
-	//TODO 4.6.2 x was for "Note that this implies that a given validation constraint
-	//will not be processed more than once per validation." which was removed
-	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@Test
+	@SpecAssertion(section = "4.6.2", id = "a")
 	public void constructorParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
 
@@ -644,7 +624,7 @@ public class MethodValidationTest extends Arquillian {
 				Item.class,
 				short.class
 		);
-		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
+		Object[] parameterValues = new Object[] { null, new Item( "" ), (short) 0 };
 
 		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
 				constructor,
@@ -676,10 +656,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "a")
 	public void constructorParameterValidationUsingSequence() throws Exception {
 		String className = "OrderService";
 
@@ -732,10 +709,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "a"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "a")
 	public void constructorParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String className = "OrderServiceWithRedefinedDefaultGroupSequence";
 
@@ -1003,14 +977,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-678
-	//TODO 4.6.2 x was for "Note that this implies that a given validation constraint
-	//will not be processed more than once per validation." which was removed
-	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "c"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@Test
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1021,7 +989,7 @@ public class MethodValidationTest extends Arquillian {
 				Item.class,
 				short.class
 		);
-		Object returnValue = null;
+		Object returnValue = new Order( "" );
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
 				object,
@@ -1045,10 +1013,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "c"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1103,10 +1068,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "c"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void methodReturnValueValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1310,14 +1272,8 @@ public class MethodValidationTest extends Arquillian {
 		);
 	}
 
-	//fails due to https://hibernate.onjira.com/browse/HV-678
-	//TODO 4.6.2 x was for "Note that this implies that a given validation constraint
-	//will not be processed more than once per validation." which was removed
-	@Test(groups = Groups.FAILING_IN_RI)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "c"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@Test
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
 
@@ -1349,10 +1305,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "c"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationUsingSequence() throws Exception {
 		String className = "OrderService";
 
@@ -1403,10 +1356,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.2", id = "c"),
-			@SpecAssertion(section = "4.6.2", id = "todo")
-	})
+	@SpecAssertion(section = "4.6.2", id = "c")
 	public void constructorReturnValueValidationWithRedefinedDefaultGroupSequence()
 			throws Exception {
 		String className = "OrderServiceWithRedefinedDefaultGroupSequence";

@@ -89,6 +89,7 @@ public class ValidateValueTest extends Arquillian {
 			@SpecAssertion(section = "5.1.1", id = "h"),
 			@SpecAssertion(section = "5.2", id = "d"),
 			@SpecAssertion(section = "5.2", id = "e"),
+			@SpecAssertion(section = "5.2", id = "f"),
 			@SpecAssertion(section = "5.2", id = "g"),
 			@SpecAssertion(section = "5.2", id = "h"),
 			@SpecAssertion(section = "5.2", id = "i")

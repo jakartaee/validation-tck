@@ -42,8 +42,6 @@ public @interface ValidOrder {
 
 	Class<? extends Payload>[] payload() default { };
 
-	int expectedMaxInvocationCount() default Integer.MAX_VALUE;
-
 	@Target({ METHOD, CONSTRUCTOR, ANNOTATION_TYPE })
 	@Retention(RUNTIME)
 	@Documented

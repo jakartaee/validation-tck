@@ -79,6 +79,7 @@ public class ConstructorValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "8.1.1.4", id = "a"),
 			@SpecAssertion(section = "8.1.1.4", id = "b"),
 			@SpecAssertion(section = "8.1.1.4", id = "c")
 	})

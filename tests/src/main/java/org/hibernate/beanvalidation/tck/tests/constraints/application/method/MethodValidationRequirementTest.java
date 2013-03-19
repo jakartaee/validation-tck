@@ -134,7 +134,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2.1", id = "todo")
+	@SpecAssertion(section = "5.1.2", id = "a")
 	public void testMethodParameterAndCrossParameterConstraintsAreEvaluatedAtTheSameTime()
 			throws Exception {
 		Object object = new CalendarService();
@@ -161,7 +161,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2.1", id = "todo")
+	@SpecAssertion(section = "5.1.2", id = "g")
 	public void testConstructorParameterAndCrossParameterConstraintsAreEvaluatedAtTheSameTime()
 			throws Exception {
 		Constructor<?> constructor = CalendarService.class.getConstructor(

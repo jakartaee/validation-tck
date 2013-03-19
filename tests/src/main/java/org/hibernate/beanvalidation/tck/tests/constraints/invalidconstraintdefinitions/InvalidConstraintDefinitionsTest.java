@@ -130,6 +130,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.1", id = "g"),
+			@SpecAssertion(section = "3.1.1.3", id = "a"),
 			@SpecAssertion(section = "3.1.1.3", id = "c"),
 			@SpecAssertion(section = "9.2", id = "a")
 	})

@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternamepro
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.ParameterNameProvider;
 
@@ -28,11 +29,23 @@ public class CustomParameterNameProvider implements ParameterNameProvider {
 
 	@Override
 	public List<String> getParameterNames(Constructor<?> constructor) {
-		throw new UnsupportedOperationException( "Exception in ParameterNameProvider" );
+		List<String> names = new ArrayList<String>();
+
+		for ( int i = 0; i < constructor.getParameterTypes().length; i++ ) {
+			names.add( "param" + i );
+		}
+
+		return names;
 	}
 
 	@Override
 	public List<String> getParameterNames(Method method) {
-		throw new UnsupportedOperationException( "Exception in ParameterNameProvider" );
+		List<String> names = new ArrayList<String>();
+
+		for ( int i = 0; i < method.getParameterTypes().length; i++ ) {
+			names.add( "param" + i );
+		}
+
+		return names;
 	}
 }

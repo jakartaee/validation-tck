@@ -16,13 +16,10 @@
 */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
-
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -31,27 +28,12 @@ import static org.testng.Assert.fail;
 public class MyCrossParameterConstraintValidator
 		implements ConstraintValidator<MyCrossParameterConstraint, Object[]> {
 
-	private int expectedMaxInvocationCount;
-	private AtomicInteger actualInvocationCount;
-
 	@Override
 	public void initialize(MyCrossParameterConstraint constraintAnnotation) {
-		expectedMaxInvocationCount = constraintAnnotation.expectedMaxInvocationCount();
-		actualInvocationCount = new AtomicInteger();
 	}
 
 	@Override
 	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
-		int invocationCount = actualInvocationCount.incrementAndGet();
-		if ( invocationCount > expectedMaxInvocationCount ) {
-			fail(
-					String.format(
-							"Constraint validator was expected to be invoked only %s times but was invoked %s times.",
-							expectedMaxInvocationCount,
-							actualInvocationCount
-					)
-			);
-		}
 		return false;
 	}
 }

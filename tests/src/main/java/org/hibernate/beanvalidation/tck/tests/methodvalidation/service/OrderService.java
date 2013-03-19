@@ -105,14 +105,8 @@ public class OrderService {
 	}
 
 	//(method|constructor)(Parameter|ReturnValue)ValidationValidatesEachConstraintOnlyOnce
-	@MyCrossParameterConstraint(
-			groups = { Basic.class, Default.class },
-			expectedMaxInvocationCount = 1
-	)
-	@ValidOrder(
-			groups = { Basic.class, Default.class },
-			expectedMaxInvocationCount = 1
-	)
+	@MyCrossParameterConstraint(groups = { Basic.class, Default.class })
+	@ValidOrder(groups = { Basic.class, Default.class })
 	public Order placeOrder(
 			@NotNull(groups = { Basic.class, Default.class }) String customer,
 			@Valid @ConvertGroup(from = Basic.class, to = Item.Basic.class) Item item,
@@ -120,15 +114,8 @@ public class OrderService {
 		return null;
 	}
 
-	@MyCrossParameterConstraint(
-			groups = { Basic.class, Default.class },
-			expectedMaxInvocationCount = 1
-	)
-
-	@ValidOrderService(
-			groups = { Basic.class, Default.class },
-			expectedMaxInvocationCount = 1
-	)
+	@MyCrossParameterConstraint(groups = { Basic.class, Default.class })
+	@ValidOrderService(groups = { Basic.class, Default.class })
 	public OrderService(
 			@NotNull(groups = { Basic.class, Default.class }) String customer,
 			@Valid @ConvertGroup(from = Basic.class, to = Item.Basic.class) Item item,

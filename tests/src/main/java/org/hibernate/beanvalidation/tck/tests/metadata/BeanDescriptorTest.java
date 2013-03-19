@@ -84,6 +84,13 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
+	@SpecAssertion(section = "6.2", id = "a")
+	public void testGetElementClassReturnsBeanClass() {
+		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Customer.class );
+		assertEquals( beanDescriptor.getElementClass(), Customer.class, "Wrong element class" );
+	}
+
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "6.1", id = "a"),
 			@SpecAssertion(section = "6.3", id = "a")

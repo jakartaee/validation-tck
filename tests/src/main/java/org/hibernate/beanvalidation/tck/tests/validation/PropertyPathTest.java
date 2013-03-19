@@ -313,6 +313,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -456,6 +457,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -505,6 +507,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -555,6 +558,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -683,6 +687,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -733,6 +738,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
+			@SpecAssertion(section = "3.4", id = "r"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -1614,6 +1620,93 @@ public class PropertyPathTest extends Arquillian {
 		assertNode( nodeIter.next(), "name", ElementKind.PROPERTY, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
+	}
+
+	@Test(expectedExceptions = ClassCastException.class)
+	@SpecAssertion(section = "5.2", id = "r")
+	public void testPassingWrongTypeToAsOnBeanNodeCausesClassCastException() {
+		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = validator.validate( new VerySpecialClass() );
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator().next();
+
+		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		Node node = nodeIter.next();
+		assertNode( node, TestUtil.BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
+
+		node.as( PropertyNode.class );
+	}
+
+	@Test(expectedExceptions = ClassCastException.class)
+	@SpecAssertion(section = "5.2", id = "r")
+	public void testPassingWrongTypeToAsOnConstructorNodeCausesClassCastException() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class
+		);
+		Object[] parameterValues = new Object[] { null, null };
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+
+		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
+				constraintViolations,
+				"arg0"
+		).getPropertyPath().iterator();
+
+		//parameter 0
+		assertTrue( nodeIter.hasNext() );
+		Node nextNode = nodeIter.next();
+		assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		nextNode.as( PropertyNode.class );
+	}
+
+	@Test(expectedExceptions = ClassCastException.class)
+	@SpecAssertion(section = "5.2", id = "r")
+	public void testPassingWrongTypeToAsOnParameterNodeCausesClassCastException() throws Exception {
+		//given
+		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+				String.class,
+				Person.class
+		);
+		Object[] parameterValues = new Object[] { null, null };
+
+		//when
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		//then
+		assertCorrectNumberOfViolations( constraintViolations, 2 );
+
+		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
+				constraintViolations,
+				"arg0"
+		).getPropertyPath().iterator();
+
+		//parameter 0
+		assertTrue( nodeIter.hasNext() );
+		Node nextNode = nodeIter.next();
+		assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+		ConstructorNode constructorNode = nextNode.as( ConstructorNode.class );
+		assertNotNull( constructorNode );
+		assertEquals( constructorNode.getParameterTypes(), Arrays.<Class<?>>asList( String.class, Person.class ) );
+
+		assertTrue( nodeIter.hasNext() );
+		nextNode = nodeIter.next();
+		assertNode( nextNode, "arg0", ElementKind.PARAMETER, false, null, null );
+		nextNode.as( BeanNode.class );
 	}
 
 	private void checkActorViolations(Set<ConstraintViolation<Actor>> constraintViolations) {

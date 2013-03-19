@@ -14,15 +14,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.util;
+package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.List;
+import javax.validation.ParameterNameProvider;
 
 /**
- * Identifiers for TestNG test groups. To be removed once the TCK is updated and
- * the RI passes all tests.
- *
  * @author Gunnar Morling
  */
-public final class Groups {
+public class BrokenCustomParameterNameProvider implements ParameterNameProvider {
 
-	public static final String FAILING_IN_RI = "FAILING_IN_RI";
+	@Override
+	public List<String> getParameterNames(Constructor<?> constructor) {
+		throw new UnsupportedOperationException( "Exception in ParameterNameProvider" );
+	}
+
+	@Override
+	public List<String> getParameterNames(Method method) {
+		throw new UnsupportedOperationException( "Exception in ParameterNameProvider" );
+	}
 }

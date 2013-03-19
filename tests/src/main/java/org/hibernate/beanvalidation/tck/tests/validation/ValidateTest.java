@@ -321,9 +321,8 @@ public class ValidateTest extends Arquillian {
 		);
 	}
 
-	//TODO 4.6 b marked as non-testable
 	@Test
-	@SpecAssertion(section = "4.6", id = "c")
+	@SpecAssertion(section = "4.4.2", id = "b")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Car car = new Car( "USd-298" );
