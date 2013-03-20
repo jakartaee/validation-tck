@@ -48,7 +48,7 @@
     specification. The specification document is controlled by a separate
     process and challenges to it should be handled through the &jsrVersion; EG
     by sending an e-mail to <ulink
-    url="beanvalidation-dev@lists.jboss.org">beanvalidation-dev@lists.jboss.org</ulink>.</para>
+    url="beanvalidation-tck@redhat.com">beanvalidation-tck@redhat.com</ulink>.</para>
   </section>
 
   <section>
@@ -72,8 +72,7 @@
     TCK Project Lead and designates will be able to view the issue. Should
     there be need for clarification or discussions before actually entering a
     bug into the issue tracker, an email can be sent to <ulink
-    url="mailto:beanvalidation-tck@redhat.com">beanvalidation-tck@redhat.com</ulink>.
-    </para>
+    url="mailto:beanvalidation-tck@redhat.com">beanvalidation-tck@redhat.com</ulink>.</para>
   </section>
 
   <section>
