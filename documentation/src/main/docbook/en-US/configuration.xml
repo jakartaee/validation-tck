@@ -267,6 +267,26 @@
                     &lt;version&gt;${tck.version}&lt;/version&gt;
                 &lt;/dependency&gt;
             &lt;/dependencies&gt;
+            &lt;build&gt;
+                &lt;plugins&gt;
+                    &lt;plugin&gt;
+                        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                        &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+                        &lt;configuration&gt;
+                            &lt;systemProperties&gt;
+                                &lt;property&gt;
+                                    &lt;name&gt;validation.provider&lt;/name&gt;
+                                    &lt;value&gt;${validation.provider}&lt;/value&gt;
+                                &lt;/property&gt;
+                                &lt;property&gt;
+                                    &lt;name&gt;excludeIntegrationTests&lt;/name&gt;
+                                    &lt;value&gt;true&lt;/value&gt;
+                                &lt;/property&gt;
+                            &lt;/systemProperties&gt;
+                        &lt;/configuration&gt;
+                    &lt;/plugin&gt;
+                &lt;/plugins&gt;
+            &lt;/build&gt;
         &lt;/profile&gt;</emphasis>
     &lt;/profiles&gt;
 &lt;/project&gt;</programlisting>As you can see the <emphasis>local
@@ -275,10 +295,17 @@
       which contains the <classname>DeployableContainer</classname>
       <classname>BeanValidationLocalContainer</classname>. If the test harness
       is executed with this dependency on the classpath the tests will run in
-      the local JVM. The purpose of the property
+      the local JVM.</para>
+
+      <para>The purpose of the property
       <property>arquillian.protocol</property> will be discussed in <xref
-      linkend="configuration-arquillian-xml"/>. Running the test harness is as
-      easy as executing:<programlisting>mvn test</programlisting><note>
+      linkend="configuration-arquillian-xml"/>. By setting the system property
+      <property>excludeIntegrationTests</property> to
+      <constant>true</constant>, tests which need a proper container
+      environment for execution will be excluded from the test run (see next
+      section).</para>
+
+      <para> Running the test harness is as easy as executing:<programlisting>mvn test</programlisting><note>
           <para>The local execution mode is just a convenience for developers.
           To pass the Bean Validation TCK the test harness has to pass in a
           Java EE container. The reason for this is that Bean Validation is
@@ -291,6 +318,25 @@
           separate the dependencies. This is the main purpose of the profiles
           used in this example.</para>
         </tip></para>
+
+      <section>
+        <title>Tests annotated with
+        <classname>@IntegrationTest</classname></title>
+
+        <para>Some of the tests can only run within a container (mainly due to
+        the way they are setup). These tests are annotated with
+        <classname>@IntegrationTest</classname>. Since these tests would fail
+        in local execution mode they can be excluded by setting the system
+        property <property>excludeIntegrationTests</property> to
+        <constant>true</constant>. To pass the TCK the property must not be
+        set to <constant>true</constant> and all integration tests need to
+        run. <tip>
+            <para>The in- an exclusion of integration tests is handled via a
+            TestNG specific <classname>IMethodSelector</classname>, more
+            concretely <ulink
+            url="https://github.com/beanvalidation/beanvalidation-tck/tree/master/tests/src/main/java/org/hibernate/beanvalidation/tck/util/IntegrationTestsMethodSelector.java"><classname>IntegrationTestsMethodSelector</classname></ulink>.</para>
+          </tip></para>
+      </section>
     </section>
 
     <section>
@@ -411,7 +457,6 @@
                             &lt;systemPropertyVariables&gt;
                                 &lt;arquillian.launch&gt;incontainer&lt;/arquillian.launch&gt;
                                 &lt;validation.provider&gt;${validation.provider}&lt;/validation.provider&gt;
-                                &lt;includeIntegrationTests&gt;true&lt;/includeIntegrationTests&gt;
                             &lt;/systemPropertyVariables&gt;
                         &lt;/configuration&gt;
                     &lt;/plugin&gt;
@@ -427,25 +472,6 @@
         url="https://docs.jboss.org/author/display/ARQ/Container+adapters">Container
         adapters</ulink>.</para>
       </tip>
-
-      <section>
-        <title>Tests annotated with
-        <classname>@IntegrationTest</classname></title>
-
-        <para>Some of the tests can only run within a container (mainly due to
-        the way they are setup). These tests are annotated with
-        @IntegrationTest. Since these tests would fail in local execution mode
-        they can be excluded by setting the system property
-        <property>includeIntegrationTests</property> to
-        <constant>false</constant> (or not specifying it at all). To pass the
-        TCK the property needs to be set to <constant>true</constant> and all
-        integration tests need to run. <tip>
-            <para>The in- an exclusion of integration tests is handled via a
-            TestNG specific <classname>IMethodSelector</classname>, more
-            concretely <ulink
-            url="https://github.com/beanvalidation/beanvalidation-tck/tree/master/tests/src/main/java/org/hibernate/beanvalidation/tck/util/IntegrationTestsMethodSelector.java"><classname>IntegrationTestsMethodSelector</classname></ulink>.</para>
-          </tip></para>
-      </section>
 
       <section>
         <title>Debugging remote test executions</title>
@@ -568,7 +594,6 @@
                             &lt;systemPropertyVariables&gt;
                                 &lt;arquillian.launch&gt;incontainer&lt;/arquillian.launch&gt;
                                 &lt;validation.provider&gt;${validation.provider}&lt;/validation.provider&gt;
-                                &lt;includeIntegrationTests&gt;true&lt;/includeIntegrationTests&gt;
                             &lt;/systemPropertyVariables&gt;
                         &lt;/configuration&gt;
                     &lt;/plugin&gt;
