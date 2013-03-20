@@ -23,24 +23,30 @@ import org.testng.IMethodSelectorContext;
 import org.testng.ITestNGMethod;
 
 /**
- * TestNG test selector which will depending on the system property <i>includeIntegrationTests</i> and
- * the existence of the {@code @IntegrationTest} annotation on a test method, in- or exclude the test.
+ * TestNG test selector which will depending on the system property <i>excludeIntegrationTests</i> and
+ * the existence of the {@code @IntegrationTest} annotation on a test class, in- or exclude the test.
  *
  * @author Hardy Ferentschik
  */
 public class IntegrationTestsMethodSelector implements IMethodSelector {
-	private static final String INCLUDE_INTEGRATION_TESTS = "includeIntegrationTests";
-	private static boolean includeIntegrationTests;
+
+	/**
+	 * Name of the system property for excluding integration tests.
+	 */
+	private static final String EXCLUDE_INTEGRATION_TESTS = "excludeIntegrationTests";
+
+	private static boolean excludeIntegrationTests = false;
 
 	static {
-		String envSetting = System.getProperty( INCLUDE_INTEGRATION_TESTS );
-		includeIntegrationTests = Boolean.valueOf( envSetting );
+		String envSetting = System.getProperty( EXCLUDE_INTEGRATION_TESTS );
+		excludeIntegrationTests = Boolean.valueOf( envSetting );
 	}
 
+	@Override
 	public boolean includeMethod(IMethodSelectorContext context, ITestNGMethod method, boolean isTestMethod) {
-		if ( !includeIntegrationTests && method.getConstructorOrMethod()
-				.getDeclaringClass()
-				.isAnnotationPresent( IntegrationTest.class ) ) {
+		if ( excludeIntegrationTests && method.getConstructorOrMethod().getDeclaringClass().isAnnotationPresent(
+				IntegrationTest.class
+		) ) {
 			context.setStopped( true );
 			return false;
 		}
@@ -49,8 +55,7 @@ public class IntegrationTestsMethodSelector implements IMethodSelector {
 		}
 	}
 
+	@Override
 	public void setTestMethods(List<ITestNGMethod> testMethods) {
 	}
 }
-
-
