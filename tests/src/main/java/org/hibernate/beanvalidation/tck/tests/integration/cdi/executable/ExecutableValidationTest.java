@@ -68,7 +68,7 @@ public class ExecutableValidationTest extends Arquillian {
 	private AnnotatedCalendarService annotatedCalendar;
 
 	@Inject
-	private ClassLevelAnnotatedCalendarService classsLevelAnnotatedCalendar;
+	private ClassLevelAnnotatedCalendarService classLevelAnnotatedCalendar;
 
 	@Inject
 	private Instance<UserService> userServiceInstance;
@@ -230,7 +230,7 @@ public class ExecutableValidationTest extends Arquillian {
 	@SpecAssertion(section = "10.1.2", id = "f")
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
-			classsLevelAnnotatedCalendar.getEvent();
+			classLevelAnnotatedCalendar.getEvent();
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
@@ -241,7 +241,7 @@ public class ExecutableValidationTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "10.1.2", id = "f")
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
-		Event event = classsLevelAnnotatedCalendar.createEvent( null );
+		Event event = classLevelAnnotatedCalendar.createEvent( null );
 		assertNotNull( event );
 
 		// success; the constraint is invalid, but no violation exception is
@@ -433,7 +433,7 @@ public class ExecutableValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "10.1.2", id = "h")
-	public void testExecutableValidationUsesSettingFromSuperTypeForOverriddenMethodsAndLocalSettingForNonOverriddenMethdod() {
+	public void testExecutableValidationUsesSettingFromSuperTypeForOverriddenMethodsAndLocalSettingForNonOverriddenMethod() {
 		try {
 			deliveryService.createDelivery( null );
 			fail( "Method invocation should have caused a ConstraintViolationException" );
