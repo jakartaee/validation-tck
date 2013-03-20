@@ -70,10 +70,10 @@ src/</programlisting>You can also download the source code from GitHub -
     jsr349-related artifacts. This guide assumes the folder is called
     <filename>jsr349</filename>. Extract the <filename>src</filename> folder
     of the TCK distribution into a sub-folder named <filename>tck</filename>
-    or use the following git commands to</para>
+    or use the following git commands:</para>
 
     <para><programlisting>git clone git://github.com/beanvalidation/beanvalidation-tck tck
-git checkout &validationApi;</programlisting>You can also check out the full
+git checkout &tckVersion;</programlisting>You can also check out the full
     Hibernate Validator source into a subfolder ri. This will allow you to run
     the TCK against Hibernate Validator.</para>
 
@@ -88,14 +88,21 @@ git checkout &referenceImplVersion;</programlisting>
 
     <para>Now lets have a look at one concrete test of the TCK, namely
     <filename>ConstraintInheritanceTest</filename> (found in
-    <filename>tck/tck/src/main/java/org/hibernate/beanvalidation/tck/tests/constraints/inheritance/ConstraintInheritanceTest.java</filename>):</para>
+    <filename>tck/tests/src/main/java/org/hibernate/beanvalidation/tck/tests/constraints/inheritance/ConstraintInheritanceTest.java</filename>):</para>
 
     <para><programlisting>package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.validation.metadata.BeanDescriptor;
+import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -103,14 +110,24 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+/**
+ * @author Hardy Ferentschik
+ */
+@SpecVersion(spec = "beanvalidation", version = "1.1.0")
 public class ConstraintInheritanceTest extends Arquillian {
+
+    private Validator validator;
 
     @Deployment
     public static WebArchive createTestArchive() {
@@ -119,10 +136,14 @@ public class ConstraintInheritanceTest extends Arquillian {
                 .build();
     }
 
+    @BeforeMethod
+    public void setupValidator() {
+        validator = TestUtil.getValidatorUnderTest();
+    }
+
     @Test
-    @SpecAssertion(section = "3.3", id = "b")
+    @SpecAssertion(section = "4.3", id = "b")
     public void testConstraintsOnSuperClassAreInherited() {
-        Validator validator = TestUtil.getValidatorUnderTest();
         BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
         String propertyName = "foo";
@@ -137,11 +158,10 @@ public class ConstraintInheritanceTest extends Arquillian {
 
     @Test
     @SpecAssertions({
-            @SpecAssertion(section = "3.3", id = "a"),
-            @SpecAssertion(section = "3.3", id = "b")
+            @SpecAssertion(section = "4.3", id = "a"),
+            @SpecAssertion(section = "4.3", id = "b")
     })
     public void testConstraintsOnInterfaceAreInherited() {
-        Validator validator = TestUtil.getValidatorUnderTest();
         BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
         String propertyName = "fubar";
@@ -152,6 +172,66 @@ public class ConstraintInheritanceTest extends Arquillian {
                 .iterator()
                 .next().getAnnotation();
         assertTrue( constraintAnnotation.annotationType() == NotNull.class );
+    }
+
+    @Test
+    @SpecAssertions({
+            @SpecAssertion(section = "4.3", id = "a"),
+            @SpecAssertion(section = "4.3", id = "c")
+    })
+    public void testConstraintsOnInterfaceAndImplementationAddUp() {
+        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+
+        String propertyName = "name";
+        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
+
+        List&lt;Class&lt;? extends Annotation&gt;&gt; constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
+
+        assertEquals( constraintTypes.size(), 2 );
+        assertTrue( constraintTypes.contains( DecimalMin.class ) );
+        assertTrue( constraintTypes.contains( Size.class ) );
+    }
+
+    @Test
+    @SpecAssertions({
+            @SpecAssertion(section = "4.3", id = "a"),
+            @SpecAssertion(section = "4.3", id = "c")
+    })
+    public void testConstraintsOnSuperAndSubClassAddUp() {
+        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+
+        String propertyName = "lastName";
+        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
+
+        List&lt;Class&lt;? extends Annotation&gt;&gt; constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
+
+        assertEquals( constraintTypes.size(), 2 );
+        assertTrue( constraintTypes.contains( DecimalMin.class ) );
+        assertTrue( constraintTypes.contains( Size.class ) );
+    }
+
+    @Test
+    @SpecAssertion(section = "4.6", id = "a")
+    public void testValidationConsidersConstraintsFromSuperTypes() {
+        Set&lt;ConstraintViolation&lt;Bar&gt;&gt; violations = validator.validate( new Bar() );
+        assertCorrectConstraintTypes(
+                violations,
+                DecimalMin.class, DecimalMin.class, ValidBar.class, //Bar
+                NotNull.class, Size.class, ValidFoo.class, //Foo
+                NotNull.class, Size.class, ValidFubar.class //Fubar
+        );
+    }
+
+    private List&lt;Class&lt;? extends Annotation&gt;&gt; getConstraintTypes(Iterable&lt;ConstraintDescriptor&lt;?&gt;&gt; descriptors) {
+        List&lt;Class&lt;? extends Annotation&gt;&gt; constraintTypes = new ArrayList&lt;Class&lt;? extends Annotation&gt;&gt;();
+
+        for ( ConstraintDescriptor&lt;?&gt; constraintDescriptor : descriptors ) {
+            constraintTypes.add( constraintDescriptor.getAnnotation().annotationType() );
+        }
+
+        return constraintTypes;
     }
 }</programlisting>Each test class is treated as an individual artifact (hence
     the <literal>@Deployment</literal> annotation on the class). In most tests

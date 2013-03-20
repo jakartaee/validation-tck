@@ -18,8 +18,8 @@ This setup uses JBoss AS 7 as EE container, but can be easily modified to run ag
 1. Change into the maven example directory:
 
         cd setup-examples/maven
-1. Make sure that _containerHome_ in _pom.xml_ points to your container home directory. You can also specify this property on
-   the command line via _-DcontainerHome=\<path to container\>_
+1. Make sure that _container.home_ in _pom.xml_ points to your container home directory. You can also specify this property on
+   the command line via _-Dcontainer.home=\<path to container\>_
 1. Run the TCK tests:
 
         mvn test
@@ -35,7 +35,7 @@ To adjust the build script to another container, for example Glassfish, you woul
   [standalone container adapter](https://github.com/beanvalidation/beanvalidation-tck/tree/master/standalone-container-adapter) provided
   by this TCK in order to run test in the current JVM. It is a simple version of a container adapter, but still contains all
   the required pieces.
-* Change the _containerHome_ property in _pom.xml_ to point to your container
+* Change the _container.home_ property in _pom.xml_ to point to your container
 * Change _validation.provider_ in _build.properties_ to the fully qualified classname of your Bean Validation provider
 * Update the container information in _arquillian.xml_ to contain the required settings for your container
 

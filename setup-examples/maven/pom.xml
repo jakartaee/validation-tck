@@ -17,7 +17,7 @@
         <arquillian.version>1.0.0.Final</arquillian.version>
 
         <jbossas.version>7.1.1.Final</jbossas.version>
-        <containerHome>/opt/java/jboss-as</containerHome>
+        <container.home>/opt/java/jboss-as</container.home>
 
         <hv.version>5.0.0.CR4</hv.version>
         <validation.provider>org.hibernate.validator.HibernateValidator</validation.provider>
