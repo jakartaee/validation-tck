@@ -88,6 +88,9 @@ public class ExecutableValidationTest extends Arquillian {
 	@Inject
 	private AnotherShipmentService2stInHierarchy anotherShipmentService;
 
+	@Inject
+	private DeliveryServiceImpl deliveryService;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
@@ -418,8 +421,7 @@ public class ExecutableValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertion(section = "10.1.2", id = "h")
-	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod()
-			throws Exception {
+	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			anotherShipmentService.getShipment();
 			fail( "Method invocation should have caused a ConstraintViolationException" );
@@ -427,5 +429,23 @@ public class ExecutableValidationTest extends Arquillian {
 		catch ( ConstraintViolationException e ) {
 			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
 		}
+	}
+
+	@Test
+	@SpecAssertion(section = "10.1.2", id = "h")
+	public void testExecutableValidationUsesSettingFromSuperTypeForOverriddenMethodsAndLocalSettingForNonOverriddenMethdod() {
+		try {
+			deliveryService.createDelivery( null );
+			fail( "Method invocation should have caused a ConstraintViolationException" );
+		}
+		catch ( ConstraintViolationException e ) {
+			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+		}
+
+		String expressDelivery = deliveryService.createExpressDelivery( null );
+		assertNotNull( expressDelivery );
+
+		// success; the constraint is invalid, but no violation exception is
+		// expected since @ValidateOnExecution is given on the type
 	}
 }

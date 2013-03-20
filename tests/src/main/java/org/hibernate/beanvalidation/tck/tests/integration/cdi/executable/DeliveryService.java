@@ -17,23 +17,14 @@
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling
  */
-public class ShipmentServiceImpl implements ShipmentService {
+@ValidateOnExecution(type = ExecutableType.ALL)
+public interface DeliveryService {
 
-	@Override
-	public void findShipment(@NotNull String id) {
-	}
-
-	@Override
-	public Shipment getShipment() {
-		return null;
-	}
-
-	@Override
-	public Shipment getAnotherShipment() {
-		return null;
-	}
+	public void createDelivery(@NotNull String name);
 }

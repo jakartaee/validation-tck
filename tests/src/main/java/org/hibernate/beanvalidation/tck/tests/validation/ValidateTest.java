@@ -169,7 +169,7 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6", id = "d"),
+			@SpecAssertion(section = "4.6", id = "c"),
 			@SpecAssertion(section = "5.1.1", id = "c")
 	})
 	public void testMultipleConstraintViolationOfDifferentTypes() {
@@ -189,7 +189,7 @@ public class ValidateTest extends Arquillian {
 	@SpecAssertions({
 			@SpecAssertion(section = "4.1", id = "a"),
 			@SpecAssertion(section = "4.6", id = "a"),
-			@SpecAssertion(section = "4.6", id = "d"),
+			@SpecAssertion(section = "4.6", id = "c"),
 			@SpecAssertion(section = "5.2", id = "a"),
 			@SpecAssertion(section = "5.2", id = "b"),
 			@SpecAssertion(section = "5.2", id = "c"),
