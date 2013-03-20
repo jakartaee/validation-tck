@@ -69,16 +69,16 @@ src/</programlisting>You can also download the source code from GitHub -
     recommended that you create a dedicated folder to hold all of the
     jsr349-related artifacts. This guide assumes the folder is called
     <filename>jsr349</filename>. Extract the <filename>src</filename> folder
-    of the TCK distribution into a sub-folder named <filename>tck</filename> or
-    use the following git commands to </para>
+    of the TCK distribution into a sub-folder named <filename>tck</filename>
+    or use the following git commands to</para>
 
     <para><programlisting>git clone git://github.com/beanvalidation/beanvalidation-tck tck
-git checkout 1.1.0.Final // TODO - add right version number</programlisting>You
-    can also check out the full Hibernate Validator source into a subfolder
-    ri. This will allow you to run the TCK against Hibernate Validator.</para>
+git checkout &validationApi;</programlisting>You can also check out the full
+    Hibernate Validator source into a subfolder ri. This will allow you to run
+    the TCK against Hibernate Validator.</para>
 
     <programlisting>git clone git://github.com/hibernate/hibernate-validator.git ri
-git checkout 4.2.0.Final // TODO - add right version number</programlisting>
+git checkout &referenceImplVersion;</programlisting>
 
     <para>The resulting folder structure is shown here:</para>
 
@@ -129,8 +129,7 @@ public class ConstraintInheritanceTest extends Arquillian {
         assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
         PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
-        // cast is required for JDK 5 - at least on Mac OS X
-        Annotation constraintAnnotation = (Annotation) propDescriptor.getConstraintDescriptors()
+        Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
                 .iterator()
                 .next().getAnnotation();
         assertTrue( constraintAnnotation.annotationType() == NotNull.class );
@@ -149,8 +148,7 @@ public class ConstraintInheritanceTest extends Arquillian {
         assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
         PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
-        // cast is required for JDK 5 - at least on Mac OS X
-        Annotation constraintAnnotation = (Annotation) propDescriptor.getConstraintDescriptors()
+        Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
                 .iterator()
                 .next().getAnnotation();
         assertTrue( constraintAnnotation.annotationType() == NotNull.class );

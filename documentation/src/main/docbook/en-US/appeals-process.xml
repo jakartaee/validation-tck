@@ -11,9 +11,9 @@
   implementation's conformance to the &jsrVersion; specification, it's
   reasonable to assume that an implementor may discover new and/or better ways
   to validate the assertions. This chapter covers the appeals process, defined
-  by the Specification Lead, Red Hat Middleware LLC., which allows
-  implementors of the &jsrVersion; specification to challenge one or more
-  tests defined by the Bean Validation TCK.</para>
+  by the Specification Lead, Red Hat, Inc., which allows implementors of the
+  &jsrVersion; specification to challenge one or more tests defined by the
+  Bean Validation TCK.</para>
 
   <para>The appeals process identifies who can make challenges to the TCK,
   what challenges to the TCK may be submitted, how these challenges are
@@ -39,16 +39,16 @@
   <section>
     <title>What challenges to the TCK may be submitted?</title>
 
-    <para>Any test case (e.g. <literal>@Test</literal> method), test case
-    configuration (e.g. @Deployment, validation.xml), test entities,
-    annotations and other resources may be challenged by an appeal.</para>
+    <para>Any test case (i.e. <classname>@Test</classname> method), test case
+    configuration (e.g. <classname>@Deployment</classname>, validation.xml),
+    test entities, annotations and other resources may be challenged by an
+    appeal.</para>
 
     <para>What is generally not challengeable are the assertions made by the
     specification. The specification document is controlled by a separate
     process and challenges to it should be handled through the &jsrVersion; EG
     by sending an e-mail to <ulink
-    url="mailto:jsr349-comments@jcp.org">jsr349-comments@jcp.org</ulink>.
-    (todo verify email)</para>
+    url="beanvalidation-dev@lists.jboss.org">beanvalidation-dev@lists.jboss.org</ulink>.</para>
   </section>
 
   <section>
@@ -56,34 +56,38 @@
 
     <para>To submit a challenge, a new issue of type Bug should be created
     against <ulink
-    url="https://hibernate.onjira.com/browse/BVTCK">BVTCK</ulink> in the
+    url="https://hibernate.atlassian.net/browse/BVTCK">BVTCK</ulink> in the
     Hibernate JIRA instance. The appellant should complete the Summary,
-    Component (TCK Appeal), Environment and Description Field only. Any
+    Component (TCK Appeal), Environment and Description fields only. Any
     communication regarding the issue should be added in the comments of the
     issue for accurate record.</para>
 
     <para>To submit an issue in the Hibernate JIRA, you must have a (free)
-    Jira member account. You can create a member account using the <ulink
-    url="https://hibernate.onjira.com/secure/Signup!default.jspa">on-line
+    JIRA member account. You can create a member account using the <ulink
+    url="https://hibernate.atlassian.net/secure/Signup!default.jspa">on-line
     registration</ulink>.</para>
 
     <para>If you wish to make a private challenge, you should follow the above
     procedure, setting the Security Level to Private. Only the issue reporter,
-    TCK Project Lead and designates will be able to view the issue.</para>
+    TCK Project Lead and designates will be able to view the issue. Should
+    there be need for clarification or discussions before actually entering a
+    bug into the issue tracker, an email can be sent to <ulink
+    url="mailto:beanvalidation-tck@redhat.com">beanvalidation-tck@redhat.com</ulink>.
+    </para>
   </section>
 
   <section>
     <title>How and by whom challenges are addressed?</title>
 
     <para>The challenges will be addressed in a timely fashion by the Bean
-    Validation TCK Project Lead, as designated by Specification Lead, Red Hat Inc.
-    or his/her designate. The appellant can also monitor the
-    process by watching the issue filed against <ulink
-    url="https://hibernate.onjira.com/browse/BVTCK">BVTCK</ulink>.</para>
+    Validation TCK Project Lead, as designated by Specification Lead, Red Hat,
+    Inc. or his/her designate. The appellant can also monitor the process by
+    watching the issue filed against <ulink
+    url="https://hibernate.atlassian.net/browse/BVTCK">BVTCK</ulink>.</para>
 
     <para>The current TCK Project Lead is listed on the <ulink type=""
-    url="https://hibernate.onjira.com/browse/BVTCK" userlevel="">BVTCK Project
-    Summary Page</ulink>.</para>
+    url="https://hibernate.atlassian.net/browse/BVTCK" userlevel="">BVTCK
+    Project Summary Page</ulink>.</para>
   </section>
 
   <section>

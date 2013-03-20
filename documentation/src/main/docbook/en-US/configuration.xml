@@ -93,7 +93,7 @@
     &lt;parent&gt;
         &lt;artifactId&gt;hibernate-validator-parent&lt;/artifactId&gt;
         &lt;groupId&gt;org.hibernate&lt;/groupId&gt;
-        &lt;version&gt;5.0.0-SNAPSHOT&lt;/version&gt;
+        &lt;version&gt;&referenceImplVersion;&lt;/version&gt;
         &lt;relativePath&gt;../pom.xml&lt;/relativePath&gt;
     &lt;/parent&gt;
 
@@ -305,7 +305,7 @@
       environment for execution will be excluded from the test run (see next
       section).</para>
 
-      <para> Running the test harness is as easy as executing:<programlisting>mvn test</programlisting><note>
+      <para>Running the test harness is as easy as executing:<programlisting>mvn test</programlisting><note>
           <para>The local execution mode is just a convenience for developers.
           To pass the Bean Validation TCK the test harness has to pass in a
           Java EE container. The reason for this is that Bean Validation is
