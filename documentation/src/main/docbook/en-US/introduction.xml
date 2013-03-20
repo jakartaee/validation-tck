@@ -146,7 +146,7 @@
           designated reference runtimes for compatibility testing of the Bean
           Validation specification is the Sun Java Platform, Enterprise
           Edition (Java EE) 7 reference implementation (RI). See details at
-          <ulink url="http://java.sun.com/javaee/6/docs/api/">Java EE
+          <ulink url="http://java.sun.com/javaee/7/docs/api/">Java EE
           7</ulink> (todo - check link)</para>
         </listitem>
       </itemizedlist>
