@@ -101,7 +101,6 @@ Added Constructors
 javax.validation.ValidationException:   constructor public javax.validation.ValidationException.ValidationException()
 
 
-STATUS:Failed.2 errors
-</programlisting>
+STATUS:Failed.2 errors</programlisting>
   </section>
 </chapter>
