@@ -114,8 +114,6 @@
             <jvmarg value="-Xmx1024m"/>
             <!-- Container qualifier used in arquillian.xml -->
             <sysproperty key="arquillian.launch" value="incontainer"/>
-            <!-- Make sure also tests marked with @IntegrationTest and only runnable in a container are included -->
-            <sysproperty key="includeIntegrationTests" value="true"/>
             <!-- Specify the Bean Validation provider under test -->
             <sysproperty key="validation.provider" value="${validation.provider}"/>
         </testng>

@@ -24,7 +24,7 @@ and override the variable _container.home_ in there. _user-build.properties_ is 
 1. Run once:
 
         ant install-testng-jar
-1. Runs the TCK tests:
+1. Run the TCK tests:
 
         ant test
 1. Test results can be found in _target/test-results/index.html_
@@ -53,10 +53,13 @@ Ivy is used to download all the required dependencies. The following files are i
 
 To adjust the build script to another container, for example Glassfish, you would have to
 
-* Change the Arquillian container adapter in _ivy.xml_ to use the adapter suitable for your container. If there is no
-such adapter you have to write your own. See also [Container adapters](https://docs.jboss.org/author/display/ARQ/Container+adapters)
+* Change the Arquillian container adapter in _ivy.xml_ to use the adapter suitable for your container
+ (see [container adapters](https://docs.jboss.org/author/display/ARQ/Container+adapters)). If there is no such adapter
+ you have to write your own. You can look at the  [standalone container adapter](https://github.com/beanvalidation/beanvalidation-tck/tree/master/standalone-container-adapter)
+ provided by this TCK in order to run test in the current JVM. It is a simple version of a container adapter, but still
+ contains all the required pieces.
 * Change the _container.home_ property in _build.properties_ to point to your container
-* Change _validation.provider_ in _build.properties_ to the fully qualified classname of your Bean Validation provider
+* Change _validation.provider_ in _build.properties_ to the fully qualified class name of your Bean Validation provider
 * Update the container information in _arquillian.xml_ to contain the required settings for your container
 
 
