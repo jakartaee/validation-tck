@@ -86,9 +86,9 @@
     <property>validation.provider</property> to the fully specified class name
     of your <classname>ValidationProvider</classname>. In Maven this is done
     via the <emphasis>systemProperties</emphasis> configuration option of the
-    <emphasis>maven-surefire-plugin</emphasis> whereas
-    <emphasis>sysproperty</emphasis> is used in an Ant testng task.This system
-    property will be picked up by
+    <emphasis>maven-surefire-plugin</emphasis>, whereas
+    <emphasis>sysproperty</emphasis> is used in an Ant testng task. This
+    system property will be picked up by
     <classname>org.hibernate.beanvalidation.tck.util.TestUtil</classname>
     which will instantiate the <classname>Validator</classname> under test.
     This means the test harness does not rely on the service provider
@@ -110,16 +110,16 @@
     JBoss AS instance, run the tests remotely and report the results back to
     the current JVM. The installation directory of the remote container is
     specified via the <emphasis>container.home</emphasis> property in the
-    exmaple build files. <tip>
+    example build files. <tip>
         <para>To make it easier to develop, debug or test the TCK, an in JVM
         adapter is provided as part of the distribution
         (<filename>beanvalidation-standalone-container-adapter-&tckVersion;.jar</filename>).
         Using this adapter the tests are not executed in a remote Java EE
         container, but in the current JVM. This allows for easy and fast
-        debugging. Some test, however, are only runnable in a EE container and
-        will fail in this in JVM execution mode. By setting the property
+        debugging. Some tests, however, are only runnable in a EE container
+        and will fail in this in JVM execution mode. By setting the property
         <property>excludeIntegrationTests</property> to
-        <constant>true</constant> these test can be excluded.</para>
+        <constant>true</constant> these tests can be excluded.</para>
 
         <para>The adapter is also available as Maven artifact under the GAV
         <emphasis>org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter:&tckVersion;.</emphasis>
@@ -161,7 +161,7 @@
     <para>The most important container configuration option is the protocol
     type which determines how Arquillian communicates with the selected
     container. The most popular types are <emphasis>Servlet 3.0</emphasis> and
-    <emphasis>Local</emphasis>. The former is sued when connecting to a remote
+    <emphasis>Local</emphasis>. The former is used when connecting to a remote
     container whereas the latter is used for the in JVM mode.</para>
 
     <para>Another interesting property is
