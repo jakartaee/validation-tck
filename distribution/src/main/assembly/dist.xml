@@ -31,7 +31,7 @@
     <fileSets>
         <fileSet>
             <directory>../documentation/target/docbook/publish/en-US</directory>
-            <outputDirectory>docs/manual</outputDirectory>
+            <outputDirectory>docs/reference</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>..</directory>
@@ -55,10 +55,8 @@
             <includes>
                 <include>tck-audit.xml</include>
                 <include>tck-tests.xml</include>
-                <include>validation-api-java5.sig</include>
                 <include>validation-api-java6.sig</include>
                 <include>validation-api-java7.sig</include>
-                <include>readme.txt</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -74,6 +72,7 @@
             <includes>
                 <include>license.txt</include>
                 <include>changelog.txt</include>
+                <include>readme.md</include>
             </includes>
         </fileSet>
     </fileSets>
