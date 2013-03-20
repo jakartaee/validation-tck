@@ -3,6 +3,26 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.CR4 (20-03-2013)
+----------------------
+
+** Bug
+    * [BVTCK-35] - Improve TCK packaging for people unfamiliar with the technologies used
+    * [BVTCK-37] - Improvements around TCK documentation
+    * [BVTCK-40] - Determine whether a cross parameter constraint can be applied on a paramterless method/constructor
+    * [BVTCK-41] - Integrate the maven and ant setup example in the docbook documentation
+    * [BVTCK-50] - Use EJB 3.1 API as build-time dependency to avoid language level warnings
+    * [BVTCK-51] - Update signature tests
+
+** Improvement
+    * [BVTCK-52] - Include integration tests by default
+
+** Task
+    * [BVTCK-47] - Update assertions marked with "needs update"
+    * [BVTCK-48] - Create and map test assertions for Bean Validation 1.1
+    * [BVTCK-49] - Assign or remove unassigned TCK tests
+
+
 1.1.0.CR3 (15-03-2013)
 ----------------------
 
