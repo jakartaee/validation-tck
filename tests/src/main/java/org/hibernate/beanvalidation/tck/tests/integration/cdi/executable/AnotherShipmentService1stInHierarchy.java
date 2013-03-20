@@ -16,20 +16,11 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-
 /**
  * @author Gunnar Morling
  */
 public interface AnotherShipmentService1stInHierarchy extends AnotherShipmentService2stInHierarchy {
 
-	// The @ValidateOnExecution annotations here are expected to be ignored
-	// since the methods override super-type methods
-
 	@Override
-	@NotNull
-	@ValidateOnExecution(type = ExecutableType.NONE)
 	public Shipment getShipment();
 }
