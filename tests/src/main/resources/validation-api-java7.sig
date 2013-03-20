@@ -109,6 +109,7 @@ intf java.lang.annotation.Annotation
 meth public abstract java.lang.annotation.ElementType[] value()
 
 CLSS public abstract interface javax.validation.BootstrapConfiguration
+meth public abstract boolean isExecutableValidationEnabled()
 meth public abstract java.lang.String getConstraintValidatorFactoryClassName()
 meth public abstract java.lang.String getDefaultProviderClassName()
 meth public abstract java.lang.String getMessageInterpolatorClassName()
@@ -116,6 +117,7 @@ meth public abstract java.lang.String getParameterNameProviderClassName()
 meth public abstract java.lang.String getTraversableResolverClassName()
 meth public abstract java.util.Map<java.lang.String,java.lang.String> getProperties()
 meth public abstract java.util.Set<java.lang.String> getConstraintMappingResourcePaths()
+meth public abstract java.util.Set<javax.validation.executable.ExecutableType> getDefaultValidatedExecutableTypes()
 
 CLSS public abstract interface javax.validation.Configuration<%0 extends javax.validation.Configuration<{javax.validation.Configuration%0}>>
 meth public abstract javax.validation.BootstrapConfiguration getBootstrapConfiguration()
@@ -153,35 +155,72 @@ cons public ConstraintDefinitionException(java.lang.String,java.lang.Throwable)
 cons public ConstraintDefinitionException(java.lang.Throwable)
 supr javax.validation.ValidationException
 
+CLSS public final !enum javax.validation.ConstraintTarget
+fld public final static javax.validation.ConstraintTarget IMPLICIT
+fld public final static javax.validation.ConstraintTarget PARAMETERS
+fld public final static javax.validation.ConstraintTarget RETURN_VALUE
+meth public static javax.validation.ConstraintTarget valueOf(java.lang.String)
+meth public static javax.validation.ConstraintTarget[] values()
+supr java.lang.Enum<javax.validation.ConstraintTarget>
+
 CLSS public abstract interface javax.validation.ConstraintValidator<%0 extends java.lang.annotation.Annotation, %1 extends java.lang.Object>
 meth public abstract boolean isValid({javax.validation.ConstraintValidator%1},javax.validation.ConstraintValidatorContext)
 meth public abstract void initialize({javax.validation.ConstraintValidator%0})
 
 CLSS public abstract interface javax.validation.ConstraintValidatorContext
 innr public abstract interface static ConstraintViolationBuilder
+meth public abstract <%0 extends java.lang.Object> {%%0} unwrap(java.lang.Class<{%%0}>)
 meth public abstract java.lang.String getDefaultConstraintMessageTemplate()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder buildConstraintViolationWithTemplate(java.lang.String)
 meth public abstract void disableDefaultConstraintViolation()
 
 CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder
+innr public abstract interface static LeafNodeBuilderCustomizableContext
+innr public abstract interface static LeafNodeBuilderDefinedContext
+innr public abstract interface static LeafNodeContextBuilder
 innr public abstract interface static NodeBuilderCustomizableContext
 innr public abstract interface static NodeBuilderDefinedContext
 innr public abstract interface static NodeContextBuilder
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext addNode(java.lang.String)
+ anno 0 java.lang.Deprecated()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext addParameterNode(int)
+
+CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext
+meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeContextBuilder inIterable()
+
+CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderDefinedContext
+meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+
+CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeContextBuilder
+meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderDefinedContext atIndex(java.lang.Integer)
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderDefinedContext atKey(java.lang.Object)
 
 CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addNode(java.lang.String)
+ anno 0 java.lang.Deprecated()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeContextBuilder inIterable()
 
 CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addNode(java.lang.String)
+ anno 0 java.lang.Deprecated()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 
 CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeContextBuilder
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addNode(java.lang.String)
+ anno 0 java.lang.Deprecated()
+meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext atIndex(java.lang.Integer)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext atKey(java.lang.Object)
 
@@ -190,9 +229,12 @@ meth public abstract <%0 extends javax.validation.ConstraintValidator<?,?>> {%%0
 meth public abstract void releaseInstance(javax.validation.ConstraintValidator<?,?>)
 
 CLSS public abstract interface javax.validation.ConstraintViolation<%0 extends java.lang.Object>
+meth public abstract <%0 extends java.lang.Object> {%%0} unwrap(java.lang.Class<{%%0}>)
 meth public abstract java.lang.Class<{javax.validation.ConstraintViolation%0}> getRootBeanClass()
+meth public abstract java.lang.Object getExecutableReturnValue()
 meth public abstract java.lang.Object getInvalidValue()
 meth public abstract java.lang.Object getLeafBean()
+meth public abstract java.lang.Object[] getExecutableParameters()
 meth public abstract java.lang.String getMessage()
 meth public abstract java.lang.String getMessageTemplate()
 meth public abstract javax.validation.Path getPropertyPath()
@@ -200,30 +242,23 @@ meth public abstract javax.validation.metadata.ConstraintDescriptor<?> getConstr
 meth public abstract {javax.validation.ConstraintViolation%0} getRootBean()
 
 CLSS public javax.validation.ConstraintViolationException
-cons public ConstraintViolationException(java.lang.String,java.util.Set<javax.validation.ConstraintViolation<?>>)
-cons public ConstraintViolationException(java.util.Set<javax.validation.ConstraintViolation<?>>)
+cons public ConstraintViolationException(java.lang.String,java.util.Set<? extends javax.validation.ConstraintViolation<?>>)
+cons public ConstraintViolationException(java.util.Set<? extends javax.validation.ConstraintViolation<?>>)
 meth public java.util.Set<javax.validation.ConstraintViolation<?>> getConstraintViolations()
 supr javax.validation.ValidationException
 hfds constraintViolations
 
-CLSS public abstract interface !annotation javax.validation.ConvertGroup
- anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
- anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[TYPE, METHOD, CONSTRUCTOR, PARAMETER])
-innr public abstract interface static !annotation List
-intf java.lang.annotation.Annotation
-meth public abstract java.lang.Class<?> from()
-meth public abstract java.lang.Class<?> to()
-
-CLSS public abstract interface static !annotation javax.validation.ConvertGroup$List
-intf java.lang.annotation.Annotation
-meth public abstract javax.validation.ConvertGroup[] value()
-
-CLSS public abstract interface !annotation javax.validation.CrossParameterConstraint
- anno 0 java.lang.annotation.Documented()
- anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
- anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[ANNOTATION_TYPE])
-intf java.lang.annotation.Annotation
-meth public abstract java.lang.Class<? extends javax.validation.ConstraintValidator<?,?>> validatedBy()
+CLSS public final !enum javax.validation.ElementKind
+fld public final static javax.validation.ElementKind BEAN
+fld public final static javax.validation.ElementKind CONSTRUCTOR
+fld public final static javax.validation.ElementKind CROSS_PARAMETER
+fld public final static javax.validation.ElementKind METHOD
+fld public final static javax.validation.ElementKind PARAMETER
+fld public final static javax.validation.ElementKind PROPERTY
+fld public final static javax.validation.ElementKind RETURN_VALUE
+meth public static javax.validation.ElementKind valueOf(java.lang.String)
+meth public static javax.validation.ElementKind[] values()
+supr java.lang.Enum<javax.validation.ElementKind>
 
 CLSS public javax.validation.GroupDefinitionException
 cons public GroupDefinitionException()
@@ -244,14 +279,9 @@ meth public abstract java.lang.String interpolate(java.lang.String,javax.validat
 meth public abstract java.lang.String interpolate(java.lang.String,javax.validation.MessageInterpolator$Context,java.util.Locale)
 
 CLSS public abstract interface static javax.validation.MessageInterpolator$Context
+meth public abstract <%0 extends java.lang.Object> {%%0} unwrap(java.lang.Class<{%%0}>)
 meth public abstract java.lang.Object getValidatedValue()
 meth public abstract javax.validation.metadata.ConstraintDescriptor<?> getConstraintDescriptor()
-
-CLSS public abstract interface javax.validation.MethodValidator
-meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateConstructorParameters(java.lang.reflect.Constructor<{%%0}>,java.lang.Object[],java.lang.Class<?>[])
-meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateConstructorReturnValue(java.lang.reflect.Constructor<{%%0}>,{%%0},java.lang.Class<?>[])
-meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateParameters({%%0},java.lang.reflect.Method,java.lang.Object[],java.lang.Class<?>[])
-meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateReturnValue({%%0},java.lang.reflect.Method,java.lang.Object,java.lang.Class<?>[])
 
 CLSS public abstract interface !annotation javax.validation.OverridesAttribute
  anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
@@ -270,19 +300,51 @@ intf java.lang.annotation.Annotation
 meth public abstract javax.validation.OverridesAttribute[] value()
 
 CLSS public abstract interface javax.validation.ParameterNameProvider
-meth public abstract java.lang.String[] getParameterNames(java.lang.reflect.Constructor<?>)
-meth public abstract java.lang.String[] getParameterNames(java.lang.reflect.Method)
+meth public abstract java.util.List<java.lang.String> getParameterNames(java.lang.reflect.Constructor<?>)
+meth public abstract java.util.List<java.lang.String> getParameterNames(java.lang.reflect.Method)
 
 CLSS public abstract interface javax.validation.Path
+innr public abstract interface static BeanNode
+innr public abstract interface static ConstructorNode
+innr public abstract interface static CrossParameterNode
+innr public abstract interface static MethodNode
 innr public abstract interface static Node
+innr public abstract interface static ParameterNode
+innr public abstract interface static PropertyNode
+innr public abstract interface static ReturnValueNode
 intf java.lang.Iterable<javax.validation.Path$Node>
 
+CLSS public abstract interface static javax.validation.Path$BeanNode
+intf javax.validation.Path$Node
+
+CLSS public abstract interface static javax.validation.Path$ConstructorNode
+intf javax.validation.Path$Node
+meth public abstract java.util.List<java.lang.Class<?>> getParameterTypes()
+
+CLSS public abstract interface static javax.validation.Path$CrossParameterNode
+intf javax.validation.Path$Node
+
+CLSS public abstract interface static javax.validation.Path$MethodNode
+intf javax.validation.Path$Node
+meth public abstract java.util.List<java.lang.Class<?>> getParameterTypes()
+
 CLSS public abstract interface static javax.validation.Path$Node
+meth public abstract <%0 extends javax.validation.Path$Node> {%%0} as(java.lang.Class<{%%0}>)
 meth public abstract boolean isInIterable()
 meth public abstract java.lang.Integer getIndex()
 meth public abstract java.lang.Object getKey()
 meth public abstract java.lang.String getName()
-meth public abstract javax.validation.metadata.ElementDescriptor getElementDescriptor()
+meth public abstract javax.validation.ElementKind getKind()
+
+CLSS public abstract interface static javax.validation.Path$ParameterNode
+intf javax.validation.Path$Node
+meth public abstract int getParameterIndex()
+
+CLSS public abstract interface static javax.validation.Path$PropertyNode
+intf javax.validation.Path$Node
+
+CLSS public abstract interface static javax.validation.Path$ReturnValueNode
+intf javax.validation.Path$Node
 
 CLSS public abstract interface javax.validation.Payload
 
@@ -313,7 +375,7 @@ meth public static <%0 extends javax.validation.Configuration<{%%0}>, %1 extends
 meth public static javax.validation.ValidatorFactory buildDefaultValidatorFactory()
 meth public static javax.validation.bootstrap.GenericBootstrap byDefaultProvider()
 supr java.lang.Object
-hcls DefaultValidationProviderResolver,GenericBootstrapImpl,GetValidationProviderList,ProviderSpecificBootstrapImpl
+hcls DefaultValidationProviderResolver,GenericBootstrapImpl,GetValidationProviderListAction,ProviderSpecificBootstrapImpl
 
 CLSS public javax.validation.ValidationException
 cons public ValidationException()
@@ -330,7 +392,7 @@ meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.
 meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateProperty({%%0},java.lang.String,java.lang.Class<?>[])
 meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateValue(java.lang.Class<{%%0}>,java.lang.String,java.lang.Object,java.lang.Class<?>[])
 meth public abstract <%0 extends java.lang.Object> {%%0} unwrap(java.lang.Class<{%%0}>)
-meth public abstract javax.validation.MethodValidator forMethods()
+meth public abstract javax.validation.executable.ExecutableValidator forExecutables()
 meth public abstract javax.validation.metadata.BeanDescriptor getConstraintsForClass(java.lang.Class<?>)
 
 CLSS public abstract interface javax.validation.ValidatorContext
@@ -401,6 +463,7 @@ CLSS public abstract interface !annotation javax.validation.constraints.DecimalM
  anno 0 javax.validation.Constraint(java.lang.Class<? extends javax.validation.ConstraintValidator<?,?>>[] validatedBy=[])
 innr public abstract interface static !annotation List
 intf java.lang.annotation.Annotation
+meth public abstract !hasdefault boolean inclusive()
 meth public abstract !hasdefault java.lang.Class<? extends javax.validation.Payload>[] payload()
 meth public abstract !hasdefault java.lang.Class<?>[] groups()
 meth public abstract !hasdefault java.lang.String message()
@@ -420,6 +483,7 @@ CLSS public abstract interface !annotation javax.validation.constraints.DecimalM
  anno 0 javax.validation.Constraint(java.lang.Class<? extends javax.validation.ConstraintValidator<?,?>>[] validatedBy=[])
 innr public abstract interface static !annotation List
 intf java.lang.annotation.Annotation
+meth public abstract !hasdefault boolean inclusive()
 meth public abstract !hasdefault java.lang.Class<? extends javax.validation.Payload>[] payload()
 meth public abstract !hasdefault java.lang.Class<?>[] groups()
 meth public abstract !hasdefault java.lang.String message()
@@ -617,43 +681,99 @@ CLSS public abstract interface static !annotation javax.validation.constraints.S
 intf java.lang.annotation.Annotation
 meth public abstract javax.validation.constraints.Size[] value()
 
+CLSS public abstract interface !annotation javax.validation.constraintvalidation.SupportedValidationTarget
+ anno 0 java.lang.annotation.Documented()
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[TYPE])
+intf java.lang.annotation.Annotation
+meth public abstract javax.validation.constraintvalidation.ValidationTarget[] value()
+
+CLSS public final !enum javax.validation.constraintvalidation.ValidationTarget
+fld public final static javax.validation.constraintvalidation.ValidationTarget ANNOTATED_ELEMENT
+fld public final static javax.validation.constraintvalidation.ValidationTarget PARAMETERS
+meth public static javax.validation.constraintvalidation.ValidationTarget valueOf(java.lang.String)
+meth public static javax.validation.constraintvalidation.ValidationTarget[] values()
+supr java.lang.Enum<javax.validation.constraintvalidation.ValidationTarget>
+
+CLSS public final !enum javax.validation.executable.ExecutableType
+fld public final static javax.validation.executable.ExecutableType ALL
+fld public final static javax.validation.executable.ExecutableType CONSTRUCTORS
+fld public final static javax.validation.executable.ExecutableType GETTER_METHODS
+fld public final static javax.validation.executable.ExecutableType IMPLICIT
+fld public final static javax.validation.executable.ExecutableType NONE
+fld public final static javax.validation.executable.ExecutableType NON_GETTER_METHODS
+meth public static javax.validation.executable.ExecutableType valueOf(java.lang.String)
+meth public static javax.validation.executable.ExecutableType[] values()
+supr java.lang.Enum<javax.validation.executable.ExecutableType>
+
+CLSS public abstract interface javax.validation.executable.ExecutableValidator
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateConstructorParameters(java.lang.reflect.Constructor<? extends {%%0}>,java.lang.Object[],java.lang.Class<?>[])
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateConstructorReturnValue(java.lang.reflect.Constructor<? extends {%%0}>,{%%0},java.lang.Class<?>[])
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateParameters({%%0},java.lang.reflect.Method,java.lang.Object[],java.lang.Class<?>[])
+meth public abstract !varargs <%0 extends java.lang.Object> java.util.Set<javax.validation.ConstraintViolation<{%%0}>> validateReturnValue({%%0},java.lang.reflect.Method,java.lang.Object,java.lang.Class<?>[])
+
+CLSS public abstract interface !annotation javax.validation.executable.ValidateOnExecution
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[CONSTRUCTOR, METHOD, TYPE, PACKAGE])
+intf java.lang.annotation.Annotation
+meth public abstract !hasdefault javax.validation.executable.ExecutableType[] type()
+
+CLSS public abstract interface !annotation javax.validation.groups.ConvertGroup
+ anno 0 java.lang.annotation.Documented()
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[TYPE, METHOD, FIELD, CONSTRUCTOR, PARAMETER])
+innr public abstract interface static !annotation List
+intf java.lang.annotation.Annotation
+meth public abstract java.lang.Class<?> from()
+meth public abstract java.lang.Class<?> to()
+
+CLSS public abstract interface static !annotation javax.validation.groups.ConvertGroup$List
+ anno 0 java.lang.annotation.Documented()
+ anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
+ anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[TYPE, METHOD, FIELD, CONSTRUCTOR, PARAMETER])
+intf java.lang.annotation.Annotation
+meth public abstract javax.validation.groups.ConvertGroup[] value()
+
 CLSS public abstract interface javax.validation.groups.Default
 
 CLSS public abstract interface javax.validation.metadata.BeanDescriptor
 intf javax.validation.metadata.ElementDescriptor
+meth public abstract !varargs java.util.Set<javax.validation.metadata.MethodDescriptor> getConstrainedMethods(javax.validation.metadata.MethodType,javax.validation.metadata.MethodType[])
 meth public abstract !varargs javax.validation.metadata.ConstructorDescriptor getConstraintsForConstructor(java.lang.Class<?>[])
 meth public abstract !varargs javax.validation.metadata.MethodDescriptor getConstraintsForMethod(java.lang.String,java.lang.Class<?>[])
 meth public abstract boolean isBeanConstrained()
 meth public abstract java.util.Set<javax.validation.metadata.ConstructorDescriptor> getConstrainedConstructors()
-meth public abstract java.util.Set<javax.validation.metadata.MethodDescriptor> getConstrainedMethods()
 meth public abstract java.util.Set<javax.validation.metadata.PropertyDescriptor> getConstrainedProperties()
 meth public abstract javax.validation.metadata.PropertyDescriptor getConstraintsForProperty(java.lang.String)
 
+CLSS public abstract interface javax.validation.metadata.CascadableDescriptor
+meth public abstract boolean isCascaded()
+meth public abstract java.util.Set<javax.validation.metadata.GroupConversionDescriptor> getGroupConversions()
+
 CLSS public abstract interface javax.validation.metadata.ConstraintDescriptor<%0 extends java.lang.annotation.Annotation>
 meth public abstract boolean isReportAsSingleViolation()
+meth public abstract java.lang.String getMessageTemplate()
 meth public abstract java.util.List<java.lang.Class<? extends javax.validation.ConstraintValidator<{javax.validation.metadata.ConstraintDescriptor%0},?>>> getConstraintValidatorClasses()
 meth public abstract java.util.Map<java.lang.String,java.lang.Object> getAttributes()
 meth public abstract java.util.Set<java.lang.Class<? extends javax.validation.Payload>> getPayload()
 meth public abstract java.util.Set<java.lang.Class<?>> getGroups()
 meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getComposingConstraints()
+meth public abstract javax.validation.ConstraintTarget getValidationAppliesTo()
 meth public abstract {javax.validation.metadata.ConstraintDescriptor%0} getAnnotation()
 
 CLSS public abstract interface javax.validation.metadata.ConstructorDescriptor
+intf javax.validation.metadata.ExecutableDescriptor
+
+CLSS public abstract interface javax.validation.metadata.CrossParameterDescriptor
 intf javax.validation.metadata.ElementDescriptor
-meth public abstract boolean areParametersConstrained()
-meth public abstract boolean isReturnValueConstrained()
-meth public abstract java.util.List<javax.validation.metadata.ParameterDescriptor> getParameterDescriptors()
-meth public abstract javax.validation.metadata.ReturnValueDescriptor getReturnValueDescriptor()
+meth public abstract java.lang.Class<?> getElementClass()
 
 CLSS public abstract interface javax.validation.metadata.ElementDescriptor
 innr public abstract interface static ConstraintFinder
-innr public final static !enum Kind
-meth public abstract <%0 extends javax.validation.metadata.ElementDescriptor> {%%0} as(java.lang.Class<{%%0}>)
 meth public abstract boolean hasConstraints()
 meth public abstract java.lang.Class<?> getElementClass()
 meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getConstraintDescriptors()
 meth public abstract javax.validation.metadata.ElementDescriptor$ConstraintFinder findConstraints()
-meth public abstract javax.validation.metadata.ElementDescriptor$Kind getKind()
 
 CLSS public abstract interface static javax.validation.metadata.ElementDescriptor$ConstraintFinder
 meth public abstract !varargs javax.validation.metadata.ElementDescriptor$ConstraintFinder declaredOn(java.lang.annotation.ElementType[])
@@ -662,39 +782,46 @@ meth public abstract boolean hasConstraints()
 meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getConstraintDescriptors()
 meth public abstract javax.validation.metadata.ElementDescriptor$ConstraintFinder lookingAt(javax.validation.metadata.Scope)
 
-CLSS public final static !enum javax.validation.metadata.ElementDescriptor$Kind
-fld public final static javax.validation.metadata.ElementDescriptor$Kind BEAN
-fld public final static javax.validation.metadata.ElementDescriptor$Kind CONSTRUCTOR
-fld public final static javax.validation.metadata.ElementDescriptor$Kind METHOD
-fld public final static javax.validation.metadata.ElementDescriptor$Kind PARAMETER
-fld public final static javax.validation.metadata.ElementDescriptor$Kind PROPERTY
-fld public final static javax.validation.metadata.ElementDescriptor$Kind RETURN_VALUE
-meth public static javax.validation.metadata.ElementDescriptor$Kind valueOf(java.lang.String)
-meth public static javax.validation.metadata.ElementDescriptor$Kind[] values()
-supr java.lang.Enum<javax.validation.metadata.ElementDescriptor$Kind>
-
-CLSS public abstract interface javax.validation.metadata.MethodDescriptor
+CLSS public abstract interface javax.validation.metadata.ExecutableDescriptor
 intf javax.validation.metadata.ElementDescriptor
-meth public abstract boolean areParametersConstrained()
-meth public abstract boolean isReturnValueConstrained()
+meth public abstract boolean hasConstrainedParameters()
+meth public abstract boolean hasConstrainedReturnValue()
+meth public abstract boolean hasConstraints()
 meth public abstract java.lang.String getName()
 meth public abstract java.util.List<javax.validation.metadata.ParameterDescriptor> getParameterDescriptors()
+meth public abstract java.util.Set<javax.validation.metadata.ConstraintDescriptor<?>> getConstraintDescriptors()
+meth public abstract javax.validation.metadata.CrossParameterDescriptor getCrossParameterDescriptor()
+meth public abstract javax.validation.metadata.ElementDescriptor$ConstraintFinder findConstraints()
 meth public abstract javax.validation.metadata.ReturnValueDescriptor getReturnValueDescriptor()
 
+CLSS public abstract interface javax.validation.metadata.GroupConversionDescriptor
+meth public abstract java.lang.Class<?> getFrom()
+meth public abstract java.lang.Class<?> getTo()
+
+CLSS public abstract interface javax.validation.metadata.MethodDescriptor
+intf javax.validation.metadata.ExecutableDescriptor
+
+CLSS public final !enum javax.validation.metadata.MethodType
+fld public final static javax.validation.metadata.MethodType GETTER
+fld public final static javax.validation.metadata.MethodType NON_GETTER
+meth public static javax.validation.metadata.MethodType valueOf(java.lang.String)
+meth public static javax.validation.metadata.MethodType[] values()
+supr java.lang.Enum<javax.validation.metadata.MethodType>
+
 CLSS public abstract interface javax.validation.metadata.ParameterDescriptor
+intf javax.validation.metadata.CascadableDescriptor
 intf javax.validation.metadata.ElementDescriptor
-meth public abstract boolean isCascaded()
 meth public abstract int getIndex()
 meth public abstract java.lang.String getName()
 
 CLSS public abstract interface javax.validation.metadata.PropertyDescriptor
+intf javax.validation.metadata.CascadableDescriptor
 intf javax.validation.metadata.ElementDescriptor
-meth public abstract boolean isCascaded()
 meth public abstract java.lang.String getPropertyName()
 
 CLSS public abstract interface javax.validation.metadata.ReturnValueDescriptor
+intf javax.validation.metadata.CascadableDescriptor
 intf javax.validation.metadata.ElementDescriptor
-meth public abstract boolean isCascaded()
 
 CLSS public final !enum javax.validation.metadata.Scope
 fld public final static javax.validation.metadata.Scope HIERARCHY
@@ -715,11 +842,6 @@ meth public abstract javax.validation.ConstraintValidatorFactory getConstraintVa
 meth public abstract javax.validation.MessageInterpolator getMessageInterpolator()
 meth public abstract javax.validation.ParameterNameProvider getParameterNameProvider()
 meth public abstract javax.validation.TraversableResolver getTraversableResolver()
-
-CLSS public abstract interface !annotation javax.validation.spi.MethodValidated
- anno 0 java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy value=RUNTIME)
- anno 0 java.lang.annotation.Target(java.lang.annotation.ElementType[] value=[METHOD, TYPE])
-intf java.lang.annotation.Annotation
 
 CLSS public abstract interface javax.validation.spi.ValidationProvider<%0 extends javax.validation.Configuration<{javax.validation.spi.ValidationProvider%0}>>
 meth public abstract javax.validation.Configuration<?> createGenericConfiguration(javax.validation.spi.BootstrapState)
