@@ -27,6 +27,6 @@ public class AnotherDeliveryService {
 
 	@Inject
 	@ValidateOnExecution
-	public AnotherDeliveryService(@Size(min = 5) String id) {
+	public AnotherDeliveryService(@LongName @Size(min = 5) String id) {
 	}
 }
