@@ -3,6 +3,13 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.CR5 (02-04-2013)
+----------------------
+
+** Improvement
+    * [BVTCK-54] - Use qualifiers for producer methods in CDI tests
+
+
 1.1.0.CR4 (20-03-2013)
 ----------------------
 
