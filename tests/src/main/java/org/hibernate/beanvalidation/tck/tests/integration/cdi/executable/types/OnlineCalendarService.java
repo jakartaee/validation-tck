@@ -28,6 +28,6 @@ public class OnlineCalendarService {
 
 	@Inject
 	@ValidateOnExecution(type = ExecutableType.CONSTRUCTORS)
-	public OnlineCalendarService(@Size(min = 5) String name) {
+	public OnlineCalendarService(@LongName @Size(min = 5) String name) {
 	}
 }

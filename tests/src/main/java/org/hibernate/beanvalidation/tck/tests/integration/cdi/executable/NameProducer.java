@@ -30,6 +30,7 @@ public class NameProducer {
 
 	@Produces
 	@Dependent
+	@LongName
 	public String getName() {
 		return name;
 	}

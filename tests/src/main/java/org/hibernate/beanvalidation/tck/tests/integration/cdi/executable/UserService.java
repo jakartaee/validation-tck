@@ -26,6 +26,6 @@ public class UserService {
 
 	@Inject
 	@CrossParameterConstraint
-	public UserService(@Size(min = 5) String name) {
+	public UserService(@LongName @Size(min = 5) String name) {
 	}
 }

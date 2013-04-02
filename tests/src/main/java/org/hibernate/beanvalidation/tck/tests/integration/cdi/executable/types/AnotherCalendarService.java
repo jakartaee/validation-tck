@@ -28,6 +28,6 @@ public class AnotherCalendarService {
 
 	@Inject
 	@ValidateOnExecution(type = ExecutableType.NON_GETTER_METHODS)
-	public AnotherCalendarService(@Size(min = 5) String name) {
+	public AnotherCalendarService(@LongName @Size(min = 5) String name) {
 	}
 }

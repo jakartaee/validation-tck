@@ -28,6 +28,6 @@ public class YetAnotherCalendarService {
 
 	@Inject
 	@ValidateOnExecution(type = ExecutableType.ALL)
-	public YetAnotherCalendarService(@Size(min = 5) String name) {
+	public YetAnotherCalendarService(@LongName @Size(min = 5) String name) {
 	}
 }
