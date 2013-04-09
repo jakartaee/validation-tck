@@ -86,7 +86,7 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "o"),
+			@SpecAssertion(section = "5.5.6", id = "m"),
 			@SpecAssertion(section = "5.5.6", id = "n"),
 			@SpecAssertion(section = "8.1.1", id = "a"),
 			@SpecAssertion(section = "8.1.1", id = "b"),
@@ -113,7 +113,7 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "o"),
+			@SpecAssertion(section = "5.5.6", id = "m"),
 			@SpecAssertion(section = "5.5.6", id = "n"),
 			@SpecAssertion(section = "8.1.1", id = "a"),
 			@SpecAssertion(section = "8.1.1", id = "b"),
@@ -131,7 +131,7 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "o"),
+			@SpecAssertion(section = "5.5.6", id = "m"),
 			@SpecAssertion(section = "5.5.6", id = "n"),
 			@SpecAssertion(section = "8.1.1", id = "a"),
 			@SpecAssertion(section = "8.1.1", id = "b"),
@@ -154,7 +154,7 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "o"),
+			@SpecAssertion(section = "5.5.6", id = "m"),
 			@SpecAssertion(section = "5.5.6", id = "n"),
 			@SpecAssertion(section = "8.1.1", id = "a"),
 			@SpecAssertion(section = "8.1.1", id = "b"),
@@ -180,7 +180,7 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "o"),
+			@SpecAssertion(section = "5.5.6", id = "m"),
 			@SpecAssertion(section = "5.5.6", id = "n"),
 			@SpecAssertion(section = "8.1.1", id = "a"),
 			@SpecAssertion(section = "8.1.1", id = "b"),
@@ -205,7 +205,7 @@ public class XmlConfigurationTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "o"),
+			@SpecAssertion(section = "5.5.6", id = "m"),
 			@SpecAssertion(section = "5.5.6", id = "n"),
 			@SpecAssertion(section = "8.1.1", id = "a"),
 			@SpecAssertion(section = "8.1.1", id = "b"),
@@ -228,7 +228,7 @@ public class XmlConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "p")
+	@SpecAssertion(section = "5.5.6", id = "o")
 	public void testMappingFilesAddedViaConfigurationGetAddedToXmlConfiguredMappings() {
 		assertFalse(
 				validator.getConstraintsForClass( Order.class ).isBeanConstrained(),
