@@ -10,6 +10,7 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.descriptor.api.Descriptors;
 import org.jboss.shrinkwrap.descriptor.api.webapp30.WebAppDescriptor;
+import org.jboss.shrinkwrap.descriptor.api.webcommon30.WebAppVersionType;
 
 /**
  * ShrinkWrap {@link org.jboss.shrinkwrap.api.spec.WebArchive} builder for CDI TCK Arquillian test. This builder is intended to provide basic functionality
@@ -17,7 +18,6 @@ import org.jboss.shrinkwrap.descriptor.api.webapp30.WebAppDescriptor;
  *
  * @author Martin Kouba
  * @author Gunnar Morling
- *
  */
 public class WebArchiveBuilder extends ArchiveBuilder<WebArchiveBuilder, WebArchive> {
 
@@ -44,7 +44,10 @@ public class WebArchiveBuilder extends ArchiveBuilder<WebArchiveBuilder, WebArch
 		processResources( webArchive );
 		processWebInfResources( webArchive );
 
-		webArchive.setWebXML( new StringAsset( Descriptors.create( WebAppDescriptor.class ).exportAsString() ) );
+		WebAppDescriptor webAppDescriptor = Descriptors.create( WebAppDescriptor.class )
+				.version( WebAppVersionType._3_0 );
+		webArchive.setWebXML( new StringAsset( webAppDescriptor.exportAsString() ) );
+
 		return webArchive;
 	}
 
