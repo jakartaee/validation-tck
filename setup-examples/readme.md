@@ -7,7 +7,8 @@ the reference implementation of Java EE 7.
 Each setup contains a readme outlining how to run the test harness using the given build system. These setups
 serve as guide and can be adjusted to run against other EE containers. An example for running against JBoss AS can
 be found as part of the [Hibernate Validator TCK Runner](https://github.com/hibernate/hibernate-validator/tree/master/tck-runner)
-setup.
+setup. It is the responsibility of the container to provide all Bean Validation dependencies, namely the BeanValidation API
+as well as the Bean Validation provider. The latter is the so called Bean Validation provider under test.
 
 Generally, to adjust the build script to another container, you would have to:
 
@@ -24,4 +25,4 @@ of your Bean Validation implementation.
 
 Note, that is it **not** enough to just run and pass the TCK tests in order to be compliant Bean Validation implementation.
 An other requirement for example is to pass the API [signature test](http://docs.jboss.org/hibernate/beanvalidation/tck/1.1/reference/html_single/#sigtest).
-More information about all requirements of the Bean Validation TCK can be found [here](http://docs.jboss.org/hibernate/beanvalidation/tck/1.1/reference/html_single/).
+More information about all requirements of the Bean Validation TCK can be found [here](http://docs.jboss.org/hibernate/beanvalidation/tck/1.1/reference/html_single/index.html#passing-the-tck).
