@@ -18,7 +18,7 @@ Generally, to adjust the build script to another container, you would have to:
 * Change the _validation.provider_ property to the fully qualified class name of your Bean Validation provider.
 * Change the Arquillian container adapter dependency to use the adapter suitable for your container
  (see [container adapters](https://docs.jboss.org/author/display/ARQ/Container+adapters)). If there is no such adapter
- you have to write your own. You can look at the  [standalone container adapter](https://github.com/beanvalidation/beanvalidation-tck/tree/master/standalone-container-adapter)
+ you have to write your own. You can look at the [standalone container adapter](https://github.com/beanvalidation/beanvalidation-tck/tree/master/standalone-container-adapter)
  provided by this TCK in order to run test in the current JVM. It is a simple version of a container adapter, but still
  contains all the required pieces.
 * Change the _container.home_ property to point to your container.
