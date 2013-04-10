@@ -5,7 +5,7 @@
 %BOOK_ENTITIES;
 ]>
 <chapter id="configuration">
-  <title>Running the TCK</title>
+  <title>Running the TCK test suite</title>
 
   <para>This chapter lays out how to run and configure the TCK harness against
   a given Bean Validation provider in a given Java EE container. If you have
@@ -23,7 +23,7 @@
     for running the TCK. If you followed the instructions in <xref
     linkend="installation"/> you find the directory under
     <filename>jsr349/tck/setup-examples</filename>. Both setups are using
-    Hibernate Validator as Bean Validation Provider and JBoss AS 7 as EE
+    Hibernate Validator as Bean Validation Provider and Glassfish 4 as EE
     constainer. However, one is using <ulink
     url="http://maven.apache.org/">Maven</ulink> as build tool to run the TCK,
     the other <ulink url="http://ant.apache.org/">Ant</ulink>. Depending which
@@ -32,8 +32,10 @@
 
     <para>Each example comes with a <filename>readme.md</filename> containing
     the prerequisites for using this setup, how to run the TCK against
-    Hibernate Validator and JBoss AS and what needs to be changed to use a
-    different Bean Validation provider and EE container.</para>
+    Hibernate Validator and Glassfish. The readme in
+    <filename>setup-examples</filename> itself contains information about what
+    needs to be changed to use a different Bean Validation provider and EE
+    container.</para>
 
     <para>The following chapters contain some more information about the
     general structure of the TCK which will give you a deeper understanding
@@ -53,7 +55,8 @@
     distribution must be run by TestNG (described by the TestNG documentation
     as "with a <literal>testng.xml</literal> file") unmodified for an
     implementation to pass the TCK. For testing purposes it is of course ok to
-    modify the file.</para>
+    modify the file (see also the TestNG <ulink
+    url="http://testng.org/doc/documentation-main.html#testng-xml">documentation</ulink>)</para>
 
     <programlisting>&lt;suite name="JSR-349-TCK" verbose="1"&gt;
     &lt;test name="JSR-349-TCK"&gt;
@@ -105,9 +108,9 @@
     archive and negotiate test execution using Java's service provider
     mechanism. Concretely Arquillian is looking for an implementation of the
     <classname>DeployableContainer</classname> SPI on the classpath. The setup
-    examples use a remote JBoss AS 7 container adapter, which means that
+    examples use a remote Glassfish container adapter, which means that
     Arquillian tries to deploy the test artifacts onto a specified remote
-    JBoss AS instance, run the tests remotely and report the results back to
+    Glassfish instance, run the tests remotely and report the results back to
     the current JVM. The installation directory of the remote container is
     specified via the <emphasis>container.home</emphasis> property in the
     example build files. <tip>
@@ -140,19 +143,18 @@
     container. Let's look at an example:<programlisting>&lt;arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://jboss.org/schema/arquillian
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd"&gt;
-
     &lt;defaultProtocol type="Servlet 3.0"/&gt;
 
     &lt;engine&gt;
         &lt;property name="deploymentExportPath"&gt;target/artifacts&lt;/property&gt;
     &lt;/engine&gt;
 
-    &lt;container qualifier="incontainer"&gt;
-        &lt;protocol type="Servlet 3.0"/&gt;
+    &lt;container qualifier="incontainer" default="true"&gt;
         &lt;configuration&gt;
-            &lt;property name="jbossHome"&gt;${container.home}&lt;/property&gt;
-            &lt;property name="javaVmArguments"&gt;-Xmx1024m -XX:MaxPermSize=512m -Dvalidation.provider=${validation.provider}&lt;/property&gt;
-            &lt;property name="allowConnectingToRunningServer"&gt;true&lt;/property&gt;
+            &lt;property name="glassFishHome"&gt;@CONTAINER.HOME@&lt;/property&gt;
+            &lt;property name="adminHost"&gt;localhost&lt;/property&gt;
+            &lt;property name="adminPort"&gt;4848&lt;/property&gt;
+            &lt;property name="debug"&gt;true&lt;/property&gt;
         &lt;/configuration&gt;
     &lt;/container&gt;
 

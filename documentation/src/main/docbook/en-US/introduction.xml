@@ -111,46 +111,9 @@
     developer productivity. However, an implementation is only valid if all
     tests pass using the in-container execution mode. The standalone mode is
     merely a developer convenience.<note>
-        <para>TODO - explain the reason for this - BV part of EE</para>
+        <para>The reason the Bean Validation TCK must pass running in a EE
+        container is that Bean Validation is part of Java EE 7 itself.</para>
       </note></para>
-
-    <section>
-      <title>TCK Specifications and Requirements</title>
-
-      <para>This section lists the applicable requirements and specifications
-      for the Bean Validation TCK.</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><emphasis role="bold">Bean Validation API</emphasis> - The
-          Java API defined in the Bean Validation specification and provided
-          by the reference implementation.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Arquillian</emphasis> - The Bean
-          Validation TCK requires Arquillian version 1.0.0.Final. The Harness
-          is based on <ulink url="http://testng.org">TestNG
-          5.x</ulink>.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">TCK Audit Tool</emphasis> - An
-          itemization of the assertions in the specification documents which
-          are cross referenced by the individual tests. Describes how well the
-          TCK covers the specification.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Reference runtime</emphasis> - The
-          designated reference runtimes for compatibility testing of the Bean
-          Validation specification is the Sun Java Platform, Enterprise
-          Edition (Java EE) 7 reference implementation (RI). See details at
-          <ulink url="http://java.sun.com/javaee/7/docs/api/">Java EE
-          7</ulink> (todo - check link)</para>
-        </listitem>
-      </itemizedlist>
-    </section>
 
     <section>
       <title>TCK Components</title>
@@ -167,10 +130,10 @@
 
         <listitem>
           <para><emphasis role="bold">The TCK audit</emphasis>
-          (<filename>tck-audit.xml</filename>) is used to list out the
-          assertions identified in the Bean Validation specification. It
-          matches the assertions to test cases in the test suite by unique
-          identifier and produces a coverage report.</para>
+          (<filename>tck-audit.xml</filename>) used to list out the assertions
+          identified in the Bean Validation specification. It matches the
+          assertions to test cases in the test suite by unique identifier and
+          produces a coverage report.</para>
 
           <para>The audit document is provided along with the TCK. Each
           assertion is defined with a reference to a chapter, section and
@@ -183,7 +146,46 @@
           <para><emphasis role="bold">TCK documentation</emphasis> accompanied
           by release notes identifying updates between versions.</para>
         </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">TCK Container Adapter</emphasis>
+          provided as a convenience for developers in order to run and debug
+          tests outside of the EE container.</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Setup examples</emphasis> demonstrating
+          Maven and Ant setups to run the TCK test suite</para>
+        </listitem>
       </itemizedlist>
+    </section>
+
+    <section id="passing-the-tck">
+      <title>Passing the Bean Validation TCK</title>
+
+      <para>In order to pass the Bean Validation TCK (which is one requirement
+      for becoming a certified Bean Validation provider), you need to:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Pass the Bean Validation signature tests (see <xref
+          linkend="sigtest"/>) asserting the correctness of the Bean
+          Validation API used.</para>
+        </listitem>
+
+        <listitem>
+          <para>Run and pass the test suite (see <xref
+          linkend="configuration"/>). The test must be run within an EE 7
+          container and pass with an unmodified TestNG suite file.</para>
+        </listitem>
+      </itemizedlist>
+
+      <note>
+        <para>The designated reference runtime for compatibility testing of
+        the Bean Validation specification is the Sun Java Platform, Enterprise
+        Edition (Java EE) 7 reference implementation (RI), aka Glassfish
+        4.</para>
+      </note>
     </section>
   </section>
 </chapter>

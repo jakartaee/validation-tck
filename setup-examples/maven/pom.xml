@@ -12,14 +12,13 @@
     <description>Aggregates dependencies and runs the JSR-303 TCK</description>
 
     <properties>
-        <tck.version>1.1.0.CR4</tck.version>
+        <tck.version>1.1.0.Final</tck.version>
         <tck.suite.file>${project.build.directory}/dependency/beanvalidation-tck-tests-suite.xml</tck.suite.file>
         <arquillian.version>1.0.0.Final</arquillian.version>
 
-        <jbossas.version>7.1.1.Final</jbossas.version>
-        <container.home>/opt/java/jboss-as</container.home>
+        <container.home>/opt/java/glassfish4</container.home>
 
-        <hv.version>5.0.0.CR4</hv.version>
+        <hv.version>5.0.0.Final</hv.version>
         <validation.provider>org.hibernate.validator.HibernateValidator</validation.provider>
     </properties>
 
@@ -52,9 +51,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.as</groupId>
-            <artifactId>jboss-as-arquillian-container-managed</artifactId>
-            <version>${jbossas.version}</version>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-glassfish-managed-3.1</artifactId>
+            <version>1.0.0.Final-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -105,7 +104,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
-                    <argLine>-Xmx1024m -Djava.util.logging.manager=org.jboss.logmanager.LogManager</argLine>
+                    <argLine>-Xmx1024m</argLine>
                     <forkMode>once</forkMode>
                     <suiteXmlFiles>
                         <suiteXmlFile>${tck.suite.file}</suiteXmlFile>

@@ -1,44 +1,27 @@
 # Maven setup example to run the JSR-349 TCK
 
-This is an example setup to run the Bean Validation TCK 1.1 against JBoss AS 7 using [Maven](https://maven.apache.org).
+This is an example setup to run the Bean Validation TCK 1.1 against Glassfish 4 using [Maven](https://maven.apache.org).
 
 ## Prerequisites
 
-* [Git](http://git-scm.com/)
+* [Git](http://git-scm.com)
 * [Maven](https://maven.apache.org) >= 3.0.4
-* A EE container to run the tests in. The container must provide all Bean Validation dependencies, namely the BeanValidation API
-as well as the Bean Validation provider. The latter is the so called Bean Validation provider under test.
-This setup uses JBoss AS 7 as EE container, but can be easily modified to run against another container.
+* [JDK 7](http://jdk7.java.net)
+* [Glassfish 4](http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted) installation
 
 ## How to run
 
-1. Get the code:
+1. Extract Glassfish into a directory (this directory is referenced subsequently as <container.home>)
+1. Add the JVM option _validation.provider_ to _domain.xml_ under <container.home>/glassfish/domains/domain1/config in
+   the <java-config> section (this is used by the test harness to look up the Bean Validation provider under test):
 
-        git clone git://github.com/beanvalidation/beanvalidation-tck.git
-1. Change into the maven example directory:
-
-        cd setup-examples/maven
-1. Make sure that _container.home_ in _pom.xml_ points to your container home directory. You can also specify this property on
-   the command line via _-Dcontainer.home=\<path to container\>_
+        <java-config>
+            ...
+           <jvm-options>-Dvalidation.provider=org.hibernate.validator.HibernateValidator</jvm-options>
+        </java-config>
+1. Make sure that _container.home_ in _pom.xml_ points to your <container.home> directory
 1. Run the TCK tests:
 
         mvn test
 1. Test results can be found in _target/surefire-reports/index.html_
-
-## How to adjust for other containers
-
-To adjust the build script to another container, for example Glassfish, you would have to
-
-* Change the Arquillian container adapter dependency (_org.jboss.as:jboss-as-arquillian-container-managed_) to use
-  the adapter suitable for your container (see [container adapters](https://docs.jboss.org/author/display/ARQ/Container+adapters)).
-  If there is no such adapter you have to write your own. You can look at the
-  [standalone container adapter](https://github.com/beanvalidation/beanvalidation-tck/tree/master/standalone-container-adapter) provided
-  by this TCK in order to run test in the current JVM. It is a simple version of a container adapter, but still contains all
-  the required pieces.
-* Change the _container.home_ property in _pom.xml_ to point to your container
-* Change _validation.provider_ in _build.properties_ to the fully qualified classname of your Bean Validation provider
-* Update the container information in _arquillian.xml_ to contain the required settings for your container
-
-
-
 

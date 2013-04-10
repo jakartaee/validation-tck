@@ -22,6 +22,6 @@
 
         <!-- The Arquillian container adapter for the container under test. Specific to the container in which to run the tests -->
         <dependency org="org.hibernate" name="hibernate-validator" rev="${version.hv}" conf="test->default(*)"/>
-        <dependency org="org.jboss.as" name="jboss-as-arquillian-container-managed" rev="${version.jbossas}" conf="test-incontainer->default(*)"/>
+        <dependency org="org.jboss.arquillian.container" name="arquillian-glassfish-managed-3.1" rev="1.0.0.Final-SNAPSHOT" conf="test-incontainer->default(*)"/>
     </dependencies>
 </ivy-module>
