@@ -12,13 +12,16 @@ as well as the Bean Validation provider. The latter is the so called Bean Valida
 
 Generally, to adjust the build script to another container, you would have to:
 
+* Replace the Hibernate Validator dependency with the dependency of your provider. Technically the validation
+  provider should not be required on the client side, but due to [BVTCK-57](https://hibernate.atlassian.net/browse/BVTCK-57)
+  it is needed as well.
+* Change the _validation.provider_ property to the fully qualified class name of your Bean Validation provider.
 * Change the Arquillian container adapter dependency to use the adapter suitable for your container
  (see [container adapters](https://docs.jboss.org/author/display/ARQ/Container+adapters)). If there is no such adapter
  you have to write your own. You can look at the  [standalone container adapter](https://github.com/beanvalidation/beanvalidation-tck/tree/master/standalone-container-adapter)
  provided by this TCK in order to run test in the current JVM. It is a simple version of a container adapter, but still
  contains all the required pieces.
 * Change the _container.home_ property to point to your container.
-* Change _validation.provider_ to the fully qualified class name of your Bean Validation provider.
 * Update the _arquillian.xml_ configuration to match the required settings for your container.
 * Make sure that the container starts with the system property _validation.provider_ to the fully qualified class name
 of your Bean Validation implementation.

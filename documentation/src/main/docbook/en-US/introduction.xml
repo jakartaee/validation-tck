@@ -150,7 +150,7 @@
         <listitem>
           <para><emphasis role="bold">TCK Container Adapter</emphasis>
           provided as a convenience for developers in order to run and debug
-          tests outside of the EE container. </para>
+          tests outside of the EE container.</para>
         </listitem>
 
         <listitem>
@@ -163,8 +163,8 @@
     <section id="passing-the-tck">
       <title>Passing the Bean Validation TCK</title>
 
-      <para>In order to pass the Bean Validation TCK and a requirement for
-      being a certified Bean Validation provider, you need to:</para>
+      <para>In order to pass the Bean Validation TCK (which is one requirement
+      for becoming a certified Bean Validation provider), you need to:</para>
 
       <itemizedlist>
         <listitem>
