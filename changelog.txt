@@ -3,6 +3,20 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.0.Final (10-04-2013)
+----------------------
+
+** Bug
+    * [BVTCK-56] - Set version attribute for web.xml descriptors
+
+** Improvement
+    * [BVTCK-55] - Update audit file due to re-ordered assertions in XML chapter
+    * [BVTCK-58] - Update version of BV API dependency to 1.1.0.Final
+
+** Task
+    * [BVTCK-23] - Finalize TCK documentation
+
+
 1.1.0.CR5 (02-04-2013)
 ----------------------
 
