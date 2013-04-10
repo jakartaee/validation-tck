@@ -23,7 +23,7 @@
     for running the TCK. If you followed the instructions in <xref
     linkend="installation"/> you find the directory under
     <filename>jsr349/tck/setup-examples</filename>. Both setups are using
-    Hibernate Validator as Bean Validation Provider and JBoss AS 7 as EE
+    Hibernate Validator as Bean Validation Provider and Glassfish 4 as EE
     constainer. However, one is using <ulink
     url="http://maven.apache.org/">Maven</ulink> as build tool to run the TCK,
     the other <ulink url="http://ant.apache.org/">Ant</ulink>. Depending which
@@ -32,8 +32,8 @@
 
     <para>Each example comes with a <filename>readme.md</filename> containing
     the prerequisites for using this setup, how to run the TCK against
-    Hibernate Validator and JBoss AS and what needs to be changed to use a
-    different Bean Validation provider and EE container.</para>
+    Hibernate Validator and Glassfish. The read and what needs to be changed
+    to use a different Bean Validation provider and EE container.</para>
 
     <para>The following chapters contain some more information about the
     general structure of the TCK which will give you a deeper understanding

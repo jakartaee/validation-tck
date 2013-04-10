@@ -3,7 +3,7 @@
 <!ENTITY copyrightYear "2009 - 2013">
 <!ENTITY copyrightHolder "Red Hat, Inc.">
 <!ENTITY jsrVersion "JSR 349">
-<!ENTITY validationApi "1.1.0.CR3">
-<!ENTITY referenceImplVersion "5.0.0.CR4">
-<!ENTITY tckVersion "1.1.0.CR4">
+<!ENTITY validationApi "1.1.0.Final">
+<!ENTITY referenceImplVersion "5.0.0.Final">
+<!ENTITY tckVersion "1.1.0.Final">
 

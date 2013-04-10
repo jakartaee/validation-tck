@@ -21,16 +21,17 @@
     is distributed as a ZIP file, which contains the TCK artifacts (the test
     suite binary and source, the test suite descriptor, the audit source and
     report), the TCK library dependencies in <code>/lib</code> and
-    documentation in <code>/doc</code>. The contents should look like (todo -
-    verify against final dist bundle):</para>
+    documentation in <code>/doc</code>. The contents should look like:</para>
 
     <para><programlisting>artifacts/
 changelog.txt
 docs/
 lib/
 license.txt
-src/</programlisting>You can also download the source code from GitHub -
-    <ulink
+setup-examples/
+src/
+readme.md
+</programlisting>You can also download the source code from GitHub - <ulink
     url="https://github.com/beanvalidation/beanvalidation-tck">https://github.com/beanvalidation/beanvalidation-tck</ulink>.</para>
 
     <para>The &jsrVersion; reference implementation (RI) project is named
@@ -58,7 +59,7 @@ src/</programlisting>You can also download the source code from GitHub -
       </listitem>
 
       <listitem>
-        <para>Java EE 7 or better (e.g., JBoss AS 7.x)</para>
+        <para>Java EE 7 or better (e.g. Glassfish 4)</para>
       </listitem>
     </itemizedlist>
 

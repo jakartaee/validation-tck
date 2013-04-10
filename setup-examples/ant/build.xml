@@ -5,9 +5,6 @@
     <!-- Build environment properties                                           -->
     <!-- ====================================================================== -->
 
-    <!-- Allow the user to override values in build.properties. Ignored via .gitignore -->
-    <property file="user-build.properties"/>
-
     <!-- Defines build specific properties -->
     <property file="build.properties"/>
 
@@ -92,8 +89,7 @@
         <copy todir="${project.testResource.outputDirectory}">
             <fileset dir="${project.testResource.directory}"/>
             <filterset>
-                <filter token="JBOSS.HOME" value="${container.home}"/>
-                <filter token="VALIDATION.PROVIDER" value="${validation.provider}"/>
+                <filter token="CONTAINER.HOME" value="${container.home}"/>
             </filterset>
         </copy>
     </target>
@@ -109,23 +105,25 @@
         </path>
         <testng classpathref="test.path"
                 outputDir="${project.test.reportsOutputDirectory}"
-                haltOnfailure="true">
+                haltOnfailure="false">
             <xmlfileset dir="${project.build.directory}" includes="${tck.suite.file}"/>
-            <jvmarg value="-Xmx1024m"/>
+            <jvmarg value="-Xmx1024m"/> 
+
+            <!-- Uncomment for remote debugging -->
+            <!--             
+            <jvmarg value="-Xnoagent"/>
+            <jvmarg value="-Djava.compiler=NONE"/>
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
+             -->  
+
             <!-- Container qualifier used in arquillian.xml -->
             <sysproperty key="arquillian.launch" value="incontainer"/>
             <!-- Specify the Bean Validation provider under test -->
             <sysproperty key="validation.provider" value="${validation.provider}"/>
+
+            <!-- Uncomment to skip integration tests -->
+            <!-- <sysproperty key="excludeIntegrationTests" value="true"/> -->
         </testng>
-    </target>
-
-    <!-- ====================================================================== -->
-    <!-- Dependency reports                                                     -->
-    <!-- ====================================================================== -->
-
-    <target name="dependency-report" depends="init">
-        <ivy:resolve conf="test-incontainer"/>
-        <ivy:report todir="${project.build.directory}/dependency-reports/test-jbossas7"
-                    conf="test-incontainer"/>
     </target>
 </project>

@@ -111,7 +111,8 @@
     developer productivity. However, an implementation is only valid if all
     tests pass using the in-container execution mode. The standalone mode is
     merely a developer convenience.<note>
-        <para>TODO - explain the reason for this - BV part of EE</para>
+        <para>The reason the Bean Validation TCK must pass running in a EE
+        container is that Bean Validation is part of Java EE 7 itself.</para>
       </note></para>
 
     <section>
@@ -145,9 +146,8 @@
           <para><emphasis role="bold">Reference runtime</emphasis> - The
           designated reference runtimes for compatibility testing of the Bean
           Validation specification is the Sun Java Platform, Enterprise
-          Edition (Java EE) 7 reference implementation (RI). See details at
-          <ulink url="http://java.sun.com/javaee/7/docs/api/">Java EE
-          7</ulink> (todo - check link)</para>
+          Edition (Java EE) 7 reference implementation (RI), aka Glassfish
+          4.</para>
         </listitem>
       </itemizedlist>
     </section>
