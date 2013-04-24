@@ -179,7 +179,6 @@ meth public abstract javax.validation.ConstraintValidatorContext addConstraintVi
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext addNode(java.lang.String)
- anno 0 java.lang.Deprecated()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext addParameterNode(int)
 
 CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext
@@ -198,7 +197,6 @@ CLSS public abstract interface static javax.validation.ConstraintValidatorContex
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addNode(java.lang.String)
- anno 0 java.lang.Deprecated()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeContextBuilder inIterable()
 
@@ -206,14 +204,12 @@ CLSS public abstract interface static javax.validation.ConstraintValidatorContex
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addNode(java.lang.String)
- anno 0 java.lang.Deprecated()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 
 CLSS public abstract interface static javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeContextBuilder
 meth public abstract javax.validation.ConstraintValidatorContext addConstraintViolation()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$LeafNodeBuilderCustomizableContext addBeanNode()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addNode(java.lang.String)
- anno 0 java.lang.Deprecated()
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderCustomizableContext addPropertyNode(java.lang.String)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext atIndex(java.lang.Integer)
 meth public abstract javax.validation.ConstraintValidatorContext$ConstraintViolationBuilder$NodeBuilderDefinedContext atKey(java.lang.Object)
