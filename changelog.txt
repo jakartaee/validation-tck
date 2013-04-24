@@ -3,8 +3,15 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.1.Final (24-04-2013)
+------------------------
+
+** Task
+    * [BVTCK-61] - Update signature files due to removal of @Deprecated annotations
+
+
 1.1.0.Final (10-04-2013)
-----------------------
+------------------------
 
 ** Bug
     * [BVTCK-56] - Set version attribute for web.xml descriptors
