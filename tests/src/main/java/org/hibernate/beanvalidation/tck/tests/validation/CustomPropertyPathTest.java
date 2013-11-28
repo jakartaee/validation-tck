@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import java.lang.annotation.Retention;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,10 +149,12 @@ public class CustomPropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "5.2", id = "an")
 	public void testAddParameterNode() throws Exception {
+		Object[] parameterValues = new Object[] { Collections.emptyMap() };
+
 		Set<ConstraintViolation<User>> constraintViolations = executableValidator.validateParameters(
 				new User(),
 				User.class.getMethod( "setAddresses", Map.class ),
-				new Object[] { }
+				parameterValues
 		);
 
 		assertViolationsContainOnlyPaths(
@@ -174,10 +177,11 @@ public class CustomPropertyPathTest extends Arquillian {
 				.getValidator()
 				.forExecutables();
 
+		Object[] parameterValues = new Object[] { Collections.emptyMap() };
 		Set<ConstraintViolation<User>> constraintViolations = executableValidator.validateParameters(
 				new User(),
 				User.class.getMethod( "setAddresses", Map.class ),
-				new Object[] { }
+				parameterValues
 		);
 
 

@@ -187,7 +187,7 @@ public class ValidateParametersTest extends Arquillian {
 
 		Object object = new User();
 		Method method = User.class.getMethod( methodName, String.class, int.class );
-		Object[] parameterValues = new Object[] { "S" };
+		Object[] parameterValues = new Object[] { "S", 0 };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
 				object,
@@ -302,7 +302,7 @@ public class ValidateParametersTest extends Arquillian {
 
 		Object object = new User();
 		Method method = User.class.getMethod( methodName, String.class, long.class );
-		Object[] parameterValues = new Object[] { "S" };
+		Object[] parameterValues = new Object[] { "S", 0l };
 
 		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
 				object,
