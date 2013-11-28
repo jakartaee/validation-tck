@@ -176,7 +176,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testTwoViolationsOnSameParameter() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, int.class );
-		Object[] parameterValues = new Object[] { "S" };
+		Object[] parameterValues = new Object[] { "S", 0 };
 
 		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
 				constructor,
@@ -279,7 +279,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 	@SpecAssertion(section = "5.1.2", id = "h")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, long.class );
-		Object[] parameterValues = new Object[] { "S" };
+		Object[] parameterValues = new Object[] { "S", 0l };
 
 		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
 				constructor,

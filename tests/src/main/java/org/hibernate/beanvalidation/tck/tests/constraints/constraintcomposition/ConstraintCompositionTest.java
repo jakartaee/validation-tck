@@ -285,7 +285,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	public void testConstraintTargetPropagationInComposedConstraints() throws Exception {
 		Object object = new DummyEntityWithGenericAndCrossParameterConstraint();
 		Method method = DummyEntityWithGenericAndCrossParameterConstraint.class.getMethod( "doSomething", int.class );
-		Object[] parameterValues = new Object[0];
+		Object[] parameterValues = new Object[] { 0 };
 
 		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
 				object,
