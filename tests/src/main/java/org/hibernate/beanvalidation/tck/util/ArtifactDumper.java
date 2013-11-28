@@ -30,6 +30,10 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 
 /**
+ * This class builds the test artifacts and writes them to disk.
+ *
+ * The artifacts are just created for debugging purposes. They are not part of the TCK artifacts.
+ *
  * @author Hardy Ferentschik
  */
 public class ArtifactDumper {
@@ -52,8 +56,16 @@ public class ArtifactDumper {
 		}
 
 		artifactDir = new File( targetDir, "artifacts" );
-		if ( !artifactDir.mkdirs() ) {
-			throw new RuntimeException( "Unable to create artifact dump directory: " + artifactDir.getPath() );
+		if ( artifactDir.exists() ) {
+			for ( File f : artifactDir.listFiles() ) {
+				delete( f );
+			}
+		}
+		else {
+
+			if ( !artifactDir.mkdirs() ) {
+				throw new RuntimeException( "Unable to create artifact dump directory: " + artifactDir.getPath() );
+			}
 		}
 	}
 
@@ -99,7 +111,7 @@ public class ArtifactDumper {
 				directories.add( new File( URLDecoder.decode( resources.nextElement().getPath(), "UTF-8" ) ) );
 			}
 		}
-		catch ( Exception e ) {
+		catch( Exception e ) {
 			throw new RuntimeException( e.getMessage(), e );
 		}
 		return directories;
@@ -122,13 +134,24 @@ public class ArtifactDumper {
 					Class<?> clazz = Class.forName( className );
 					classes.add( clazz );
 				}
-				catch ( ClassNotFoundException e ) {
+				catch( ClassNotFoundException e ) {
 					// do nothing. this class hasn't been found by the loader, and we don't care.
 				}
 			}
 			else if ( file.isDirectory() ) {
 				addClassesForPackage( packageName, classes, file );
 			}
+		}
+	}
+
+	private static void delete(File f) {
+		if ( f.isDirectory() ) {
+			for ( File c : f.listFiles() ) {
+				delete( c );
+			}
+		}
+		if ( !f.delete() ) {
+			throw new RuntimeException( "Failed to delete file: " + f );
 		}
 	}
 }
