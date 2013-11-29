@@ -3,6 +3,18 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.1.2.Final (29-11-2013)
+------------------------
+
+** Bug
+    * [BVTCK-44] - Make ArtifactDumper work with "mvn install"
+    * [BVTCK-64] - Fix tests which pass wrong-sized argument arrays to validateParameters()
+
+** Improvement
+    * [BVTCK-53] - Improve layout of reference guide PDF title page
+    * [BVTCK-59] - Update dependencies
+
+
 1.1.1.Final (24-04-2013)
 ------------------------
 

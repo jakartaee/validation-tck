@@ -1,5 +1,5 @@
 # Bean Validation TCK
-Version: 1.1.1.Final
+*Version: 1.1.2.Final, 29.11.2013*
 
 This repository contains the Bean Validation ([JSR 349](http://www.jcp.org/en/jsr/detail?id=349))
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
