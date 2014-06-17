@@ -1,6 +1,6 @@
 <!ENTITY version "WORKING">
 <!ENTITY today "TODAY">
-<!ENTITY copyrightYear "2009 - 2013">
+<!ENTITY copyrightYear "2009 - 2014">
 <!ENTITY copyrightHolder "Red Hat, Inc.">
 <!ENTITY jsrVersion "JSR 349">
 <!ENTITY validationApi "1.1.0.Final">
