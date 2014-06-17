@@ -1,0 +1,20 @@
+# Typically *NIX text editors, by default, append '~' to files on saving to make backups
+*~
+.#*
+
+# Build output directories
+/target
+*/target
+*/test-output
+
+# IntelliJ specific files/directories
+/out
+.idea
+*.ipr
+*.iws
+*.iml
+
+# Eclipse specific files/directories
+.classpath
+.project
+.settings
