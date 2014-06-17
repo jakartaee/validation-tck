@@ -4,7 +4,7 @@
     <groupId>org.hibernate.jsr303.tck</groupId>
     <artifactId>jsr303-tck</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.6.GA</version>
+    <version>1.0.7-SNAPSHOT</version>
     <name>JSR-303 TCK</name>
     <url>http://validator.hibernate.org</url>
 
