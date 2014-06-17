@@ -54,6 +54,7 @@
                 <include>validation-api-java5.sig</include>
                 <include>validation-api-java6.sig</include>
                 <include>validation-api-java7.sig</include>
+                <include>validation-api-java8.sig</include>
                 <include>readme.txt</include>
             </includes>
         </fileSet>

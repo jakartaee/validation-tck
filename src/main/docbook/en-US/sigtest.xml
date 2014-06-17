@@ -15,13 +15,16 @@
   <section>
     <title>Obtaining the sigtest tool</title>
 
-    <para>You can obtain the Sigtest tool (at the time of writing the TCK uses
-    version 2.1) from the Sigtest home page at <ulink
-    url="https://sigtest.dev.java.net/"></ulink>. The user guide can be found
-    at <ulink
-    url="http://download.oracle.com/javame/test-tools/sigtest/2_1/sigtest2.1_usersguide.pdf"></ulink>.
-    The downloadable package contains the jar files used in the commands
-    below.</para>
+    <para>You can obtain the Sigtest tool from the <ulink
+    url="https://wiki.openjdk.java.net/display/CodeTools/SigTest">Sigtest home
+    page</ulink>. The TCK uses version 3_0-dev-bin-b09-24_apr_2013 which can
+    be obtained from the SigTest <ulink
+    url="http://download.java.net/sigtest/download.html">download page</ulink>. The
+    user guide can be found <ulink
+    url="http://download.oracle.com/javame/test-tools/sigtest/2_2/sigtest2_2_usersguide.pdf">here</ulink>
+    (the latest published documentation version is 2.2 but this documentation
+    still applies to SigTest 3.0 in general). The downloadable package
+    contains the jar files used in the commands below.</para>
   </section>
 
   <section>
@@ -29,8 +32,9 @@
 
     <para>The TCK package contains the files
     <filename>validation-api-java5.sig</filename>,<filename>
-    validation-api-java6.sig</filename> and
-    <filename>validation-api-java7.sig</filename> and (in the
+    validation-api-java6.sig</filename>,
+    <filename>validation-api-java7.sig</filename> and
+    <filename>validation-api-java8.sig</filename> (in the
     <filename>artifacts</filename> directory) which were created using the
     following command (using the corresponding Java version):</para>
 
