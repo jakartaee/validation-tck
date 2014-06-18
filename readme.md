@@ -1,5 +1,5 @@
 # Bean Validation TCK
-*Version: 1.1.2.Final, 29.11.2013*
+*Version: 1.1.3.Final, 18.06.2014*
 
 This repository contains the Bean Validation ([JSR 349](http://www.jcp.org/en/jsr/detail?id=349))
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
@@ -32,6 +32,3 @@ The release notes for this release can be found [here](https://github.com/beanva
 # Issue tracking
 
 The Bean Validation TCK issue tracker is [BVTCK](http://opensource.atlassian.com/projects/hibernate/browse/BVTCK).
-
-
-
