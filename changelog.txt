@@ -3,6 +3,12 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.0.7.GA (18-06-2014)
+
+** Task
+    * [BVTCK-66] - Create signature file for Java 8
+
+
 1.0.6.GA (26-07-2011)
 ----------------------
 

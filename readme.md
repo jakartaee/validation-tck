@@ -1,5 +1,5 @@
 # Bean Validation TCK
-Version: 1.0.6.GA, 26-07-2011
+Version: 1.0.7.GA, 18-06-2014
 
 This repository contains the Bean Validation ([JSR 303](http://www.jcp.org/en/jsr/detail?id=303)) TCK.
 
@@ -15,5 +15,3 @@ The release notes for this release can be found [here](https://github.com/beanva
 # Issue tracking
 
 The Bean Validation TCK issue tracker is [BVTCK](http://opensource.atlassian.com/projects/hibernate/browse/BVTCK).
-
-
