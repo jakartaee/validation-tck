@@ -4,7 +4,7 @@
     <groupId>org.hibernate.jsr303.tck</groupId>
     <artifactId>jsr303-tck</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.7-SNAPSHOT</version>
+    <version>1.0.7.GA</version>
     <name>JSR-303 TCK</name>
     <url>http://validator.hibernate.org</url>
 
@@ -300,6 +300,7 @@
         <connection>scm:git:git://github.com/beanvalidation/beanvalidation-tck.git</connection>
         <developerConnection>scm:git:git@github.com:beanvalidation/beanvalidation-tck.git</developerConnection>
         <url>http://github.com/beanvalidation/beanvalidation-tck</url>
+        <tag>1.0.7.GA</tag>
     </scm>
 
     <distributionManagement>
