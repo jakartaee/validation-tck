@@ -2386,7 +2386,7 @@
         </assertion>
     </section>
     <section id="8" title="XML deployment descriptor">
-        <assertion id="a">
+        <assertion id="a" testable="false">
             <text>If an XML descriptor does not validate against the corresponding XSD file, a
                 ValidationException is raised.
             </text>
@@ -2887,7 +2887,7 @@
                 assumed by the Bean Validation Provider.
             </text>
         </assertion>
-        <assertion id="c">
+        <assertion id="c" testable="false">
             <text>In case an unknown version is given (e.g. if a mapping descriptor adhering to a
                 future schema version is parsed by a Bean Validation 1.1 provider) a
                 ValidationException is raised.
