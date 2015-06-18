@@ -19,20 +19,18 @@ package org.hibernate.beanvalidation.tck.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.validation.ElementKind;
 import javax.validation.Path;
 import javax.validation.Path.Node;
 
 /**
- * <p>
  * A list of {@link ElementKind}s, representing the kinds of the nodes of a
  * given {@link Path}. Instances are retrieved via
- * {@link TestUtil#kinds(Kind...)}.
- * </p>
+ * {@link TestUtil#kinds(ElementKind...)}.
  * <p>
  * Implemented as separate class since generic classes such as {@link List}
  * can't be passed without warning to varargs methods in Java 6.
- * </p>
  *
  * @author Gunnar Morling
  */
