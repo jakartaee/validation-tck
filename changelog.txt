@@ -3,6 +3,12 @@ Bean Validation TCK Changelog
 
 See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
 
+1.0.8.GA (22-02-2016)
+
+** Bug
+    * [BVTCK-72] - Wrong assertion in ValidationRequirementTest.testClassLevelConstraints, backport fix from BV 1.1 TCK
+
+
 1.0.7.GA (18-06-2014)
 
 ** Task

@@ -1,5 +1,5 @@
 # Bean Validation TCK
-Version: 1.0.7.GA, 18-06-2014
+Version: 1.0.8.GA, 22-02-2016
 
 This repository contains the Bean Validation ([JSR 303](http://www.jcp.org/en/jsr/detail?id=303)) TCK.
 
