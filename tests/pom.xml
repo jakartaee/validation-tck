@@ -5,15 +5,15 @@
     <parent>
         <groupId>org.hibernate.beanvalidation.tck</groupId>
         <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>beanvalidation-tck-tests</artifactId>
     <packaging>jar</packaging>
 
-    <name>JSR-349 TCK Test Suite</name>
-    <description>JSR-349 TCK test suite</description>
+    <name>JSR-380 TCK Test Suite</name>
+    <description>JSR-380 TCK test suite</description>
 
     <dependencies>
         <dependency>
