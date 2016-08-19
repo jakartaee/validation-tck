@@ -1,13 +1,13 @@
 # Bean Validation TCK
-*Version: 1.1.4.Final, 18.06.2015*
+*Version: 2.0.0-SNAPSHOT*
 
-This repository contains the Bean Validation ([JSR 349](http://www.jcp.org/en/jsr/detail?id=349))
+This repository contains the Bean Validation ([JSR 380](http://www.jcp.org/en/jsr/detail?id=380))
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source
 
 You can build the TCK from source by cloning the git repository git://github.com/beanvalidation/beanvalidation-tck.git.
-You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 6 or 7 and
+You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 8 and
 [Maven](http://maven.apache.org/) 3. With these prerequisites in place you can compile the source via:
 
     mvn clean install -s settings-example.xml
