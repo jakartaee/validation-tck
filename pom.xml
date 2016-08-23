@@ -4,11 +4,11 @@
     <groupId>org.hibernate.beanvalidation.tck</groupId>
     <artifactId>beanvalidation-tck-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.5-SNAPSHOT</version>
-    <name>JSR-349 TCK Aggregator</name>
-    <url>http://validator.hibernate.org</url>
+    <version>2.0.0-SNAPSHOT</version>
+    <name>JSR-380 TCK Aggregator</name>
+    <url>http://beanvalidation.org/</url>
 
-    <description>JSR-349 TCK</description>
+    <description>JSR-380 TCK</description>
 
     <modules>
         <module>tests</module>
@@ -19,7 +19,7 @@
 
     <issueManagement>
         <system>JIRA</system>
-        <url>http://opensource.atlassian.com/projects/hibernate/browse/BVTCK</url>
+        <url>https://hibernate.atlassian.net/projects/BVTCK/</url>
     </issueManagement>
 
     <inceptionYear>2008</inceptionYear>
@@ -44,21 +44,28 @@
             <name>Emmanuel Bernard</name>
             <email>emmanuel@hibernate.org</email>
             <organization>JBoss, by Red Hat</organization>
-            <url>http://in.relation.to/Bloggers/Emmanuel</url>
+            <url>http://in.relation.to/emmanuel-bernard/</url>
         </developer>
         <developer>
             <id>hardy.ferentschik</id>
             <name>Hardy Ferentschik</name>
             <email>hferents@redhat.com</email>
             <organization>JBoss, by Red Hat</organization>
-            <url>http://in.relation.to/Bloggers/Hardy</url>
+            <url>http://in.relation.to/hardy-ferentschik/</url>
         </developer>
         <developer>
-            <id>gunnarmorling</id>
+            <id>gunnar.morling</id>
             <name>Gunnar Morling</name>
             <email>gunnar@hibernate.org</email>
             <organization>JBoss, by Red Hat</organization>
-            <url>http://in.relation.to/Bloggers/Gunnar</url>
+            <url>http://in.relation.to/gunnar-morling/</url>
+        </developer>
+        <developer>
+            <id>guillaume.smet</id>
+            <name>Guillaume Smet</name>
+            <email>guillaume.smet@hibernate.org</email>
+            <organization>JBoss, by Red Hat</organization>
+            <url>http://in.relation.to/guillaume-smet/</url>
         </developer>
     </developers>
 
@@ -74,15 +81,18 @@
     </mailingLists>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.source.version>1.6</java.source.version>
-        <java.target.version>1.6</java.target.version>
-        <jboss.test.audit.version>1.1.0.Final</jboss.test.audit.version>
-        <validation.api.version>1.1.0.Final</validation.api.version>
-        <arquillian.version>1.0.0.Final</arquillian.version>
-        <shrinkwrap.version>1.0.0</shrinkwrap.version>
-        <shrinkwrap.descriptors.version>2.0.0-alpha-5</shrinkwrap.descriptors.version>
+
+        <validation.api.version>2.0.0-SNAPSHOT</validation.api.version>
+
+        <jboss.test.audit.version>1.1.1.Final</jboss.test.audit.version>
+        <arquillian.version>1.1.11.Final</arquillian.version>
+        <shrinkwrap.version>1.2.6</shrinkwrap.version>
+        <shrinkwrap.descriptors.version>2.0.0-alpha-10</shrinkwrap.descriptors.version>
     </properties>
 
     <dependencyManagement>
@@ -90,7 +100,7 @@
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>6.5.2</version>
+                <version>6.8</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -149,9 +159,8 @@
         <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.1</version>
+                <version>1.4.1</version>
                 <executions>
                     <execution>
                         <id>enforce</id>
@@ -161,7 +170,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>2.0.9</version>
+                                    <version>3.0.3</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
@@ -169,9 +178,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>2.5.3</version>
                 <configuration>
                     <preparationGoals>clean install</preparationGoals>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -179,9 +187,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
+                <version>2.6</version>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
@@ -193,18 +200,12 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
-                    <configuration>
-                        <source>${java.source.version}</source>
-                        <target>${java.target.version}</target>
-                    </configuration>
+                    <version>3.5.1</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>3.0.2</version>
                     <configuration>
                         <archive>
                             <manifest>
@@ -215,38 +216,31 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.5.2</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jboss.maven.plugins</groupId>
                     <artifactId>maven-jdocbook-plugin</artifactId>
-                    <version>2.3.5</version>
+                    <version>2.3.10</version>
                     <extensions>true</extensions>
                     <dependencies>
                         <dependency>
                             <groupId>org.hibernate</groupId>
                             <artifactId>hibernate-jdocbook-style</artifactId>
-                            <version>2.0.1</version>
+                            <version>3.0.2</version>
                             <type>jdocbook-style</type>
                         </dependency>
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>org.jboss.maven.plugins</groupId>
-                    <artifactId>maven-jdocbook-style-plugin</artifactId>
-                    <version>2.0.0</version>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.7</version>
+                    <version>1.12</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>2.1.2</version>
+                    <version>3.0.1</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>

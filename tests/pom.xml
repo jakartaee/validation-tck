@@ -5,15 +5,15 @@
     <parent>
         <groupId>org.hibernate.beanvalidation.tck</groupId>
         <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>1.1.5-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>beanvalidation-tck-tests</artifactId>
     <packaging>jar</packaging>
 
-    <name>JSR-349 TCK Test Suite</name>
-    <description>JSR-349 TCK test suite</description>
+    <name>JSR-380 TCK Test Suite</name>
+    <description>JSR-380 TCK test suite</description>
 
     <dependencies>
         <dependency>
@@ -67,7 +67,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>1.5.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -88,15 +88,15 @@
             <plugin>
                 <groupId>org.bsc.maven</groupId>
                 <artifactId>maven-processor-plugin</artifactId>
-                <version>2.0.4</version>
+                <version>3.1.0</version>
                 <configuration>
                     <defaultOutputDirectory>${basedir}/target/coverage-report</defaultOutputDirectory>
                     <processors>
                         <processor>org.jboss.test.audit.report.CoverageProcessor</processor>
                     </processors>
                     <compilerArguments>-AauditXml=${basedir}/src/main/resources/tck-audit.xml
-                        -AoutputDir=${basedir}/target/coverage-report -source ${java.source.version}
-                        -target ${java.target.version}
+                        -AoutputDir=${basedir}/target/coverage-report -source ${maven.compiler.source}
+                        -target ${maven.compiler.target}
                     </compilerArguments>
                 </configuration>
                 <executions>
@@ -119,7 +119,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.2</version>
                 <executions>
                     <execution>
                         <id>attach-artifacts</id>
@@ -150,7 +149,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <compilerArgument>-proc:none</compilerArgument>

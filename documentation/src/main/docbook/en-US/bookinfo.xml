@@ -34,5 +34,12 @@
       </affiliation>
     </author>
 
+    <author>
+      <firstname>Gunnar Morling</firstname>
+      <affiliation>
+        <orgname>Red Hat, Inc.</orgname>
+      </affiliation>
+    </author>
+
   </authorgroup>
 </bookinfo>

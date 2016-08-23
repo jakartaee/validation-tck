@@ -22,7 +22,7 @@
     <filename>setup-examples</filename> which contains two example projects
     for running the TCK. If you followed the instructions in <xref
     linkend="installation"/> you find the directory under
-    <filename>jsr349/tck/setup-examples</filename>. Both setups are using
+    <filename>jsr380/tck/setup-examples</filename>. Both setups are using
     Hibernate Validator as Bean Validation Provider and Glassfish 4 as EE
     constainer. However, one is using <ulink
     url="http://maven.apache.org/">Maven</ulink> as build tool to run the TCK,
@@ -58,8 +58,8 @@
     modify the file (see also the TestNG <ulink
     url="http://testng.org/doc/documentation-main.html#testng-xml">documentation</ulink>)</para>
 
-    <programlisting>&lt;suite name="JSR-349-TCK" verbose="1"&gt;
-    &lt;test name="JSR-349-TCK"&gt;
+    <programlisting>&lt;suite name="JSR-380-TCK" verbose="1"&gt;
+    &lt;test name="JSR-380-TCK"&gt;
 
         &lt;method-selectors&gt;
             &lt;method-selector&gt;
@@ -128,7 +128,7 @@
         <emphasis>org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter:&tckVersion;.</emphasis>
         You can refer to <filename>pom.xml</filename> in the tck-runner module
         of Hibernate Validator (in the directory
-        <filename>jsr349/ri/tck-runner</filename>, if you followed the
+        <filename>jsr380/ri/tck-runner</filename>, if you followed the
         instruction in <xref linkend="installation"/>) to see how it is
         used.</para>
       </tip></para>

@@ -54,7 +54,7 @@ readme.md
 
     <itemizedlist>
       <listitem>
-        <para>Java 6 or better</para>
+        <para>Java 8</para>
       </listitem>
 
       <listitem>
@@ -67,8 +67,8 @@ readme.md
 
     <para>The rest of the TCK software can simply be extracted. It's
     recommended that you create a dedicated folder to hold all of the
-    jsr349-related artifacts. This guide assumes the folder is called
-    <filename>jsr349</filename>. Extract the <filename>src</filename> folder
+    JSR 380-related artifacts. This guide assumes the folder is called
+    <filename>jsr380</filename>. Extract the <filename>src</filename> folder
     of the TCK distribution into a sub-folder named <filename>tck</filename>
     or use the following git commands:</para>
 
@@ -82,7 +82,7 @@ git checkout &referenceImplVersion;</programlisting>
 
     <para>The resulting folder structure is shown here:</para>
 
-    <programlisting>jsr349/
+    <programlisting>jsr380/
    ri/
    tck/</programlisting>
 
@@ -124,7 +124,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ConstraintInheritanceTest extends Arquillian {
 
     private Validator validator;
@@ -252,9 +252,8 @@ public class ConstraintInheritanceTest extends Arquillian {
       <itemizedlist>
         <listitem>
           <para>Install Maven. You can find documentation on how to install
-          Maven 2 in the <ulink
-          url="http://www.sonatype.com/books/maven-book/reference/installation-sect-maven-install.html">Maven:
-          The Definitive Guide</ulink> book published by Sonatype.</para>
+          Maven 3 on the <ulink
+          url="https://maven.apache.org/install.html">Maven official website</ulink>.</para>
         </listitem>
 
         <listitem>

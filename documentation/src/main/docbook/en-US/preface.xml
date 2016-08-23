@@ -10,7 +10,7 @@
 
   <para>This guide describes how to download, install, configure, and run the
   Technology Compatibility Kit (TCK) used to verify the compatibility of an
-  implementation of &jsrVersion;: Bean Validation 1.1.</para>
+  implementation of &jsrVersion;: Bean Validation 2.0.</para>
 
   <para>The Bean Validation TCK is built atop <ulink
   url="http://www.jboss.org/arquillian.html">Arquillian</ulink>, a portable
@@ -33,8 +33,8 @@
     <title>Before You Read This Guide</title>
 
     <para>The Bean Validation TCK is based on the Bean Validation
-    specification 1.1 (&jsrVersion;). Information about the specification can
-    be found on the <ulink url="http://jcp.org/en/jsr/detail?id=303">JSR-349
+    specification 2.0 (&jsrVersion;). Information about the specification can
+    be found on the <ulink url="http://jcp.org/en/jsr/detail?id=380">JSR-380
     JCP page</ulink>.</para>
   </section>
 

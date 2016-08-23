@@ -1,4 +1,4 @@
-# Maven setup example to run the JSR-349 TCK
+# Maven setup example to run the JSR-380 TCK
 
 This is an example setup to run the Bean Validation TCK 1.1 against Glassfish 4 using [Maven](https://maven.apache.org).
 
