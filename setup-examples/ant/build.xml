@@ -17,7 +17,7 @@
     <!-- Remote repositories and ivy settings -->
     <property name="maven.repo.central" value="http://repo1.maven.org/maven2"/>
     <property name="maven.repo.jboss-public" value="https://repository.jboss.org/nexus/content/groups/public-jboss"/>
-    <property name="ivy.install.version" value="2.2.0-rc1"/>
+    <property name="ivy.install.version" value="2.4.0"/>
     <property name="ivy.jar.dir" value="${basedir}/.ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 

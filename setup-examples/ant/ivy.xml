@@ -2,7 +2,7 @@
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
     <info organisation="org.hibernate.beanvalidation.tck"
           module="tck-runner"
-          revision="1.0">
+          revision="2.0">
     </info>
 
     <configurations>
@@ -22,6 +22,6 @@
 
         <!-- The Arquillian container adapter for the container under test. Specific to the container in which to run the tests -->
         <dependency org="org.hibernate" name="hibernate-validator" rev="${version.hv}" conf="test->default(*)"/>
-        <dependency org="org.jboss.arquillian.container" name="arquillian-glassfish-managed-3.1" rev="1.0.0.Final-SNAPSHOT" conf="test-incontainer->default(*)"/>
+        <dependency org="org.jboss.arquillian.container" name="arquillian-glassfish-managed-3.1" rev="${version.arquillian-glassfish}" conf="test-incontainer->default(*)"/>
     </dependencies>
 </ivy-module>

@@ -1,7 +1,7 @@
 # JSR-380 TCK setup examples
 
-This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org) setup examples for
-running the [Bean Validation](http://beanvalidation.org) TCK against [Glassfish 4](http://glassfish.java.net/),
+This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org/) setup examples for
+running the [Bean Validation](http://beanvalidation.org/) TCK against [Glassfish 4](https://glassfish.java.net/),
 the reference implementation of Java EE 7.
 
 Each setup contains a readme outlining how to run the test harness using the given build system. These setups

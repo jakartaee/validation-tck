@@ -6,8 +6,8 @@ This is an example setup to run the Bean Validation TCK 1.1 against Glassfish 4 
 
 * [Git](http://git-scm.com)
 * [Maven](https://maven.apache.org) >= 3.0.4
-* [JDK 7](http://jdk7.java.net)
-* [Glassfish 4](http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted) installation
+* [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Glassfish 4](https://glassfish.java.net/download.html) installation
 
 ## How to run
 
