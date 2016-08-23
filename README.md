@@ -1,13 +1,13 @@
 # Bean Validation TCK
-*Version: 1.1.4.Final, 18.06.2015*
+*Version: 2.0.0-SNAPSHOT*
 
-This repository contains the Bean Validation ([JSR 349](http://www.jcp.org/en/jsr/detail?id=349))
+This repository contains the Bean Validation 2.0 ([JSR 380](http://www.jcp.org/en/jsr/detail?id=380))
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source
 
-You can build the TCK from source by cloning the git repository git://github.com/beanvalidation/beanvalidation-tck.git.
-You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 6 or 7 and
+You can build the TCK from source by cloning the git repository https://github.com/beanvalidation/beanvalidation-tck.git.
+You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 8 and
 [Maven](http://maven.apache.org/) 3. With these prerequisites in place you can compile the source via:
 
     mvn clean install -s settings-example.xml
@@ -17,8 +17,8 @@ and the TCK coverage report refer to _tests/target/artifacts_ and _tests/target/
 
 # Documentation
 
-The documentation for the TCK is included in the docs directory of the [distribution package](http://www.hibernate.org/subprojects/validator/download)
-or viewable [online](http://www.hibernate.org/subprojects/validator/docs.html).
+The documentation for the TCK is included in the docs directory of the [distribution package](http://hibernate.org/validator/downloads/)
+or viewable [online](http://hibernate.org/validator/documentation/).
 
 If you are looking at a quick start for testing your Bean Validation provider implementation against this TCK have a look at
 the _[setup-examples](https://github.com/beanvalidation/beanvalidation-tck/tree/master/setup-examples)_ directory.
@@ -31,4 +31,4 @@ The release notes for this release can be found [here](https://github.com/beanva
 
 # Issue tracking
 
-The Bean Validation TCK issue tracker is [BVTCK](http://opensource.atlassian.com/projects/hibernate/browse/BVTCK).
+The Bean Validation TCK issue tracker is [BVTCK](https://hibernate.atlassian.net/projects/BVTCK/).
