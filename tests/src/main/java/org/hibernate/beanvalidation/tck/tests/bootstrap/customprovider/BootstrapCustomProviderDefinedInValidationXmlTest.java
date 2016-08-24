@@ -57,7 +57,7 @@ public class BootstrapCustomProviderDefinedInValidationXmlTest extends Arquillia
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5", id = "a"),
-			@SpecAssertion(section = "5.5.3", id = "l"),
+			@SpecAssertion(section = "5.5.3", id = "k"),
 			@SpecAssertion(section = "5.5.4.2", id = "a")
 	})
 	public void testGetFactoryByProviderSpecifiedInValidationXml() {

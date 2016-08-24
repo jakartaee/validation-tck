@@ -44,7 +44,7 @@ public class BootstrapConfigurationWithEmptyValidatedExecutableTypesTest extends
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.5.3", id = "f")
+	@SpecAssertion(section = "5.5.3", id = "e")
 	public void testEmptyExecutableTypesCauseValidationException() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();

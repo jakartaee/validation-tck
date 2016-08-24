@@ -60,7 +60,7 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5", id = "a"),
-			@SpecAssertion(section = "5.5.3", id = "l"),
+			@SpecAssertion(section = "5.5.3", id = "k"),
 			@SpecAssertion(section = "5.5.4.2", id = "a")
 	})
 	public void testGetFactoryByProviderSpecifiedProgrammatically() {
@@ -72,7 +72,7 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.3", id = "l"),
+			@SpecAssertion(section = "5.5.3", id = "k"),
 			@SpecAssertion(section = "5.5.4.1", id = "a")
 	})
 	public void testProviderResolverReturnsListOfAvailableProviders() {
