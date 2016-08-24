@@ -771,7 +771,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -809,7 +809,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationIncludesConstraintsFromSuperClass() throws Exception {
 		String methodName = "placeOrder";
 
@@ -849,7 +849,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationIncludesConstraintsFromImplementedInterface()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -890,7 +890,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String methodName = "placeOrder";
 
@@ -949,7 +949,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationPerformsGroupConversion() throws Exception {
 		String methodName = "placeOrder";
 
@@ -978,7 +978,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1013,7 +1013,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1068,7 +1068,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void methodReturnValueValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1125,7 +1125,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
 		String className = "OrderService";
@@ -1160,7 +1160,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationDoesNotIncludeConstraintsFromSuperClass()
 			throws Exception {
 		String className = "ExtendedOrderService";
@@ -1192,7 +1192,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String className = "OrderService";
 
@@ -1247,7 +1247,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationPerformsGroupConversion() throws Exception {
 		String className = "OrderService";
 
@@ -1273,7 +1273,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
 
@@ -1305,7 +1305,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationUsingSequence() throws Exception {
 		String className = "OrderService";
 
@@ -1356,7 +1356,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "c")
+	@SpecAssertion(section = "4.6.2", id = "b")
 	public void constructorReturnValueValidationWithRedefinedDefaultGroupSequence()
 			throws Exception {
 		String className = "OrderServiceWithRedefinedDefaultGroupSequence";

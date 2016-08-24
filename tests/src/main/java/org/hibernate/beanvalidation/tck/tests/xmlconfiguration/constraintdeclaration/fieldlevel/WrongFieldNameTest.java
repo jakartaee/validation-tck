@@ -49,7 +49,7 @@ public class WrongFieldNameTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.2", id = "h")
+			@SpecAssertion(section = "8.1.1.2", id = "g")
 	})
 	public void testWrongFieldNameThrowsException() {
 		try {

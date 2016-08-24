@@ -9,7 +9,7 @@
 * You may obtain a copy of the License at
 * http://www.apache.org/licenses/LICENSE-2.0
 * Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,  
+* distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
@@ -105,7 +105,7 @@ public class ValidatorResolutionTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "c"),
-			@SpecAssertion(section = "4.6.4", id = "j")
+			@SpecAssertion(section = "4.6.4", id = "i")
 	})
 	public void testTargetedTypeIsField() {
 		assertEquals(
@@ -125,7 +125,7 @@ public class ValidatorResolutionTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "d"),
-			@SpecAssertion(section = "4.6.4", id = "j")
+			@SpecAssertion(section = "4.6.4", id = "i")
 	})
 	public void testTargetedTypeIsGetter() {
 		assertEquals(
@@ -143,7 +143,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "j")
+	@SpecAssertion(section = "4.6.4", id = "i")
 	public void testClassLevelValidatorForSubTypeHasPredenceOverValidatorForSuperClass() {
 		assertEquals(
 				CustomConstraint.ValidatorForAnotherSubClass.callCounter,
@@ -257,7 +257,7 @@ public class ValidatorResolutionTest {
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "k"),
+			@SpecAssertion(section = "4.6.4", id = "j"),
 			@SpecAssertion(section = "9.3", id = "b")
 	})
 	public void testAmbiguousValidatorResolution() {
@@ -371,7 +371,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = "4.6.4", id = "k")
+	@SpecAssertion(section = "4.6.4", id = "j")
 	public void testTwoValidatorsForSameTypeCauseUnexpectedTypeException() {
 		validator.validate( new AnotherBean() );
 	}
