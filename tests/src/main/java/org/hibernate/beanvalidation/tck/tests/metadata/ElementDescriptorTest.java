@@ -45,7 +45,7 @@ import static org.testng.AssertJUnit.assertTrue;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ElementDescriptorTest extends Arquillian {
 
 	@Deployment

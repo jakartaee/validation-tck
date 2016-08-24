@@ -38,7 +38,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstr
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class GetterDefinitionTest extends Arquillian {
 
 	private Validator validator;

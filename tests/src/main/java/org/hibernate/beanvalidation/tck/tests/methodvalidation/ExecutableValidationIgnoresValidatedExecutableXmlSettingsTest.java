@@ -49,7 +49,7 @@ import static org.testng.Assert.assertEquals;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest extends Arquillian {
 
 	private ExecutableValidator executableValidator;

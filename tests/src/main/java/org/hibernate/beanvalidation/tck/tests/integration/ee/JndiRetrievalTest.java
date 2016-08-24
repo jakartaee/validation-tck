@@ -40,7 +40,7 @@ import static org.testng.Assert.assertTrue;
  * @author Gunnar Morling
  */
 @IntegrationTest
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class JndiRetrievalTest extends Arquillian {
 
 	@Deployment

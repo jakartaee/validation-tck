@@ -33,7 +33,7 @@ import static org.testng.Assert.assertFalse;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class Version10InMappingXmlTest extends Arquillian {
 
 	private static final String MAPPING_FILE = "Version10InMappingXmlTest.xml";
