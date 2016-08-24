@@ -39,7 +39,7 @@ import static org.testng.Assert.assertTrue;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "1.1.0")
+@SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class IgnoreAnnotationsOnConstructorTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
