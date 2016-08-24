@@ -127,7 +127,7 @@ public class MessageInterpolationTest extends Arquillian {
 		String expected = "recursion worked";
 		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
 		assertEquals(
-				expected, actual, "Expansion should be recursive"
+				actual, expected, "Expansion should be recursive"
 		);
 	}
 
