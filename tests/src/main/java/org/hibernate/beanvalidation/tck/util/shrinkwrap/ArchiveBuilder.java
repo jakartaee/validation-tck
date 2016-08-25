@@ -168,7 +168,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 
 			final URLPackageScanner.Callback callback = new URLPackageScanner.Callback() {
 				@Override
-				public void classFound(String className, Asset asset) {
+				public void classFound(String className) {
 					archive.addClass( className );
 				}
 			};

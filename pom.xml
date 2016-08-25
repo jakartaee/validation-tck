@@ -91,7 +91,6 @@
 
         <jboss.test.audit.version>1.1.1.Final</jboss.test.audit.version>
         <arquillian.version>1.1.11.Final</arquillian.version>
-        <shrinkwrap.version>1.2.6</shrinkwrap.version>
         <shrinkwrap.descriptors.version>2.0.0-alpha-10</shrinkwrap.descriptors.version>
     </properties>
 
@@ -121,11 +120,6 @@
                 <groupId>org.jboss.arquillian.testng</groupId>
                 <artifactId>arquillian-testng-container</artifactId>
                 <version>${arquillian.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.shrinkwrap</groupId>
-                <artifactId>shrinkwrap-impl-base</artifactId>
-                <version>${shrinkwrap.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.descriptors</groupId>
