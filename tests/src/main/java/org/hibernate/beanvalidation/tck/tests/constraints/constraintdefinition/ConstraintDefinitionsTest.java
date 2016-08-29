@@ -16,12 +16,19 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -30,14 +37,9 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.assertEquals;
-
 /**
  * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ConstraintDefinitionsTest extends Arquillian {
@@ -55,7 +57,6 @@ public class ConstraintDefinitionsTest extends Arquillian {
 			@SpecAssertion(section = "3.2", id = "a")
 	})
 	public void testConstraintWithCustomAttributes() {
-
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintDescriptor<?>> descriptors = validator.getConstraintsForClass( Person.class )
 				.getConstraintsForProperty( "lastName" )
@@ -75,9 +76,37 @@ public class ConstraintDefinitionsTest extends Arquillian {
 	}
 
 	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.2", id = "b")
+	})
+	public void testRepeatableConstraint() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		Set<ConstraintDescriptor<?>> descriptors = validator.getConstraintsForClass( Movie.class )
+				.getConstraintsForProperty( "title" )
+				.getConstraintDescriptors();
+
+		assertEquals( descriptors.size(), 2, "There should be two constraints on the title property." );
+		for ( ConstraintDescriptor<?> descriptor : descriptors ) {
+			assertEquals(
+					descriptor.getAnnotation().annotationType().getName(),
+					Size.class.getName(),
+					"Wrong annotation type."
+			);
+		}
+
+		Set<ConstraintViolation<Movie>> constraintViolations = validator.validate( new Movie( "Title" ) );
+		assertCorrectNumberOfViolations( constraintViolations, 0 );
+
+		constraintViolations = validator.validate( new Movie( "A" ) );
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+
+		constraintViolations = validator.validate( new Movie( "A movie title far too long which does not respect the constraint" ) );
+		assertCorrectNumberOfViolations( constraintViolations, 1 );
+	}
+
+	@Test
 	@SpecAssertion(section = "3.1.1.2", id = "d")
 	public void testDefaultGroupAssumedWhenNoGroupsSpecified() {
-
 		Validator validator = TestUtil.getValidatorUnderTest();
 		ConstraintDescriptor<?> descriptor = validator.getConstraintsForClass( Person.class )
 				.getConstraintsForProperty( "firstName" )

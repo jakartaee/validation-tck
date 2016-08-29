@@ -92,6 +92,9 @@
         <assertion id="a">
             <text>The Bean Validation provider treats regular annotations (annotations not annotated by @Constraint) whose value element has a return type of an array of constraint annotations in a special way. Each element in the value array are processed by the Bean Validation implementation as regular constraint annotations.</text>
         </assertion>
+        <assertion id="b">
+            <text>The Bean Validation provider supports constraints annotated with the @Repeatable annotation. Each repeated constraint is applied to the target.</text>
+        </assertion>
     </section>
     <section id="3.3" title="Constraint composition">
         <assertion id="a">
