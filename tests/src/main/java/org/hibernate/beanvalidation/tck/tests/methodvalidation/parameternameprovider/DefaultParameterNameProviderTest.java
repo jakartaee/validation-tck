@@ -76,7 +76,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 
 		Set<String> actualParameterNames = getParameterNames( constraintViolations );
-		Set<String> expectedParameterNames = asSet( "arg0", "arg1" );
+		Set<String> expectedParameterNames = asSet( "firstName", "lastName" );
 
 		assertEquals( actualParameterNames, expectedParameterNames );
 	}
@@ -96,7 +96,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		assertCorrectNumberOfViolations( constraintViolations, 3 );
 
 		Set<String> actualParameterNames = getParameterNames( constraintViolations );
-		Set<String> expectedParameterNames = asSet( "arg0", "arg1", "arg2" );
+		Set<String> expectedParameterNames = asSet( "firstName", "lastName", "dateOfBirth" );
 
 		assertEquals( actualParameterNames, expectedParameterNames );
 	}
@@ -119,12 +119,12 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		);
 		assertEquals(
 				defaultParameterNameProvider.getParameterNames( constructor ),
-				Arrays.asList( "arg0", "arg1", "arg2" ),
+				Arrays.asList( "firstName", "lastName", "dateOfBirth" ),
 				"Wrong constructor parameter names returned by default provider"
 		);
 		assertEquals(
 				defaultParameterNameProvider.getParameterNames( method ),
-				Arrays.asList( "arg0", "arg1" ),
+				Arrays.asList( "firstName", "lastName" ),
 				"Wrong method parameter names returned by default provider"
 		);
 	}

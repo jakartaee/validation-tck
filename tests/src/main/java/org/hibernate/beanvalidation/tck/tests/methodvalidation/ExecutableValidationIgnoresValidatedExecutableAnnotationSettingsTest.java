@@ -85,7 +85,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( methodName, "name" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.PARAMETER ) );
 	}
 
@@ -102,7 +102,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( LineItem.class.getSimpleName(), "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( LineItem.class.getSimpleName(), "name" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
 	}
 
@@ -159,7 +159,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( methodName, "name" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.PARAMETER ) );
 	}
 
@@ -176,7 +176,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( WarehouseItem.class.getSimpleName(), "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( WarehouseItem.class.getSimpleName(), "name" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
 	}
 

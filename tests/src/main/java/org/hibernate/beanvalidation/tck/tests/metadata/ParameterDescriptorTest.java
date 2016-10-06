@@ -105,8 +105,8 @@ public class ParameterDescriptorTest extends Arquillian {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getName(), "arg0", "Wrong parameter name" );
-		assertEquals( parameters.get( 1 ).getName(), "arg1", "Wrong parameter name" );
+		assertEquals( parameters.get( 0 ).getName(), "firstName", "Wrong parameter name" );
+		assertEquals( parameters.get( 1 ).getName(), "lastName", "Wrong parameter name" );
 	}
 
 	@Test
@@ -115,8 +115,8 @@ public class ParameterDescriptorTest extends Arquillian {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getName(), "arg0", "Wrong parameter name" );
-		assertEquals( parameters.get( 1 ).getName(), "arg1", "Wrong parameter name" );
+		assertEquals( parameters.get( 0 ).getName(), "firstName", "Wrong parameter name" );
+		assertEquals( parameters.get( 1 ).getName(), "lastName", "Wrong parameter name" );
 	}
 
 	@Test

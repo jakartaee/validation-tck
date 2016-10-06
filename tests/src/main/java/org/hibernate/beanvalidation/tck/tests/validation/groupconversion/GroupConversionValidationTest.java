@@ -230,7 +230,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
 		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "setMainAddress", "arg0", "street1" );
+		assertNodeNames( propertyPath, "setMainAddress", "mainAddress", "street1" );
 	}
 
 	@Test
@@ -276,7 +276,7 @@ public class GroupConversionValidationTest extends Arquillian {
 		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
 
 		assertDescriptorKinds( propertyPath, ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "User", "arg0", "street1" );
+		assertNodeNames( propertyPath, "User", "mainAddress", "street1" );
 	}
 
 	@Test

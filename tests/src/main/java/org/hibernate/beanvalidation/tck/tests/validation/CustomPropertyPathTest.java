@@ -159,10 +159,10 @@ public class CustomPropertyPathTest extends Arquillian {
 
 		assertViolationsContainOnlyPaths(
 				constraintViolations,
-				pathWith().method( "setAddresses" ).parameter( "arg0", 0 ),
-				pathWith().method( "setAddresses" ).parameter( "arg0", 0 ).bean(),
+				pathWith().method( "setAddresses" ).parameter( "addresses", 0 ),
+				pathWith().method( "setAddresses" ).parameter( "addresses", 0 ).bean(),
 				pathWith().method( "setAddresses" )
-						.parameter( "arg0", 0 )
+						.parameter( "addresses", 0 )
 						.property( "myNode1", true, null, 23 )
 						.bean()
 		);
