@@ -104,7 +104,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( "User", "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( "User", "firstName" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
 
 		ConstraintViolation<User> violation = violations.iterator().next();
@@ -162,8 +162,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, NotNull.class, Size.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "User", "arg0" ),
-				names( "User", "arg1" )
+				names( "User", "firstName" ),
+				names( "User", "lastName" )
 		);
 		assertCorrectPathNodeKinds(
 				violations,
@@ -188,8 +188,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Pattern.class, Size.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "User", "arg0" ),
-				names( "User", "arg0" )
+				names( "User", "firstName" ),
+				names( "User", "firstName" )
 		);
 		assertCorrectPathNodeKinds(
 				violations,
@@ -214,8 +214,8 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "User", "arg0" ),
-				names( "User", "arg0" )
+				names( "User", "lastName" ),
+				names( "User", "lastName" )
 		);
 		assertCorrectPathNodeKinds(
 				violations,
@@ -295,7 +295,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( "User", "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( "User", "lastName" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
 	}
 
@@ -353,9 +353,9 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		assertCorrectConstraintTypes( violations, NotNull.class, Size.class, NotNull.class );
 		assertCorrectPathNodeNames(
 				violations,
-				names( "User", "arg0" ),
-				names( "User", "arg1" ),
-				names( "User", "arg2" )
+				names( "User", "dateOfBirth" ),
+				names( "User", "firstName" ),
+				names( "User", "lastName" )
 		);
 		assertCorrectPathNodeKinds(
 				violations,

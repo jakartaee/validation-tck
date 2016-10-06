@@ -89,7 +89,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( methodName, "name" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.PARAMETER ) );
 	}
 
@@ -111,7 +111,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( StockItem.class.getSimpleName(), "arg0" ) );
+		assertCorrectPathNodeNames( violations, names( StockItem.class.getSimpleName(), "name" ) );
 		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
 	}
 

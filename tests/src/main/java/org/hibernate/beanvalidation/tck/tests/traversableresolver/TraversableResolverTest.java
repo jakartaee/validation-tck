@@ -236,7 +236,7 @@ public class TraversableResolverTest extends Arquillian {
 						"size",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "wearSuit", "arg0" }
+						new String[] { "wearSuit", "suit" }
 				)
 		);
 		expectedReachCalls.add(
@@ -245,7 +245,7 @@ public class TraversableResolverTest extends Arquillian {
 						"trousers",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "wearSuit", "arg0" }
+						new String[] { "wearSuit", "suit" }
 				)
 		);
 		expectedCascadeCalls.add(
@@ -254,7 +254,7 @@ public class TraversableResolverTest extends Arquillian {
 						"trousers",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "wearSuit", "arg0" }
+						new String[] { "wearSuit", "suit" }
 				)
 		);
 		expectedReachCalls.add(
@@ -263,7 +263,7 @@ public class TraversableResolverTest extends Arquillian {
 						"length",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "wearSuit", "arg0", "trousers" }
+						new String[] { "wearSuit", "suit", "trousers" }
 				)
 		);
 		expectedReachCalls.add(
@@ -272,7 +272,7 @@ public class TraversableResolverTest extends Arquillian {
 						"jacket",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "wearSuit", "arg0" }
+						new String[] { "wearSuit", "suit" }
 				)
 		);
 		expectedCascadeCalls.add(
@@ -281,7 +281,7 @@ public class TraversableResolverTest extends Arquillian {
 						"jacket",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "wearSuit", "arg0" }
+						new String[] { "wearSuit", "suit" }
 				)
 		);
 		expectedReachCalls.add(
@@ -290,7 +290,7 @@ public class TraversableResolverTest extends Arquillian {
 						"width",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "wearSuit", "arg0", "jacket" }
+						new String[] { "wearSuit", "suit", "jacket" }
 				)
 		);
 

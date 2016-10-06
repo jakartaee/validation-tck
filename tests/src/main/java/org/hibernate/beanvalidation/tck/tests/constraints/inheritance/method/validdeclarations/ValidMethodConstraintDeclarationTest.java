@@ -215,7 +215,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		assertNodeNames(
 				violations.iterator().next().getPropertyPath(),
 				"CalendarServiceSubClass",
-				"arg0",
+				"defaultEvent",
 				"name"
 		);
 	}
