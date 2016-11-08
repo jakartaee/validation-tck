@@ -9,39 +9,49 @@
 * You may obtain a copy of the License at
 * http://www.apache.org/licenses/LICENSE-2.0
 * Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,  
+* distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Calendar;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.beanvalidation.tck.tests.time.FixedClockProvider;
+import org.hibernate.beanvalidation.tck.tests.time.FutureDummyEntity;
+import org.hibernate.beanvalidation.tck.tests.time.FutureRelativePartialDummyEntity;
+import org.hibernate.beanvalidation.tck.tests.time.PastDummyEntity;
+import org.hibernate.beanvalidation.tck.tests.time.PastRelativePartialDummyEntity;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -50,13 +60,6 @@ import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-
 /**
  * Tests for built-in constraints. Basically just checks the availability of the build-in constraints.
  *
@@ -64,6 +67,8 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectProper
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class BuiltinConstraintsTest extends Arquillian {
+
+	private static final ZoneId TZ_BERLIN = ZoneId.of( "Europe/Berlin" );
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -470,21 +475,58 @@ public class BuiltinConstraintsTest extends Arquillian {
 		Set<ConstraintViolation<PastDummyEntity>> constraintViolations = validator.validate( dummy );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.add( Calendar.YEAR, 1 );
+		ZonedDateTime reference = ZonedDateTime.now( TZ_BERLIN );
 
-		dummy.calendar = cal;
-		dummy.date = cal.getTime();
+		ZonedDateTime future = reference.plusYears( 1 ).plusMonths( 1 ).plusHours( 1 );
+		dummy = new PastDummyEntity( future );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertCorrectNumberOfViolations( constraintViolations, 13 );
 		assertCorrectPropertyPaths(
-				constraintViolations, "date", "calendar"
+				constraintViolations, "date", "calendar", "instant", "hijrahDate", "japaneseDate", "localDate", "localDateTime",
+				"minguoDate", "offsetDateTime", "thaiBuddhistDate", "year", "yearMonth", "zonedDateTime"
 		);
 
-		cal.add( Calendar.YEAR, -2 );
-		dummy.calendar = cal;
-		dummy.date = cal.getTime();
+		ZonedDateTime past = reference.minusYears( 1 ).minusMonths( 1 ).minusHours( 1 );
+		dummy = new PastDummyEntity( past );
+
+		constraintViolations = validator.validate( dummy );
+		assertCorrectNumberOfViolations( constraintViolations, 0 );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "m")
+	})
+	public void testPastConstraintForRelativePartial() {
+		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
+		// to make sure the tests are working at any date
+
+		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 0, 0, 0, TZ_BERLIN );
+
+		ValidatorFactory validatorFactory = TestUtil.getConfigurationUnderTest()
+				.clockProvider( new FixedClockProvider( reference ) )
+				.buildValidatorFactory();
+		Validator validator = validatorFactory.getValidator();
+
+		PastRelativePartialDummyEntity dummy = new PastRelativePartialDummyEntity();
+
+		Set<ConstraintViolation<PastRelativePartialDummyEntity>> constraintViolations = validator.validate( dummy );
+		assertCorrectNumberOfViolations( constraintViolations, 0 );
+
+		ZonedDateTime future = reference.plusMonths( 1 ).plusHours( 1 );
+		dummy = new PastRelativePartialDummyEntity( future );
+
+		constraintViolations = validator.validate( dummy );
+		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertCorrectPropertyPaths(
+				constraintViolations, "localTime", "monthDay", "offsetTime"
+		);
+
+		ZonedDateTime past = reference.minusMonths( 1 ).minusHours( 1 );
+		dummy = new PastRelativePartialDummyEntity( past );
+
 		constraintViolations = validator.validate( dummy );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
@@ -501,21 +543,58 @@ public class BuiltinConstraintsTest extends Arquillian {
 		Set<ConstraintViolation<FutureDummyEntity>> constraintViolations = validator.validate( dummy );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 
-		Calendar cal = GregorianCalendar.getInstance();
-		cal.add( Calendar.YEAR, -1 );
+		ZonedDateTime reference = ZonedDateTime.now( TZ_BERLIN );
 
-		dummy.calendar = cal;
-		dummy.date = cal.getTime();
+		ZonedDateTime past = reference.minusYears( 1 ).minusMonths( 1 ).minusHours( 1 );
+		dummy = new FutureDummyEntity( past );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertCorrectNumberOfViolations( constraintViolations, 13 );
 		assertCorrectPropertyPaths(
-				constraintViolations, "date", "calendar"
+				constraintViolations, "date", "calendar", "instant", "hijrahDate", "japaneseDate", "localDate", "localDateTime",
+				"minguoDate", "offsetDateTime", "thaiBuddhistDate", "year", "yearMonth", "zonedDateTime"
 		);
 
-		cal.add( Calendar.YEAR, 2 );
-		dummy.calendar = cal;
-		dummy.date = cal.getTime();
+		ZonedDateTime future = reference.plusYears( 1 ).plusMonths( 1 ).plusHours( 1 );
+		dummy = new FutureDummyEntity( future );
+
+		constraintViolations = validator.validate( dummy );
+		assertCorrectNumberOfViolations( constraintViolations, 0 );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "7", id = "a"),
+			@SpecAssertion(section = "7", id = "n")
+	})
+	public void testFutureConstraintForRelativePartial() {
+		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
+		// to make sure the tests are working at any date
+
+		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 0, 0, 0, TZ_BERLIN );
+
+		ValidatorFactory validatorFactory = TestUtil.getConfigurationUnderTest()
+				.clockProvider( new FixedClockProvider( reference ) )
+				.buildValidatorFactory();
+		Validator validator = validatorFactory.getValidator();
+
+		FutureRelativePartialDummyEntity dummy = new FutureRelativePartialDummyEntity();
+
+		Set<ConstraintViolation<FutureRelativePartialDummyEntity>> constraintViolations = validator.validate( dummy );
+		assertCorrectNumberOfViolations( constraintViolations, 0 );
+
+		ZonedDateTime past = reference.minusMonths( 1 ).minusHours( 1 );
+		dummy = new FutureRelativePartialDummyEntity( past );
+
+		constraintViolations = validator.validate( dummy );
+		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertCorrectPropertyPaths(
+				constraintViolations, "localTime", "monthDay", "offsetTime"
+		);
+
+		ZonedDateTime future = reference.plusMonths( 1 ).plusHours( 1 );
+		dummy = new FutureRelativePartialDummyEntity( future );
+
 		constraintViolations = validator.validate( dummy );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
@@ -793,22 +872,6 @@ public class BuiltinConstraintsTest extends Arquillian {
 
 		@Digits(integer = 1, fraction = 0)
 		Long longObject;
-	}
-
-	class PastDummyEntity {
-		@Past
-		Calendar calendar;
-
-		@Past
-		Date date;
-	}
-
-	class FutureDummyEntity {
-		@Future
-		Calendar calendar;
-
-		@Future
-		Date date;
 	}
 
 	class PatternDummyEntity {

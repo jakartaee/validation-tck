@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.tests.bootstrap.customprovider;
 
 import java.io.InputStream;
 import javax.validation.BootstrapConfiguration;
+import javax.validation.ClockProvider;
 import javax.validation.Configuration;
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
@@ -126,6 +127,11 @@ public class BootstrapNonAvailableValidationProviderTest extends Arquillian {
 		}
 
 		@Override
+		public DummyValidatorConfiguration clockProvider(ClockProvider clockProvider) {
+			return null;
+		}
+
+		@Override
 		public DummyValidatorConfiguration addMapping(InputStream stream) {
 			return null;
 		}
@@ -152,6 +158,11 @@ public class BootstrapNonAvailableValidationProviderTest extends Arquillian {
 
 		@Override
 		public ParameterNameProvider getDefaultParameterNameProvider() {
+			return null;
+		}
+
+		@Override
+		public ClockProvider getDefaultClockProvider() {
 			return null;
 		}
 

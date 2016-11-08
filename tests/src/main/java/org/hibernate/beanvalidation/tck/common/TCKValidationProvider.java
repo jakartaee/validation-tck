@@ -16,6 +16,7 @@
 */
 package org.hibernate.beanvalidation.tck.common;
 
+import javax.validation.ClockProvider;
 import javax.validation.Configuration;
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
@@ -33,14 +34,17 @@ import javax.validation.spi.ValidationProvider;
  */
 public class TCKValidationProvider implements ValidationProvider<TCKValidatorConfiguration> {
 
+	@Override
 	public TCKValidatorConfiguration createSpecializedConfiguration(BootstrapState state) {
 		return TCKValidatorConfiguration.class.cast( new TCKValidatorConfiguration( this ) );
 	}
 
+	@Override
 	public Configuration<?> createGenericConfiguration(BootstrapState state) {
 		return new TCKValidatorConfiguration( this );
 	}
 
+	@Override
 	public ValidatorFactory buildValidatorFactory(ConfigurationState configurationState) {
 		return new DummyValidatorFactory();
 	}
@@ -73,6 +77,11 @@ public class TCKValidationProvider implements ValidationProvider<TCKValidatorCon
 
 		@Override
 		public ParameterNameProvider getParameterNameProvider() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public ClockProvider getClockProvider() {
 			throw new UnsupportedOperationException();
 		}
 
