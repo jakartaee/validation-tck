@@ -24,9 +24,11 @@ import javax.validation.constraints.NotNull;
  * @author Hardy Ferentschik
  */
 public class InvertedNotNullValidator implements ConstraintValidator<NotNull, Object> {
+	@Override
 	public void initialize(NotNull constraintAnnotation) {
 	}
 
+	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
 		return value == null;
 	}

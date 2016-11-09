@@ -16,25 +16,25 @@
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getInputStreamForPath;
+
 import java.io.InputStream;
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getInputStreamForPath;
 
 /**
  * @author Hardy Ferentschik
@@ -45,9 +45,8 @@ public class BuiltinValidatorOverrideTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( BuiltinConstraintsTest.class )
+				.withTestClass( BuiltinValidatorOverrideTest.class )
 				.withResource( "builtin-constraints-override.xml" )
-				.withClass( InvertedNotNullValidator.class )
 				.build();
 	}
 
@@ -69,8 +68,9 @@ public class BuiltinValidatorOverrideTest extends Arquillian {
 		assertCorrectNumberOfViolations( violations, 1 );
 	}
 
-	class DummyEntity {
+	private static class DummyEntity {
 		@NotNull
-		String dummyProperty;
+		private String dummyProperty;
 	}
+
 }
