@@ -18,6 +18,7 @@ package org.hibernate.beanvalidation.tck.common;
 
 import java.io.InputStream;
 import javax.validation.BootstrapConfiguration;
+import javax.validation.ClockProvider;
 import javax.validation.Configuration;
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
@@ -66,6 +67,11 @@ public class TCKValidatorConfiguration implements Configuration<TCKValidatorConf
 	}
 
 	@Override
+	public TCKValidatorConfiguration clockProvider(ClockProvider clockProvider) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public TCKValidatorConfiguration addMapping(InputStream stream) {
 		throw new UnsupportedOperationException();
 	}
@@ -92,6 +98,11 @@ public class TCKValidatorConfiguration implements Configuration<TCKValidatorConf
 
 	@Override
 	public ParameterNameProvider getDefaultParameterNameProvider() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public ClockProvider getDefaultClockProvider() {
 		throw new UnsupportedOperationException();
 	}
 

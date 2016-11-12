@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -14,22 +14,23 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
+package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.NotNull;
+import java.time.Clock;
+
+import javax.validation.ClockProvider;
 
 /**
- * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
-public class InvertedNotNullValidator implements ConstraintValidator<NotNull, Object> {
-	@Override
-	public void initialize(NotNull constraintAnnotation) {
+public class XmlDefinedClockProviderWithNoDefaultConstructor implements ClockProvider {
+
+	public XmlDefinedClockProviderWithNoDefaultConstructor(String parameter) {
 	}
 
 	@Override
-	public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
-		return value == null;
+	public Clock getClock() {
+		return Clock.systemDefaultZone();
 	}
+
 }
