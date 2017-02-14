@@ -137,7 +137,7 @@
             <text>Composing annotations can define the value of message and custom attributes (excluding groups, payload and validationAppliesTo) but these are fixed in the composed constraint definition.</text>
         </assertion>
         <assertion id="n">
-            <text>It is possible to override attributes and messages defined on a composing annotation. An attribute from the main annotation is used to override one or more attributes of the composing annotations. Such an attribute is annotated with the @OverridesAttribute annotation or its multivalued equivalent @OverridesAttribute.List.</text>
+            <text>It is possible to override attributes and messages defined on a composing annotation. An attribute from the main annotation is used to override one or more attributes of the composing annotations. Such an attribute is annotated with the @OverridesAttribute annotation or its multivalued equivalent @OverridesAttribute.List.(@OverridesAttribute is meta-annotated with java.lang.annotation.Repeatable, referencing the @OverridesAttribute.List, so, simply repeating the @OverridesAttribute annotation is possible.)</text>
         </assertion>
         <assertion id="o">
             <text>The types of the overridden and overriding attributes must be identical.</text>
