@@ -17,8 +17,8 @@ and the TCK coverage report refer to _tests/target/artifacts_ and _tests/target/
 
 # Documentation
 
-The documentation for the TCK is included in the docs directory of the [distribution package](http://hibernate.org/validator/downloads/)
-or viewable [online](http://hibernate.org/validator/documentation/).
+The documentation for the TCK is included in the docs directory of the [distribution package](https://sourceforge.net/projects/hibernate/files/beanvalidation-tck/)
+or viewable [online](http://docs.jboss.org/hibernate/stable/beanvalidation/tck/reference/html_single/).
 
 If you are looking at a quick start for testing your Bean Validation provider implementation against this TCK have a look at
 the _[setup-examples](https://github.com/beanvalidation/beanvalidation-tck/tree/master/setup-examples)_ directory.
