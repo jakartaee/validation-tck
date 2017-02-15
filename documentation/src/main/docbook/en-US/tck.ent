@@ -1,9 +1,9 @@
 <!ENTITY version "WORKING">
 <!ENTITY today "TODAY">
-<!ENTITY copyrightYear "2009 - 2016">
+<!ENTITY copyrightYear "2009 - 2017">
 <!ENTITY copyrightHolder "Red Hat, Inc.">
 <!ENTITY jsrVersion "JSR 380">
 <!ENTITY validationApi "2.0.0-SNAPSHOT">
-<!ENTITY referenceImplVersion "5.3.0-SNAPSHOT">
+<!ENTITY referenceImplVersion "6.0.0-SNAPSHOT">
 <!ENTITY tckVersion "2.0.0-SNAPSHOT">
 
