@@ -3,6 +3,31 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.Alpha1 (15-02-2017)
+-------------------------
+
+** Bug
+    * BVTCK-73 Expected and actual value switched in MessageInterpolationTest.testRecursiveMessageInterpolation()
+
+** Improvement
+    * BVTCK-87 Test @Repeatable annotations
+    * BVTCK-86 Clean up the settings-example.xml file
+    * BVTCK-85 Set the version of the maven-deploy-plugin
+    * BVTCK-84 Use the shrinkwrap version coming with Arquillian instead of overriding it
+    * BVTCK-80 Update the link to download the TCK from the BV website
+    * BVTCK-77 Bump JSR version and project version
+    * BVTCK-76 Re-create tck-audit.xml after AsciiDoc conversion
+    * BVTCK-75 Update tck-audit.xml
+
+** Task
+    * BVTCK-94 Update links to BV and our issue tracker
+    * BVTCK-93 Clean up the empty initialize methods of the ConstraintValidators
+    * BVTCK-91 Base the TCK on BV 2.0.0.Alpha1
+    * BVTCK-89 Include tests for BVAL-496 (java.time support) in the TCK
+    * BVTCK-88 Take into account BVAL-498 - Parameter names
+    * BVTCK-83 Update the test headers to BV 2.0
+    * BVTCK-81 Publish the doc for 2.0.0-SNAPSHOT and update the related links
+
 1.1.4.Final (18-06-2015)
 ------------------------
 
