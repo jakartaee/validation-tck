@@ -32,10 +32,6 @@ public class CustomConstraintValidator implements ConstraintValidator<CustomCons
 	private InvocationTracker invocationTracker;
 
 	@Override
-	public void initialize(CustomConstraint parameters) {
-	}
-
-	@Override
 	public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 		assertTrue( invocationTracker.isEarlierInterceptorInvoked() );
 		assertFalse( invocationTracker.isLaterInterceptorInvoked() );

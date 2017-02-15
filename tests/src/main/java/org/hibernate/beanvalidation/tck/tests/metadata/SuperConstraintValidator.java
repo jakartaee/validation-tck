@@ -24,9 +24,7 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class SuperConstraintValidator implements ConstraintValidator<SuperConstraint, SuperClass> {
 
-	public void initialize(SuperConstraint constraintAnnotation) {
-	}
-
+	@Override
 	public boolean isValid(SuperClass value, ConstraintValidatorContext constraintValidatorContext) {
 		return true;
 	}

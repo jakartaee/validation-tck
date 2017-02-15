@@ -129,10 +129,6 @@ public class ValueAccessStrategyTest extends Arquillian {
 			private static Person validatedValue;
 
 			@Override
-			public void initialize(ValidPerson constraintAnnotation) {
-			}
-
-			@Override
 			public boolean isValid(Person value, ConstraintValidatorContext context) {
 				validatedValue = value;
 				return false;
@@ -156,10 +152,6 @@ public class ValueAccessStrategyTest extends Arquillian {
 			private static String validatedValue;
 
 			@Override
-			public void initialize(ValidFirstName constraintAnnotation) {
-			}
-
-			@Override
 			public boolean isValid(String value, ConstraintValidatorContext context) {
 				validatedValue = value;
 				return false;
@@ -181,10 +173,6 @@ public class ValueAccessStrategyTest extends Arquillian {
 		public static class Validator implements ConstraintValidator<ValidName, String> {
 
 			private static String validatedValue;
-
-			@Override
-			public void initialize(ValidName constraintAnnotation) {
-			}
 
 			@Override
 			public boolean isValid(String value, ConstraintValidatorContext context) {

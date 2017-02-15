@@ -47,10 +47,6 @@ public @interface ValidAnotherBookingService {
 	public static class Validator implements ConstraintValidator<ValidAnotherBookingService, AnotherBookingService> {
 
 		@Override
-		public void initialize(ValidAnotherBookingService parameters) {
-		}
-
-		@Override
 		public boolean isValid(AnotherBookingService service, ConstraintValidatorContext constraintValidatorContext) {
 			return Integer.parseInt( AnotherBookingService.getName() ) > 10000;
 		}

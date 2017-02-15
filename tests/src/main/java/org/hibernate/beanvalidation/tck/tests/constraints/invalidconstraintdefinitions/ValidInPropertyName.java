@@ -44,9 +44,7 @@ public @interface ValidInPropertyName {
 
 	public class ValidPropertyValidator implements ConstraintValidator<ValidInPropertyName, Object> {
 
-		public void initialize(ValidInPropertyName parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

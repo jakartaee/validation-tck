@@ -44,9 +44,8 @@ public @interface IsAdult {
 
 
 	public class IsAdultValidator implements ConstraintValidator<IsAdult, Integer> {
-		public void initialize(IsAdult parameters) {
-		}
 
+		@Override
 		public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
 			if ( value == null ) {
 				return true;

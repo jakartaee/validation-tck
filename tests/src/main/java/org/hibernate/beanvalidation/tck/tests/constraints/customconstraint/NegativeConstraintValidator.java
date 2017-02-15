@@ -24,10 +24,12 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class NegativeConstraintValidator implements ConstraintValidator<Negative, Integer> {
 
+	@Override
 	public void initialize(Negative constraintAnnotation) {
 		throw new RuntimeException( "Throwing a RuntimeException from NegativeConstraintValidator.initialize" );
 	}
 
+	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
 		return true;
 	}

@@ -48,10 +48,6 @@ public @interface ValidStockItem {
 	public class Validator implements ConstraintValidator<ValidStockItem, StockItem> {
 
 		@Override
-		public void initialize(ValidStockItem constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(StockItem object, ConstraintValidatorContext context) {
 			return false;
 		}

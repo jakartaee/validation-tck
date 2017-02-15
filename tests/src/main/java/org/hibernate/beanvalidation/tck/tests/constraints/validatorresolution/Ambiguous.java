@@ -50,9 +50,7 @@ public @interface Ambiguous {
 
 	public class AmbiguousValidatorForDummy implements ConstraintValidator<Ambiguous, Dummy> {
 
-		public void initialize(Ambiguous parameters) {
-		}
-
+		@Override
 		public boolean isValid(Dummy d, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}
@@ -60,9 +58,7 @@ public @interface Ambiguous {
 
 	public class AmbiguousValidatorForSerializable implements ConstraintValidator<Ambiguous, Serializable> {
 
-		public void initialize(Ambiguous parameters) {
-		}
-
+		@Override
 		public boolean isValid(Serializable o, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}

@@ -50,10 +50,6 @@ public @interface ConstraintWithTwoValidatorsForTheSameType {
 	public static class Validator implements ConstraintValidator<ConstraintWithTwoValidatorsForTheSameType, Object> {
 
 		@Override
-		public void initialize(ConstraintWithTwoValidatorsForTheSameType parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
@@ -61,10 +57,6 @@ public @interface ConstraintWithTwoValidatorsForTheSameType {
 
 	public static class AnotherValidator
 			implements ConstraintValidator<ConstraintWithTwoValidatorsForTheSameType, Object> {
-
-		@Override
-		public void initialize(ConstraintWithTwoValidatorsForTheSameType parameters) {
-		}
 
 		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {

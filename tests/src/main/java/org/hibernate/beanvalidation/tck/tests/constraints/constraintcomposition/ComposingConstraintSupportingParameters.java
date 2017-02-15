@@ -50,10 +50,6 @@ public @interface ComposingConstraintSupportingParameters {
 			implements ConstraintValidator<ComposingConstraintSupportingParameters, Object> {
 
 		@Override
-		public void initialize(ComposingConstraintSupportingParameters parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object parameters, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}

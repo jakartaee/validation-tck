@@ -51,10 +51,6 @@ public @interface ConstraintWithTwoCrossParameterValidators {
 			implements ConstraintValidator<ConstraintWithTwoCrossParameterValidators, Object[]> {
 
 		@Override
-		public void initialize(ConstraintWithTwoCrossParameterValidators parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
@@ -63,10 +59,6 @@ public @interface ConstraintWithTwoCrossParameterValidators {
 	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 	public static class AnotherValidator
 			implements ConstraintValidator<ConstraintWithTwoCrossParameterValidators, Object[]> {
-
-		@Override
-		public void initialize(ConstraintWithTwoCrossParameterValidators parameters) {
-		}
 
 		@Override
 		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {

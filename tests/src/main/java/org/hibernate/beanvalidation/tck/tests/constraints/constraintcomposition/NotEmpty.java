@@ -48,9 +48,7 @@ public @interface NotEmpty {
 
 	public class NotEmptyValidator implements ConstraintValidator<NotEmpty, String> {
 
-		public void initialize(NotEmpty parameters) {
-		}
-
+		@Override
 		public boolean isValid(String object, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}

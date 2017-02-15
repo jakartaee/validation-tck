@@ -56,10 +56,6 @@ public @interface CustomConstraint {
 	public class ValidatorBaseClass implements ConstraintValidator<CustomConstraint, BaseClass> {
 
 		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(BaseClass baseClass, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
@@ -67,10 +63,6 @@ public @interface CustomConstraint {
 
 	public class ValidatorForSubClassA implements ConstraintValidator<CustomConstraint, SubClassA> {
 		static int callCounter = 0;
-
-		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
 
 		@Override
 		public boolean isValid(SubClassA subClass, ConstraintValidatorContext constraintValidatorContext) {
@@ -84,10 +76,6 @@ public @interface CustomConstraint {
 
 	public class ValidatorForSubClassB implements ConstraintValidator<CustomConstraint, SubClassB> {
 		static int callCounter = 0;
-
-		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
 
 		@Override
 		public boolean isValid(SubClassB subClass, ConstraintValidatorContext constraintValidatorContext) {
@@ -104,10 +92,6 @@ public @interface CustomConstraint {
 		static int callCounter = 0;
 
 		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(ValidatorResolutionTest.CustomClass customClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
@@ -120,10 +104,6 @@ public @interface CustomConstraint {
 	public class ValidatorForCustomInterface
 			implements ConstraintValidator<CustomConstraint, ValidatorResolutionTest.CustomInterface> {
 		static int callCounter = 0;
-
-		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
 
 		@Override
 		public boolean isValid(ValidatorResolutionTest.CustomInterface customInterface, ConstraintValidatorContext constraintValidatorContext) {
@@ -140,10 +120,6 @@ public @interface CustomConstraint {
 		static int callCounter = 0;
 
 		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(ValidatorResolutionTest.AnotherBaseClass anotherCustomInterfaceImpl, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
@@ -156,10 +132,6 @@ public @interface CustomConstraint {
 	public class ValidatorForAnotherSubClass
 			implements ConstraintValidator<CustomConstraint, ValidatorResolutionTest.AnotherSubClass> {
 		static int callCounter = 0;
-
-		@Override
-		public void initialize(CustomConstraint parameters) {
-		}
 
 		@Override
 		public boolean isValid(ValidatorResolutionTest.AnotherSubClass anotherSubClass, ConstraintValidatorContext constraintValidatorContext) {

@@ -28,10 +28,6 @@ import javax.validation.constraintvalidation.ValidationTarget;
 public class CrossRepositoryConstraintValidator implements ConstraintValidator<CrossRepositoryConstraint, Object[]> {
 
 	@Override
-	public void initialize(CrossRepositoryConstraint constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
 		return false;
 	}

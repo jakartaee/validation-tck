@@ -54,10 +54,6 @@ public @interface CustomComposingConstraint {
 	public static class Validator implements ConstraintValidator<CustomComposingConstraint, Object> {
 
 		@Override
-		public void initialize(CustomComposingConstraint constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(Object value, ConstraintValidatorContext context) {
 			return false;
 		}

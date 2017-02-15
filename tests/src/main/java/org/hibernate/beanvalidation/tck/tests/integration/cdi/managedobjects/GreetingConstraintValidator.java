@@ -31,10 +31,6 @@ public class GreetingConstraintValidator implements ConstraintValidator<Greeting
 	}
 
 	@Override
-	public void initialize(GreetingConstraint constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		return false;
 	}

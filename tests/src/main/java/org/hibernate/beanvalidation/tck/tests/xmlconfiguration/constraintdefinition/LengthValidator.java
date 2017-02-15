@@ -30,12 +30,14 @@ public class LengthValidator implements ConstraintValidator<Length, String> {
 	private int min;
 	private int max;
 
+	@Override
 	public void initialize(Length parameters) {
 		min = parameters.min();
 		max = parameters.max();
 		validateParameters();
 	}
 
+	@Override
 	public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
 		if ( value == null ) {
 			return true;

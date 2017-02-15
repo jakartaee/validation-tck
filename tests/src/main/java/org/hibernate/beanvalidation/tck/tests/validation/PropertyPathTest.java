@@ -1776,9 +1776,6 @@ public class PropertyPathTest extends Arquillian {
 	}
 
 	public static class SpecialValidator implements ConstraintValidator<Special, VerySpecialClass> {
-		@Override
-		public void initialize(Special constraintAnnotation) {
-		}
 
 		@Override
 		public boolean isValid(VerySpecialClass clazz, ConstraintValidatorContext constraintValidatorContext) {

@@ -28,11 +28,6 @@ public class ValidRetailOrderValidator
 		implements ConstraintValidator<ValidRetailOrder, Order> {
 
 	@Override
-	public void initialize(ValidRetailOrder constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(Order value, ConstraintValidatorContext context) {
 		return false;
 	}

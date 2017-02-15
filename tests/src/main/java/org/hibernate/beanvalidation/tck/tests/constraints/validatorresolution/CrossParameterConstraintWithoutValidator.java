@@ -50,10 +50,6 @@ public @interface CrossParameterConstraintWithoutValidator {
 	public static class Validator implements ConstraintValidator<CrossParameterConstraintWithoutValidator, Object> {
 
 		@Override
-		public void initialize(CrossParameterConstraintWithoutValidator parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

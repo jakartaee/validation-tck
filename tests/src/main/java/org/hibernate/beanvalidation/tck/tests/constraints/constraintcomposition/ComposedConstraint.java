@@ -56,10 +56,6 @@ public @interface ComposedConstraint {
 			implements ConstraintValidator<ComposedConstraint, Object[]> {
 
 		@Override
-		public void initialize(ComposedConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}

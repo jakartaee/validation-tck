@@ -28,10 +28,6 @@ public class ValidOrderValidator
 		implements ConstraintValidator<ValidOrder, Order> {
 
 	@Override
-	public void initialize(ValidOrder constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(Order order, ConstraintValidatorContext context) {
 		return order == null ? true : order.getName().length() >= 5;
 	}

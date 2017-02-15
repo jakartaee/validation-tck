@@ -41,19 +41,18 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @ReportAsSingleViolation
 public @interface GermanZipcode {
+
 	public abstract String message() default "Falsche Postnummer.";
 
-	public abstract Class<?>[] groups() default { };
+	public abstract Class<?>[] groups() default {};
 
 	public abstract Class<? extends Payload>[] payload() default {};
 
 	public class GermanZipcodeConstraintValidator implements ConstraintValidator<GermanZipcode, String> {
 
-	public void initialize(GermanZipcode parameters) {
+		@Override
+		public boolean isValid(String object, ConstraintValidatorContext constraintValidatorContext) {
+			return true;
+		}
 	}
-
-	public boolean isValid(String object, ConstraintValidatorContext constraintValidatorContext) {
-		return true;
-	}
-}
 }

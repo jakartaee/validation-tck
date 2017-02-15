@@ -39,9 +39,7 @@ public @interface NoPayload {
 
 	public class NoGroupsValidator implements ConstraintValidator<NoPayload, Object> {
 
-		public void initialize(NoPayload parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

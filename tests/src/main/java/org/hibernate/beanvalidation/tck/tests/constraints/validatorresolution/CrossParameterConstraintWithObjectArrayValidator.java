@@ -51,10 +51,6 @@ public @interface CrossParameterConstraintWithObjectArrayValidator {
 			implements ConstraintValidator<CrossParameterConstraintWithObjectArrayValidator, Object[]> {
 
 		@Override
-		public void initialize(CrossParameterConstraintWithObjectArrayValidator parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {
 			constraintValidatorContext.disableDefaultConstraintViolation();
 			constraintValidatorContext.buildConstraintViolationWithTemplate(

@@ -54,10 +54,6 @@ public @interface CrossParameterConstraintWithSeveralValidators {
 			implements ConstraintValidator<CrossParameterConstraintWithSeveralValidators, Object> {
 
 		@Override
-		public void initialize(CrossParameterConstraintWithSeveralValidators parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
@@ -66,10 +62,6 @@ public @interface CrossParameterConstraintWithSeveralValidators {
 	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 	public static class AnotherValidator
 			implements ConstraintValidator<CrossParameterConstraintWithSeveralValidators, Object> {
-
-		@Override
-		public void initialize(CrossParameterConstraintWithSeveralValidators parameters) {
-		}
 
 		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {

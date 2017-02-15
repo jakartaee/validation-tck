@@ -43,9 +43,7 @@ public @interface InvalidDefaultGroup {
 
 	public class InvalidDefaultGroupValidator implements ConstraintValidator<InvalidDefaultGroup, Object> {
 
-		public void initialize(InvalidDefaultGroup parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

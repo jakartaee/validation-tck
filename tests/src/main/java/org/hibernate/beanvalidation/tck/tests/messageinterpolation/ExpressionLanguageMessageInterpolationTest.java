@@ -272,10 +272,6 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 		public static class Validator implements ConstraintValidator<ValidContinent, Continent> {
 
 			@Override
-			public void initialize(ValidContinent annotation) {
-			}
-
-			@Override
 			public boolean isValid(Continent continent, ConstraintValidatorContext constraintValidatorContext) {
 				return false;
 			}

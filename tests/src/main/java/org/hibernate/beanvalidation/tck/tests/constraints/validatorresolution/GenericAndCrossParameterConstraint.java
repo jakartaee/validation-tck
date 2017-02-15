@@ -56,10 +56,6 @@ public @interface GenericAndCrossParameterConstraint {
 	public static class GenericValidator implements ConstraintValidator<GenericAndCrossParameterConstraint, Object> {
 
 		@Override
-		public void initialize(GenericAndCrossParameterConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			constraintValidatorContext.disableDefaultConstraintViolation();
 			constraintValidatorContext.buildConstraintViolationWithTemplate( "violation created by generic validator" )
@@ -72,10 +68,6 @@ public @interface GenericAndCrossParameterConstraint {
 	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 	public static class CrossParameterValidator
 			implements ConstraintValidator<GenericAndCrossParameterConstraint, Object> {
-
-		@Override
-		public void initialize(GenericAndCrossParameterConstraint parameters) {
-		}
 
 		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {

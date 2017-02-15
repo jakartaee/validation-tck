@@ -53,10 +53,6 @@ public @interface GenericAndCrossParameterConstraintWithValidationAppliesToOfWro
 			implements ConstraintValidator<GenericAndCrossParameterConstraintWithValidationAppliesToOfWrongType, Object> {
 
 		@Override
-		public void initialize(GenericAndCrossParameterConstraintWithValidationAppliesToOfWrongType parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

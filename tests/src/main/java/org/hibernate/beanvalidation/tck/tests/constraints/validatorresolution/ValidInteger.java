@@ -48,10 +48,6 @@ public @interface ValidInteger {
 			implements ConstraintValidator<ValidInteger, Integer> {
 
 		@Override
-		public void initialize(ValidInteger annotation) {
-		}
-
-		@Override
 		public boolean isValid(Integer object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

@@ -183,9 +183,6 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	public static class CompatiblePersonsValidator implements ConstraintValidator<CompatiblePersons, Group> {
-		@Override
-		public void initialize(CompatiblePersons constraintAnnotation) {
-		}
 
 		@SuppressWarnings("deprecation")
 		@Override

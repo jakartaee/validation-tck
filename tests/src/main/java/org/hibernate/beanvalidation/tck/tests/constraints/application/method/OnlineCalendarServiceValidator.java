@@ -26,10 +26,6 @@ public class OnlineCalendarServiceValidator
 		implements ConstraintValidator<OnlineCalendarService, CalendarService> {
 
 	@Override
-	public void initialize(OnlineCalendarService constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(CalendarService service, ConstraintValidatorContext context) {
 		return false;
 	}

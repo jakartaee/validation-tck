@@ -48,10 +48,6 @@ public @interface GenericConstraint {
 			implements ConstraintValidator<GenericConstraint, Object> {
 
 		@Override
-		public void initialize(GenericConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

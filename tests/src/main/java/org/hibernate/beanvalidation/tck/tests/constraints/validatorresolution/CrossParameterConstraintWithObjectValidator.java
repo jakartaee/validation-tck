@@ -50,10 +50,6 @@ public @interface CrossParameterConstraintWithObjectValidator {
 	public static class Validator implements ConstraintValidator<CrossParameterConstraintWithObjectValidator, Object> {
 
 		@Override
-		public void initialize(CrossParameterConstraintWithObjectValidator parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object parameters, ConstraintValidatorContext constraintValidatorContext) {
 			constraintValidatorContext.disableDefaultConstraintViolation();
 			constraintValidatorContext.buildConstraintViolationWithTemplate( "violation created by validator for Object" )

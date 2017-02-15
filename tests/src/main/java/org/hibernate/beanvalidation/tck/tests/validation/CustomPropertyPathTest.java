@@ -282,9 +282,6 @@ public class CustomPropertyPathTest extends Arquillian {
 		Class<? extends Payload>[] payload() default { };
 
 		public static class Validator implements ConstraintValidator<MyClassLevelValidation, MyObject> {
-			@Override
-			public void initialize(MyClassLevelValidation constraintAnnotation) {
-			}
 
 			@SuppressWarnings("deprecation")
 			@Override
@@ -314,9 +311,6 @@ public class CustomPropertyPathTest extends Arquillian {
 		Class<? extends Payload>[] payload() default { };
 
 		public static class Validator implements ConstraintValidator<ClassLevelValidationAddingPropertyNodes, Foo> {
-			@Override
-			public void initialize(ClassLevelValidationAddingPropertyNodes constraintAnnotation) {
-			}
 
 			@Override
 			public boolean isValid(Foo value, ConstraintValidatorContext context) {
@@ -372,9 +366,6 @@ public class CustomPropertyPathTest extends Arquillian {
 
 		public static class Validator
 				implements ConstraintValidator<PropertyLevelValidationAddingBeanAndPropertyNodes, Address> {
-			@Override
-			public void initialize(PropertyLevelValidationAddingBeanAndPropertyNodes constraintAnnotation) {
-			}
 
 			@Override
 			public boolean isValid(Address value, ConstraintValidatorContext context) {
@@ -439,9 +430,6 @@ public class CustomPropertyPathTest extends Arquillian {
 		@SupportedValidationTarget(ValidationTarget.PARAMETERS)
 		public static class Validator
 				implements ConstraintValidator<CrossParameterValidationAddingParameterBeanAndPropertyNodes, java.lang.Object[]> {
-			@Override
-			public void initialize(CrossParameterValidationAddingParameterBeanAndPropertyNodes constraintAnnotation) {
-			}
 
 			@Override
 			public boolean isValid(java.lang.Object[] value, ConstraintValidatorContext context) {
@@ -479,9 +467,6 @@ public class CustomPropertyPathTest extends Arquillian {
 
 		public static class Validator
 				implements ConstraintValidator<FieldLevelValidationAddingParameterNode, String> {
-			@Override
-			public void initialize(FieldLevelValidationAddingParameterNode constraintAnnotation) {
-			}
 
 			@Override
 			public boolean isValid(String value, ConstraintValidatorContext context) {

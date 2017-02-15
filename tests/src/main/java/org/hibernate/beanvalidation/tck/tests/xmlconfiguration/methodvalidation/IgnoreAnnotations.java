@@ -63,10 +63,6 @@ public class IgnoreAnnotations {
 	public class CrossParameterConstraintValidator implements ConstraintValidator<CrossParameterConstraint, Object[]> {
 
 		@Override
-		public void initialize(CrossParameterConstraint constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(Object[] value, ConstraintValidatorContext context) {
 			return false;
 		}

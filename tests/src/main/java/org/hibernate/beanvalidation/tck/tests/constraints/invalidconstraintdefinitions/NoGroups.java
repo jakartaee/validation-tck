@@ -40,9 +40,7 @@ public @interface NoGroups {
 
 	public class NoGroupsValidator implements ConstraintValidator<NoGroups, Object> {
 
-		public void initialize(NoGroups parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

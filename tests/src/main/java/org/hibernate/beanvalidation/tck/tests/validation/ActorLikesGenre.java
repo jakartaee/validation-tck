@@ -49,10 +49,6 @@ public @interface ActorLikesGenre {
 	public static class Validator implements ConstraintValidator<ActorLikesGenre, Object[]> {
 
 		@Override
-		public void initialize(ActorLikesGenre constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(Object[] value, ConstraintValidatorContext context) {
 			return false;
 		}

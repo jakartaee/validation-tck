@@ -41,9 +41,7 @@ public @interface InvalidMessageType {
 
 	public class InvalidDefaultGroupValidator implements ConstraintValidator<InvalidMessageType, Object> {
 
-		public void initialize(InvalidMessageType parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

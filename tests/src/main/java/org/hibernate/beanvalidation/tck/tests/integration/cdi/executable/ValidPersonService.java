@@ -47,10 +47,6 @@ public @interface ValidPersonService {
 	public static class Validator implements ConstraintValidator<ValidPersonService, PersonService> {
 
 		@Override
-		public void initialize(ValidPersonService parameters) {
-		}
-
-		@Override
 		public boolean isValid(PersonService object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

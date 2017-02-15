@@ -28,10 +28,6 @@ import javax.validation.constraintvalidation.ValidationTarget;
 public class ConsistentDateParameterValidator implements ConstraintValidator<ConsistentDateParameters, Object[]> {
 
 	@Override
-	public void initialize(ConsistentDateParameters constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
 		return false;
 	}

@@ -40,9 +40,7 @@ public @interface NoMessage {
 
 	public class NoMessageValidator implements ConstraintValidator<NoMessage, Object> {
 
-		public void initialize(NoMessage parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

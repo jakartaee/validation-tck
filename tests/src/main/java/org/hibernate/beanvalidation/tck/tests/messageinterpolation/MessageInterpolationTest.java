@@ -463,10 +463,6 @@ public class MessageInterpolationTest extends Arquillian {
 		public static class Validator implements ConstraintValidator<ValidTestBean, TestBeanWithClassLevelConstraint> {
 
 			@Override
-			public void initialize(ValidTestBean annotation) {
-			}
-
-			@Override
 			public boolean isValid(TestBeanWithClassLevelConstraint object, ConstraintValidatorContext constraintValidatorContext) {
 				return false;
 			}

@@ -48,10 +48,6 @@ public @interface ValidLineItem {
 	public class Validator implements ConstraintValidator<ValidLineItem, LineItem> {
 
 		@Override
-		public void initialize(ValidLineItem constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(LineItem object, ConstraintValidatorContext context) {
 			return false;
 		}

@@ -44,10 +44,6 @@ public @interface ValidFubar {
 	public static class Validator implements ConstraintValidator<ValidFubar, Fubar> {
 
 		@Override
-		public void initialize(ValidFubar parameters) {
-		}
-
-		@Override
 		public boolean isValid(Fubar object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
