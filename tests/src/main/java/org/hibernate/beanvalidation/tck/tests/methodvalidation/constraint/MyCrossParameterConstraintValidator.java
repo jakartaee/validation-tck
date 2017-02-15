@@ -29,10 +29,6 @@ public class MyCrossParameterConstraintValidator
 		implements ConstraintValidator<MyCrossParameterConstraint, Object[]> {
 
 	@Override
-	public void initialize(MyCrossParameterConstraint constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(Object[] value, ConstraintValidatorContext context) {
 		return false;
 	}

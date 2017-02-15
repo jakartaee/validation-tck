@@ -28,11 +28,6 @@ public class ValidCustomerValidator
 		implements ConstraintValidator<ValidCustomer, Customer> {
 
 	@Override
-	public void initialize(ValidCustomer constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(Customer value, ConstraintValidatorContext context) {
 		if ( value == null ) {
 			return false;

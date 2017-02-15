@@ -51,10 +51,6 @@ public @interface ExplicitGenericConstraint {
 			implements ConstraintValidator<ExplicitGenericConstraint, Object> {
 
 		@Override
-		public void initialize(ExplicitGenericConstraint parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

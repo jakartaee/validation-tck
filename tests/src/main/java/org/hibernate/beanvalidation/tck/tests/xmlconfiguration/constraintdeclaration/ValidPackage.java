@@ -45,9 +45,7 @@ public @interface ValidPackage {
 
 	public class ValidPackageValidator implements ConstraintValidator<ValidPackage, Package> {
 
-		public void initialize(ValidPackage parameters) {
-		}
-
+		@Override
 		public boolean isValid(Package p, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

@@ -26,10 +26,6 @@ public class ValidMovieStudioValidator
 		implements ConstraintValidator<ValidMovieStudio, MovieStudio> {
 
 	@Override
-	public void initialize(ValidMovieStudio constraint) {
-	}
-
-	@Override
 	public boolean isValid(MovieStudio studio, ConstraintValidatorContext constraintValidatorContext) {
 		return studio.getName() != null;
 	}

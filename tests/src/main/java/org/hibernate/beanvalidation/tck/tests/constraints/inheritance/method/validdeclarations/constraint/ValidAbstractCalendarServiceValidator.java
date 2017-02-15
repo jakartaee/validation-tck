@@ -28,11 +28,6 @@ public class ValidAbstractCalendarServiceValidator
 		implements ConstraintValidator<ValidAbstractCalendarService, AbstractCalendarService> {
 
 	@Override
-	public void initialize(ValidAbstractCalendarService constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(AbstractCalendarService value, ConstraintValidatorContext context) {
 		return false;
 	}

@@ -47,10 +47,6 @@ public @interface ValidObject {
 	public static class Validator implements ConstraintValidator<ValidObject, Object> {
 
 		@Override
-		public void initialize(ValidObject parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

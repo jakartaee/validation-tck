@@ -52,10 +52,6 @@ public @interface CustomConstraint {
 	public static class Validator implements ConstraintValidator<CustomConstraint, Object> {
 
 		@Override
-		public void initialize(CustomConstraint constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(Object value, ConstraintValidatorContext context) {
 			return false;
 		}

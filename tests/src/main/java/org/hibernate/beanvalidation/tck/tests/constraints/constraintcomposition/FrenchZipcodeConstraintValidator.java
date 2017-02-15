@@ -24,9 +24,7 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class FrenchZipcodeConstraintValidator implements ConstraintValidator<FrenchZipcode, String> {
 
-	public void initialize(FrenchZipcode parameters) {
-	}
-
+	@Override
 	public boolean isValid(String zip, ConstraintValidatorContext constraintValidatorContext) {
 		if ( zip == null ) {
 			return true;

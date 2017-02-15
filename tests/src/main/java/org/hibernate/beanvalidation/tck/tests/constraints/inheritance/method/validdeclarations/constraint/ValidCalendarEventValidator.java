@@ -28,11 +28,6 @@ public class ValidCalendarEventValidator
 		implements ConstraintValidator<ValidCalendarEvent, CalendarEvent> {
 
 	@Override
-	public void initialize(ValidCalendarEvent constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(CalendarEvent value, ConstraintValidatorContext context) {
 		return false;
 	}

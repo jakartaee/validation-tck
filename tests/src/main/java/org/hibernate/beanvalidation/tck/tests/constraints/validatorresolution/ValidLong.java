@@ -48,10 +48,6 @@ public @interface ValidLong {
 			implements ConstraintValidator<ValidLong, Long> {
 
 		@Override
-		public void initialize(ValidLong annotation) {
-		}
-
-		@Override
 		public boolean isValid(Long object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

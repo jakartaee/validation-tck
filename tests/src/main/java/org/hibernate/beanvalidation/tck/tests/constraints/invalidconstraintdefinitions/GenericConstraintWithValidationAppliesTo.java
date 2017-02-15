@@ -51,10 +51,6 @@ public @interface GenericConstraintWithValidationAppliesTo {
 			implements ConstraintValidator<GenericConstraintWithValidationAppliesTo, Object> {
 
 		@Override
-		public void initialize(GenericConstraintWithValidationAppliesTo parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

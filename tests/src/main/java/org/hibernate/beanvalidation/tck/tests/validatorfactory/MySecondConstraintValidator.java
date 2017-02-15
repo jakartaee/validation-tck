@@ -28,9 +28,7 @@ public class MySecondConstraintValidator implements ConstraintValidator<MySecond
 		throw new RuntimeException( "Runtime exception in validator creation" );
 	}
 
-	public void initialize(MySecondConstraint constraintAnnotation) {
-	}
-
+	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
 		return true;
 	}

@@ -178,10 +178,6 @@ public class CustomerService {
 			implements ConstraintValidator<MyCrossParameterConstraint, Object[]> {
 
 		@Override
-		public void initialize(MyCrossParameterConstraint constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(Object[] value, ConstraintValidatorContext context) {
 			return false;
 		}
@@ -200,10 +196,6 @@ public class CustomerService {
 
 	public static class ValidCustomerServiceValidator
 			implements ConstraintValidator<ValidCustomerService, CustomerService> {
-
-		@Override
-		public void initialize(ValidCustomerService constraintAnnotation) {
-		}
 
 		@Override
 		public boolean isValid(CustomerService value, ConstraintValidatorContext context) {

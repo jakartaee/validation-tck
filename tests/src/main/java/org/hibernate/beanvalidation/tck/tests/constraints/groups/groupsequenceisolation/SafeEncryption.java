@@ -43,9 +43,7 @@ public @interface SafeEncryption {
 	public abstract Class<? extends Payload>[] payload() default { };
 
 	public class SafeEncryptionValidator implements ConstraintValidator<SafeEncryption, String> {
-		public void initialize(SafeEncryption parameters) {
-		}
-
+		@Override
 		public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
 			if ( value == null ) {
 				return true;

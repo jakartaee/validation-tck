@@ -48,10 +48,12 @@ public @interface AlwaysValid {
 
 		boolean valid;
 
+		@Override
 		public void initialize(AlwaysValid parameters) {
 			valid = parameters.alwaysValid();
 		}
 
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return valid;
 		}

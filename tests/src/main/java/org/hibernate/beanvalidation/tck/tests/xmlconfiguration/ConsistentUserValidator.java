@@ -24,9 +24,7 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class ConsistentUserValidator implements ConstraintValidator<ConsistentUserInformation, User> {
 
-	public void initialize(ConsistentUserInformation parameters) {
-	}
-
+	@Override
 	public boolean isValid(User user, ConstraintValidatorContext constraintValidatorContext) {
 		return user.isConsistent();
 	}

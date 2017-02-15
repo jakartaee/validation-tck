@@ -30,9 +30,7 @@ public class MyConstraintValidator implements ConstraintValidator<MyConstraint, 
 		defaultConstructorCalled = true;
 	}
 
-	public void initialize(MyConstraint constraintAnnotation) {
-	}
-
+	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
 		return true;
 	}

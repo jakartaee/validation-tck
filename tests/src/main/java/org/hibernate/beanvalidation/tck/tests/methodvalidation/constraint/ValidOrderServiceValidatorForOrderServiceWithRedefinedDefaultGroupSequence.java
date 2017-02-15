@@ -28,10 +28,6 @@ public class ValidOrderServiceValidatorForOrderServiceWithRedefinedDefaultGroupS
 		implements ConstraintValidator<ValidOrderService, OrderServiceWithRedefinedDefaultGroupSequence> {
 
 	@Override
-	public void initialize(ValidOrderService constraintAnnotation) {
-	}
-
-	@Override
 	public boolean isValid(OrderServiceWithRedefinedDefaultGroupSequence value, ConstraintValidatorContext context) {
 		return "valid".equals( value.getName() );
 	}

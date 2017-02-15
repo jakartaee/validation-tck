@@ -49,10 +49,6 @@ public @interface InvalidCrossParameterConstraint {
 	public static class Validator implements ConstraintValidator<InvalidCrossParameterConstraint, Integer> {
 
 		@Override
-		public void initialize(InvalidCrossParameterConstraint constraintAnnotation) {
-		}
-
-		@Override
 		public boolean isValid(Integer value, ConstraintValidatorContext context) {
 			return false;
 		}

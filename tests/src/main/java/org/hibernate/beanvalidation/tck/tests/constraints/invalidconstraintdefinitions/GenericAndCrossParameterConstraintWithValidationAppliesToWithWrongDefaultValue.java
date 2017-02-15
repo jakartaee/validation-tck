@@ -56,10 +56,6 @@ public @interface GenericAndCrossParameterConstraintWithValidationAppliesToWithW
 			implements ConstraintValidator<GenericAndCrossParameterConstraintWithValidationAppliesToWithWrongDefaultValue, Object> {
 
 		@Override
-		public void initialize(GenericAndCrossParameterConstraintWithValidationAppliesToWithWrongDefaultValue parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

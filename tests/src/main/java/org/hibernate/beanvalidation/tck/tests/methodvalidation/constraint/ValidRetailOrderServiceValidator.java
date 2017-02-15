@@ -28,11 +28,6 @@ public class ValidRetailOrderServiceValidator
 		implements ConstraintValidator<ValidRetailOrderService, OrderService> {
 
 	@Override
-	public void initialize(ValidRetailOrderService constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(OrderService value, ConstraintValidatorContext context) {
 		return false;
 	}

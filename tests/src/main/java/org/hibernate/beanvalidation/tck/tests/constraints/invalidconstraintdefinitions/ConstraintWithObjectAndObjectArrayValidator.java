@@ -51,10 +51,6 @@ public @interface ConstraintWithObjectAndObjectArrayValidator {
 			implements ConstraintValidator<ConstraintWithObjectAndObjectArrayValidator, Object> {
 
 		@Override
-		public void initialize(ConstraintWithObjectAndObjectArrayValidator parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object parameters, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
@@ -63,10 +59,6 @@ public @interface ConstraintWithObjectAndObjectArrayValidator {
 	@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 	public static class AnotherValidator
 			implements ConstraintValidator<ConstraintWithObjectAndObjectArrayValidator, Object[]> {
-
-		@Override
-		public void initialize(ConstraintWithObjectAndObjectArrayValidator parameters) {
-		}
 
 		@Override
 		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {

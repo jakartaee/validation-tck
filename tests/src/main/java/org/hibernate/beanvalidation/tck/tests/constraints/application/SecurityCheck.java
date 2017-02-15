@@ -44,11 +44,7 @@ public @interface SecurityCheck {
 
 	public class SecurityCheckValidator implements ConstraintValidator<SecurityCheck, Object> {
 
-
-		public void initialize(SecurityCheck parameters) {
-
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			if ( object == null ) {
 				return true;

@@ -28,11 +28,6 @@ public class ValidRetailOrderServiceValidatorForOrderServiceWithRedefinedDefault
 		implements ConstraintValidator<ValidRetailOrderService, OrderServiceWithRedefinedDefaultGroupSequence> {
 
 	@Override
-	public void initialize(ValidRetailOrderService constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(OrderServiceWithRedefinedDefaultGroupSequence value, ConstraintValidatorContext context) {
 		return false;
 	}

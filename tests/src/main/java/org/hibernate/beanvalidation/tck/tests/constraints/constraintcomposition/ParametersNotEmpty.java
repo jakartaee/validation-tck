@@ -50,10 +50,6 @@ public @interface ParametersNotEmpty {
 	public class Validator implements ConstraintValidator<ParametersNotEmpty, Object[]> {
 
 		@Override
-		public void initialize(ParametersNotEmpty parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object[] parameters, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}

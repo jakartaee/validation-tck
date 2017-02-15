@@ -50,10 +50,6 @@ public @interface ComposingConstraintSupportingAnnotatedElement {
 			implements ConstraintValidator<ComposingConstraintSupportingAnnotatedElement, Object> {
 
 		@Override
-		public void initialize(ComposingConstraintSupportingAnnotatedElement parameters) {
-		}
-
-		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return true;
 		}

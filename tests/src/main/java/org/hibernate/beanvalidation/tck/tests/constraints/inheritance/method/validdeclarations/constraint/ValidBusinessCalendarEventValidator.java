@@ -28,11 +28,6 @@ public class ValidBusinessCalendarEventValidator
 		implements ConstraintValidator<ValidBusinessCalendarEvent, CalendarEvent> {
 
 	@Override
-	public void initialize(ValidBusinessCalendarEvent constraintAnnotation) {
-		//nothing to do
-	}
-
-	@Override
 	public boolean isValid(CalendarEvent value, ConstraintValidatorContext context) {
 		return false;
 	}

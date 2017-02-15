@@ -24,9 +24,7 @@ import javax.validation.ConstraintValidatorContext;
  */
 public class AccountValidator implements ConstraintValidator<AccountChecker, Account> {
 
-	public void initialize(AccountChecker parameters) {
-	}
-
+	@Override
 	public boolean isValid(Account account, ConstraintValidatorContext constraintValidatorContext) {
 		return false;
 	}

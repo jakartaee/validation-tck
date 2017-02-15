@@ -46,9 +46,7 @@ public @interface InvalidDefaultPayload {
 
 	public class InvalidDefaultGroupValidator implements ConstraintValidator<InvalidDefaultPayload, Object> {
 
-		public void initialize(InvalidDefaultPayload parameters) {
-		}
-
+		@Override
 		public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}

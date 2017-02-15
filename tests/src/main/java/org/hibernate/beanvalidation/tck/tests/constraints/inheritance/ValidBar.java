@@ -44,10 +44,6 @@ public @interface ValidBar {
 	public static class Validator implements ConstraintValidator<ValidBar, Bar> {
 
 		@Override
-		public void initialize(ValidBar parameters) {
-		}
-
-		@Override
 		public boolean isValid(Bar object, ConstraintValidatorContext constraintValidatorContext) {
 			return false;
 		}
