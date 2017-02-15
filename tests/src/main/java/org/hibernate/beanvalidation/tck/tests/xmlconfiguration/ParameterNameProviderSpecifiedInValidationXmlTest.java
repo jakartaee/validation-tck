@@ -16,23 +16,23 @@
 */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterName;
+import static org.testng.Assert.assertEquals;
+
 import java.lang.reflect.Method;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.executable.ExecutableValidator;
 
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterName;
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
@@ -58,7 +58,7 @@ public class ParameterNameProviderSpecifiedInValidationXmlTest extends Arquillia
 
 	@Test
 	@SpecAssertion(section = "5.5.6", id = "j")
-	public void testParameterNameSpecifiedInValidationXml() throws Exception {
+	public void testParameterNameProviderSpecifiedInValidationXml() throws Exception {
 		//given
 		Object object = new CreditCardValidationService();
 		Method method = CreditCardValidationService.class.getMethod(

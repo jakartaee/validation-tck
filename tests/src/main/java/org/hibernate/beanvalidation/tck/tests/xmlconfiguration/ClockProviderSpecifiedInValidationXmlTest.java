@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2016, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -49,7 +49,7 @@ public class ClockProviderSpecifiedInValidationXmlTest extends Arquillian {
 	@Test
 	// XXX BVAL-496 update specification references
 	@SpecAssertion(section = "", id = "")
-	public void testParameterNameSpecifiedInValidationXml() throws Exception {
+	public void testClockProviderSpecifiedInValidationXml() throws Exception {
 		assertTrue(
 				TestUtil.getValidatorFactoryUnderTest().getClockProvider() instanceof XmlDefinedClockProvider,
 				"Clock provider configured in XML wasn't applied"
