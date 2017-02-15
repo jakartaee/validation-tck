@@ -1,7 +1,7 @@
 Bean Validation TCK Changelog
 ===============================
 
-See also http://opensource.atlassian.com/projects/hibernate/browse/BVTCK
+See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
 1.1.4.Final (18-06-2015)
 ------------------------

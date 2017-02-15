@@ -27,5 +27,5 @@ Generally, to adjust the build script to another container, you would have to:
 of your Bean Validation implementation.
 
 Note, that is it **not** enough to just run and pass the TCK tests in order to be compliant Bean Validation implementation.
-An other requirement for example is to pass the API [signature test](http://docs.jboss.org/hibernate/beanvalidation/tck/1.1/reference/html_single/#sigtest).
-More information about all requirements of the Bean Validation TCK can be found [here](http://docs.jboss.org/hibernate/beanvalidation/tck/1.1/reference/html_single/index.html#passing-the-tck).
+An other requirement for example is to pass the API [signature test](http://docs.jboss.org/hibernate/beanvalidation/tck/2.0/reference/html_single/#sigtest).
+More information about all requirements of the Bean Validation TCK can be found [here](http://docs.jboss.org/hibernate/beanvalidation/tck/2.0/reference/html_single/index.html#passing-the-tck).
