@@ -15,7 +15,7 @@
     <title>Obtaining the Software</title>
 
     <para>You can obtain a release of the Bean Validation TCK project via the
-    official <ulink url="http://beanvalidation.org/1.1/tck/">Bean Validation
+    official <ulink url="http://beanvalidation.org/tck/">Bean Validation
     home page</ulink>. The Bean Validation TCK is distributed as a ZIP file,
     which contains the TCK artifacts (the test suite binary and source, the
     test suite descriptor, the audit source and report), the TCK library
