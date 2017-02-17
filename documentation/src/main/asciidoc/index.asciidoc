@@ -1,0 +1,33 @@
+= TCK Reference Guide for {jsrVersion} - Bean Validation
+Emmanuel Bernard - Red Hat, Inc.; Hardy Ferentschik - Red Hat, Inc.; Gunnar Morling - Red Hat, Inc.
+:doctype: book
+:revdate: {docdate}
+:revnumber: {tckVersion}
+:revremark: Copyright {copyrightYear} - Red Hat, Inc. (Specification Lead)
+:sectanchors:
+:anchor:
+:toc: left
+:docinfodir: {docinfodir}
+:docinfo:
+:title-logo-image: image:beanvalidation_logo.png[align=left,pdfwidth=20%]
+
+// PDF uses :title-logo-image: on first page, no need to repeat image later on
+ifndef::backend-pdf[]
+image::beanvalidation_logo_smaller.png[align="center"]
+endif::[]
+
+include::preface.asciidoc[]
+
+:numbered:
+
+include::introduction.asciidoc[]
+
+include::appeals-process.asciidoc[]
+
+include::installation.asciidoc[]
+
+include::reporting.asciidoc[]
+
+include::configuration.asciidoc[]
+
+include::sigtest.asciidoc[]

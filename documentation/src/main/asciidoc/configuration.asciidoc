@@ -1,0 +1,162 @@
+[[configuration]]
+== Running the TCK test suite
+
+This chapter lays out how to run and configure the TCK harness against
+a given Bean Validation provider in a given Java EE container. If you have
+not by now made yourself familiar with the https://docs.jboss.org/author/display/ARQ/Reference+Guide[Arquillian
+documentation], this is a good time to do it. It will give you a
+deeper understanding of the different parts described in the following
+sections.
+
+=== Setup examples
+
+The TCK distribution comes with a directory
+`setup-examples` which contains two example projects
+for running the TCK. If you followed the instructions in <<installation>> you find the directory under
+`jsr380/tck/setup-examples`. Both setups are using
+Hibernate Validator as Bean Validation Provider and Glassfish 4 as EE
+constainer. However, one is using http://maven.apache.org/[Maven] as build tool to run the TCK,
+the other http://ant.apache.org/[Ant]. Depending which
+of the examples you want to use, you need to install the corresponding
+build tool.
+
+Each example comes with a `readme.md` containing
+the prerequisites for using this setup, how to run the TCK against
+Hibernate Validator and Glassfish. The readme in
+`setup-examples` itself contains information about what
+needs to be changed to use a different Bean Validation provider and EE
+container.
+
+The following chapters contain some more information about the
+general structure of the TCK which will give you a deeper understanding
+above the simple readme files.
+
+=== Configuring TestNG to execute the TCK
+
+The Bean Validation test harness is built atop TestNG, and it is
+TestNG that is responsible for selecting the tests to execute, the order
+of execution, and reporting the results. Detailed TestNG documentation can
+be found at http://testng.org/doc/documentation-main.html[testng.org].
+
+The `tck-tests.xml` artifact provided in the TCK
+distribution must be run by TestNG (described by the TestNG documentation
+as "with a `testng.xml` file") unmodified for an
+implementation to pass the TCK. For testing purposes it is of course ok to
+modify the file (see also the TestNG http://testng.org/doc/documentation-main.html#testng-xml[documentation])
+
+[source,xml]
+----
+<suite name="JSR-380-TCK" verbose="1">
+    <test name="JSR-380-TCK">
+
+        <method-selectors>
+            <method-selector>
+                <selector-class name="org.hibernate.beanvalidation.tck.util.IntegrationTestsMethodSelector"/>
+            </method-selector>
+        </method-selectors>
+
+        <packages>
+            <package name="org.hibernate.beanvalidation.tck.tests"/>
+        </packages>
+    </test>
+</suite>
+----
+
+TestNG provides extensive reporting information. Depending on the
+build tool or IDE you use, the reporting will take a different format.
+Please consult the TestNG documentation and the tool documentation for
+more information.
+
+=== Selecting the `ValidationProvider`
+
+The most important configuration you have make in order to run the
+Bean Validation TCK is to specify your
+`ValidationProvider` you want to run your tests
+against. To do so you need to set the Java system property
+`validation.provider` to the fully specified class name
+of your `ValidationProvider`. In Maven this is done
+via the `systemProperties` configuration option of the
+maven-surefire-plugin, whereas
+`sysproperty` is used in an Ant testng task. This
+system property will be picked up by
+`org.hibernate.beanvalidation.tck.util.TestUtil`
+which will instantiate the `Validator` under test.
+This means the test harness does not rely on the service provider
+mechanism to instantiate the Bean Validation provider under test, partly
+because this selection mechanism is under test as well.
+
+[[configuration-deployable-container]]
+=== Selecting the `DeployableContainer`
+
+After setting the `ValidationProvider` you have
+to make a choice on the right `DeployableContainer`.
+Arquillian picks which container it is going to use to deploy the test
+archive and negotiate test execution using Java's service provider
+mechanism. Concretely Arquillian is looking for an implementation of the
+`DeployableContainer` SPI on the classpath. The setup
+examples use a remote Glassfish container adapter, which means that
+Arquillian tries to deploy the test artifacts onto a specified remote
+Glassfish instance, run the tests remotely and report the results back to
+the current JVM. The installation directory of the remote container is
+specified via the `container.home` property in the
+example build files.
+To make it easier to develop, debug or test the TCK, an in JVM
+adapter is provided as part of the distribution
+(`beanvalidation-standalone-container-adapter-{tckVersion}.jar`).
+Using this adapter the tests are not executed in a remote Java EE
+container, but in the current JVM. This allows for easy and fast
+debugging. Some tests, however, are only runnable in a EE container
+and will fail in this in JVM execution mode. By setting the property
+`excludeIntegrationTests` to
+true these tests can be excluded.
+
+The adapter is also available as Maven artifact under the GAV
+`org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter:{tckVersion}.`
+You can refer to `pom.xml` in the tck-runner module
+of Hibernate Validator (in the directory
+`jsr380/ri/tck-runner`, if you followed the
+instruction in <<installation>>) to see how it is
+used.
+
+[[configuration-arquillian-xml]]
+=== arquillian.xml
+
+The next piece in the configuration puzzle is
+`arquillian.xml`. This xml file needs to be in the root
+of the classpath and is used to pass additional options to the selected
+container. Let's look at an example:
+
+[source, xml]
+----
+<arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <defaultProtocol type="Servlet 3.0"/>
+
+    <engine>
+        <property name="deploymentExportPath">target/artifacts</property>
+    </engine>
+
+    <container qualifier="incontainer" default="true">
+        <configuration>
+            <property name="glassFishHome">@CONTAINER.HOME@</property>
+            <property name="adminHost">localhost</property>
+            <property name="adminPort">4848</property>
+            <property name="debug">true</property>
+        </configuration>
+    </container>
+
+</arquillian>
+----
+
+The most important container configuration option is the protocol
+type which determines how Arquillian communicates with the selected
+container. The most popular types are `Servlet 3.0` and
+`Local`. The former is used when connecting to a remote
+container whereas the latter is used for the in JVM mode.
+
+Another interesting property is
+`deploymentExportPath` which is optional and instructs
+Arquillian to dump the test artifacts to the specified directory on disk.
+Inspection of the deployed artifacts can be very useful when debugging
+test failures.

@@ -30,7 +30,7 @@
     </dependencySets>
     <fileSets>
         <fileSet>
-            <directory>../documentation/target/docbook/publish/en-US</directory>
+            <directory>../documentation/target/asciidoctor</directory>
             <outputDirectory>docs/reference</outputDirectory>
         </fileSet>
         <fileSet>
