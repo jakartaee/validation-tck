@@ -125,7 +125,7 @@ public class MessageInterpolationTest extends Arquillian {
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String expected = "recursion worked";
-		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
+		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
 		assertEquals(
 				actual, expected, "Expansion should be recursive"
 		);
@@ -225,7 +225,7 @@ public class MessageInterpolationTest extends Arquillian {
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String expected = "size must be between 5 and 10";
-		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
+		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
 
@@ -238,7 +238,7 @@ public class MessageInterpolationTest extends Arquillian {
 
 		//if EL evaluation kicked in first, the "$" would be gone
 		String expected = "must be $5 at least";
-		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
+		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
 
@@ -250,7 +250,7 @@ public class MessageInterpolationTest extends Arquillian {
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String expected = "must be 10 at least";
-		String actual = interpolator.interpolate( (String) descriptor.getAttributes().get( "message" ), context );
+		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
 
@@ -263,7 +263,7 @@ public class MessageInterpolationTest extends Arquillian {
 
 		String expected = "kann nicht null sein";
 		String actual = interpolator.interpolate(
-				(String) descriptor.getAttributes().get( "message" ), context, Locale.GERMAN
+				descriptor.getMessageTemplate(), context, Locale.GERMAN
 		);
 		assertEquals( actual, expected, "Wrong substitution" );
 	}
@@ -273,7 +273,7 @@ public class MessageInterpolationTest extends Arquillian {
 	public void testIfNoLocaleIsSpecifiedTheDefaultLocaleIsAssumed() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
-		String messageTemplate = (String) descriptor.getAttributes().get( "message" );
+		String messageTemplate = descriptor.getMessageTemplate();
 		MessageInterpolator.Context context = new TestContext( descriptor );
 
 		String messageInterpolatedWithNoLocale = interpolator.interpolate( messageTemplate, context );
