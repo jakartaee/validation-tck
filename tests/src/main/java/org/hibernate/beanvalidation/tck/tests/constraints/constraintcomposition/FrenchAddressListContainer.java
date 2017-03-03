@@ -1,6 +1,6 @@
 /*
 * JBoss, Home of Professional Open Source
-* Copyright 2009, Red Hat, Inc. and/or its affiliates, and individual contributors
+* Copyright 2017, Red Hat, Inc. and/or its affiliates, and individual contributors
 * by the @authors tag. See the copyright.txt in the distribution for a
 * full listing of individual contributors.
 *
@@ -31,33 +31,40 @@ import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 /**
- * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
-@NotEmpty
-@Size
-// first pattern just duplicates the length of 5 characters, the second pattern is just to prove that parameters can be overridden.
-@Pattern(regexp = ".....")
-@Pattern(regexp = "bar")
-@Constraint(validatedBy = FrenchZipcodeConstraintValidator.class)
-@Documented
-@Target({ METHOD, FIELD, TYPE })
-@Retention(RUNTIME)
-public @interface FrenchZipcode {
-	String message() default "Wrong zipcode";
+public class FrenchAddressListContainer extends Address {
 
-	Class<?>[] groups() default { };
+	@Override
+	@FrenchZipcodeListContainer
+	public String getZipCode() {
+		return super.getZipCode();
+	}
 
-	Class<? extends Payload>[] payload() default {};
+	@NotEmpty
+	@Size
+	// first pattern just duplicates the length of 5 characters, the second pattern is just to prove that parameters can be overridden.
+	@Pattern.List({ @Pattern(regexp = "....."), @Pattern(regexp = "bar") })
+	@Constraint(validatedBy = FrenchZipcodeConstraintValidator.class)
+	@Documented
+	@Target({ METHOD, FIELD, TYPE })
+	@Retention(RUNTIME)
+	public @interface FrenchZipcodeListContainer {
+		String message() default "Wrong zipcode";
 
-	@OverridesAttribute(constraint = Size.class, name = "min")
-	@OverridesAttribute(constraint = Size.class, name = "max")
-	int size() default 5;
+		Class<?>[] groups() default { };
 
-	@OverridesAttribute(constraint = Size.class, name = "message")
-	String sizeMessage() default "A french zip code has a length of 5";
+		Class<? extends Payload>[] payload() default {};
 
-	@OverridesAttribute(constraint = Pattern.class, name = "regexp", constraintIndex = 1)
-	String regex() default "\\d*";
+		@OverridesAttribute(constraint = Size.class, name = "min")
+		@OverridesAttribute(constraint = Size.class, name = "max")
+		int size() default 5;
+
+		@OverridesAttribute(constraint = Size.class, name = "message")
+		String sizeMessage() default "A french zip code has a length of 5";
+
+		@OverridesAttribute(constraint = Pattern.class, name = "regexp", constraintIndex = 1)
+		String regex() default "\\d*";
+	}
 }

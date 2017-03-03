@@ -48,10 +48,9 @@ public @interface FrenchZipcodeWithInvalidOverride {
 
 	public abstract Class<? extends Payload>[] payload() default {};
 
-	@OverridesAttribute.List({
-			@OverridesAttribute(constraint = Size.class, name = "min"),
-			@OverridesAttribute(constraint = Size.class, name = "max")
-	}) public abstract String size() default "5";
+	@OverridesAttribute(constraint = Size.class, name = "min")
+	@OverridesAttribute(constraint = Size.class, name = "max")
+	public abstract String size() default "5";
 
 	@OverridesAttribute(constraint = Size.class, name = "message") public abstract String sizeMessage() default "A french zip code has a length of 5";
 
