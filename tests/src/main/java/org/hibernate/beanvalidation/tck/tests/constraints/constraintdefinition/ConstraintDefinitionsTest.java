@@ -77,7 +77,7 @@ public class ConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.2", id = "b")
+			@SpecAssertion(section = "3.2", id = "a")
 	})
 	public void testRepeatableConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -100,7 +100,7 @@ public class ConstraintDefinitionsTest extends Arquillian {
 		constraintViolations = validator.validate( new Movie( "A" ) );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 
-		constraintViolations = validator.validate( new Movie( "A movie title far too long which does not respect the constraint" ) );
+		constraintViolations = validator.validate( new Movie( "A movie title far too long that does not respect the constraint" ) );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 	}
 
