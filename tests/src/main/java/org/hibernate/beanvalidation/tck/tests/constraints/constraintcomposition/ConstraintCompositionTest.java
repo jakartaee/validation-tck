@@ -9,18 +9,28 @@
 * You may obtain a copy of the License at
 * http://www.apache.org/licenses/LICENSE-2.0
 * Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,  
+* distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import javax.validation.ConstraintDeclarationException;
 import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
@@ -35,6 +45,8 @@ import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -44,21 +56,11 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
 /**
  * Tests for composing constraints.
  *
  * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ConstraintCompositionTest extends Arquillian {
@@ -121,8 +123,7 @@ public class ConstraintCompositionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "b"),
-			@SpecAssertion(section = "3.4", id = "s")
+			@SpecAssertion(section = "3.3", id = "b")
 	})
 	public void testValidationOfMainAnnotationIsAlsoApplied() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
@@ -139,7 +140,7 @@ public class ConstraintCompositionTest extends Arquillian {
 			@SpecAssertion(section = "3.3", id = "n"),
 			@SpecAssertion(section = "3.3", id = "q"),
 			@SpecAssertion(section = "3.3", id = "r"),
-			@SpecAssertion(section = "3.3", id = "s")
+			@SpecAssertion(section = "3.3", id = "u")
 	})
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
@@ -167,12 +168,45 @@ public class ConstraintCompositionTest extends Arquillian {
 					"123",
 					"zipCode"
 			);
-
 		}
 
 		address.setZipCode( "33023" );
 		constraintViolations = validator.validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.3", id = "s")
+	})
+	public void testConstraintIndexWithListContainer() {
+		FrenchAddressListContainer address = getFrenchAddressListContainerWithoutZipCode();
+		address.setZipCode( "abc" );
+		Set<ConstraintViolation<FrenchAddressListContainer>> constraintViolations = validator.validate( address );
+		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Pattern.class, Size.class );
+		for ( ConstraintViolation<FrenchAddressListContainer> violation : constraintViolations ) {
+			assertConstraintViolation(
+					violation,
+					FrenchAddressListContainer.class,
+					"abc",
+					"zipCode"
+			);
+		}
+
+		address.setZipCode( "33023" );
+		constraintViolations = validator.validate( address );
+		assertCorrectNumberOfViolations( constraintViolations, 0 );
+	}
+
+	@Test(expectedExceptions = { ConstraintDeclarationException.class })
+	@SpecAssertions({
+			@SpecAssertion(section = "3.3", id = "t")
+	})
+	public void testConstraintIndexWithMixDirectAnnotationAndListContainer() {
+		FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
+		address.setZipCode( "abc" );
+		validator.validate( address );
 	}
 
 	@Test
@@ -244,7 +278,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "o"),
-			@SpecAssertion(section = "3.3", id = "t")
+			@SpecAssertion(section = "3.3", id = "v")
 	})
 	public void testOverriddenAttributesMustMatchInType() {
 		validator.validate( new DummyEntityWithZipCode( "foobar" ) );
@@ -308,7 +342,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "k"),
-			@SpecAssertion(section = "3.3", id = "t")
+			@SpecAssertion(section = "3.3", id = "v")
 	})
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
@@ -329,7 +363,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = "3.3", id = "k"),
-			@SpecAssertion(section = "3.3", id = "t")
+			@SpecAssertion(section = "3.3", id = "v")
 	})
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
 		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
@@ -348,6 +382,22 @@ public class ConstraintCompositionTest extends Arquillian {
 
 	private FrenchAddress getFrenchAddressWithoutZipCode() {
 		FrenchAddress address = new FrenchAddress();
+		address.setAddressline1( "10 rue des Treuils" );
+		address.setAddressline2( "BP 12 " );
+		address.setCity( "Bordeaux" );
+		return address;
+	}
+
+	private FrenchAddressListContainer getFrenchAddressListContainerWithoutZipCode() {
+		FrenchAddressListContainer address = new FrenchAddressListContainer();
+		address.setAddressline1( "10 rue des Treuils" );
+		address.setAddressline2( "BP 12 " );
+		address.setCity( "Bordeaux" );
+		return address;
+	}
+
+	private FrenchAddressMixDirectAnnotationAndListContainer getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode() {
+		FrenchAddressMixDirectAnnotationAndListContainer address = new FrenchAddressMixDirectAnnotationAndListContainer();
 		address.setAddressline1( "10 rue des Treuils" );
 		address.setAddressline2( "BP 12 " );
 		address.setCity( "Bordeaux" );
