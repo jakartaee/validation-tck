@@ -30,6 +30,7 @@ import javax.validation.ValidatorFactory;
 import javax.validation.spi.BootstrapState;
 import javax.validation.spi.ConfigurationState;
 import javax.validation.spi.ValidationProvider;
+import javax.validation.valueextraction.ValueExtractor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -138,6 +139,11 @@ public class BootstrapNonAvailableValidationProviderTest extends Arquillian {
 
 		@Override
 		public DummyValidatorConfiguration addProperty(String name, String value) {
+			return null;
+		}
+
+		@Override
+		public DummyValidatorConfiguration addValueExtractor(ValueExtractor<?> extractor) {
 			return null;
 		}
 
