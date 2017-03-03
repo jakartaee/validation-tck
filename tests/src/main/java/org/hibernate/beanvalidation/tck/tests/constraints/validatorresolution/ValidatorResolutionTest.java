@@ -248,7 +248,7 @@ public class ValidatorResolutionTest {
 	@SpecAssertions({
 			@SpecAssertion(section = "4.6.4", id = "h"),
 			@SpecAssertion(section = "3.1", id = "e"),
-			@SpecAssertion(section = "3.4", id = "l")
+			@SpecAssertion(section = "3.4", id = "m")
 	})
 	public void testUnexpectedTypeInValidatorResolution() {
 		Bar bar = new Bar();

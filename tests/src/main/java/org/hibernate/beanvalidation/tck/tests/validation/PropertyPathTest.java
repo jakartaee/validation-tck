@@ -313,7 +313,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "3.4", id = "s"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -457,7 +457,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "3.4", id = "s"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -507,7 +507,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "3.4", id = "s"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -558,7 +558,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "3.4", id = "s"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -687,7 +687,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "3.4", id = "s"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),
@@ -738,7 +738,7 @@ public class PropertyPathTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "r"),
+			@SpecAssertion(section = "3.4", id = "s"),
 			@SpecAssertion(section = "5.2", id = "l"),
 			@SpecAssertion(section = "5.2", id = "m"),
 			@SpecAssertion(section = "5.2", id = "n"),

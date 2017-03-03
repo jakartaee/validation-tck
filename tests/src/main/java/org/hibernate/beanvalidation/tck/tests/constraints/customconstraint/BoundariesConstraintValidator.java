@@ -44,6 +44,7 @@ public abstract class BoundariesConstraintValidator<T extends Annotation> implem
 		this.high = high;
 	}
 
+	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
 		if ( !initializeCalled ) {
 			throw new ValidationException( "initialize() must be called before the usage of isValid()" );
