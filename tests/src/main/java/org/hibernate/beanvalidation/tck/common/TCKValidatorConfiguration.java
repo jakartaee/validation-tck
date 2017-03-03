@@ -26,6 +26,7 @@ import javax.validation.ParameterNameProvider;
 import javax.validation.TraversableResolver;
 import javax.validation.ValidatorFactory;
 import javax.validation.spi.ValidationProvider;
+import javax.validation.valueextraction.ValueExtractor;
 
 /**
  * @author Hardy Ferentschik
@@ -82,6 +83,11 @@ public class TCKValidatorConfiguration implements Configuration<TCKValidatorConf
 	}
 
 	@Override
+	public TCKValidatorConfiguration addValueExtractor(ValueExtractor<?> extractor) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public MessageInterpolator getDefaultMessageInterpolator() {
 		throw new UnsupportedOperationException();
 	}
@@ -115,4 +121,5 @@ public class TCKValidatorConfiguration implements Configuration<TCKValidatorConf
 	public ValidatorFactory buildValidatorFactory() {
 		return provider.buildValidatorFactory( null );
 	}
+
 }
