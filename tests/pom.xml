@@ -55,7 +55,11 @@
             <artifactId>javax.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
