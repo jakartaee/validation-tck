@@ -51,7 +51,7 @@ public class ClockProviderPastTest extends Arquillian {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( ClockProviderPastTest.class )
+				.withTestClassPackage( ClockProviderPastTest.class )
 				.build();
 	}
 
