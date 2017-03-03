@@ -64,7 +64,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "o")
+	@SpecAssertion(section = "3.4", id = "p")
 	public void testDefaultError() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -79,7 +79,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.4", id = "t")
+	@SpecAssertion(section = "3.4", id = "u")
 	public void testDisableDefaultErrorWithoutAddingCustomError() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -93,7 +93,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "p")
+			@SpecAssertion(section = "3.4", id = "q")
 	})
 	public void testDisableDefaultErrorWithCustomErrorNoSubNode() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -113,8 +113,8 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "p"),
-			@SpecAssertion(section = "3.4", id = "s")
+			@SpecAssertion(section = "3.4", id = "q"),
+			@SpecAssertion(section = "3.4", id = "t")
 	})
 	public void testDisableDefaultErrorWithCustomErrorWithSubNode() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -134,8 +134,8 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "p"),
-			@SpecAssertion(section = "3.4", id = "s")
+			@SpecAssertion(section = "3.4", id = "q"),
+			@SpecAssertion(section = "3.4", id = "t")
 	})
 	public void propertyPathInIterable() {
 		Validator validator = TestUtil.getValidatorUnderTest();
