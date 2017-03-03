@@ -46,6 +46,7 @@ public class BuiltinValidatorOverrideTest extends Arquillian {
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
 				.withTestClass( BuiltinValidatorOverrideTest.class )
+				.withClass( InvertedNotNullValidator.class )
 				.withResource( "builtin-constraints-override.xml" )
 				.build();
 	}
