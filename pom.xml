@@ -43,28 +43,28 @@
             <id>epbernard</id>
             <name>Emmanuel Bernard</name>
             <email>emmanuel@hibernate.org</email>
-            <organization>JBoss, by Red Hat</organization>
+            <organization>Red Hat, Inc.</organization>
             <url>http://in.relation.to/emmanuel-bernard/</url>
         </developer>
         <developer>
             <id>hardy.ferentschik</id>
             <name>Hardy Ferentschik</name>
             <email>hferents@redhat.com</email>
-            <organization>JBoss, by Red Hat</organization>
+            <organization>Red Hat, Inc.</organization>
             <url>http://in.relation.to/hardy-ferentschik/</url>
         </developer>
         <developer>
             <id>gunnar.morling</id>
             <name>Gunnar Morling</name>
             <email>gunnar@hibernate.org</email>
-            <organization>JBoss, by Red Hat</organization>
+            <organization>Red Hat, Inc.</organization>
             <url>http://in.relation.to/gunnar-morling/</url>
         </developer>
         <developer>
             <id>guillaume.smet</id>
             <name>Guillaume Smet</name>
             <email>guillaume.smet@hibernate.org</email>
-            <organization>JBoss, by Red Hat</organization>
+            <organization>Red Hat, Inc.</organization>
             <url>http://in.relation.to/guillaume-smet/</url>
         </developer>
     </developers>
@@ -90,6 +90,8 @@
         <validation.api.version>2.0.0-SNAPSHOT</validation.api.version>
         <hibernate.validator.version>6.0.0-SNAPSHOT</hibernate.validator.version>
 
+        <testng.version>6.11</testng.version>
+
         <cdi-api.version>1.2</cdi-api.version>
         <javax.el.version>3.0.1-b08</javax.el.version>
 
@@ -110,7 +112,7 @@
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>6.8</version>
+                <version>${testng.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -214,7 +216,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.0.0</version>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
@@ -227,7 +229,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.5.1</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -303,6 +305,16 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.bsc.maven</groupId>
+                    <artifactId>maven-processor-plugin</artifactId>
+                    <version>3.1.0</version>
                 </plugin>
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
                 <plugin>
