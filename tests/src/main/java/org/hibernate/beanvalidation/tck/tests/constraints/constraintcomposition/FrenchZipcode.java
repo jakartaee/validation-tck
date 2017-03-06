@@ -48,10 +48,8 @@ public @interface FrenchZipcode {
 
 	Class<? extends Payload>[] payload() default {};
 
-	@OverridesAttribute.List({
-			@OverridesAttribute(constraint = Size.class, name = "min"),
-			@OverridesAttribute(constraint = Size.class, name = "max")
-	})
+	@OverridesAttribute(constraint = Size.class, name = "min")
+	@OverridesAttribute(constraint = Size.class, name = "max")
 	int size() default 5;
 
 	@OverridesAttribute(constraint = Size.class, name = "message")
