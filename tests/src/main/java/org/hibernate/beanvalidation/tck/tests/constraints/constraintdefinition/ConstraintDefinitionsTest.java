@@ -77,7 +77,8 @@ public class ConstraintDefinitionsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.2", id = "a")
+			@SpecAssertion(section = "3.2", id = "a"),
+			@SpecAssertion(section = "3.2", id = "b")
 	})
 	public void testRepeatableConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
