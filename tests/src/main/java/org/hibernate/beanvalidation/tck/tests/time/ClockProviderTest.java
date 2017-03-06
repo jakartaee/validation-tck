@@ -16,20 +16,32 @@
 */
 package org.hibernate.beanvalidation.tck.tests.time;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Set;
 
 import javax.validation.ClockProvider;
 import javax.validation.Configuration;
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
+import javax.validation.Payload;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -41,6 +53,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -60,6 +73,24 @@ public class ClockProviderTest extends Arquillian {
 	@Test
 	// XXX BVAL-496 update specification references
 	@SpecAssertion(section = "", id = "")
+	public void testDefaultClockProviderIsNotNull() {
+		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		assertNotNull( config.getDefaultClockProvider() );
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "3.4.1", id = "a"),
+			@SpecAssertion(section = "3.4.1", id = "b")
+	})
+	public void testDefaultClockProvider() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.validate( new DefaultClockProviderIsValidEntity() );
+	}
+
+	@Test
+	// XXX BVAL-496 update specification references
+	@SpecAssertion(section = "", id = "")
 	public void testCustomClockProviderFromValidatorFactory() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		CustomClockProvider clockProvider = new CustomClockProvider();
@@ -68,14 +99,6 @@ public class ClockProviderTest extends Arquillian {
 		ValidatorFactory factory = configuration.buildValidatorFactory();
 
 		assertSame( factory.getClockProvider(), clockProvider );
-	}
-
-	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
-	public void testDefaultClockProviderIsNotNull() {
-		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		assertNotNull( config.getDefaultClockProvider() );
 	}
 
 	@Test
@@ -149,6 +172,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	private static class Person {
+
 		@Past
 		private Instant birthday;
 
@@ -163,7 +187,6 @@ public class ClockProviderTest extends Arquillian {
 		public Clock getClock() {
 			return Clock.systemDefaultZone();
 		}
-
 	}
 
 	private static class ExceptionThrowingClockProvider implements ClockProvider {
@@ -172,6 +195,43 @@ public class ClockProviderTest extends Arquillian {
 		public Clock getClock() {
 			throw new RuntimeException( "This clock provider throws an exception that should be wrapped in a ValidationException" );
 		}
+	}
 
+	private static class DefaultClockProviderIsValidEntity {
+
+		@DefaultClockProviderIsValid
+		private LocalDateTime localDateTime;
+	}
+
+	@Constraint(validatedBy = DefaultClockProviderValidator.class)
+	@Documented
+	@Target({ METHOD, FIELD, TYPE })
+	@Retention(RUNTIME)
+	public @interface DefaultClockProviderIsValid {
+
+		String message() default "Default clock provider is invalid.";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default {};
+	}
+
+	public static class DefaultClockProviderValidator implements ConstraintValidator<DefaultClockProviderIsValid, LocalDateTime> {
+
+		private static final long ACCEPTABLE_DEVIATION_IN_MS = 10;
+
+		@Override
+		public boolean isValid(LocalDateTime localDateTime, ConstraintValidatorContext constraintValidatorContext) {
+			Clock clock = constraintValidatorContext.getClockProvider().getClock();
+			Clock systemClock = Clock.systemDefaultZone();
+
+			if ( !systemClock.getZone().equals( clock.getZone() ) ) {
+				throw new RuntimeException( "The default clock provider should use the default system time zone." );
+			}
+			if ( Math.abs( clock.millis() - systemClock.millis() ) > ACCEPTABLE_DEVIATION_IN_MS ) {
+				throw new RuntimeException( "The default clock provider should return the system time." );
+			}
+			return true;
+		}
 	}
 }
