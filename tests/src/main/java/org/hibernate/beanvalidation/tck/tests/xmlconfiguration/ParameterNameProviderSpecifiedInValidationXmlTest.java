@@ -57,7 +57,7 @@ public class ParameterNameProviderSpecifiedInValidationXmlTest extends Arquillia
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "j")
+	@SpecAssertion(section = "5.5.6", id = "i")
 	public void testParameterNameProviderSpecifiedInValidationXml() throws Exception {
 		//given
 		Object object = new CreditCardValidationService();

@@ -97,7 +97,7 @@ public class ParameterNameProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "f")
+	@SpecAssertion(section = "5.5.2", id = "g")
 	public void testParameterNameProviderSetUsingContext() throws Exception {
 		Object object = new User();
 		Method method = User.class.getMethod( "setNames", String.class, String.class );

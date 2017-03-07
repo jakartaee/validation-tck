@@ -198,8 +198,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "m")
 	public void testPastOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -241,8 +240,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "m")
 	public void testPastOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -282,8 +280,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "n")
 	public void testFutureOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -325,8 +322,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "n")
 	public void testFutureOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
