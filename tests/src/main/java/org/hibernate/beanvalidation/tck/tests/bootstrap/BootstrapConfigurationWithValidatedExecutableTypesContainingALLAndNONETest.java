@@ -52,7 +52,7 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingALLAndN
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.3", id = "e"),
+			@SpecAssertion(section = "5.5.3", id = "f"),
 			@SpecAssertion(section = "5.5.6", id = "l")
 	})
 	public void testGetDefaultValidatedExecutableTypesReturnsSetWithAllOptionsIfALLAndNONEAreContained() {

@@ -63,6 +63,11 @@ import org.testng.annotations.Test;
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ClockProviderTest extends Arquillian {
 
+	/**
+	 * Maximum deviation accepted between 2 {@link Clock}s to consider them as equal.
+	 */
+	private static final long ACCEPTABLE_CLOCK_DEVIATION_IN_MS = 10;
+
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
@@ -71,11 +76,13 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
-	public void testDefaultClockProviderIsNotNull() {
+	@SpecAssertions({
+			@SpecAssertion(section = "5.5.3", id = "e")
+	})
+	public void testDefaultClockProviderProvidedByConfiguration() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertNotNull( config.getDefaultClockProvider() );
+		checkClockProviderHasDefaultProperties( config.getDefaultClockProvider() );
 	}
 
 	@Test
@@ -83,14 +90,12 @@ public class ClockProviderTest extends Arquillian {
 			@SpecAssertion(section = "3.4.1", id = "a"),
 			@SpecAssertion(section = "3.4.1", id = "b")
 	})
-	public void testDefaultClockProvider() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new DefaultClockProviderIsValidEntity() );
+	public void testClockProviderProviderByConstraintValidatorContext() {
+		TestUtil.getValidatorUnderTest().validate( new DefaultClockProviderIsValidEntity() );
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "5.5.2", id = "f")
 	public void testCustomClockProviderFromValidatorFactory() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		CustomClockProvider clockProvider = new CustomClockProvider();
@@ -102,8 +107,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "5.5.2", id = "f")
 	public void testCustomClockProviderViaConfiguration() {
 		// use the default configuration
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -133,10 +137,8 @@ public class ClockProviderTest extends Arquillian {
 		assertCorrectPropertyPaths( constraintViolations, "birthday" );
 	}
 
-
 	@Test(expectedExceptions = ValidationException.class)
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "3.4", id = "n")
 	public void testClockProviderExceptionsGetWrappedInValidationException() {
 		ExceptionThrowingClockProvider clockProvider = new ExceptionThrowingClockProvider();
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().clockProvider( clockProvider );
@@ -151,8 +153,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "5.5.2", id = "g")
 	public void canConfigureClockProviderForValidator() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -169,6 +170,18 @@ public class ClockProviderTest extends Arquillian {
 
 		constraintViolations = validator.validate( person );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
+	}
+
+	private static void checkClockProviderHasDefaultProperties(ClockProvider clockProvider) {
+		Clock clock = clockProvider.getClock();
+		Clock systemClock = Clock.systemDefaultZone();
+
+		if ( !systemClock.getZone().equals( clock.getZone() ) ) {
+			throw new AssertionError( "The default clock provider should use the default system time zone." );
+		}
+		if ( Math.abs( clock.millis() - systemClock.millis() ) > ACCEPTABLE_CLOCK_DEVIATION_IN_MS ) {
+			throw new AssertionError( "The default clock provider should return the system time." );
+		}
 	}
 
 	private static class Person {
@@ -218,19 +231,9 @@ public class ClockProviderTest extends Arquillian {
 
 	public static class DefaultClockProviderValidator implements ConstraintValidator<DefaultClockProviderIsValid, LocalDateTime> {
 
-		private static final long ACCEPTABLE_DEVIATION_IN_MS = 10;
-
 		@Override
 		public boolean isValid(LocalDateTime localDateTime, ConstraintValidatorContext constraintValidatorContext) {
-			Clock clock = constraintValidatorContext.getClockProvider().getClock();
-			Clock systemClock = Clock.systemDefaultZone();
-
-			if ( !systemClock.getZone().equals( clock.getZone() ) ) {
-				throw new RuntimeException( "The default clock provider should use the default system time zone." );
-			}
-			if ( Math.abs( clock.millis() - systemClock.millis() ) > ACCEPTABLE_DEVIATION_IN_MS ) {
-				throw new RuntimeException( "The default clock provider should return the system time." );
-			}
+			checkClockProviderHasDefaultProperties( constraintValidatorContext.getClockProvider() );
 			return true;
 		}
 	}

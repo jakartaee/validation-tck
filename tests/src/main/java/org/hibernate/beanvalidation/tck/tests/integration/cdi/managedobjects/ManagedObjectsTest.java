@@ -16,9 +16,14 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+
 import javax.inject.Inject;
+import javax.validation.ClockProvider;
 import javax.validation.ConstraintValidatorFactory;
 import javax.validation.MessageInterpolator;
 import javax.validation.ParameterNameProvider;
@@ -26,6 +31,8 @@ import javax.validation.TraversableResolver;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -33,12 +40,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * Tests for dependency injection into message interpolators, traversable
@@ -125,6 +126,22 @@ public class ManagedObjectsTest extends Arquillian {
 		assertEquals(
 				parameterNameProvider.getParameterNames( (Constructor<?>) null ),
 				Arrays.asList( Greeter.MESSAGE )
+		);
+	}
+
+	@Test
+	@SpecAssertions({
+			@SpecAssertion(section = "10.1.1", id = "d"),
+			@SpecAssertion(section = "10.3.2", id = "a"),
+			@SpecAssertion(section = "10.3", id = "a")
+	})
+	public void testClockProviderIsSubjectToDependencyInjection() {
+		assertNotNull( defaultValidatorFactory );
+		ClockProvider clockProvider = defaultValidatorFactory.getClockProvider();
+
+		assertEquals(
+				clockProvider.getClock().getZone(),
+				Greeter.ZONE_ID
 		);
 	}
 }

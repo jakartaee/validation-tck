@@ -56,7 +56,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "i")
+	@SpecAssertion(section = "5.5.3", id = "j")
 	public void testProviderUnderTestDefinesSubInterfaceOfConfiguration() {
 		boolean foundSubinterfaceOfConfiguration = false;
 		Type[] types = TestUtil.getValidationProviderUnderTest().getClass().getGenericInterfaces();
@@ -78,7 +78,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "f")
+	@SpecAssertion(section = "5.5.3", id = "g")
 	public void testMappingsCanBeAddedViaConfiguration() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 
@@ -105,7 +105,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "g")
+	@SpecAssertion(section = "5.5.3", id = "h")
 	public void testNonResettableInputStreamCanBeAddedViaConfigurationAndFactoryCanBeCreatedSeveralTimes() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 
@@ -158,7 +158,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "h")
+	@SpecAssertion(section = "5.5.3", id = "i")
 	public void testSeveralFactoriesCanBeBuildFromOneConfiguration() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		Validator validator1 = configuration.buildValidatorFactory().getValidator();

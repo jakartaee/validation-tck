@@ -16,7 +16,10 @@
 */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
+import java.time.ZonedDateTime;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.groups.Default;
 
@@ -37,6 +40,9 @@ public class User {
 			message = "A phone number can only contain numbers, whitespaces and dashes.",
 			groups = Optional.class)
 	private String phoneNumber;
+
+	@Past
+	private ZonedDateTime birthday;
 
 	@NotNull(groups = Default.class)
 	public String getFirstname() {
@@ -77,5 +83,13 @@ public class User {
 
 	public void setCreditcard(CreditCard creditcard) {
 		this.creditcard = creditcard;
+	}
+
+	public ZonedDateTime getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(ZonedDateTime birthday) {
+		this.birthday = birthday;
 	}
 }

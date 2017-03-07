@@ -67,7 +67,7 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.5.2", id = "b"),
-			@SpecAssertion(section = "5.5.2", id = "f"),
+			@SpecAssertion(section = "5.5.2", id = "g"),
 			@SpecAssertion(section = "5.3.2", id = "e")
 	})
 	public void testCustomMessageInterpolatorViaValidatorContext() {

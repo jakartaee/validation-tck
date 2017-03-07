@@ -45,9 +45,9 @@ public class ClockProviderSpecifiedInValidationXmlNoDefaultConstructorTest exten
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
 	@SpecAssertions({
-			@SpecAssertion(section = "", id = "")
+			@SpecAssertion(section = "5.5.6", id = "j"),
+			@SpecAssertion(section = "5.5.6", id = "t")
 	})
 	public void testClockProviderSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

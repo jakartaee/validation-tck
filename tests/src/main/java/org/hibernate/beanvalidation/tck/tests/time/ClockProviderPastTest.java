@@ -56,8 +56,7 @@ public class ClockProviderPastTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "m")
 	public void clockProviderIsUsed() {
 		PastDummyEntity dummy = new PastDummyEntity( ZonedDateTime.of( 1985, 6, 12, 3, 0, 0, 0, TZ_BERLIN ) );
 
@@ -79,8 +78,7 @@ public class ClockProviderPastTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "m")
 	public void clockProviderIsUsedForRelativePartials() {
 		Calendar cal = GregorianCalendar.getInstance( TimeZone.getTimeZone( TZ_BERLIN ) );
 		cal.set( 2016, 6, 6 );

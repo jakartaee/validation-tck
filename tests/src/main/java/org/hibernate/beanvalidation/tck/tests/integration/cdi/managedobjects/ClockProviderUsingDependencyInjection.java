@@ -16,22 +16,21 @@
 */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import java.time.ZoneId;
+import java.time.Clock;
+
+import javax.inject.Inject;
+import javax.validation.ClockProvider;
 
 /**
- * @author Gunnar Morling
+ * @author Guillaume Smet
  */
-public class Greeter {
+public class ClockProviderUsingDependencyInjection implements ClockProvider {
 
-	public static final String MESSAGE = "Hello from Greeter!";
+	@Inject
+	private Greeter greeter;
 
-	public static final ZoneId ZONE_ID = ZoneId.of( "Africa/Bujumbura" );
-
-	public String greet() {
-		return MESSAGE;
-	}
-
-	public ZoneId zoneId() {
-		return ZONE_ID;
+	@Override
+	public Clock getClock() {
+		return Clock.system( greeter.zoneId() );
 	}
 }

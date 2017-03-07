@@ -52,8 +52,7 @@ public class ClockProviderFutureTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "n")
 	public void clockProviderIsUsed() {
 		FutureDummyEntity dummy = new FutureDummyEntity( ZonedDateTime.of( 2099, 1, 12, 5, 0, 0, 0, TZ_BERLIN ) );
 
@@ -80,8 +79,7 @@ public class ClockProviderFutureTest extends Arquillian {
 	}
 
 	@Test
-	// XXX BVAL-496 update specification references
-	@SpecAssertion(section = "", id = "")
+	@SpecAssertion(section = "7", id = "n")
 	public void clockProviderIsUsedForRelativePartials() {
 		FutureRelativePartialDummyEntity dummy = new FutureRelativePartialDummyEntity( ZonedDateTime.of( 2016, 6, 6, 14, 45, 0, 0, TZ_BERLIN ) );
 
