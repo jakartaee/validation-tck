@@ -15,6 +15,8 @@
     <description>&gt;Bean Validation TCK Documentation</description>
 
     <properties>
+        <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>
+
         <asciidoctor.base-output-dir>${project.build.directory}/asciidoctor</asciidoctor.base-output-dir>
         <asciidoctor.theme-dir>${project.build.directory}/hibernate-asciidoctor-theme</asciidoctor.theme-dir>
         <asciidoctor.aggregated-resources-dir>${project.build.directory}/aggregated-resources</asciidoctor.aggregated-resources-dir>

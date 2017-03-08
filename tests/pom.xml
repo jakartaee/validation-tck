@@ -15,6 +15,10 @@
     <name>JSR-380 TCK Test Suite</name>
     <description>JSR-380 TCK test suite</description>
 
+    <properties>
+        <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>

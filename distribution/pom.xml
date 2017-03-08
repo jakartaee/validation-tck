@@ -14,6 +14,11 @@
     <name>JSR-380 TCK Distribution</name>
     <description>JSR-380 TCK Distribution</description>
 
+    <properties>
+        <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.hibernate.beanvalidation.tck</groupId>
@@ -26,10 +31,6 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
-    <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
-    </properties>
 
     <build>
         <plugins>

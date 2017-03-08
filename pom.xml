@@ -105,6 +105,8 @@
         <jruby.version>1.7.26</jruby.version>
         <asciidoctorj.version>1.5.4.1</asciidoctorj.version>
         <asciidoctorj-pdf.version>1.5.0-alpha.11</asciidoctorj-pdf.version>
+
+        <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
     </properties>
 
     <dependencyManagement>
@@ -223,6 +225,31 @@
                         <descriptor>src/main/assembly/assembly.xml</descriptor>
                     </descriptors>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <header>${beanvalidation-tck-parent.basedir}/src/main/build-config/license.txt</header>
+                    <strictCheck>true</strictCheck>
+                    <excludes>
+                        <exclude>**/*.txt</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.xml</exclude>
+                        <exclude>**/*.sig</exclude>
+                        <exclude>**/*.asciidoc</exclude>
+                        <exclude>**/*.md</exclude>
+                        <exclude>**/*.html</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <pluginManagement>
