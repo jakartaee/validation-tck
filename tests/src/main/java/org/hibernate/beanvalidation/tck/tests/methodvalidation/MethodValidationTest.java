@@ -15,15 +15,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.executable.ExecutableValidator;
 import javax.validation.groups.Default;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -39,6 +36,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServ
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderService.OrderServiceSequence;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceImpl;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceWithRedefinedDefaultGroupSequence;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -48,29 +46,23 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MethodValidationTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class MethodValidationTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidateConstructorParametersTest.class )
 				.withPackage( MyCrossParameterConstraint.class.getPackage() )
 				.withPackage( ExtendedOrderService.class.getPackage() )
 				.withClass( Item.class )
 				.withClass( Order.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -88,7 +80,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -131,7 +123,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -175,7 +167,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -218,7 +210,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -242,7 +234,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
 		);
 
-		violations = executableValidator.validateParameters(
+		violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -280,7 +272,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -309,7 +301,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), (short) 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -353,7 +345,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -375,7 +367,7 @@ public class MethodValidationTest extends Arquillian {
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
 
-		violations = executableValidator.validateParameters(
+		violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -410,7 +402,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -432,7 +424,7 @@ public class MethodValidationTest extends Arquillian {
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
 
-		violations = executableValidator.validateParameters(
+		violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -473,7 +465,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -512,7 +504,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<ExtendedOrderService>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<ExtendedOrderService>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -532,7 +524,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				Basic.class
@@ -555,7 +547,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
 		);
 
-		violations = executableValidator.validateConstructorParameters(
+		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -590,7 +582,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), 0 };
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				Basic.class
@@ -616,7 +608,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), (short) 0 };
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				Basic.class, Default.class
@@ -657,7 +649,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				OrderServiceSequence.class
@@ -678,7 +670,7 @@ public class MethodValidationTest extends Arquillian {
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
 
-		violations = executableValidator.validateConstructorParameters(
+		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				OrderServiceSequence.class
@@ -711,7 +703,7 @@ public class MethodValidationTest extends Arquillian {
 				);
 		Object[] parameterValues = new Object[] { null, new Item( "" ), (byte) 0 };
 
-		Set<ConstraintViolation<OrderServiceWithRedefinedDefaultGroupSequence>> violations = executableValidator
+		Set<ConstraintViolation<OrderServiceWithRedefinedDefaultGroupSequence>> violations = getExecutableValidator()
 				.validateConstructorParameters(
 						constructor,
 						parameterValues
@@ -733,7 +725,7 @@ public class MethodValidationTest extends Arquillian {
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
 
-		violations = executableValidator.validateConstructorParameters(
+		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -775,7 +767,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -812,7 +804,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -853,7 +845,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -893,7 +885,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -914,7 +906,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
 		);
 
-		violations = executableValidator.validateReturnValue(
+		violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -952,7 +944,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -981,7 +973,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -1016,7 +1008,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -1038,7 +1030,7 @@ public class MethodValidationTest extends Arquillian {
 
 		returnValue = new Order( "BV Specification" );
 
-		violations = executableValidator.validateReturnValue(
+		violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -1071,7 +1063,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		Object returnValue = new Order( "" );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1093,7 +1085,7 @@ public class MethodValidationTest extends Arquillian {
 
 		returnValue = new Order( "valid" );
 
-		violations = executableValidator.validateReturnValue(
+		violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1127,7 +1119,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		OrderService returnValue = new OrderService( "" );
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -1162,7 +1154,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		ExtendedOrderService returnValue = new ExtendedOrderService();
 
-		Set<ConstraintViolation<ExtendedOrderService>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<ExtendedOrderService>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -1193,7 +1185,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		OrderService returnValue = new OrderService( "" );
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				Basic.class
@@ -1213,7 +1205,7 @@ public class MethodValidationTest extends Arquillian {
 				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
 		);
 
-		violations = executableValidator.validateConstructorReturnValue(
+		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -1248,7 +1240,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		OrderService returnValue = new OrderService( "" );
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				Basic.class
@@ -1274,7 +1266,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		OrderService returnValue = new OrderService( "" );
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				Basic.class, Default.class
@@ -1306,7 +1298,7 @@ public class MethodValidationTest extends Arquillian {
 		);
 		OrderService returnValue = new OrderService( "" );
 
-		Set<ConstraintViolation<OrderService>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<OrderService>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				OrderServiceSequence.class
@@ -1327,7 +1319,7 @@ public class MethodValidationTest extends Arquillian {
 
 		returnValue = new OrderService( "valid order service" );
 
-		violations = executableValidator.validateConstructorReturnValue(
+		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				OrderServiceSequence.class
@@ -1361,7 +1353,7 @@ public class MethodValidationTest extends Arquillian {
 				""
 		);
 
-		Set<ConstraintViolation<OrderServiceWithRedefinedDefaultGroupSequence>> violations = executableValidator
+		Set<ConstraintViolation<OrderServiceWithRedefinedDefaultGroupSequence>> violations = getExecutableValidator()
 				.validateConstructorReturnValue(
 						constructor,
 						returnValue
@@ -1382,7 +1374,7 @@ public class MethodValidationTest extends Arquillian {
 
 		returnValue = new OrderServiceWithRedefinedDefaultGroupSequence( "valid" );
 
-		violations = executableValidator.validateConstructorReturnValue(
+		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);

@@ -8,42 +8,33 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class GetterDefinitionTest extends Arquillian {
-
-	private Validator validator;
+public class GetterDefinitionTest extends BaseValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( GetterDefinitionTest.class )
 				.withClasses( Shipment.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
 	}
 
 	@Test
@@ -51,7 +42,7 @@ public class GetterDefinitionTest extends Arquillian {
 	public void testGetterMethod() {
 		Shipment shipment = new Shipment();
 
-		Set<ConstraintViolation<Shipment>> constraintViolations = validator.validateProperty( shipment, "id" );
+		Set<ConstraintViolation<Shipment>> constraintViolations = getValidator().validateProperty( shipment, "id" );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 	}
 
@@ -60,7 +51,7 @@ public class GetterDefinitionTest extends Arquillian {
 	public void testBooleanGetterMethod() {
 		Shipment shipment = new Shipment();
 
-		Set<ConstraintViolation<Shipment>> constraintViolations = validator.validateProperty( shipment, "shipped" );
+		Set<ConstraintViolation<Shipment>> constraintViolations = getValidator().validateProperty( shipment, "shipped" );
 		assertCorrectConstraintTypes( constraintViolations, AssertTrue.class );
 	}
 }

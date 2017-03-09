@@ -12,51 +12,42 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.constraints.NotNull;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidLineItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidWarehouseItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.LineItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.WarehouseItem;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTest.class )
 				.withClass( LineItem.class )
 				.withClass( WarehouseItem.class )
 				.withClass( ValidLineItem.class )
 				.withClass( ValidWarehouseItem.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -68,7 +59,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Method method = LineItem.class.getMethod( methodName, String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -86,7 +77,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Constructor<LineItem> constructor = LineItem.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		Set<ConstraintViolation<LineItem>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<LineItem>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -105,7 +96,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Method method = LineItem.class.getMethod( methodName, String.class );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -123,7 +114,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Constructor<LineItem> constructor = LineItem.class.getConstructor( String.class );
 		LineItem createdObject = new LineItem( null );
 
-		Set<ConstraintViolation<LineItem>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<LineItem>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				createdObject
 		);
@@ -142,7 +133,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Method method = WarehouseItem.class.getMethod( methodName, String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -160,7 +151,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Constructor<WarehouseItem> constructor = WarehouseItem.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		Set<ConstraintViolation<WarehouseItem>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<WarehouseItem>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -179,7 +170,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Method method = WarehouseItem.class.getMethod( methodName, String.class );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -197,7 +188,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		Constructor<WarehouseItem> constructor = WarehouseItem.class.getConstructor( String.class );
 		WarehouseItem createdObject = new WarehouseItem( null );
 
-		Set<ConstraintViolation<WarehouseItem>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<WarehouseItem>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				createdObject
 		);

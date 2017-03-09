@@ -13,18 +13,15 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
-import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
@@ -32,28 +29,27 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValueAccessStrategyTest extends Arquillian {
+public class ValueAccessStrategyTest extends BaseValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValueAccessStrategyTest.class )
 				.build();
 	}
-
-	private Validator validator;
 
 	@Test
 	@SpecAssertion(section = "4.2", id = "a")
 	public void testValidatedObjectIsPassedToValidatorOfClassLevelConstraint() {
 		Person person = new Person();
-		validator.validate( person );
+		getValidator().validate( person );
 
 		assertEquals( ValidPerson.ValidPersonValidator.validatedValue, person );
 	}
@@ -65,7 +61,7 @@ public class ValueAccessStrategyTest extends Arquillian {
 	})
 	public void testValueFromFieldIsPassedToValidatorOfFieldLevelConstraint() {
 		Person person = new Person();
-		validator.validate( person );
+		getValidator().validate( person );
 
 		assertEquals(
 				ValidFirstName.ValidFirstNameValidator.validatedValue,
@@ -81,14 +77,9 @@ public class ValueAccessStrategyTest extends Arquillian {
 	})
 	public void testValueFromGetterIsPassedToValidatorOfPropertyLevelConstraint() {
 		Person person = new Person();
-		validator.validate( person );
+		getValidator().validate( person );
 
 		assertEquals( ValidName.Validator.validatedValue, "Billy", "Expected value to be retrieved from getter." );
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
 	}
 
 	@ValidPerson

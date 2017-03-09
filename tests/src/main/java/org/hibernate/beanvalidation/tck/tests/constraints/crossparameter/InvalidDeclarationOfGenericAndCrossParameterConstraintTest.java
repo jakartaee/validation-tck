@@ -11,42 +11,30 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import javax.validation.ConstraintDeclarationException;
 import javax.validation.ConstraintTarget;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends Arquillian {
-
-	private Validator validator;
-	private ExecutableValidator executableValidator;
+public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( InvalidDeclarationOfGenericAndCrossParameterConstraintTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forExecutables();
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -59,7 +47,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		Method method = Foo.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Usage of ConstraintTarget.IMPLICIT not allowed for methods with parameters and return value. Expected exception wasn't thrown." );
 	}
 
@@ -72,7 +60,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		Constructor<?> constructor = Bar.class.getConstructor( Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		executableValidator.validateConstructorParameters( constructor, parameterValues );
+		getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
 		fail( "Usage of ConstraintTarget.IMPLICIT not allowed for constructors with parameters. Expected exception wasn't thrown." );
 	}
 
@@ -85,7 +73,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		Method method = Qux.class.getMethod( "qux" );
 		Object[] parameterValues = new Object[0];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed for methods without parameters. Expected exception wasn't thrown." );
 	}
 
@@ -97,7 +85,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		Constructor<?> constructor = Baz.class.getConstructor();
 		Object[] parameterValues = new Object[0];
 
-		executableValidator.validateConstructorParameters( constructor, parameterValues );
+		getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed for constructors without parameters. Expected exception wasn't thrown." );
 	}
 
@@ -109,7 +97,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 		Method method = Zap.class.getMethod( "zap" );
 		Object returnValue = null;
 
-		executableValidator.validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed for methods without return value. Expected exception wasn't thrown." );
 	}
 
@@ -117,7 +105,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@SpecAssertion(section = "3.1.1.4", id = "c")
 	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetParametersOnClassCausesException() throws Exception {
-		validator.validate( new TypeWithConstraintTargetParameter() );
+		getValidator().validate( new TypeWithConstraintTargetParameter() );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on type definitions. Expected exception wasn't thrown." );
 	}
 
@@ -125,7 +113,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@SpecAssertion(section = "3.1.1.4", id = "c")
 	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetReturnValueOnClassCausesException() throws Exception {
-		validator.validate( new TypeWithConstraintTargetReturnValue() );
+		getValidator().validate( new TypeWithConstraintTargetReturnValue() );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on type definitions. Expected exception wasn't thrown." );
 	}
 
@@ -133,7 +121,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@SpecAssertion(section = "3.1.1.4", id = "c")
 	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetParametersOnInterfaceCausesException() throws Exception {
-		validator.validate( new InterfaceWithConstraintTargetParameterImpl() );
+		getValidator().validate( new InterfaceWithConstraintTargetParameterImpl() );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on interface definitions. Expected exception wasn't thrown." );
 	}
 
@@ -141,7 +129,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@SpecAssertion(section = "3.1.1.4", id = "c")
 	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetReturnValueOnInterfaceCausesException() throws Exception {
-		validator.validate( new InterfaceWithConstraintTargetReturnValueImpl() );
+		getValidator().validate( new InterfaceWithConstraintTargetReturnValueImpl() );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on interface definitions. Expected exception wasn't thrown." );
 	}
 
@@ -149,7 +137,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@SpecAssertion(section = "3.1.1.4", id = "c")
 	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetParametersOnFieldCausesException() throws Exception {
-		validator.validate( new TypeWithFieldWithConstraintTargetParameter() );
+		getValidator().validate( new TypeWithFieldWithConstraintTargetParameter() );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on fields. Expected exception wasn't thrown." );
 	}
 
@@ -157,7 +145,7 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	@SpecAssertion(section = "3.1.1.4", id = "c")
     @SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetReturnValueOnFieldCausesException() throws Exception {
-		validator.validate( new TypeWithFieldWithConstraintTargetReturnValue() );
+		getValidator().validate( new TypeWithFieldWithConstraintTargetReturnValue() );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on fields. Expected exception wasn't thrown." );
 	}
 

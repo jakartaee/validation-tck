@@ -9,20 +9,17 @@ package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefi
 import java.lang.reflect.Method;
 import java.util.Date;
 import javax.validation.ConstraintDefinitionException;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.fail;
 
 /**
@@ -30,22 +27,13 @@ import static org.testng.Assert.fail;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidConstraintDefinitionsTest extends Arquillian {
-
-	private Validator validator;
-	private ExecutableValidator executableValidator;
+public class InvalidConstraintDefinitionsTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( InvalidConstraintDefinitionsTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidators() {
-		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forExecutables();
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
@@ -53,7 +41,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1", id = "b")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithParameterStartingWithValid() {
-		validator.validate( new DummyEntityValidProperty() );
+		getValidator().validate( new DummyEntityValidProperty() );
 		fail( "The used constraint does use an invalid property name. The validation should have failed." );
 	}
 
@@ -64,7 +52,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "5.3.1", id = "c")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithoutMessageParameter() {
-		validator.validate( new DummyEntityNoMessage() );
+		getValidator().validate( new DummyEntityNoMessage() );
 		fail( "The used constraint does not define a message parameter. The validation should have failed." );
 	}
 
@@ -73,7 +61,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.2", id = "a")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithoutGroupParameter() {
-		validator.validate( new DummyEntityNoGroups() );
+		getValidator().validate( new DummyEntityNoGroups() );
 		fail( "The used constraint does not define a groups parameter. The validation should have failed." );
 	}
 
@@ -82,7 +70,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.3", id = "a")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithoutPayloadParameter() {
-		validator.validate( new DummyEntityNoGroups() );
+		getValidator().validate( new DummyEntityNoGroups() );
 		fail( "The used constraint does not define a payload parameter. The validation should have failed." );
 	}
 
@@ -91,7 +79,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.2", id = "c")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongDefaultGroupValue() {
-		validator.validate( new DummyEntityInvalidDefaultGroup() );
+		getValidator().validate( new DummyEntityInvalidDefaultGroup() );
 		fail( "The default groups parameter is not the empty array. The validation should have failed." );
 	}
 
@@ -100,7 +88,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.3", id = "b")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongDefaultPayloadValue() {
-		validator.validate( new DummyEntityInvalidDefaultPayload() );
+		getValidator().validate( new DummyEntityInvalidDefaultPayload() );
 		fail( "The default payload parameter is not the empty array. The validation should have failed." );
 	}
 
@@ -110,7 +98,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.3", id = "c")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongPayloadClass() {
-		validator.validate( new DummyEntityInvalidPayloadClass() );
+		getValidator().validate( new DummyEntityInvalidPayloadClass() );
 		fail( "The default payload parameter has to be of type Class<? extends Payload>[]. The validation should have failed." );
 	}
 
@@ -119,7 +107,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.1", id = "a")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongMessageType() {
-		validator.validate( new DummyEntityInvalidMessageType() );
+		getValidator().validate( new DummyEntityInvalidMessageType() );
 		fail( "The message parameter has to be of type String. The validation should have failed." );
 	}
 
@@ -128,7 +116,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.2", id = "b")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongGroupType() {
-		validator.validate( new DummyEntityInvalidGroupsType() );
+		getValidator().validate( new DummyEntityInvalidGroupsType() );
 		fail( "The groups parameter has to be of type Class<?>[]. The validation should have failed." );
 	}
 
@@ -139,7 +127,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Validators for cross-parameter constraints must validate the type Object or Object[]. Expected exception wasn't thrown." );
 	}
 
@@ -155,7 +143,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[2];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "There must be only one validator for a cross-parameter constraint. Expected exception wasn't thrown." );
 	}
 
@@ -171,7 +159,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[2];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "There must be only one validator for a cross-parameter constraint. Expected exception wasn't thrown." );
 	}
 
@@ -180,7 +168,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.4", id = "a")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testGenericAndCrossParameterConstraintWithoutValidationAppliesToCausesException() {
-		validator.validate( new DummyEntityNoValidationAppliesTo() );
+		getValidator().validate( new DummyEntityNoValidationAppliesTo() );
 		fail( "A constraint which is generic and cross-parameter needs to define a member validationAppliesTo. The validation should have failed." );
 	}
 
@@ -189,7 +177,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.4", id = "a")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testGenericConstraintWithValidationAppliesToCausesException() {
-		validator.validate( new DummyEntityWithUnexpectedValidationAppliesTo() );
+		getValidator().validate( new DummyEntityWithUnexpectedValidationAppliesTo() );
 		fail( "A pure generic constraint must not define a member validationAppliesTo. The validation should have failed." );
 	}
 
@@ -207,7 +195,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[2];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "A pure cross-parameter constraint must not define a member validationAppliesTo. The validation should have failed." );
 	}
 
@@ -216,7 +204,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.4", id = "b")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongValidationAppliesToType() {
-		validator.validate( new DummyEntityWithValidationAppliesToOfWrongType() );
+		getValidator().validate( new DummyEntityWithValidationAppliesToOfWrongType() );
 		fail( "The validationAppliesTo parameter has to be of type ConstraintTarget. The validation should have failed." );
 	}
 
@@ -225,7 +213,7 @@ public class InvalidConstraintDefinitionsTest extends Arquillian {
 	@SpecAssertion(section = "3.1.1.4", id = "b")
 	@SpecAssertion(section = "9.2", id = "a")
 	public void testConstraintDefinitionWithWrongDefaultValidationAppliesTo() {
-		validator.validate( new DummyEntityWithValidationAppliesToWithWrongDefaultValue() );
+		getValidator().validate( new DummyEntityWithValidationAppliesToWithWrongDefaultValue() );
 		fail( "The validationAppliesTo parameter must have a default value of ConstraintTarget.IMPLICIT. The validation should have failed." );
 	}
 

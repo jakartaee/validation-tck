@@ -10,15 +10,12 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import javax.validation.ConstraintDeclarationException;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
@@ -35,32 +32,26 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.OrderServiceSubClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassAddingParameterConstraints;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassMarkingParameterAsCascaded;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidMethodConstraintDeclarationTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( InvalidMethodConstraintDeclarationTest.class )
 				.withPackage( ImplementationAddingParameterConstraints.class.getPackage() )
 				.withPackage( AbstractCalendarService.class.getPackage() )
 				.withPackage( Person.class.getPackage() )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -72,7 +63,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Implementing method must add no parameter constraints. Expected exception wasn't thrown." );
 	}
 
@@ -84,7 +75,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Overriding subclass method must add no parameter constraints. Expected exception wasn't thrown." );
 	}
 
@@ -97,7 +88,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Implementing method must not mark a parameter cascaded. Expected exception wasn't thrown." );
 	}
 
@@ -109,7 +100,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "Overriding subclass method must not mark a parameter cascaded. Expected exception wasn't thrown." );
 	}
 
@@ -122,7 +113,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "A method defined in two parallel interfaces must have no parameter constraints. Expected exception wasn't thrown." );
 	}
 
@@ -135,7 +126,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "A method defined in an interface and a superclass not implementing this interface must have no parameter constraints. Expected exception wasn't thrown." );
 	}
 
@@ -148,7 +139,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "A method defined in two parallel interfaces must not have no parameters marked as cascaded. Expected exception wasn't thrown." );
 	}
 
@@ -161,7 +152,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object[] parameterValues = new Object[3];
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 		fail( "A method defined in an interface and a superclass not implementing this interface must have no parameters marked as cascaded. Expected exception wasn't thrown." );
 	}
 
@@ -174,7 +165,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getPlaceOrderMethod( object );
 		Object returnValue = new Order();
 
-		executableValidator.validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 		fail( "A method must not mark the return value as cascaded if the implemented interface method is cascaded, too. Expected exception wasn't thrown." );
 	}
 
@@ -187,7 +178,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getPlaceOrderMethod( object );
 		Object returnValue = new Order();
 
-		executableValidator.validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 		fail( "A method must not mark the return value as cascaded if the overridden superclass method is cascaded, too. Expected exception wasn't thrown." );
 	}
 
@@ -200,7 +191,7 @@ public class InvalidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getPlaceOrderMethod( object );
 		Object returnValue = new Order();
 
-		executableValidator.validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 		fail( "An interface method must not mark the return value as cascaded if the overridden superinterface method is cascaded, too. Expected exception wasn't thrown." );
 	}
 

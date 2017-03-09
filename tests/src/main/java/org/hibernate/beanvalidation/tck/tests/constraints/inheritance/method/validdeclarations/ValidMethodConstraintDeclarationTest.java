@@ -14,14 +14,11 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidBusinessCalendarEvent;
@@ -33,34 +30,29 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.val
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceImplementation;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceSubClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.ImplementationOfParallelInterfacesMarkingReturnValueAsCascaded;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidMethodConstraintDeclarationTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ValidMethodConstraintDeclarationTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( ValidMethodConstraintDeclarationTest.class )
 				.withPackage( ValidCalendarEvent.class.getPackage() )
 				.withPackage( CalendarEvent.class.getPackage() )
 				.withPackage( CalendarServiceImplementation.class.getPackage() )
 				.withPackage( CalendarService.class.getPackage() )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -70,7 +62,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -86,7 +78,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -102,7 +94,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventWithDurationMethod( object );
 		Object returnValue = new CalendarEvent();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -124,7 +116,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventWithParticipantsMethod( object );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -140,7 +132,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventWithParticipantsMethod( object );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -161,7 +153,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventWithDurationMethod( object );
 		Object returnValue = new CalendarEvent();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -182,7 +174,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( int.class );
 		Object[] parameterValues = new Object[] { 4 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -196,7 +188,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( CalendarEvent.class );
 		Object[] parameterValues = new Object[] { new CalendarEvent() };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -216,7 +208,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( String.class );
 		Object returnValue = new CalendarServiceSubClass();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -236,7 +228,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Constructor<?> constructor = CalendarServiceSubClass.class.getConstructor( long.class );
 		Object returnValue = new CalendarServiceSubClass();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -257,7 +249,7 @@ public class ValidMethodConstraintDeclarationTest extends Arquillian {
 		Method method = getCreateEventMethod( object );
 		Object returnValue = new CalendarEvent();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue

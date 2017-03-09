@@ -12,14 +12,11 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.ValidationException;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -32,6 +29,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Ex
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -41,6 +39,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -48,13 +47,11 @@ import static org.testng.Assert.assertNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidateConstructorReturnValueTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ValidateConstructorReturnValueTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidateConstructorReturnValueTest.class )
 				.withPackage( MyCrossParameterConstraint.class.getPackage() )
 				.withClass( Address.class )
@@ -63,11 +60,6 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 				.withClass( Item.class )
 				.withClass( OrderLine.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -83,7 +75,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer();
 
-		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Customer>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -112,7 +104,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor( String.class );
 		Customer returnValue = new Customer();
 
-		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Customer>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -138,7 +130,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor( CharSequence.class );
 		Customer returnValue = new Customer();
 
-		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Customer>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -164,7 +156,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer( "Bob" );
 
-		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Customer>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -178,14 +170,14 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor( long.class );
 		Customer returnValue = new Customer();
 
-		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Customer>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateConstructorReturnValue(
+		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				Extended.class
@@ -205,14 +197,14 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor( Date.class );
 		Customer returnValue = new Customer();
 
-		Set<ConstraintViolation<Customer>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Customer>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateConstructorReturnValue(
+		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				Basic.class,
@@ -238,7 +230,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Email> constructor = Email.class.getConstructor();
 		Email returnValue = new Email();
 
-		executableValidator.validateConstructorReturnValue( constructor, returnValue );
+		getExecutableValidator().validateConstructorReturnValue( constructor, returnValue );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
@@ -247,7 +239,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = null;
 		Customer returnValue = new Customer();
 
-		executableValidator.validateConstructorReturnValue(
+		getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -259,7 +251,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = null;
 
-		executableValidator.validateConstructorReturnValue(
+		getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -271,7 +263,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer();
 
-		executableValidator.validateConstructorReturnValue(
+		getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				(Class<?>[]) null
@@ -284,7 +276,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer();
 
-		executableValidator.validateConstructorReturnValue(
+		getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue,
 				(Class<?>) null
@@ -301,7 +293,7 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 		Object createdObject = new OrderLine( leaf );
 		Constructor<OrderLine> constructor = OrderLine.class.getConstructor( Item.class );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				createdObject
 		);

@@ -15,14 +15,11 @@ import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -32,6 +29,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -41,6 +39,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -48,13 +47,11 @@ import static org.testng.Assert.assertNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidateConstructorParametersTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ValidateConstructorParametersTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidateConstructorParametersTest.class )
 				.withPackage( MyCrossParameterConstraint.class.getPackage() )
 				.withClass( Address.class )
@@ -62,11 +59,6 @@ public class ValidateConstructorParametersTest extends Arquillian {
 				.withClass( OrderLine.class )
 				.withClass( User.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -83,7 +75,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		String arg0 = "B";
 		Object[] parameterValues = new Object[] { arg0 };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -111,7 +103,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { null, null };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -137,7 +129,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, "S" };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -163,7 +155,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( String.class, int.class );
 		Object[] parameterValues = new Object[] { "S", 0 };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -189,7 +181,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( CharSequence.class );
 		Object[] parameterValues = new Object[] { "S" };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -219,7 +211,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, null, null };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -252,7 +244,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { "Bob", "Smith" };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -266,14 +258,14 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( String.class, long.class );
 		Object[] parameterValues = new Object[] { "S", 0l };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateConstructorParameters(
+		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				Extended.class
@@ -293,14 +285,14 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, null };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateConstructorParameters(
+		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				Extended.class
@@ -321,14 +313,14 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, "S", null };
 
-		Set<ConstraintViolation<User>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<User>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateConstructorParameters(
+		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				Basic.class,
@@ -356,7 +348,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<Address> constructor = Address.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { "S" };
 
-		executableValidator.validateConstructorParameters( constructor, parameterValues );
+		getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
@@ -365,7 +357,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = null;
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateConstructorParameters(
+		getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -377,7 +369,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		Object[] parameterValues = null;
 
-		executableValidator.validateConstructorParameters(
+		getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -389,7 +381,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateConstructorParameters(
+		getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				(Class<?>[]) null
@@ -402,7 +394,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateConstructorParameters(
+		getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues,
 				(Class<?>) null
@@ -419,7 +411,7 @@ public class ValidateConstructorParametersTest extends Arquillian {
 		Constructor<OrderLine> constructor = OrderLine.class.getConstructor( Item.class );
 		Object[] parameterValues = new Object[] { leaf };
 
-		Set<ConstraintViolation<OrderLine>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<OrderLine>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);

@@ -13,16 +13,14 @@ import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
 import javax.validation.UnexpectedTypeException;
-import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
@@ -30,6 +28,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstr
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -41,20 +40,13 @@ import static org.testng.Assert.fail;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidatorResolutionTest {
-
-	private Validator validator;
+public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( ValidatorResolutionTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
 	}
 
 	@Test
@@ -66,7 +58,7 @@ public class ValidatorResolutionTest {
 				"The validate method of ValidatorForCustomInterface should not have been called yet."
 		);
 
-		validator.validate( new CustomInterfaceImpl() );
+		getValidator().validate( new CustomInterfaceImpl() );
 
 		assertTrue(
 				CustomConstraint.ValidatorForCustomInterface.callCounter > 0,
@@ -83,7 +75,7 @@ public class ValidatorResolutionTest {
 				"The validate method of ValidatorForCustomClass should not have been called yet."
 		);
 
-		validator.validate( new CustomClass() );
+		getValidator().validate( new CustomClass() );
 
 		assertTrue(
 				CustomConstraint.ValidatorForCustomClass.callCounter > 0,
@@ -101,7 +93,7 @@ public class ValidatorResolutionTest {
 				"The validate method of ValidatorForSubClassA should not have been called yet."
 		);
 
-		validator.validate( new SubClassAHolder( new SubClassA() ) );
+		getValidator().validate( new SubClassAHolder( new SubClassA() ) );
 
 		assertTrue(
 				CustomConstraint.ValidatorForSubClassA.callCounter > 0,
@@ -119,7 +111,7 @@ public class ValidatorResolutionTest {
 				"The validate method of ValidatorForSubClassB should not have been called yet."
 		);
 
-		validator.validate( new SubClassBHolder( new SubClassB() ) );
+		getValidator().validate( new SubClassBHolder( new SubClassB() ) );
 
 		assertTrue(
 				CustomConstraint.ValidatorForSubClassB.callCounter > 0,
@@ -136,7 +128,7 @@ public class ValidatorResolutionTest {
 				"The validate method of ValidatorForAnotherSubClass should not have been called yet."
 		);
 
-		validator.validate( new AnotherSubClass() );
+		getValidator().validate( new AnotherSubClass() );
 
 		assertTrue(
 				CustomConstraint.ValidatorForAnotherSubClass.callCounter > 0,
@@ -150,22 +142,22 @@ public class ValidatorResolutionTest {
 		Suburb suburb = new Suburb();
 
 		// all values are null and should pass
-		Set<ConstraintViolation<Suburb>> constraintViolations = validator.validate( suburb );
+		Set<ConstraintViolation<Suburb>> constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 
 		suburb.setName( "" );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(), Suburb.class, "", "name"
 		);
 
 		suburb.setName( "Hoegsbo" );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 
 		suburb.addFacility( Suburb.Facility.SHOPPING_MALL, false );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
@@ -175,11 +167,11 @@ public class ValidatorResolutionTest {
 		);
 
 		suburb.addFacility( Suburb.Facility.BUS_TERMINAL, true );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 
 		suburb.addStreetName( "Sikelsgatan" );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
@@ -189,7 +181,7 @@ public class ValidatorResolutionTest {
 		);
 
 		suburb.addStreetName( "Marklandsgatan" );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 
 		Coordinate[] boundingBox = new Coordinate[3];
@@ -197,7 +189,7 @@ public class ValidatorResolutionTest {
 		boundingBox[1] = new Coordinate( 0l, 1l );
 		boundingBox[2] = new Coordinate( 1l, 0l );
 		suburb.setBoundingBox( boundingBox );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
@@ -212,7 +204,7 @@ public class ValidatorResolutionTest {
 		boundingBox[2] = new Coordinate( 1l, 0l );
 		boundingBox[3] = new Coordinate( 1l, 1l );
 		suburb.setBoundingBox( boundingBox );
-		constraintViolations = validator.validate( suburb );
+		constraintViolations = getValidator().validate( suburb );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
@@ -220,7 +212,7 @@ public class ValidatorResolutionTest {
 	@SpecAssertion(section = "4.6.4", id = "e")
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
-		Set<ConstraintViolation<MinMax>> constraintViolations = validator.validate( minMax );
+		Set<ConstraintViolation<MinMax>> constraintViolations = getValidator().validate( minMax );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 		assertCorrectPropertyPaths( constraintViolations, "number", "numberAsString" );
 	}
@@ -231,7 +223,7 @@ public class ValidatorResolutionTest {
 	@SpecAssertion(section = "3.4", id = "m")
 	public void testUnexpectedTypeInValidatorResolution() {
 		Bar bar = new Bar();
-		validator.validate( bar );
+		getValidator().validate( bar );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
@@ -239,7 +231,7 @@ public class ValidatorResolutionTest {
 	@SpecAssertion(section = "9.3", id = "b")
 	public void testAmbiguousValidatorResolution() {
 		Foo foo = new Foo( new SerializableBarSubclass() );
-		validator.validate( foo );
+		getValidator().validate( foo );
 		fail( "The test should have failed due to ambiguous validator resolution." );
 	}
 
@@ -247,7 +239,7 @@ public class ValidatorResolutionTest {
 	@SpecAssertion(section = "4.6.4", id = "g")
 	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
-		Set<ConstraintViolation<PrimitiveHolder>> violations = validator.validate( primitiveHolder );
+		Set<ConstraintViolation<PrimitiveHolder>> violations = getValidator().validate( primitiveHolder );
 
 		assertCorrectNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, ValidInteger.class, ValidLong.class );
@@ -260,7 +252,7 @@ public class ValidatorResolutionTest {
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		validator.forExecutables().validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
@@ -270,7 +262,7 @@ public class ValidatorResolutionTest {
 		Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		validator.forExecutables().validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 	}
 
 	@Test
@@ -280,7 +272,7 @@ public class ValidatorResolutionTest {
 		Method method = OfflineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
 
 		assertCorrectConstraintViolationMessages( violations, "violation created by cross-parameter validator" );
@@ -293,7 +285,7 @@ public class ValidatorResolutionTest {
 		Method method = AdvancedCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
 		assertCorrectConstraintViolationMessages( violations, "violation created by cross-parameter validator" );
 	}
@@ -306,7 +298,7 @@ public class ValidatorResolutionTest {
 		Method method = YetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
 		assertCorrectConstraintViolationMessages( violations, "violation created by validator for Object[]" );
 	}
@@ -319,7 +311,7 @@ public class ValidatorResolutionTest {
 		Method method = EvenYetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
 		assertCorrectConstraintViolationMessages( violations, "violation created by validator for Object" );
 	}
@@ -331,7 +323,7 @@ public class ValidatorResolutionTest {
 		Method method = AnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = validator.forExecutables()
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateReturnValue( object, method, returnValue );
 		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
 	}
@@ -339,14 +331,14 @@ public class ValidatorResolutionTest {
 	@Test
 	@SpecAssertion(section = "4.6.4", id = "f")
 	public void testGenericValidatorIsUsedForConstraintTargetingField() {
-		Set<ConstraintViolation<TestBean>> violations = validator.validate( new TestBean() );
+		Set<ConstraintViolation<TestBean>> violations = getValidator().validate( new TestBean() );
 		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertion(section = "4.6.4", id = "j")
 	public void testTwoValidatorsForSameTypeCauseUnexpectedTypeException() {
-		validator.validate( new AnotherBean() );
+		getValidator().validate( new AnotherBean() );
 	}
 
 	private static class SubClassAHolder {

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,17 +19,15 @@ import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -38,26 +35,19 @@ import static org.testng.Assert.assertTrue;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ConstraintInheritanceTest extends Arquillian {
-
-	private Validator validator;
+public class ConstraintInheritanceTest extends BaseValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( ConstraintInheritanceTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
 	}
 
 	@Test
 	@SpecAssertion(section = "4.3", id = "b")
 	public void testConstraintsOnSuperClassAreInherited() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "foo";
 		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
@@ -73,7 +63,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 	@SpecAssertion(section = "4.3", id = "a")
 	@SpecAssertion(section = "4.3", id = "b")
 	public void testConstraintsOnInterfaceAreInherited() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "fubar";
 		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
@@ -89,7 +79,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 	@SpecAssertion(section = "4.3", id = "a")
 	@SpecAssertion(section = "4.3", id = "c")
 	public void testConstraintsOnInterfaceAndImplementationAddUp() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "name";
 		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
@@ -106,7 +96,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 	@SpecAssertion(section = "4.3", id = "a")
 	@SpecAssertion(section = "4.3", id = "c")
 	public void testConstraintsOnSuperAndSubClassAddUp() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "lastName";
 		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
@@ -122,7 +112,7 @@ public class ConstraintInheritanceTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "4.6", id = "a")
 	public void testValidationConsidersConstraintsFromSuperTypes() {
-		Set<ConstraintViolation<Bar>> violations = validator.validate( new Bar() );
+		Set<ConstraintViolation<Bar>> violations = getValidator().validate( new Bar() );
 		assertCorrectConstraintTypes(
 				violations,
 				DecimalMin.class, DecimalMin.class, ValidBar.class, //Bar
