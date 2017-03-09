@@ -13,22 +13,21 @@ import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ParameterNameProvider;
-import javax.validation.Validator;
+
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.testng.annotations.Test;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -36,22 +35,16 @@ import static org.testng.Assert.assertNotNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class DefaultParameterNameProviderTest extends Arquillian {
-
-	private Validator validator;
+public class DefaultParameterNameProviderTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( DefaultParameterNameProviderTest.class )
-				.withClass( BrokenCustomParameterNameProvider.class )
-				.withClass( User.class )
-				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
+				.withClasses(
+						BrokenCustomParameterNameProvider.class,
+						User.class
+				).build();
 	}
 
 	@Test
@@ -61,7 +54,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		Method method = User.class.getMethod( "setNames", String.class, String.class );
 		Object[] parameters = new Object[] { null, null };
 
-		Set<ConstraintViolation<Object>> constraintViolations = validator.forExecutables()
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator()
 				.validateParameters( object, method, parameters );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 
@@ -81,7 +74,7 @@ public class DefaultParameterNameProviderTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null, null, null };
 
-		Set<ConstraintViolation<User>> constraintViolations = validator.forExecutables()
+		Set<ConstraintViolation<User>> constraintViolations = getExecutableValidator()
 				.validateConstructorParameters( constructor, parameters );
 		assertCorrectNumberOfViolations( constraintViolations, 3 );
 

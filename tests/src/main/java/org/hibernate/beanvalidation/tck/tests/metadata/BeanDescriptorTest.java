@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.MethodDescriptor;
@@ -21,18 +20,16 @@ import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -43,13 +40,11 @@ import static org.testng.Assert.assertTrue;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class BeanDescriptorTest extends Arquillian {
-
-	private Validator validator;
+public class BeanDescriptorTest extends BaseValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( BeanDescriptorTest.class )
 				.withClasses(
 						Customer.class,
@@ -68,15 +63,10 @@ public class BeanDescriptorTest extends Arquillian {
 				.build();
 	}
 
-	@BeforeMethod
-	private void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
-	}
-
 	@Test
 	@SpecAssertion(section = "6.2", id = "a")
 	public void testGetElementClassReturnsBeanClass() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Customer.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Customer.class );
 		assertEquals( beanDescriptor.getElementClass(), Customer.class, "Wrong element class" );
 	}
 
@@ -86,7 +76,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testIsBeanConstrainedDueToValidAnnotation() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Customer.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Customer.class );
 
 		// constraint via @Valid
 		assertFalse(
@@ -106,7 +96,7 @@ public class BeanDescriptorTest extends Arquillian {
 	})
 	public void testIsBeanConstrainedDueToConstraintOnEntity() {
 		// constraint hosted on bean itself
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Account.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Account.class );
 		assertTrue(
 				beanDescriptor.hasConstraints(),
 				"There should be direct constraints on the specified bean."
@@ -124,7 +114,7 @@ public class BeanDescriptorTest extends Arquillian {
 	})
 	public void testIsBeanConstrainedDueToConstraintProperty() {
 		// constraint on bean property
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
 		assertFalse(
 				beanDescriptor.hasConstraints(),
 				"There should be no direct constraints on the specified bean."
@@ -142,7 +132,7 @@ public class BeanDescriptorTest extends Arquillian {
 	})
 	public void testIsBeanConstrainedDueToConstraintOnInterface() {
 		// constraint on implemented interface
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Man.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Man.class );
 		assertFalse(
 				beanDescriptor.hasConstraints(),
 				"There should be no direct constraints on the specified bean."
@@ -159,7 +149,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.3", id = "a")
 	})
 	public void testUnconstrainedClass() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
 		assertFalse(
 				beanDescriptor.hasConstraints(),
 				"There should be no direct constraints on the specified bean."
@@ -173,7 +163,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.3", id = "b")
 	})
 	public void testGetConstraintsForConstrainedProperty() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty(
 				"orderNumber"
 		);
@@ -190,7 +180,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.4", id = "a")
 	})
 	public void testGetConstraintsForUnConstrainedProperty() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Customer.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Customer.class );
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty(
 				"orderList"
 		);
@@ -208,7 +198,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.3", id = "b")
 	})
 	public void testGetConstraintsForNonExistingProperty() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
 		assertNull(
 				beanDescriptor.getConstraintsForProperty( "foobar" ),
 				"There should be no descriptor"
@@ -221,7 +211,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.3", id = "d")
 	})
 	public void testGetConstrainedProperties() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();
 		assertEquals( constraintProperties.size(), 1, "There should be only one property" );
 		boolean hasOrderNumber = false;
@@ -237,7 +227,7 @@ public class BeanDescriptorTest extends Arquillian {
 			@SpecAssertion(section = "6.3", id = "d")
 	})
 	public void testGetConstrainedPropertiesForUnconstrainedEntity() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();
 		assertEquals( constraintProperties.size(), 0, "We should get the empty set." );
 	}
@@ -245,7 +235,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "6.3", id = "c")
 	public void testGetConstraintsForNullProperty() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
 		beanDescriptor.getConstraintsForProperty( null );
 	}
 
@@ -294,7 +284,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "e")
 	public void testGetConstraintsForNonExistingMethod() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		MethodDescriptor methodDescriptor = beanDescriptor.getConstraintsForMethod( "foo" );
 		assertNull( methodDescriptor, "Descriptor should be null" );
 	}
@@ -302,14 +292,14 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "6.3", id = "e")
 	public void testGetConstraintsForNullMethod() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		beanDescriptor.getConstraintsForMethod( null );
 	}
 
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
 	public void testGetConstrainedMethodsTypeNON_GETTER() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods( MethodType.NON_GETTER );
 
 		List<String> actualMethodNames = new ArrayList<String>();
@@ -337,7 +327,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
 	public void testGetConstrainedMethodsTypeGETTER() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods( MethodType.GETTER );
 
 		assertEquals( methodDescriptors.size(), 1 );
@@ -347,7 +337,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
 	public void testGetConstrainedMethodsTypesGETTERAndNON_GETTER() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods(
 				MethodType.GETTER,
 				MethodType.NON_GETTER
@@ -379,7 +369,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "f")
 	public void testGetConstrainedMethodsForUnconstrainedEntity() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods(
 				MethodType.GETTER,
 				MethodType.NON_GETTER
@@ -432,7 +422,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "g")
 	public void testGetConstraintsForNonExistingConstructorConstructor() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		ConstructorDescriptor constructorDescriptor = beanDescriptor.getConstraintsForConstructor(
 				Short.class
 		);
@@ -442,7 +432,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "h")
 	public void testGetConstrainedConstructors() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( CustomerService.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		Set<ConstructorDescriptor> constructorDescriptors = beanDescriptor.getConstrainedConstructors();
 
 		Set<List<Class<?>>> actualParameterTypes = getParameterTypes( constructorDescriptors );
@@ -463,7 +453,7 @@ public class BeanDescriptorTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "6.3", id = "h")
 	public void testGetConstrainedConstructorsForUnconstrainedEntity() {
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
 		Set<ConstructorDescriptor> constructorDescriptors = beanDescriptor.getConstrainedConstructors();
 		assertEquals( constructorDescriptors.size(), 0, "We should get the empty set." );
 	}

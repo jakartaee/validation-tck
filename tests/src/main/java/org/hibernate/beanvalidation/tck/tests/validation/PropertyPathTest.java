@@ -32,18 +32,16 @@ import javax.validation.Path.PropertyNode;
 import javax.validation.Path.ReturnValueNode;
 import javax.validation.Payload;
 import javax.validation.Valid;
-import javax.validation.Validator;
 import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -52,6 +50,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -63,15 +62,11 @@ import static org.testng.Assert.assertTrue;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class PropertyPathTest extends Arquillian {
-
-	private Validator validator;
-
-	private ExecutableValidator executableValidator;
+public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( PropertyPathTest.class )
 				.withClasses(
 						Actor.class,
@@ -96,12 +91,6 @@ public class PropertyPathTest extends Arquillian {
 				.build();
 	}
 
-	@BeforeMethod
-	public void setupValidators() {
-		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forExecutables();
-	}
-
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = "5.2", id = "l"),
@@ -115,7 +104,7 @@ public class PropertyPathTest extends Arquillian {
 			@SpecAssertion(section = "5.2", id = "ab")
 	})
 	public void testPropertyPathWithConstraintViolationForRootObject() {
-		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = validator.validate( new VerySpecialClass() );
+		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator()
 				.next();
@@ -146,7 +135,7 @@ public class PropertyPathTest extends Arquillian {
 	public void testPropertyPathTraversedObject() {
 		Engine engine = new Engine();
 		engine.setSerialNumber( "ABCDEFGH1234" );
-		Set<ConstraintViolation<Engine>> constraintViolations = validator.validate( engine );
+		Set<ConstraintViolation<Engine>> constraintViolations = getValidator().validate( engine );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Engine> constraintViolation = constraintViolations.iterator().next();
@@ -182,7 +171,7 @@ public class PropertyPathTest extends Arquillian {
 		charlie.addPlayedWith( morgan );
 		morgan.addPlayedWith( charlie );
 
-		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
+		Set<ConstraintViolation<Actor>> constraintViolations = getValidator().validate( clint );
 		checkActorViolations( constraintViolations );
 	}
 
@@ -207,7 +196,7 @@ public class PropertyPathTest extends Arquillian {
 		charlie.addPlayedWith( morgan );
 		morgan.addPlayedWith( charlie );
 
-		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
+		Set<ConstraintViolation<Actor>> constraintViolations = getValidator().validate( clint );
 		checkActorViolations( constraintViolations );
 	}
 
@@ -233,7 +222,7 @@ public class PropertyPathTest extends Arquillian {
 		charlie.addPlayedWith( morgan );
 		morgan.addPlayedWith( charlie );
 
-		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
+		Set<ConstraintViolation<Actor>> constraintViolations = getValidator().validate( clint );
 		checkActorViolations( constraintViolations );
 	}
 
@@ -253,7 +242,7 @@ public class PropertyPathTest extends Arquillian {
 		Actor morgan = new ActorArrayBased( "Morgan", null );
 		Integer id = db.addActor( morgan );
 
-		Set<ConstraintViolation<ActorDB>> constraintViolations = validator.validate( db );
+		Set<ConstraintViolation<ActorDB>> constraintViolations = getValidator().validate( db );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<ActorDB> constraintViolation = constraintViolations.iterator().next();
@@ -286,7 +275,7 @@ public class PropertyPathTest extends Arquillian {
 		Order order = new Order();
 		customer.addOrder( order );
 
-		Set<ConstraintViolation<Customer>> constraintViolations = validator.validate( customer );
+		Set<ConstraintViolation<Customer>> constraintViolations = getValidator().validate( customer );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Customer> constraintViolation = constraintViolations.iterator().next();
@@ -330,7 +319,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { null, null, null };
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -472,7 +461,7 @@ public class PropertyPathTest extends Arquillian {
 		Object returnValue = null;
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -520,7 +509,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { null, null };
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -571,7 +560,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { null, null };
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -698,7 +687,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { null, null };
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -748,7 +737,7 @@ public class PropertyPathTest extends Arquillian {
 		MovieStudio returnValue = new MovieStudio( null );
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -795,7 +784,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -855,7 +844,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -915,7 +904,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -971,7 +960,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -1031,7 +1020,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -1078,7 +1067,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { validStudioName(), employWithoutFirstName() };
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -1134,7 +1123,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -1190,7 +1179,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -1242,7 +1231,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -1298,7 +1287,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -1343,7 +1332,7 @@ public class PropertyPathTest extends Arquillian {
 		Object returnValue = new Movie();
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1394,7 +1383,7 @@ public class PropertyPathTest extends Arquillian {
 		);
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1445,7 +1434,7 @@ public class PropertyPathTest extends Arquillian {
 		};
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1492,7 +1481,7 @@ public class PropertyPathTest extends Arquillian {
 		Object returnValue = asSet( new Movie( validFilmTitle() ), new Movie() );
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1543,7 +1532,7 @@ public class PropertyPathTest extends Arquillian {
 		returnValue.put( "NO_TITLE", new Movie() );
 
 		//when
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -1587,7 +1576,7 @@ public class PropertyPathTest extends Arquillian {
 		MovieStudio returnValue = new MovieStudio( null );
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -1615,7 +1604,7 @@ public class PropertyPathTest extends Arquillian {
 	@Test(expectedExceptions = ClassCastException.class)
 	@SpecAssertion(section = "5.2", id = "r")
 	public void testPassingWrongTypeToAsOnBeanNodeCausesClassCastException() {
-		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = validator.validate( new VerySpecialClass() );
+		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator().next();
 
@@ -1639,7 +1628,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { null, null };
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -1671,7 +1660,7 @@ public class PropertyPathTest extends Arquillian {
 		Object[] parameterValues = new Object[] { null, null };
 
 		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);

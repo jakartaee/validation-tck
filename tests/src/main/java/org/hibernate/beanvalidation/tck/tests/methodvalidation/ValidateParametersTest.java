@@ -15,15 +15,12 @@ import javax.validation.ValidationException;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -33,6 +30,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -42,6 +40,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -49,13 +48,11 @@ import static org.testng.Assert.assertNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidateParametersTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ValidateParametersTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidateParametersTest.class )
 				.withPackage( MyCrossParameterConstraint.class.getPackage() )
 				.withClass( Address.class )
@@ -63,11 +60,6 @@ public class ValidateParametersTest extends Arquillian {
 				.withClass( OrderLine.class )
 				.withClass( User.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -89,7 +81,7 @@ public class ValidateParametersTest extends Arquillian {
 		String arg0 = "B";
 		Object[] parameterValues = new Object[] { arg0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -123,7 +115,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, String.class, String.class );
 		Object[] parameterValues = new Object[] { null, null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -149,7 +141,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, String.class, CharSequence.class );
 		Object[] parameterValues = new Object[] { null, "S" };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -179,7 +171,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, String.class, int.class );
 		Object[] parameterValues = new Object[] { "S", 0 };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -209,7 +201,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, CharSequence.class );
 		Object[] parameterValues = new Object[] { "S" };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -244,7 +236,7 @@ public class ValidateParametersTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[] { null, null, null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -276,7 +268,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( "setNames", String.class, CharSequence.class );
 		Object[] parameterValues = new Object[] { "Bob", "Smith" };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -294,7 +286,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, String.class, long.class );
 		Object[] parameterValues = new Object[] { "S", 0l };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -302,7 +294,7 @@ public class ValidateParametersTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateParameters(
+		violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -323,7 +315,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, CharSequence.class, String.class );
 		Object[] parameterValues = new Object[] { null, null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -331,7 +323,7 @@ public class ValidateParametersTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateParameters(
+		violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -352,7 +344,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( methodName, String.class, String.class, Date.class );
 		Object[] parameterValues = new Object[] { null, "S", null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -360,7 +352,7 @@ public class ValidateParametersTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateParameters(
+		violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -392,7 +384,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = Address.class.getMethod( methodName, String.class );
 		Object[] parameterValues = new Object[] { "S" };
 
-		executableValidator.validateParameters( object, method, parameterValues );
+		getExecutableValidator().validateParameters( object, method, parameterValues );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
@@ -402,7 +394,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( "setFirstName", String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -416,7 +408,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = null;
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -430,7 +422,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( "setFirstName", String.class );
 		Object[] parameterValues = null;
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -444,7 +436,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( "setFirstName", String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -459,7 +451,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = User.class.getMethod( "setFirstName", String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues,
@@ -482,7 +474,7 @@ public class ValidateParametersTest extends Arquillian {
 		Method method = OrderLine.class.getMethod( methodName, Item.class );
 		Object[] parameterValues = new Object[] { leaf };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues

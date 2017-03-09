@@ -19,57 +19,47 @@ import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.Valid;
-import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.PathUtil;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainOnlyPaths;
 import static org.hibernate.beanvalidation.tck.util.PathUtil.pathWith;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class CustomPropertyPathTest extends Arquillian {
-
-	private Validator validator;
-	private ExecutableValidator executableValidator;
-
-	@BeforeMethod
-	public void setupValidators() {
-		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forExecutables();
-	}
+public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( CustomPropertyPathTest.class )
-				.withClass( CustomParameterNameProvider.class )
-				.withClass( PathUtil.class )
-				.build();
+				.withClasses(
+						CustomParameterNameProvider.class,
+						PathUtil.class
+				).build();
 	}
 
 	@Test
 	@SpecAssertion(section = "5.2", id = "an")
 	public void testAddPropertyNode() {
-		Set<ConstraintViolation<Foo>> constraintViolations = validator.validate( new Foo() );
+		Set<ConstraintViolation<Foo>> constraintViolations = getValidator().validate( new Foo() );
 
 		//violated constraint is class-level, thus the paths start with the first added sub-node
 		assertViolationsContainOnlyPaths(
@@ -86,7 +76,7 @@ public class CustomPropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "5.2", id = "an")
 	public void testAddBeanNode() {
-		Set<ConstraintViolation<User>> constraintViolations = validator.validate( new User() );
+		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( new User() );
 
 		//violated constraint is property-level, thus the paths start with that property
 		assertViolationsContainOnlyPaths(
@@ -105,7 +95,7 @@ public class CustomPropertyPathTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "5.2", id = "an")
 	public void testAddingNodesInClassLevelConstraintKeepsInIterableKeyAndIndex() {
-		Set<ConstraintViolation<FooContainer>> constraintViolations = validator.validate( new FooContainer() );
+		Set<ConstraintViolation<FooContainer>> constraintViolations = getValidator().validate( new FooContainer() );
 
 		assertViolationsContainOnlyPaths(
 				constraintViolations,
@@ -141,7 +131,7 @@ public class CustomPropertyPathTest extends Arquillian {
 	public void testAddParameterNode() throws Exception {
 		Object[] parameterValues = new Object[] { Collections.emptyMap() };
 
-		Set<ConstraintViolation<User>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<User>> constraintViolations = getExecutableValidator().validateParameters(
 				new User(),
 				User.class.getMethod( "setAddresses", Map.class ),
 				parameterValues
@@ -189,7 +179,7 @@ public class CustomPropertyPathTest extends Arquillian {
 	@Test(expectedExceptions = Exception.class)
 	@SpecAssertion(section = "5.2", id = "an")
 	public void testAddParameterNodeForFieldLevelConstraintCausesException() throws Throwable {
-		validator.validate( new Bar() );
+		getValidator().validate( new Bar() );
 	}
 
 	@MyClassLevelValidation

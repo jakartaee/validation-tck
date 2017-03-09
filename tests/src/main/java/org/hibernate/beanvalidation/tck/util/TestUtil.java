@@ -39,6 +39,10 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.FileAssert.fail;
 
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+
 /**
  * @author Hardy Ferentschik
  * @author Gunnar Morling
@@ -383,6 +387,14 @@ public final class TestUtil {
 			inputStream = TestUtil.class.getResourceAsStream( path );
 		}
 		return inputStream;
+	}
+
+	public static WebArchiveBuilder webArchiveBuilder() {
+		return new WebArchiveBuilder().withClasses(
+				BaseExecutableValidatorTest.class,
+				BaseValidatorTest.class,
+				WebArchiveBuilder.class
+		);
 	}
 
 	private static <U extends ValidationProvider<?>> void instantiateValidationProviderUnderTest() {

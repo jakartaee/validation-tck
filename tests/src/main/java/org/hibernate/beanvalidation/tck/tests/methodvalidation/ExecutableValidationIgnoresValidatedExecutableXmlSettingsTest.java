@@ -14,49 +14,40 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.Validation;
 import javax.validation.constraints.NotNull;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.StockItem;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest.class )
 				.withClass( StockItem.class )
 				.withClass( ValidStockItem.class )
 				.withValidationXml( "validation-ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest.xml" )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -72,7 +63,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		Method method = StockItem.class.getMethod( methodName, String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -95,7 +86,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		Constructor<StockItem> constructor = StockItem.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
 
-		Set<ConstraintViolation<StockItem>> violations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<StockItem>> violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -119,7 +110,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		Method method = StockItem.class.getMethod( methodName, String.class );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -142,7 +133,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 		Constructor<StockItem> constructor = StockItem.class.getConstructor( String.class );
 		StockItem createdObject = new StockItem( null );
 
-		Set<ConstraintViolation<StockItem>> violations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<StockItem>> violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				createdObject
 		);

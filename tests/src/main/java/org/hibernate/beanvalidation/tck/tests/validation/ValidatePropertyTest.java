@@ -9,25 +9,23 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
-import javax.validation.Validator;
 import javax.validation.constraints.Size;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -38,34 +36,28 @@ import static org.testng.Assert.fail;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidatePropertyTest extends Arquillian {
+public class ValidatePropertyTest extends BaseValidatorTest {
 
-	private Validator validator;
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidatePropertyTest.class )
 				.withClasses( Customer.class, Person.class, Order.class, Address.class, BadlyBehavedEntity.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testPassingNullAsGroup() {
 		Customer customer = new Customer();
-		validator.validateProperty( customer, "firstName", (Class<?>) null );
+		getValidator().validateProperty( customer, "firstName", (Class<?>) null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testIllegalArgumentExceptionIsThrownForNullValue() {
-		validator.validateProperty( null, "firstName" );
+		getValidator().validateProperty( null, "firstName" );
 	}
 
 	@Test
@@ -76,7 +68,7 @@ public class ValidatePropertyTest extends Arquillian {
 	public void testValidatePropertyWithInvalidPropertyPath() {
 		Customer customer = new Customer();
 		try {
-			validator.validateProperty( customer, "foobar" );
+			getValidator().validateProperty( customer, "foobar" );
 			fail();
 		}
 		catch ( IllegalArgumentException e ) {
@@ -86,7 +78,7 @@ public class ValidatePropertyTest extends Arquillian {
 
 		// firstname exists, but the capitalisation is wrong
 		try {
-			validator.validateProperty( customer, "FirstName" );
+			getValidator().validateProperty( customer, "FirstName" );
 			fail();
 		}
 		catch ( IllegalArgumentException e ) {
@@ -98,7 +90,7 @@ public class ValidatePropertyTest extends Arquillian {
 	@SpecAssertion(section = "5.1.1", id = "e")
 	public void testValidatePropertyWithNullProperty() {
 		Customer customer = new Customer();
-		validator.validateProperty( customer, null );
+		getValidator().validateProperty( customer, null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
@@ -108,7 +100,7 @@ public class ValidatePropertyTest extends Arquillian {
 		Order order = new Order();
 		customer.addOrder( order );
 
-		validator.validateProperty( customer, "" );
+		getValidator().validateProperty( customer, "" );
 	}
 
 	@Test
@@ -129,7 +121,7 @@ public class ValidatePropertyTest extends Arquillian {
 		String townInNorthWales = "Llanfairpwllgwyngyllgogerychwyrndrobwyll-llantysiliogogogoch";
 		address.setCity( townInNorthWales );
 
-		Set<ConstraintViolation<Address>> constraintViolations = validator.validateProperty( address, "city" );
+		Set<ConstraintViolation<Address>> constraintViolations = getValidator().validateProperty( address, "city" );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, Size.class );
 
@@ -145,7 +137,7 @@ public class ValidatePropertyTest extends Arquillian {
 		);
 
 		address.setCity( "London" );
-		constraintViolations = validator.validateProperty( address, "city" );
+		constraintViolations = getValidator().validateProperty( address, "city" );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
@@ -156,13 +148,13 @@ public class ValidatePropertyTest extends Arquillian {
 		Order order = new Order();
 		customer.addOrder( order );
 
-		Set<ConstraintViolation<Customer>> constraintViolations = validator.validateProperty( customer, "orders" );
+		Set<ConstraintViolation<Customer>> constraintViolations = getValidator().validateProperty( customer, "orders" );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = "5.1.1", id = "k")
 	public void testUnexpectedExceptionsInValidatePropertyGetWrappedInValidationExceptions() {
-		validator.validateProperty( new BadlyBehavedEntity(), "value" );
+		getValidator().validateProperty( new BadlyBehavedEntity(), "value" );
 	}
 }

@@ -11,45 +11,33 @@ import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class GenericAndCrossParameterConstraintTest extends Arquillian {
-
-	private Validator validator;
-	private ExecutableValidator executableValidator;
+public class GenericAndCrossParameterConstraintTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( GenericAndCrossParameterConstraintTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forExecutables();
 	}
 
 	@Test
@@ -63,14 +51,14 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 		Object[] parameterValues = new Object[2];
 		Object returnValue = new Object();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
 		);
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateReturnValue( object, method, returnValue );
+		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, GenericConstraint.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
@@ -84,14 +72,14 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 		Object[] parameterValues = new Object[2];
 		Object returnValue = new Object();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
 		);
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateReturnValue( object, method, returnValue );
+		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, ExplicitGenericConstraint.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
@@ -105,14 +93,14 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 		Object[] parameterValues = new Object[2];
 		Object returnValue = new Object();
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
 		);
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateParameters( object, method, parameterValues );
+		violations = getExecutableValidator().validateParameters( object, method, parameterValues );
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, CrossParameterConstraint.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
@@ -131,14 +119,14 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 		Object returnValue = new Object();
 
 		//constraint applies to return value
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
 		);
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateReturnValue( object, method, returnValue );
+		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, GenericAndCrossParameterConstraintWithOneValidator.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
@@ -146,10 +134,10 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 		method = MobileCalendar.class.getMethod( "addEvent", Date.class, Date.class );
 
 		//constraint applies to parameters
-		violations = executableValidator.validateReturnValue( object, method, returnValue );
+		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateParameters( object, method, parameterValues );
+		violations = getExecutableValidator().validateParameters( object, method, parameterValues );
 		assertCorrectNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, GenericAndCrossParameterConstraintWithOneValidator.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );

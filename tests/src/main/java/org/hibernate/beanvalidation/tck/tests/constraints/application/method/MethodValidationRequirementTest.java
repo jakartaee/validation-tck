@@ -12,42 +12,34 @@ import java.util.Date;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.NotNull;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MethodValidationRequirementTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class MethodValidationRequirementTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( MethodValidationRequirementTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -57,7 +49,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarService.class.getMethod( "setType", String.class );
 		Object[] parameterValues = new Object[1];
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -74,7 +66,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarService.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[1];
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -94,7 +86,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 				new Date( new Date().getTime() - 1000 )
 		};
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -114,7 +106,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 				new Date( new Date().getTime() - 1000 )
 		};
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -136,7 +128,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[3];
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -161,7 +153,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[3];
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -181,7 +173,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarService.class.getMethod( "findEvents", String.class );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -197,7 +189,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarService.class.getConstructor();
 		Object returnValue = new CalendarService();
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -213,7 +205,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
 		Object[] parameterValues = new Object[] { new User() };
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -235,7 +227,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[] { new User() };
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -257,7 +249,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarEvent.class.getMethod( "getUser" );
 		Object returnValue = new User();
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -279,7 +271,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( String.class );
 		Object returnValue = new CalendarEvent( null, null );
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);
@@ -301,7 +293,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
 		Object[] parameterValues = new Object[1];
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -316,7 +308,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[1];
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -331,7 +323,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarEvent.class.getMethod( "getUser" );
 		Object returnValue = null;
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -347,7 +339,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
 		Object[] parameterValues = new Object[] { new User( new Account() ) };
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -370,7 +362,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[] { new User( new Account() ) };
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorParameters(
 				constructor,
 				parameterValues
 		);
@@ -393,7 +385,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Method method = CalendarEvent.class.getMethod( "getUser" );
 		Object returnValue = new User( new Account() );
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -416,7 +408,7 @@ public class MethodValidationRequirementTest extends Arquillian {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( String.class );
 		Object returnValue = new CalendarEvent();
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateConstructorReturnValue(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
 				returnValue
 		);

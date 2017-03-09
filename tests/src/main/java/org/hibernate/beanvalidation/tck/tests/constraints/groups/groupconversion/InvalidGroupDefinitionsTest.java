@@ -6,21 +6,21 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 import javax.validation.ConstraintDeclarationException;
-import javax.validation.Validator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationConstructorParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue;
@@ -37,7 +37,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
@@ -46,13 +45,11 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidGroupDefinitionsTest extends Arquillian {
-
-	private Validator validator;
+public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( InvalidGroupDefinitionsTest.class )
 				.withPackage( User.class.getPackage() )
 				.withPackage( SubClassWithGroupConversionOnParameter.class.getPackage() )
@@ -60,21 +57,16 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.build();
 	}
 
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
-	}
-
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.4.5", id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnField() {
-		validator.validate( new UserWithGroupConversionButWithoutValidAnnotationOnField() );
+		getValidator().validate( new UserWithGroupConversionButWithoutValidAnnotationOnField() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.4.5", id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnProperty() {
-		validator.validate( new UserWithGroupConversionButWithoutValidAnnotationOnProperty() );
+		getValidator().validate( new UserWithGroupConversionButWithoutValidAnnotationOnProperty() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -86,7 +78,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object returnValue = null;
 
-		validator.forExecutables().validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -99,7 +91,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forExecutables().validateParameters( object, method, parameters );
+		getExecutableValidator().validateParameters( object, method, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -110,7 +102,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		Constructor<UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue> constructor = UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue.class
 				.getConstructor();
 
-		validator.forExecutables().validateConstructorReturnValue( constructor, object );
+		getExecutableValidator().validateConstructorReturnValue( constructor, object );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -120,19 +112,19 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.getConstructor( List.class );
 		Object[] parameters = new Object[] { null };
 
-		validator.forExecutables().validateConstructorParameters( constructor, parameters );
+		getExecutableValidator().validateConstructorParameters( constructor, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.4.5", id = "e")
 	public void testSeveralGroupConversionsWithSameFrom() {
-		validator.validate( new UserWithSeveralGroupConversionsForSameFrom() );
+		getValidator().validate( new UserWithSeveralGroupConversionsForSameFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = "4.4.5", id = "f")
 	public void testGroupConversionWithSequenceAsFrom() {
-		validator.validate( new UserWithGroupConversionWithSequenceAsFrom() );
+		getValidator().validate( new UserWithGroupConversionWithSequenceAsFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -148,7 +140,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forExecutables().validateParameters( object, method, parameters );
+		getExecutableValidator().validateParameters( object, method, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -164,7 +156,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forExecutables().validateParameters( object, method, parameters );
+		getExecutableValidator().validateParameters( object, method, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -180,7 +172,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object[] parameters = new Object[] { null };
 
-		validator.forExecutables().validateParameters( object, method, parameters );
+		getExecutableValidator().validateParameters( object, method, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -195,7 +187,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 		);
 		Object returnValue = null;
 
-		validator.forExecutables().validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -210,7 +202,7 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.getMethod( "addUser", User.class );
 		Object[] parameters = new Object[] { null };
 
-		validator.forExecutables().validateParameters( object, method, parameters );
+		getExecutableValidator().validateParameters( object, method, parameters );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
@@ -225,6 +217,6 @@ public class InvalidGroupDefinitionsTest extends Arquillian {
 				.getMethod( "getUser" );
 		Object returnValue = null;
 
-		validator.forExecutables().validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 	}
 }

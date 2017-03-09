@@ -10,6 +10,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintVio
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -26,24 +27,19 @@ import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.UnexpectedTypeException;
-import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.executable.ExecutableValidator;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -53,22 +49,13 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ConstraintCompositionTest extends Arquillian {
-
-	private Validator validator;
-	private ExecutableValidator executableValidator;
+public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( ConstraintCompositionTest.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		validator = TestUtil.getValidatorUnderTest();
-		executableValidator = validator.forExecutables();
 	}
 
 	@Test
@@ -78,7 +65,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	})
 	public void testComposedConstraints() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
-		Set<ConstraintViolation<FrenchAddress>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<FrenchAddress> constraintViolation = constraintViolations.iterator().next();
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
@@ -101,7 +88,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		address.setAddressline1( "Rathausstrasse 5" );
 		address.setAddressline2( "3ter Stock" );
 		address.setCity( "Karlsruhe" );
-		Set<ConstraintViolation<GermanAddress>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<GermanAddress>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
@@ -118,7 +105,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	public void testValidationOfMainAnnotationIsAlsoApplied() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "00000" );
-		Set<ConstraintViolation<FrenchAddress>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, FrenchZipcode.class );
 		assertCorrectConstraintViolationMessages( constraintViolations, "00000 is a reserved code" );
@@ -135,7 +122,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "abc" );
-		Set<ConstraintViolation<FrenchAddress>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 3 );
 		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Pattern.class, Size.class );
 		for ( ConstraintViolation<FrenchAddress> violation : constraintViolations ) {
@@ -148,7 +135,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		}
 
 		address.setZipCode( "123" );
-		constraintViolations = validator.validate( address );
+		constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Size.class );
 		for ( ConstraintViolation<FrenchAddress> violation : constraintViolations ) {
@@ -161,7 +148,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		}
 
 		address.setZipCode( "33023" );
-		constraintViolations = validator.validate( address );
+		constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
@@ -172,7 +159,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	public void testConstraintIndexWithListContainer() {
 		FrenchAddressListContainer address = getFrenchAddressListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
-		Set<ConstraintViolation<FrenchAddressListContainer>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<FrenchAddressListContainer>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 3 );
 		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Pattern.class, Size.class );
 		for ( ConstraintViolation<FrenchAddressListContainer> violation : constraintViolations ) {
@@ -185,7 +172,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		}
 
 		address.setZipCode( "33023" );
-		constraintViolations = validator.validate( address );
+		constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 0 );
 	}
 
@@ -196,7 +183,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	public void testConstraintIndexWithMixDirectAnnotationAndListContainer() {
 		FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
-		validator.validate( address );
+		getValidator().validate( address );
 	}
 
 	@Test
@@ -206,7 +193,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	})
 	public void testGroupsDefinedOnMainAnnotationAreInherited() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
-		Set<ConstraintViolation<FrenchAddress>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<FrenchAddress> constraintViolation = constraintViolations.iterator().next();
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
@@ -229,7 +216,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		address.setCity( "Karlsruhe" );
 		address.setZipCode( "abc" );
 		// actually three composing constraints fail, but due to @ReportAsSingleViolation only one will be reported.
-		Set<ConstraintViolation<GermanAddress>> constraintViolations = validator.validate( address );
+		Set<ConstraintViolation<GermanAddress>> constraintViolations = getValidator().validate( address );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
@@ -242,7 +229,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	@Test
 	@SpecAssertion(section = "3.3", id = "m")
 	public void testAttributesDefinedOnComposingConstraints() {
-		BeanDescriptor descriptor = validator.getConstraintsForClass( FrenchAddress.class );
+		BeanDescriptor descriptor = getValidator().getConstraintsForClass( FrenchAddress.class );
 		Set<ConstraintDescriptor<?>> constraintDescriptors = descriptor.getConstraintsForProperty( "zipCode" )
 				.getConstraintDescriptors();
 		boolean findPattern = checkForAppropriateAnnotation( constraintDescriptors );
@@ -271,13 +258,13 @@ public class ConstraintCompositionTest extends Arquillian {
 			@SpecAssertion(section = "3.3", id = "v")
 	})
 	public void testOverriddenAttributesMustMatchInType() {
-		validator.validate( new DummyEntityWithZipCode( "foobar" ) );
+		getValidator().validate( new DummyEntityWithZipCode( "foobar" ) );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	@SpecAssertion(section = "3.3", id = "j")
 	public void testAllComposingConstraintsMustBeApplicableToAnnotatedType() {
-		validator.validate( new Shoe( 41 ) );
+		getValidator().validate( new Shoe( 41 ) );
 	}
 
 	@Test
@@ -288,7 +275,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	public void testPayloadPropagationInComposedConstraints() {
 		Friend john = new Friend( "John", "Doe" );
 
-		Set<ConstraintViolation<Friend>> constraintViolations = validator.validate( john );
+		Set<ConstraintViolation<Friend>> constraintViolations = getValidator().validate( john );
 
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
@@ -311,7 +298,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		Method method = DummyEntityWithGenericAndCrossParameterConstraint.class.getMethod( "doSomething", int.class );
 		Object[] parameterValues = new Object[] { 0 };
 
-		Set<ConstraintViolation<Object>> constraintViolations = executableValidator.validateParameters(
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -343,7 +330,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[0];
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues
@@ -363,7 +350,7 @@ public class ConstraintCompositionTest extends Arquillian {
 		);
 		Object[] parameterValues = new Object[0];
 
-		executableValidator.validateParameters(
+		getExecutableValidator().validateParameters(
 				object,
 				method,
 				parameterValues

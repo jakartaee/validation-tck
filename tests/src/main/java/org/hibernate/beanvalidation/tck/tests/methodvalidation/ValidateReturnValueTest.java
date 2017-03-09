@@ -14,15 +14,12 @@ import javax.validation.ElementKind;
 import javax.validation.ValidationException;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.validation.executable.ExecutableValidator;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -33,6 +30,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Ex
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
@@ -42,6 +40,7 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -49,13 +48,11 @@ import static org.testng.Assert.assertNull;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidateReturnValueTest extends Arquillian {
-
-	private ExecutableValidator executableValidator;
+public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidateReturnValueTest.class )
 				.withPackage( MyCrossParameterConstraint.class.getPackage() )
 				.withClass( Address.class )
@@ -64,11 +61,6 @@ public class ValidateReturnValueTest extends Arquillian {
 				.withClass( Item.class )
 				.withClass( OrderLine.class )
 				.build();
-	}
-
-	@BeforeMethod
-	public void setupValidator() {
-		executableValidator = TestUtil.getValidatorUnderTest().forExecutables();
 	}
 
 	@Test
@@ -89,7 +81,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( methodName );
 		Object returnValue = "B";
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -119,7 +111,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( methodName, String.class );
 		Object returnValue = "S";
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -149,7 +141,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( methodName, CharSequence.class );
 		Object returnValue = "S";
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -177,7 +169,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( "getFirstName", String.class );
 		Object returnValue = "aaa";
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -195,7 +187,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( methodName, long.class );
 		Object returnValue = "S";
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -203,7 +195,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateReturnValue(
+		violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -224,7 +216,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( methodName, Date.class );
 		Object returnValue = "S";
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -232,7 +224,7 @@ public class ValidateReturnValueTest extends Arquillian {
 
 		assertCorrectNumberOfViolations( violations, 0 );
 
-		violations = executableValidator.validateReturnValue(
+		violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -262,7 +254,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Email.class.getMethod( methodName );
 		Object returnValue = "S";
 
-		executableValidator.validateReturnValue( object, method, returnValue );
+		getExecutableValidator().validateReturnValue( object, method, returnValue );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
@@ -272,7 +264,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( "getAddress" );
 		Object returnValue = null;
 
-		executableValidator.validateReturnValue(
+		getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -286,7 +278,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = null;
 		Object returnValue = null;
 
-		executableValidator.validateReturnValue(
+		getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue
@@ -300,7 +292,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( "getAddress" );
 		Object returnValue = null;
 
-		executableValidator.validateReturnValue(
+		getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -315,7 +307,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Method method = Customer.class.getMethod( "getAddress" );
 		Object returnValue = null;
 
-		executableValidator.validateReturnValue(
+		getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue,
@@ -337,7 +329,7 @@ public class ValidateReturnValueTest extends Arquillian {
 		Item returnValue = new Item( "foo" );
 		Method method = OrderLine.class.getMethod( methodName );
 
-		Set<ConstraintViolation<Object>> violations = executableValidator.validateReturnValue(
+		Set<ConstraintViolation<Object>> violations = getExecutableValidator().validateReturnValue(
 				object,
 				method,
 				returnValue

@@ -26,16 +26,10 @@
 
         <container.home>/opt/java/glassfish4</container.home>
 
-        <hv.version>5.3.0-SNAPSHOT</hv.version>
         <validation.provider>org.hibernate.validator.HibernateValidator</validation.provider>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hv.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
