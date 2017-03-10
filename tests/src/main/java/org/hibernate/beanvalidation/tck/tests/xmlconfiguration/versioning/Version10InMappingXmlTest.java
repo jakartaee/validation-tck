@@ -38,7 +38,7 @@ public class Version10InMappingXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.2", id = "a")
+	@SpecAssertion(section = "8.1.4", id = "a")
 	public void testValidBeanValidation10Mapping() {
 		Validator validator = TestUtil.getConfigurationUnderTest()
 				.addMapping( Version10InMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
