@@ -34,7 +34,7 @@ public class Version10InValidationXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.4", id = "a")
+	@SpecAssertion(section = "8.2", id = "a")
 	public void testValidationXmlVersion10() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertEquals(

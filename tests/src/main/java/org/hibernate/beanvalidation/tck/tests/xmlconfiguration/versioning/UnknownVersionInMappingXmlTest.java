@@ -35,7 +35,7 @@ public class UnknownVersionInMappingXmlTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.2", id = "c")
+	@SpecAssertion(section = "8.1.4", id = "c")
 	public void testConstraintMappingWithUnknownSchemaVersion() {
 		TestUtil.getConfigurationUnderTest()
 				.addMapping( UnknownVersionInMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
