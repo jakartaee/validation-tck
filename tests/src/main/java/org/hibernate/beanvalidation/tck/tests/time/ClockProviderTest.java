@@ -128,7 +128,10 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.4", id = "n")
+	@SpecAssertions({
+		@SpecAssertion(section = "3.4", id = "n"),
+		@SpecAssertion(section = "9", id = "a")
+	})
 	public void testClockProviderExceptionsGetWrappedInValidationException() {
 		ExceptionThrowingClockProvider clockProvider = new ExceptionThrowingClockProvider();
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().clockProvider( clockProvider );
