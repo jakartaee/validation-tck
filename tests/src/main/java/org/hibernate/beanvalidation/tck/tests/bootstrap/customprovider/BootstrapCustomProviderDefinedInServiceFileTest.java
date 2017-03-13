@@ -48,11 +48,9 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5", id = "a"),
-			@SpecAssertion(section = "5.5.3", id = "l"),
-			@SpecAssertion(section = "5.5.4.2", id = "a")
-	})
+	@SpecAssertion(section = "5.5", id = "a")
+	@SpecAssertion(section = "5.5.3", id = "l")
+	@SpecAssertion(section = "5.5.4.2", id = "a")
 	public void testGetFactoryByProviderSpecifiedProgrammatically() {
 		TCKValidatorConfiguration configuration = Validation.byProvider( TCKValidationProvider.class ).configure();
 		ValidatorFactory factory = configuration.buildValidatorFactory();
@@ -61,10 +59,8 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends Arquillian 
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.3", id = "l"),
-			@SpecAssertion(section = "5.5.4.1", id = "a")
-	})
+	@SpecAssertion(section = "5.5.3", id = "l")
+	@SpecAssertion(section = "5.5.4.1", id = "a")
 	public void testProviderResolverReturnsListOfAvailableProviders() {
 
 		// really an indirect test since there is no way to get hold of the default provider resolver.

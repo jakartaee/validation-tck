@@ -24,7 +24,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -81,10 +80,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "a")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "a")
 	public void testIsBeanConstrainedDueToValidAnnotation() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Customer.class );
 
@@ -100,10 +97,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "a")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "a")
 	public void testIsBeanConstrainedDueToConstraintOnEntity() {
 		// constraint hosted on bean itself
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Account.class );
@@ -118,10 +113,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "a")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "a")
 	public void testIsBeanConstrainedDueToConstraintProperty() {
 		// constraint on bean property
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
@@ -136,10 +129,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "a")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "a")
 	public void testIsBeanConstrainedDueToConstraintOnInterface() {
 		// constraint on implemented interface
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Man.class );
@@ -154,10 +145,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "a")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "a")
 	public void testUnconstrainedClass() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
 		assertFalse(
@@ -168,10 +157,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "b")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "b")
 	public void testGetConstraintsForConstrainedProperty() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty(
@@ -185,10 +172,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.3", id = "b"),
-			@SpecAssertion(section = "6.4", id = "a")
-	})
+	@SpecAssertion(section = "6.3", id = "b")
+	@SpecAssertion(section = "6.4", id = "a")
 	public void testGetConstraintsForUnConstrainedProperty() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Customer.class );
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty(
@@ -203,10 +188,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "b")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "b")
 	public void testGetConstraintsForNonExistingProperty() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
 		assertNull(
@@ -216,10 +199,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "d")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "d")
 	public void testGetConstrainedProperties() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();
@@ -232,10 +213,8 @@ public class BeanDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.1", id = "a"),
-			@SpecAssertion(section = "6.3", id = "d")
-	})
+	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = "6.3", id = "d")
 	public void testGetConstrainedPropertiesForUnconstrainedEntity() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( UnconstraintEntity.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();

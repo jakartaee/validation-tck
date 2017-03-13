@@ -45,7 +45,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -68,10 +67,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "m")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "m")
 	public void testPastConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PastDummyEntity dummy = new PastDummyEntity();
@@ -99,10 +96,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "m")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "m")
 	public void testPastConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -136,10 +131,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "n")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "n")
 	public void testFutureConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		FutureDummyEntity dummy = new FutureDummyEntity();
@@ -167,10 +160,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "n")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "n")
 	public void testFutureConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date

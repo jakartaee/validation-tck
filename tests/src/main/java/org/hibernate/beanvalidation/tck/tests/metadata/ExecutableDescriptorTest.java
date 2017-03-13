@@ -14,7 +14,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -482,10 +481,8 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.7", id = "g")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.7", id = "g")
 	public void testFindConstraintsForMethod() {
 		MethodDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedMethod();
 		assertTrue(
@@ -512,11 +509,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.2", id = "g"),
-			@SpecAssertion(section = "6.7", id = "g")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.2", id = "g")
+	@SpecAssertion(section = "6.7", id = "g")
 	public void testFindConstraintsForMethodLookingAt() {
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.methodOverridingCrossParameterConstrainedMethod();
 		assertEquals(
@@ -537,11 +532,9 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.2", id = "g"),
-			@SpecAssertion(section = "6.7", id = "g")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.2", id = "g")
+	@SpecAssertion(section = "6.7", id = "g")
 	public void testFindConstraintsForMethodDefinedOnSuperTypeLookingAt() {
 		MethodDescriptor crossParameterConstrainedDescriptor = Executables.crossParameterConstrainedMethodFromSuperType();
 		assertEquals(
@@ -562,10 +555,8 @@ public class ExecutableDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.7", id = "g")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.7", id = "g")
 	public void testFindConstraintsForConstructor() {
 		ConstructorDescriptor parameterConstrainedDescriptor = Executables.parameterConstrainedConstructor();
 		assertTrue(

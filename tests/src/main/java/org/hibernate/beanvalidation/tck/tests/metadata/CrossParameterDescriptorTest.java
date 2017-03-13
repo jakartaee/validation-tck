@@ -15,7 +15,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -48,10 +47,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "a"),
-			@SpecAssertion(section = "6.9", id = "a")
-	})
+	@SpecAssertion(section = "6.2", id = "a")
+	@SpecAssertion(section = "6.9", id = "a")
 	public void testGetElementClass() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -90,11 +87,9 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "a"),
-			@SpecAssertion(section = "6.2", id = "b"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.11", id = "a")
+	@SpecAssertion(section = "6.2", id = "b")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetConstraintsForMethod() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -111,10 +106,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "b"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "b")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetConstraintsForMethodWithoutCrossParameterConstraints() {
 		CrossParameterDescriptor descriptor = Executables.returnValueConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -124,10 +117,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "b"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "b")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetConstraintsForConstructor() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedConstructor()
 				.getCrossParameterDescriptor();
@@ -144,10 +135,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "b"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "b")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testGetConstraintsForConstructorWithoutCrossParameterConstraints() {
 		CrossParameterDescriptor descriptor = Executables.returnValueConstrainedConstructor()
 				.getCrossParameterDescriptor();
@@ -157,10 +146,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testFindConstraintsForMethod() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -177,10 +164,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "g"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "g")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testFindConstraintsForMethodLookingAt() {
 		CrossParameterDescriptor descriptor = Executables.methodOverridingCrossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -208,10 +193,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "g"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "g")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testFindConstraintsForMethodDefinedOnSuperTypeLookingAt() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethodFromSuperType()
 				.getCrossParameterDescriptor();
@@ -239,10 +222,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testFindConstraintsForMethodWithoutCrossParameterConstraints() {
 		CrossParameterDescriptor descriptor = Executables.returnValueConstrainedMethod()
 				.getCrossParameterDescriptor();
@@ -252,10 +233,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testFindConstraintsForConstructor() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedConstructor()
 				.getCrossParameterDescriptor();
@@ -272,10 +251,8 @@ public class CrossParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.2", id = "d"),
-			@SpecAssertion(section = "6.7", id = "c")
-	})
+	@SpecAssertion(section = "6.2", id = "d")
+	@SpecAssertion(section = "6.7", id = "c")
 	public void testFindConstraintsForConstructorWithoutCrossParameterConstraints() {
 		CrossParameterDescriptor descriptor = Executables.returnValueConstrainedConstructor()
 				.getCrossParameterDescriptor();

@@ -19,7 +19,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -84,10 +83,8 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4", id = "b"),
-			@SpecAssertion(section = "4.4", id = "d")
-	})
+	@SpecAssertion(section = "4.4", id = "b")
+	@SpecAssertion(section = "4.4", id = "d")
 	public void testValidateAgainstDifferentGroups() {
 		User user = new User();
 
@@ -233,10 +230,8 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.2", id = "b"),
-			@SpecAssertion(section = "4.4.2", id = "d")
-	})
+	@SpecAssertion(section = "4.4.2", id = "b")
+	@SpecAssertion(section = "4.4.2", id = "d")
 	public void testGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -279,10 +274,8 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4", id = "c"),
-			@SpecAssertion(section = "4.6", id = "a")
-	})
+	@SpecAssertion(section = "4.4", id = "c")
+	@SpecAssertion(section = "4.6", id = "a")
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Animal elephant = new Animal();
@@ -363,13 +356,11 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = GroupDefinitionException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.2", id = "e"),
-			@SpecAssertion(section = "4.4.2", id = "f"),
-			@SpecAssertion(section = "4.4.2", id = "i"),
-			@SpecAssertion(section = "4.4.6", id = "j"),
-			@SpecAssertion(section = "9.4", id = "a")
-	})
+	@SpecAssertion(section = "4.4.2", id = "e")
+	@SpecAssertion(section = "4.4.2", id = "f")
+	@SpecAssertion(section = "4.4.2", id = "i")
+	@SpecAssertion(section = "4.4.6", id = "j")
+	@SpecAssertion(section = "9.4", id = "a")
 	public void testCyclicGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new Order(), CyclicGroupSequence.class );

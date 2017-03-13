@@ -12,7 +12,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -41,10 +40,8 @@ public class ExecutableValidationGloballyDisabledTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "k"),
-			@SpecAssertion(section = "10.1.2", id = "q")
-	})
+	@SpecAssertion(section = "5.5.6", id = "k")
+	@SpecAssertion(section = "10.1.2", id = "q")
 	public void testExecutableValidationGloballyTurnedOff() {
 		Event event = calendar.createEvent( null );
 		assertNotNull( event );

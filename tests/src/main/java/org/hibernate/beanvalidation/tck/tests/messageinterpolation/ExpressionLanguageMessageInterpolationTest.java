@@ -26,7 +26,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -72,31 +71,25 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1", id = "e"),
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "b")
-	})
+	@SpecAssertion(section = "5.3.1", id = "e")
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "b")
 	public void testInterpolationWithElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "firstName" );
 		assertCorrectConstraintViolationMessages( violations, "2" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "b")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "b")
 	public void testInterpolationWithSeveralElExpressions() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "lastName" );
 		assertCorrectConstraintViolationMessages( violations, "2 some text 6" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "f"),
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "f")
 	public void testInterpolationWithUnknownElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "houseNo" );
 		assertCorrectConstraintViolationMessages( violations, "${unknown}" );
@@ -124,70 +117,56 @@ public class ExpressionLanguageMessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "b")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "b")
 	public void testOnlyDollarSignIsSupportedForEnclosingElExpressions() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "middleName" );
 		assertCorrectConstraintViolationMessages( violations, "#{1+1}" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "c")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "c")
 	public void testInterpolationUsingAnnotationAttributesInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "street" );
 		assertCorrectConstraintViolationMessages( violations, "must be longer than 30" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "c")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "c")
 	public void testInterpolationUsingGroupsAndPayloadInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "country" );
 		assertCorrectConstraintViolationMessages( violations, "groups: Default, payload: CustomPayload" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "d")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "d")
 	public void testInterpolationUsingValidatedValueInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "city" );
 		assertCorrectConstraintViolationMessages( violations, "Foo is not long enough" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "e")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "e")
 	public void testInterpolationUsingFormatterInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "longitude" );
 		assertCorrectConstraintViolationMessages( violations, "98.12 must be larger than 100" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "e")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "e")
 	public void testInterpolationUsingFormatterWithSeveralObjectsInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "latitude" );
 		assertCorrectConstraintViolationMessages( violations, "98.12 (that is, 98.1235) must be larger than 100" );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1.3", id = "a"),
-			@SpecAssertion(section = "5.3.1.3", id = "e")
-	})
+	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = "5.3.1.3", id = "e")
 	public void testInterpolationWithFormatterUsesDefaultLocaleInElExpression() {
 		Locale.setDefault( Locale.GERMAN );
 		Validator validator = TestUtil.getValidatorUnderTest();

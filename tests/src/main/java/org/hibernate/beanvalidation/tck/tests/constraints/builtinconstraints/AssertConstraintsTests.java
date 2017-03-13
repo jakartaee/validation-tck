@@ -21,7 +21,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -41,10 +40,8 @@ public class AssertConstraintsTests {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "e")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "e")
 	public void testAssertTrueConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		AssertTrueDummyEntity dummy = new AssertTrueDummyEntity();
@@ -70,10 +67,8 @@ public class AssertConstraintsTests {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "f")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "f")
 	public void testAssertFalseConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		AssertFalseDummyEntity dummy = new AssertFalseDummyEntity();

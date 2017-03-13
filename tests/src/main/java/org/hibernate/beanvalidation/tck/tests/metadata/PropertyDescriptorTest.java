@@ -82,11 +82,9 @@ public class PropertyDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.4", id = "b"),
-			@SpecAssertion(section = "6.5", id = "a"),
-			@SpecAssertion(section = "6.5", id = "b")
-	})
+	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = "6.5", id = "a")
+	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetGroupConversionsForField() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( Customer.class, "orderList" );
 		Set<GroupConversionDescriptor> groupConversions = descriptor.getGroupConversions();

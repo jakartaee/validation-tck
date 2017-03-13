@@ -33,7 +33,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -68,23 +67,19 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1", id = "a"),
-			@SpecAssertion(section = "5.3.2", id = "f"),
-			@SpecAssertion(section = "5.5.3", id = "a")
-	})
+	@SpecAssertion(section = "5.3.1", id = "a")
+	@SpecAssertion(section = "5.3.2", id = "f")
+	@SpecAssertion(section = "5.5.3", id = "a")
 	public void testDefaultMessageInterpolatorIsNotNull() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		assertNotNull( interpolator, "Each bean validation provider must provide a default message interpolator." );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1", id = "e"),
-			@SpecAssertion(section = "5.3.1.1", id = "a"),
-			@SpecAssertion(section = "5.3.2", id = "f"),
-			@SpecAssertion(section = "5.5.3", id = "a")
-	})
+	@SpecAssertion(section = "5.3.1", id = "e")
+	@SpecAssertion(section = "5.3.1.1", id = "a")
+	@SpecAssertion(section = "5.3.2", id = "f")
+	@SpecAssertion(section = "5.5.3", id = "a")
 	public void testSuccessfulInterpolationOfValidationMessagesValue() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -136,12 +131,10 @@ public class MessageInterpolationTest extends Arquillian {
 
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.1", id = "f"),
-			@SpecAssertion(section = "5.3.1", id = "g"),
-			@SpecAssertion(section = "5.3.1", id = "h"),
-			@SpecAssertion(section = "5.3.1", id = "i")
-	})
+	@SpecAssertion(section = "5.3.1", id = "f")
+	@SpecAssertion(section = "5.3.1", id = "g")
+	@SpecAssertion(section = "5.3.1", id = "h")
+	@SpecAssertion(section = "5.3.1", id = "i")
 	public void testEscapedCharactersAreConsideredAsLiterals() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -275,11 +268,9 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.2", id = "a"),
-			@SpecAssertion(section = "5.3.2", id = "b"),
-			@SpecAssertion(section = "5.3.2", id = "c")
-	})
+	@SpecAssertion(section = "5.3.2", id = "a")
+	@SpecAssertion(section = "5.3.2", id = "b")
+	@SpecAssertion(section = "5.3.2", id = "c")
 	public void testCorrectValuesArePassedToInterpolateForPropertyConstraint() {
 		TestMessageInterpolator messageInterpolator = new TestMessageInterpolator();
 		Validator validator = TestUtil.getConfigurationUnderTest()
@@ -300,11 +291,9 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.3.2", id = "a"),
-			@SpecAssertion(section = "5.3.2", id = "b"),
-			@SpecAssertion(section = "5.3.2", id = "c")
-	})
+	@SpecAssertion(section = "5.3.2", id = "a")
+	@SpecAssertion(section = "5.3.2", id = "b")
+	@SpecAssertion(section = "5.3.2", id = "c")
 	public void testCorrectValuesArePassedToInterpolateForClassLevelConstraint() {
 		TestMessageInterpolator messageInterpolator = new TestMessageInterpolator();
 		Validator validator = TestUtil.getConfigurationUnderTest()

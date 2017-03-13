@@ -18,7 +18,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -51,12 +50,10 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "d"),
-			@SpecAssertion(section = "4.5.2.1", id = "c"),
-			@SpecAssertion(section = "4.5.3", id = "b")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "d")
+	@SpecAssertion(section = "4.5.2.1", id = "c")
+	@SpecAssertion(section = "4.5.3", id = "b")
 	public void testConstraintTargetImplicitOnMethodWithParametersAndReturnValueCausesException() throws Exception {
 		Object object = new Foo();
 		Method method = Foo.class.getMethod( "createEvent", Date.class, Date.class );
@@ -67,12 +64,10 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "d"),
-			@SpecAssertion(section = "4.5.2.1", id = "c"),
-			@SpecAssertion(section = "4.5.3", id = "b")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "d")
+	@SpecAssertion(section = "4.5.2.1", id = "c")
+	@SpecAssertion(section = "4.5.3", id = "b")
 	public void testConstraintTargetImplicitOnConstructorWithParametersCausesException() throws Exception {
 		Constructor<?> constructor = Bar.class.getConstructor( Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
@@ -82,11 +77,9 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "e"),
-			@SpecAssertion(section = "4.5.2.1", id = "b")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "e")
+	@SpecAssertion(section = "4.5.2.1", id = "b")
 	public void testConstraintTargetParametersOnMethodWithoutParametersCausesException() throws Exception {
 		Object object = new Qux();
 		Method method = Qux.class.getMethod( "qux" );
@@ -97,11 +90,9 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "e"),
-			@SpecAssertion(section = "4.5.2.1", id = "b")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "e")
+	@SpecAssertion(section = "4.5.2.1", id = "b")
 	public void testConstraintTargetParametersOnConstructorWithoutParametersCausesException() throws Exception {
 		Constructor<?> constructor = Baz.class.getConstructor();
 		Object[] parameterValues = new Object[0];
@@ -111,10 +102,8 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "f")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "f")
 	public void testConstraintTargetReturnValueOnVoidMethodCausesException() throws Exception {
 		Object object = new Zap();
 		Method method = Zap.class.getMethod( "zap" );
@@ -125,60 +114,48 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "g")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetParametersOnClassCausesException() throws Exception {
 		validator.validate( new TypeWithConstraintTargetParameter() );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on type definitions. Expected exception wasn't thrown." );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "g")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetReturnValueOnClassCausesException() throws Exception {
 		validator.validate( new TypeWithConstraintTargetReturnValue() );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on type definitions. Expected exception wasn't thrown." );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "g")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetParametersOnInterfaceCausesException() throws Exception {
 		validator.validate( new InterfaceWithConstraintTargetParameterImpl() );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on interface definitions. Expected exception wasn't thrown." );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "g")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetReturnValueOnInterfaceCausesException() throws Exception {
 		validator.validate( new InterfaceWithConstraintTargetReturnValueImpl() );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on interface definitions. Expected exception wasn't thrown." );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "g")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+	@SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetParametersOnFieldCausesException() throws Exception {
 		validator.validate( new TypeWithFieldWithConstraintTargetParameter() );
 		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on fields. Expected exception wasn't thrown." );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.1.1.4", id = "c"),
-			@SpecAssertion(section = "3.1.1.4", id = "g")
-	})
+	@SpecAssertion(section = "3.1.1.4", id = "c")
+    @SpecAssertion(section = "3.1.1.4", id = "g")
 	public void testConstraintTargetReturnValueOnFieldCausesException() throws Exception {
 		validator.validate( new TypeWithFieldWithConstraintTargetReturnValue() );
 		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on fields. Expected exception wasn't thrown." );

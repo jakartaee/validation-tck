@@ -45,10 +45,8 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Arquilli
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "k"),
-			@SpecAssertion(section = "10.1.2", id = "g")
-	})
+	@SpecAssertion(section = "5.5.6", id = "k")
+	@SpecAssertion(section = "10.1.2", id = "g")
 	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			calendar.getEvent();
