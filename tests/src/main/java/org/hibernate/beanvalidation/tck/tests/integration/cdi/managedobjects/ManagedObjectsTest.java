@@ -27,7 +27,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -58,11 +57,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "d"),
-			@SpecAssertion(section = "10.3.2", id = "a"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.1", id = "d")
+	@SpecAssertion(section = "10.3.2", id = "a")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testMessageInterpolatorIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		MessageInterpolator messageInterpolator = defaultValidatorFactory.getMessageInterpolator();
@@ -71,11 +68,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "d"),
-			@SpecAssertion(section = "10.3.2", id = "a"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.1", id = "d")
+	@SpecAssertion(section = "10.3.2", id = "a")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testTraversableResolverIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
@@ -87,11 +82,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "d"),
-			@SpecAssertion(section = "10.3.2", id = "a"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.1", id = "d")
+	@SpecAssertion(section = "10.3.2", id = "a")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testConstraintValidatorFactoryIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
@@ -104,11 +97,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "d"),
-			@SpecAssertion(section = "10.3.2", id = "a"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.1", id = "d")
+	@SpecAssertion(section = "10.3.2", id = "a")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testParameterNameProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ParameterNameProvider parameterNameProvider = defaultValidatorFactory.getParameterNameProvider();
@@ -120,11 +111,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.1", id = "d"),
-			@SpecAssertion(section = "10.3.2", id = "a"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.1", id = "d")
+	@SpecAssertion(section = "10.3.2", id = "a")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testClockProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ClockProvider clockProvider = defaultValidatorFactory.getClockProvider();

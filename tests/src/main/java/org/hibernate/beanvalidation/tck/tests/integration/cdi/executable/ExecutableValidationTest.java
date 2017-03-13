@@ -19,7 +19,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -90,12 +89,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.2", id = "a"),
-			@SpecAssertion(section = "10.1.2", id = "b"),
-			@SpecAssertion(section = "10.1.2", id = "c"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.2", id = "a")
+	@SpecAssertion(section = "10.1.2", id = "b")
+	@SpecAssertion(section = "10.1.2", id = "c")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testParameterValidationOfConstrainedMethod() {
 		try {
 			Calendar endDate = Calendar.getInstance();
@@ -114,12 +111,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.2", id = "a"),
-			@SpecAssertion(section = "10.1.2", id = "b"),
-			@SpecAssertion(section = "10.1.2", id = "c"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.2", id = "a")
+	@SpecAssertion(section = "10.1.2", id = "b")
+	@SpecAssertion(section = "10.1.2", id = "c")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testReturnValueValidationOfConstrainedMethod() {
 		try {
 			calendar.createEvent();
@@ -131,12 +126,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.2", id = "a"),
-			@SpecAssertion(section = "10.1.2", id = "b"),
-			@SpecAssertion(section = "10.1.2", id = "c"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.2", id = "a")
+	@SpecAssertion(section = "10.1.2", id = "b")
+	@SpecAssertion(section = "10.1.2", id = "c")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testCascadedReturnValueValidationOfConstrainedMethod() {
 		try {
 			cascadingCalendar.createValidEvent();
@@ -148,24 +141,20 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.2", id = "a"),
-			@SpecAssertion(section = "10.1.2", id = "b"),
-			@SpecAssertion(section = "10.1.2", id = "c"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.2", id = "a")
+	@SpecAssertion(section = "10.1.2", id = "b")
+	@SpecAssertion(section = "10.1.2", id = "c")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testGettersAreNotValidatedByDefault() {
 		Event event = calendar.getEvent();
 		assertNull( event, "The event should be null, since getters are not validated by default." );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.2", id = "a"),
-			@SpecAssertion(section = "10.1.2", id = "b"),
-			@SpecAssertion(section = "10.1.2", id = "c"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.2", id = "a")
+	@SpecAssertion(section = "10.1.2", id = "b")
+	@SpecAssertion(section = "10.1.2", id = "c")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testParameterValidationOfConstrainedConstructor() {
 		try {
 			nameProducer.setName( "Bob" );
@@ -178,12 +167,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "10.1.2", id = "a"),
-			@SpecAssertion(section = "10.1.2", id = "b"),
-			@SpecAssertion(section = "10.1.2", id = "c"),
-			@SpecAssertion(section = "10.3", id = "a")
-	})
+	@SpecAssertion(section = "10.1.2", id = "a")
+	@SpecAssertion(section = "10.1.2", id = "b")
+	@SpecAssertion(section = "10.1.2", id = "c")
+	@SpecAssertion(section = "10.3", id = "a")
 	public void testReturnValueValidationOfConstrainedConstructor() {
 		try {
 			personServiceInstance.get();
@@ -261,10 +248,8 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.4", id = "a"),
-			@SpecAssertion(section = "5.4", id = "b")
-	})
+	@SpecAssertion(section = "5.4", id = "a")
+	@SpecAssertion(section = "5.4", id = "b")
 	public void testMethodValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
 		//parameter constraint is violated
 		try {
@@ -298,10 +283,8 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.4", id = "a"),
-			@SpecAssertion(section = "5.4", id = "b")
-	})
+	@SpecAssertion(section = "5.4", id = "a")
+	@SpecAssertion(section = "5.4", id = "b")
 	public void testConstructorValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
 		nameProducer.setName( "9999" );
 		//parameter constraint is violated

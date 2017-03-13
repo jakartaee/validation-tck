@@ -23,7 +23,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -71,10 +70,8 @@ public class ConstraintInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.3", id = "a"),
-			@SpecAssertion(section = "4.3", id = "b")
-	})
+	@SpecAssertion(section = "4.3", id = "a")
+	@SpecAssertion(section = "4.3", id = "b")
 	public void testConstraintsOnInterfaceAreInherited() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
@@ -89,10 +86,8 @@ public class ConstraintInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.3", id = "a"),
-			@SpecAssertion(section = "4.3", id = "c")
-	})
+	@SpecAssertion(section = "4.3", id = "a")
+	@SpecAssertion(section = "4.3", id = "c")
 	public void testConstraintsOnInterfaceAndImplementationAddUp() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 
@@ -108,10 +103,8 @@ public class ConstraintInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.3", id = "a"),
-			@SpecAssertion(section = "4.3", id = "c")
-	})
+	@SpecAssertion(section = "4.3", id = "a")
+	@SpecAssertion(section = "4.3", id = "c")
 	public void testConstraintsOnSuperAndSubClassAddUp() {
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
 

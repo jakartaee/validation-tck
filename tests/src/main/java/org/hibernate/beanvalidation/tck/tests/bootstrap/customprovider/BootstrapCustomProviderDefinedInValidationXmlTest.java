@@ -17,7 +17,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -45,11 +44,9 @@ public class BootstrapCustomProviderDefinedInValidationXmlTest extends Arquillia
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5", id = "a"),
-			@SpecAssertion(section = "5.5.3", id = "l"),
-			@SpecAssertion(section = "5.5.4.2", id = "a")
-	})
+	@SpecAssertion(section = "5.5", id = "a")
+	@SpecAssertion(section = "5.5.3", id = "l")
+	@SpecAssertion(section = "5.5.4.2", id = "a")
 	public void testGetFactoryByProviderSpecifiedInValidationXml() {
 
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {

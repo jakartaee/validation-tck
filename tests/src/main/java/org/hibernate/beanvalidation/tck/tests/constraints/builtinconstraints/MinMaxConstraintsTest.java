@@ -23,7 +23,6 @@ import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -43,10 +42,8 @@ public class MinMaxConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "g")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "g")
 	public void testMinConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		MinDummyEntity dummy = new MinDummyEntity();
@@ -89,10 +86,8 @@ public class MinMaxConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "7", id = "a"),
-			@SpecAssertion(section = "7", id = "h")
-	})
+	@SpecAssertion(section = "7", id = "a")
+	@SpecAssertion(section = "7", id = "h")
 	public void testMaxConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		MaxDummyEntity dummy = new MaxDummyEntity();

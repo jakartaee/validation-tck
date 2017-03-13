@@ -18,7 +18,6 @@ import javax.validation.Validator;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -93,10 +92,8 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "c"),
-			@SpecAssertion(section = "4.6.4", id = "i")
-	})
+	@SpecAssertion(section = "4.6.4", id = "c")
+	@SpecAssertion(section = "4.6.4", id = "i")
 	public void testTargetedTypeIsField() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassA.callCounter,
@@ -113,10 +110,8 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "d"),
-			@SpecAssertion(section = "4.6.4", id = "i")
-	})
+	@SpecAssertion(section = "4.6.4", id = "d")
+	@SpecAssertion(section = "4.6.4", id = "i")
 	public void testTargetedTypeIsGetter() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassB.callCounter,
@@ -150,9 +145,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "e")
-	})
+	@SpecAssertion(section = "4.6.4", id = "e")
 	public void testResolutionOfMultipleSizeValidators() {
 		Suburb suburb = new Suburb();
 
@@ -224,9 +217,7 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "e")
-	})
+	@SpecAssertion(section = "4.6.4", id = "e")
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
 		Set<ConstraintViolation<MinMax>> constraintViolations = validator.validate( minMax );
@@ -235,21 +226,17 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "h"),
-			@SpecAssertion(section = "3.1", id = "e"),
-			@SpecAssertion(section = "3.4", id = "m")
-	})
+	@SpecAssertion(section = "4.6.4", id = "h")
+	@SpecAssertion(section = "3.1", id = "e")
+	@SpecAssertion(section = "3.4", id = "m")
 	public void testUnexpectedTypeInValidatorResolution() {
 		Bar bar = new Bar();
 		validator.validate( bar );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.6.4", id = "j"),
-			@SpecAssertion(section = "9.3", id = "b")
-	})
+	@SpecAssertion(section = "4.6.4", id = "j")
+	@SpecAssertion(section = "9.3", id = "b")
 	public void testAmbiguousValidatorResolution() {
 		Foo foo = new Foo( new SerializableBarSubclass() );
 		validator.validate( foo );
@@ -312,10 +299,8 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "g"),
-			@SpecAssertion(section = "4.6.4", id = "a")
-	})
+	@SpecAssertion(section = "3.4", id = "g")
+	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testCrossParameterValidatorValidatingObjectArray() throws Exception {
 		Object object = new YetAnotherCalendarService();
 		Method method = YetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -327,10 +312,8 @@ public class ValidatorResolutionTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "g"),
-			@SpecAssertion(section = "4.6.4", id = "a")
-	})
+	@SpecAssertion(section = "3.4", id = "g")
+	@SpecAssertion(section = "4.6.4", id = "a")
 	public void testCrossParameterValidatorValidatingObject() throws Exception {
 		Object object = new EvenYetAnotherCalendarService();
 		Method method = EvenYetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );

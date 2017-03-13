@@ -41,7 +41,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -72,10 +71,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "p")
-	})
+	@SpecAssertion(section = "3.3", id = "a")
+	@SpecAssertion(section = "3.3", id = "p")
 	public void testComposedConstraints() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = validator.validate( address );
@@ -92,10 +89,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "a"),
-			@SpecAssertion(section = "3.3", id = "p")
-	})
+	@SpecAssertion(section = "3.3", id = "a")
+	@SpecAssertion(section = "3.3", id = "p")
 	public void testComposedConstraintsAreRecursive() {
 		GermanAddress address = new GermanAddress();
 		address.setAddressline1( "Rathausstrasse 5" );
@@ -112,9 +107,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "b")
-	})
+	@SpecAssertion(section = "3.3", id = "b")
 	public void testValidationOfMainAnnotationIsAlsoApplied() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "00000" );
@@ -125,13 +118,11 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "c"),
-			@SpecAssertion(section = "3.3", id = "n"),
-			@SpecAssertion(section = "3.3", id = "q"),
-			@SpecAssertion(section = "3.3", id = "r"),
-			@SpecAssertion(section = "3.3", id = "u")
-	})
+	@SpecAssertion(section = "3.3", id = "c")
+	@SpecAssertion(section = "3.3", id = "n")
+	@SpecAssertion(section = "3.3", id = "q")
+	@SpecAssertion(section = "3.3", id = "r")
+	@SpecAssertion(section = "3.3", id = "u")
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -166,9 +157,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "s")
-	})
+	@SpecAssertion(section = "3.3", id = "s")
 	public void testConstraintIndexWithListContainer() {
 		FrenchAddressListContainer address = getFrenchAddressListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -190,9 +179,7 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = { ConstraintDeclarationException.class })
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "t")
-	})
+	@SpecAssertion(section = "3.3", id = "t")
 	public void testConstraintIndexWithMixDirectAnnotationAndListContainer() {
 		FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -200,10 +187,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "d"),
-			@SpecAssertion(section = "3.3", id = "e")
-	})
+	@SpecAssertion(section = "3.3", id = "d")
+	@SpecAssertion(section = "3.3", id = "e")
 	public void testGroupsDefinedOnMainAnnotationAreInherited() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = validator.validate( address );
@@ -266,10 +251,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "o"),
-			@SpecAssertion(section = "3.3", id = "v")
-	})
+	@SpecAssertion(section = "3.3", id = "o")
+	@SpecAssertion(section = "3.3", id = "v")
 	public void testOverriddenAttributesMustMatchInType() {
 		validator.validate( new DummyEntityWithZipCode( "foobar" ) );
 	}
@@ -281,10 +264,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "f"),
-			@SpecAssertion(section = "3.3", id = "g")
-	})
+	@SpecAssertion(section = "3.3", id = "f")
+	@SpecAssertion(section = "3.3", id = "g")
 	public void testPayloadPropagationInComposedConstraints() {
 		Friend john = new Friend( "John", "Doe" );
 
@@ -302,10 +283,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "h"),
-			@SpecAssertion(section = "3.3", id = "i")
-	})
+	@SpecAssertion(section = "3.3", id = "h")
+	@SpecAssertion(section = "3.3", id = "i")
 	public void testConstraintTargetPropagationInComposedConstraints() throws Exception {
 		Object object = new DummyEntityWithGenericAndCrossParameterConstraint();
 		Method method = DummyEntityWithGenericAndCrossParameterConstraint.class.getMethod( "doSomething", int.class );
@@ -330,10 +309,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "k"),
-			@SpecAssertion(section = "3.3", id = "v")
-	})
+	@SpecAssertion(section = "3.3", id = "k")
+	@SpecAssertion(section = "3.3", id = "v")
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
 		Object object = new DummyEntityWithIllegallyComposedConstraint();
@@ -351,10 +328,8 @@ public class ConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "3.3", id = "k"),
-			@SpecAssertion(section = "3.3", id = "v")
-	})
+	@SpecAssertion(section = "3.3", id = "k")
+	@SpecAssertion(section = "3.3", id = "v")
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
 		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
 		Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(

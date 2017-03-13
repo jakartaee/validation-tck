@@ -18,7 +18,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -72,16 +71,14 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.1.2", id = "j"),
-			@SpecAssertion(section = "5.1.2", id = "k"),
-			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f"),
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "i")
-	})
+	@SpecAssertion(section = "5.1.2", id = "j")
+	@SpecAssertion(section = "5.1.2", id = "k")
+	@SpecAssertion(section = "5.2", id = "d")
+	@SpecAssertion(section = "5.2", id = "e")
+	@SpecAssertion(section = "5.2", id = "f")
+	@SpecAssertion(section = "5.2", id = "g")
+	@SpecAssertion(section = "5.2", id = "h")
+	@SpecAssertion(section = "5.2", id = "i")
 	public void testOneViolation() throws Exception {
 		Constructor<Customer> constructor = Customer.class.getConstructor();
 		Customer returnValue = new Customer();
@@ -295,12 +292,10 @@ public class ValidateConstructorReturnValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "f"),
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "i")
-	})
+	@SpecAssertion(section = "5.2", id = "f")
+	@SpecAssertion(section = "5.2", id = "g")
+	@SpecAssertion(section = "5.2", id = "h")
+	@SpecAssertion(section = "5.2", id = "i")
 	public void testOneViolationForCascadedValidation() throws Exception {
 		Item leaf = new Item( "foo" );
 		Object createdObject = new OrderLine( leaf );

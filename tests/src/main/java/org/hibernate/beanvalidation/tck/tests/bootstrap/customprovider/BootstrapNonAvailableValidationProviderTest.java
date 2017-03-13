@@ -26,7 +26,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -47,20 +46,16 @@ public class BootstrapNonAvailableValidationProviderTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.5", id = "f"),
-			@SpecAssertion(section = "9", id = "a")
-	})
+	@SpecAssertion(section = "5.5.5", id = "f")
+	@SpecAssertion(section = "9", id = "a")
 	public void testUnknownProviderConfiguredInValidationXml() {
 		// exception is not thrown until validator factory is being build
 		Validation.byDefaultProvider().configure().buildValidatorFactory();
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.5", id = "f"),
-			@SpecAssertion(section = "9", id = "a")
-	})
+	@SpecAssertion(section = "5.5.5", id = "f")
+	@SpecAssertion(section = "9", id = "a")
 	public void testConfiguredValidationProviderIsNotLoadable() {
 		Validation.byProvider( DummyValidationProvider.class ).configure();
 	}

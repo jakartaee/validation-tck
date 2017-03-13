@@ -17,7 +17,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -42,12 +41,10 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "c"),
-			@SpecAssertion(section = "4.1", id = "e"),
-			@SpecAssertion(section = "4.1.1", id = "a"),
-			@SpecAssertion(section = "4.1.1", id = "b")
-	})
+	@SpecAssertion(section = "4.1", id = "c")
+	@SpecAssertion(section = "4.1", id = "e")
+	@SpecAssertion(section = "4.1.1", id = "a")
+	@SpecAssertion(section = "4.1.1", id = "b")
 	public void testClassLevelConstraints() {
 		Woman sarah = new Woman();
 		sarah.setFirstName( "Sarah" );
@@ -81,11 +78,9 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "e"),
-			@SpecAssertion(section = "4.1.2", id = "a"),
-			@SpecAssertion(section = "4.1.2", id = "c")
-	})
+	@SpecAssertion(section = "4.1", id = "e")
+	@SpecAssertion(section = "4.1.2", id = "a")
+	@SpecAssertion(section = "4.1.2", id = "c")
 	public void testFieldAccess() {
 		SuperWoman superwoman = new SuperWoman();
 
@@ -100,11 +95,9 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "e"),
-			@SpecAssertion(section = "4.1.2", id = "a"),
-			@SpecAssertion(section = "4.1.2", id = "d")
-	})
+	@SpecAssertion(section = "4.1", id = "e")
+	@SpecAssertion(section = "4.1.2", id = "a")
+	@SpecAssertion(section = "4.1.2", id = "d")
 	public void testPropertyAccess() {
 		SuperWoman superwoman = new SuperWoman();
 
@@ -119,10 +112,8 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.1.2", id = "a"),
-			@SpecAssertion(section = "4.1.2", id = "b")
-	})
+	@SpecAssertion(section = "4.1.2", id = "a")
+	@SpecAssertion(section = "4.1.2", id = "b")
 	public void testConstraintAppliedOnFieldAndProperty() {
 		Building building = new Building( 10000000 );
 

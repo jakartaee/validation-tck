@@ -43,7 +43,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -66,9 +65,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "5.5.3", id = "e")
-	})
+	@SpecAssertion(section = "5.5.3", id = "e")
 	public void testDefaultClockProviderProvidedByConfiguration() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertNotNull( config.getDefaultClockProvider() );
@@ -76,10 +73,8 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4.1", id = "a"),
-			@SpecAssertion(section = "3.4.1", id = "b")
-	})
+	@SpecAssertion(section = "3.4.1", id = "a")
+	@SpecAssertion(section = "3.4.1", id = "b")
 	public void testClockProviderProviderByConstraintValidatorContext() {
 		TestUtil.getValidatorUnderTest().validate( new DefaultClockProviderIsValidEntity() );
 	}

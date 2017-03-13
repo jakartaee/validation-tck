@@ -18,7 +18,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -53,10 +52,8 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "b"),
-			@SpecAssertion(section = "3.4", id = "e")
-	})
+	@SpecAssertion(section = "3.4", id = "b")
+	@SpecAssertion(section = "3.4", id = "e")
 	public void testAnnotatedElementIsTargetedByDefault() throws Exception {
 		Object object = new Calendar();
 		Method method = Calendar.class.getMethod( "createEvent", Date.class, Date.class );
@@ -119,11 +116,9 @@ public class GenericAndCrossParameterConstraintTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "f"),
-			@SpecAssertion(section = "4.5.2.1", id = "c"),
-			@SpecAssertion(section = "4.5.3", id = "b")
-	})
+	@SpecAssertion(section = "3.4", id = "f")
+	@SpecAssertion(section = "4.5.2.1", id = "c")
+	@SpecAssertion(section = "4.5.3", id = "b")
 	public void testOneValidatorSupportsBothValidationTargets() throws Exception {
 		Object object = new MobileCalendar();
 		Method method = MobileCalendar.class.getMethod( "createEvent", Date.class, Date.class );

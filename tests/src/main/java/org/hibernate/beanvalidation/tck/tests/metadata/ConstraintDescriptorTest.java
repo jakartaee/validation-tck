@@ -19,7 +19,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -73,11 +72,9 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "a"),
-			@SpecAssertion(section = "6.11", id = "b"),
-			@SpecAssertion(section = "6.11", id = "d")
-	})
+	@SpecAssertion(section = "6.11", id = "a")
+	@SpecAssertion(section = "6.11", id = "b")
+	@SpecAssertion(section = "6.11", id = "d")
 	public void testAnnotationAndMapParametersReflectParameterOverriding() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
@@ -161,10 +158,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "h"),
-			@SpecAssertion(section = "6.11", id = "n")
-	})
+	@SpecAssertion(section = "6.11", id = "h")
+	@SpecAssertion(section = "6.11", id = "n")
 	public void testComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
@@ -190,10 +185,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "j"),
-			@SpecAssertion(section = "6.11", id = "k")
-	})
+	@SpecAssertion(section = "6.11", id = "j")
+	@SpecAssertion(section = "6.11", id = "k")
 	public void testComposingConstraintsPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();

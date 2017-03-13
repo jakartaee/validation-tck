@@ -17,7 +17,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -57,11 +56,9 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "a"),
-			@SpecAssertion(section = "3.4", id = "b"),
-			@SpecAssertion(section = "3.4", id = "h")
-	})
+	@SpecAssertion(section = "3.4", id = "a")
+	@SpecAssertion(section = "3.4", id = "b")
+	@SpecAssertion(section = "3.4", id = "h")
 	public void testRightValidatorIsSelectedAndInitializedCalled() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Shoe shoe = new Shoe();
@@ -84,11 +81,9 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "a"),
-			@SpecAssertion(section = "3.4", id = "b"),
-			@SpecAssertion(section = "3.4", id = "j")
-	})
+	@SpecAssertion(section = "3.4", id = "a")
+	@SpecAssertion(section = "3.4", id = "b")
+	@SpecAssertion(section = "3.4", id = "j")
 	public void testIsValidIsCalledForEachValidation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Shoe shoe = new Shoe();

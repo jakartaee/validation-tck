@@ -16,7 +16,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -41,11 +40,9 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.3", id = "a"),
-			@SpecAssertion(section = "4.4.3", id = "c"),
-			@SpecAssertion(section = "4.4.6", id = "c")
-	})
+	@SpecAssertion(section = "4.4.3", id = "a")
+	@SpecAssertion(section = "4.4.3", id = "c")
+	@SpecAssertion(section = "4.4.6", id = "c")
 	public void testCorrectDefaultSequenceInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B1 b = new B1();
@@ -78,11 +75,9 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.3", id = "a"),
-			@SpecAssertion(section = "4.4.3", id = "c"),
-			@SpecAssertion(section = "4.4.6", id = "c")
-	})
+	@SpecAssertion(section = "4.4.3", id = "a")
+	@SpecAssertion(section = "4.4.3", id = "c")
+	@SpecAssertion(section = "4.4.6", id = "c")
 	public void testCorrectDefaultSequenceInheritance2() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B2 b = new B2();

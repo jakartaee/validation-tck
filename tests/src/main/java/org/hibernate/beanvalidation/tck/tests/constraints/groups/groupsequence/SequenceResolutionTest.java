@@ -18,7 +18,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -41,12 +40,10 @@ public class SequenceResolutionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = GroupDefinitionException.class)
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.2", id = "e"),
-			@SpecAssertion(section = "4.4.2", id = "f"),
-			@SpecAssertion(section = "4.4.2", id = "i"),
-			@SpecAssertion(section = "9.4", id = "a")
-	})
+	@SpecAssertion(section = "4.4.2", id = "e")
+	@SpecAssertion(section = "4.4.2", id = "f")
+	@SpecAssertion(section = "4.4.2", id = "i")
+	@SpecAssertion(section = "9.4", id = "a")
 	public void testInvalidDefinitionOfDefaultSequenceInEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		TestEntity entity = new TestEntity();
@@ -54,9 +51,7 @@ public class SequenceResolutionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "4.4.2", id = "c")
-	})
+	@SpecAssertion(section = "4.4.2", id = "c")
 	public void testGroupSequenceContainerOtherGroupSequences() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		TestEntity entity = new TestEntity();

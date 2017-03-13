@@ -15,7 +15,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -101,11 +100,9 @@ public class ReturnValueDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.4", id = "b"),
-			@SpecAssertion(section = "6.5", id = "a"),
-			@SpecAssertion(section = "6.5", id = "b")
-	})
+	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = "6.5", id = "a")
+	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetGroupConversionsForConstructorReturnValue() {
 		ReturnValueDescriptor returnValueDescriptor = Executables.constructorWithGroupConversionOnReturnValue()
 				.getReturnValueDescriptor();
@@ -133,22 +130,18 @@ public class ReturnValueDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.4", id = "b"),
-			@SpecAssertion(section = "6.5", id = "a"),
-			@SpecAssertion(section = "6.5", id = "b")
-	})
+	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = "6.5", id = "a")
+	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetGroupConversionsForVoidMethod() {
 		ReturnValueDescriptor descriptor = Executables.parameterConstrainedMethod().getReturnValueDescriptor();
 		assertTrue( descriptor.getGroupConversions().isEmpty() );
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = "6.4", id = "b"),
-			@SpecAssertion(section = "6.5", id = "a"),
-			@SpecAssertion(section = "6.5", id = "b")
-	})
+	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = "6.5", id = "a")
+	@SpecAssertion(section = "6.5", id = "b")
 	public void testGetGroupConversionsForMethodReturnValue() {
 		ReturnValueDescriptor returnValueDescriptor = Executables.methodWithGroupConversionOnReturnValue()
 				.getReturnValueDescriptor();
