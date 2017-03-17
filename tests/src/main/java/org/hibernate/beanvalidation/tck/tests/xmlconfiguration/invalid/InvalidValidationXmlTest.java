@@ -4,7 +4,7 @@
  * License: Apache License, Version 2.0
  * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
  */
-package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
+package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.invalid;
 
 import javax.validation.ValidationException;
 
@@ -19,26 +19,23 @@ import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
- * @author Gunnar Morling
+ * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class UnknownVersionInMappingXmlTest extends Arquillian {
-
-	private static final String MAPPING_FILE = "UnknownVersionInMappingXmlTest.xml";
+public class InvalidValidationXmlTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( UnknownVersionInMappingXmlTest.class )
-				.withResource( MAPPING_FILE )
+				.withTestClass( InvalidValidationXmlTest.class )
+				.withValidationXml( "validation-InvalidValidationXmlTest.xml" )
 				.build();
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.1.4", id = "c")
-	public void testConstraintMappingWithUnknownSchemaVersion() {
+	@SpecAssertion(section = "8", id = "a")
+	public void testInvalidValidationXml() {
 		TestUtil.getConfigurationUnderTest()
-				.addMapping( UnknownVersionInMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
 				.buildValidatorFactory()
 				.getValidator();
 	}

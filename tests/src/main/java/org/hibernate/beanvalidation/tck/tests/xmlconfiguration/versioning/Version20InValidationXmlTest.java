@@ -20,27 +20,27 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
 /**
- * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class Version10InValidationXmlTest extends Arquillian {
+public class Version20InValidationXmlTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( Version10InValidationXmlTest.class )
-				.withValidationXml( "validation-Version10InValidationXmlTest.xml" )
+				.withTestClass( Version20InValidationXmlTest.class )
+				.withValidationXml( "validation-Version20InValidationXmlTest.xml" )
 				.build();
 	}
 
 	@Test
 	@SpecAssertion(section = "8.2", id = "a")
-	public void testValidationXmlVersion10() {
+	public void testValidationXmlVersion20() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertEquals(
-				config.getBootstrapConfiguration().getMessageInterpolatorClassName(),
-				"org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyMessageInterpolator",
-				"Wrong message interpolator class name."
+				config.getBootstrapConfiguration().getClockProviderClassName(),
+				"org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyClockProvider",
+				"Wrong clock provider class name."
 		);
 	}
 }

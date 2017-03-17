@@ -19,26 +19,23 @@ import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
- * @author Gunnar Morling
+ * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class UnknownVersionInMappingXmlTest extends Arquillian {
-
-	private static final String MAPPING_FILE = "UnknownVersionInMappingXmlTest.xml";
+public class UnknownVersionInValidationXmlTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return new WebArchiveBuilder()
-				.withTestClass( UnknownVersionInMappingXmlTest.class )
-				.withResource( MAPPING_FILE )
+				.withTestClass( UnknownVersionInValidationXmlTest.class )
+				.withValidationXml( "validation-UnknownVersionInValidationXmlTest.xml" )
 				.build();
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.1.4", id = "c")
-	public void testConstraintMappingWithUnknownSchemaVersion() {
+	@SpecAssertion(section = "8.2", id = "c")
+	public void testValidationXmlWithUnknownSchemaVersion() {
 		TestUtil.getConfigurationUnderTest()
-				.addMapping( UnknownVersionInMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )
 				.buildValidatorFactory()
 				.getValidator();
 	}

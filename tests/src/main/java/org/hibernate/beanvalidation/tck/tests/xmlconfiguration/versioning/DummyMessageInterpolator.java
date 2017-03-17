@@ -23,5 +23,3 @@ public class DummyMessageInterpolator implements MessageInterpolator {
 		return null;
 	}
 }
-
-
