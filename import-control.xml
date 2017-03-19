@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Bean Validation TCK
+
+    License: Apache License, Version 2.0
+    See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
+
+-->
+<!DOCTYPE import-control PUBLIC
+        "-//Puppy Crawl//DTD Import Control 1.2//EN"
+        "http://checkstyle.sourceforge.net/dtds/import_control_1_2.dtd">
+
+<import-control pkg="org.hibernate">
+    <allow pkg=".*\.*" regex="true"/>
+    <disallow class="org.testng.annotations.BeforeMethod"/>
+    <disallow class="org.testng.annotations.AfterMethod"/>
+
+    <!-- For ExpressionLanguageMessageInterpolationTest to be able to change Locale -->
+    <subpackage name="beanvalidation">
+        <subpackage name="tck">
+            <subpackage name="tests">
+                <subpackage name="messageinterpolation">
+                    <allow pkg=".*\.*" regex="true"/>
+                </subpackage>
+            </subpackage>
+        </subpackage>
+    </subpackage>
+</import-control>
