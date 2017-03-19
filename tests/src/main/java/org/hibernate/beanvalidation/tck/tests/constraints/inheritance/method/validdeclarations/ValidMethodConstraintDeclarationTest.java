@@ -32,7 +32,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.val
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.ImplementationOfParallelInterfacesMarkingReturnValueAsCascaded;
 import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;

@@ -16,7 +16,6 @@ import javax.validation.ConstraintDeclarationException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -37,7 +36,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
  * Test for definition of group conversion rules.

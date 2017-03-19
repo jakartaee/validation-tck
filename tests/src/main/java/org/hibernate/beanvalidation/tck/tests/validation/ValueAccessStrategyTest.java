@@ -22,7 +22,6 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;

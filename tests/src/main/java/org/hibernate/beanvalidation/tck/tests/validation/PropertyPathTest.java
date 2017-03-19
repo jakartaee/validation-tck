@@ -43,7 +43,6 @@ import org.testng.annotations.Test;
 
 import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

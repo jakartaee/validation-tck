@@ -14,7 +14,6 @@ import javax.validation.ConstraintDeclarationException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -33,7 +32,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassAddingParameterConstraints;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassMarkingParameterAsCascaded;
 import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.fail;
