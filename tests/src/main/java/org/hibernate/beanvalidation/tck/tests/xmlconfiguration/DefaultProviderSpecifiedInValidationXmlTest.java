@@ -7,6 +7,8 @@
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import javax.validation.ValidationProviderResolver;
 import javax.validation.ValidatorFactory;
 import javax.validation.spi.ValidationProvider;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
 import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -27,8 +30,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -50,8 +51,8 @@ public class DefaultProviderSpecifiedInValidationXmlTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "e"),
-			@SpecAssertion(section = "5.5.6", id = "s")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "e"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "s")
 	})
 	public void testProviderSpecifiedInValidationXml() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {

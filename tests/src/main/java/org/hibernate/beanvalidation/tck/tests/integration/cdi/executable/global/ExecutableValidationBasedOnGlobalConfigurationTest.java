@@ -6,23 +6,23 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -44,8 +44,8 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Arquilli
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "k")
-	@SpecAssertion(section = "10.1.2", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "k")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "g")
 	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			calendar.getEvent();
@@ -57,7 +57,7 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Arquilli
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "g")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "g")
 	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Event event = calendar.createEvent( null );
 		assertNotNull( event );

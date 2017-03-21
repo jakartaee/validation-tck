@@ -6,8 +6,14 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
@@ -17,6 +23,9 @@ import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -24,14 +33,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -50,9 +51,9 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.5", id = "a"),
-			@SpecAssertion(section = "8.1.1.5", id = "c"),
-			@SpecAssertion(section = "8.1.1.5", id = "f")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "c"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "f")
 	})
 	public void testXmlMethodConfigurationApplied() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "listCustomers" );
@@ -73,9 +74,9 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.5", id = "a"),
-			@SpecAssertion(section = "8.1.1.5", id = "b"),
-			@SpecAssertion(section = "8.1.1.5", id = "c")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "c")
 	})
 	public void testVarargsMethodParameter() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
@@ -89,9 +90,9 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.5", id = "c"),
-			@SpecAssertion(section = "8.1.1.5", id = "g"),
-			@SpecAssertion(section = "8.1.1.5", id = "k")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "c"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "g"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "k")
 	})
 	public void testMethodCrossParameterConstraint() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
@@ -117,8 +118,8 @@ public class MethodValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "a"),
-			@SpecAssertion(section = "8.1.1.5", id = "h")
+			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "h")
 	})
 	public void testConstraintOnMethodReturnValueAndParameter() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
@@ -156,7 +157,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "i")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "i")
 	public void testCascadingOnReturnValueAndParameter() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				CustomerRepository.class,
@@ -176,7 +177,7 @@ public class MethodValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "j")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "j")
 	public void testGroupConversionOnReturnValueAndParameter() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				CustomerRepository.class,

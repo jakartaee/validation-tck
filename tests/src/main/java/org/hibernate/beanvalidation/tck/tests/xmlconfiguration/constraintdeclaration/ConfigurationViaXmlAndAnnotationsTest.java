@@ -6,27 +6,28 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -45,8 +46,8 @@ public class ConfigurationViaXmlAndAnnotationsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1", id = "e")
-	@SpecAssertion(section = "8.1.1", id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "e")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a")
 	public void testEntityConfiguredViaAnnotationsAndXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Package.class );
@@ -76,7 +77,7 @@ public class ConfigurationViaXmlAndAnnotationsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.1", id = "e")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CLASSLEVELOVERRIDING, id = "e")
 	public void testDefaultGroupDefinitionDefinedInEntityApplies() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Package p = new Package();

@@ -17,6 +17,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Digits;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -41,8 +42,8 @@ public class DigitsConstraintTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "l")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
 	public void testDigitsConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DigitsDummyEntity dummy = new DigitsDummyEntity();

@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.executable.ExecutableValidator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -47,7 +48,7 @@ public class ParameterNameProviderSpecifiedInValidationXmlTest extends Arquillia
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "i")
 	public void testParameterNameProviderSpecifiedInValidationXml() throws Exception {
 		//given
 		Object object = new CreditCardValidationService();

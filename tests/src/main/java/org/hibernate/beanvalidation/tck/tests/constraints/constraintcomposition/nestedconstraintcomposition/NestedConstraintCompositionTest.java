@@ -6,25 +6,26 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition.nestedconstraintcomposition;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * Tests for error creation for nested composed constraints with different variations of @ReportAsSingleViolation.
@@ -42,7 +43,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "l")
 	public void testCompositeConstraint1WithNestedConstraintSingleViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity1 dummy = new DummyEntity1( "" );
@@ -57,7 +58,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "l")
 	public void testCompositeConstraint2WithNestedConstraintSingleViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity2 dummy = new DummyEntity2( "" );
@@ -68,7 +69,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "l")
 	public void testCompositeConstraint3WithNestedConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity3 dummy = new DummyEntity3( "" );
@@ -81,7 +82,7 @@ public class NestedConstraintCompositionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "l")
 	public void testCompositeConstraint4WithNestedConstraintSingleViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity4 dummy = new DummyEntity4( "" );

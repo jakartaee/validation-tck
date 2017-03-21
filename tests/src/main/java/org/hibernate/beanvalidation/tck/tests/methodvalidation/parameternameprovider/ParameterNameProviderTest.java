@@ -6,30 +6,31 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
-import java.lang.reflect.Method;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.executable.ExecutableValidator;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.fail;
+
+import java.lang.reflect.Method;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.executable.ExecutableValidator;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -49,7 +50,7 @@ public class ParameterNameProviderTest extends Arquillian {
 
 	@Test(expectedExceptions = UnsupportedOperationException.class,
 			expectedExceptionsMessageRegExp = "Exception in ParameterNameProvider")
-	@SpecAssertion(section = "4.5.2.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_NAMINGPARAMETERS, id = "b")
 	public void testExceptionInParameterNameProviderIsWrappedIntoValidationException()
 			throws Throwable {
 		Validator validator = TestUtil.getConfigurationUnderTest()
@@ -71,7 +72,7 @@ public class ParameterNameProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "e")
 	public void testGetParameterNameProviderFromValidatorFactory() {
 		BrokenCustomParameterNameProvider parameterNameProvider = new BrokenCustomParameterNameProvider();
 
@@ -87,7 +88,7 @@ public class ParameterNameProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "g")
 	public void testParameterNameProviderSetUsingContext() throws Exception {
 		Object object = new User();
 		Method method = User.class.getMethod( "setNames", String.class, String.class );

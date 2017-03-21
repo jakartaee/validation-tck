@@ -37,6 +37,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Past;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -65,7 +66,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "e")
 	public void testDefaultClockProviderProvidedByConfiguration() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertNotNull( config.getDefaultClockProvider() );
@@ -73,14 +74,14 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4.1", id = "a")
-	@SpecAssertion(section = "3.4.1", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION_TEMPORALVALIDATORS, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION_TEMPORALVALIDATORS, id = "b")
 	public void testClockProviderProviderByConstraintValidatorContext() {
 		TestUtil.getValidatorUnderTest().validate( new DefaultClockProviderIsValidEntity() );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "f")
 	public void testCustomClockProviderFromValidatorFactory() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		CustomClockProvider clockProvider = new CustomClockProvider();
@@ -92,7 +93,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "f")
 	public void testCustomClockProviderViaConfiguration() {
 		// use the default configuration
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -123,8 +124,8 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.4", id = "n")
-	@SpecAssertion(section = "9", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "n")
+	@SpecAssertion(section = Sections.EXCEPTION, id = "a")
 	public void testClockProviderExceptionsGetWrappedInValidationException() {
 		ExceptionThrowingClockProvider clockProvider = new ExceptionThrowingClockProvider();
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().clockProvider( clockProvider );
@@ -139,7 +140,7 @@ public class ClockProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "g")
 	public void canConfigureClockProviderForValidator() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 

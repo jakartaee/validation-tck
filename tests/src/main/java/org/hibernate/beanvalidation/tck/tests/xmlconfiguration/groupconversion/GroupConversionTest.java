@@ -6,8 +6,12 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.MethodDescriptor;
@@ -15,6 +19,9 @@ import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -22,12 +29,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -46,8 +47,8 @@ public class GroupConversionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.7", id = "a"),
-			@SpecAssertion(section = "8.1.1.7", id = "b")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	})
 	public void testGroupConversionsAppliedOnMethod() throws Exception {
 		MethodDescriptor methodDescriptor = TestUtil.getMethodDescriptor(
@@ -71,8 +72,8 @@ public class GroupConversionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.7", id = "a"),
-			@SpecAssertion(section = "8.1.1.7", id = "b")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	})
 	public void testGroupConversionsAppliedOnConstructor() throws Exception {
 		ConstructorDescriptor constructorDescriptor = TestUtil.getConstructorDescriptor(
@@ -86,8 +87,8 @@ public class GroupConversionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.7", id = "a"),
-			@SpecAssertion(section = "8.1.1.7", id = "b")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	})
 	public void testGroupConversionsAppliedOnField() throws Exception {
 		PropertyDescriptor propertyDescriptor = TestUtil.getPropertyDescriptor(
@@ -101,8 +102,8 @@ public class GroupConversionTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.7", id = "a"),
-			@SpecAssertion(section = "8.1.1.7", id = "b")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	})
 	public void testGroupConversionsAppliedOnGetter() throws Exception {
 		PropertyDescriptor propertyDescriptor = TestUtil.getPropertyDescriptor(

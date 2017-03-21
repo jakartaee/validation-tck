@@ -21,6 +21,7 @@ import javax.validation.TraversableResolver;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -57,9 +58,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.1", id = "d")
-	@SpecAssertion(section = "10.3.2", id = "a")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testMessageInterpolatorIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		MessageInterpolator messageInterpolator = defaultValidatorFactory.getMessageInterpolator();
@@ -68,9 +69,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.1", id = "d")
-	@SpecAssertion(section = "10.3.2", id = "a")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testTraversableResolverIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
@@ -82,9 +83,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.1", id = "d")
-	@SpecAssertion(section = "10.3.2", id = "a")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testConstraintValidatorFactoryIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
@@ -97,9 +98,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.1", id = "d")
-	@SpecAssertion(section = "10.3.2", id = "a")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testParameterNameProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ParameterNameProvider parameterNameProvider = defaultValidatorFactory.getParameterNameProvider();
@@ -111,9 +112,9 @@ public class ManagedObjectsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.1", id = "d")
-	@SpecAssertion(section = "10.3.2", id = "a")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testClockProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ClockProvider clockProvider = defaultValidatorFactory.getClockProvider();

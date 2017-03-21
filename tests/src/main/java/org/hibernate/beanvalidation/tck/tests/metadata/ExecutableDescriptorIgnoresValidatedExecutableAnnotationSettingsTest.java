@@ -6,22 +6,22 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
@@ -41,7 +41,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnTypeLevel() {
 		MethodDescriptor descriptor = getMethodDescriptor(
 				OrderLine.class,
@@ -55,7 +55,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnTypeLevel() {
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
 				OrderLine.class,
@@ -68,7 +68,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnMethodLevel() {
 		MethodDescriptor descriptor = getMethodDescriptor(
 				Item.class,
@@ -82,7 +82,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEOnConstructorLevel() {
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
 				Item.class,

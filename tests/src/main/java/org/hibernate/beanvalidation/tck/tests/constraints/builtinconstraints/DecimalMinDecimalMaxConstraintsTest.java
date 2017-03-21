@@ -18,6 +18,7 @@ import javax.validation.Validator;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -42,8 +43,8 @@ public class DecimalMinDecimalMaxConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "i")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "i")
 	public void testDecimalMinConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DecimalMinDummyEntity dummy = new DecimalMinDummyEntity();
@@ -86,8 +87,8 @@ public class DecimalMinDecimalMaxConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "j")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "j")
 	public void testDecimalMaxConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DecimalMaxDummyEntity dummy = new DecimalMaxDummyEntity();

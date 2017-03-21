@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 import java.lang.annotation.ElementType;
+
 import javax.validation.Path;
 import javax.validation.TraversableResolver;
 

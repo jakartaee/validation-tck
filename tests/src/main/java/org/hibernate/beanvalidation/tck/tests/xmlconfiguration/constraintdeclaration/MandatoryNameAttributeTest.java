@@ -6,19 +6,19 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration;
 
+import static org.testng.Assert.fail;
+
 import javax.validation.ValidationException;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
@@ -37,7 +37,7 @@ public class MandatoryNameAttributeTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.6", id = "b")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "b")
 	public void testNameAttributeIsMandatory() {
 		try {
 			TestUtil.getValidatorUnderTest();

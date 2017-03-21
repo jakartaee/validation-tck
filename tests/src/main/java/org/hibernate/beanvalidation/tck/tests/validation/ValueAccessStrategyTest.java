@@ -6,23 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.Payload;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -30,6 +13,24 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import javax.validation.Constraint;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -45,7 +46,7 @@ public class ValueAccessStrategyTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONSTRAINTDECLARATION, id = "a")
 	public void testValidatedObjectIsPassedToValidatorOfClassLevelConstraint() {
 		Person person = new Person();
 		getValidator().validate( person );
@@ -55,8 +56,8 @@ public class ValueAccessStrategyTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "a"),
-			@SpecAssertion(section = "4.6", id = "a")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONSTRAINTDECLARATION, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	})
 	public void testValueFromFieldIsPassedToValidatorOfFieldLevelConstraint() {
 		Person person = new Person();
@@ -71,8 +72,8 @@ public class ValueAccessStrategyTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.2", id = "a"),
-			@SpecAssertion(section = "4.6", id = "a")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONSTRAINTDECLARATION, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	})
 	public void testValueFromGetterIsPassedToValidatorOfPropertyLevelConstraint() {
 		Person person = new Person();

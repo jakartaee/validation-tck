@@ -6,7 +6,14 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.propertylevel;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.util.Set;
+
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -16,6 +23,9 @@ import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -23,15 +33,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
@@ -51,8 +52,8 @@ public class PropertyLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.3", id = "a"),
-			@SpecAssertion(section = "8.1.1.3", id = "c")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "c")
 	})
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -65,9 +66,9 @@ public class PropertyLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "a"),
-			@SpecAssertion(section = "8.1.1.3", id = "a"),
-			@SpecAssertion(section = "8.1.1.3", id = "d")
+			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "d")
 	})
 	public void testIncludeAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -100,7 +101,7 @@ public class PropertyLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.3", id = "e")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "e")
 	})
 	public void testCascadedConfiguration() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -117,7 +118,7 @@ public class PropertyLevelOverridingTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.3", id = "f")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "f")
 	})
 	public void testGroupConversionsAreAdditive() {
 		Validator validator = TestUtil.getValidatorUnderTest();

@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.validation.Valid;
 
 /**

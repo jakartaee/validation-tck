@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
 import java.util.Date;
+
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 

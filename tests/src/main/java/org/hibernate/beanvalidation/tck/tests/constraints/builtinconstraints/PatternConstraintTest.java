@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -39,8 +40,8 @@ public class PatternConstraintTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
 	public void testPatternConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PatternDummyEntity dummy = new PatternDummyEntity();

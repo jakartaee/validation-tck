@@ -6,6 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.validatorcontext;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -24,6 +30,9 @@ import javax.validation.Payload;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -31,14 +40,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 
 /**
  * @author Hardy Ferentschik
@@ -54,7 +55,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "p")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "p")
 	public void testDefaultError() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -69,7 +70,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.4", id = "u")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "u")
 	public void testDisableDefaultErrorWithoutAddingCustomError() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -83,7 +84,7 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "q")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "q")
 	})
 	public void testDisableDefaultErrorWithCustomErrorNoSubNode() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -103,8 +104,8 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "q"),
-			@SpecAssertion(section = "3.4", id = "t")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "q"),
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "t")
 	})
 	public void testDisableDefaultErrorWithCustomErrorWithSubNode() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -124,8 +125,8 @@ public class ConstraintValidatorContextTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "q"),
-			@SpecAssertion(section = "3.4", id = "t")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "q"),
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "t")
 	})
 	public void propertyPathInIterable() {
 		Validator validator = TestUtil.getValidatorUnderTest();

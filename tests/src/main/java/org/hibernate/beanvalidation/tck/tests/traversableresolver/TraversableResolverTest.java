@@ -6,10 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertSame;
+
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Path;
@@ -19,6 +25,9 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.executable.ExecutableValidator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -26,14 +35,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 
 /**
  * @author Emmanuel Bernard
@@ -51,17 +52,17 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6", id = "a"),
-			@SpecAssertion(section = "4.6.3", id = "a"),
-			@SpecAssertion(section = "4.6.3", id = "b"),
-			@SpecAssertion(section = "4.6.3", id = "c"),
-			@SpecAssertion(section = "4.6.3", id = "d"),
-			@SpecAssertion(section = "4.6.3", id = "e"),
-			@SpecAssertion(section = "4.6.3", id = "f"),
-			@SpecAssertion(section = "4.6.3", id = "g"),
-			@SpecAssertion(section = "4.6.3", id = "h"),
-			@SpecAssertion(section = "4.6.3", id = "k"),
-			@SpecAssertion(section = "4.6.3", id = "l")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "b"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "c"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "d"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "e"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "f"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "g"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "h"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "k"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "l")
 	})
 	public void testCorrectCallsToIsReachableAndIsCascadable() {
 		Suit suit = new Suit();
@@ -155,14 +156,14 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.3", id = "a"),
-			@SpecAssertion(section = "4.6.3", id = "b"),
-			@SpecAssertion(section = "4.6.3", id = "c"),
-			@SpecAssertion(section = "4.6.3", id = "d"),
-			@SpecAssertion(section = "4.6.3", id = "e"),
-			@SpecAssertion(section = "4.6.3", id = "f"),
-			@SpecAssertion(section = "4.6.3", id = "g"),
-			@SpecAssertion(section = "4.6.3", id = "h")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "b"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "c"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "d"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "e"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "f"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "g"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "h")
 	})
 	public void testCorrectCallsToIsReachableAndIsCascadableForValidateValue() {
 		Suit suit = new Suit();
@@ -202,13 +203,13 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.3", id = "d"),
-			@SpecAssertion(section = "4.6.3", id = "e"),
-			@SpecAssertion(section = "4.6.3", id = "f"),
-			@SpecAssertion(section = "4.6.3", id = "g"),
-			@SpecAssertion(section = "4.6.3", id = "h"),
-			@SpecAssertion(section = "4.6.3", id = "k"),
-			@SpecAssertion(section = "4.6.3", id = "l")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "d"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "e"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "f"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "g"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "h"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "k"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "l")
 	})
 	public void testCorrectCallsToIsReachableAndIsCascadableForParameterValidation() throws Exception {
 		Suit suit = new Suit();
@@ -310,13 +311,13 @@ public class TraversableResolverTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6.3", id = "d"),
-			@SpecAssertion(section = "4.6.3", id = "e"),
-			@SpecAssertion(section = "4.6.3", id = "f"),
-			@SpecAssertion(section = "4.6.3", id = "g"),
-			@SpecAssertion(section = "4.6.3", id = "h"),
-			@SpecAssertion(section = "4.6.3", id = "k"),
-			@SpecAssertion(section = "4.6.3", id = "l")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "d"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "e"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "f"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "g"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "h"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "k"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "l")
 	})
 	public void testCorrectCallsToIsReachableAndIsCascadableForReturnValueValidation() throws Exception {
 		Suit suit = new Suit();
@@ -417,7 +418,7 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.3", id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "i")
 	public void testCustomTraversableResolverViaConfiguration() {
 		// get a new factory using a custom configuration
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
@@ -431,7 +432,7 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "c")
 	public void testTraversableResolverFromValidatorFactory() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		DummyTraversableResolver traversableResolver = new DummyTraversableResolver();
@@ -443,7 +444,7 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "4.6.3", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "j")
 	public void testResolverExceptionsGetWrappedInValidationException() {
 		ExceptionThrowingTraversableResolver resolver = new ExceptionThrowingTraversableResolver();
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
@@ -455,7 +456,7 @@ public class TraversableResolverTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "b")
 	public void testDefaultTraversableResolverIsNotNull() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertNotNull( config.getDefaultTraversableResolver() );

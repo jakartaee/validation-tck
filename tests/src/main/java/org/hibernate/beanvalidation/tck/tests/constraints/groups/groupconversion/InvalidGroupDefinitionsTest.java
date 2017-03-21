@@ -11,14 +11,10 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
+
 import javax.validation.ConstraintDeclarationException;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationConstructorParameter;
@@ -36,6 +32,11 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.SubClassWithGroupConversionOnParameter;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * Test for definition of group conversion rules.
@@ -56,19 +57,19 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnField() {
 		getValidator().validate( new UserWithGroupConversionButWithoutValidAnnotationOnField() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnProperty() {
 		getValidator().validate( new UserWithGroupConversionButWithoutValidAnnotationOnProperty() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnMethodReturnValue() throws Exception {
 		Object object = new UserWithGroupConversionButWithoutValidAnnotationOnMethodReturnValue();
 		Method method = UserWithGroupConversionButWithoutValidAnnotationOnMethodReturnValue.class.getMethod(
@@ -80,7 +81,7 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnMethodParameter() throws Exception {
 		Object object = new UserWithGroupConversionButWithoutValidAnnotationOnMethodParameter();
 		Method method = UserWithGroupConversionButWithoutValidAnnotationOnMethodParameter.class.getMethod(
@@ -93,7 +94,7 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnConstructorReturnValue()
 			throws Exception {
 		UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue object = new UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue();
@@ -104,7 +105,7 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnConstructorParameter() throws Exception {
 		Constructor<UserWithGroupConversionButWithoutValidAnnotationConstructorParameter> constructor = UserWithGroupConversionButWithoutValidAnnotationConstructorParameter.class
 				.getConstructor( List.class );
@@ -114,20 +115,20 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "e")
 	public void testSeveralGroupConversionsWithSameFrom() {
 		getValidator().validate( new UserWithSeveralGroupConversionsForSameFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "f")
 	public void testGroupConversionWithSequenceAsFrom() {
 		getValidator().validate( new UserWithGroupConversionWithSequenceAsFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "h")
-	@SpecAssertion(section = "4.4.5", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	public void testGroupConversionGivenOnParameterInSubClass() throws Exception {
 		Object object = new SubClassWithGroupConversionOnParameter();
 		Method method = SubClassWithGroupConversionOnParameter.class.getMethod(
@@ -140,8 +141,8 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "h")
-	@SpecAssertion(section = "4.4.5", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	public void testGroupConversionGivenOnParameterInImplementingClass() throws Exception {
 		Object object = new InterfaceImplementationWithGroupConversionOnParameter();
 		Method method = InterfaceImplementationWithGroupConversionOnParameter.class.getMethod(
@@ -154,8 +155,8 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "h")
-	@SpecAssertion(section = "4.4.5", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	public void testGroupConversionGivenOnParameterInParallelInterfaces() throws Exception {
 		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnParameter();
 		Method method = ImplementationOfParallelInterfacesWithGroupConversionOnParameter.class.getMethod(
@@ -168,8 +169,8 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "i")
-	@SpecAssertion(section = "4.4.5", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	public void testGroupConversionGivenOnReturnValueInParallelInterfaces() throws Exception {
 		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue();
 		Method method = ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue.class.getMethod(
@@ -181,8 +182,8 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "h")
-	@SpecAssertion(section = "4.4.5", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	public void testGroupConversionGivenOnParameterInSuperClassAndImplementedInterface()
 			throws Exception {
 		Object object = new ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter();
@@ -194,8 +195,8 @@ public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.4.5", id = "i")
-	@SpecAssertion(section = "4.4.5", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	public void testGroupConversionGivenOnReturnValueInSuperClassAndImplementedInterface()
 			throws Exception {
 		Object object = new ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue();

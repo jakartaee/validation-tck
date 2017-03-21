@@ -6,9 +6,18 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.constraints.Min;
@@ -17,12 +26,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidOrder;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidOrderService;
@@ -36,16 +41,12 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServ
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderService.OrderServiceSequence;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceImpl;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceWithRedefinedDefaultGroupSequence;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -65,7 +66,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationTargetsParameterCrossParameterAndCascadedConstraints()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -109,7 +110,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationIncludesConstraintsFromSuperClass() throws Exception {
 		String methodName = "placeOrder";
 
@@ -152,7 +153,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationIncludesConstraintsFromImplementedInterface()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -196,7 +197,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationIsAppliedGroupWise() throws Exception {
 		String methodName = "placeOrder";
 
@@ -258,7 +259,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationPerformsGroupConversion() throws Exception {
 		String methodName = "placeOrder";
 
@@ -287,7 +288,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
 
@@ -331,7 +332,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -388,7 +389,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void methodParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -452,7 +453,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationTargetsParameterCrossParameterAndCascadedConstraints()
 			throws Exception {
 		String className = "OrderService";
@@ -493,7 +494,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationDoesNotIncludeConstraintsFromSuperClass()
 			throws Exception {
 		Constructor<ExtendedOrderService> constructor = ExtendedOrderService.class.getConstructor(
@@ -512,7 +513,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationIsAppliedGroupWise() throws Exception {
 		String className = "OrderService";
 
@@ -570,7 +571,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationPerformsGroupConversion() throws Exception {
 		String className = "OrderService";
 
@@ -596,7 +597,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
 
@@ -637,7 +638,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationUsingSequence() throws Exception {
 		String className = "OrderService";
 
@@ -690,7 +691,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String className = "OrderServiceWithRedefinedDefaultGroupSequence";
 
@@ -752,7 +753,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -790,7 +791,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationIncludesConstraintsFromSuperClass() throws Exception {
 		String methodName = "placeOrder";
 
@@ -830,7 +831,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationIncludesConstraintsFromImplementedInterface()
 			throws Exception {
 		String methodName = "placeOrder";
@@ -871,7 +872,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String methodName = "placeOrder";
 
@@ -930,7 +931,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationPerformsGroupConversion() throws Exception {
 		String methodName = "placeOrder";
 
@@ -959,7 +960,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String methodName = "placeOrder";
 
@@ -994,7 +995,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationUsingSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1049,7 +1050,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void methodReturnValueValidationWithRedefinedDefaultGroupSequence() throws Exception {
 		String methodName = "placeOrder";
 
@@ -1106,7 +1107,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
 		String className = "OrderService";
@@ -1141,7 +1142,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationDoesNotIncludeConstraintsFromSuperClass()
 			throws Exception {
 		String className = "ExtendedOrderService";
@@ -1173,7 +1174,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationIsAppliedGroupWise() throws Exception {
 		String className = "OrderService";
 
@@ -1228,7 +1229,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationPerformsGroupConversion() throws Exception {
 		String className = "OrderService";
 
@@ -1254,7 +1255,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
 		String className = "OrderService";
 
@@ -1286,7 +1287,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationUsingSequence() throws Exception {
 		String className = "OrderService";
 
@@ -1337,7 +1338,7 @@ public class MethodValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationWithRedefinedDefaultGroupSequence()
 			throws Exception {
 		String className = "OrderServiceWithRedefinedDefaultGroupSequence";

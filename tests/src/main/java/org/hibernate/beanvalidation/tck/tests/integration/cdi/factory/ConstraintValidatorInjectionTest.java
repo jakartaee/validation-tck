@@ -6,22 +6,23 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.factory;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+
 import java.util.Set;
+
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 
 /**
  * @author Gunnar Morling
@@ -42,9 +43,9 @@ public class ConstraintValidatorInjectionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.1", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
-	@SpecAssertion(section = "10.3.2", id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "b")
 	public void testDependencyInjectionIntoConstraintValidator() {
 		Set<ConstraintViolation<Foo>> violations = defaultValidatorFactory.getValidator().validate( new Foo() );
 

@@ -6,6 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validatorfactory;
 
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.assertTrue;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorFactory;
@@ -13,18 +16,15 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertSame;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -44,7 +44,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.5", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTFACTORY, id = "b")
 	public void testDefaultConstructorInValidatorCalled() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new Dummy() );
@@ -55,14 +55,14 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTFACTORY, id = "c")
 	public void testRuntimeExceptionInValidatorCreationIsWrapped() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new SecondDummy() );
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "3.5", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTFACTORY, id = "d")
 	public void testValidationExceptionIsThrownInCaseFactoryReturnsNull() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest().constraintValidatorFactory(
 				new CustomConstraintValidatorFactory()
@@ -72,7 +72,7 @@ public class CustomConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "d")
 	public void testGetConstraintValidatorFactoryFromValidatorFactory() {
 		CustomConstraintValidatorFactory constraintValidatorFactory = new CustomConstraintValidatorFactory();
 

@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import java.util.Locale;
+
 import javax.validation.MessageInterpolator;
 
 /**

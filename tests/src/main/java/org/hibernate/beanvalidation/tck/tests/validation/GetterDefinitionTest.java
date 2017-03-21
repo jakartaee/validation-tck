@@ -6,21 +6,22 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
@@ -37,7 +38,7 @@ public class GetterDefinitionTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "d")
 	public void testGetterMethod() {
 		Shipment shipment = new Shipment();
 
@@ -46,7 +47,7 @@ public class GetterDefinitionTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "d")
 	public void testBooleanGetterMethod() {
 		Shipment shipment = new Shipment();
 

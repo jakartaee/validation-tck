@@ -6,10 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -18,18 +24,13 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -45,7 +46,7 @@ public class ConstraintInheritanceTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "b")
 	public void testConstraintsOnSuperClassAreInherited() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
@@ -60,8 +61,8 @@ public class ConstraintInheritanceTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3", id = "a")
-	@SpecAssertion(section = "4.3", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "b")
 	public void testConstraintsOnInterfaceAreInherited() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
@@ -76,8 +77,8 @@ public class ConstraintInheritanceTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3", id = "a")
-	@SpecAssertion(section = "4.3", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "c")
 	public void testConstraintsOnInterfaceAndImplementationAddUp() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
@@ -93,8 +94,8 @@ public class ConstraintInheritanceTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.3", id = "a")
-	@SpecAssertion(section = "4.3", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_INHERITANCE, id = "c")
 	public void testConstraintsOnSuperAndSubClassAddUp() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
@@ -110,7 +111,7 @@ public class ConstraintInheritanceTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	public void testValidationConsidersConstraintsFromSuperTypes() {
 		Set<ConstraintViolation<Bar>> violations = getValidator().validate( new Bar() );
 		assertCorrectConstraintTypes(

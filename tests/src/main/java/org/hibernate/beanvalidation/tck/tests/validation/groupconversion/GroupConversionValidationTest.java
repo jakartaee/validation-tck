@@ -6,10 +6,18 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import static org.testng.Assert.assertTrue;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.Path;
@@ -17,21 +25,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Gunnar Morling
@@ -47,8 +48,8 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
-	@SpecAssertion(section = "4.6", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	public void testGroupConversionIsAppliedOnField() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidMainAddress() );
 
@@ -60,8 +61,8 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
-	@SpecAssertion(section = "4.6", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	public void testSeveralGroupConversionsAppliedOnField() {
 		User userWithInvalidPreferredShipmentAddress = TestUsers.withInvalidPreferredShipmentAddress();
 
@@ -112,7 +113,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionIsAppliedOnProperty() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidShipmentAddress() );
 
@@ -124,7 +125,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionIsAppliedOnMethodReturnValue() throws Exception {
 		//given
 		User user = TestUsers.validUser();
@@ -145,7 +146,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionDefinedInSubClassIsAppliedOnMethodReturnValue()
 			throws Exception {
 		//given
@@ -167,7 +168,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionDefinedInImplementedClassIsAppliedOnMethodReturnValue()
 			throws Exception {
 		//given
@@ -189,7 +190,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
 		User user = TestUsers.validUser();
@@ -210,7 +211,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionIsAppliedOnConstructorReturnValue() throws Exception {
 		//given
 		Constructor<User> constructor = User.class.getConstructor( Address.class );
@@ -236,7 +237,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given
 		Constructor<User> constructor = User.class.getConstructor( Address.class );
@@ -256,7 +257,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "d")
 	public void testGroupConversionIsNotExecutedRecursively() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidOfficeAddress() );
 
@@ -278,7 +279,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "g")
 	public void testGroupConversionWithSequenceAsTo() {
 		User user = TestUsers.validUser();
 
@@ -295,7 +296,7 @@ public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.5", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "b")
 	public void testGroupIsPassedAsIsToNestedElementWithoutConversion() {
 		Set<ConstraintViolation<FooHolder>> constraintViolations = getValidator().validate( new FooHolder() );
 		assertTrue( constraintViolations.isEmpty(), "No violations expected for default group" );

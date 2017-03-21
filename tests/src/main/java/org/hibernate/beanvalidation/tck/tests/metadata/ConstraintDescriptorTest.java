@@ -6,24 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import java.util.Map;
-import java.util.Set;
-import javax.validation.ConstraintTarget;
-import javax.validation.Payload;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
-import javax.validation.metadata.ConstraintDescriptor;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintDescriptorsFor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -31,6 +13,25 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+
+import java.util.Map;
+import java.util.Set;
+
+import javax.validation.ConstraintTarget;
+import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
+import javax.validation.metadata.ConstraintDescriptor;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -55,7 +56,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "m")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "m")
 	public void testReportAsSingleViolation() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		assertFalse( descriptor.isReportAsSingleViolation() );
@@ -65,16 +66,16 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "n")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "n")
 	public void testEmptyComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		assertTrue( descriptor.getComposingConstraints().isEmpty() );
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "a")
-	@SpecAssertion(section = "6.11", id = "b")
-	@SpecAssertion(section = "6.11", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "d")
 	public void testAnnotationAndMapParametersReflectParameterOverriding() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
@@ -101,7 +102,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "c")
 	public void testGetAttributesFromConstraintDescriptor() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Map<String, Object> attributes = descriptor.getAttributes();
@@ -110,7 +111,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "e")
 	public void testGetMessageTemplate() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "middleName" );
 		String messageTemplate = descriptor.getMessageTemplate();
@@ -118,7 +119,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "f")
 	public void testGetGroups() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -127,7 +128,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "f")
 	public void testGetGroupsOnInterface() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -136,7 +137,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "f")
 	public void testGetGroupsWithImplicitGroup() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Man.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -149,7 +150,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "g")
 	public void testDefaultGroupIsReturnedIfNoGroupSpecifiedInDeclaration() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Set<Class<?>> groups = descriptor.getGroups();
@@ -158,8 +159,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "h")
-	@SpecAssertion(section = "6.11", id = "n")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "n")
 	public void testComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
@@ -171,7 +172,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "i")
 	public void testPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<? extends Payload>> payload = descriptor.getPayload();
@@ -185,8 +186,8 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "j")
-	@SpecAssertion(section = "6.11", id = "k")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "k")
 	public void testComposingConstraintsPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
@@ -198,7 +199,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "l")
 	public void testGetValidationAppliesTo() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "age" );
 		ConstraintTarget constraintTarget = descriptor.getValidationAppliesTo();
@@ -207,7 +208,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "l")
 	public void testGetValidationAppliesToFromComposingConstraint() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "age" );
 
@@ -220,7 +221,7 @@ public class ConstraintDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "l")
 	public void testGetValidationAppliesToReturnsNull() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		ConstraintTarget constraintTarget = descriptor.getValidationAppliesTo();

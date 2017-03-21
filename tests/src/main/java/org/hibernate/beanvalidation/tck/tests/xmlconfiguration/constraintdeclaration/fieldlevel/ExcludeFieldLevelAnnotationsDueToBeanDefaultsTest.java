@@ -6,10 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.fieldlevel;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -17,12 +23,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 
 /**
  * @author Hardy Ferentschik
@@ -42,8 +42,8 @@ public class ExcludeFieldLevelAnnotationsDueToBeanDefaultsTest extends Arquillia
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.2", id = "b"),
-			@SpecAssertion(section = "8.1.1.2", id = "c")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_FIELDLEVELOVERRIDING, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_FIELDLEVELOVERRIDING, id = "c")
 	})
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();

@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
 
 import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 /**

@@ -6,11 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Locale;
 import java.util.Set;
+
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -22,23 +28,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
 // CHECKSTYLE:OFF
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 // CHECKSTYLE:ON
-
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -67,102 +68,102 @@ public class ExpressionLanguageMessageInterpolationTest extends BaseValidatorTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1", id = "e")
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "b")
 	public void testInterpolationWithElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "firstName" );
 		assertCorrectConstraintViolationMessages( violations, "2" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "b")
 	public void testInterpolationWithSeveralElExpressions() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "lastName" );
 		assertCorrectConstraintViolationMessages( violations, "2 some text 6" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "f")
 	public void testInterpolationWithUnknownElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "houseNo" );
 		assertCorrectConstraintViolationMessages( violations, "${unknown}" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "f")
 	public void testInterpolationWithInvalidElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "addition" );
 		assertCorrectConstraintViolationMessages( violations, "${1*}" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "f")
 	public void testInterpolationWithElExpressionThrowingAnException() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "continent" );
 		assertCorrectConstraintViolationMessages( violations, "${validatedValue}" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
 	public void testInterpolationWithIncompleteElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "zipCode" );
 		assertCorrectConstraintViolationMessages( violations, "${incomplete" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "b")
 	public void testOnlyDollarSignIsSupportedForEnclosingElExpressions() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "middleName" );
 		assertCorrectConstraintViolationMessages( violations, "#{1+1}" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "c")
 	public void testInterpolationUsingAnnotationAttributesInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "street" );
 		assertCorrectConstraintViolationMessages( violations, "must be longer than 30" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "c")
 	public void testInterpolationUsingGroupsAndPayloadInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "country" );
 		assertCorrectConstraintViolationMessages( violations, "groups: Default, payload: CustomPayload" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "d")
 	public void testInterpolationUsingValidatedValueInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "city" );
 		assertCorrectConstraintViolationMessages( violations, "Foo is not long enough" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "e")
 	public void testInterpolationUsingFormatterInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "longitude" );
 		assertCorrectConstraintViolationMessages( violations, "98.12 must be larger than 100" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "e")
 	public void testInterpolationUsingFormatterWithSeveralObjectsInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "latitude" );
 		assertCorrectConstraintViolationMessages( violations, "98.12 (that is, 98.1235) must be larger than 100" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.3", id = "a")
-	@SpecAssertion(section = "5.3.1.3", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "e")
 	public void testInterpolationWithFormatterUsesDefaultLocaleInElExpression() {
 		Locale.setDefault( Locale.GERMAN );
 		Validator validator = TestUtil.getValidatorUnderTest();

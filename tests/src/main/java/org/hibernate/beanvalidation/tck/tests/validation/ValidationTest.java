@@ -6,11 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.ValidationProviderResolver;
@@ -19,6 +25,10 @@ import javax.validation.bootstrap.GenericBootstrap;
 import javax.validation.bootstrap.ProviderSpecificBootstrap;
 import javax.validation.spi.ValidationProvider;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
+import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -26,15 +36,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
-import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * Tests for the implementation of <code>Validation</code>.
@@ -54,7 +55,7 @@ public class ValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.5", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "a")
 	public void testBuildDefaultValidatorFactory() {
 		ValidatorFactory defaultFactory = Validation.buildDefaultValidatorFactory();
 		assertNotNull( defaultFactory, "We should be able to get a factory." );
@@ -67,8 +68,8 @@ public class ValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.5", id = "b"),
-			@SpecAssertion(section = "5.5.5", id = "e")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "b"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "e")
 	})
 	public void testCustomValidationProviderResolution() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
@@ -89,8 +90,8 @@ public class ValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.5", id = "c"),
-			@SpecAssertion(section = "5.5.5", id = "e")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "c"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "e")
 	})
 	public void testSpecificValidationProvider() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
@@ -110,7 +111,7 @@ public class ValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.5", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "d")
 	public void testVerifyMethodsOfValidationObjects() {
 		Class<?> validatorClass = javax.validation.Validation.class;
 
