@@ -6,33 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
-import javax.validation.ValidationException;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
@@ -42,6 +15,33 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
+import javax.validation.ValidationException;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -63,14 +63,14 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "d")
-	@SpecAssertion(section = "5.1.2", id = "e")
-	@SpecAssertion(section = "5.2", id = "d")
-	@SpecAssertion(section = "5.2", id = "e")
-	@SpecAssertion(section = "5.2", id = "f")
-	@SpecAssertion(section = "5.2", id = "g")
-	@SpecAssertion(section = "5.2", id = "h")
-	@SpecAssertion(section = "5.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void testOneViolation() throws Exception {
 		String methodName = "getAddress";
 
@@ -100,7 +100,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "e")
 	public void testTwoViolations() throws Exception {
 		String methodName = "getFirstName";
 
@@ -130,7 +130,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "e")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		String methodName = "getLastName";
 
@@ -160,7 +160,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "e")
 	public void testNoViolations() throws Exception {
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( "getFirstName", String.class );
@@ -176,7 +176,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "e")
 	public void testValidationWithGroup() throws Exception {
 		String methodName = "getLastName";
 
@@ -205,7 +205,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "e")
 	public void testValidationWithSeveralGroups() throws Exception {
 		String methodName = "getAllData";
 
@@ -243,7 +243,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "d")
 	public void testUnexpectedType() throws Exception {
 		String methodName = "getValue";
 
@@ -255,7 +255,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "f")
 	public void testNullPassedForObjectCausesException() throws Exception {
 		Object object = null;
 		Method method = Customer.class.getMethod( "getAddress" );
@@ -269,7 +269,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "f")
 	public void testNullPassedForMethodCausesException() throws Exception {
 		Object object = new Customer();
 		Method method = null;
@@ -283,7 +283,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "f")
 	public void testNullPassedForGroupsCausesException() throws Exception {
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( "getAddress" );
@@ -298,7 +298,7 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "f")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
 		Object object = new Customer();
 		Method method = Customer.class.getMethod( "getAddress" );
@@ -313,10 +313,10 @@ public class ValidateReturnValueTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "f")
-	@SpecAssertion(section = "5.2", id = "g")
-	@SpecAssertion(section = "5.2", id = "h")
-	@SpecAssertion(section = "5.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void testOneViolationForCascadedValidation() throws Exception {
 		String methodName = "getItem";
 

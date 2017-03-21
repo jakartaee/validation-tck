@@ -6,19 +6,19 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
+import static org.testng.Assert.assertNotNull;
+
 import javax.ejb.EJB;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
@@ -43,14 +43,14 @@ public class DefaultInjectionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.2", id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "b")
 	private void testDefaultValidatorFactoryGetsInjectedAtResource() throws Exception {
 		assertNotNull( testEjb );
 		testEjb.assertDefaultValidatorFactoryGetsInjected();
 	}
 
 	@Test
-	@SpecAssertion(section = "10.2", id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "b")
 	private void testDefaultValidatorGetsInjectedWithAtResource() {
 		assertNotNull( testEjb );
 		testEjb.assertDefaultValidatorGetsInjected();

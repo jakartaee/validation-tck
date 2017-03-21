@@ -6,6 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Constructor;
@@ -16,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -34,27 +46,15 @@ import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.executable.ExecutableValidator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Tests for property paths retrieved via {@link ConstraintViolation#getPropertyPath()}.
@@ -93,15 +93,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "v"),
-			@SpecAssertion(section = "5.2", id = "ab")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "v"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ab")
 	})
 	public void testPropertyPathWithConstraintViolationForRootObject() {
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
@@ -122,15 +122,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "w"),
-			@SpecAssertion(section = "5.2", id = "aa")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "w"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa")
 	})
 	public void testPropertyPathTraversedObject() {
 		Engine engine = new Engine();
@@ -152,14 +152,14 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "x"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "z")
 	})
 	public void testPropertyPathWithList() {
 		Actor clint = new ActorListBased( "Clint", "Eastwood" );
@@ -177,14 +177,14 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "x"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "z")
 	})
 	public void testPropertyPathWithArray() {
 		Actor clint = new ActorArrayBased( "Clint", "Eastwood" );
@@ -202,15 +202,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "u"),
-			@SpecAssertion(section = "5.2", id = "x"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "u"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "x"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "z")
 	})
 	public void testPropertyPathWithRuntimeTypeList() {
 		Actor clint = new ActorCollectionBased( "Clint", "Eastwood" );
@@ -228,14 +228,14 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "y"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "y"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "z")
 	})
 	public void testPropertyPathWithMap() {
 		ActorDB db = new ActorDB();
@@ -260,13 +260,13 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "z")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "z")
 	})
 	public void testPropertyPathSet() {
 		Customer customer = new Customer();
@@ -292,19 +292,19 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "s"),
-			@SpecAssertion(section = "5.2", id = "t"),
-			@SpecAssertion(section = "5.2", id = "ac"),
-			@SpecAssertion(section = "5.2", id = "ad"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "t"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ac"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ad"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForMethodParameterConstraint() throws Exception {
 		//given
@@ -372,14 +372,14 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "ad"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ad"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForMethodParameterConstraintWithCustomParameterNameProvider()
 			throws Exception {
@@ -436,17 +436,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "ac"),
-			@SpecAssertion(section = "5.2", id = "af"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ac"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "af"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForMethodReturnValueConstraint() throws Exception {
 		//given
@@ -486,16 +486,16 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "ac"),
-			@SpecAssertion(section = "5.2", id = "ae"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ac"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ae"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForMethodCrossParameterConstraint() throws Exception {
 		//given
@@ -537,19 +537,19 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "s"),
-			@SpecAssertion(section = "5.2", id = "t"),
-			@SpecAssertion(section = "5.2", id = "ac"),
-			@SpecAssertion(section = "5.2", id = "ad"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "t"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ac"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ad"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForConstructorParameterConstraint() throws Exception {
 		//given
@@ -609,14 +609,14 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "ad"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ad"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForConstructorParameterConstraintWithCustomParameterNameProvider()
 			throws Exception {
@@ -666,17 +666,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "r"),
-			@SpecAssertion(section = "5.2", id = "ac"),
-			@SpecAssertion(section = "5.2", id = "ae"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ac"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ae"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForConstructorCrossParameterConstraint() throws Exception {
 		//given
@@ -717,16 +717,16 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "ac"),
-			@SpecAssertion(section = "5.2", id = "af"),
-			@SpecAssertion(section = "5.2", id = "ag")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ac"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "af"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
 	})
 	public void testPropertyPathForConstructorReturnValueConstraint() throws Exception {
 		//given
@@ -757,15 +757,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai")
 	})
 	public void testPropertyPathTraversingMethodParameter() throws Exception {
 		//given
@@ -812,17 +812,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "ak"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ak"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodListParameter() throws Exception {
 		//given
@@ -872,17 +872,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "ak"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ak"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodArrayParameter() throws Exception {
 		//given
@@ -932,16 +932,16 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodSetParameter() throws Exception {
 		//given
@@ -988,17 +988,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "al"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "al"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodMapParameter() throws Exception {
 		//given
@@ -1048,15 +1048,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai")
 	})
 	public void testPropertyPathTraversingConstructorParameter() throws Exception {
 		//given
@@ -1094,17 +1094,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "ak"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ak"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingConstructorListParameter() throws Exception {
 		//given
@@ -1150,17 +1150,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "ak"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ak"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingConstructorArrayParameter() throws Exception {
 		//given
@@ -1206,16 +1206,16 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingConstructorSetParameter() throws Exception {
 		//given
@@ -1258,17 +1258,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "ai"),
-			@SpecAssertion(section = "5.2", id = "al"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ai"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "al"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingConstructorMapParameter() throws Exception {
 		//given
@@ -1314,15 +1314,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "aj")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aj")
 	})
 	public void testPropertyPathTraversingMethodReturnValue() throws Exception {
 		//given
@@ -1360,17 +1360,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "aj"),
-			@SpecAssertion(section = "5.2", id = "ak"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aj"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ak"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodListReturnValue() throws Exception {
 		//given
@@ -1411,17 +1411,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "aj"),
-			@SpecAssertion(section = "5.2", id = "ak"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aj"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ak"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodArrayReturnValue() throws Exception {
 		//given
@@ -1462,16 +1462,16 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "aj"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aj"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodSetReturnValue() throws Exception {
 		//given
@@ -1509,17 +1509,17 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "aj"),
-			@SpecAssertion(section = "5.2", id = "al"),
-			@SpecAssertion(section = "5.2", id = "am")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aj"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "al"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "am")
 	})
 	public void testPropertyPathTraversingMethodMapReturnValue() throws Exception {
 		//given
@@ -1560,15 +1560,15 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.2", id = "l"),
-			@SpecAssertion(section = "5.2", id = "m"),
-			@SpecAssertion(section = "5.2", id = "n"),
-			@SpecAssertion(section = "5.2", id = "o"),
-			@SpecAssertion(section = "5.2", id = "p"),
-			@SpecAssertion(section = "5.2", id = "q"),
-			@SpecAssertion(section = "5.2", id = "aa"),
-			@SpecAssertion(section = "5.2", id = "ah"),
-			@SpecAssertion(section = "5.2", id = "aj")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "l"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "o"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "p"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "q"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aa"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aj")
 	})
 	public void testPropertyPathTraversingConstructorReturnValue() throws Exception {
 		//given
@@ -1602,7 +1602,7 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "5.2", id = "r")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r")
 	public void testPassingWrongTypeToAsOnBeanNodeCausesClassCastException() {
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
 		assertCorrectNumberOfViolations( constraintViolations, 1 );
@@ -1618,7 +1618,7 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "5.2", id = "r")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r")
 	public void testPassingWrongTypeToAsOnConstructorNodeCausesClassCastException() throws Exception {
 		//given
 		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
@@ -1650,7 +1650,7 @@ public class PropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ClassCastException.class)
-	@SpecAssertion(section = "5.2", id = "r")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r")
 	public void testPassingWrongTypeToAsOnParameterNodeCausesClassCastException() throws Exception {
 		//given
 		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(

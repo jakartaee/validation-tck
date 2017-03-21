@@ -6,27 +6,28 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdefinition;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintValidator;
 import javax.validation.Validator;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -48,9 +49,9 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "o")
-	@SpecAssertion(section = "8.1.2", id = "b")
-	@SpecAssertion(section = "8.1.2", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "o")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "b")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "e")
 	public <T extends Annotation> void testExcludeExistingValidators() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
@@ -74,10 +75,10 @@ public class XmlConfiguredConstraintValidatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.11", id = "o")
-	@SpecAssertion(section = "8.1.2", id = "c")
-	@SpecAssertion(section = "8.1.2", id = "d")
-	@SpecAssertion(section = "8.1.2", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "o")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "c")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "d")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "e")
 	public <T extends Annotation> void testIncludeExistingValidators() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );

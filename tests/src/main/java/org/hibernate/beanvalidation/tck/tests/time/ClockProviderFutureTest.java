@@ -15,6 +15,7 @@ import java.time.ZonedDateTime;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -42,7 +43,7 @@ public class ClockProviderFutureTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void clockProviderIsUsed() {
 		FutureDummyEntity dummy = new FutureDummyEntity( ZonedDateTime.of( 2099, 1, 12, 5, 0, 0, 0, TZ_BERLIN ) );
 
@@ -69,7 +70,7 @@ public class ClockProviderFutureTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void clockProviderIsUsedForRelativePartials() {
 		FutureRelativePartialDummyEntity dummy = new FutureRelativePartialDummyEntity( ZonedDateTime.of( 2016, 6, 6, 14, 45, 0, 0, TZ_BERLIN ) );
 

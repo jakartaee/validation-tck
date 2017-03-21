@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -41,8 +42,8 @@ public class ConstraintDefinitionsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.1.1", id = "a")
-	@SpecAssertion(section = "3.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_MULTIPLECONSTRAINTS, id = "a")
 	public void testConstraintWithCustomAttributes() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintDescriptor<?>> descriptors = validator.getConstraintsForClass( Person.class )
@@ -63,8 +64,8 @@ public class ConstraintDefinitionsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.2", id = "a")
-	@SpecAssertion(section = "3.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_MULTIPLECONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_MULTIPLECONSTRAINTS, id = "b")
 	public void testRepeatableConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintDescriptor<?>> descriptors = validator.getConstraintsForClass( Movie.class )
@@ -91,7 +92,7 @@ public class ConstraintDefinitionsTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.1.1.2", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_GROUPS, id = "d")
 	public void testDefaultGroupAssumedWhenNoGroupsSpecified() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		ConstraintDescriptor<?> descriptor = validator.getConstraintsForClass( Person.class )

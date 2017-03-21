@@ -6,23 +6,24 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee.cdi;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.testng.Assert.assertNotNull;
+
 import java.util.Set;
+
 import javax.naming.InitialContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
@@ -40,8 +41,8 @@ public class ConstraintValidatorInjectionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testJndiBoundValidatorFactoryIsCdiEnabled() throws Exception {
 		ValidatorFactory validatorFactory = InitialContext.doLookup( "java:comp/ValidatorFactory" );
 		assertNotNull(

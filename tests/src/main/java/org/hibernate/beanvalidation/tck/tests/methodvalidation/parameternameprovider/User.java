@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
 import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 /**

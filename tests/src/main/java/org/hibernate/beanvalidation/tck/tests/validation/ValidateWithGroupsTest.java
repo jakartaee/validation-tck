@@ -6,12 +6,20 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -19,13 +27,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 
 /**
  * Tests for the implementation of {@code Validator}.
@@ -45,8 +46,8 @@ public class ValidateWithGroupsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.3", id = "a"),
-			@SpecAssertion(section = "5.1.3", id = "b")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_GROUPS, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_GROUPS, id = "b")
 	})
 	public void testCorrectGroupsAreAppliedForValidate() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -74,8 +75,8 @@ public class ValidateWithGroupsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.3", id = "a"),
-			@SpecAssertion(section = "5.1.3", id = "b")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_GROUPS, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_GROUPS, id = "b")
 	})
 	public void testCorrectGroupsAreAppliedForValidateProperty() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -101,8 +102,8 @@ public class ValidateWithGroupsTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.3", id = "a"),
-			@SpecAssertion(section = "5.1.3", id = "b")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_GROUPS, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_GROUPS, id = "b")
 	})
 	public void testCorrectGroupsAreAppliedForValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();

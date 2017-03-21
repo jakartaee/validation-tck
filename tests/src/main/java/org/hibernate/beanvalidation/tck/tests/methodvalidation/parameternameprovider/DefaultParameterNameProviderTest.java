@@ -6,30 +6,30 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ParameterNameProvider;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-
-import org.testng.annotations.Test;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ParameterNameProvider;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -48,7 +48,7 @@ public class DefaultParameterNameProviderTest extends BaseExecutableValidatorTes
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_NAMINGPARAMETERS, id = "a")
 	public void testDefaultParameterProviderForMethod() throws Exception {
 		Object object = new User();
 		Method method = User.class.getMethod( "setNames", String.class, String.class );
@@ -65,7 +65,7 @@ public class DefaultParameterNameProviderTest extends BaseExecutableValidatorTes
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_NAMINGPARAMETERS, id = "a")
 	public void testDefaultParameterProviderForConstructor() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -85,7 +85,7 @@ public class DefaultParameterNameProviderTest extends BaseExecutableValidatorTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "d")
 	public void testGetDefaultParameterNameProviderFromConfiguration() throws Exception {
 		Method method = User.class.getMethod( "setNames", String.class, String.class );
 		Constructor<User> constructor = User.class.getConstructor(

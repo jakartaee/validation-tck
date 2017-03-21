@@ -6,27 +6,28 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.fail;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.GroupDefinitionException;
 import javax.validation.GroupSequence;
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.fail;
 
 /**
  * Tests for redefining the default group sequence.
@@ -50,7 +51,7 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "a")
 	public void testRedefiningDefaultGroup() {
 		Address address = new Address();
 		address.setStreet( "Guldmyntgatan" );
@@ -77,7 +78,7 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "a")
 	public void testValidatingAgainstRedefinedDefaultGroup() {
 		Car car = new Car();
 		car.setType( "A" );
@@ -106,8 +107,8 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "c")
-	@SpecAssertion(section = "4.4.3", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "d")
 	public void testGroupSequenceContainingDefault() {
 		Address address = new AddressWithDefaultInGroupSequence();
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -121,8 +122,8 @@ public class DefaultGroupRedefinitionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "c")
-	@SpecAssertion(section = "4.4.3", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "d")
 	public void testGroupSequenceWithNoImplicitDefaultGroup() {
 		Address address = new AddressWithNoImplicitDefaultGroupSequence();
 		Validator validator = TestUtil.getValidatorUnderTest();

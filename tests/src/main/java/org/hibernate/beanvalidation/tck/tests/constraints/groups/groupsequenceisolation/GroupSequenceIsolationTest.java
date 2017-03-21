@@ -6,25 +6,26 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequenceisolation;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 
 /**
  * @author Hardy Ferentschik
@@ -40,9 +41,9 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "a")
-	@SpecAssertion(section = "4.4.3", id = "c")
-	@SpecAssertion(section = "4.4.6", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_FORMALDEFINITION, id = "c")
 	public void testCorrectDefaultSequenceInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B1 b = new B1();
@@ -75,9 +76,9 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.3", id = "a")
-	@SpecAssertion(section = "4.4.3", id = "c")
-	@SpecAssertion(section = "4.4.6", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_REDEFININGDEFAULTGROUP, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_FORMALDEFINITION, id = "c")
 	public void testCorrectDefaultSequenceInheritance2() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B2 b = new B2();
@@ -115,7 +116,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.6", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_FORMALDEFINITION, id = "b")
 	public void testCorrectDefaultSequenceInheritance3() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		B3 b = new B3();
@@ -149,7 +150,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.1", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_GRAPHVALIDATION, id = "e")
 	public void testCorrectDefaultSequenceContainedCaseWithoutGroupRedefinitionOnContainedEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		C c = new C();
@@ -181,7 +182,7 @@ public class GroupSequenceIsolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.1", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_GRAPHVALIDATION, id = "e")
 	public void testCorrectDefaultSequenceContainedCaseWithGroupRedefinitionOnContainedEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		E e = new E();

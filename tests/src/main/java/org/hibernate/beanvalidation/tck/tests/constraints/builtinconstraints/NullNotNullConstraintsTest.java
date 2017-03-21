@@ -16,6 +16,7 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -40,8 +41,8 @@ public class NullNotNullConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "c")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "c")
 	public void testNullConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NullDummyEntity dummy = new NullDummyEntity();
@@ -60,8 +61,8 @@ public class NullNotNullConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "d")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "d")
 	public void testNotNullConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NotNullDummyEntity dummy = new NotNullDummyEntity();

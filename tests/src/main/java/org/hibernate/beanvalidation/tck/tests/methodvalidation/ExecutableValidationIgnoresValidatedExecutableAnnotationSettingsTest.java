@@ -6,32 +6,33 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
-import javax.validation.constraints.NotNull;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidLineItem;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidWarehouseItem;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.LineItem;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.WarehouseItem;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidLineItem;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidWarehouseItem;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.LineItem;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.WarehouseItem;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -51,7 +52,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnTypeLevel()
 			throws Exception {
 		Object object = new LineItem( null );
@@ -71,7 +72,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnTypeLevel()
 			throws Exception {
 		Constructor<LineItem> constructor = LineItem.class.getConstructor( String.class );
@@ -88,7 +89,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnTypeLevel()
 			throws Exception {
 		Object object = new LineItem( null );
@@ -108,7 +109,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnTypeLevel()
 			throws Exception {
 		Constructor<LineItem> constructor = LineItem.class.getConstructor( String.class );
@@ -125,7 +126,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnExecutableLevel()
 			throws Exception {
 		Object object = new WarehouseItem( null );
@@ -145,7 +146,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnExecutableLevel()
 			throws Exception {
 		Constructor<WarehouseItem> constructor = WarehouseItem.class.getConstructor( String.class );
@@ -162,7 +163,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnExecutableLevel()
 			throws Exception {
 		Object object = new WarehouseItem( null );
@@ -182,7 +183,7 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEOnExecutableLevel()
 			throws Exception {
 		Constructor<WarehouseItem> constructor = WarehouseItem.class.getConstructor( String.class );

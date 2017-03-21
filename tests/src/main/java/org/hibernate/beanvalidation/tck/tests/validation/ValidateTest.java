@@ -6,11 +6,26 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
+
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Set;
+
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -27,6 +42,9 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -34,23 +52,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -85,9 +86,9 @@ public class ValidateTest extends Arquillian {
 	@Test(expectedExceptions = UnexpectedTypeException.class)
 	// UnexpectedTypeException is a subclass of ValidationException
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "a"),
-			@SpecAssertion(section = "4.6.4", id = "h"),
-			@SpecAssertion(section = "6.1", id = "c")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "h"),
+			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "c")
 	})
 	public void testUnexpectedTypeException() {
 		Boy boy = new Boy();
@@ -95,7 +96,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.1", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "a")
 	public void testConstraintDescriptorWithoutExplicitGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -115,20 +116,20 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "6.1", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "b")
 	public void testNullParameterToGetConstraintsForClass() {
 		TestUtil.getValidatorUnderTest().getConstraintsForClass( null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "b")
 	public void testValidateWithNullValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "b")
 	public void testValidateWithNullGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new Boy(), (Class<?>) null );
@@ -136,8 +137,8 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.1", id = "a"),
-			@SpecAssertion(section = "5.1.1", id = "c")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "c")
 	})
 
 	public void testMultipleViolationOfTheSameType() {
@@ -159,8 +160,8 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6", id = "c"),
-			@SpecAssertion(section = "5.1.1", id = "c")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "c"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "c")
 	})
 	public void testMultipleConstraintViolationOfDifferentTypes() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -177,19 +178,19 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1", id = "a"),
-			@SpecAssertion(section = "4.6", id = "a"),
-			@SpecAssertion(section = "4.6", id = "c"),
-			@SpecAssertion(section = "5.2", id = "a"),
-			@SpecAssertion(section = "5.2", id = "b"),
-			@SpecAssertion(section = "5.2", id = "c"),
-			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f"),
-			@SpecAssertion(section = "5.2", id = "i"),
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "k"),
-			@SpecAssertion(section = "6.11", id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "c"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "b"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "c"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "e"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k"),
+			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "a"),
 	})
 	public void testConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -221,11 +222,11 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.6", id = "a"),
-			@SpecAssertion(section = "5.2", id = "c"),
-			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f"),
-			@SpecAssertion(section = "5.2", id = "i")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "c"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "e"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	})
 	public void testClassLevelConstraintViolation() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -251,9 +252,9 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "4.6", id = "a"),
-			@SpecAssertion(section = "5.2", id = "f")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
 	})
 	public void testGraphValidationWithList() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -286,9 +287,9 @@ public class ValidateTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "3.4", id = "s"),
-			@SpecAssertion(section = "4.1.3", id = "i"),
-			@SpecAssertion(section = "4.1.3", id = "d")
+			@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "s"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "d")
 	})
 	public void testGraphValidationWithArray() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -318,7 +319,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "b")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Car car = new Car( "USd-298" );
@@ -336,7 +337,7 @@ public class ValidateTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.1", id = "k")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "k")
 	public void testUnexpectedExceptionsInValidateGetWrappedInValidationExceptions() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new BadlyBehavedEntity() );

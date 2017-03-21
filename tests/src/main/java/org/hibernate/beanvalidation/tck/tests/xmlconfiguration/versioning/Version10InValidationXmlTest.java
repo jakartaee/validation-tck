@@ -10,6 +10,7 @@ import static org.testng.Assert.assertEquals;
 
 import javax.validation.Configuration;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -34,7 +35,7 @@ public class Version10InValidationXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.2", id = "a")
+	@SpecAssertion(section = Sections.XML_CONFIG_XSD, id = "a")
 	public void testValidationXmlVersion10() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertEquals(

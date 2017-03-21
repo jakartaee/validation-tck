@@ -6,8 +6,15 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+
 import java.lang.annotation.ElementType;
 import java.util.Set;
+
 import javax.validation.Validator;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
@@ -15,21 +22,15 @@ import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.ElementDescriptor;
 import javax.validation.metadata.Scope;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -46,7 +47,7 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	public void testGetElementClass() {
 		Validator validator = getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SuperClass.class );
@@ -57,22 +58,22 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "b")
 	public void testGetConstraintDescriptors() {
 		ElementDescriptor descriptor = getPropertyDescriptor( SubClass.class, "myField" );
 		assertEquals( descriptor.getConstraintDescriptors().size(), 2, "There should be two constraints on myField" );
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "c")
 	public void testHasConstraints() {
 		ElementDescriptor descriptor = getPropertyDescriptor( SubClass.class, "myField" );
 		assertTrue( descriptor.hasConstraints() );
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	@SpecAssertion(section = "6.2", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "e")
 	public void testUnorderedAndMatchingGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -92,8 +93,8 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	@SpecAssertion(section = "6.2", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "e")
 	public void testUnorderedAndMatchingGroupsWithInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -107,8 +108,8 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	@SpecAssertion(section = "6.2", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "e")
 	public void testUnorderedAndMatchingGroupsWithDefaultGroupOverriding() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -122,8 +123,8 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	@SpecAssertion(section = "6.2", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "f")
 	public void testDeclaredOn() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
@@ -152,8 +153,8 @@ public class ElementDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "d")
-	@SpecAssertion(section = "6.2", id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "g")
 	public void testLookingAt() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );

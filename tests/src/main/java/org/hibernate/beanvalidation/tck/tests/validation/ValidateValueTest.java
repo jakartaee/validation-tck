@@ -6,22 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import java.util.ArrayList;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
@@ -29,6 +13,23 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectProper
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -52,7 +53,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "h")
 	public void testValidateValueSuccess() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -63,7 +64,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "h")
 	public void testValidateValueFailure() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -76,13 +77,13 @@ public class ValidateValueTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.1", id = "h"),
-			@SpecAssertion(section = "5.2", id = "d"),
-			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f"),
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "i")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "h"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "d"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "e"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	})
 	public void testValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
@@ -107,7 +108,7 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithInvalidPropertyPath() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -130,42 +131,42 @@ public class ValidateValueTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testExistingPropertyWoConstraintsNorCascaded() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateValue( Customer.class, "middleName", new ArrayList<String>() );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValuePassingNullAsGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateValue( Customer.class, "firstName", "foobar", (Class<?>) null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithEmptyPropertyPath() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateValue( Customer.class, "", null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithNullObject() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateValue( null, "firstName", "foobar" );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithNullPropertyName() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validateValue( Customer.class, null, "foobar" );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "j")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "j")
 	public void testValidIsNotHonoredValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 

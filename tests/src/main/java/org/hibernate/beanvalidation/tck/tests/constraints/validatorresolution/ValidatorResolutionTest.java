@@ -6,23 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.Set;
-import javax.validation.ConstraintDefinitionException;
-import javax.validation.ConstraintTarget;
-import javax.validation.ConstraintViolation;
-import javax.validation.UnexpectedTypeException;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
@@ -32,6 +15,23 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.Set;
+
+import javax.validation.ConstraintDefinitionException;
+import javax.validation.ConstraintTarget;
+import javax.validation.ConstraintViolation;
+import javax.validation.UnexpectedTypeException;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * Tests for constraint validator resolution.
@@ -50,7 +50,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "b")
 	public void testTargetTypeIsInterface() {
 		assertEquals(
 				CustomConstraint.ValidatorForCustomInterface.callCounter,
@@ -67,7 +67,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "b")
 	public void testTargetTypeIsClass() {
 		assertEquals(
 				CustomConstraint.ValidatorForCustomClass.callCounter,
@@ -84,8 +84,8 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "c")
-	@SpecAssertion(section = "4.6.4", id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
 	public void testTargetedTypeIsField() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassA.callCounter,
@@ -102,8 +102,8 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "d")
-	@SpecAssertion(section = "4.6.4", id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
 	public void testTargetedTypeIsGetter() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassB.callCounter,
@@ -120,7 +120,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
 	public void testClassLevelValidatorForSubTypeHasPredenceOverValidatorForSuperClass() {
 		assertEquals(
 				CustomConstraint.ValidatorForAnotherSubClass.callCounter,
@@ -137,7 +137,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
 	public void testResolutionOfMultipleSizeValidators() {
 		Suburb suburb = new Suburb();
 
@@ -209,7 +209,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
 		Set<ConstraintViolation<MinMax>> constraintViolations = getValidator().validate( minMax );
@@ -218,17 +218,17 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = "4.6.4", id = "h")
-	@SpecAssertion(section = "3.1", id = "e")
-	@SpecAssertion(section = "3.4", id = "m")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "m")
 	public void testUnexpectedTypeInValidatorResolution() {
 		Bar bar = new Bar();
 		getValidator().validate( bar );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = "4.6.4", id = "j")
-	@SpecAssertion(section = "9.3", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
+	@SpecAssertion(section = Sections.EXCEPTION_CONSTRAINTDECLARATION, id = "b")
 	public void testAmbiguousValidatorResolution() {
 		Foo foo = new Foo( new SerializableBarSubclass() );
 		getValidator().validate( foo );
@@ -236,7 +236,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "g")
 	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
 		Set<ConstraintViolation<PrimitiveHolder>> violations = getValidator().validate( primitiveHolder );
@@ -246,7 +246,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testSeveralCrossParameterValidatorsCauseConstraintDefinitionException() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -256,7 +256,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testCrossParameterConstraintWithoutValidatorCausesConstraintDefinitionException() throws Exception {
 		Object object = new OnlineCalendarService();
 		Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -266,7 +266,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testCrossParameterValidatorIsUsedForConstraintImplicitlyTargetingParameters() throws Exception {
 		Object object = new OfflineCalendarService();
 		Method method = OfflineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -279,7 +279,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testCrossParameterValidatorIsUsedForConstraintExplicitlyTargetingParameters() throws Exception {
 		Object object = new AdvancedCalendarService();
 		Method method = AdvancedCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -291,8 +291,8 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "g")
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testCrossParameterValidatorValidatingObjectArray() throws Exception {
 		Object object = new YetAnotherCalendarService();
 		Method method = YetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -304,8 +304,8 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "g")
-	@SpecAssertion(section = "4.6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testCrossParameterValidatorValidatingObject() throws Exception {
 		Object object = new EvenYetAnotherCalendarService();
 		Method method = EvenYetAnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -317,7 +317,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "f")
 	public void testGenericValidatorIsUsedForConstraintTargetingMethodReturnValue() throws Exception {
 		Object object = new AnotherCalendarService();
 		Method method = AnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -329,14 +329,14 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.4", id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "f")
 	public void testGenericValidatorIsUsedForConstraintTargetingField() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validate( new TestBean() );
 		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = "4.6.4", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
 	public void testTwoValidatorsForSameTypeCauseUnexpectedTypeException() {
 		getValidator().validate( new AnotherBean() );
 	}

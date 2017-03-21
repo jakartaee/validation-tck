@@ -6,21 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidationException;
-import javax.validation.constraints.Size;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
@@ -29,6 +14,21 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
+
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
+import javax.validation.constraints.Size;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecAssertions;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * Tests for the implementation of {@code Validator}.
@@ -48,22 +48,22 @@ public class ValidatePropertyTest extends BaseValidatorTest {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testPassingNullAsGroup() {
 		Customer customer = new Customer();
 		getValidator().validateProperty( customer, "firstName", (Class<?>) null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testIllegalArgumentExceptionIsThrownForNullValue() {
 		getValidator().validateProperty( null, "firstName" );
 	}
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.1", id = "e"),
-			@SpecAssertion(section = "5.1.1", id = "f")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "f")
 	})
 	public void testValidatePropertyWithInvalidPropertyPath() {
 		Customer customer = new Customer();
@@ -87,14 +87,14 @@ public class ValidatePropertyTest extends BaseValidatorTest {
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testValidatePropertyWithNullProperty() {
 		Customer customer = new Customer();
 		getValidator().validateProperty( customer, null );
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.1", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testValidatePropertyWithEmptyProperty() {
 		Customer customer = new Customer();
 		Order order = new Order();
@@ -105,14 +105,14 @@ public class ValidatePropertyTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.1.1", id = "c"),
-			@SpecAssertion(section = "5.1.1", id = "d"),
-			@SpecAssertion(section = "5.1.1", id = "f"),
-			@SpecAssertion(section = "5.2", id = "e"),
-			@SpecAssertion(section = "5.2", id = "f"),
-			@SpecAssertion(section = "5.2", id = "g"),
-			@SpecAssertion(section = "5.2", id = "h"),
-			@SpecAssertion(section = "5.2", id = "i")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "c"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "d"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "f"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "e"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	})
 	public void testValidateProperty() {
 		Address address = new Address();
@@ -142,7 +142,7 @@ public class ValidatePropertyTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.1", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "g")
 	public void testValidIsNotHonoredValidateProperty() {
 		Customer customer = new Customer();
 		Order order = new Order();
@@ -153,7 +153,7 @@ public class ValidatePropertyTest extends BaseValidatorTest {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.1", id = "k")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "k")
 	public void testUnexpectedExceptionsInValidatePropertyGetWrappedInValidationExceptions() {
 		getValidator().validateProperty( new BadlyBehavedEntity(), "value" );
 	}

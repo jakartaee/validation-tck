@@ -6,19 +6,19 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.globallydisabled;
 
+import static org.testng.Assert.assertNotNull;
+
 import javax.inject.Inject;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
@@ -40,8 +40,8 @@ public class ExecutableValidationGloballyDisabledTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "k")
-	@SpecAssertion(section = "10.1.2", id = "q")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "k")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "q")
 	public void testExecutableValidationGloballyTurnedOff() {
 		Event event = calendar.createEvent( null );
 		assertNotNull( event );

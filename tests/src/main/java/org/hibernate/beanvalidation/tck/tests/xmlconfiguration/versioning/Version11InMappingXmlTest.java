@@ -6,19 +6,19 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
+import static org.testng.Assert.assertFalse;
+
 import javax.validation.Validator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertFalse;
 
 /**
  * @author Hardy Ferentschik
@@ -38,7 +38,7 @@ public class Version11InMappingXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.4", id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_XSD, id = "a")
 	public void testValidBeanValidation11Mapping() {
 		Validator validator = TestUtil.getConfigurationUnderTest()
 				.addMapping( Version11InMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )

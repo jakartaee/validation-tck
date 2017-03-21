@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.validation.Valid;
 
 /**

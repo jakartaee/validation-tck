@@ -6,23 +6,23 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import javax.validation.metadata.CrossParameterDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -40,7 +40,7 @@ public class IgnoreAnnotationsInMethodConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.5", id = "l")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_METHODLEVELOVERRIDING, id = "l")
 	public void testIgnoreAnnotationsOnReturnValueParameterAndCrossParameter() {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor(
 				IgnoreAnnotations.class,

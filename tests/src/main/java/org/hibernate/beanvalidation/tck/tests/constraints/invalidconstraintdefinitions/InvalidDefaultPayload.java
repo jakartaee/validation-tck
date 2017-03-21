@@ -6,15 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefinitions;
 
-import java.lang.annotation.Documented;
 import static java.lang.annotation.ElementType.TYPE;
-import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import javax.validation.Constraint;
-import javax.validation.Payload;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.Payload;
 
 /**
  * @author Hardy Ferentschik

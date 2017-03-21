@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;

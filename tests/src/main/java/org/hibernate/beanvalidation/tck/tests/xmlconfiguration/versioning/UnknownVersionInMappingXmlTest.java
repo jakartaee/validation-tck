@@ -8,15 +8,15 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import javax.validation.ValidationException;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
  * @author Gunnar Morling
@@ -35,7 +35,7 @@ public class UnknownVersionInMappingXmlTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.1.4", id = "c")
+	@SpecAssertion(section = Sections.XML_MAPPING_XSD, id = "c")
 	public void testConstraintMappingWithUnknownSchemaVersion() {
 		TestUtil.getConfigurationUnderTest()
 				.addMapping( UnknownVersionInMappingXmlTest.class.getResourceAsStream( MAPPING_FILE ) )

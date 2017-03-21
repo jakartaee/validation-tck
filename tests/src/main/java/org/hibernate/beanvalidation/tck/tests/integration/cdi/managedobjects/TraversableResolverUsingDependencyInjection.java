@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import java.lang.annotation.ElementType;
+
 import javax.inject.Inject;
 import javax.validation.Path;
 import javax.validation.Path.Node;

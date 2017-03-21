@@ -6,23 +6,24 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.clazzlevel;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
@@ -46,8 +47,8 @@ public class ClassLevelOverridingTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.1", id = "a")
-	@SpecAssertion(section = "8.1.1.1", id = "c")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CLASSLEVELOVERRIDING, id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CLASSLEVELOVERRIDING, id = "c")
 	public void testIgnoreClassLevelAnnotations() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
@@ -61,7 +62,7 @@ public class ClassLevelOverridingTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.1", id = "b")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CLASSLEVELOVERRIDING, id = "b")
 	public void testIgnoreAnnotationsFromEnclosingBeanIsApplied() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );
@@ -75,8 +76,8 @@ public class ClassLevelOverridingTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.1", id = "a")
-	@SpecAssertion(section = "8.1.1.1", id = "d")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CLASSLEVELOVERRIDING, id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CLASSLEVELOVERRIDING, id = "d")
 	public void testClassLevelAnnotationsApplied() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile3 ) );

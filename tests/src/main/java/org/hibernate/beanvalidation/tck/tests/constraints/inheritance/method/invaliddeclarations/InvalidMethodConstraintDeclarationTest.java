@@ -6,18 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import static org.testng.Assert.fail;
+
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
+
 import javax.validation.ConstraintDeclarationException;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.AbstractCalendarService;
@@ -32,11 +31,11 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.OrderServiceSubClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassAddingParameterConstraints;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.impl.SubClassMarkingParameterAsCascaded;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-import static org.testng.Assert.fail;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -55,8 +54,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterConstraintsAddedInInterfaceImplementationCausesException()
 			throws Exception {
 		Object object = new ImplementationAddingParameterConstraints();
@@ -68,8 +67,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterConstraintsAddedInSubClassCausesException() throws Exception {
 		Object object = new SubClassAddingParameterConstraints();
 		Method method = getCreateEventMethod( object );
@@ -80,8 +79,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterMarkedAsCascadedInInterfaceImplementationCausesException()
 			throws Exception {
 		Object object = new ImplementationMarkingParameterAsCascaded();
@@ -93,8 +92,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "a")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterMarkedAsCascadedInSubClassCausesException() throws Exception {
 		Object object = new SubClassMarkingParameterAsCascaded();
 		Method method = getCreateEventMethod( object );
@@ -105,8 +104,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testConstrainedParameterInOneMethodOfParallelInterfacesCausesException()
 			throws Exception {
 		Object object = new ImplementationOfConstrainedAndUnconstrainedInterfaces();
@@ -118,8 +117,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterIsConstrainedInInterfaceMethodAndSuperClassMethodCausesException()
 			throws Exception {
 		Object object = new ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass();
@@ -131,8 +130,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterIsCascadingInOneMethodOfParallelInterfacesCausesException()
 			throws Exception {
 		Object object = new ImplementationOfCascadingAndNonCascadingInterfaces();
@@ -144,8 +143,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "b")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testParameterIsCascadingInInterfaceMethodAndSuperClassMethodCausesException()
 			throws Exception {
 		Object object = new ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass();
@@ -157,8 +156,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "d")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testReturnValueIsMarkedAsCascadedInInterfaceAndImplementationCausesException()
 			throws Exception {
 		Object object = new OrderServiceImplementation();
@@ -170,8 +169,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "d")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testReturnValueIsMarkedAsCascadedInBaseAndSubClassCausesException()
 			throws Exception {
 		Object object = new OrderServiceSubClass();
@@ -183,8 +182,8 @@ public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValida
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = "4.5.5", id = "d")
-	@SpecAssertion(section = "4.5.5", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testReturnValueIsMarkedAsCascadedInSuperAndDerivedInterfaceCausesException()
 			throws Exception {
 		Object object = new ExtendedOrderServiceImplementation();

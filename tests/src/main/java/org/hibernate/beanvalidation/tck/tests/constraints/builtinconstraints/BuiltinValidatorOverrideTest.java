@@ -17,6 +17,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -42,7 +43,7 @@ public class BuiltinValidatorOverrideTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "b")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "b")
 	public void testXmlConfiguredValidatorConfigurationHasPrecedence() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		InputStream in = getInputStreamForPath(

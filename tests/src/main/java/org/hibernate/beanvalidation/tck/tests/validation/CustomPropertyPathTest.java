@@ -6,6 +6,12 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainOnlyPaths;
+import static org.hibernate.beanvalidation.tck.util.PathUtil.pathWith;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+
 import java.lang.annotation.Retention;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -24,21 +31,15 @@ import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 import javax.validation.executable.ExecutableValidator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.util.PathUtil;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.PathUtil;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainOnlyPaths;
-import static org.hibernate.beanvalidation.tck.util.PathUtil.pathWith;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 /**
  * @author Gunnar Morling
@@ -57,7 +58,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
 	public void testAddPropertyNode() {
 		Set<ConstraintViolation<Foo>> constraintViolations = getValidator().validate( new Foo() );
 
@@ -74,7 +75,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
 	public void testAddBeanNode() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( new User() );
 
@@ -93,7 +94,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
 	public void testAddingNodesInClassLevelConstraintKeepsInIterableKeyAndIndex() {
 		Set<ConstraintViolation<FooContainer>> constraintViolations = getValidator().validate( new FooContainer() );
 
@@ -127,7 +128,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
 	public void testAddParameterNode() throws Exception {
 		Object[] parameterValues = new Object[] { Collections.emptyMap() };
 
@@ -149,7 +150,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
 	public void testAddParameterNodeUsingCustomParameterNameProvider() throws Exception {
 		ExecutableValidator executableValidator = TestUtil.getConfigurationUnderTest()
 				.parameterNameProvider( new CustomParameterNameProvider() )
@@ -177,7 +178,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = Exception.class)
-	@SpecAssertion(section = "5.2", id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
 	public void testAddParameterNodeForFieldLevelConstraintCausesException() throws Throwable {
 		getValidator().validate( new Bar() );
 	}

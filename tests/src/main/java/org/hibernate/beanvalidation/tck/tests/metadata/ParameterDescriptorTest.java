@@ -6,29 +6,30 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.groups.Default;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.BasicChecks;
+import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictChecks;
+import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictCustomerServiceChecks;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.BasicChecks;
-import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictChecks;
-import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictCustomerServiceChecks;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -51,7 +52,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	public void testGetElementClassForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -60,7 +61,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	public void testGetElementClassForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
@@ -69,7 +70,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.8", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_PARAMETERDESCRIPTOR, id = "a")
 	public void testGetIndexForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -79,7 +80,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.8", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_PARAMETERDESCRIPTOR, id = "a")
 	public void testGetIndexForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
@@ -89,7 +90,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.8", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_PARAMETERDESCRIPTOR, id = "b")
 	public void testGetNameForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -99,7 +100,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.8", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_PARAMETERDESCRIPTOR, id = "b")
 	public void testGetNameForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
@@ -109,7 +110,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CASCADABLEDESCRIPTOR, id = "a")
 	public void testIsCascadedForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
@@ -120,7 +121,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CASCADABLEDESCRIPTOR, id = "a")
 	public void testIsCascadedForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
@@ -131,9 +132,9 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "b")
-	@SpecAssertion(section = "6.5", id = "a")
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CASCADABLEDESCRIPTOR, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_GROUPCONVERSIONDESCRIPTOR, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_GROUPCONVERSIONDESCRIPTOR, id = "b")
 	public void testGetGroupConversionsForConstructorParameter() {
 		List<ParameterDescriptor> parameters = Executables.constructorWithGroupConversionOnParameter()
 				.getParameterDescriptors();
@@ -161,9 +162,9 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "b")
-	@SpecAssertion(section = "6.5", id = "a")
-	@SpecAssertion(section = "6.5", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CASCADABLEDESCRIPTOR, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_GROUPCONVERSIONDESCRIPTOR, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_GROUPCONVERSIONDESCRIPTOR, id = "b")
 	public void testGetGroupConversionsForMethodParameter() {
 		List<ParameterDescriptor> parameters = Executables.methodWithGroupConversionOnParameter()
 				.getParameterDescriptors();
@@ -191,7 +192,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CASCADABLEDESCRIPTOR, id = "b")
 	public void testGetGroupConversionsReturnsEmptySetForConstructorParameter() {
 		ParameterDescriptor parameterDescriptor = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors()
@@ -203,7 +204,7 @@ public class ParameterDescriptorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "6.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CASCADABLEDESCRIPTOR, id = "b")
 	public void testGetGroupConversionsReturnsEmptySetForMethodParameter() {
 		ParameterDescriptor parameterDescriptor = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors()

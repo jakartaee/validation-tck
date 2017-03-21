@@ -18,6 +18,7 @@ import java.util.TimeZone;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -46,7 +47,7 @@ public class ClockProviderPastTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void clockProviderIsUsed() {
 		PastDummyEntity dummy = new PastDummyEntity( ZonedDateTime.of( 1985, 6, 12, 3, 0, 0, 0, TZ_BERLIN ) );
 
@@ -68,7 +69,7 @@ public class ClockProviderPastTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void clockProviderIsUsedForRelativePartials() {
 		Calendar cal = GregorianCalendar.getInstance( TimeZone.getTimeZone( TZ_BERLIN ) );
 		cal.set( 2016, 6, 6 );

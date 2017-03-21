@@ -6,8 +6,13 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
@@ -17,6 +22,9 @@ import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -24,13 +32,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -49,9 +50,9 @@ public class ConstructorValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.4", id = "a"),
-			@SpecAssertion(section = "8.1.1.4", id = "c"),
-			@SpecAssertion(section = "8.1.1.4", id = "e")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "c"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "e")
 	})
 	public void testXmlConfiguredConstructors() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor( CustomerRepository.class );
@@ -69,9 +70,9 @@ public class ConstructorValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.4", id = "a"),
-			@SpecAssertion(section = "8.1.1.4", id = "b"),
-			@SpecAssertion(section = "8.1.1.4", id = "c")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "c")
 	})
 	public void testVarargsConstructorParameter() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
@@ -85,9 +86,9 @@ public class ConstructorValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.4", id = "c"),
-			@SpecAssertion(section = "8.1.1.4", id = "f"),
-			@SpecAssertion(section = "8.1.1.4", id = "j")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "c"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "f"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "j")
 	})
 	public void testConstructorCrossParameterConstraint() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
@@ -112,8 +113,8 @@ public class ConstructorValidationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "6.11", id = "a"),
-			@SpecAssertion(section = "8.1.1.4", id = "g")
+			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "g")
 	})
 	public void testConstraintOnConstructorReturnValueAndParameter() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
@@ -149,7 +150,7 @@ public class ConstructorValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "h")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "h")
 	public void testCascadingOnReturnValueAndParameter() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
 				CustomerRepository.class,
@@ -169,7 +170,7 @@ public class ConstructorValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "i")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "i")
 	public void testGroupConversionOnReturnValueAndParameter() throws Exception {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
 				CustomerRepository.class,
