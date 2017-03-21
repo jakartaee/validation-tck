@@ -13,7 +13,13 @@
 
 <module name="Checker">
 
+    <!-- Allows usage of CHECKSTYLE:ON/OFF in code to suppress violations within a pair of comments -->
+    <module name="SuppressionCommentFilter"/>
+
     <module name="TreeWalker">
+
+        <!-- SuppressionCommentFilter filter only works in conjunction with a FileContentsHolder -->
+        <module name="FileContentsHolder"/>
 
         <!-- Checks for imports -->
         <module name="AvoidStarImport"/>
@@ -25,8 +31,5 @@
         </module>
 
     </module>
-
-    <!--&lt;!&ndash; Checks that a file ends with a new line  &ndash;&gt;-->
-    <!--<module name="NewlineAtEndOfFile"/>-->
 
 </module>
