@@ -26,9 +26,11 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
+// CHECKSTYLE:OFF
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+// CHECKSTYLE:ON
 
 import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
