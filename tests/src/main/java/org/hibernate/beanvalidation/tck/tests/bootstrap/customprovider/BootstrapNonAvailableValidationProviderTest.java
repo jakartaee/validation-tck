@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.bootstrap.customprovider;
 
 import java.io.InputStream;
+
 import javax.validation.BootstrapConfiguration;
 import javax.validation.ClockProvider;
 import javax.validation.Configuration;
@@ -22,14 +23,14 @@ import javax.validation.spi.ConfigurationState;
 import javax.validation.spi.ValidationProvider;
 import javax.validation.valueextraction.ValueExtractor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
  * @author Hardy Ferentschik
@@ -46,16 +47,16 @@ public class BootstrapNonAvailableValidationProviderTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.5.5", id = "f")
-	@SpecAssertion(section = "9", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "f")
+	@SpecAssertion(section = Sections.EXCEPTION, id = "a")
 	public void testUnknownProviderConfiguredInValidationXml() {
 		// exception is not thrown until validator factory is being build
 		Validation.byDefaultProvider().configure().buildValidatorFactory();
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.5.5", id = "f")
-	@SpecAssertion(section = "9", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "f")
+	@SpecAssertion(section = Sections.EXCEPTION, id = "a")
 	public void testConfiguredValidationProviderIsNotLoadable() {
 		Validation.byProvider( DummyValidationProvider.class ).configure();
 	}

@@ -6,11 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.MethodDescriptor;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
+
+import javax.validation.metadata.ConstructorDescriptor;
+import javax.validation.metadata.MethodDescriptor;
 
 /**
  * @author Gunnar Morling

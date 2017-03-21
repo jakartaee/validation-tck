@@ -10,6 +10,7 @@ import static org.testng.Assert.fail;
 
 import javax.validation.ValidationException;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -36,8 +37,8 @@ public class ClockProviderSpecifiedInValidationXmlNoDefaultConstructorTest exten
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "j"),
-			@SpecAssertion(section = "5.5.6", id = "t")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "j"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "t")
 	})
 	public void testClockProviderSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

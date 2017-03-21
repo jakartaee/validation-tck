@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.validation.MessageInterpolator;
 

@@ -6,27 +6,28 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.testng.Assert.assertTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -46,7 +47,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "j")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "j")
 	public void testProviderUnderTestDefinesSubInterfaceOfConfiguration() {
 		boolean foundSubinterfaceOfConfiguration = false;
 		Type[] types = TestUtil.getValidationProviderUnderTest().getClass().getGenericInterfaces();
@@ -68,7 +69,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "g")
 	public void testMappingsCanBeAddedViaConfiguration() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 
@@ -95,7 +96,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "h")
 	public void testNonResettableInputStreamCanBeAddedViaConfigurationAndFactoryCanBeCreatedSeveralTimes() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 
@@ -148,7 +149,7 @@ public class ConfigurationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "i")
 	public void testSeveralFactoriesCanBeBuildFromOneConfiguration() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		Validator validator1 = configuration.buildValidatorFactory().getValidator();

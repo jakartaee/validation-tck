@@ -6,11 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
+import static org.testng.Assert.assertTrue;
+
 import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -18,11 +23,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -46,7 +46,7 @@ public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends Arqu
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "h")
 	public void testConstraintValidatorFactorySpecifiedInValidationXml() {
 		try {
 			Validator validator = TestUtil.getValidatorUnderTest();
@@ -62,8 +62,8 @@ public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends Arqu
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "h"),
-			@SpecAssertion(section = "5.5.6", id = "g")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "h"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "g")
 	})
 	public void testConstraintValidatorFactorySpecifiedInValidationXmlCanBeOverridden() {
 		try {

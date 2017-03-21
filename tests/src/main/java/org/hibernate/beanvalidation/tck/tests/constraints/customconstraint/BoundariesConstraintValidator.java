@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.customconstraint;
 
 import java.lang.annotation.Annotation;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ValidationException;

@@ -6,19 +6,19 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
+import static org.testng.Assert.assertTrue;
+
 import javax.inject.Inject;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertTrue;
 
 /**
  * Test for the priority of the validation interceptor (which should be 4800).
@@ -47,7 +47,7 @@ public class ValidationInterceptorPriorityTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.3.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void testValidationInterceptorHasPriority4800() {
 		calendar.createEvent( null );
 

@@ -6,7 +6,14 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
+
 import java.util.Calendar;
+
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
@@ -15,21 +22,15 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -89,10 +90,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "a")
-	@SpecAssertion(section = "10.1.2", id = "b")
-	@SpecAssertion(section = "10.1.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testParameterValidationOfConstrainedMethod() {
 		try {
 			Calendar endDate = Calendar.getInstance();
@@ -111,10 +112,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "a")
-	@SpecAssertion(section = "10.1.2", id = "b")
-	@SpecAssertion(section = "10.1.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testReturnValueValidationOfConstrainedMethod() {
 		try {
 			calendar.createEvent();
@@ -126,10 +127,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "a")
-	@SpecAssertion(section = "10.1.2", id = "b")
-	@SpecAssertion(section = "10.1.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testCascadedReturnValueValidationOfConstrainedMethod() {
 		try {
 			cascadingCalendar.createValidEvent();
@@ -141,20 +142,20 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "a")
-	@SpecAssertion(section = "10.1.2", id = "b")
-	@SpecAssertion(section = "10.1.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testGettersAreNotValidatedByDefault() {
 		Event event = calendar.getEvent();
 		assertNull( event, "The event should be null, since getters are not validated by default." );
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "a")
-	@SpecAssertion(section = "10.1.2", id = "b")
-	@SpecAssertion(section = "10.1.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testParameterValidationOfConstrainedConstructor() {
 		try {
 			nameProducer.setName( "Bob" );
@@ -167,10 +168,10 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "a")
-	@SpecAssertion(section = "10.1.2", id = "b")
-	@SpecAssertion(section = "10.1.2", id = "c")
-	@SpecAssertion(section = "10.3", id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
 	public void testReturnValueValidationOfConstrainedConstructor() {
 		try {
 			personServiceInstance.get();
@@ -182,7 +183,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "e")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "e")
 	public void testValidationOfConstrainedMethodAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			annotatedCalendar.createEvent( null );
@@ -194,7 +195,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "e")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "e")
 	public void testValidationOfConstrainedMethodAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Event event = annotatedCalendar.createEvent( -10 );
 		assertNotNull( event );
@@ -204,7 +205,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "f")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "f")
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			classLevelAnnotatedCalendar.getEvent();
@@ -216,7 +217,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "f")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "f")
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Event event = classLevelAnnotatedCalendar.createEvent( null );
 		assertNotNull( event );
@@ -226,7 +227,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "f")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "f")
 	public void testValidationOfConstrainedMethodOnInterfaceAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			orderService.getOrder();
@@ -238,7 +239,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "f")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "f")
 	public void testValidationOfConstrainedMethodOnInterfaceAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Order order = orderService.placeOrder( null );
 		assertNotNull( order );
@@ -248,8 +249,8 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.4", id = "a")
-	@SpecAssertion(section = "5.4", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_TRIGGERINGMETHODVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_TRIGGERINGMETHODVALIDATION, id = "b")
 	public void testMethodValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
 		//parameter constraint is violated
 		try {
@@ -283,8 +284,8 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.4", id = "a")
-	@SpecAssertion(section = "5.4", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_TRIGGERINGMETHODVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_TRIGGERINGMETHODVALIDATION, id = "b")
 	public void testConstructorValidationInvokesParameterAndReturnValueValidationUsingDefaultGroup() {
 		nameProducer.setName( "9999" );
 		//parameter constraint is violated
@@ -321,7 +322,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesDefaultSettingSinceValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			shipmentService.findShipment( null );
@@ -333,7 +334,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			shipmentService.getShipment();
@@ -345,7 +346,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			shipmentService.getAnotherShipment();
@@ -357,7 +358,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesDefaultSettingIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
 			shipmentServiceSubClass.findShipment( null );
@@ -369,7 +370,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
 			shipmentServiceSubClass.getShipment();
@@ -381,7 +382,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
 			shipmentServiceSubClass.getAnotherShipment();
@@ -393,7 +394,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			anotherShipmentService.getShipment();
@@ -405,7 +406,7 @@ public class ExecutableValidationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "h")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "h")
 	public void testExecutableValidationUsesSettingFromSuperTypeForOverriddenMethodsAndLocalSettingForNonOverriddenMethod() {
 		try {
 			deliveryService.createDelivery( null );

@@ -6,10 +6,19 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.testng.Assert.assertEquals;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -17,14 +26,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Hardy Ferentschik
@@ -41,10 +42,10 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.3", id = "a"),
-			@SpecAssertion(section = "4.1.3", id = "l"),
-			@SpecAssertion(section = "4.6.1", id = "a"),
-			@SpecAssertion(section = "4.6.1", id = "b")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "l"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_GRAPHVALIDATION, id = "a"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_GRAPHVALIDATION, id = "b")
 	})
 	public void testGraphNavigationDeterminism() {
 		// build the test object graph
@@ -83,8 +84,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.3", id = "g"),
-			@SpecAssertion(section = "4.6.1", id = "d")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "g"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_GRAPHVALIDATION, id = "d")
 	})
 	public void testNoEndlessLoop() {
 		User john = new User( "John", null );
@@ -121,7 +122,7 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.3", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "b")
 	public void testTypeOfContainedValueIsDeterminedAtRuntime() {
 		SingleCage cage = new SingleCage();
 		Elephant elephant = new Elephant();
@@ -136,8 +137,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.3", id = "f"),
-			@SpecAssertion(section = "4.1.3", id = "i")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	})
 	public void testContainedSet() {
 		MultiCage cage = new MultiCage();
@@ -156,8 +157,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.3", id = "c"),
-			@SpecAssertion(section = "4.1.3", id = "i")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "c"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	})
 	public void testContainedIterable() {
 		GameReserve<Zebra> reserve = new GameReserve<Zebra>();
@@ -178,8 +179,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.3", id = "e"),
-			@SpecAssertion(section = "4.1.3", id = "k")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "e"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "k")
 	})
 	public void testTypeOfContainedValuesIsDeterminedAtRuntime() {
 		Zoo zoo = new Zoo();
@@ -204,9 +205,9 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.1.3", id = "h"),
-			@SpecAssertion(section = "4.1.3", id = "i"),
-			@SpecAssertion(section = "4.1.3", id = "j")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "h"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "j")
 	})
 	public void testContainedMap() {
 		AnimalCaretaker caretaker = new AnimalCaretaker();
@@ -230,8 +231,8 @@ public class GraphNavigationTest extends Arquillian {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "4.4.2", id = "b"),
-			@SpecAssertion(section = "4.4.2", id = "d")
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "b"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "d")
 	})
 	public void testFullGraphValidationBeforeNextGroupInSequence() {
 		Parent p = new Parent();
@@ -248,7 +249,7 @@ public class GraphNavigationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.6.1", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_GRAPHVALIDATION, id = "c")
 	public void testNullReferencesGetIgnored() {
 		Parent p = new Parent();
 		Validator validator = TestUtil.getValidatorUnderTest();

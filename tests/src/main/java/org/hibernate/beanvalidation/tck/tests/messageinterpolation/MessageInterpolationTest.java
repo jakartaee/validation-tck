@@ -6,12 +6,24 @@
  */
 package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getDefaultMessageInterpolator;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
+
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -29,26 +41,15 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getDefaultMessageInterpolator;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
 
 /**
  * @author Hardy Ferentschik
@@ -67,19 +68,19 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1", id = "a")
-	@SpecAssertion(section = "5.3.2", id = "f")
-	@SpecAssertion(section = "5.5.3", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "a")
 	public void testDefaultMessageInterpolatorIsNotNull() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		assertNotNull( interpolator, "Each bean validation provider must provide a default message interpolator." );
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1", id = "e")
-	@SpecAssertion(section = "5.3.1.1", id = "a")
-	@SpecAssertion(section = "5.3.2", id = "f")
-	@SpecAssertion(section = "5.5.3", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "a")
 	public void testSuccessfulInterpolationOfValidationMessagesValue() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -103,7 +104,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "b")
 	public void testRecursiveMessageInterpolation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "fubar" );
@@ -117,7 +118,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "d")
 	public void testMessagesCanBeOverriddenAtConstraintLevel() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<DummyEntity>> constraintViolations = validator.validateProperty(
@@ -131,10 +132,10 @@ public class MessageInterpolationTest extends Arquillian {
 
 
 	@Test
-	@SpecAssertion(section = "5.3.1", id = "f")
-	@SpecAssertion(section = "5.3.1", id = "g")
-	@SpecAssertion(section = "5.3.1", id = "h")
-	@SpecAssertion(section = "5.3.1", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "i")
 	public void testEscapedCharactersAreConsideredAsLiterals() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -158,7 +159,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "a")
 	public void testUnSuccessfulInterpolation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -174,7 +175,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "a")
 	public void testUnknownTokenInterpolation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -186,7 +187,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "c")
 	public void testParametersAreExtractedFromBeanValidationProviderBundle() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( Person.class, "birthday" );
@@ -201,7 +202,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "f")
 	public void testConstraintAttributeValuesAreInterpolated() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "bar" );
@@ -213,7 +214,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "f")
 	public void testParameterInterpolationHasPrecedenceOverExpressionEvaluation() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "amount" );
@@ -226,7 +227,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.1", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_RESOLUTIONALGORITHM, id = "g")
 	public void testElExpressionsAreInterpolated() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "doubleAmount" );
@@ -238,7 +239,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.2", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_LOCALE, id = "a")
 	public void testMessageInterpolationWithLocale() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -252,7 +253,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.1.2", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_LOCALE, id = "b")
 	public void testIfNoLocaleIsSpecifiedTheDefaultLocaleIsAssumed() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
 		ConstraintDescriptor<?> descriptor = getDescriptorFor( DummyEntity.class, "foo" );
@@ -268,9 +269,9 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.2", id = "a")
-	@SpecAssertion(section = "5.3.2", id = "b")
-	@SpecAssertion(section = "5.3.2", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "c")
 	public void testCorrectValuesArePassedToInterpolateForPropertyConstraint() {
 		TestMessageInterpolator messageInterpolator = new TestMessageInterpolator();
 		Validator validator = TestUtil.getConfigurationUnderTest()
@@ -291,9 +292,9 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.2", id = "a")
-	@SpecAssertion(section = "5.3.2", id = "b")
-	@SpecAssertion(section = "5.3.2", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "c")
 	public void testCorrectValuesArePassedToInterpolateForClassLevelConstraint() {
 		TestMessageInterpolator messageInterpolator = new TestMessageInterpolator();
 		Validator validator = TestUtil.getConfigurationUnderTest()
@@ -314,7 +315,7 @@ public class MessageInterpolationTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.2", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "g")
 	public void testExceptionDuringMessageInterpolationIsWrappedIntoValidationException() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		ExceptionThrowingMessageInterpolator interpolator = new ExceptionThrowingMessageInterpolator();

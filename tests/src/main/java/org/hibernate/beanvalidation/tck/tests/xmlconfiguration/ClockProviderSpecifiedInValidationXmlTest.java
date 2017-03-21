@@ -22,6 +22,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.constraints.Past;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -52,7 +53,7 @@ public class ClockProviderSpecifiedInValidationXmlTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "j")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "j")
 	public void testClockProviderSpecifiedInValidationXml() throws Exception {
 		assertTrue(
 				TestUtil.getValidatorFactoryUnderTest().getClockProvider() instanceof XmlDefinedClockProvider,
@@ -61,8 +62,8 @@ public class ClockProviderSpecifiedInValidationXmlTest extends Arquillian {
 	}
 
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "d"),
-			@SpecAssertion(section = "5.5.6", id = "j")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "d"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "j")
 	})
 	public void testClockProviderSpecifiedInValidationXmlCanBeOverridden() {
 		Configuration<?> configuration = Validation

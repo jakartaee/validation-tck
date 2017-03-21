@@ -6,23 +6,23 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.CrossParameterDescriptor;
 import javax.validation.metadata.ParameterDescriptor;
 import javax.validation.metadata.ReturnValueDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -40,7 +40,7 @@ public class IgnoreAnnotationsInConstructorConfigurationTest extends Arquillian 
 	}
 
 	@Test
-	@SpecAssertion(section = "8.1.1.4", id = "k")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRUCTORLEVELOVERRIDING, id = "k")
 	public void testIgnoreAnnotationsOnReturnValueParameterAndCrossParameter() {
 		ConstructorDescriptor descriptor = TestUtil.getConstructorDescriptor(
 				IgnoreAnnotations.class,

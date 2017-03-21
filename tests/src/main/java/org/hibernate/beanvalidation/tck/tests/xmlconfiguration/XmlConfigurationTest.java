@@ -6,8 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import java.io.InputStream;
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
@@ -16,23 +24,15 @@ import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Hardy Ferentschik
@@ -68,12 +68,12 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "m"),
-			@SpecAssertion(section = "5.5.6", id = "n"),
-			@SpecAssertion(section = "8.1.1", id = "a"),
-			@SpecAssertion(section = "8.1.1", id = "b"),
-			@SpecAssertion(section = "8.1.2", id = "a")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
 	})
 	public void testClassConstraintDefinedInXml() {
 		User user = new User();
@@ -95,12 +95,12 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "m"),
-			@SpecAssertion(section = "5.5.6", id = "n"),
-			@SpecAssertion(section = "8.1.1", id = "a"),
-			@SpecAssertion(section = "8.1.1", id = "b"),
-			@SpecAssertion(section = "8.1.2", id = "a")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
 	})
 	public void testIgnoreValidationXml() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
@@ -113,12 +113,12 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "m"),
-			@SpecAssertion(section = "5.5.6", id = "n"),
-			@SpecAssertion(section = "8.1.1", id = "a"),
-			@SpecAssertion(section = "8.1.1", id = "b"),
-			@SpecAssertion(section = "8.1.2", id = "a")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
 	})
 	public void testPropertyConstraintDefinedInXml() {
 		User user = new User();
@@ -136,12 +136,12 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "m"),
-			@SpecAssertion(section = "5.5.6", id = "n"),
-			@SpecAssertion(section = "8.1.1", id = "a"),
-			@SpecAssertion(section = "8.1.1", id = "b"),
-			@SpecAssertion(section = "8.1.2", id = "a")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
 	})
 	public void testFieldConstraintDefinedInXml() {
 		User user = new User();
@@ -162,12 +162,12 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "m"),
-			@SpecAssertion(section = "5.5.6", id = "n"),
-			@SpecAssertion(section = "8.1.1", id = "a"),
-			@SpecAssertion(section = "8.1.1", id = "b"),
-			@SpecAssertion(section = "8.1.2", id = "a")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
 	})
 	public void testAnnotationDefinedConstraintApplies() {
 		User user = new User();
@@ -187,12 +187,12 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "5.5.6", id = "a"),
-			@SpecAssertion(section = "5.5.6", id = "m"),
-			@SpecAssertion(section = "5.5.6", id = "n"),
-			@SpecAssertion(section = "8.1.1", id = "a"),
-			@SpecAssertion(section = "8.1.1", id = "b"),
-			@SpecAssertion(section = "8.1.2", id = "a")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
 	})
 	public void testCascadingConfiguredInXml() {
 		User user = new User();
@@ -211,7 +211,7 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.6", id = "o")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o")
 	public void testMappingFilesAddedViaConfigurationGetAddedToXmlConfiguredMappings() {
 		assertFalse(
 				getValidator().getConstraintsForClass( Order.class ).isBeanConstrained(),
@@ -234,23 +234,23 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 
 	@Test
 	@SpecAssertions({
-			@SpecAssertion(section = "8.1.1.6", id = "a"),
-			@SpecAssertion(section = "8.1.1.6", id = "d"),
-			@SpecAssertion(section = "8.1.1.6", id = "e"),
-			@SpecAssertion(section = "8.1.1.6", id = "f"),
-			@SpecAssertion(section = "8.1.1.6", id = "g"),
-			@SpecAssertion(section = "8.1.1.6", id = "h"),
-			@SpecAssertion(section = "8.1.3", id = "a"),
-			@SpecAssertion(section = "8.1.3", id = "b"),
-			@SpecAssertion(section = "8.1.3", id = "c"),
-			@SpecAssertion(section = "8.1.3", id = "d"),
-			@SpecAssertion(section = "8.1.3", id = "e"),
-			@SpecAssertion(section = "8.1.3", id = "f"),
-			@SpecAssertion(section = "8.1.3", id = "g"),
-			@SpecAssertion(section = "8.1.3", id = "h"),
-			@SpecAssertion(section = "8.1.3", id = "i"),
-			@SpecAssertion(section = "8.1.3", id = "j"),
-			@SpecAssertion(section = "8.1.3", id = "k")
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "d"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "e"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "f"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "g"),
+			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "h"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "a"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "b"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "c"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "d"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "e"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "f"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "g"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "h"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "i"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "j"),
+			@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "k")
 	})
 	public void testElementConversionInXmlConfiguredConstraint() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( User.class );
@@ -288,7 +288,7 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "8.1.3", id = "l")
+	@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "l")
 	public void testIllegalAnnotationValueInXmlMappingCausesException() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping( getStream( "superuser-constraints.xml" ) );

@@ -6,7 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertEqualPaths;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.GroupDefinitionException;
 import javax.validation.Validator;
@@ -15,23 +24,15 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertEqualPaths;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 /**
  * Tests for the group and group sequence feature.
@@ -64,7 +65,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "a")
 	public void testConstraintWithNoExplicitlySpecifiedGroupBelongsToDefault() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
@@ -83,8 +84,8 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "b")
-	@SpecAssertion(section = "4.4", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "d")
 	public void testValidateAgainstDifferentGroups() {
 		User user = new User();
 
@@ -157,7 +158,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "c")
 	public void testConstraintCanBelongToMoreThanOneGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
@@ -171,7 +172,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "d")
 	public void testGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -230,8 +231,8 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.2", id = "b")
-	@SpecAssertion(section = "4.4.2", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "d")
 	public void testGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
@@ -274,8 +275,8 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "c")
-	@SpecAssertion(section = "4.6", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	public void testValidationFailureInMultipleGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Animal elephant = new Animal();
@@ -293,7 +294,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE, id = "d")
 	public void testGroupSequenceFollowedByGroup() {
 		User user = new User();
 		user.setFirstname( "Foo" );
@@ -339,7 +340,7 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_IMPLICITGROUPING, id = "a")
 	public void testImplicitGrouping() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
@@ -356,11 +357,11 @@ public class GroupTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = GroupDefinitionException.class)
-	@SpecAssertion(section = "4.4.2", id = "e")
-	@SpecAssertion(section = "4.4.2", id = "f")
-	@SpecAssertion(section = "4.4.2", id = "i")
-	@SpecAssertion(section = "4.4.6", id = "j")
-	@SpecAssertion(section = "9.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_FORMALDEFINITION, id = "j")
+	@SpecAssertion(section = Sections.EXCEPTION_GROUPDEFINITION, id = "a")
 	public void testCyclicGroupSequence() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new Order(), CyclicGroupSequence.class );

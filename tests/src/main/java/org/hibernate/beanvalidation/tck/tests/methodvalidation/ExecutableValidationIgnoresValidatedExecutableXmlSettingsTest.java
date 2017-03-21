@@ -6,26 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
-import javax.validation.Validation;
-import javax.validation.constraints.NotNull;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItem;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.StockItem;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
@@ -33,6 +13,27 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
+import javax.validation.Validation;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItem;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.StockItem;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -51,7 +52,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml() throws Exception {
 		assertEquals(
 				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
@@ -75,7 +76,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
 		assertEquals(
@@ -97,7 +98,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
 		assertEquals(
@@ -122,7 +123,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
 		assertEquals(

@@ -6,25 +6,25 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.crossparameter;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
+import static org.testng.Assert.assertEquals;
+
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Set;
+
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Gunnar Morling
@@ -40,8 +40,8 @@ public class GenericAndCrossParameterConstraintTest extends BaseExecutableValida
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "b")
-	@SpecAssertion(section = "3.4", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "e")
 	public void testAnnotatedElementIsTargetedByDefault() throws Exception {
 		Object object = new Calendar();
 		Method method = Calendar.class.getMethod( "createEvent", Date.class, Date.class );
@@ -62,7 +62,7 @@ public class GenericAndCrossParameterConstraintTest extends BaseExecutableValida
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "e")
 	public void testAnnotatedElementIsTargetedUsingSupportedValidationTarget() throws Exception {
 		Object object = new WebCalendar();
 		Method method = WebCalendar.class.getMethod( "createEvent", Date.class, Date.class );
@@ -83,7 +83,7 @@ public class GenericAndCrossParameterConstraintTest extends BaseExecutableValida
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "e")
 	public void testParametersAreTargetedUsingSupportedValidationTarget() throws Exception {
 		Object object = new OnlineCalendar();
 		Method method = OnlineCalendar.class.getMethod( "createEvent", Date.class, Date.class );
@@ -104,9 +104,9 @@ public class GenericAndCrossParameterConstraintTest extends BaseExecutableValida
 	}
 
 	@Test
-	@SpecAssertion(section = "3.4", id = "f")
-	@SpecAssertion(section = "4.5.2.1", id = "c")
-	@SpecAssertion(section = "4.5.3", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_RETURNVALUECONSTRAINTS, id = "b")
 	public void testOneValidatorSupportsBothValidationTargets() throws Exception {
 		Object object = new MobileCalendar();
 		Method method = MobileCalendar.class.getMethod( "createEvent", Date.class, Date.class );

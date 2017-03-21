@@ -6,16 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
+import static org.testng.Assert.fail;
+
 import java.lang.annotation.ElementType;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.Path;
 import javax.validation.TraversableResolver;
-
-import static org.testng.Assert.fail;
 
 /**
  * A {@link TraversableResolver} implementation used for asserting that the

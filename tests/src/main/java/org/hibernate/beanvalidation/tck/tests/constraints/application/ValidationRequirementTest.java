@@ -6,26 +6,27 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.application;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
@@ -41,10 +42,10 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1", id = "c")
-	@SpecAssertion(section = "4.1", id = "e")
-	@SpecAssertion(section = "4.1.1", id = "a")
-	@SpecAssertion(section = "4.1.1", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_OBJECTVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_OBJECTVALIDATION, id = "b")
 	public void testClassLevelConstraints() {
 		Woman sarah = new Woman();
 		sarah.setFirstName( "Sarah" );
@@ -78,9 +79,9 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1", id = "e")
-	@SpecAssertion(section = "4.1.2", id = "a")
-	@SpecAssertion(section = "4.1.2", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "c")
 	public void testFieldAccess() {
 		SuperWoman superwoman = new SuperWoman();
 
@@ -95,9 +96,9 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1", id = "e")
-	@SpecAssertion(section = "4.1.2", id = "a")
-	@SpecAssertion(section = "4.1.2", id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "d")
 	public void testPropertyAccess() {
 		SuperWoman superwoman = new SuperWoman();
 
@@ -112,8 +113,8 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.2", id = "a")
-	@SpecAssertion(section = "4.1.2", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "b")
 	public void testConstraintAppliedOnFieldAndProperty() {
 		Building building = new Building( 10000000 );
 
@@ -125,7 +126,7 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test(enabled = false)
-//	@SpecAssertion(section = "4.1",
+//	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS,
 //			id = "b",
 //			note = "The spec is not clear about whether validation of static fields/properties should just be ignored or an exception should be thrown.")
 	public void testIgnoreStaticFieldsAndProperties() {
@@ -137,7 +138,7 @@ public class ValidationRequirementTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.1.2", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_PROPERTYVALIDATION, id = "e")
 	public void testFieldAndPropertyVisibilityIsNotConstrained() {
 		Visibility entity = new Visibility();
 

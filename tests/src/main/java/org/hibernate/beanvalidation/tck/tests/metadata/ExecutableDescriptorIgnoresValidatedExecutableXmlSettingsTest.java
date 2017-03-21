@@ -6,24 +6,25 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.util.Collections;
+
 import javax.validation.Validation;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
@@ -43,7 +44,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEInXml() {
 		assertEquals(
 				Validation.byDefaultProvider()
@@ -65,7 +66,7 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 	}
 
 	@Test
-	@SpecAssertion(section = "6.7", id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEInXml() {
 		assertEquals(
 				Validation.byDefaultProvider()

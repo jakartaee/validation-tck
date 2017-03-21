@@ -6,6 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
+
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
@@ -13,20 +18,15 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.IntegrationTest;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
 
 /**
  * @author Gunnar Morling
@@ -65,7 +65,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "i")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "i")
 	public void testValidationOfConstrainedMethodWithExecutableTypeNONE() {
 		Event event = calendar.createEvent( null );
 		assertNotNull( event );
@@ -75,7 +75,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "i")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "i")
 	public void testValidationOfConstrainedMethodWithEmptyExecutableTypes() {
 		Event event = calendar.createEvent( -10 );
 		assertNotNull( event );
@@ -85,7 +85,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "i")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "i")
 	public void testValidationOfConstrainedMethodWithExecutableTypeNONEAndOther() {
 		try {
 			calendar.createEvent( (long) -10 );
@@ -100,7 +100,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "j")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "j")
 	public void testValidationOfConstrainedConstructorParametersWithExecutableTypeCONSTRUCTORS() {
 		try {
 			onlineCalendar.get();
@@ -115,7 +115,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "j")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "j")
 	public void testValidationOfConstrainedConstructorReturnValueWithExecutableTypeCONSTRUCTORS() {
 		try {
 			offlineCalendar.get();
@@ -130,7 +130,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "j")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "j")
 	public void testValidationOfConstrainedConstructorWithoutExecutableTypeCONSTRUCTORS() {
 		AnotherCalendarService calendar = anotherCalendar.get();
 		assertNotNull( calendar );
@@ -140,7 +140,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "k")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "k")
 	public void testValidationOfConstrainedMethodParametersWithExecutableTypeNON_GETTER_METHODS() {
 		try {
 			calendar.createEvent( (short) -10 );
@@ -155,7 +155,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "k")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "k")
 	public void testValidationOfConstrainedMethodReturnValueWithExecutableTypeNON_GETTER_METHODS() {
 		try {
 			calendar.createEvent( (byte) -10 );
@@ -170,7 +170,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "k")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "k")
 	public void testValidationOfConstrainedGetterWithExecutableTypeNON_GETTER_METHODS() {
 		Event event = calendar.getEvent();
 		assertNotNull( event );
@@ -180,7 +180,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "l")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "l")
 	public void testValidationOfConstrainedGetterReturnValueWithExecutableTypeGETTER_METHODS() {
 		try {
 			calendar.getSpecialEvent();
@@ -195,7 +195,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "l")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "l")
 	public void testValidationOfConstrainedMethodWithExecutableTypeGETTER_METHODS() {
 		Event event = calendar.getSpecialEvent( 0 );
 		assertNotNull( event );
@@ -205,7 +205,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "m")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "m")
 	public void testValidationOfConstrainedMethodWithExecutableTypeALL() {
 		try {
 			calendar.createEvent( -10.0 );
@@ -220,7 +220,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "m")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "m")
 	public void testValidationOfConstrainedGetterWithExecutableTypeALL() {
 		try {
 			calendar.getVerySpecialEvent();
@@ -235,7 +235,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "m")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "m")
 	public void testValidationOfConstrainedConstructorWithExecutableTypeALL() {
 		try {
 			yetAnotherCalendar.get();
@@ -250,7 +250,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "m")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "m")
 	public void testValidationOfConstrainedMethodWithExecutableTypesALLAndNONE() {
 		try {
 			calendar.createEvent( (float) -10.0 );
@@ -265,7 +265,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "n")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "n")
 	public void testValidationOfConstrainedMethodWithExecutableTypeIMPLICIT() {
 		try {
 			deliveryService.findDelivery( null );
@@ -280,7 +280,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "n")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "n")
 	public void testValidationOfConstrainedGetterWithExecutableTypeIMPLICIT() {
 		try {
 			deliveryService.getDelivery();
@@ -295,7 +295,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "n")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "n")
 	public void testValidationOfConstrainedGetterWithExecutableTypeIMPLICITOnTypeLevel() {
 		Delivery delivery = deliveryService.getAnotherDelivery();
 		assertNull( delivery );
@@ -306,7 +306,7 @@ public class ExecutableTypesTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "10.1.2", id = "n")
+	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "n")
 	public void testValidationOfConstrainedConstructorWithExecutableTypeIMPLICIT() {
 		try {
 			anotherDeliveryService.get();

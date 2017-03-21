@@ -6,7 +6,12 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.inheritance;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertEquals;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.AssertTrue;
@@ -16,19 +21,15 @@ import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.assertEquals;
 
 /**
  * @author Hardy Ferentschik
@@ -44,7 +45,7 @@ public class GroupInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.1", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPINHERITANCE, id = "a")
 	public void testGroupCanInheritGroupsViaInterfaceInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Part part = new Part();
@@ -61,7 +62,7 @@ public class GroupInheritanceTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.1", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPINHERITANCE, id = "b")
 	public void testGroupMembership() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor descriptor = validator.getConstraintsForClass( MiniaturePart.class );

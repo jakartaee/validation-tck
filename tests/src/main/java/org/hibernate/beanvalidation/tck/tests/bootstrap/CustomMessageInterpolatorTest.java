@@ -6,8 +6,13 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.testng.Assert.assertFalse;
+
 import java.util.Locale;
 import java.util.Set;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.MessageInterpolator;
@@ -17,18 +22,14 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.testng.Assert.assertFalse;
 
 /**
  * @author Hardy Ferentschik
@@ -44,7 +45,7 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.3.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "e")
 	public void testCustomMessageInterpolatorViaConfiguration() {
 		Configuration<?> config = Validation.byDefaultProvider().configure();
 		config = config.messageInterpolator( new DummyMessageInterpolator() );
@@ -54,9 +55,9 @@ public class CustomMessageInterpolatorTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.2", id = "b")
-	@SpecAssertion(section = "5.5.2", id = "g")
-	@SpecAssertion(section = "5.3.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "e")
 	public void testCustomMessageInterpolatorViaValidatorContext() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		DummyMessageInterpolator dummyMessageInterpolator = new DummyMessageInterpolator();

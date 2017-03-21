@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.validation.validatorcontext;
 
 import java.util.Map;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

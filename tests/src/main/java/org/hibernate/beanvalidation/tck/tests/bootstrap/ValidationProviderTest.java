@@ -6,10 +6,14 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import static org.testng.Assert.assertTrue;
+import static org.testng.FileAssert.fail;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.Configuration;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
@@ -17,20 +21,17 @@ import javax.validation.ValidationProviderResolver;
 import javax.validation.ValidatorFactory;
 import javax.validation.spi.ValidationProvider;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
+import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
-import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertTrue;
-import static org.testng.FileAssert.fail;
 
 /**
  * @author Hardy Ferentschik
@@ -47,7 +48,7 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.4.2", id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "b")
 	public void testFirstMatchingValidationProviderResolverIsReturned() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
 
@@ -69,7 +70,7 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.4.2", id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "c")
 	public void testByDefaultProviderUsesTheFirstProviderReturnedByValidationProviderResolver() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
 
@@ -90,7 +91,7 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.4.2", id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "d")
 	public void testValidationProviderContainsNoArgConstructor() {
 		ValidationProvider<?> validationProviderUnderTest = TestUtil.getValidationProviderUnderTest();
 		try {
@@ -103,8 +104,8 @@ public class ValidationProviderTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.5.5", id = "f")
-	@SpecAssertion(section = "5.5.4.2", id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "e")
 	public void testValidationExceptionIsThrownInCaseValidatorFactoryCreationFails() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
 

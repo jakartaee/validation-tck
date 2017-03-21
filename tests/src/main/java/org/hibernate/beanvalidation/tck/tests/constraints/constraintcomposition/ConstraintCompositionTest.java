@@ -34,6 +34,7 @@ import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -58,8 +59,8 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "a")
-	@SpecAssertion(section = "3.3", id = "p")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "p")
 	public void testComposedConstraints() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
@@ -76,8 +77,8 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "a")
-	@SpecAssertion(section = "3.3", id = "p")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "p")
 	public void testComposedConstraintsAreRecursive() {
 		GermanAddress address = new GermanAddress();
 		address.setAddressline1( "Rathausstrasse 5" );
@@ -94,7 +95,7 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "b")
 	public void testValidationOfMainAnnotationIsAlsoApplied() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "00000" );
@@ -105,11 +106,11 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "c")
-	@SpecAssertion(section = "3.3", id = "n")
-	@SpecAssertion(section = "3.3", id = "q")
-	@SpecAssertion(section = "3.3", id = "r")
-	@SpecAssertion(section = "3.3", id = "u")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "n")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "q")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "r")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "u")
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -144,7 +145,7 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "s")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "s")
 	public void testConstraintIndexWithListContainer() {
 		FrenchAddressListContainer address = getFrenchAddressListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -166,7 +167,7 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = { ConstraintDeclarationException.class })
-	@SpecAssertion(section = "3.3", id = "t")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "t")
 	public void testConstraintIndexWithMixDirectAnnotationAndListContainer() {
 		FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -174,8 +175,8 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "d")
-	@SpecAssertion(section = "3.3", id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "e")
 	public void testGroupsDefinedOnMainAnnotationAreInherited() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
@@ -193,7 +194,7 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "l")
 	public void testOnlySingleConstraintViolation() {
 		GermanAddress address = new GermanAddress();
 		address.setAddressline1( "Rathausstrasse 5" );
@@ -212,7 +213,7 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "m")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "m")
 	public void testAttributesDefinedOnComposingConstraints() {
 		BeanDescriptor descriptor = getValidator().getConstraintsForClass( FrenchAddress.class );
 		Set<ConstraintDescriptor<?>> constraintDescriptors = descriptor.getConstraintsForProperty( "zipCode" )
@@ -238,21 +239,21 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "3.3", id = "o")
-	@SpecAssertion(section = "3.3", id = "v")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "o")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
 	public void testOverriddenAttributesMustMatchInType() {
 		getValidator().validate( new DummyEntityWithZipCode( "foobar" ) );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = "3.3", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "j")
 	public void testAllComposingConstraintsMustBeApplicableToAnnotatedType() {
 		getValidator().validate( new Shoe( 41 ) );
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "f")
-	@SpecAssertion(section = "3.3", id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "g")
 	public void testPayloadPropagationInComposedConstraints() {
 		Friend john = new Friend( "John", "Doe" );
 
@@ -270,8 +271,8 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "3.3", id = "h")
-	@SpecAssertion(section = "3.3", id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "i")
 	public void testConstraintTargetPropagationInComposedConstraints() throws Exception {
 		Object object = new DummyEntityWithGenericAndCrossParameterConstraint();
 		Method method = DummyEntityWithGenericAndCrossParameterConstraint.class.getMethod( "doSomething", int.class );
@@ -296,8 +297,8 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "3.3", id = "k")
-	@SpecAssertion(section = "3.3", id = "v")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "k")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
 		Object object = new DummyEntityWithIllegallyComposedConstraint();
@@ -315,8 +316,8 @@ public class ConstraintCompositionTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = "3.3", id = "k")
-	@SpecAssertion(section = "3.3", id = "v")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "k")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
 		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
 		Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(

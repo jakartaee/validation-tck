@@ -6,28 +6,28 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.constraints.NotNull;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertNotNull;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -43,7 +43,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS, id = "a")
 	public void testMethodParameterConstraintsAreDeclaredByAnnotatingParameters() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "setType", String.class );
@@ -60,7 +60,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS, id = "a")
 	public void testConstructorParameterConstraintsAreDeclaredByAnnotatingParameters()
 			throws Exception {
 		Constructor<?> constructor = CalendarService.class.getConstructor( String.class );
@@ -77,7 +77,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2.1", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "a")
 	public void testCrossParameterConstraintsAreDeclaredByAnnotatingMethods() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -97,7 +97,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.2.1", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "a")
 	public void testCrossParameterConstraintsAreDeclaredByAnnotatingConstructors()
 			throws Exception {
 		Constructor<?> constructor = CalendarService.class.getConstructor( Date.class, Date.class );
@@ -116,7 +116,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "a")
 	public void testMethodParameterAndCrossParameterConstraintsAreEvaluatedAtTheSameTime()
 			throws Exception {
 		Object object = new CalendarService();
@@ -143,7 +143,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "g")
 	public void testConstructorParameterAndCrossParameterConstraintsAreEvaluatedAtTheSameTime()
 			throws Exception {
 		Constructor<?> constructor = CalendarService.class.getConstructor(
@@ -167,7 +167,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.3", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_RETURNVALUECONSTRAINTS, id = "a")
 	public void testReturnValueConstraintsAreDeclaredByAnnotatingMethods() throws Exception {
 		Object object = new CalendarService();
 		Method method = CalendarService.class.getMethod( "findEvents", String.class );
@@ -184,7 +184,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.3", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_RETURNVALUECONSTRAINTS, id = "a")
 	public void testReturnValueConstraintsAreDeclaredByAnnotatingConstructors() throws Exception {
 		Constructor<?> constructor = CalendarService.class.getConstructor();
 		Object returnValue = new CalendarService();
@@ -199,7 +199,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "a")
 	public void testMethodParameterIsMarkedAsCascaded() throws Exception {
 		Object object = new CalendarEvent();
 		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
@@ -222,7 +222,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "a")
 	public void testConstructorParameterIsMarkedAsCascaded() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[] { new User() };
@@ -243,7 +243,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "a")
 	public void testMethodReturnValueIsMarkedAsCascaded() throws Exception {
 		Object object = new CalendarEvent();
 		Method method = CalendarEvent.class.getMethod( "getUser" );
@@ -266,7 +266,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "a")
 	public void testConstructorReturnValueIsMarkedAsCascaded() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( String.class );
 		Object returnValue = new CalendarEvent( null, null );
@@ -287,7 +287,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "b")
 	public void testPassingNullToCascadedMethodParameterCausesNoViolation() throws Exception {
 		Object object = new CalendarEvent();
 		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
@@ -303,7 +303,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "b")
 	public void testPassingNullToCascadedConstructorParameterCausesNoViolation() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[1];
@@ -317,7 +317,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "b")
 	public void testReturningNullFromCascadedMethodCausesNoViolation() throws Exception {
 		Object object = new CalendarEvent();
 		Method method = CalendarEvent.class.getMethod( "getUser" );
@@ -333,7 +333,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "c")
 	public void testCascadedMethodParameterIsValidatedRecursively() throws Exception {
 		Object object = new CalendarEvent();
 		Method method = CalendarEvent.class.getMethod( "setUser", User.class );
@@ -357,7 +357,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "c")
 	public void testCascadedConstructorParameterIsValidatedRecursively() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( User.class );
 		Object[] parameterValues = new Object[] { new User( new Account() ) };
@@ -379,7 +379,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "c")
 	public void testCascadedMethodReturnValueIsValidatedRecursively() throws Exception {
 		Object object = new CalendarEvent();
 		Method method = CalendarEvent.class.getMethod( "getUser" );
@@ -403,7 +403,7 @@ public class MethodValidationRequirementTest extends BaseExecutableValidatorTest
 	}
 
 	@Test
-	@SpecAssertion(section = "4.5.4", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_CASCADEDVALIDATION, id = "c")
 	public void testCascadedConstructorReturnValueIsValidatedRecursively() throws Exception {
 		Constructor<?> constructor = CalendarEvent.class.getConstructor( String.class );
 		Object returnValue = new CalendarEvent();

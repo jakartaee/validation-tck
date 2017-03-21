@@ -6,33 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import java.lang.reflect.Constructor;
-import java.util.Date;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
-import javax.validation.ValidationException;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
-import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
@@ -42,6 +15,33 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
+
+import java.lang.reflect.Constructor;
+import java.util.Date;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ElementKind;
+import javax.validation.ValidationException;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.test.audit.annotations.SpecAssertion;
+import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
@@ -62,14 +62,14 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "g")
-	@SpecAssertion(section = "5.1.2", id = "h")
-	@SpecAssertion(section = "5.2", id = "d")
-	@SpecAssertion(section = "5.2", id = "e")
-	@SpecAssertion(section = "5.2", id = "f")
-	@SpecAssertion(section = "5.2", id = "g")
-	@SpecAssertion(section = "5.2", id = "h")
-	@SpecAssertion(section = "5.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void testOneViolation() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		String arg0 = "B";
@@ -96,9 +96,9 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
-	@SpecAssertion(section = "5.2", id = "f")
-	@SpecAssertion(section = "5.2", id = "j")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "j")
 	public void testOneViolationFromCrossParameterConstraint() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, String.class );
 		Object[] parameterValues = new Object[] { null, null };
@@ -121,7 +121,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testTwoViolations() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -150,7 +150,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testTwoViolationsOnSameParameter() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, int.class );
 		Object[] parameterValues = new Object[] { "S", 0 };
@@ -176,7 +176,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testTwoConstraintsOfSameType() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( CharSequence.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -202,7 +202,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testCrossParameterConstraintGivenSeveralTimes() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -236,7 +236,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testNoViolations() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -253,7 +253,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class, long.class );
 		Object[] parameterValues = new Object[] { "S", 0l };
@@ -277,7 +277,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testCrossParameterConstraintValidationWithGroup() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				CharSequence.class,
@@ -304,7 +304,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.1.2", id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	public void testValidationWithSeveralGroups() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor(
 				String.class,
@@ -343,7 +343,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = "5.1.2", id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "g")
 	public void testUnexpectedType() throws Exception {
 		Constructor<Address> constructor = Address.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { "S" };
@@ -352,7 +352,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "i")
 	public void testNullPassedForConstructorCausesException() throws Exception {
 		Constructor<User> constructor = null;
 		Object[] parameterValues = new Object[] { null };
@@ -364,7 +364,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "i")
 	public void testNullPassedForParameterValuesCausesException() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		Object[] parameterValues = null;
@@ -376,7 +376,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "i")
 	public void testNullPassedForGroupsCausesException() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
@@ -389,7 +389,7 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)
-	@SpecAssertion(section = "5.1.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "i")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
 		Constructor<User> constructor = User.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
@@ -402,10 +402,10 @@ public class ValidateConstructorParametersTest extends BaseExecutableValidatorTe
 	}
 
 	@Test
-	@SpecAssertion(section = "5.2", id = "f")
-	@SpecAssertion(section = "5.2", id = "g")
-	@SpecAssertion(section = "5.2", id = "h")
-	@SpecAssertion(section = "5.2", id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void testOneViolationForCascadedValidation() throws Exception {
 		Item leaf = new Item( "foo" );
 		Constructor<OrderLine> constructor = OrderLine.class.getConstructor( Item.class );

@@ -6,7 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequence;
 
+import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.GroupDefinitionException;
 import javax.validation.GroupSequence;
@@ -14,17 +17,15 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 
 /**
  * @author Hardy Ferentschik
@@ -40,10 +41,10 @@ public class SequenceResolutionTest extends Arquillian {
 	}
 
 	@Test(expectedExceptions = GroupDefinitionException.class)
-	@SpecAssertion(section = "4.4.2", id = "e")
-	@SpecAssertion(section = "4.4.2", id = "f")
-	@SpecAssertion(section = "4.4.2", id = "i")
-	@SpecAssertion(section = "9.4", id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "i")
+	@SpecAssertion(section = Sections.EXCEPTION_GROUPDEFINITION, id = "a")
 	public void testInvalidDefinitionOfDefaultSequenceInEntity() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		TestEntity entity = new TestEntity();
@@ -51,7 +52,7 @@ public class SequenceResolutionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.2", id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "c")
 	public void testGroupSequenceContainerOtherGroupSequences() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		TestEntity entity = new TestEntity();
@@ -64,7 +65,7 @@ public class SequenceResolutionTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = "4.4.2", id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "j")
 	public void testOnlyFirstGroupInSequenceGetEvaluated() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Car car = new Car( "USd-298" );

@@ -6,22 +6,23 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.util.EnumSet;
+
 import javax.validation.BootstrapConfiguration;
 import javax.validation.executable.ExecutableType;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 /**
  * @author Gunnar Morling
@@ -40,8 +41,8 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingNONETes
 	}
 
 	@Test
-	@SpecAssertion(section = "5.5.3", id = "f")
-	@SpecAssertion(section = "5.5.6", id = "l")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "l")
 	public void testGetDefaultValidatedExecutableTypesReturnsEmptySetIfNONEIsContained() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();

@@ -35,6 +35,7 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Past;
 
+import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.time.FixedClockProvider;
 import org.hibernate.beanvalidation.tck.tests.time.FutureDummyEntity;
 import org.hibernate.beanvalidation.tck.tests.time.FutureRelativePartialDummyEntity;
@@ -67,8 +68,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void testPastConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PastDummyEntity dummy = new PastDummyEntity();
@@ -96,8 +97,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void testPastConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -131,8 +132,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void testFutureConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		FutureDummyEntity dummy = new FutureDummyEntity();
@@ -160,8 +161,8 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "a")
-	@SpecAssertion(section = "7", id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void testFutureConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -195,7 +196,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void testPastOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -237,7 +238,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void testPastOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -277,7 +278,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void testFutureOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -319,7 +320,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = "7", id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void testFutureOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
