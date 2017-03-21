@@ -6,7 +6,87 @@ to pass the Bean Validation signature test. This section describes how the
 signature file is generated and how to run it against your
 implementation.
 
-=== Obtaining the sigtest tool
+There are two ways of doing this. You can either use a signature file provided
+together with this TCK, or create one using _sigtest_ tool.
+
+=== Using provided signature file
+
+==== Running signature test as a part of Maven build
+
+Provided signature files are created using `sigtest-maven-plugin` http://wiki.netbeans.org/SigTest[Maven plugin].
+The same plugin can be used to run a signature test to check for any incompatibilities. To run a
+test as a part of Maven build you need to add next plugins to corresponding `pom.xml` file:
+
+```xml
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-dependency-plugin</artifactId>
+	<executions>
+		<execution>
+			<id>copy-tck-bv-api-signature-file</id>
+			<phase>generate-test-sources</phase>
+			<goals>
+				<goal>copy</goal>
+			</goals>
+			<configuration>
+				<stripVersion>true</stripVersion>
+				<artifactItems>
+					<artifactItem>
+						<groupId>org.hibernate.beanvalidation.tck</groupId>
+						<artifactId>beanvalidation-tck-tests</artifactId>
+						<type>sigfile</type>
+						<overWrite>false</overWrite>
+					</artifactItem>
+				</artifactItems>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>
+<plugin>
+	<groupId>org.netbeans.tools</groupId>
+	<artifactId>sigtest-maven-plugin</artifactId>
+	<executions>
+		<execution>
+			<goals>
+				<goal>check</goal>
+			</goals>
+		</execution>
+	</executions>
+	<configuration>
+		<packages>javax.validation,javax.validation.bootstrap,javax.validation.constraints,
+			javax.validation.constraintvalidation,javax.validation.executable,javax.validation.groups,
+			javax.validation.metadata,javax.validation.spi,javax.validation.valueextraction
+		</packages>
+		<sigfile>${project.build.directory}/dependency/beanvalidation-tck-tests.sigfile</sigfile>
+	</configuration>
+</plugin>
+```
+To run a test you need to obtain signature file from maven repository (either remote or your local), which is done
+with `maven-dependency-plugin`. After that you can put a reference to copied signature file as `sigfile` configuration
+parameter of `sigtest-maven-plugin` plugin.
+
+==== Forcing a signature test failure
+
+If you would like to verify that signature test is running correctly you can modify corresponding `sigfile` in
+your local maven repository. For example let us change the `value()` of `javax.validation.constraints.Max` to
+`val()` which should make sigtest to fail. If all is done correctly, while running `mvn sigtest:check`
+you should see error similar to next :
+
+```
+[INFO] SignatureTest report
+Base version: 2.0.0-SNAPSHOT
+Tested version: 2.0.0-SNAPSHOT
+Check mode: bin [throws removed]
+Constant checking: on
+
+
+Class javax.validation.constraints.Max
+  "E2.7 - Removing member from annotation type" : method public abstract long javax.validation.constraints.Max.val()
+```
+
+=== Creating own signature file
+
+==== Obtaining the sigtest tool
 
 You can obtain the Sigtest tool from the https://wiki.openjdk.java.net/display/CodeTools/SigTest[Sigtest home
 page]. The TCK uses version 3_0-dev-bin-b09-24_apr_2013 which can
@@ -16,7 +96,7 @@ user guide can be found http://download.oracle.com/javame/test-tools/sigtest/2_2
 still applies to SigTest 3.0 in general). The downloadable package
 contains the jar files used in the commands below.
 
-=== Creating the signature file
+==== Creating the signature file
 
 The TCK package contains the files
 `validation-api-java6.sig`,
@@ -41,7 +121,7 @@ In order to pass the Bean Validation TCK you have to make sure that
 your API passes the signature tests against
 `validation-api.sig.`
 
-=== Running the signature test
+==== Running the signature test
 
 To run the signature test use:
 
@@ -55,7 +135,7 @@ on your Java version. In order to run against your own Bean Validation API
 replace validation-api-{validationApiVersion}.jar with your own API jar. You
 should get the message `"STATUS:Passed."`.
 
-=== Forcing a signature test failure
+==== Forcing a signature test failure
 
 Just for fun (and to confirm that the signature test is working
 correctly), you can try the following:
