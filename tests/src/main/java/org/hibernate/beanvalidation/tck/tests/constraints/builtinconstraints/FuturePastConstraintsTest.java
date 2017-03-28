@@ -69,7 +69,7 @@ public class FuturePastConstraintsTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
 	public void testPastConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PastDummyEntity dummy = new PastDummyEntity();
@@ -98,7 +98,7 @@ public class FuturePastConstraintsTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
 	public void testPastConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -133,7 +133,7 @@ public class FuturePastConstraintsTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
 	public void testFutureConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		FutureDummyEntity dummy = new FutureDummyEntity();
@@ -162,7 +162,7 @@ public class FuturePastConstraintsTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
 	public void testFutureConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -196,7 +196,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
 	public void testPastOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -238,7 +238,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
 	public void testPastOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -278,7 +278,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
 	public void testFutureOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -320,7 +320,7 @@ public class FuturePastConstraintsTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
 	public void testFutureOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
