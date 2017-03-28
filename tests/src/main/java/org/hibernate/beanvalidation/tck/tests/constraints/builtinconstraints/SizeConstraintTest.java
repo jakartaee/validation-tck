@@ -45,7 +45,7 @@ public class SizeConstraintTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
 	public void testSizeConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		SizeDummyEntity dummy = new SizeDummyEntity();

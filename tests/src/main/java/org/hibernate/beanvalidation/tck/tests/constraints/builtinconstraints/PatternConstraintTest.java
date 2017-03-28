@@ -41,7 +41,7 @@ public class PatternConstraintTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "q")
 	public void testPatternConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PatternDummyEntity dummy = new PatternDummyEntity();
