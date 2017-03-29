@@ -95,8 +95,8 @@
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <validation.api.version>2.0.0-SNAPSHOT</validation.api.version>
-        <hibernate.validator.version>6.0.0-SNAPSHOT</hibernate.validator.version>
+        <validation.api.version>2.0.0.Alpha2</validation.api.version>
+        <hibernate.validator.version>6.0.0.Alpha2</hibernate.validator.version>
 
         <testng.version>6.11</testng.version>
 
