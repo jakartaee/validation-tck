@@ -17,7 +17,7 @@ import javax.validation.Validator;
 import javax.validation.constraints.Email;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class EmailConstraintTest extends BaseValidatorTest {
+public class EmailConstraintTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -47,7 +47,7 @@ public class EmailConstraintTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "t")
 	public void testNotBlankConstraint() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		EmailDummyEntity foo = new EmailDummyEntity();
 
 		Set<ConstraintViolation<EmailDummyEntity>> constraintViolations = validator.validate( foo );
@@ -64,7 +64,7 @@ public class EmailConstraintTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "t")
 	public void testNotBlankConstraintOnStringBuilder() {
 		// @Email has to support CharSequence so let's also try a StringBuilder
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		EmailStringBuilderDummyEntity foo = new EmailStringBuilderDummyEntity();
 
 		Set<ConstraintViolation<EmailStringBuilderDummyEntity>> constraintViolations = validator.validate( foo );

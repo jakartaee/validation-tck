@@ -9,6 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.util.Set;
 
@@ -18,7 +19,6 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -35,7 +35,7 @@ public class NotBlankConstraintTest extends BaseValidatorTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( NotBlankConstraintTest.class )
 				.build();
 	}

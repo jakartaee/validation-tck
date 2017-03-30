@@ -19,7 +19,7 @@ import javax.validation.constraints.Negative;
 import javax.validation.constraints.Positive;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class NegativePositiveConstraintsTest extends BaseValidatorTest {
+public class NegativePositiveConstraintsTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -46,7 +46,7 @@ public class NegativePositiveConstraintsTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
 	public void testNegativeConstraint() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeEntity dummy = new NegativeEntity();
 
 		Set<ConstraintViolation<NegativeEntity>> constraintViolations = validator.validate( dummy );
@@ -116,7 +116,7 @@ public class NegativePositiveConstraintsTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
 	public void testStrictNegativeConstraint() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		StrictNegativeEntity dummy = new StrictNegativeEntity();
 
 		Set<ConstraintViolation<StrictNegativeEntity>> constraintViolations = validator.validate( dummy );
@@ -195,7 +195,7 @@ public class NegativePositiveConstraintsTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
 	public void testNegativeConstraintInfinityAndNaN() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeEntity dummy = new NegativeEntity();
 
 		dummy.floatObject = Float.NEGATIVE_INFINITY;
@@ -221,7 +221,7 @@ public class NegativePositiveConstraintsTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
 	public void testPositiveConstraint() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveEntity dummy = new PositiveEntity();
 
 		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
@@ -291,7 +291,7 @@ public class NegativePositiveConstraintsTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
 	public void testStrictPositiveConstraint() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		StrictPositiveEntity dummy = new StrictPositiveEntity();
 
 		Set<ConstraintViolation<StrictPositiveEntity>> constraintViolations = validator.validate( dummy );
@@ -370,7 +370,7 @@ public class NegativePositiveConstraintsTest extends BaseValidatorTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
 	public void testPositiveConstraintInfinityAndNaN() {
-		Validator validator = getValidator();
+		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveEntity dummy = new PositiveEntity();
 
 		dummy.floatObject = Float.POSITIVE_INFINITY;
