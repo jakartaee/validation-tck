@@ -254,6 +254,7 @@
                         <exclude>**/*.asciidoc</exclude>
                         <exclude>**/*.md</exclude>
                         <exclude>**/*.html</exclude>
+                        <exclude>beanvalidation-release-scripts/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
