@@ -3,6 +3,36 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.Alpha2 (30-03-2017)
+-------------------------
+
+** Bug
+    * BVTCK-95 Fix tests failing in container environment
+    * BVTCK-57 Avoid the use of @BeforeMethod
+
+** Improvement
+    * BVTCK-106 Switch assertion section ids to a string instead of a numeric representation
+    * BVTCK-105 Add properties so that test urls can be available in coverage report
+    * BVTCK-104 Update jboss-test-audit to 1.1.2.Final
+    * BVTCK-103 Test that invalid XML configuration files throw ValidationException
+    * BVTCK-102 Add some more XML versioning tests for BV 2.0
+    * BVTCK-101 Fix interverted assertion reference in XML versioning tests
+    * BVTCK-96 Use ConstraintDescriptor.getMessageTemplate() instead of relying on the attributes
+
+** New Feature
+    * BVTCK-107 Test new spec constraints @NotEmpty, @NotBlank, @Email, @Positive, @Negative
+
+** Task
+    * BVTCK-109 Update to validation-api 2.0.0.Alpha2 and HV 6.0.0.Alpha2
+    * BVTCK-108 Add tests for all array of primitives cases for @Size
+    * BVTCK-100 BVAL-496 Update the assertion references and add tests for new java.time support
+    * BVTCK-99 3.4.1 Test the default ClockProvider present in the ConstraintValidatorContext
+    * BVTCK-98 Update 3.4 with the addition of the default initialize() method to ConstraintValidator
+    * BVTCK-97 Update the constraint composition tests
+    * BVTCK-92 Use shorter license header for TCK tests
+    * BVTCK-90 bean-validation-tck-tests has JSR 250 API twice in the classpath
+    * BVTCK-82 Convert TCK docs to AsciiDoc
+
 2.0.0.Alpha1 (15-02-2017)
 -------------------------
 
