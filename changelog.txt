@@ -3,6 +3,12 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.Alpha3 (30-03-2017)
+-------------------------
+
+** Improvement
+    * BVTCK-110 Fix constraint tests added as part as BVTCK-107
+
 2.0.0.Alpha2 (30-03-2017)
 -------------------------
 
