@@ -67,7 +67,7 @@ git checkout {tckVersion}
 ----
 
 You can also check out the full
-Hibernate Validator source into a subfolder ri. This will allow you to run
+Hibernate Validator source into a subfolder `ri`. This will allow you to run
 the TCK against Hibernate Validator.
 
 [source,subs="attributes"]
