@@ -248,7 +248,38 @@
                         javax.validation.constraintvalidation,javax.validation.executable,javax.validation.groups,
                         javax.validation.metadata,javax.validation.spi,javax.validation.valueextraction
                     </packages>
+                    <attach>false</attach>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>ch.mfrey.maven.plugin</groupId>
+                <artifactId>copy-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <move>true</move>
+                                    <includes>
+                                        <include>beanvalidation-tck-tests-${project.version}.sigfile</include>
+                                    </includes>
+                                    <paths>
+                                        <path>
+                                            <from>beanvalidation-tck-tests-${project.version}.sigfile</from>
+                                            <to>classes/validation-api-java8.sig</to>
+                                        </path>
+                                    </paths>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
