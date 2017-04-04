@@ -2,75 +2,87 @@
 == Running the Signature Test
 
 One of the requirements of an implementation passing the TCK is for it
-to pass the Bean Validation signature test. This section describes how the
-signature file is generated and how to run it against your
-implementation.
+to pass the Bean Validation signature test. This section describes how to run
+it against your implementation as a part of a Maven build.
 
-There are two ways of doing this. You can either use a signature file provided
-together with this TCK, or create one using _sigtest_ tool.
+=== Running signature test
 
-=== Using provided signature file
+Signature files bundled inside this TCK are created using `sigtest-maven-plugin` http://wiki.netbeans.org/SigTest[Maven plugin].
+The same plugin can be used to run a signature test to check for any incompatibilities.
+Let's take a look how it can be done as a part of Maven build.
 
-==== Running signature test as a part of Maven build
-
-Provided signature files are created using `sigtest-maven-plugin` http://wiki.netbeans.org/SigTest[Maven plugin].
-The same plugin can be used to run a signature test to check for any incompatibilities. To run a
-test as a part of Maven build you need to add next plugins to corresponding `pom.xml` file:
-
+Before running an actual test you need to obtain signature file first. It is packaged inside
+_beanvalidation-tck-tests_ artifact, so we can get it using `unpack` goal of `maven-dependency-plugin`
+as shown below:
 ```xml
 <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-dependency-plugin</artifactId>
-	<executions>
-		<execution>
-			<id>copy-tck-bv-api-signature-file</id>
-			<phase>generate-test-sources</phase>
-			<goals>
-				<goal>copy</goal>
-			</goals>
-			<configuration>
-				<stripVersion>true</stripVersion>
-				<artifactItems>
-					<artifactItem>
-						<groupId>org.hibernate.beanvalidation.tck</groupId>
-						<artifactId>beanvalidation-tck-tests</artifactId>
-						<type>sigfile</type>
-						<overWrite>false</overWrite>
-					</artifactItem>
-				</artifactItems>
-			</configuration>
-		</execution>
-	</executions>
-</plugin>
-<plugin>
-	<groupId>org.netbeans.tools</groupId>
-	<artifactId>sigtest-maven-plugin</artifactId>
-	<executions>
-		<execution>
-			<goals>
-				<goal>check</goal>
-			</goals>
-		</execution>
-	</executions>
-	<configuration>
-		<packages>javax.validation,javax.validation.bootstrap,javax.validation.constraints,
-			javax.validation.constraintvalidation,javax.validation.executable,javax.validation.groups,
-			javax.validation.metadata,javax.validation.spi,javax.validation.valueextraction
-		</packages>
-		<sigfile>${project.build.directory}/dependency/beanvalidation-tck-tests.sigfile</sigfile>
-	</configuration>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>copy-tck-bv-api-signature-file</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+                <goal>unpack</goal>
+            </goals>
+            <configuration>
+                <artifactItems>
+                    <artifactItem>
+                        <groupId>org.hibernate.beanvalidation.tck</groupId>
+                        <artifactId>beanvalidation-tck-tests</artifactId>
+                        <version>${beanvalidation-tck-tests.version}</version>
+                        <type>jar</type>
+                        <overWrite>false</overWrite>
+                    </artifactItem>
+                </artifactItems>
+                <!-- We just need a file with signatures and nothing else -->
+                <includes>**/*.sig</includes>
+                <outputDirectory>${project.build.directory}/api-signature</outputDirectory>
+            </configuration>
+        </execution>
+    </executions>
 </plugin>
 ```
-To run a test you need to obtain signature file from maven repository (either remote or your local), which is done
-with `maven-dependency-plugin`. After that you can put a reference to copied signature file as `sigfile` configuration
-parameter of `sigtest-maven-plugin` plugin.
 
-==== Forcing a signature test failure
+To actually run a signature test `check` goal of `sigtest-maven-plugin` can be used.
+Previous plugin puts a signature file in _api-signature_ subdirectory of your project
+build directory. Having a file there, it can be referenced as `sigfile` configuration
+parameter of `sigtest-maven-plugin` plugin like this:
+```xml
+<plugin>
+    <groupId>org.netbeans.tools</groupId>
+    <artifactId>sigtest-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <goals>
+                <goal>check</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <packages>javax.validation,javax.validation.bootstrap,javax.validation.constraints,
+            javax.validation.constraintvalidation,javax.validation.executable,javax.validation.groups,
+            javax.validation.metadata,javax.validation.spi,javax.validation.valueextraction
+        </packages>
+        <sigfile>${project.build.directory}/api-signature/validation-api-java8.sig</sigfile>
+    </configuration>
+</plugin>
+```
 
-If you would like to verify that signature test is running correctly you can modify corresponding `sigfile` in
-your local maven repository. For example let us change the `value()` of `javax.validation.constraints.Max` to
-`val()` which should make sigtest to fail. If all is done correctly, while running `mvn sigtest:check`
-you should see error similar to next :
+=== Forcing a signature test failure
+
+If you would like to verify that signature test is running correctly make a copy of corresponding
+signature file somewhere on your local file system and modify it. For example let us change the
+`value()` of `javax.validation.constraints.Max` to `val()` which should make sigtest to fail.
+
+After modifying signature file update configuration line of `sigtest-maven-plugin` to something like:
+
+```
+<sigfile>${path_to_folder_containing_your_modified_signature_file}/validation-api-java8.sig</sigfile>
+```
+
+If all is done correctly, while running `mvn sigtest:check` on your project, you should see
+an error similar to next:
 
 ```
 [INFO] SignatureTest report
@@ -83,106 +95,3 @@ Constant checking: on
 Class javax.validation.constraints.Max
   "E2.7 - Removing member from annotation type" : method public abstract long javax.validation.constraints.Max.val()
 ```
-
-=== Creating own signature file
-
-==== Obtaining the sigtest tool
-
-You can obtain the Sigtest tool from the https://wiki.openjdk.java.net/display/CodeTools/SigTest[Sigtest home
-page]. The TCK uses version 3_0-dev-bin-b09-24_apr_2013 which can
-be obtained from the SigTest http://download.java.net/sigtest/download.html[download page]. The
-user guide can be found http://download.oracle.com/javame/test-tools/sigtest/2_2/sigtest2_2_usersguide.pdf[here]
-(the latest published documentation version is 2.2 but this documentation
-still applies to SigTest 3.0 in general). The downloadable package
-contains the jar files used in the commands below.
-
-==== Creating the signature file
-
-The TCK package contains the files
-`validation-api-java6.sig`,
-`validation-api-java7.sig` and
-`validation-api-java8.sig` (in the
-`artifacts` directory) which were created using the
-following commands:
-
-[source,subs="attributes"]
-----
-// using Java 6
-java -jar sigtestdev.jar Setup -classpath $JAVA_HOME/jre/lib/rt.jar:validation-api-{validationApiVersion}.jar -package javax.validation -filename validation-api-java6.sig
-
-// using Java 7
-java -jar sigtestdev.jar Setup -classpath $JAVA_HOME/jre/lib/rt.jar:validation-api-{validationApiVersion}.jar -package javax.validation -filename validation-api-java7.sig
-
-// using Java 8
-java -jar sigtestdev.jar Setup -classpath $JAVA_HOME/jre/lib/rt.jar:validation-api-{validationApiVersion}.jar -package javax.validation -filename validation-api-java8.sig
-----
-
-In order to pass the Bean Validation TCK you have to make sure that
-your API passes the signature tests against
-`validation-api.sig.`
-
-==== Running the signature test
-
-To run the signature test use:
-
-[source,subs="attributes"]
-----
-java -jar sigtest.jar Test -classpath $JAVA_HOME/jre/lib/rt.jar:validation-api-{validationApiVersion}.jar -static -package javax.validation -filename validation-api-java8.sig
-----
-
-You have to chose the right version of the signature file depending
-on your Java version. In order to run against your own Bean Validation API
-replace validation-api-{validationApiVersion}.jar with your own API jar. You
-should get the message `"STATUS:Passed."`.
-
-==== Forcing a signature test failure
-
-Just for fun (and to confirm that the signature test is working
-correctly), you can try the following:
-
-1) Edit validation-api-java6.sig
-
-2) Modify one of the class signatures - in the following example we
-change one of the constructors for `ValidationException`
-- here's the original:
-
-[source]
-----
-CLSS public javax.validation.ValidationException
-cons public ValidationException()
-cons public ValidationException(java.lang.String)
-cons public ValidationException(java.lang.String,java.lang.Throwable)
-cons public ValidationException(java.lang.Throwable)
-supr java.lang.RuntimeException
-----
-
-Let's change the default (empty) constructor parameter to one with a
-`java.lang.Integer` parameter instead:
-
-[source]
-----
-CLSS public javax.validation.ValidationException
-cons public ValidationException(java.lang.Integer)
-cons public ValidationException(java.lang.String)
-cons public ValidationException(java.lang.String,java.lang.Throwable)
-cons public ValidationException(java.lang.Throwable)
-supr java.lang.RuntimeException
-----
-
-3) Now when we run the signature test using the above command, we
-should get the following errors:
-
-[source]
-----
-Missing Constructors
---------------------
-
-javax.validation.ValidationException:   constructor public javax.validation.ValidationException.ValidationException(java.lang.Integer)
-
-Added Constructors
-------------------
-
-javax.validation.ValidationException:   constructor public javax.validation.ValidationException.ValidationException()
-
-STATUS:Failed.2 errors
-----
