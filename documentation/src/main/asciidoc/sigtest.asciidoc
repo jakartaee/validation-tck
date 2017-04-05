@@ -5,11 +5,12 @@ One of the requirements of an implementation passing the TCK is for it
 to pass the Bean Validation signature test. This section describes how to run
 it against your implementation as a part of a Maven build.
 
-=== Running signature test
+=== Executing the signature check
 
 The signature file bundled inside this TCK is created using the http://wiki.netbeans.org/SigTest[SigTest Maven plugin].
 The same plugin can be used to run a signature test to check for any incompatibilities.
-Let's take a look how it can be done as a part of Maven build.
+Let's take a look how it can be done as a part of a Maven build.
+Note that there must be no dependency declared for this project besides the API artifact you wish to test.
 
 Before running an actual test you need to obtain the signature file first. It is packaged inside the
 _beanvalidation-tck-tests_ artifact, so we can get it using the `unpack` goal of the `maven-dependency-plugin`
