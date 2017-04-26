@@ -69,8 +69,8 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
@@ -96,8 +96,8 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
@@ -114,8 +114,8 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
@@ -137,8 +137,8 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
@@ -163,8 +163,8 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
@@ -188,8 +188,8 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "a"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "n"),
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "a"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "b"),
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDEFINITION, id = "a")
@@ -211,7 +211,7 @@ public class XmlConfigurationTest extends BaseValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "o")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "p")
 	public void testMappingFilesAddedViaConfigurationGetAddedToXmlConfiguredMappings() {
 		assertFalse(
 				getValidator().getConstraintsForClass( Order.class ).isBeanConstrained(),

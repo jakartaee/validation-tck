@@ -40,7 +40,7 @@ public class ExecutableValidationGloballyDisabledTest extends Arquillian {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "k")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "l")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "q")
 	public void testExecutableValidationGloballyTurnedOff() {
 		Event event = calendar.createEvent( null );

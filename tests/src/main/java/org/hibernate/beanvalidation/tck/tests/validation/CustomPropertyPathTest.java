@@ -58,7 +58,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
 	public void testAddPropertyNode() {
 		Set<ConstraintViolation<Foo>> constraintViolations = getValidator().validate( new Foo() );
 
@@ -75,7 +75,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
 	public void testAddBeanNode() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( new User() );
 
@@ -94,7 +94,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
 	public void testAddingNodesInClassLevelConstraintKeepsInIterableKeyAndIndex() {
 		Set<ConstraintViolation<FooContainer>> constraintViolations = getValidator().validate( new FooContainer() );
 
@@ -128,7 +128,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
 	public void testAddParameterNode() throws Exception {
 		Object[] parameterValues = new Object[] { Collections.emptyMap() };
 
@@ -150,7 +150,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
 	public void testAddParameterNodeUsingCustomParameterNameProvider() throws Exception {
 		ExecutableValidator executableValidator = TestUtil.getConfigurationUnderTest()
 				.parameterNameProvider( new CustomParameterNameProvider() )
@@ -178,7 +178,7 @@ public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
 	}
 
 	@Test(expectedExceptions = Exception.class)
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "an")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
 	public void testAddParameterNodeForFieldLevelConstraintCausesException() throws Throwable {
 		getValidator().validate( new Bar() );
 	}
