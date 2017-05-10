@@ -6,14 +6,29 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
 public class Order {
 	@NotNull(message = "Order number must be specified")
 	Integer orderNumber;
+
+	Map<
+			@Valid @NotNull
+			@ConvertGroup(from = Default.class, to = BasicChecks.class) @ConvertGroup(from = ComplexChecks.class, to = ComplexProductTypeChecks.class)
+			ProductType,
+			@Size(min = 2)
+			List<@NotNull ProductOrderLine>> orderLines;
 
 	public Integer getOrderNumber() {
 		return orderNumber;
@@ -21,5 +36,28 @@ public class Order {
 
 	public void setOrderNumber(Integer orderNumber) {
 		this.orderNumber = orderNumber;
+	}
+
+	public Map<ProductType, List<ProductOrderLine>> getOrderLines() {
+		return orderLines;
+	}
+
+	public void setOrderLines(Map<ProductType, List<ProductOrderLine>> orderLines) {
+		this.orderLines = orderLines;
+	}
+
+	public interface BasicChecks {
+	}
+
+	public interface ComplexChecks {
+	}
+
+	public interface ComplexProductTypeChecks {
+	}
+
+	public static class ProductType {
+	}
+
+	public static class ProductOrderLine {
 	}
 }

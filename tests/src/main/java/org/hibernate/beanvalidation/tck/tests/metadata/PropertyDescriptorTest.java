@@ -13,9 +13,13 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
+import javax.validation.metadata.ContainerElementTypeDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 
@@ -150,5 +154,48 @@ public class PropertyDescriptorTest extends Arquillian {
 
 		assertNotNull( groupConversions );
 		assertTrue( groupConversions.isEmpty() );
+	}
+
+	@Test
+	// FIXME: update spec assertions
+	public void testGetContainerElementTypes() {
+		PropertyDescriptor descriptor = getPropertyDescriptor( Order.class, "orderLines" );
+
+		List<ContainerElementTypeDescriptor> containerElementTypes = descriptor.getContainerElementTypes();
+
+		ContainerElementTypeDescriptor productType = containerElementTypes.get( 0 );
+		assertEquals( productType.getTypeArgumentIndex().intValue(), 0 );
+		assertEquals( productType.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), NotNull.class );
+		assertEquals( productType.getContainerElementTypes().size(), 0 );
+		assertTrue( productType.isCascaded() );
+		assertEquals( productType.getGroupConversions().size(), 2 );
+		for ( GroupConversionDescriptor groupConversionDescriptor : productType.getGroupConversions() ) {
+			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), Order.BasicChecks.class );
+			}
+			else if ( groupConversionDescriptor.getFrom().equals( Order.ComplexChecks.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), Order.ComplexProductTypeChecks.class );
+			}
+			else {
+				fail(
+						String.format(
+								"Encountered unexpected group conversion from %s to %s",
+								groupConversionDescriptor.getFrom().getName(),
+								groupConversionDescriptor.getTo().getName() ) );
+			}
+		}
+
+		ContainerElementTypeDescriptor orderLineList = containerElementTypes.get( 1 );
+		assertEquals( orderLineList.getTypeArgumentIndex().intValue(), 1 );
+		assertEquals( orderLineList.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), Size.class );
+		assertFalse( orderLineList.isCascaded() );
+		assertEquals( orderLineList.getGroupConversions().size(), 0 );
+		assertEquals( orderLineList.getContainerElementTypes().size(), 1 );
+
+		ContainerElementTypeDescriptor orderLine = orderLineList.getContainerElementTypes().get( 0 );
+		assertEquals( orderLine.getTypeArgumentIndex().intValue(), 0 );
+		assertEquals( orderLine.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), NotNull.class );
+		assertEquals( orderLine.getContainerElementTypes().size(), 0 );
+		assertFalse( orderLine.isCascaded() );
 	}
 }
