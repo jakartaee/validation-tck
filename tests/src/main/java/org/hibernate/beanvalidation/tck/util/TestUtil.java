@@ -393,7 +393,9 @@ public final class TestUtil {
 		return new WebArchiveBuilder().withClasses(
 				BaseExecutableValidatorTest.class,
 				BaseValidatorTest.class,
-				WebArchiveBuilder.class
+				WebArchiveBuilder.class,
+				TestUtil.class,
+				ConstraintViolationAssert.class
 		);
 	}
 
