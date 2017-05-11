@@ -3,6 +3,21 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.Beta1 (11-05-2017)
+------------------------
+
+** Improvement
+    * [BVTCK-111] - Dynamically generate the current copyright year
+
+** New Feature
+    * [BVTCK-116] - Add tests for container element constraints metadata support
+    * [BVTCK-114] - Add tests for the support of group conversion for container element types
+
+** Task
+    * [BVTCK-118] - Upgrade referenced version of HV to 6.0.0.Beta1
+    * [BVTCK-112] - Update the tck-audit.xml file and assertion id references to BV 2.0.0.Beta1
+    * [BVTCK-62] - Investigate how signature files could be created as part of the build
+
 2.0.0.Alpha3 (30-03-2017)
 -------------------------
 
