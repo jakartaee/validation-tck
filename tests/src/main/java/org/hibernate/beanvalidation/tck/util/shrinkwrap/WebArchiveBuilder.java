@@ -49,6 +49,7 @@ public class WebArchiveBuilder extends ArchiveBuilder<WebArchiveBuilder, WebArch
 		processClasses( webArchive );
 		processResources( webArchive );
 		processWebInfResources( webArchive );
+		processAdditionalJars( webArchive );
 
 		WebAppDescriptor webAppDescriptor = Descriptors.create( WebAppDescriptor.class )
 				.version( WebAppVersionType._3_0 );
