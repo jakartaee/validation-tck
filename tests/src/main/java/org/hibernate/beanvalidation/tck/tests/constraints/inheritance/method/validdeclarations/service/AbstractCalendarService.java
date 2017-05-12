@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service;
 
 import java.util.Date;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 

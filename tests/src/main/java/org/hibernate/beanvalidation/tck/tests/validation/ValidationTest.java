@@ -28,9 +28,8 @@ import javax.validation.spi.ValidationProvider;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
 import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
@@ -44,11 +43,11 @@ import org.testng.annotations.Test;
  */
 
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidationTest extends Arquillian {
+public class ValidationTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ValidationTest.class )
 				.withClasses( TCKValidationProvider.class, TCKValidatorConfiguration.class )
 				.build();

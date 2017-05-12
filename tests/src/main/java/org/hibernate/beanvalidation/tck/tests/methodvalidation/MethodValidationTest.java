@@ -12,7 +12,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -27,7 +26,7 @@ import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidOrder;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidOrderService;
@@ -52,7 +51,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MethodValidationTest extends BaseExecutableValidatorTest {
+public class MethodValidationTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

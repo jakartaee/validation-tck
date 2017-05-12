@@ -11,7 +11,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstr
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -26,7 +25,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.UnexpectedTypeException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -40,7 +39,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
+public class ValidatorResolutionTest extends AbstractTCKTest{
 
 	@Deployment
 	public static WebArchive createTestArchive() {

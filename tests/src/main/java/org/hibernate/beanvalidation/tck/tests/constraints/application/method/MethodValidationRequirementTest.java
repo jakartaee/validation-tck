@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertNotNull;
 
 import java.lang.reflect.Constructor;
@@ -21,7 +20,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -33,7 +32,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MethodValidationRequirementTest extends BaseExecutableValidatorTest {
+public class MethodValidationRequirementTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

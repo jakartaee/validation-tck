@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternamepro
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -23,7 +22,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ParameterNameProvider;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -35,7 +34,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class DefaultParameterNameProviderTest extends BaseExecutableValidatorTest {
+public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -29,7 +28,7 @@ import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -45,7 +44,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ExpressionLanguageMessageInterpolationTest extends BaseValidatorTest {
+public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest {
 
 	private Locale originalLocale;
 

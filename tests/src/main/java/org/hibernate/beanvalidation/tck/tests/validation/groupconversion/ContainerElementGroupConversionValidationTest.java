@@ -11,7 +11,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.Co
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -28,7 +27,7 @@ import javax.validation.Path;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -40,7 +39,7 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ContainerElementGroupConversionValidationTest extends BaseExecutableValidatorTest {
+public class ContainerElementGroupConversionValidationTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

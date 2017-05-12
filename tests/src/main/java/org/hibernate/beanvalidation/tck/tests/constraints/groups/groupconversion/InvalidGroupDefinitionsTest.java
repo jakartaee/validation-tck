@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
 import javax.validation.ConstraintDeclarationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.User;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationConstructorParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionButWithoutValidAnnotationOnConstructorReturnValue;
@@ -44,7 +42,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidGroupDefinitionsTest extends BaseExecutableValidatorTest {
+public class InvalidGroupDefinitionsTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

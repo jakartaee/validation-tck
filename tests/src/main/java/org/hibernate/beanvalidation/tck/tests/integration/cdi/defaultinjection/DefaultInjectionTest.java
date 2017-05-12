@@ -20,10 +20,9 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
@@ -34,7 +33,7 @@ import org.testng.annotations.Test;
  */
 @IntegrationTest
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class DefaultInjectionTest extends Arquillian {
+public class DefaultInjectionTest extends AbstractTCKTest {
 
 	@Inject
 	private ValidatorFactory defaultValidatorFactory;
@@ -52,7 +51,7 @@ public class DefaultInjectionTest extends Arquillian {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClassPackage( DefaultInjectionTest.class )
 				.withValidationXml( "validation-DefaultInjectionTest.xml" )
 				.withEmptyBeansXml()

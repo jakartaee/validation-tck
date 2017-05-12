@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.in
 
 import java.util.Date;
 import java.util.List;
+
 import javax.validation.Valid;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;

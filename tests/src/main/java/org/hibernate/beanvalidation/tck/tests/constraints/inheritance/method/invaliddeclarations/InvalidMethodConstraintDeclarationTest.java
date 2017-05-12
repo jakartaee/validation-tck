@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
@@ -16,7 +15,7 @@ import java.util.List;
 import javax.validation.ConstraintDeclarationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Order;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.AbstractCalendarService;
@@ -41,7 +40,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidMethodConstraintDeclarationTest extends BaseExecutableValidatorTest {
+public class InvalidMethodConstraintDeclarationTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

@@ -25,9 +25,8 @@ import javax.validation.groups.Default;
 import javax.validation.metadata.ConstraintDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
@@ -37,11 +36,11 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ConstraintDescriptorTest extends Arquillian {
+public class ConstraintDescriptorTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( ConstraintDescriptorTest.class )
 				.withClasses(
 						Order.class,
