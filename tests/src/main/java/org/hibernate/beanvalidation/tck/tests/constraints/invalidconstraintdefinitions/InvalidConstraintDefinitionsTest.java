@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.invalidconstraintdefinitions;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
@@ -15,7 +14,7 @@ import java.util.Date;
 import javax.validation.ConstraintDefinitionException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -27,7 +26,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class InvalidConstraintDefinitionsTest extends BaseExecutableValidatorTest {
+public class InvalidConstraintDefinitionsTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

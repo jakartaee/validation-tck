@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.common;
 
 import java.io.InputStream;
+
 import javax.validation.BootstrapConfiguration;
 import javax.validation.ClockProvider;
 import javax.validation.Configuration;

@@ -42,10 +42,9 @@ import javax.validation.constraints.Size;
 import javax.validation.metadata.ConstraintDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
@@ -56,11 +55,11 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MessageInterpolationTest extends Arquillian {
+public class MessageInterpolationTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( MessageInterpolationTest.class )
 				.withResource( "ValidationMessages.properties", "ValidationMessages.properties", true )
 				.withResource( "ValidationMessages_de.properties", "ValidationMessages_de.properties", true )

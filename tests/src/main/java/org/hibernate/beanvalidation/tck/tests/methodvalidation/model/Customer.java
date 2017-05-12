@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
 import java.util.Date;
+
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 

@@ -7,7 +7,6 @@
 package org.hibernate.beanvalidation.tck.tests.validation;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.util.Set;
 
@@ -16,7 +15,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -27,7 +26,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class GetterDefinitionTest extends BaseValidatorTest {
+public class GetterDefinitionTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

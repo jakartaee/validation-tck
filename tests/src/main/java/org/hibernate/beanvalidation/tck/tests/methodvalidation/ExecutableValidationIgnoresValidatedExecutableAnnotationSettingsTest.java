@@ -11,7 +11,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNo
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,7 +21,7 @@ import javax.validation.ElementKind;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidLineItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidWarehouseItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.LineItem;
@@ -38,7 +37,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTest extends BaseExecutableValidatorTest {
+public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

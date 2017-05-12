@@ -9,6 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
+import javax.validation.ClockProvider;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -36,13 +38,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Past;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.time.FixedClockProvider;
-import org.hibernate.beanvalidation.tck.tests.time.FutureDummyEntity;
-import org.hibernate.beanvalidation.tck.tests.time.FutureRelativePartialDummyEntity;
-import org.hibernate.beanvalidation.tck.tests.time.PastDummyEntity;
-import org.hibernate.beanvalidation.tck.tests.time.PastRelativePartialDummyEntity;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -56,13 +53,13 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class FuturePastConstraintsTest {
+public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	private static final ZoneId TZ_BERLIN = ZoneId.of( "Europe/Berlin" );
 
 	@Deployment
 	public static WebArchive createTestArchive() {
-		return new WebArchiveBuilder()
+		return webArchiveBuilder()
 				.withTestClass( FuturePastConstraintsTest.class )
 				.build();
 	}
@@ -359,6 +356,69 @@ public class FuturePastConstraintsTest {
 		);
 	}
 
+	public class PastDummyEntity {
+
+		@Past
+		private Calendar calendar;
+
+		@Past
+		private Date date;
+
+		@Past
+		private HijrahDate hijrahDate;
+
+		@Past
+		private Instant instant;
+
+		@Past
+		private JapaneseDate japaneseDate;
+
+		@Past
+		private LocalDate localDate;
+
+		@Past
+		private LocalDateTime localDateTime;
+
+		@Past
+		private MinguoDate minguoDate;
+
+		@Past
+		private OffsetDateTime offsetDateTime;
+
+		@Past
+		private ThaiBuddhistDate thaiBuddhistDate;
+
+		@Past
+		private Year year;
+
+		@Past
+		private YearMonth yearMonth;
+
+		@Past
+		private ZonedDateTime zonedDateTime;
+
+		public PastDummyEntity() {
+		}
+
+		public PastDummyEntity(ZonedDateTime dateTime) {
+			calendar = GregorianCalendar.from( dateTime );
+			date = calendar.getTime();
+
+			instant = dateTime.toInstant();
+			localDateTime = dateTime.toLocalDateTime();
+
+			hijrahDate = HijrahDate.from( dateTime );
+			japaneseDate = JapaneseDate.from( dateTime );
+			localDate = LocalDate.from( dateTime );
+			minguoDate = MinguoDate.from( dateTime );
+			offsetDateTime = dateTime.toOffsetDateTime();
+			thaiBuddhistDate = ThaiBuddhistDate.from( dateTime );
+			year = Year.from( dateTime );
+			yearMonth = YearMonth.from( dateTime );
+			zonedDateTime = dateTime;
+		}
+	}
+
 	private static class PastOrPresentDummyEntity {
 
 		@Past(orPresent = true)
@@ -422,6 +482,28 @@ public class FuturePastConstraintsTest {
 		}
 	}
 
+	public class PastRelativePartialDummyEntity {
+
+		@Past
+		private LocalTime localTime;
+
+		@Past
+		private MonthDay monthDay;
+
+		@Past
+		private OffsetTime offsetTime;
+
+		public PastRelativePartialDummyEntity() {
+		}
+
+		public PastRelativePartialDummyEntity(ZonedDateTime dateTime) {
+			localTime = dateTime.toLocalTime();
+			monthDay = MonthDay.from( dateTime );
+			offsetTime = OffsetTime.from( dateTime );
+		}
+	}
+
+
 	private static class PastOrPresentRelativePartialDummyEntity {
 
 		@Past(orPresent = true)
@@ -440,6 +522,69 @@ public class FuturePastConstraintsTest {
 			localTime = dateTime.toLocalTime();
 			monthDay = MonthDay.from( dateTime );
 			offsetTime = OffsetTime.from( dateTime );
+		}
+	}
+
+	public class FutureDummyEntity {
+
+		@Future
+		private Calendar calendar;
+
+		@Future
+		private Date date;
+
+		@Future
+		private HijrahDate hijrahDate;
+
+		@Future
+		private Instant instant;
+
+		@Future
+		private JapaneseDate japaneseDate;
+
+		@Future
+		private LocalDate localDate;
+
+		@Future
+		private LocalDateTime localDateTime;
+
+		@Future
+		private MinguoDate minguoDate;
+
+		@Future
+		private OffsetDateTime offsetDateTime;
+
+		@Future
+		private ThaiBuddhistDate thaiBuddhistDate;
+
+		@Future
+		private Year year;
+
+		@Future
+		private YearMonth yearMonth;
+
+		@Future
+		private ZonedDateTime zonedDateTime;
+
+		public FutureDummyEntity() {
+		}
+
+		public FutureDummyEntity(ZonedDateTime dateTime) {
+			calendar = GregorianCalendar.from( dateTime );
+			date = calendar.getTime();
+
+			instant = dateTime.toInstant();
+			localDateTime = dateTime.toLocalDateTime();
+
+			hijrahDate = HijrahDate.from( dateTime );
+			japaneseDate = JapaneseDate.from( dateTime );
+			localDate = LocalDate.from( dateTime );
+			minguoDate = MinguoDate.from( dateTime );
+			offsetDateTime = dateTime.toOffsetDateTime();
+			thaiBuddhistDate = ThaiBuddhistDate.from( dateTime );
+			year = Year.from( dateTime );
+			yearMonth = YearMonth.from( dateTime );
+			zonedDateTime = dateTime;
 		}
 	}
 
@@ -506,6 +651,27 @@ public class FuturePastConstraintsTest {
 		}
 	}
 
+	public class FutureRelativePartialDummyEntity {
+
+		@Future
+		private LocalTime localTime;
+
+		@Future
+		private MonthDay monthDay;
+
+		@Future
+		private OffsetTime offsetTime;
+
+		public FutureRelativePartialDummyEntity() {
+		}
+
+		public FutureRelativePartialDummyEntity(ZonedDateTime dateTime) {
+			localTime = dateTime.toLocalTime();
+			monthDay = MonthDay.from( dateTime );
+			offsetTime = OffsetTime.from( dateTime );
+		}
+	}
+
 	private static class FutureOrPresentRelativePartialDummyEntity {
 
 		@Future(orPresent = true)
@@ -527,4 +693,18 @@ public class FuturePastConstraintsTest {
 		}
 	}
 
+	private static class FixedClockProvider implements ClockProvider {
+
+		private final Clock clock;
+
+		public FixedClockProvider(ZonedDateTime dateTime) {
+			clock = Clock.fixed( dateTime.toInstant(), dateTime.getZone() );
+		}
+
+		@Override
+		public Clock getClock() {
+			return clock;
+		}
+
+	}
 }

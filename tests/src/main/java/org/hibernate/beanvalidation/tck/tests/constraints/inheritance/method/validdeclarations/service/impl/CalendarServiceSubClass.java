@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl;
 
 import java.util.Date;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

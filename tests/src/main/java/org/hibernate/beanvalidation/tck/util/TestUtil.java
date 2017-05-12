@@ -6,6 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+import static org.testng.FileAssert.fail;
+
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -17,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
@@ -33,15 +39,6 @@ import javax.validation.metadata.ElementDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 import javax.validation.metadata.PropertyDescriptor;
 import javax.validation.spi.ValidationProvider;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import static org.testng.FileAssert.fail;
-
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
-import org.hibernate.beanvalidation.tck.tests.BaseValidatorTest;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 
 /**
  * @author Hardy Ferentschik
@@ -387,16 +384,6 @@ public final class TestUtil {
 			inputStream = TestUtil.class.getResourceAsStream( path );
 		}
 		return inputStream;
-	}
-
-	public static WebArchiveBuilder webArchiveBuilder() {
-		return new WebArchiveBuilder().withClasses(
-				BaseExecutableValidatorTest.class,
-				BaseValidatorTest.class,
-				WebArchiveBuilder.class,
-				TestUtil.class,
-				ConstraintViolationAssert.class
-		);
 	}
 
 	private static <U extends ValidationProvider<?>> void instantiateValidationProviderUnderTest() {

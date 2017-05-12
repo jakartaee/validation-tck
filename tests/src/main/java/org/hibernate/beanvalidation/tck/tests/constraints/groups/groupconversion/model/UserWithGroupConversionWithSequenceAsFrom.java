@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model;
 
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.groups.ConvertGroup;
 

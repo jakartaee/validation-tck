@@ -10,7 +10,6 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumber
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
@@ -26,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -38,7 +37,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class GroupConversionValidationTest extends BaseExecutableValidatorTest {
+public class GroupConversionValidationTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

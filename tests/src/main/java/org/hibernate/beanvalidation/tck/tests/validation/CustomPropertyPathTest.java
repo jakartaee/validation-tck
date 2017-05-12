@@ -10,7 +10,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainOnlyPaths;
 import static org.hibernate.beanvalidation.tck.util.PathUtil.pathWith;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.webArchiveBuilder;
 
 import java.lang.annotation.Retention;
 import java.util.Arrays;
@@ -32,7 +31,7 @@ import javax.validation.constraintvalidation.ValidationTarget;
 import javax.validation.executable.ExecutableValidator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.BaseExecutableValidatorTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.PathUtil;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -45,7 +44,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class CustomPropertyPathTest extends BaseExecutableValidatorTest {
+public class CustomPropertyPathTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {

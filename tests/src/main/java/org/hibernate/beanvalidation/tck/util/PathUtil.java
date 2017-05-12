@@ -6,16 +6,17 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.Path;
-
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
 
 /**
  * Provides assertion methods for property paths.
