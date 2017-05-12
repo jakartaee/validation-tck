@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.container.ClassContainer;
+import org.jboss.shrinkwrap.api.container.LibraryContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.impl.base.URLPackageScanner;
 
 /**
@@ -36,6 +39,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	protected List<String> packages = null;
 	protected List<String> classes = null;
 	protected List<ServiceProviderDescriptor> serviceProviders = null;
+	protected List<JavaArchive> additionalJars = null;
 
 	public T withName(String name) {
 		this.name = name;
@@ -136,6 +140,18 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 
 	public abstract T withEmptyBeansXml();
 
+	public T withAdditionalJar(String jarName, String... packages) {
+		if ( additionalJars == null ) {
+			additionalJars = new ArrayList<>();
+		}
+
+		JavaArchive archive = ShrinkWrap.create( JavaArchive.class, "arquillian-" + jarName )
+				.addPackages( true, packages );
+		additionalJars.add( archive );
+
+		return self();
+	}
+
 	/**
 	 * @return self to enable generic builder
 	 */
@@ -219,6 +235,16 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 			else if ( resource.getAsset() != null ) {
 				archive.addAsResource( resource.getAsset(), resource.getTarget() );
 			}
+		}
+	}
+
+	protected void processAdditionalJars(LibraryContainer<?> archive) {
+		if ( additionalJars == null ) {
+			return;
+		}
+
+		for ( JavaArchive additionalJar : additionalJars ) {
+			archive.addAsLibrary( additionalJar );
 		}
 	}
 

@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.ConstraintViolationSetAssert.assertContainsOnlyPaths;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
@@ -56,7 +56,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidMainAddress() );
 
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "mainAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -79,7 +79,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				registeredAddressesWithInvalidPreferredShipmentAddress
 		);
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "preferredShipmentAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -94,7 +94,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				Complex.class
 		);
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 					.property( "preferredShipmentAddresses" )
 					.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -107,7 +107,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				Complex.class
 		);
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "preferredShipmentAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -127,7 +127,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				Complete.class
 		);
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "preferredShipmentAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -149,7 +149,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	public void testGroupConversionIsAppliedOnProperty() {
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidShipmentAddress() );
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "shipmentAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -260,7 +260,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	public void testGroupConversionIsNotExecutedRecursively() {
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidOfficeAddress() );
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "officeAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -276,7 +276,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				BasicPostal.class
 		);
 
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "officeAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -295,7 +295,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 
 		registeredAddresses.getWeekendAddresses().get( TestRegisteredAddresses.REFERENCE_YEAR ).get( 0 ).setDoorCode( "ABC" );
 		constraintViolations = getValidator().validate( registeredAddresses );
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "weekendAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
@@ -304,7 +304,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 
 		registeredAddresses.getWeekendAddresses().get( TestRegisteredAddresses.REFERENCE_YEAR ).get( 0 ).setStreet1( null );
 		constraintViolations = getValidator().validate( registeredAddresses );
-		assertContainsOnlyPaths( constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "weekendAddresses" )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )

@@ -28,7 +28,9 @@ public abstract class AbstractTCKTest extends Arquillian {
 	private ExecutableValidator executableValidator;
 
 	protected static WebArchiveBuilder webArchiveBuilder() {
-		return new WebArchiveBuilder().withClasses(
+		WebArchiveBuilder webArchiveBuilder = new WebArchiveBuilder();
+
+		webArchiveBuilder.withClasses(
 				ArchiveBuilder.class,
 				WebArchiveBuilder.class,
 				AbstractTCKTest.class,
@@ -37,6 +39,14 @@ public abstract class AbstractTCKTest extends Arquillian {
 				PathNodeNames.class,
 				ConstraintViolationAssert.class
 		);
+
+		// we don't use the Maven features of Shrinkwrap as the TCK might not be run with Maven
+		// or it could be run in an offline environment
+		// thus we directly include the classes from the classpath
+		webArchiveBuilder
+				.withAdditionalJar( "assertj-core.jar", "org.assertj.core" );
+
+		return webArchiveBuilder;
 	}
 
 	protected Validator getValidator() {

@@ -6,18 +6,18 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ElementKind;
 import javax.validation.Path;
+
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.IterableAssert;
 
 /**
  * This class provides useful functions to assert correctness of constraint violations raised
@@ -45,29 +45,37 @@ public final class ConstraintViolationAssert {
 	private ConstraintViolationAssert() {
 	}
 
+	public static ConstraintViolationSetAssert assertThat(Set<? extends ConstraintViolation<?>> actualViolations) {
+		return new ConstraintViolationSetAssert( actualViolations );
+	}
+
 	public static PathExpectation pathWith() {
 		return new PathExpectation();
 	}
 
-	public static class ConstraintViolationSetAssert {
+	public static class ConstraintViolationSetAssert extends IterableAssert<ConstraintViolation<?>> {
 
-		public static void assertContainsOnlyPaths(Set<? extends ConstraintViolation<?>> actualViolations, PathExpectation... paths) {
-			assertNotNull( paths );
+		protected ConstraintViolationSetAssert(Set<? extends ConstraintViolation<?>> actualViolations) {
+			super( actualViolations );
+		}
+
+		public void containsOnlyPaths(PathExpectation... paths) {
+			isNotNull();
 
 			List<PathExpectation> actualPaths = new ArrayList<>();
 
-			for ( ConstraintViolation<?> violation : actualViolations ) {
+			for ( ConstraintViolation<?> violation : actual ) {
 				actualPaths.add( new PathExpectation( violation.getPropertyPath() ) );
 			}
 
-			assertContainsOnly( actualPaths, paths );
+			Assertions.assertThat( actualPaths ).containsOnly( paths );
 		}
 
-		public static void assertContainsPath(Set<? extends ConstraintViolation<?>> actualViolations, PathExpectation expectedPath) {
-			assertNotNull( expectedPath );
+		public void containsPath(PathExpectation expectedPath) {
+			isNotNull();
 
 			List<PathExpectation> actualPaths = new ArrayList<>();
-			for ( ConstraintViolation<?> violation : actualViolations ) {
+			for ( ConstraintViolation<?> violation : actual ) {
 				PathExpectation actual = new PathExpectation( violation.getPropertyPath() );
 				if ( actual.equals( expectedPath ) ) {
 					return;
@@ -78,30 +86,11 @@ public final class ConstraintViolationAssert {
 			fail( String.format( "Didn't find path <%s> in actual paths <%s>.", expectedPath, actualPaths ) );
 		}
 
-		public static void assertContainsPaths(Set<? extends ConstraintViolation<?>> actualViolations, PathExpectation... expectedPaths) {
+		public void containsPaths(PathExpectation... expectedPaths) {
 			for ( PathExpectation pathExpectation : expectedPaths ) {
-				assertContainsPath( actualViolations, pathExpectation );
+				containsPath( pathExpectation );
 			}
 		}
-	}
-
-	private static void assertContainsOnly(Collection<?> actual, Object[] expected) {
-		assertNotNull( actual );
-		assertNotNull( expected );
-
-		if ( expected.length == actual.size() ) {
-			boolean equal = true;
-			for ( Object expectedElement : expected ) {
-				if ( !actual.contains( expectedElement ) ) {
-					equal = false;
-				}
-			}
-			if ( equal ) {
-				return;
-			}
-		}
-
-		fail( String.format( "Should only contain the expected element: <%s>. Actual: <%s>.", Arrays.toString( expected ), actual ) );
 	}
 
 	/**
