@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.fail;
 
 import java.util.Set;
@@ -59,7 +59,7 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
 		assertConstraintViolation( violation, Address.class, null, "zipcode" );
@@ -69,7 +69,7 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 
 		// now the second group in the re-defined default group causes an error
 		constraintViolations = validator.validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		violation = constraintViolations.iterator().next();
 		assertConstraintViolation( violation, Address.class, address, "" );
@@ -87,19 +87,19 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		// if the group sequence would not be properly redefined there would be no error when validating default.
 
 		Set<ConstraintViolation<Car>> constraintViolations = validator.validate( car );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "Car type has to be between 2 and 20 characters."
 		);
 
 		constraintViolations = validator.validateProperty( car, "type" );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "Car type has to be between 2 and 20 characters."
 		);
 
 		constraintViolations = validator.validateValue( Car.class, "type", "A" );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "Car type has to be between 2 and 20 characters."
 		);

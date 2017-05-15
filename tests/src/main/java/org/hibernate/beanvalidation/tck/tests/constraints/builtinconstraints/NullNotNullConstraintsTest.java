@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 
 import java.util.Set;
 
@@ -49,7 +49,7 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 		Object foo = new Object();
 		dummy.setProperty( foo );
 		Set<ConstraintViolation<NullDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		assertConstraintViolation(
 				constraintViolations.iterator().next(), NullDummyEntity.class, foo, "property"
@@ -57,7 +57,7 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 
 		dummy.setProperty( null );
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -67,14 +67,14 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NotNullDummyEntity dummy = new NotNullDummyEntity();
 		Set<ConstraintViolation<NotNullDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(), NotNullDummyEntity.class, null, "property"
 		);
 
 		dummy.setProperty( new Object() );
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	private static class NullDummyEntity {

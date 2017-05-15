@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertFalse;
 
 import java.util.Locale;
@@ -74,7 +74,7 @@ public class CustomMessageInterpolatorTest extends AbstractTCKTest {
 		person.setPersonalNumber( 1234567890l );
 
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( person );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "my custom message" );
 	}
 

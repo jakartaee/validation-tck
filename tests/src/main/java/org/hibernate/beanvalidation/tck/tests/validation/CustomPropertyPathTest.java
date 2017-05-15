@@ -7,8 +7,8 @@
 package org.hibernate.beanvalidation.tck.tests.validation;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.PathUtil.assertViolationsContainOnlyPaths;
-import static org.hibernate.beanvalidation.tck.util.PathUtil.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 
 import java.lang.annotation.Retention;
@@ -32,7 +32,6 @@ import javax.validation.executable.ExecutableValidator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.util.PathUtil;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -51,8 +50,7 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		return webArchiveBuilder()
 				.withTestClass( CustomPropertyPathTest.class )
 				.withClasses(
-						CustomParameterNameProvider.class,
-						PathUtil.class
+						CustomParameterNameProvider.class
 				).build();
 	}
 
@@ -62,8 +60,7 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Foo>> constraintViolations = getValidator().validate( new Foo() );
 
 		//violated constraint is class-level, thus the paths start with the first added sub-node
-		assertViolationsContainOnlyPaths(
-				constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith().property( "myNode1" ),
 				pathWith().property( "myNode2" ).property( "myNode3" ),
 				pathWith().property( "myNode4" ).property( "myNode5", true, null, null ),
@@ -79,8 +76,7 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( new User() );
 
 		//violated constraint is property-level, thus the paths start with that property
-		assertViolationsContainOnlyPaths(
-				constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith().property( "address" ).bean(),
 				pathWith().property( "address" ).property( "myNode1" ).bean(),
 				pathWith().property( "address" ).property( "myNode2", true, null, null ).bean(),
@@ -97,32 +93,31 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	public void testAddingNodesInClassLevelConstraintKeepsInIterableKeyAndIndex() {
 		Set<ConstraintViolation<FooContainer>> constraintViolations = getValidator().validate( new FooContainer() );
 
-		assertViolationsContainOnlyPaths(
-				constraintViolations,
-				pathWith().property( "fooList" ).property( "myNode1", true, null, 1 ),
-				pathWith().property( "fooList" ).property( "myNode2", true, null, 1 ).property( "myNode3" ),
-				pathWith().property( "fooList" ).property( "myNode4", true, null, 1 ).property( "myNode5", true, null, null ),
-				pathWith().property( "fooList" ).property( "myNode6", true, null, 1 ).property( "myNode7", true, null, 42 ),
-				pathWith().property( "fooList" ).property( "myNode8", true, null, 1 ).property( "myNode9", true, "Foo", null ),
-				pathWith().property( "fooList" ).property( "myNode10", true, null, 1 ).property( "myNode11", true, null, null ).property( "myNode12" ),
-				pathWith().property( "fooArray" ).property( "myNode1", true, null, 1 ),
-				pathWith().property( "fooArray" ).property( "myNode2", true, null, 1 ).property( "myNode3" ),
-				pathWith().property( "fooArray" ).property( "myNode4", true, null, 1 ).property( "myNode5", true, null, null ),
-				pathWith().property( "fooArray" ).property( "myNode6", true, null, 1 ).property( "myNode7", true, null, 42 ),
-				pathWith().property( "fooArray" ).property( "myNode8", true, null, 1 ).property( "myNode9", true, "Foo", null ),
-				pathWith().property( "fooArray" ).property( "myNode10", true, null, 1 ).property( "myNode11", true, null, null ).property( "myNode12" ),
-				pathWith().property( "fooSet" ).property( "myNode1", true, null, null ),
-				pathWith().property( "fooSet" ).property( "myNode2", true, null, null ).property( "myNode3" ),
-				pathWith().property( "fooSet" ).property( "myNode4", true, null, null ).property( "myNode5", true, null, null ),
-				pathWith().property( "fooSet" ).property( "myNode6", true, null, null ).property( "myNode7", true, null, 42 ),
-				pathWith().property( "fooSet" ).property( "myNode8", true, null, null ).property( "myNode9", true, "Foo", null ),
-				pathWith().property( "fooSet" ).property( "myNode10", true, null, null ).property( "myNode11", true, null, null ).property( "myNode12" ),
-				pathWith().property( "fooMap" ).property( "myNode1", true, "MapKey", null ),
-				pathWith().property( "fooMap" ).property( "myNode2", true, "MapKey", null ).property( "myNode3" ),
-				pathWith().property( "fooMap" ).property( "myNode4", true, "MapKey", null ).property( "myNode5", true, null, null ),
-				pathWith().property( "fooMap" ).property( "myNode6", true, "MapKey", null ).property( "myNode7", true, null, 42 ),
-				pathWith().property( "fooMap" ).property( "myNode8", true, "MapKey", null ).property( "myNode9", true, "Foo", null ),
-				pathWith().property( "fooMap" ).property( "myNode10", true, "MapKey", null ).property( "myNode11", true, null, null ).property( "myNode12" )
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith().property( "fooList" ).property( "myNode1", true, null, 1, List.class, 0 ),
+				pathWith().property( "fooList" ).property( "myNode2", true, null, 1, List.class, 0 ).property( "myNode3" ),
+				pathWith().property( "fooList" ).property( "myNode4", true, null, 1, List.class, 0 ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooList" ).property( "myNode6", true, null, 1, List.class, 0 ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooList" ).property( "myNode8", true, null, 1, List.class, 0 ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooList" ).property( "myNode10", true, null, 1, List.class, 0 ).property( "myNode11", true, null, null ).property( "myNode12" ),
+				pathWith().property( "fooArray" ).property( "myNode1", true, null, 1, Object[].class, null ),
+				pathWith().property( "fooArray" ).property( "myNode2", true, null, 1, Object[].class, null ).property( "myNode3" ),
+				pathWith().property( "fooArray" ).property( "myNode4", true, null, 1, Object[].class, null ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooArray" ).property( "myNode6", true, null, 1, Object[].class, null ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooArray" ).property( "myNode8", true, null, 1, Object[].class, null ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooArray" ).property( "myNode10", true, null, 1, Object[].class, null ).property( "myNode11", true, null, null ).property( "myNode12" ),
+				pathWith().property( "fooSet" ).property( "myNode1", true, null, null, Iterable.class, 0 ),
+				pathWith().property( "fooSet" ).property( "myNode2", true, null, null, Iterable.class, 0 ).property( "myNode3" ),
+				pathWith().property( "fooSet" ).property( "myNode4", true, null, null, Iterable.class, 0 ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooSet" ).property( "myNode6", true, null, null, Iterable.class, 0 ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooSet" ).property( "myNode8", true, null, null, Iterable.class, 0 ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooSet" ).property( "myNode10", true, null, null, Iterable.class, 0 ).property( "myNode11", true, null, null ).property( "myNode12" ),
+				pathWith().property( "fooMap" ).property( "myNode1", true, "MapKey", null, Map.class, 1 ),
+				pathWith().property( "fooMap" ).property( "myNode2", true, "MapKey", null, Map.class, 1 ).property( "myNode3" ),
+				pathWith().property( "fooMap" ).property( "myNode4", true, "MapKey", null, Map.class, 1 ).property( "myNode5", true, null, null ),
+				pathWith().property( "fooMap" ).property( "myNode6", true, "MapKey", null, Map.class, 1 ).property( "myNode7", true, null, 42 ),
+				pathWith().property( "fooMap" ).property( "myNode8", true, "MapKey", null, Map.class, 1 ).property( "myNode9", true, "Foo", null ),
+				pathWith().property( "fooMap" ).property( "myNode10", true, "MapKey", null, Map.class, 1 ).property( "myNode11", true, null, null ).property( "myNode12" )
 		);
 	}
 
@@ -137,8 +132,7 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertViolationsContainOnlyPaths(
-				constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith().method( "setAddresses" ).parameter( "addresses", 0 ),
 				pathWith().method( "setAddresses" ).parameter( "addresses", 0 ).bean(),
 				pathWith().method( "setAddresses" )
@@ -165,8 +159,7 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		);
 
 
-		assertViolationsContainOnlyPaths(
-				constraintViolations,
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith().method( "setAddresses" ).parameter( "param0", 0 ),
 				pathWith().method( "setAddresses" ).parameter( "param0", 0 ).bean(),
 				pathWith().method( "setAddresses" )

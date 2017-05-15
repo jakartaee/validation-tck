@@ -6,8 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -30,7 +31,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.val
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceImplementation;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.CalendarServiceSubClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.service.impl.ImplementationOfParallelInterfacesMarkingReturnValueAsCascaded;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -100,11 +100,11 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertNodeNames(
-				violations.iterator().next().getPropertyPath(),
-				"createEvent",
-				TestUtil.RETURN_VALUE_NODE_NAME,
-				"name"
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( "createEvent" )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -159,11 +159,11 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertNodeNames(
-				violations.iterator().next().getPropertyPath(),
-				"createEvent",
-				TestUtil.RETURN_VALUE_NODE_NAME,
-				"name"
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( "createEvent" )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -193,11 +193,11 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertNodeNames(
-				violations.iterator().next().getPropertyPath(),
-				"CalendarServiceSubClass",
-				"defaultEvent",
-				"name"
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( CalendarServiceSubClass.class )
+						.parameter( "defaultEvent", 0 )
+						.property( "name" )
 		);
 	}
 
@@ -214,10 +214,10 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 
 		//only the constraint on the sub-type constructor should be validated
 		assertCorrectConstraintTypes( violations, ValidCalendarServiceSubClass.class );
-		assertNodeNames(
-				violations.iterator().next().getPropertyPath(),
-				"CalendarServiceSubClass",
-				TestUtil.RETURN_VALUE_NODE_NAME
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( CalendarServiceSubClass.class )
+						.returnValue()
 		);
 	}
 
@@ -233,11 +233,11 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Min.class );
-		assertNodeNames(
-				violations.iterator().next().getPropertyPath(),
-				"CalendarServiceSubClass",
-				TestUtil.RETURN_VALUE_NODE_NAME,
-				"mode"
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( CalendarServiceSubClass.class )
+						.returnValue()
+						.property( "mode" )
 		);
 	}
 
@@ -255,11 +255,11 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertNodeNames(
-				violations.iterator().next().getPropertyPath(),
-				"createEvent",
-				TestUtil.RETURN_VALUE_NODE_NAME,
-				"name"
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( "createEvent" )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 

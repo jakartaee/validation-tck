@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequenceisolation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.util.Set;
 
@@ -56,22 +56,22 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		// - @SafeEncryption on encryptionKey
 		// note that @Max on size is not validated as it's not part of the sequence nor the group A
 		Set<ConstraintViolation<B1>> violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
 
 		b.name = "Jonathan";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
 
 		b.nickname = "Jon";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, SafeEncryption.class );
 
 		b.encryptionKey = "secret";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test
@@ -91,27 +91,27 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		//  - @Size on name and @Size on nickname (A is part of B)
 		//  - @SafeEncryption on encryptionKey
 		Set<ConstraintViolation<B2>> violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Max.class );
 
 		b.size = 10;
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
 
 		b.name = "Jonathan";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
 
 		b.nickname = "Jon";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, SafeEncryption.class );
 
 		b.encryptionKey = "secret";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test
@@ -125,25 +125,25 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		b.encryptionKey = "not safe";
 
 		Set<ConstraintViolation<B3>> violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Max.class, Size.class );
 		assertCorrectPropertyPaths( violations, "size", "nickname" );
 
 		b.nickname = "nick";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Max.class );
 		assertCorrectPropertyPaths( violations, "size" );
 
 		b.size = 10;
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPropertyPaths( violations, "name" );
 
 		b.nickname = "and this nickname as well";
 		violations = validator.validate( b );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
 		assertCorrectPropertyPaths( violations, "name", "nickname" );
 	}
@@ -159,25 +159,25 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		c.d.encryptionKey = "not safe";
 
 		Set<ConstraintViolation<C>> violations = validator.validate( c );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Max.class, Size.class );
 		assertCorrectPropertyPaths( violations, "size", "d.nickname" );
 
 		c.size = 10;
 		violations = validator.validate( c );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
 		assertCorrectPropertyPaths( violations, "name", "d.nickname" );
 
 		c.d.nickname = "Jon";
 		violations = validator.validate( c );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPropertyPaths( violations, "name" );
 
 		c.name = "Johnatan";
 		violations = validator.validate( c );
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test
@@ -193,30 +193,30 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 
 
 		Set<ConstraintViolation<E>> violations = validator.validate( e );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Max.class, Size.class );
 		assertCorrectPropertyPaths( violations, "size", "f.nickname" );
 
 		e.size = 10;
 		violations = validator.validate( e );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
 		assertCorrectPropertyPaths( violations, "name", "f.nickname" );
 
 		e.f.nickname = "Jon";
 		violations = validator.validate( e );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, IsAdult.class );
 		assertCorrectPropertyPaths( violations, "name", "f.age" );
 
 		e.f.age = 18;
 		violations = validator.validate( e );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
 		assertCorrectPropertyPaths( violations, "name" );
 
 		e.name = "Johnatan";
 		violations = validator.validate( e );
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 }

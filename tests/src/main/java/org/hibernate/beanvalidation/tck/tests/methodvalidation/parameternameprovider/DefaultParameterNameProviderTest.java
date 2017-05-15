@@ -7,7 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -55,7 +55,7 @@ public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator()
 				.validateParameters( object, method, parameters );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Set<String> actualParameterNames = getParameterNames( constraintViolations );
 		Set<String> expectedParameterNames = asSet( "firstName", "lastName" );
@@ -75,7 +75,7 @@ public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<User>> constraintViolations = getExecutableValidator()
 				.validateConstructorParameters( constructor, parameters );
-		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertNumberOfViolations( constraintViolations, 3 );
 
 		Set<String> actualParameterNames = getParameterNames( constraintViolations );
 		Set<String> expectedParameterNames = asSet( "firstName", "lastName", "dateOfBirth" );

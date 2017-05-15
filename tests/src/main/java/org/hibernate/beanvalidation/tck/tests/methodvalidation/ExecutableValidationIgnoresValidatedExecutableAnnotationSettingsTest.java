@@ -6,18 +6,15 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -26,7 +23,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidL
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidWarehouseItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.LineItem;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.WarehouseItem;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -66,8 +62,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "name" ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.PARAMETER ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().method( methodName ).parameter( "name", 0 )
+		);
 	}
 
 	@Test
@@ -83,8 +80,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( LineItem.class.getSimpleName(), "name" ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().constructor( LineItem.class ).parameter( "name", 0 )
+		);
 	}
 
 	@Test
@@ -103,8 +101,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().method( methodName ).returnValue()
+		);
 	}
 
 	@Test
@@ -120,8 +119,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, ValidLineItem.class );
-		assertCorrectPathNodeNames( violations, names( LineItem.class.getSimpleName(), TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().constructor( LineItem.class ).returnValue()
+		);
 	}
 
 	@Test
@@ -140,8 +140,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "name" ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.PARAMETER ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().method( methodName ).parameter( "name", 0 )
+		);
 	}
 
 	@Test
@@ -157,8 +158,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( WarehouseItem.class.getSimpleName(), "name" ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().constructor( WarehouseItem.class ).parameter( "name", 0 )
+		);
 	}
 
 	@Test
@@ -177,8 +179,9 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().method( methodName ).returnValue()
+		);
 	}
 
 	@Test
@@ -194,7 +197,8 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 		);
 
 		assertCorrectConstraintTypes( violations, ValidWarehouseItem.class );
-		assertCorrectPathNodeNames( violations, names( WarehouseItem.class.getSimpleName(), TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith().constructor( WarehouseItem.class ).returnValue()
+		);
 	}
 }

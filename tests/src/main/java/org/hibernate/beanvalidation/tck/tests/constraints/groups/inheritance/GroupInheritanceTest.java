@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.inheritance;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
@@ -51,13 +51,13 @@ public class GroupInheritanceTest extends AbstractTCKTest {
 		part.setPartNumber( 123456 );
 
 		Set<ConstraintViolation<Part>> violations = validator.validate( part, All.class );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Digits.class, AssertTrue.class );
 
 		part.setPartNumber( 12345 );
 		part.setQaChecked( true );
 		violations = validator.validate( part, All.class );
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test

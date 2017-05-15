@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.testng.Assert.assertTrue;
 
 import java.time.Clock;

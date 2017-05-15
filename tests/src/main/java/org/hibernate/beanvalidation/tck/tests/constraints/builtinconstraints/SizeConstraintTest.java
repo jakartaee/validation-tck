@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,7 +52,7 @@ public class SizeConstraintTest extends AbstractTCKTest {
 		SizeDummyEntity dummy = new SizeDummyEntity();
 
 		Set<ConstraintViolation<SizeDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.collection = new HashSet<String>();
 		dummy.collection.add( "foo" );
@@ -92,7 +92,7 @@ public class SizeConstraintTest extends AbstractTCKTest {
 		dummy.shortArray = new short[1];
 		dummy.map.remove( "key1" );
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	private static class SizeDummyEntity {

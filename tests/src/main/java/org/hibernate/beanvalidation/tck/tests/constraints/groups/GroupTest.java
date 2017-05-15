@@ -6,10 +6,12 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertEqualPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathsAreEqual;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -201,7 +203,7 @@ public class GroupTest extends AbstractTCKTest {
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "The book's subtitle can only have 30 characters"
 		);
@@ -215,7 +217,7 @@ public class GroupTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
 		constraintViolation = constraintViolations.iterator().next();
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "The company name can only have 20 characters"
 		);
@@ -248,7 +250,7 @@ public class GroupTest extends AbstractTCKTest {
 		author.setLastName( "King" );
 
 		constraintViolations = validator.validate( book, Book.All.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "The book title cannot be null" );
 		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
@@ -312,20 +314,20 @@ public class GroupTest extends AbstractTCKTest {
 		);
 
 		for ( ConstraintViolation<User> constraintViolation : constraintViolations ) {
-			if ( assertEqualPaths(
-					constraintViolation.getPropertyPath(), TestUtil.PathImpl.createPathFromString( "defaultCreditCard" )
+			if ( pathsAreEqual(
+					constraintViolation.getPropertyPath(), pathWith().property( "defaultCreditCard" )
 			) ) {
-				TestUtil.assertConstraintViolation(
+				assertConstraintViolation(
 						constraintViolation,
 						User.class,
 						null,
 						"defaultCreditCard"
 				);
 			}
-			else if ( assertEqualPaths(
-					constraintViolation.getPropertyPath(), TestUtil.PathImpl.createPathFromString( "phoneNumber" )
+			else if ( pathsAreEqual(
+					constraintViolation.getPropertyPath(), pathWith().property( "phoneNumber" )
 			) ) {
-				TestUtil.assertConstraintViolation(
+				assertConstraintViolation(
 						constraintViolation,
 						User.class,
 						"+46 123-456",

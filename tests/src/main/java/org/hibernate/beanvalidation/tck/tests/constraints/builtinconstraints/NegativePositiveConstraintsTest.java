@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -50,7 +50,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		NegativeEntity dummy = new NegativeEntity();
 
 		Set<ConstraintViolation<NegativeEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = 101;
 		dummy.longPrimitive = 1001;
@@ -91,7 +91,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 0 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = -101;
 		dummy.longPrimitive = -1001;
@@ -109,7 +109,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -188,7 +188,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -202,7 +202,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;
 
 		Set<ConstraintViolation<NegativeEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.floatObject = Float.POSITIVE_INFINITY;
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
@@ -225,7 +225,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		PositiveEntity dummy = new PositiveEntity();
 
 		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = 101;
 		dummy.longPrimitive = 1001;
@@ -243,7 +243,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = 0;
 		dummy.longPrimitive = 0;
@@ -261,7 +261,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 0 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = -101;
 		dummy.longPrimitive = -1001;
@@ -316,7 +316,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = 0;
 		dummy.longPrimitive = 0;
@@ -377,7 +377,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
 
 		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.floatObject = Float.NEGATIVE_INFINITY;
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;

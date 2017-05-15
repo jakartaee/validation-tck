@@ -10,8 +10,8 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
 
@@ -101,7 +101,7 @@ public class ClockProviderTest extends AbstractTCKTest {
 
 		person.setBirthday( Instant.now().minus( Duration.ofDays( 15 ) ) );
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( person );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		person.setBirthday( Instant.now().plus( Duration.ofDays( 15 ) ) );
 		constraintViolations = validator.validate( person );
@@ -115,7 +115,7 @@ public class ClockProviderTest extends AbstractTCKTest {
 
 		person.setBirthday( Instant.now().plus( Duration.ofDays( 15 ) ) );
 		constraintViolations = validator.validate( person );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		person.setBirthday( Instant.now().plus( Duration.ofDays( 90 ) ) );
 		constraintViolations = validator.validate( person );
@@ -155,7 +155,7 @@ public class ClockProviderTest extends AbstractTCKTest {
 				.getValidator();
 
 		constraintViolations = validator.validate( person );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	private static void checkClockProviderHasDefaultProperties(ClockProvider clockProvider) {

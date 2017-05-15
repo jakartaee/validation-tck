@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 
 import java.util.Set;
 
@@ -54,7 +54,7 @@ public class MessageInterpolatorSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, XmlDefinedMessageInterpolator.STATIC_INTERPOLATION_STRING
 		);
@@ -74,7 +74,7 @@ public class MessageInterpolatorSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, ConfigurationDefinedMessageInterpolator.STATIC_INTERPOLATION_STRING
 		);

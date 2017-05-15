@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.time;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -52,7 +52,7 @@ public class ClockProviderPastTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 0 );
+		assertNumberOfViolations( validator.validate( dummy ), 0 );
 
 		FixedClockProvider clockProvider = new FixedClockProvider( ZonedDateTime.of( 1984, 2, 15, 4, 0, 0, 0, TZ_BERLIN ) );
 		ValidatorFactory validatorFactory = TestUtil.getConfigurationUnderTest()
@@ -60,7 +60,7 @@ public class ClockProviderPastTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		validator = validatorFactory.getValidator();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 13 );
+		assertNumberOfViolations( validator.validate( dummy ), 13 );
 		assertCorrectPropertyPaths(
 				validator.validate( dummy ), "date", "calendar", "instant", "hijrahDate", "japaneseDate", "localDate", "localDateTime",
 				"minguoDate", "offsetDateTime", "thaiBuddhistDate", "year", "yearMonth", "zonedDateTime"
@@ -83,7 +83,7 @@ public class ClockProviderPastTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 0 );
+		assertNumberOfViolations( validator.validate( dummy ), 0 );
 
 		clockProvider = new FixedClockProvider( ZonedDateTime.of( 2014, 4, 4, 9, 45, 0, 0, TZ_BERLIN ) );
 		validatorFactory = TestUtil.getConfigurationUnderTest()
@@ -91,7 +91,7 @@ public class ClockProviderPastTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		validator = validatorFactory.getValidator();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 3 );
+		assertNumberOfViolations( validator.validate( dummy ), 3 );
 		assertCorrectPropertyPaths(
 				validator.validate( dummy ), "localTime", "monthDay", "offsetTime"
 		);

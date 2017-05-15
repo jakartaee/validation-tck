@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -104,7 +104,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 	})
 	public void testPropertyPathWithConstraintViolationForRootObject() {
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator()
 				.next();
 
@@ -135,7 +135,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		Engine engine = new Engine();
 		engine.setSerialNumber( "ABCDEFGH1234" );
 		Set<ConstraintViolation<Engine>> constraintViolations = getValidator().validate( engine );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Engine> constraintViolation = constraintViolations.iterator().next();
 
@@ -242,7 +242,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		Integer id = db.addActor( morgan );
 
 		Set<ConstraintViolation<ActorDB>> constraintViolations = getValidator().validate( db );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<ActorDB> constraintViolation = constraintViolations.iterator().next();
 
@@ -275,7 +275,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		customer.addOrder( order );
 
 		Set<ConstraintViolation<Customer>> constraintViolations = getValidator().validate( customer );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Customer> constraintViolation = constraintViolations.iterator().next();
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
@@ -325,7 +325,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
@@ -407,7 +407,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
@@ -467,7 +467,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
 		assertTrue( nodeIter.hasNext() );
@@ -515,7 +515,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
 		assertTrue( nodeIter.hasNext() );
@@ -565,7 +565,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
@@ -742,7 +742,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
 		assertTrue( nodeIter.hasNext() );
@@ -790,7 +790,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -850,7 +850,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -910,7 +910,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -966,7 +966,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1026,7 +1026,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1072,7 +1072,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1128,7 +1128,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1184,7 +1184,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1236,7 +1236,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1292,7 +1292,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1338,7 +1338,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1389,7 +1389,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1440,7 +1440,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1487,7 +1487,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1538,7 +1538,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1581,7 +1581,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator()
 				.next()
@@ -1604,7 +1604,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "r")
 	public void testPassingWrongTypeToAsOnBeanNodeCausesClassCastException() {
 		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator().next();
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
@@ -1633,7 +1633,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
@@ -1665,7 +1665,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
 				constraintViolations,
@@ -1688,7 +1688,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 	}
 
 	private void checkActorViolations(Set<ConstraintViolation<Actor>> constraintViolations) {
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 

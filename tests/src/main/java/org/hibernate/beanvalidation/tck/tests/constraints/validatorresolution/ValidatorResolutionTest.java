@@ -6,11 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -142,22 +142,22 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		// all values are null and should pass
 		Set<ConstraintViolation<Suburb>> constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		suburb.setName( "" );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(), Suburb.class, "", "name"
 		);
 
 		suburb.setName( "Hoegsbo" );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		suburb.addFacility( Suburb.Facility.SHOPPING_MALL, false );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
 				Suburb.class,
@@ -167,11 +167,11 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		suburb.addFacility( Suburb.Facility.BUS_TERMINAL, true );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		suburb.addStreetName( "Sikelsgatan" );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
 				Suburb.class,
@@ -181,7 +181,7 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		suburb.addStreetName( "Marklandsgatan" );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		Coordinate[] boundingBox = new Coordinate[3];
 		boundingBox[0] = new Coordinate( 0l, 0l );
@@ -189,7 +189,7 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		boundingBox[2] = new Coordinate( 1l, 0l );
 		suburb.setBoundingBox( boundingBox );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
 				Suburb.class,
@@ -204,7 +204,7 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		boundingBox[3] = new Coordinate( 1l, 1l );
 		suburb.setBoundingBox( boundingBox );
 		constraintViolations = getValidator().validate( suburb );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -212,7 +212,7 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
 		Set<ConstraintViolation<MinMax>> constraintViolations = getValidator().validate( minMax );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectPropertyPaths( constraintViolations, "number", "numberAsString" );
 	}
 
@@ -240,7 +240,7 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
 		Set<ConstraintViolation<PrimitiveHolder>> violations = getValidator().validate( primitiveHolder );
 
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, ValidInteger.class, ValidLong.class );
 	}
 

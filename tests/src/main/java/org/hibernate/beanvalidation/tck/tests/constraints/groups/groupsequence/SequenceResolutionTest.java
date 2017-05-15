@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequence;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 
 import java.util.Set;
 
@@ -71,18 +71,18 @@ public class SequenceResolutionTest extends AbstractTCKTest {
 
 		// the constraint fails for each group
 		Set<ConstraintViolation<Car>> violations = validator.validate( car, First.class );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 
 		violations = validator.validate( car, Second.class );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 
 		// if we validate against the sequence All we only get one violation since group Second won't be executed
 		violations = validator.validate( car, All.class );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 
 		// if we validate against the sequence AllReverse we only get two violations since group First won't be executed
 		violations = validator.validate( car, AllReverse.class );
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 	}
 
 	class Car {

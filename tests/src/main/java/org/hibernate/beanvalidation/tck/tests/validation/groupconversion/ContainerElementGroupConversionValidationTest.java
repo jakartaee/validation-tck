@@ -6,11 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,13 +20,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
-import javax.validation.Path;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -175,12 +170,15 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				.validateReturnValue( registeredAddresses, method, returnValue );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.CONTAINER_ELEMENT, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "retrieveMainAddresses", TestUtil.RETURN_VALUE_NODE_NAME, "<map value>", "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.method( "retrieveMainAddresses" )
+						.returnValue()
+						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+						.property( "street1", true, null, 0, List.class, 0 )
+		);
 	}
 
 	@Test
@@ -197,12 +195,15 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				.validateParameters( registeredAddresses, method, arguments );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.CONTAINER_ELEMENT, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "setMainAddress", "mainAddresses", "<map value>", "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.method( "setMainAddress" )
+						.parameter( "mainAddresses", 0 )
+						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+						.property( "street1", true, null, 0, List.class, 0 )
+		);
 	}
 
 	@Test
@@ -218,19 +219,16 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				.validateConstructorReturnValue( constructor, createdObject );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds(
-				propertyPath,
-				ElementKind.CONSTRUCTOR,
-				ElementKind.RETURN_VALUE,
-				ElementKind.PROPERTY,
-				ElementKind.CONTAINER_ELEMENT,
-				ElementKind.PROPERTY
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.constructor( RegisteredAddresses.class )
+						.returnValue()
+						.property( "mainAddresses" )
+						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+						.property( "street1", true, null, 1, List.class, 0 )
 		);
-		assertNodeNames( propertyPath, "RegisteredAddresses", TestUtil.RETURN_VALUE_NODE_NAME, "mainAddresses", "<map value>", "street1" );
 	}
 
 	@Test
@@ -246,12 +244,15 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 				.validateConstructorParameters( constructor, arguments );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.CONTAINER_ELEMENT, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "RegisteredAddresses", "mainAddresses", "<map value>", "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.constructor( RegisteredAddresses.class )
+						.parameter( "mainAddresses", 0 )
+						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+						.property( "street1", true, null, 0, List.class, 0 )
+		);
 	}
 
 	@Test
@@ -291,7 +292,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 		RegisteredAddresses registeredAddresses = TestRegisteredAddresses.validRegisteredAddresses();
 
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( registeredAddresses );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		registeredAddresses.getWeekendAddresses().get( TestRegisteredAddresses.REFERENCE_YEAR ).get( 0 ).setDoorCode( "ABC" );
 		constraintViolations = getValidator().validate( registeredAddresses );

@@ -10,8 +10,6 @@ import javax.validation.Validator;
 import javax.validation.executable.ExecutableValidator;
 
 import org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert;
-import org.hibernate.beanvalidation.tck.util.PathNodeKinds;
-import org.hibernate.beanvalidation.tck.util.PathNodeNames;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.ArchiveBuilder;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
@@ -35,8 +33,6 @@ public abstract class AbstractTCKTest extends Arquillian {
 				WebArchiveBuilder.class,
 				AbstractTCKTest.class,
 				TestUtil.class,
-				PathNodeKinds.class,
-				PathNodeNames.class,
 				ConstraintViolationAssert.class
 		);
 

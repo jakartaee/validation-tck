@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getDefaultMessageInterpolator;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
 import static org.testng.Assert.assertEquals;
@@ -123,7 +123,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		Set<ConstraintViolation<DummyEntity>> constraintViolations = validator.validateProperty(
 				new DummyEntity(), "snafu"
 		);
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "messages can also be overridden at constraint declaration."
 		);

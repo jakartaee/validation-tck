@@ -8,13 +8,11 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -30,7 +28,6 @@ import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
 import javax.validation.Payload;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
@@ -146,15 +143,15 @@ public class ValidateTest extends AbstractTCKTest {
 		Engine engine = new Engine();
 		engine.setSerialNumber( "mail@foobar.com" );
 		Set<ConstraintViolation<Engine>> constraintViolations = validator.validate( engine );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		engine.setSerialNumber( "ABCDEFGH1234" );
 		constraintViolations = validator.validate( engine );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		engine.setSerialNumber( "ABCD-EFGH-1234" );
 		constraintViolations = validator.validate( engine );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -171,7 +168,7 @@ public class ValidateTest extends AbstractTCKTest {
 		address.setCity( "Llanfairpwllgwyngyllgogerychwyrndrobwyll-llantysiliogogogoch" ); //town in North Wales
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, Size.class, NotEmpty.class );
 	}
 
@@ -197,7 +194,7 @@ public class ValidateTest extends AbstractTCKTest {
 		Engine engine = new Engine();
 		engine.setSerialNumber( "ABCDEFGH1234" );
 		Set<ConstraintViolation<Engine>> constraintViolations = validator.validate( engine );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Engine> violation = constraintViolations.iterator().next();
 
@@ -216,7 +213,7 @@ public class ValidateTest extends AbstractTCKTest {
 
 		engine.setSerialNumber( "ABCD-EFGH-1234" );
 		constraintViolations = validator.validate( engine );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -232,7 +229,7 @@ public class ValidateTest extends AbstractTCKTest {
 
 		DirtBike bike = new DirtBike();
 		Set<ConstraintViolation<DirtBike>> constraintViolations = validator.validate( bike );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<DirtBike> violation = constraintViolations.iterator().next();
 
@@ -245,8 +242,9 @@ public class ValidateTest extends AbstractTCKTest {
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
 		assertEquals( ann.annotationType(), ValidDirtBike.class, "Wrong annotation type" );
 
-		assertCorrectPathNodeKinds( constraintViolations, kinds( ElementKind.BEAN ) );
-		assertCorrectPathNodeNames( constraintViolations, names( (String) null ) );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith().bean()
+		);
 	}
 
 	@Test
@@ -270,7 +268,7 @@ public class ValidateTest extends AbstractTCKTest {
 		clint.addPlayedWith( morgan );
 
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
@@ -305,7 +303,7 @@ public class ValidateTest extends AbstractTCKTest {
 		clint.addPlayedWith( morgan );
 
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
@@ -326,13 +324,13 @@ public class ValidateTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Car>> violations = validator.validateProperty(
 				car, "licensePlateNumber", First.class, Second.class
 		);
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 
 		car.setLicensePlateNumber( "USD-298" );
 		violations = validator.validateProperty(
 				car, "licensePlateNumber", First.class, Second.class
 		);
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test(expectedExceptions = ValidationException.class)

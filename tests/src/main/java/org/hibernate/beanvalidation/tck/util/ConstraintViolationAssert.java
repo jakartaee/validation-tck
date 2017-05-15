@@ -6,15 +6,21 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.ElementKind;
 import javax.validation.Path;
+import javax.validation.metadata.ConstraintDescriptor;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.IterableAssert;
@@ -45,8 +51,222 @@ public final class ConstraintViolationAssert {
 	private ConstraintViolationAssert() {
 	}
 
+	/**
+	 * Asserts that the messages in the violation list matches exactly the expected messages list.
+	 *
+	 * @param violations The violation list to verify.
+	 * @param expectedMessages The expected constraint violation messages.
+	 */
+	public static void assertCorrectConstraintViolationMessages(Set<? extends ConstraintViolation<?>> violations,
+			String... expectedMessages) {
+		List<String> actualMessages = new ArrayList<>();
+		for ( ConstraintViolation<?> violation : violations ) {
+			actualMessages.add( violation.getMessage() );
+		}
+
+		Assertions.assertThat( actualMessages ).containsOnly( expectedMessages );
+	}
+
+	public static void assertCorrectConstraintViolationMessages(ConstraintViolationException e,
+			String... expectedMessages) {
+		assertCorrectConstraintViolationMessages( e.getConstraintViolations(), expectedMessages );
+	}
+
+	/**
+	 * Asserts that the violated constraint type in the violation list matches exactly the expected constraint types
+	 * list.
+	 *
+	 * @param violations The violation list to verify.
+	 * @param expectedConstraintTypes The expected constraint types.
+	 */
+	public static void assertCorrectConstraintTypes(Set<? extends ConstraintViolation<?>> violations,
+			Class<?>... expectedConstraintTypes) {
+		List<Class<? extends Annotation>> actualConstraintTypes = new ArrayList<>();
+		for ( ConstraintViolation<?> violation : violations ) {
+			actualConstraintTypes.add( violation.getConstraintDescriptor().getAnnotation().annotationType() );
+		}
+
+		assertCorrectConstraintTypes( actualConstraintTypes, expectedConstraintTypes );
+	}
+
+	/**
+	 * Asserts that the given list of constraint violation paths matches the list of expected property paths.
+	 *
+	 * @param violations The violation list to verify.
+	 * @param expectedPropertyPaths The expected property paths.
+	 */
+	public static void assertCorrectPropertyPaths(Set<? extends ConstraintViolation<?>> violations,
+			String... expectedPropertyPaths) {
+		Set<String> actualPaths = violations.stream()
+			.map( ConstraintViolation::getPropertyPath )
+			.map( Path::toString )
+			.collect( Collectors.toSet() );
+
+		Assertions.assertThat( actualPaths ).containsOnly( expectedPropertyPaths );
+	}
+
 	public static ConstraintViolationSetAssert assertThat(Set<? extends ConstraintViolation<?>> actualViolations) {
 		return new ConstraintViolationSetAssert( actualViolations );
+	}
+
+	public static void assertCorrectPropertyPaths(ConstraintViolationException e, String... expectedPropertyPaths) {
+		assertCorrectPropertyPaths( e.getConstraintViolations(), expectedPropertyPaths );
+	}
+
+	/**
+	 * Asserts that the error message, root bean class, invalid value and property path of the given violation are equal
+	 * to the expected message, root bean class, invalid value and propertyPath.
+	 *
+	 * @param violation The violation to verify.
+	 * @param rootBeanClass The expected root bean class.
+	 * @param invalidValue The expected invalid value.
+	 * @param propertyPath The expected property path.
+	 */
+	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass, Object invalidValue, String propertyPath) {
+		assertEquals( violation.getPropertyPath().toString(), propertyPath );
+		assertConstraintViolation( violation, rootBeanClass, invalidValue );
+	}
+
+	/**
+	 * Asserts that the error message, root bean class and invalid value of the given violation are equal to the
+	 * expected message, root bean class and invalid value.
+	 *
+	 * @param violation The violation to verify.
+	 * @param rootBeanClass The expected root bean class.
+	 * @param invalidValue The expected invalid value.
+	 */
+	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass, Object invalidValue) {
+		assertEquals( violation.getInvalidValue(), invalidValue, "Wrong invalid value" );
+		assertConstraintViolation( violation, rootBeanClass );
+	}
+
+	/**
+	 * Asserts that the error message and the root bean class of the given violation are equal to the expected message
+	 * and root bean class.
+	 *
+	 * @param violation The violation to verify.
+	 * @param errorMessage The expected error message.
+	 * @param rootBeanClass The expected root bean class.
+	 */
+	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass) {
+		assertEquals( violation.getRootBeanClass(), rootBeanClass, "Wrong root bean type" );
+	}
+
+	/**
+	 * Asserts that the error message of the given violation is equal to the expected message.
+	 *
+	 * @param violation The violation to verify.
+	 * @param errorMessage The expected error message.
+	 */
+	public static void assertConstraintViolation(ConstraintViolation<?> violation, String errorMessage) {
+		assertEquals( violation.getMessage(), errorMessage, "Wrong expectedMessage" );
+	}
+
+	/**
+	 * Asserts that the given violation list has the expected number of violations.
+	 *
+	 * @param violations The violation list to verify.
+	 * @param numberOfViolations The expected number of violation.
+	 */
+	public static void assertNumberOfViolations(Set<? extends ConstraintViolation<?>> violations,
+			int numberOfViolations) {
+		assertEquals(
+				violations.size(),
+				numberOfViolations,
+				"Wrong number of constraint violations"
+		);
+	}
+
+	public static void assertConstraintTypes(Set<? extends ConstraintDescriptor<?>> descriptors,
+			Class<?>... expectedConstraintTypes) {
+		List<Class<? extends Annotation>> actualConstraintTypes = new ArrayList<>();
+
+		for ( ConstraintDescriptor<?> descriptor : descriptors ) {
+			actualConstraintTypes.add( descriptor.getAnnotation().annotationType() );
+		}
+
+		assertCorrectConstraintTypes( actualConstraintTypes, expectedConstraintTypes );
+	}
+
+	/**
+	 * Checks that two property paths are equal.
+	 *
+	 * @param p1 The first property path.
+	 * @param p2 The second property path.
+	 *
+	 * @return {@code true} if the given paths are equal, {@code false} otherwise.
+	 */
+	public static boolean pathsAreEqual(Path p1, Path p2) {
+		if ( p1 == null ) {
+			return p2 == null;
+		}
+		return pathsAreEqual( new PathExpectation( p1 ), new PathExpectation( p2 ) );
+	}
+
+	/**
+	 * Checks that two property paths are equal.
+	 *
+	 * @param p1 The first property path.
+	 * @param p2 The second property path.
+	 *
+	 * @return {@code true} if the given paths are equal, {@code false} otherwise.
+	 */
+	public static boolean pathsAreEqual(Path p1, PathExpectation p2) {
+		if ( p1 == null ) {
+			return p2 == null;
+		}
+		return pathsAreEqual( new PathExpectation( p1 ), p2 );
+	}
+
+	/**
+	 * Checks that two property paths are equal.
+	 *
+	 * @param p1 The first property path.
+	 * @param p2 The second property path.
+	 *
+	 * @return {@code true} if the given paths are equal, {@code false} otherwise.
+	 */
+	public static boolean pathsAreEqual(PathExpectation p1, PathExpectation p2) {
+		if ( p1 == null ) {
+			return p2 == null;
+		}
+		return p1.equals( p2 );
+	}
+
+	/**
+	 * <p>
+	 * Asserts that the two given collections contain the same constraint types.
+	 * </p>
+	 * <p>
+	 * Multiset semantics is used for the comparison, i.e. the same constraint
+	 * type can be contained several times in the compared collections, but the
+	 * order doesn't matter. The comparison is done using the class names, since
+	 * {@link Class} doesn't implement {@link Comparable}.
+	 * </p>
+	 *
+	 * @param actualConstraintTypes The actual constraint types.
+	 * @param expectedConstraintTypes The expected constraint types.
+	 */
+	private static <T> void assertCorrectConstraintTypes(Iterable<Class<? extends Annotation>> actualConstraintTypes,
+			Class<?>... expectedConstraintTypes) {
+		List<String> expectedConstraintTypeNames = new ArrayList<>();
+		for ( Class<?> expectedConstraintType : expectedConstraintTypes ) {
+			expectedConstraintTypeNames.add( expectedConstraintType.getName() );
+		}
+
+		List<String> actualConstraintTypeNames = new ArrayList<>();
+		for ( Class<?> actualConstraintType : actualConstraintTypes ) {
+			actualConstraintTypeNames.add( actualConstraintType.getName() );
+		}
+
+		Collections.sort( expectedConstraintTypeNames );
+		Collections.sort( actualConstraintTypeNames );
+
+		assertEquals(
+				actualConstraintTypeNames,
+				expectedConstraintTypeNames,
+				String.format( "Expected %s, but got %s", expectedConstraintTypeNames, actualConstraintTypeNames )
+		);
 	}
 
 	public static PathExpectation pathWith() {
@@ -158,6 +378,11 @@ public final class ConstraintViolationAssert {
 
 		public PathExpectation bean(boolean inIterable, Object key, Integer index, Class<?> containerClass, Integer typeArgumentIndex) {
 			nodes.add( new NodeExpectation( null, ElementKind.BEAN, inIterable, key, index, null, containerClass, typeArgumentIndex ) );
+			return this;
+		}
+
+		public PathExpectation constructor(Class<?> clazz) {
+			nodes.add( new NodeExpectation( clazz.getSimpleName(), ElementKind.CONSTRUCTOR ) );
 			return this;
 		}
 

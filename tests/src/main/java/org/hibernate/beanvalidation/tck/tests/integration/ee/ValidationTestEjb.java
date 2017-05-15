@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
