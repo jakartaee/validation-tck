@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 

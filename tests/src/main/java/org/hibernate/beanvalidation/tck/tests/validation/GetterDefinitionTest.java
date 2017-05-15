@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 
 import java.util.Set;
 

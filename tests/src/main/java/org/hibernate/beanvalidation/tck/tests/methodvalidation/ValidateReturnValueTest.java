@@ -6,12 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -20,7 +18,6 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
 import javax.validation.ValidationException;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -35,7 +32,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Ex
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -83,11 +79,14 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue()
+		);
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
 		assertEquals( violation.getRootBean(), object );
@@ -113,18 +112,16 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 
 		assertCorrectConstraintTypes( violations, Pattern.class, Size.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
 		);
 	}
 
@@ -143,18 +140,16 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 2 );
+		assertNumberOfViolations( violations, 2 );
 
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
 		);
 	}
 
@@ -171,7 +166,7 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test
@@ -189,7 +184,7 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateReturnValue(
 				object,
@@ -199,8 +194,11 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ) );
-		assertCorrectPathNodeKinds( violations, kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ) );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue()
+		);
 	}
 
 	@Test
@@ -218,7 +216,7 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateReturnValue(
 				object,
@@ -229,15 +227,13 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class, Pattern.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
 		);
 	}
 
@@ -329,7 +325,7 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
 

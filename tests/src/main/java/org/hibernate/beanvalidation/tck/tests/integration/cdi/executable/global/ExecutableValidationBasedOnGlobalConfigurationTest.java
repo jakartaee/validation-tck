@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 

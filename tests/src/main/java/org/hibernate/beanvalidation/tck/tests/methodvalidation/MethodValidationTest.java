@@ -6,19 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPathNodeNames;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.kinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.names;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -40,7 +37,6 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServ
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderService.OrderServiceSequence;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceImpl;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.service.OrderServiceWithRedefinedDefaultGroupSequence;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -92,19 +88,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "customer" ),
-				names( methodName, "item", "name" ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -135,19 +132,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "customer" ),
-				names( methodName, "item", "name" ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -179,19 +177,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "customer" ),
-				names( methodName, "item", "name" ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -222,15 +221,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 				NotNull.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "customer" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 )
 		);
 
 		violations = getExecutableValidator().validateParameters(
@@ -245,15 +242,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Min.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, "item", "name" ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -279,10 +275,11 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( methodName, "item", "name" ) );
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" )
 		);
 	}
 
@@ -314,19 +311,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "customer" ),
-				names( methodName, "item", "name" ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -353,15 +351,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, "customer" ),
-				names( methodName, "item", "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
@@ -375,15 +372,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -410,15 +405,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, "customer" ),
-				names( methodName, "item", "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
@@ -437,17 +431,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				Min.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( methodName, "item", "name" ),
-				names( methodName, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.crossParameter(),
+				pathWith()
+						.method( methodName )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.method( methodName )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -455,8 +449,6 @@ public class MethodValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationTargetsParameterCrossParameterAndCascadedConstraints()
 			throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -476,19 +468,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( className, "customer" ),
-				names( className, "item", "name" ),
-				names( className, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.crossParameter(),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -508,14 +501,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationIsAppliedGroupWise() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -535,15 +526,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 				NotNull.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( className, "customer" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.crossParameter(),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "customer", 0 )
 		);
 
 		violations = getExecutableValidator().validateConstructorParameters(
@@ -557,23 +546,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Min.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, "item", "name" ),
-				names( className, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "quantity", 2 )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationPerformsGroupConversion() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -588,18 +574,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( className, "item", "name" ) );
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "item", 1 )
+						.property( "name" )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationValidatesEachConstraintOnlyOnce() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -620,27 +605,26 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				MyCrossParameterConstraint.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( className, "customer" ),
-				names( className, "item", "name" ),
-				names( className, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.crossParameter(),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "quantity", 2 )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationUsingSequence() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -656,15 +640,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, "customer" ),
-				names( className, "item", "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "item", 1 )
+						.property( "name" )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
@@ -677,23 +660,19 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( className, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.crossParameter(),
+				pathWith()
+						.constructor( OrderService.class )
+						.parameter( "quantity", 2 )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void constructorParameterValidationWithRedefinedDefaultGroupSequence() throws Exception {
-		String className = "OrderServiceWithRedefinedDefaultGroupSequence";
-
 		Constructor<OrderServiceWithRedefinedDefaultGroupSequence> constructor = OrderServiceWithRedefinedDefaultGroupSequence.class
 				.getConstructor(
 						String.class,
@@ -711,15 +690,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
 		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, "customer" ),
-				names( className, "item", "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.parameter( "customer", 0 ),
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.parameter( "item", 1 )
+						.property( "name" )
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
@@ -737,17 +715,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class,
 				Min.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.CROSS_PARAMETER_NODE_NAME ),
-				names( className, "item", "name" ),
-				names( className, "quantity" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.CROSS_PARAMETER ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.PARAMETER )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.crossParameter(),
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.parameter( "item", 1 )
+						.property( "name" ),
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.parameter( "quantity", 2 )
 		);
 	}
 
@@ -777,15 +755,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 				ValidOrder.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -815,17 +792,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 				ValidRetailOrder.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -856,17 +830,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 				ValidRetailOrder.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -896,13 +867,10 @@ public class MethodValidationTest extends AbstractTCKTest {
 				violations,
 				ValidRetailOrder.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue()
 		);
 
 		violations = getExecutableValidator().validateReturnValue(
@@ -917,15 +885,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 				ValidOrder.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -951,10 +918,11 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" ) );
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -983,13 +951,10 @@ public class MethodValidationTest extends AbstractTCKTest {
 				violations,
 				ValidOrder.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue()
 		);
 	}
 
@@ -1016,15 +981,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, ValidOrder.class, Size.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 
 		returnValue = new Order( "BV Specification" );
@@ -1038,13 +1002,10 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, ValidRetailOrder.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue()
 		);
 	}
 
@@ -1071,15 +1032,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Order should fail
 		assertCorrectConstraintTypes( violations, Size.class, ValidOrder.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 
 		returnValue = new Order( "valid" );
@@ -1093,15 +1053,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Order should fail
 		assertCorrectConstraintTypes( violations, Size.class, ValidRetailOrder.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( methodName, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -1109,8 +1068,6 @@ public class MethodValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationTargetsReturnValueAndCascadedConstraints()
 			throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -1128,15 +1085,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 				ValidOrderService.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue(),
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
@@ -1144,8 +1100,6 @@ public class MethodValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationDoesNotIncludeConstraintsFromSuperClass()
 			throws Exception {
-		String className = "ExtendedOrderService";
-
 		Constructor<ExtendedOrderService> constructor = ExtendedOrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -1162,21 +1116,16 @@ public class MethodValidationTest extends AbstractTCKTest {
 				violations,
 				ValidRetailOrderService.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( ExtendedOrderService.class )
+						.returnValue()
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationIsAppliedGroupWise() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -1195,13 +1144,10 @@ public class MethodValidationTest extends AbstractTCKTest {
 				violations,
 				ValidRetailOrderService.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
 		);
 
 		violations = getExecutableValidator().validateConstructorReturnValue(
@@ -1215,23 +1161,20 @@ public class MethodValidationTest extends AbstractTCKTest {
 				ValidOrderService.class,
 				Size.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME, "name" ),
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue(),
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationPerformsGroupConversion() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -1246,18 +1189,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPathNodeNames( violations, names( className, TestUtil.RETURN_VALUE_NODE_NAME, "name" ) );
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationValidatesEachConstraintOnlyOnce() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -1275,21 +1217,16 @@ public class MethodValidationTest extends AbstractTCKTest {
 				violations,
 				ValidOrderService.class
 		);
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationUsingSequence() throws Exception {
-		String className = "OrderService";
-
 		Constructor<OrderService> constructor = OrderService.class.getConstructor(
 				String.class,
 				Item.class,
@@ -1305,15 +1242,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, ValidOrderService.class, Size.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue(),
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
+						.property( "name" )
 		);
 
 		returnValue = new OrderService( "valid order service" );
@@ -1326,13 +1262,10 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Complex group should fail
 		assertCorrectConstraintTypes( violations, ValidRetailOrderService.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderService.class )
+						.returnValue()
 		);
 	}
 
@@ -1340,8 +1273,6 @@ public class MethodValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_METHODCONSTRUCTORVALIDATION, id = "b")
 	public void constructorReturnValueValidationWithRedefinedDefaultGroupSequence()
 			throws Exception {
-		String className = "OrderServiceWithRedefinedDefaultGroupSequence";
-
 		Constructor<OrderServiceWithRedefinedDefaultGroupSequence> constructor = OrderServiceWithRedefinedDefaultGroupSequence.class
 				.getConstructor(
 						String.class,
@@ -1360,15 +1291,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group should fail
 		assertCorrectConstraintTypes( violations, Size.class, ValidOrderService.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.returnValue(),
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.returnValue()
+						.property( "name" )
 		);
 
 		returnValue = new OrderServiceWithRedefinedDefaultGroupSequence( "valid" );
@@ -1380,15 +1310,14 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Default group should fail
 		assertCorrectConstraintTypes( violations, Pattern.class, ValidRetailOrderService.class );
-		assertCorrectPathNodeNames(
-				violations,
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME ),
-				names( className, TestUtil.RETURN_VALUE_NODE_NAME, "name" )
-		);
-		assertCorrectPathNodeKinds(
-				violations,
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE ),
-				kinds( ElementKind.CONSTRUCTOR, ElementKind.RETURN_VALUE, ElementKind.PROPERTY )
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.returnValue(),
+				pathWith()
+						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+						.returnValue()
+						.property( "name" )
 		);
 	}
 }

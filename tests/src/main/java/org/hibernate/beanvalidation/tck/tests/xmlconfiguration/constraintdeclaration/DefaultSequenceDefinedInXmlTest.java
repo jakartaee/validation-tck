@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 
 import java.util.Set;
 
@@ -48,7 +48,7 @@ public class DefaultSequenceDefinedInXmlTest extends AbstractTCKTest {
 		p.setMaxWeight( 30 );
 		Set<ConstraintViolation<Package>> violations = validator.validate( p, Default.class );
 
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintViolationMessages( violations, "The package is too heavy" );
 	}
 }

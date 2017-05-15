@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.time;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -48,7 +48,7 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 0 );
+		assertNumberOfViolations( validator.validate( dummy ), 0 );
 
 		FixedClockProvider clockProvider = new FixedClockProvider(
 				ZonedDateTime.of(
@@ -61,7 +61,7 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		validator = validatorFactory.getValidator();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 13 );
+		assertNumberOfViolations( validator.validate( dummy ), 13 );
 		assertCorrectPropertyPaths(
 				validator.validate( dummy ), "date", "calendar", "instant", "hijrahDate", "japaneseDate", "localDate", "localDateTime",
 				"minguoDate", "offsetDateTime", "thaiBuddhistDate", "year", "yearMonth", "zonedDateTime"
@@ -79,7 +79,7 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 0 );
+		assertNumberOfViolations( validator.validate( dummy ), 0 );
 
 		clockProvider = new FixedClockProvider( ZonedDateTime.of( 2016, 8, 17, 17, 45, 0, 0, TZ_BERLIN ) );
 		validatorFactory = TestUtil.getConfigurationUnderTest()
@@ -87,7 +87,7 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		validator = validatorFactory.getValidator();
 
-		assertCorrectNumberOfViolations( validator.validate( dummy ), 3 );
+		assertNumberOfViolations( validator.validate( dummy ), 3 );
 		assertCorrectPropertyPaths(
 				validator.validate( dummy ), "localTime", "monthDay", "offsetTime"
 		);

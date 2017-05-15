@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -121,7 +121,7 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		address.setCity( townInNorthWales );
 
 		Set<ConstraintViolation<Address>> constraintViolations = getValidator().validateProperty( address, "city" );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, Size.class );
 
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
@@ -137,7 +137,7 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 
 		address.setCity( "London" );
 		constraintViolations = getValidator().validateProperty( address, "city" );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		customer.addOrder( order );
 
 		Set<ConstraintViolation<Customer>> constraintViolations = getValidator().validateProperty( customer, "orders" );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test(expectedExceptions = ValidationException.class)

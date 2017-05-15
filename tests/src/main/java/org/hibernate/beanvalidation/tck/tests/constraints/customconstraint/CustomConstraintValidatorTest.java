@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.customconstraint;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -52,7 +52,7 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		ice.temperature = 0;
 
 		Set<ConstraintViolation<Ice>> constraintViolations = validator.validate( ice );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -155,19 +155,19 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 
 
 		Set<ConstraintViolation<Author>> constraintViolations = validator.validate( author );
-		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertNumberOfViolations( constraintViolations, 3 );
 
 		author.setFirstName( "John" );
 		constraintViolations = validator.validate( author );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		author.setLastName( "Doe" );
 		constraintViolations = validator.validate( author );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		author.setCompany( "JBoss" );
 		constraintViolations = validator.validate( author );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -181,7 +181,7 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		author.setCompany( "" );
 
 		Set<ConstraintViolation<Author>> constraintViolations = validator.validate( author );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Author> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getMessage(), "The company name must be a minimum 3 characters" );
@@ -200,7 +200,7 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		author.setCompany( "" );
 
 		Set<ConstraintViolation<Author>> constraintViolations = validator.validate( author );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		assertCorrectPropertyPaths( constraintViolations, "company" );
 	}

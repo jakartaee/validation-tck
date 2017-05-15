@@ -6,9 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
@@ -72,7 +73,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Order>> constraintViolations = validator.validate( order );
-		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertNumberOfViolations( constraintViolations, 3 );
 		assertCorrectPropertyPaths(
 				constraintViolations,
 				"shippingAddress.addressline1",
@@ -94,7 +95,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( john );
 		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
-		TestUtil.assertConstraintViolation(
+		assertConstraintViolation(
 				constraintViolations.iterator().next(), User.class, null, "lastName"
 		);
 
@@ -104,20 +105,20 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		john.knows( jane );
 
 		constraintViolations = validator.validate( john );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		TestUtil.assertConstraintViolation(
+		assertNumberOfViolations( constraintViolations, 1 );
+		assertConstraintViolation(
 				constraintViolations.iterator().next(), User.class, null, "lastName"
 		);
 
 		constraintViolations = validator.validate( jane );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
-		TestUtil.assertConstraintViolation(
+		assertNumberOfViolations( constraintViolations, 1 );
+		assertConstraintViolation(
 				constraintViolations.iterator().next(), User.class, null, "knowsUser[0].lastName"
 		);
 
 		john.setLastName( "Doe" );
 		constraintViolations = validator.validate( john );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -130,7 +131,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<SingleCage>> constraintViolations = validator.validate( cage );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "An elephant weighs at least 1000 kg" );
 	}
 
@@ -146,7 +147,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<MultiCage>> constraintViolations = validator.validate( cage );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations,
 				"A zebra needs a name",
@@ -168,7 +169,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<GameReserve<Zebra>>> constraintViolations = validator.validate( reserve );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations,
 				"A zebra needs a name",
@@ -193,7 +194,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Zoo>> constraintViolations = validator.validate( zoo );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations,
 				"The wingspan of a condor is at least 250 cm",
@@ -220,7 +221,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<AnimalCaretaker>> constraintViolations = validator.validate( caretaker );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectPropertyPaths(
 				constraintViolations,
 				"caresFor[Jumbo].weight",
@@ -238,12 +239,12 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		p.setChild( new Child() );
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Parent>> errors = validator.validate( p, Parent.ProperOrder.class );
-		assertCorrectNumberOfViolations( errors, 1 );
+		assertNumberOfViolations( errors, 1 );
 		assertCorrectPropertyPaths( errors, "child.name" );
 
 		p.getChild().setName( "Emmanuel" );
 		errors = validator.validate( p, Parent.ProperOrder.class );
-		assertCorrectNumberOfViolations( errors, 1 );
+		assertNumberOfViolations( errors, 1 );
 		assertCorrectPropertyPaths( errors, "name" );
 	}
 
@@ -253,6 +254,6 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Parent p = new Parent();
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Parent>> errors = validator.validateProperty( p, "child" );
-		assertCorrectNumberOfViolations( errors, 0 );
+		assertNumberOfViolations( errors, 0 );
 	}
 }

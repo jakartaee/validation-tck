@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.util.Set;
 
@@ -51,7 +51,7 @@ public class EmailConstraintTest extends AbstractTCKTest {
 		EmailDummyEntity foo = new EmailDummyEntity();
 
 		Set<ConstraintViolation<EmailDummyEntity>> constraintViolations = validator.validate( foo );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		foo.email = "4 8";
 		constraintViolations = validator.validate( foo );
@@ -68,7 +68,7 @@ public class EmailConstraintTest extends AbstractTCKTest {
 		EmailStringBuilderDummyEntity foo = new EmailStringBuilderDummyEntity();
 
 		Set<ConstraintViolation<EmailStringBuilderDummyEntity>> constraintViolations = validator.validate( foo );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		foo.email = new StringBuilder( "4 8" );
 		constraintViolations = validator.validate( foo );

@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.crossparameter;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 
 import java.lang.reflect.Method;
@@ -52,10 +52,10 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, GenericConstraint.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
 	}
@@ -73,10 +73,10 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, ExplicitGenericConstraint.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
 	}
@@ -94,10 +94,10 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				returnValue
 		);
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateParameters( object, method, parameterValues );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, CrossParameterConstraint.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}
@@ -118,10 +118,10 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, GenericAndCrossParameterConstraintWithOneValidator.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
 
@@ -129,10 +129,10 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 
 		//constraint applies to parameters
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertCorrectNumberOfViolations( violations, 0 );
+		assertNumberOfViolations( violations, 0 );
 
 		violations = getExecutableValidator().validateParameters( object, method, parameterValues );
-		assertCorrectNumberOfViolations( violations, 1 );
+		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, GenericAndCrossParameterConstraintWithOneValidator.class );
 		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
 	}

@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -77,7 +77,7 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 	public void testClassConstraintDefinedInXml() {
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user, TestGroup.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "Message from xml"
 		);
@@ -89,7 +89,7 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 
 		user.setConsistent( true );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 
 		Order order = new Order();
 		Set<ConstraintViolation<Order>> constraintViolations = getValidator().validate( order );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -125,12 +125,12 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setFirstname( "Wolfeschlegelsteinhausenbergerdorff" );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "Size is limited!" );
 
 		user.setFirstname( "Wolfgang" );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -149,14 +149,14 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setLastname( "doe" );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "Last name has to start with with a capital letter."
 		);
 
 		user.setLastname( "Doe" );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -174,14 +174,14 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setPhoneNumber( "police" );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages(
 				constraintViolations, "A phone number can only contain numbers, whitespaces and dashes."
 		);
 
 		user.setPhoneNumber( "112" );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -201,12 +201,12 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setCreditcard( card );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "Not a credit card number." );
 
 		card.setNumber( "1234567890" );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test

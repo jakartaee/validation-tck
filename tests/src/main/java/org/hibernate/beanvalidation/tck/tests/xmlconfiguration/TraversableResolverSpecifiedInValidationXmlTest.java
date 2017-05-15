@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
@@ -54,7 +54,7 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertTrue(
 				XmlDefinedTraversableResolver.numberOfIsReachableCalls > 0,
 				"The resolver should have been called at least once if it was properly picked up by xml configuration."
@@ -77,7 +77,7 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertTrue(
 				ConfigurationDefinedTraversableResolver.numberOfIsReachableCalls > 0,
 				"The resolver should have been called at least once if configuration settings were applied."

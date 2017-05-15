@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;

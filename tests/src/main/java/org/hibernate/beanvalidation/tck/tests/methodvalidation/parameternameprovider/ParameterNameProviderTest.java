@@ -7,7 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertSame;
@@ -103,7 +103,7 @@ public class ParameterNameProviderTest extends AbstractTCKTest {
 				method,
 				parameters
 		);
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 
 		Set<String> actualParameterNames = getParameterNames( constraintViolations );
 		Set<String> expectedParameterNames = asSet( "param0", "param1" );

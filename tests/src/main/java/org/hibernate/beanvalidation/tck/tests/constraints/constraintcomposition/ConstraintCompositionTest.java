@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -63,7 +63,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	public void testComposedConstraints() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<FrenchAddress> constraintViolation = constraintViolations.iterator().next();
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 		assertCorrectConstraintViolationMessages( constraintViolations, "may not be null" );
@@ -84,7 +84,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		address.setAddressline2( "3ter Stock" );
 		address.setCity( "Karlsruhe" );
 		Set<ConstraintViolation<GermanAddress>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
 				GermanAddress.class,
@@ -99,7 +99,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "00000" );
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, FrenchZipcode.class );
 		assertCorrectConstraintViolationMessages( constraintViolations, "00000 is a reserved code" );
 	}
@@ -114,7 +114,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "abc" );
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertNumberOfViolations( constraintViolations, 3 );
 		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Pattern.class, Size.class );
 		for ( ConstraintViolation<FrenchAddress> violation : constraintViolations ) {
 			assertConstraintViolation(
@@ -127,7 +127,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 		address.setZipCode( "123" );
 		constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Size.class );
 		for ( ConstraintViolation<FrenchAddress> violation : constraintViolations ) {
 			assertConstraintViolation(
@@ -140,7 +140,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 		address.setZipCode( "33023" );
 		constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		FrenchAddressListContainer address = getFrenchAddressListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
 		Set<ConstraintViolation<FrenchAddressListContainer>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertNumberOfViolations( constraintViolations, 3 );
 		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Pattern.class, Size.class );
 		for ( ConstraintViolation<FrenchAddressListContainer> violation : constraintViolations ) {
 			assertConstraintViolation(
@@ -162,7 +162,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 		address.setZipCode( "33023" );
 		constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test(expectedExceptions = { ConstraintDeclarationException.class })
@@ -179,7 +179,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	public void testGroupsDefinedOnMainAnnotationAreInherited() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		ConstraintViolation<FrenchAddress> constraintViolation = constraintViolations.iterator().next();
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 		NotNull notNull = (NotNull) constraintViolation.getConstraintDescriptor().getAnnotation();
@@ -202,7 +202,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		address.setZipCode( "abc" );
 		// actually three composing constraints fail, but due to @ReportAsSingleViolation only one will be reported.
 		Set<ConstraintViolation<GermanAddress>> constraintViolations = getValidator().validate( address );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
 				constraintViolations.iterator().next(),
 				GermanAddress.class,
@@ -258,7 +258,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Friend>> constraintViolations = getValidator().validate( john );
 
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 
 		ConstraintViolation<Friend> constraintViolation = constraintViolations.iterator().next();
@@ -284,7 +284,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		);
 
 		//The composing constraint is expected to fail
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, GenericAndCrossParameterConstraint.class );
 
 		//and it should inherit the constraint target from the composed constraint

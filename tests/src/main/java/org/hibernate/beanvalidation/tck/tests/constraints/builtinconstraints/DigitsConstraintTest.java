@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -55,7 +55,7 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<DigitsDummyEntity>> constraintViolations = validator.validate( dummy );
 		// only the max constraints on the primitive values should fail. Object values re still null and should pass per spec
-		assertCorrectNumberOfViolations( constraintViolations, 4 );
+		assertNumberOfViolations( constraintViolations, 4 );
 		assertCorrectPropertyPaths(
 				constraintViolations, "bytePrimitive", "intPrimitive", "longPrimitive", "shortPrimitive"
 		);
@@ -74,7 +74,7 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 102 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 6 );
+		assertNumberOfViolations( constraintViolations, 6 );
 		assertCorrectPropertyPaths(
 				constraintViolations, "byteObject", "intObject", "longObject", "shortObject", "bigDecimal", "bigInteger"
 		);
@@ -87,7 +87,7 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 5 );
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	private static class DigitsDummyEntity {

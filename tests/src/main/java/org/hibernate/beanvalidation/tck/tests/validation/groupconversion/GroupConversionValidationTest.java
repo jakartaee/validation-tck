@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertDescriptorKinds;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertNodeNames;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
@@ -18,15 +18,12 @@ import java.util.Arrays;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ElementKind;
-import javax.validation.Path;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -136,12 +133,14 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateReturnValue( user, method, returnValue );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "retrieveMainAddress", TestUtil.RETURN_VALUE_NODE_NAME, "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.method( "retrieveMainAddress" )
+						.returnValue()
+						.property( "street1" )
+		);
 	}
 
 	@Test
@@ -158,12 +157,14 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateReturnValue( user, method, returnValue );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "retrieveWeekendAddress", TestUtil.RETURN_VALUE_NODE_NAME, "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.method( "retrieveWeekendAddress" )
+						.returnValue()
+						.property( "street1" )
+		);
 	}
 
 	@Test
@@ -180,12 +181,14 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateReturnValue( user, method, returnValue );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.RETURN_VALUE, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "retrieveFallbackAddress", TestUtil.RETURN_VALUE_NODE_NAME, "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.method( "retrieveFallbackAddress" )
+						.returnValue()
+						.property( "street1" )
+		);
 	}
 
 	@Test
@@ -201,12 +204,14 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateParameters( user, method, arguments );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.METHOD, ElementKind.PARAMETER, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "setMainAddress", "mainAddress", "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.method( "setMainAddress" )
+						.parameter( "mainAddress", 0 )
+						.property( "street1" )
+		);
 	}
 
 	@Test
@@ -221,18 +226,15 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateConstructorReturnValue( constructor, createdObject );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds(
-				propertyPath,
-				ElementKind.CONSTRUCTOR,
-				ElementKind.RETURN_VALUE,
-				ElementKind.PROPERTY,
-				ElementKind.PROPERTY
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.constructor( User.class )
+						.returnValue()
+						.property( "mainAddress" )
+						.property( "street1" )
 		);
-		assertNodeNames( propertyPath, "User", TestUtil.RETURN_VALUE_NODE_NAME, "mainAddress", "street1" );
 	}
 
 	@Test
@@ -247,12 +249,14 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateConstructorParameters( constructor, arguments );
 
 		//then
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
-		Path propertyPath = constraintViolations.iterator().next().getPropertyPath();
-
-		assertDescriptorKinds( propertyPath, ElementKind.CONSTRUCTOR, ElementKind.PARAMETER, ElementKind.PROPERTY );
-		assertNodeNames( propertyPath, "User", "mainAddress", "street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.constructor( User.class )
+						.parameter( "mainAddress", 0 )
+						.property( "street1" )
+		);
 	}
 
 	@Test
@@ -283,7 +287,7 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 		User user = TestUsers.validUser();
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		user.getWeekendAddress().setDoorCode( "ABC" );
 		constraintViolations = getValidator().validate( user );

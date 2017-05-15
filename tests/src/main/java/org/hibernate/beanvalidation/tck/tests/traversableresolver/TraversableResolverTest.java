@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
@@ -427,7 +427,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 
 		Person person = new Person();
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( person );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 	}
 
 	@Test

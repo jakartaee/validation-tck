@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
@@ -59,7 +59,7 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 		}
 
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( new Person( "John", "Doe" ) );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 	}
 
 	@Test
@@ -81,13 +81,13 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 		}
 
 		Set<ConstraintViolation<Movie>> constraintViolations = validator.validate( new Movie( "Title" ) );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		constraintViolations = validator.validate( new Movie( "A" ) );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 
 		constraintViolations = validator.validate( new Movie( "A movie title far too long that does not respect the constraint" ) );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 	}
 
 	@Test

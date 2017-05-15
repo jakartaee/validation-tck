@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.ConstraintViolationSetAssert.assertContainsOnlyPaths;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -140,7 +140,7 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( Foo.invalid() );
 
-		assertContainsOnlyPaths( violations,
+		assertThat( violations ).containsOnlyPaths(
 				pathWith()
 						.property( "property" )
 						.containerElement( Greeter.MESSAGE, true, null, null, Map.class, 0 ),

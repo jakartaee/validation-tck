@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 
 import java.util.Set;
 
@@ -52,22 +52,22 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validate( new Address() );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class, NotEmpty.class );
 		assertCorrectPropertyPaths( constraintViolations, "city", "zipCode" );
 
 		constraintViolations = validator.validate( new Address(), Default.class );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class, NotEmpty.class );
 		assertCorrectPropertyPaths( constraintViolations, "city", "zipCode" );
 
 		constraintViolations = validator.validate( new Address(), Address.Minimal.class );
-		assertCorrectNumberOfViolations( constraintViolations, 2 );
+		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class, NotEmpty.class );
 		assertCorrectPropertyPaths( constraintViolations, "street", "zipCode" );
 
 		constraintViolations = validator.validate( new Address(), Default.class, Address.Minimal.class );
-		assertCorrectNumberOfViolations( constraintViolations, 3 );
+		assertNumberOfViolations( constraintViolations, 3 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class, NotEmpty.class, NotEmpty.class );
 		assertCorrectPropertyPaths( constraintViolations, "city", "street", "zipCode" );
 	}
@@ -81,20 +81,20 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateProperty( new Address(), "city" );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 		assertCorrectPropertyPaths( constraintViolations, "city" );
 
 		constraintViolations = validator.validateProperty( new Address(), "city", Default.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 		assertCorrectPropertyPaths( constraintViolations, "city" );
 
 		constraintViolations = validator.validateProperty( new Address(), "city", Address.Minimal.class );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		constraintViolations = validator.validateProperty( new Address(), "street", Address.Minimal.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class );
 		assertCorrectPropertyPaths( constraintViolations, "street" );
 	}
@@ -108,20 +108,20 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateValue( Address.class, "city", null );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 		assertCorrectPropertyPaths( constraintViolations, "city" );
 
 		constraintViolations = validator.validateValue( Address.class, "city", null, Default.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
 		assertCorrectPropertyPaths( constraintViolations, "city" );
 
 		constraintViolations = validator.validateValue( Address.class, "city", null, Address.Minimal.class );
-		assertCorrectNumberOfViolations( constraintViolations, 0 );
+		assertNumberOfViolations( constraintViolations, 0 );
 
 		constraintViolations = validator.validateValue( Address.class, "street", null, Address.Minimal.class );
-		assertCorrectNumberOfViolations( constraintViolations, 1 );
+		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class );
 		assertCorrectPropertyPaths( constraintViolations, "street" );
 	}
