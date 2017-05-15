@@ -9,6 +9,9 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.BEAN_NODE_NAME;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.CROSS_PARAMETER_NODE_NAME;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.RETURN_VALUE_NODE_NAME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
 import static org.testng.Assert.assertEquals;
@@ -112,7 +115,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		assertTrue( nodeIter.hasNext() );
 		Node node = nodeIter.next();
-		assertNode( node, TestUtil.BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
+		assertNode( node, BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
 		BeanNode beanNode = node.as( BeanNode.class );
 		assertNotNull( beanNode );
 
@@ -475,7 +478,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		assertTrue( nodeIter.hasNext() );
 		Node nextNode = nodeIter.next();
-		assertNode( nextNode, TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nextNode, RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		ReturnValueNode returnValueNode = nextNode.as( ReturnValueNode.class );
 		assertNotNull( returnValueNode );
@@ -524,7 +527,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertTrue( nodeIter.hasNext() );
 		assertNode(
 				nodeIter.next(),
-				TestUtil.CROSS_PARAMETER_NODE_NAME,
+				CROSS_PARAMETER_NODE_NAME,
 				ElementKind.CROSS_PARAMETER,
 				false,
 				null,
@@ -701,7 +704,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		Node nextNode = nodeIter.next();
 		assertNode(
 				nextNode,
-				TestUtil.CROSS_PARAMETER_NODE_NAME,
+				CROSS_PARAMETER_NODE_NAME,
 				ElementKind.CROSS_PARAMETER,
 				false,
 				null,
@@ -749,7 +752,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertFalse( nodeIter.hasNext() );
 	}
@@ -1349,7 +1352,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, false, null, null );
@@ -1400,7 +1403,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, 1, null );
@@ -1451,7 +1454,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, 1, null );
@@ -1498,7 +1501,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, null, null );
@@ -1549,7 +1552,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, null, "NO_TITLE" );
@@ -1592,7 +1595,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
-		assertNode( nodeIter.next(), TestUtil.RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
+		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		assertTrue( nodeIter.hasNext() );
 		assertNode( nodeIter.next(), "name", ElementKind.PROPERTY, false, null, null );
@@ -1611,7 +1614,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		assertTrue( nodeIter.hasNext() );
 		Node node = nodeIter.next();
-		assertNode( node, TestUtil.BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
+		assertNode( node, BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
 
 		node.as( PropertyNode.class );
 	}

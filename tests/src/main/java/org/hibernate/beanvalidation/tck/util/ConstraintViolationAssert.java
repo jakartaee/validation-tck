@@ -36,14 +36,19 @@ import org.assertj.core.api.IterableAssert;
 public final class ConstraintViolationAssert {
 
 	/**
-	 * Expected name for cross-parameter nodes.
+	 * Expected name for return value nodes.
 	 */
-	private static final String CROSS_PARAMETER_NODE_NAME = "<cross-parameter>";
+	public static final String BEAN_NODE_NAME = null;
 
 	/**
 	 * Expected name for cross-parameter nodes.
 	 */
-	private static final String RETURN_VALUE_NODE_NAME = "<return value>";
+	public static final String CROSS_PARAMETER_NODE_NAME = "<cross-parameter>";
+
+	/**
+	 * Expected name for cross-parameter nodes.
+	 */
+	public static final String RETURN_VALUE_NODE_NAME = "<return value>";
 
 	/**
 	 * Private constructor in order to avoid instantiation.

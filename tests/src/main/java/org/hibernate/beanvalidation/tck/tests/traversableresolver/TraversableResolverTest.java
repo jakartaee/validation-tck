@@ -6,6 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.RETURN_VALUE_NODE_NAME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -334,7 +335,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"size",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedReachCalls.add(
@@ -343,7 +344,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"trousers",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedCascadeCalls.add(
@@ -352,7 +353,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"trousers",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedReachCalls.add(
@@ -361,7 +362,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"length",
 						Gentleman.class,
 						ElementType.FIELD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME, "trousers" }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME, "trousers" }
 				)
 		);
 		expectedReachCalls.add(
@@ -370,7 +371,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"jacket",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedCascadeCalls.add(
@@ -379,7 +380,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"jacket",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME }
 				)
 		);
 		expectedReachCalls.add(
@@ -388,7 +389,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 						"width",
 						Gentleman.class,
 						ElementType.METHOD,
-						new String[] { "undress", TestUtil.RETURN_VALUE_NODE_NAME, "jacket" }
+						new String[] { "undress", RETURN_VALUE_NODE_NAME, "jacket" }
 				)
 		);
 
