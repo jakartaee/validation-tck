@@ -7,7 +7,8 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -56,8 +57,15 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 		Set<ConstraintViolation<DigitsDummyEntity>> constraintViolations = validator.validate( dummy );
 		// only the max constraints on the primitive values should fail. Object values re still null and should pass per spec
 		assertNumberOfViolations( constraintViolations, 4 );
-		assertCorrectPropertyPaths(
-				constraintViolations, "bytePrimitive", "intPrimitive", "longPrimitive", "shortPrimitive"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "bytePrimitive" ),
+				pathWith()
+						.property( "intPrimitive" ),
+				pathWith()
+						.property( "longPrimitive" ),
+				pathWith()
+						.property( "shortPrimitive" )
 		);
 
 
@@ -75,8 +83,19 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 6 );
-		assertCorrectPropertyPaths(
-				constraintViolations, "byteObject", "intObject", "longObject", "shortObject", "bigDecimal", "bigInteger"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "byteObject" ),
+				pathWith()
+						.property( "intObject" ),
+				pathWith()
+						.property( "longObject" ),
+				pathWith()
+						.property( "shortObject" ),
+				pathWith()
+						.property( "bigDecimal" ),
+				pathWith()
+						.property( "bigInteger" )
 		);
 
 		dummy.intObject = Integer.valueOf( "1" );

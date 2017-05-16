@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public class AssertConstraintsTests extends AbstractTCKTest {
 		Set<ConstraintViolation<AssertTrueDummyEntity>> constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), AssertTrueDummyEntity.class, false, "primitiveBoolean"
+				constraintViolations.iterator().next(), AssertTrueDummyEntity.class, false, pathWith().property( "primitiveBoolean" )
 		);
 
 		dummy.setPrimitiveBoolean( true );
@@ -59,7 +60,7 @@ public class AssertConstraintsTests extends AbstractTCKTest {
 		constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), AssertTrueDummyEntity.class, Boolean.FALSE, "objectBoolean"
+				constraintViolations.iterator().next(), AssertTrueDummyEntity.class, Boolean.FALSE, pathWith().property( "objectBoolean" )
 		);
 
 		dummy.setObjectBoolean( Boolean.TRUE );
@@ -78,7 +79,7 @@ public class AssertConstraintsTests extends AbstractTCKTest {
 		Set<ConstraintViolation<AssertFalseDummyEntity>> constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), AssertFalseDummyEntity.class, true, "primitiveBoolean"
+				constraintViolations.iterator().next(), AssertFalseDummyEntity.class, true, pathWith().property( "primitiveBoolean" )
 		);
 
 		dummy.setPrimitiveBoolean( false );
@@ -87,7 +88,7 @@ public class AssertConstraintsTests extends AbstractTCKTest {
 		constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), AssertFalseDummyEntity.class, Boolean.TRUE, "objectBoolean"
+				constraintViolations.iterator().next(), AssertFalseDummyEntity.class, Boolean.TRUE, pathWith().property(  "objectBoolean" )
 		);
 
 		dummy.setObjectBoolean( Boolean.FALSE );

@@ -9,7 +9,8 @@ package org.hibernate.beanvalidation.tck.tests.validation.validatorcontext;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -98,7 +99,10 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		Set<ConstraintViolation<DummyBean>> constraintViolations = validator.validate( bean );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "message1" );
-		assertCorrectPropertyPaths( constraintViolations, "value" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "value" )
+		);
 	}
 
 	@Test
@@ -119,7 +123,11 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		Set<ConstraintViolation<DummyBean>> constraintViolations = validator.validate( bean );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintViolationMessages( constraintViolations, "subnode message" );
-		assertCorrectPropertyPaths( constraintViolations, "value.subnode" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "value" )
+						.property( "subnode" )
+		);
 	}
 
 	@Test
@@ -133,7 +141,11 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Group>> constraintViolations = validator.validate( group );
 		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectPropertyPaths( constraintViolations, "persons[0]" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "persons" )
+						.property( null, true, null, 0 )
+		);
 		assertCorrectConstraintTypes( constraintViolations, CompatiblePersons.class );
 	}
 

@@ -11,7 +11,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
 
@@ -105,7 +106,10 @@ public class ClockProviderTest extends AbstractTCKTest {
 
 		person.setBirthday( Instant.now().plus( Duration.ofDays( 15 ) ) );
 		constraintViolations = validator.validate( person );
-		assertCorrectPropertyPaths( constraintViolations, "birthday" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "birthday" )
+		);
 
 		// get a new validator with a custom configuration
 		validator = TestUtil.getConfigurationUnderTest()
@@ -119,7 +123,10 @@ public class ClockProviderTest extends AbstractTCKTest {
 
 		person.setBirthday( Instant.now().plus( Duration.ofDays( 90 ) ) );
 		constraintViolations = validator.validate( person );
-		assertCorrectPropertyPaths( constraintViolations, "birthday" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "birthday" )
+		);
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
@@ -147,7 +154,10 @@ public class ClockProviderTest extends AbstractTCKTest {
 		person.setBirthday( Instant.now().plus( Duration.ofDays( 15 ) ) );
 
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( person );
-		assertCorrectPropertyPaths( constraintViolations, "birthday" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "birthday" )
+		);
 
 		validator = TestUtil.getValidatorFactoryUnderTest()
 				.usingContext()

@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -48,27 +49,42 @@ public class NotBlankConstraintTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<NotBlankDummyEntity>> constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = "";
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = " ";
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = "\t";
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = "\n";
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = "john doe";
 		constraintViolations = validator.validate( foo );
@@ -85,12 +101,18 @@ public class NotBlankConstraintTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<NotBlankStringBuilderDummyEntity>> constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = new StringBuilder( " " );
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertCorrectPropertyPaths( constraintViolations, "name" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		foo.name = new StringBuilder( "john doe" );
 		constraintViolations = validator.validate( foo );

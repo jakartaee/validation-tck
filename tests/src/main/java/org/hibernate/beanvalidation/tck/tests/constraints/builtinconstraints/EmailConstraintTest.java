@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -56,7 +57,10 @@ public class EmailConstraintTest extends AbstractTCKTest {
 		foo.email = "4 8";
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, Email.class );
-		assertCorrectPropertyPaths( constraintViolations, "email" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "email" )
+		);
 	}
 
 	@Test
@@ -73,7 +77,10 @@ public class EmailConstraintTest extends AbstractTCKTest {
 		foo.email = new StringBuilder( "4 8" );
 		constraintViolations = validator.validate( foo );
 		assertCorrectConstraintTypes( constraintViolations, Email.class );
-		assertCorrectPropertyPaths( constraintViolations, "email" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "email" )
+		);
 	}
 
 	private class EmailDummyEntity {

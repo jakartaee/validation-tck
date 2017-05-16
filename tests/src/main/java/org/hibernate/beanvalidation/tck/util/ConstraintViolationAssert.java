@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -94,28 +93,8 @@ public final class ConstraintViolationAssert {
 		assertCorrectConstraintTypes( actualConstraintTypes, expectedConstraintTypes );
 	}
 
-	/**
-	 * Asserts that the given list of constraint violation paths matches the list of expected property paths.
-	 *
-	 * @param violations The violation list to verify.
-	 * @param expectedPropertyPaths The expected property paths.
-	 */
-	public static void assertCorrectPropertyPaths(Set<? extends ConstraintViolation<?>> violations,
-			String... expectedPropertyPaths) {
-		Set<String> actualPaths = violations.stream()
-			.map( ConstraintViolation::getPropertyPath )
-			.map( Path::toString )
-			.collect( Collectors.toSet() );
-
-		Assertions.assertThat( actualPaths ).containsOnly( expectedPropertyPaths );
-	}
-
 	public static ConstraintViolationSetAssert assertThat(Set<? extends ConstraintViolation<?>> actualViolations) {
 		return new ConstraintViolationSetAssert( actualViolations );
-	}
-
-	public static void assertCorrectPropertyPaths(ConstraintViolationException e, String... expectedPropertyPaths) {
-		assertCorrectPropertyPaths( e.getConstraintViolations(), expectedPropertyPaths );
 	}
 
 	/**
@@ -123,12 +102,13 @@ public final class ConstraintViolationAssert {
 	 * to the expected message, root bean class, invalid value and propertyPath.
 	 *
 	 * @param violation The violation to verify.
+	 * @param constraint The violated constraint.
 	 * @param rootBeanClass The expected root bean class.
 	 * @param invalidValue The expected invalid value.
 	 * @param propertyPath The expected property path.
 	 */
-	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass, Object invalidValue, String propertyPath) {
-		assertEquals( violation.getPropertyPath().toString(), propertyPath );
+	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass, Object invalidValue, PathExpectation propertyPath) {
+		Assertions.assertThat( new PathExpectation( violation.getPropertyPath() ) ).isEqualTo( propertyPath );
 		assertConstraintViolation( violation, rootBeanClass, invalidValue );
 	}
 
@@ -137,6 +117,7 @@ public final class ConstraintViolationAssert {
 	 * expected message, root bean class and invalid value.
 	 *
 	 * @param violation The violation to verify.
+	 * @param constraint The violated constraint.
 	 * @param rootBeanClass The expected root bean class.
 	 * @param invalidValue The expected invalid value.
 	 */
@@ -150,21 +131,12 @@ public final class ConstraintViolationAssert {
 	 * and root bean class.
 	 *
 	 * @param violation The violation to verify.
+	 * @param constraint The violated constraint.
 	 * @param errorMessage The expected error message.
 	 * @param rootBeanClass The expected root bean class.
 	 */
 	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass) {
 		assertEquals( violation.getRootBeanClass(), rootBeanClass, "Wrong root bean type" );
-	}
-
-	/**
-	 * Asserts that the error message of the given violation is equal to the expected message.
-	 *
-	 * @param violation The violation to verify.
-	 * @param errorMessage The expected error message.
-	 */
-	public static void assertConstraintViolation(ConstraintViolation<?> violation, String errorMessage) {
-		assertEquals( violation.getMessage(), errorMessage, "Wrong expectedMessage" );
 	}
 
 	/**

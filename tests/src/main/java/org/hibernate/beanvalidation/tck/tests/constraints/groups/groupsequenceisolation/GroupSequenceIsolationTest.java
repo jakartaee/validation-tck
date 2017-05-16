@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequencei
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -127,25 +128,41 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		Set<ConstraintViolation<B3>> violations = validator.validate( b );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Max.class, Size.class );
-		assertCorrectPropertyPaths( violations, "size", "nickname" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "size" ),
+				pathWith()
+						.property( "nickname" )
+		);
 
 		b.nickname = "nick";
 		violations = validator.validate( b );
 		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Max.class );
-		assertCorrectPropertyPaths( violations, "size" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "size" )
+		);
 
 		b.size = 10;
 		violations = validator.validate( b );
 		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPropertyPaths( violations, "name" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		b.nickname = "and this nickname as well";
 		violations = validator.validate( b );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
-		assertCorrectPropertyPaths( violations, "name", "nickname" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" ),
+				pathWith()
+						.property( "nickname" )
+		);
 	}
 
 	@Test
@@ -161,19 +178,34 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		Set<ConstraintViolation<C>> violations = validator.validate( c );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Max.class, Size.class );
-		assertCorrectPropertyPaths( violations, "size", "d.nickname" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "size" ),
+				pathWith()
+						.property( "d" )
+						.property( "nickname" )
+		);
 
 		c.size = 10;
 		violations = validator.validate( c );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
-		assertCorrectPropertyPaths( violations, "name", "d.nickname" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" ),
+				pathWith()
+						.property( "d" )
+						.property( "nickname" )
+		);
 
 		c.d.nickname = "Jon";
 		violations = validator.validate( c );
 		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPropertyPaths( violations, "name" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		c.name = "Johnatan";
 		violations = validator.validate( c );
@@ -195,25 +227,46 @@ public class GroupSequenceIsolationTest extends AbstractTCKTest {
 		Set<ConstraintViolation<E>> violations = validator.validate( e );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Max.class, Size.class );
-		assertCorrectPropertyPaths( violations, "size", "f.nickname" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "size" ),
+				pathWith()
+						.property( "f" )
+						.property( "nickname" )
+		);
 
 		e.size = 10;
 		violations = validator.validate( e );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, Size.class );
-		assertCorrectPropertyPaths( violations, "name", "f.nickname" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" ),
+				pathWith()
+						.property( "f" )
+						.property( "nickname" )
+		);
 
 		e.f.nickname = "Jon";
 		violations = validator.validate( e );
 		assertNumberOfViolations( violations, 2 );
 		assertCorrectConstraintTypes( violations, Size.class, IsAdult.class );
-		assertCorrectPropertyPaths( violations, "name", "f.age" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" ),
+				pathWith()
+						.property( "f" )
+						.property( "age" )
+		);
 
 		e.f.age = 18;
 		violations = validator.validate( e );
 		assertNumberOfViolations( violations, 1 );
 		assertCorrectConstraintTypes( violations, Size.class );
-		assertCorrectPropertyPaths( violations, "name" );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 
 		e.name = "Johnatan";
 		violations = validator.validate( e );

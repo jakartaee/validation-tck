@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
@@ -86,11 +87,14 @@ public class ConfigurationTest extends AbstractTCKTest {
 		Validator validator = configuration.buildValidatorFactory().getValidator();
 
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( new User() );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"firstName",
-				"lastName",
-				"address.street"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" ),
+				pathWith()
+						.property( "address" )
+						.property( "street" )
 		);
 	}
 
@@ -110,10 +114,11 @@ public class ConfigurationTest extends AbstractTCKTest {
 		Validator validator1 = configuration.buildValidatorFactory().getValidator();
 
 		Set<ConstraintViolation<User>> constraintViolations = validator1.validate( new User() );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"firstName",
-				"lastName"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" )
 		);
 
 		configuration.addMapping(
@@ -128,22 +133,28 @@ public class ConfigurationTest extends AbstractTCKTest {
 		Validator validator2 = configuration.buildValidatorFactory().getValidator();
 
 		constraintViolations = validator2.validate( new User() );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"firstName",
-				"lastName",
-				"address.street"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" ),
+				pathWith()
+						.property( "address" )
+						.property( "street" )
 		);
 
 		//re-reads both streams
 		validator2 = configuration.buildValidatorFactory().getValidator();
 
 		constraintViolations = validator2.validate( new User() );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"firstName",
-				"lastName",
-				"address.street"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" ),
+				pathWith()
+						.property( "address" )
+						.property( "street" )
 		);
 	}
 
@@ -154,7 +165,10 @@ public class ConfigurationTest extends AbstractTCKTest {
 		Validator validator1 = configuration.buildValidatorFactory().getValidator();
 
 		Set<ConstraintViolation<User>> constraintViolations = validator1.validate( new User() );
-		assertCorrectPropertyPaths( constraintViolations, "firstName" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" )
+		);
 
 		//add a mapping and get another validator
 		configuration.addMapping(
@@ -165,11 +179,19 @@ public class ConfigurationTest extends AbstractTCKTest {
 		Validator validator2 = configuration.buildValidatorFactory().getValidator();
 
 		constraintViolations = validator2.validate( new User() );
-		assertCorrectPropertyPaths( constraintViolations, "firstName", "lastName" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" )
+		);
 
 		//the mapping shouldn't alter the previously created validator
 		constraintViolations = validator1.validate( new User() );
-		assertCorrectPropertyPaths( constraintViolations, "firstName" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" )
+		);
 
 		//add a mapping and get another validator
 		configuration.addMapping(
@@ -180,19 +202,30 @@ public class ConfigurationTest extends AbstractTCKTest {
 		Validator validator3 = configuration.buildValidatorFactory().getValidator();
 
 		constraintViolations = validator3.validate( new User() );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"firstName",
-				"lastName",
-				"address.street"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" ),
+				pathWith()
+						.property( "address" )
+						.property( "street" )
 		);
 
 		//the mapping shouldn't alter the previously created validators
 		constraintViolations = validator1.validate( new User() );
-		assertCorrectPropertyPaths( constraintViolations, "firstName" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" )
+		);
 
 		constraintViolations = validator2.validate( new User() );
-		assertCorrectPropertyPaths( constraintViolations, "firstName", "lastName" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "firstName" ),
+				pathWith()
+						.property( "lastName" )
+		);
 	}
 
 	/**

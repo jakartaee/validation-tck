@@ -7,7 +7,8 @@
 package org.hibernate.beanvalidation.tck.tests.constraints.customconstraint;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -201,8 +202,10 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Author>> constraintViolations = validator.validate( author );
 		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertCorrectPropertyPaths( constraintViolations, "company" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "company" )
+		);
 	}
 
 

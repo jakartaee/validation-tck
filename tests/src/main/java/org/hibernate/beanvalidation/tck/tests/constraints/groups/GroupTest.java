@@ -9,8 +9,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathsAreEqual;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -197,7 +197,10 @@ public class GroupTest extends AbstractTCKTest {
 		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), book.getTitle(), "Wrong value" );
-		assertCorrectPropertyPaths( constraintViolations, "title" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "title" )
+		);
 
 		book.setTitle( "Hibernate Persistence with JPA" );
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
@@ -210,7 +213,10 @@ public class GroupTest extends AbstractTCKTest {
 		constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), book.getSubtitle(), "Wrong value" );
-		assertCorrectPropertyPaths( constraintViolations, "subtitle" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "subtitle" )
+		);
 
 		book.setSubtitle( "Revised Edition" );
 		author.setCompany( "JBoss a division of RedHat" );
@@ -223,7 +229,11 @@ public class GroupTest extends AbstractTCKTest {
 		);
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), author.getCompany(), "Wrong value" );
-		assertCorrectPropertyPaths( constraintViolations, "author.company" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "author" )
+						.property( "company" )
+		);
 
 		author.setCompany( "JBoss" );
 
@@ -255,7 +265,10 @@ public class GroupTest extends AbstractTCKTest {
 		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), book.getTitle(), "Wrong value" );
-		assertCorrectPropertyPaths( constraintViolations, "title" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "title" )
+		);
 
 		book.setTitle( "Hibernate Persistence with JPA" );
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
@@ -321,7 +334,7 @@ public class GroupTest extends AbstractTCKTest {
 						constraintViolation,
 						User.class,
 						null,
-						"defaultCreditCard"
+						pathWith().property( "defaultCreditCard" )
 				);
 			}
 			else if ( pathsAreEqual(
@@ -331,7 +344,7 @@ public class GroupTest extends AbstractTCKTest {
 						constraintViolation,
 						User.class,
 						"+46 123-456",
-						"phoneNumber"
+						pathWith().property( "phoneNumber" )
 				);
 			}
 			else {

@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 		assertNumberOfViolations( constraintViolations, 1 );
 
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), NullDummyEntity.class, foo, "property"
+				constraintViolations.iterator().next(), NullDummyEntity.class, foo, pathWith().property( "property" )
 		);
 
 		dummy.setProperty( null );
@@ -69,7 +70,7 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<NotNullDummyEntity>> constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), NotNullDummyEntity.class, null, "property"
+				constraintViolations.iterator().next(), NotNullDummyEntity.class, null, pathWith().property( "property" )
 		);
 
 		dummy.setProperty( new Object() );

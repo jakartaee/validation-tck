@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -66,9 +67,33 @@ public class NotEmptyConstraintTest extends AbstractTCKTest {
 		dummy.shortArray = new short[0];
 
 		Set<ConstraintViolation<NotEmptyDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertCorrectPropertyPaths(
-				constraintViolations, "collection", "map", "string", "stringBuilder", "integerArray",
-				"booleanArray", "byteArray", "charArray", "doubleArray", "floatArray", "intArray", "longArray", "shortArray"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "collection" ),
+				pathWith()
+						.property( "map" ),
+				pathWith()
+						.property( "string" ),
+				pathWith()
+						.property( "stringBuilder" ),
+				pathWith()
+						.property( "integerArray" ),
+				pathWith()
+						.property( "booleanArray" ),
+				pathWith()
+						.property( "byteArray" ),
+				pathWith()
+						.property( "charArray" ),
+				pathWith()
+						.property( "doubleArray" ),
+				pathWith()
+						.property( "floatArray" ),
+				pathWith()
+						.property( "intArray" ),
+				pathWith()
+						.property( "longArray" ),
+				pathWith()
+						.property( "shortArray" )
 		);
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class,
 				NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class );

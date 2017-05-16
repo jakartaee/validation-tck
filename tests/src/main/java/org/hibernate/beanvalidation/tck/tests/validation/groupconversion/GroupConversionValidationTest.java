@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
@@ -15,6 +14,7 @@ import static org.testng.Assert.assertTrue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -49,10 +49,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 	public void testGroupConversionIsAppliedOnField() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidMainAddress() );
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"mainAddress.street1",
-				"mainAddress.zipCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "mainAddress" )
+						.property( "street1" ),
+				pathWith()
+						.property( "mainAddress" )
+						.property( "zipCode" )
 		);
 	}
 
@@ -66,10 +69,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				userWithInvalidPreferredShipmentAddress
 		);
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"preferredShipmentAddress.street1",
-				"preferredShipmentAddress.zipCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "street1" ),
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "zipCode" )
 		);
 
 		constraintViolations = getValidator().validate(
@@ -77,9 +83,10 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				Complex.class
 		);
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"preferredShipmentAddress.doorCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "doorCode" )
 		);
 
 		constraintViolations = getValidator().validate(
@@ -88,11 +95,16 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				Complex.class
 		);
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"preferredShipmentAddress.street1",
-				"preferredShipmentAddress.zipCode",
-				"preferredShipmentAddress.doorCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "street1" ),
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "zipCode" ),
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "doorCode" )
 		);
 
 		constraintViolations = getValidator().validate(
@@ -100,11 +112,16 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				Complete.class
 		);
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"preferredShipmentAddress.street1",
-				"preferredShipmentAddress.zipCode",
-				"preferredShipmentAddress.doorCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "street1" ),
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "zipCode" ),
+				pathWith()
+						.property( "preferredShipmentAddress" )
+						.property( "doorCode" )
 		);
 	}
 
@@ -113,10 +130,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 	public void testGroupConversionIsAppliedOnProperty() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidShipmentAddress() );
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"shipmentAddresses[0].street1",
-				"shipmentAddresses[0].zipCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "shipmentAddresses" )
+						.property( "street1", true, null, 0, List.class, 0 ),
+				pathWith()
+						.property( "shipmentAddresses" )
+						.property( "zipCode", true, null, 0, List.class, 0 )
 		);
 	}
 
@@ -264,10 +284,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 	public void testGroupConversionIsNotExecutedRecursively() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidOfficeAddress() );
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"officeAddress.street1",
-				"officeAddress.zipCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "officeAddress" )
+						.property( "street1" ),
+				pathWith()
+						.property( "officeAddress" )
+						.property( "zipCode" )
 		);
 
 		constraintViolations = getValidator().validate(
@@ -275,9 +298,10 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				BasicPostal.class
 		);
 
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"officeAddress.doorCode"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "officeAddress" )
+						.property( "doorCode" )
 		);
 	}
 
@@ -291,11 +315,19 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 
 		user.getWeekendAddress().setDoorCode( "ABC" );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectPropertyPaths( constraintViolations, "weekendAddress.doorCode" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "weekendAddress" )
+						.property( "doorCode" )
+		);
 
 		user.getWeekendAddress().setStreet1( null );
 		constraintViolations = getValidator().validate( user );
-		assertCorrectPropertyPaths( constraintViolations, "weekendAddress.street1" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "weekendAddress" )
+						.property( "street1" )
+		);
 	}
 
 	@Test
@@ -305,7 +337,11 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 		assertTrue( constraintViolations.isEmpty(), "No violations expected for default group" );
 
 		constraintViolations = getValidator().validate( new FooHolder(), Complex.class );
-		assertCorrectPropertyPaths( constraintViolations, "foo.bar" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "foo" )
+						.property( "bar" )
+		);
 	}
 
 	private static class TestUsers {

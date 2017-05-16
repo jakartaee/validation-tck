@@ -9,9 +9,12 @@ package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -74,11 +77,19 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Order>> constraintViolations = validator.validate( order );
 		assertNumberOfViolations( constraintViolations, 3 );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"shippingAddress.addressline1",
-				"customer.addresses[0].addressline1",
-				"billingAddress.inhabitant.addresses[0].addressline1"
+		assertThat(constraintViolations).containsOnlyPaths(
+				pathWith()
+						.property( "shippingAddress" )
+						.property( "addressline1" ),
+				pathWith()
+						.property( "customer" )
+						.property( "addresses" )
+						.property( "addressline1", true, null, 0, List.class, 0 ),
+				pathWith()
+						.property( "billingAddress" )
+						.property( "inhabitant" )
+						.property( "addresses" )
+						.property( "addressline1", true, null, 0, List.class, 0 )
 		);
 	}
 
@@ -96,7 +107,7 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( john );
 		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), User.class, null, "lastName"
+				constraintViolations.iterator().next(), User.class, null, pathWith().property( "lastName" )
 		);
 
 
@@ -107,13 +118,15 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		constraintViolations = validator.validate( john );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), User.class, null, "lastName"
+				constraintViolations.iterator().next(), User.class, null, pathWith().property( "lastName" )
 		);
 
 		constraintViolations = validator.validate( jane );
 		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), User.class, null, "knowsUser[0].lastName"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "knowsUser" )
+						.property( "lastName", true, null, 0, List.class, 0 )
 		);
 
 		john.setLastName( "Doe" );
@@ -222,10 +235,13 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<AnimalCaretaker>> constraintViolations = validator.validate( caretaker );
 		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"caresFor[Jumbo].weight",
-				"caresFor[Andes].wingspan"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "caresFor" )
+						.property( "weight", true, "Jumbo", null, Map.class, 1 ),
+				pathWith()
+						.property( "caresFor" )
+						.property( "wingspan", true, "Andes", null, Map.class, 1 )
 		);
 	}
 
@@ -240,12 +256,19 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Parent>> errors = validator.validate( p, Parent.ProperOrder.class );
 		assertNumberOfViolations( errors, 1 );
-		assertCorrectPropertyPaths( errors, "child.name" );
+		assertThat( errors ).containsOnlyPaths(
+				pathWith()
+						.property( "child" )
+						.property( "name" )
+		);
 
 		p.getChild().setName( "Emmanuel" );
 		errors = validator.validate( p, Parent.ProperOrder.class );
 		assertNumberOfViolations( errors, 1 );
-		assertCorrectPropertyPaths( errors, "name" );
+		assertThat( errors ).containsOnlyPaths(
+				pathWith()
+						.property( "name" )
+		);
 	}
 
 	@Test

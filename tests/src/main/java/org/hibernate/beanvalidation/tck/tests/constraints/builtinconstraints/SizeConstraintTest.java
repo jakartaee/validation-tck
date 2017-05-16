@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -72,9 +73,31 @@ public class SizeConstraintTest extends AbstractTCKTest {
 		dummy.shortArray = new short[0];
 
 		constraintViolations = validator.validate( dummy );
-		assertCorrectPropertyPaths(
-				constraintViolations, "collection", "map", "string", "integerArray",
-				"booleanArray", "byteArray", "charArray", "doubleArray", "floatArray", "intArray", "longArray", "shortArray"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "collection" ),
+				pathWith()
+						.property( "map" ),
+				pathWith()
+						.property( "string" ),
+				pathWith()
+						.property( "integerArray" ),
+				pathWith()
+						.property( "booleanArray" ),
+				pathWith()
+						.property( "byteArray" ),
+				pathWith()
+						.property( "charArray" ),
+				pathWith()
+						.property( "doubleArray" ),
+				pathWith()
+						.property( "floatArray" ),
+				pathWith()
+						.property( "intArray" ),
+				pathWith()
+						.property( "longArray" ),
+				pathWith()
+						.property( "shortArray" )
 		);
 		assertCorrectConstraintTypes( constraintViolations, Size.class, Size.class, Size.class, Size.class, Size.class, Size.class, Size.class, Size.class,
 				Size.class, Size.class, Size.class, Size.class );
