@@ -9,7 +9,8 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -91,11 +92,14 @@ public class ValidateValueTest extends AbstractTCKTest {
 				Order.class, "orderNumber", null
 		);
 		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectPropertyPaths( constraintViolations, "orderNumber" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "orderNumber" )
+		);
 		assertCorrectConstraintViolationMessages( constraintViolations, "An order must have an order number." );
 
 		ConstraintViolation<Order> constraintViolation = constraintViolations.iterator().next();
-		assertConstraintViolation( constraintViolation, Order.class, null, "orderNumber" );
+		assertConstraintViolation( constraintViolation, Order.class, null, pathWith().property( "orderNumber" ) );
 		assertEquals( constraintViolation.getRootBeanClass(), Order.class, "Wrong root bean class" );
 		assertNull( constraintViolation.getRootBean() );
 		assertNull( constraintViolation.getLeafBean() );

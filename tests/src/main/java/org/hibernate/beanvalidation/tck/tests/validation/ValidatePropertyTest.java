@@ -10,6 +10,7 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -125,7 +126,7 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		assertCorrectConstraintTypes( constraintViolations, Size.class );
 
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, Address.class, townInNorthWales, "city" );
+		assertConstraintViolation( violation, Address.class, townInNorthWales, pathWith().property( "city" ) );
 		assertEquals( violation.getRootBean(), address );
 		assertEquals( violation.getLeafBean(), address );
 		assertEquals( violation.getInvalidValue(), townInNorthWales );

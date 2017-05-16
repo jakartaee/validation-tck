@@ -9,6 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.fail;
 
 import java.util.Set;
@@ -62,7 +63,7 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		assertNumberOfViolations( constraintViolations, 1 );
 
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, Address.class, null, "zipcode" );
+		assertConstraintViolation( violation, Address.class, null, pathWith().property( "zipcode" ) );
 		assertCorrectConstraintViolationMessages( constraintViolations, "Zipcode may not be null" );
 
 		address.setZipcode( "41841" );
@@ -72,7 +73,7 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		assertNumberOfViolations( constraintViolations, 1 );
 
 		violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, Address.class, address, "" );
+		assertConstraintViolation( violation, Address.class, address, pathWith().bean() );
 		assertCorrectConstraintViolationMessages( constraintViolations, "Zip code is not coherent." );
 	}
 

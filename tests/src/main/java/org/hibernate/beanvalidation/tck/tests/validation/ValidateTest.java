@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
@@ -22,6 +21,7 @@ import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.Constraint;
@@ -209,7 +209,10 @@ public class ValidateTest extends AbstractTCKTest {
 		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
 		assertEquals( ann.annotationType(), Pattern.class, "Wrong annotation type" );
-		assertCorrectPropertyPaths( constraintViolations, "serialNumber" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "serialNumber" )
+		);
 
 		engine.setSerialNumber( "ABCD-EFGH-1234" );
 		constraintViolations = validator.validate( engine );
@@ -275,10 +278,14 @@ public class ValidateTest extends AbstractTCKTest {
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
 		assertEquals( constraintViolation.getLeafBean(), morgan );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"playedWith[0].playedWith[1].lastName",
-				"playedWith[1].lastName"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "playedWith" )
+						.property( "playedWith", true, null, 0, List.class, 0 )
+						.property( "lastName", true, null, 1, List.class, 0 ),
+				pathWith()
+						.property( "playedWith" )
+						.property( "lastName", true, null, 1, List.class, 0 )
 		);
 	}
 
@@ -308,10 +315,14 @@ public class ValidateTest extends AbstractTCKTest {
 		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
-		assertCorrectPropertyPaths(
-				constraintViolations,
-				"playedWith[0].playedWith[1].lastName",
-				"playedWith[1].lastName"
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "playedWith" )
+						.property( "playedWith", true, null, 0, Object[].class, null )
+						.property( "lastName", true, null, 1, Object[].class, null ),
+				pathWith()
+						.property( "playedWith" )
+						.property( "lastName", true, null, 1, Object[].class, null )
 		);
 	}
 

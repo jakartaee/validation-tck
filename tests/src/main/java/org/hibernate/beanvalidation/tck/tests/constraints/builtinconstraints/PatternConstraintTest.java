@@ -8,6 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public class PatternConstraintTest extends AbstractTCKTest {
 		constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertConstraintViolation(
-				constraintViolations.iterator().next(), PatternDummyEntity.class, "ab cd", "pattern"
+				constraintViolations.iterator().next(), PatternDummyEntity.class, "ab cd", pathWith().property( "pattern" )
 		);
 
 		dummy.pattern = "wc 00";

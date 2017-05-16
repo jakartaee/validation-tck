@@ -7,11 +7,14 @@
 package org.hibernate.beanvalidation.tck.tests.time;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
@@ -61,10 +64,35 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		validator = validatorFactory.getValidator();
 
-		assertNumberOfViolations( validator.validate( dummy ), 13 );
-		assertCorrectPropertyPaths(
-				validator.validate( dummy ), "date", "calendar", "instant", "hijrahDate", "japaneseDate", "localDate", "localDateTime",
-				"minguoDate", "offsetDateTime", "thaiBuddhistDate", "year", "yearMonth", "zonedDateTime"
+		Set<ConstraintViolation<FutureDummyEntity>> violations = validator.validate( dummy );
+		assertNumberOfViolations( violations, 13 );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "date" ),
+				pathWith()
+						.property( "calendar" ),
+				pathWith()
+						.property( "instant" ),
+				pathWith()
+						.property( "hijrahDate" ),
+				pathWith()
+						.property( "japaneseDate" ),
+				pathWith()
+						.property( "localDate" ),
+				pathWith()
+						.property( "localDateTime" ),
+				pathWith()
+						.property( "minguoDate" ),
+				pathWith()
+						.property( "offsetDateTime" ),
+				pathWith()
+						.property( "thaiBuddhistDate" ),
+				pathWith()
+						.property( "year" ),
+				pathWith()
+						.property( "yearMonth" ),
+				pathWith()
+						.property( "zonedDateTime" )
 		);
 	}
 
@@ -87,9 +115,15 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		validator = validatorFactory.getValidator();
 
-		assertNumberOfViolations( validator.validate( dummy ), 3 );
-		assertCorrectPropertyPaths(
-				validator.validate( dummy ), "localTime", "monthDay", "offsetTime"
+		Set<ConstraintViolation<FutureRelativePartialDummyEntity>> violations = validator.validate( dummy );
+		assertNumberOfViolations( violations, 3 );
+		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.property( "localTime" ),
+				pathWith()
+						.property( "monthDay" ),
+				pathWith()
+						.property( "offsetTime" )
 		);
 	}
 

@@ -10,6 +10,7 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -71,7 +72,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 				constraintViolation,
 				FrenchAddress.class,
 				null,
-				"zipCode"
+				pathWith().property( "zipCode" )
 		);
 	}
 
@@ -89,7 +90,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 				constraintViolations.iterator().next(),
 				GermanAddress.class,
 				null,
-				"zipCode"
+				pathWith().property( "zipCode" )
 		);
 	}
 
@@ -121,7 +122,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 					violation,
 					FrenchAddress.class,
 					"abc",
-					"zipCode"
+					pathWith().property( "zipCode" )
 			);
 		}
 
@@ -134,7 +135,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 					violation,
 					FrenchAddress.class,
 					"123",
-					"zipCode"
+					pathWith().property( "zipCode" )
 			);
 		}
 
@@ -156,7 +157,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 					violation,
 					FrenchAddressListContainer.class,
 					"abc",
-					"zipCode"
+					pathWith().property( "zipCode" )
 			);
 		}
 
@@ -207,7 +208,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 				constraintViolations.iterator().next(),
 				GermanAddress.class,
 				"abc",
-				"zipCode"
+				pathWith().property( "zipCode" )
 		);
 	}
 

@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectPropertyPaths;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 
 import java.util.Set;
 
@@ -54,22 +55,44 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validate( new Address() );
 		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class, NotEmpty.class );
-		assertCorrectPropertyPaths( constraintViolations, "city", "zipCode" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "city" ),
+				pathWith()
+						.property( "zipCode" )
+		);
 
 		constraintViolations = validator.validate( new Address(), Default.class );
 		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class, NotEmpty.class );
-		assertCorrectPropertyPaths( constraintViolations, "city", "zipCode" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "city" ),
+				pathWith()
+						.property( "zipCode" )
+		);
 
 		constraintViolations = validator.validate( new Address(), Address.Minimal.class );
 		assertNumberOfViolations( constraintViolations, 2 );
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class, NotEmpty.class );
-		assertCorrectPropertyPaths( constraintViolations, "street", "zipCode" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "street" ),
+				pathWith()
+						.property( "zipCode" )
+		);
 
 		constraintViolations = validator.validate( new Address(), Default.class, Address.Minimal.class );
 		assertNumberOfViolations( constraintViolations, 3 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class, NotEmpty.class, NotEmpty.class );
-		assertCorrectPropertyPaths( constraintViolations, "city", "street", "zipCode" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "street" ),
+				pathWith()
+						.property( "city" ),
+				pathWith()
+						.property( "zipCode" )
+		);
 	}
 
 	@Test
@@ -83,12 +106,18 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateProperty( new Address(), "city" );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertCorrectPropertyPaths( constraintViolations, "city" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "city" )
+		);
 
 		constraintViolations = validator.validateProperty( new Address(), "city", Default.class );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertCorrectPropertyPaths( constraintViolations, "city" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "city" )
+		);
 
 		constraintViolations = validator.validateProperty( new Address(), "city", Address.Minimal.class );
 		assertNumberOfViolations( constraintViolations, 0 );
@@ -96,7 +125,10 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		constraintViolations = validator.validateProperty( new Address(), "street", Address.Minimal.class );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class );
-		assertCorrectPropertyPaths( constraintViolations, "street" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "street" )
+		);
 	}
 
 	@Test
@@ -110,12 +142,18 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateValue( Address.class, "city", null );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertCorrectPropertyPaths( constraintViolations, "city" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "city" )
+		);
 
 		constraintViolations = validator.validateValue( Address.class, "city", null, Default.class );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertCorrectPropertyPaths( constraintViolations, "city" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "city" )
+		);
 
 		constraintViolations = validator.validateValue( Address.class, "city", null, Address.Minimal.class );
 		assertNumberOfViolations( constraintViolations, 0 );
@@ -123,6 +161,9 @@ public class ValidateWithGroupsTest extends AbstractTCKTest {
 		constraintViolations = validator.validateValue( Address.class, "street", null, Address.Minimal.class );
 		assertNumberOfViolations( constraintViolations, 1 );
 		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class );
-		assertCorrectPropertyPaths( constraintViolations, "street" );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "street" )
+		);
 	}
 }
