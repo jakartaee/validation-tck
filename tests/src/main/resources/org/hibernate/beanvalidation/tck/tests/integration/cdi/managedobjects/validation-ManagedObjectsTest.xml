@@ -18,4 +18,8 @@
     <constraint-validator-factory>org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.ConstraintValidatorFactoryUsingDependencyInjection</constraint-validator-factory>
     <parameter-name-provider>org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.ParameterNameProviderUsingDependencyInjection</parameter-name-provider>
     <clock-provider>org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.ClockProviderUsingDependencyInjection</clock-provider>
+
+    <value-extractor>org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapKeyValueExtractorUsingDependencyInjection</value-extractor>
+    <value-extractor>org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapValueValueExtractorUsingDependencyInjection</value-extractor>
+
 </validation-config>
