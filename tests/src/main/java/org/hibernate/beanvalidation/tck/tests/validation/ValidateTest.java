@@ -87,7 +87,7 @@ public class ValidateTest extends Arquillian {
 	// UnexpectedTypeException is a subclass of ValidationException
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "a"),
-			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "h"),
+			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "l"),
 			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "c")
 	})
 	public void testUnexpectedTypeException() {
