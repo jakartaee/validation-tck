@@ -85,7 +85,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "c")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsField() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassA.callCounter,
@@ -103,7 +103,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsGetter() {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassB.callCounter,
@@ -120,7 +120,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testClassLevelValidatorForSubTypeHasPredenceOverValidatorForSuperClass() {
 		assertEquals(
 				CustomConstraint.ValidatorForAnotherSubClass.callCounter,
@@ -137,7 +137,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
 	public void testResolutionOfMultipleSizeValidators() {
 		Suburb suburb = new Suburb();
 
@@ -209,7 +209,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "i")
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
 		Set<ConstraintViolation<MinMax>> constraintViolations = getValidator().validate( minMax );
@@ -227,7 +227,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "n")
 	@SpecAssertion(section = Sections.EXCEPTION_CONSTRAINTDECLARATION, id = "b")
 	public void testAmbiguousValidatorResolution() {
 		Foo foo = new Foo( new SerializableBarSubclass() );
@@ -236,7 +236,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "k")
 	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
 		Set<ConstraintViolation<PrimitiveHolder>> violations = getValidator().validate( primitiveHolder );
@@ -317,7 +317,7 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
 	public void testGenericValidatorIsUsedForConstraintTargetingMethodReturnValue() throws Exception {
 		Object object = new AnotherCalendarService();
 		Method method = AnotherCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
@@ -329,14 +329,14 @@ public class ValidatorResolutionTest extends BaseExecutableValidatorTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
 	public void testGenericValidatorIsUsedForConstraintTargetingField() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validate( new TestBean() );
 		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "n")
 	public void testTwoValidatorsForSameTypeCauseUnexpectedTypeException() {
 		getValidator().validate( new AnotherBean() );
 	}
