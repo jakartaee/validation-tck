@@ -6,27 +6,20 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.ClockProvider;
 import javax.validation.ConstraintValidatorFactory;
-import javax.validation.ConstraintViolation;
 import javax.validation.MessageInterpolator;
 import javax.validation.ParameterNameProvider;
 import javax.validation.TraversableResolver;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -129,35 +122,5 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 				clockProvider.getClock().getZone(),
 				Greeter.ZONE_ID
 		);
-	}
-
-	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
-	public void testValueExtractorsAreSubjectToDependencyInjection() {
-		assertNotNull( defaultValidator );
-
-		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( Foo.invalid() );
-
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.property( "property" )
-						.containerElement( Greeter.MESSAGE, true, null, null, Map.class, 0 ),
-				pathWith()
-						.property( "property" )
-						.containerElement( Greeter.MESSAGE, true, null, null, Map.class, 1 )
-		);
-	}
-
-	private static class Foo {
-
-		private final Map<@NotNull String, @NotNull String> property = new HashMap<>();
-
-		private static Foo invalid() {
-			Foo foo = new Foo();
-			foo.property.put( null, null );
-			return foo;
-		}
 	}
 }
