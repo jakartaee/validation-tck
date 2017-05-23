@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Constraint;
@@ -175,6 +176,45 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		getValidator().validate( new Bar() );
 	}
 
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
+	public void testAddInContainerPropertyNodes() throws Throwable {
+		Set<ConstraintViolation<InContainerBean>> constraintViolations = getValidator().validate( new InContainerBean() );
+
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "property" )
+						.property( "myNode1" )
+						.property( "myNode2", true, "key", null, Map.class, 1 )
+						.bean(),
+				pathWith()
+						.property( "property" )
+						.property( "myNode3", true, null, 3, List.class, 0 )
+						.bean(),
+				pathWith()
+						.property( "property" )
+						.property( "myNode4", false, null, null, Optional.class, 0 )
+						.property( "myNode5" )
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aq")
+	public void testAddContainerElementNodes() throws Throwable {
+		Set<ConstraintViolation<ContainerElementNodeBean>> constraintViolations = getValidator().validate( new ContainerElementNodeBean() );
+
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "property" )
+						.containerElement( "myNode1", true, "key", null, Map.class, 1),
+				pathWith()
+						.property( "property" )
+						.containerElement( "myNode2", true, "key", null, Map.class, 1 )
+						.containerElement( "myNode3", true, null, 8, List.class, 0 )
+						.containerElement( "myNode4", false, null, null, Optional.class, 0 )
+		);
+	}
+
 	@MyClassLevelValidation
 	private static class MyObject {
 		@NotNull
@@ -245,6 +285,18 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		}
 	}
 
+	private static class InContainerBean {
+
+		@PropertyLevelValidationAddingInContainerPropertyNodes
+		private String property;
+	}
+
+	private static class ContainerElementNodeBean {
+
+		@PropertyLevelValidationAddingContainerElementNodes
+		private String property;
+	}
+
 	@Retention(RUNTIME)
 	@Constraint(validatedBy = MyClassLevelValidation.Validator.class)
 	public @interface MyClassLevelValidation {
@@ -301,25 +353,25 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode4" )
 						.addPropertyNode( "myNode5" )
-						.inIterable()
+								.inIterable()
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode6" )
 						.addPropertyNode( "myNode7" )
-						.inIterable().atIndex( 42 )
+								.inIterable().atIndex( 42 )
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode8" )
 						.addPropertyNode( "myNode9" )
-						.inIterable().atKey( "Foo" )
+								.inIterable().atKey( "Foo" )
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode10" )
 						.addPropertyNode( "myNode11" )
-						.inIterable()
+								.inIterable()
 						.addPropertyNode( "myNode12" )
 						.addConstraintViolation();
 
@@ -355,35 +407,35 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode2" )
-						.inIterable()
+								.inIterable()
 						.addBeanNode()
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode3" )
-						.inIterable().atIndex( 84 )
+								.inIterable().atIndex( 84 )
 						.addBeanNode()
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addPropertyNode( "myNode4" )
-						.inIterable().atKey( "AnotherKey" )
+								.inIterable().atKey( "AnotherKey" )
 						.addBeanNode()
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addBeanNode()
-						.inIterable()
+								.inIterable()
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addBeanNode()
-						.inIterable().atIndex( 42 )
+								.inIterable().atIndex( 42 )
 						.addConstraintViolation();
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addBeanNode()
-						.inIterable().atKey( "Key" )
+								.inIterable().atKey( "Key" )
 						.addConstraintViolation();
 
 				return false;
@@ -420,7 +472,7 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addParameterNode( 0 )
 						.addPropertyNode( "myNode1" )
-						.inIterable().atIndex( 23 )
+								.inIterable().atIndex( 23 )
 						.addBeanNode()
 						.addConstraintViolation();
 
@@ -447,6 +499,87 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 
 				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
 						.addParameterNode( 0 )
+						.addConstraintViolation();
+
+				return false;
+			}
+		}
+	}
+
+	@Retention(RUNTIME)
+	@Constraint(validatedBy = PropertyLevelValidationAddingInContainerPropertyNodes.Validator.class)
+	public @interface PropertyLevelValidationAddingInContainerPropertyNodes {
+		String message() default "failed";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default { };
+
+		public static class Validator
+				implements ConstraintValidator<PropertyLevelValidationAddingInContainerPropertyNodes, String> {
+
+			@Override
+			public boolean isValid(String value, ConstraintValidatorContext context) {
+				context.disableDefaultConstraintViolation();
+
+				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
+						.addPropertyNode( "myNode1" )
+						.addPropertyNode( "myNode2" )
+								.inContainer( Map.class, 1 )
+								.inIterable()
+								.atKey( "key" )
+						.addBeanNode()
+						.addConstraintViolation();
+
+				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
+						.addPropertyNode( "myNode3" )
+								.inContainer( List.class, 0 )
+								.inIterable()
+								.atIndex( 3 )
+						.addBeanNode()
+						.addConstraintViolation();
+
+				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
+						.addPropertyNode( "myNode4" )
+								.inContainer( Optional.class, 0 )
+						.addPropertyNode( "myNode5" )
+						.addConstraintViolation();
+
+				return false;
+			}
+		}
+	}
+
+	@Retention(RUNTIME)
+	@Constraint(validatedBy = PropertyLevelValidationAddingContainerElementNodes.Validator.class)
+	public @interface PropertyLevelValidationAddingContainerElementNodes {
+		String message() default "failed";
+
+		Class<?>[] groups() default { };
+
+		Class<? extends Payload>[] payload() default { };
+
+		public static class Validator
+				implements ConstraintValidator<PropertyLevelValidationAddingContainerElementNodes, String> {
+
+			@Override
+			public boolean isValid(String value, ConstraintValidatorContext context) {
+				context.disableDefaultConstraintViolation();
+
+				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
+						.addContainerElementNode( "myNode1", Map.class, 1 )
+								.inIterable()
+								.atKey( "key" )
+						.addConstraintViolation();
+
+				context.buildConstraintViolationWithTemplate( context.getDefaultConstraintMessageTemplate() )
+						.addContainerElementNode( "myNode2", Map.class, 1 )
+								.inIterable()
+								.atKey( "key" )
+						.addContainerElementNode( "myNode3", List.class, 0 )
+								.inIterable()
+								.atIndex( 8 )
+						.addContainerElementNode( "myNode4", Optional.class, 0 )
 						.addConstraintViolation();
 
 				return false;
