@@ -102,7 +102,6 @@ public final class ConstraintViolationAssert {
 	 * to the expected message, root bean class, invalid value and propertyPath.
 	 *
 	 * @param violation The violation to verify.
-	 * @param constraint The violated constraint.
 	 * @param rootBeanClass The expected root bean class.
 	 * @param invalidValue The expected invalid value.
 	 * @param propertyPath The expected property path.
@@ -117,7 +116,6 @@ public final class ConstraintViolationAssert {
 	 * expected message, root bean class and invalid value.
 	 *
 	 * @param violation The violation to verify.
-	 * @param constraint The violated constraint.
 	 * @param rootBeanClass The expected root bean class.
 	 * @param invalidValue The expected invalid value.
 	 */
@@ -131,8 +129,6 @@ public final class ConstraintViolationAssert {
 	 * and root bean class.
 	 *
 	 * @param violation The violation to verify.
-	 * @param constraint The violated constraint.
-	 * @param errorMessage The expected error message.
 	 * @param rootBeanClass The expected root bean class.
 	 */
 	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass) {
