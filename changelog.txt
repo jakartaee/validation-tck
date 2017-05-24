@@ -3,6 +3,17 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.Beta2 (24-05-2017)
+------------------------
+
+** Improvement
+    * [BVTCK-121] - Rework the test hierarchy and improve the consistency between HV test infrastructure and the TCK
+
+** Task
+    * [BVTCK-126] - Add tests for the container element related methods of the node builder API
+    * [BVTCK-125] - Test that ValueExtractors defined in XML are CDI enabled
+    * [BVTCK-124] - Update TCK audit file to BV 2.0.0.Beta2
+
 2.0.0.Beta1 (11-05-2017)
 ------------------------
 
