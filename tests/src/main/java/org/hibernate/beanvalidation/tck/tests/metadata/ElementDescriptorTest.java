@@ -40,8 +40,7 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( ElementDescriptorTest.class )
-				.withClasses( SuperClass.class, SubClass.class, SuperConstraint.class, SuperConstraintValidator.class )
+				.withTestClassPackage( ElementDescriptorTest.class )
 				.build();
 	}
 

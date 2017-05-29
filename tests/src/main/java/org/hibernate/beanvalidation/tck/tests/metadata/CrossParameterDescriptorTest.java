@@ -34,15 +34,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( CrossParameterDescriptorTest.class )
-				.withClasses(
-						Account.class,
-						Customer.class,
-						CustomerService.class,
-						CustomerServiceExtension.class,
-						Executables.class,
-						Person.class
-				)
+				.withTestClassPackage( CrossParameterDescriptorTest.class )
 				.build();
 	}
 

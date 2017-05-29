@@ -41,16 +41,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( ConstraintDescriptorTest.class )
-				.withClasses(
-						Order.class,
-						Person.class,
-						Man.class,
-						Severity.class,
-						NotEmpty.class,
-						CustomConstraint.class,
-						CustomComposingConstraint.class
-				)
+				.withTestClassPackage( ConstraintDescriptorTest.class )
 				.build();
 	}
 

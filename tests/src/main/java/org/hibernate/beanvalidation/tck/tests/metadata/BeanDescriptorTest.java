@@ -44,21 +44,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( BeanDescriptorTest.class )
-				.withClasses(
-						Customer.class,
-						Person.class,
-						Man.class,
-						Account.class,
-						Order.class,
-						UnconstraintEntity.class,
-						Severity.class,
-						NotEmpty.class,
-						AccountChecker.class,
-						AccountValidator.class,
-						CustomerService.class,
-						Executables.class
-				)
+				.withTestClassPackage( BeanDescriptorTest.class )
 				.build();
 	}
 

@@ -32,15 +32,7 @@ public class ExecutableDescriptorTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( ExecutableDescriptorTest.class )
-				.withClasses(
-						Account.class,
-						Customer.class,
-						CustomerService.class,
-						CustomerServiceExtension.class,
-						Executables.class,
-						Person.class
-				)
+				.withTestClassPackage( ExecutableDescriptorTest.class )
 				.build();
 	}
 
