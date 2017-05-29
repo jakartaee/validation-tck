@@ -9,6 +9,8 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
 
+import java.util.Map;
+
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.MethodDescriptor;
 
@@ -162,6 +164,30 @@ public class Executables {
 		return getConstructorDescriptor(
 				CustomerService.class,
 				String.class
+		);
+	}
+
+	public static ConstructorDescriptor constructorWithCascadedContainerElementsOnParameter() {
+		return getConstructorDescriptor(
+				CustomerService.class,
+				Map.class
+		);
+	}
+
+	public static MethodDescriptor parameterWithCascadedContainerElements() {
+		return getMethodDescriptor(
+				CustomerService.class,
+				"createOrder",
+				long.class,
+				Map.class
+		);
+	}
+
+	public static MethodDescriptor returnValueWithCascadedContainerElements() {
+		return getMethodDescriptor(
+				CustomerService.class,
+				"getOrderContent",
+				long.class
 		);
 	}
 }

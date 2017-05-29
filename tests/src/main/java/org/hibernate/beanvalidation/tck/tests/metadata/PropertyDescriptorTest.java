@@ -25,7 +25,6 @@ import javax.validation.metadata.PropertyDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.tests.metadata.Customer.BasicChecks;
 import org.hibernate.beanvalidation.tck.tests.metadata.Customer.StrictChecks;
 import org.hibernate.beanvalidation.tck.tests.metadata.Customer.StrictCustomerChecks;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -44,16 +43,7 @@ public class PropertyDescriptorTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( PropertyDescriptorTest.class )
-				.withClasses(
-						Account.class,
-						Order.class,
-						Person.class,
-						Customer.class,
-						Severity.class,
-						NotEmpty.class,
-						ComplexOrder.class
-				)
+				.withTestClassPackage( PropertyDescriptorTest.class )
 				.build();
 	}
 
@@ -160,7 +150,7 @@ public class PropertyDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
-	public void testGetContainerElementTypes() {
+	public void testGetContainerElementMetaData() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( ComplexOrder.class, "orderLines" );
 
 		List<ContainerElementTypeDescriptor> containerElementTypes = descriptor.getContainerElementTypes();
@@ -173,10 +163,10 @@ public class PropertyDescriptorTest extends AbstractTCKTest {
 		assertEquals( productType.getGroupConversions().size(), 2 );
 		for ( GroupConversionDescriptor groupConversionDescriptor : productType.getGroupConversions() ) {
 			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), ComplexOrder.BasicChecks.class );
+				assertEquals( groupConversionDescriptor.getTo(), BasicChecks.class );
 			}
-			else if ( groupConversionDescriptor.getFrom().equals( ComplexOrder.ComplexChecks.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), ComplexOrder.ComplexProductTypeChecks.class );
+			else if ( groupConversionDescriptor.getFrom().equals( ComplexChecks.class ) ) {
+				assertEquals( groupConversionDescriptor.getTo(), ComplexProductTypeChecks.class );
 			}
 			else {
 				fail(

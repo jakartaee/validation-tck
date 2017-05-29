@@ -18,9 +18,6 @@ import javax.validation.groups.Default;
  */
 public class Customer implements Person {
 
-	public interface BasicChecks {
-	}
-
 	public interface StrictCustomerChecks {
 	}
 

@@ -44,19 +44,4 @@ public class ComplexOrder {
 	public void setOrderLines(Map<ProductType, List<ProductOrderLine>> orderLines) {
 		this.orderLines = orderLines;
 	}
-
-	public interface BasicChecks {
-	}
-
-	public interface ComplexChecks {
-	}
-
-	public interface ComplexProductTypeChecks {
-	}
-
-	public static class ProductType {
-	}
-
-	public static class ProductOrderLine {
-	}
 }

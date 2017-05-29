@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.metadata.BeanDescriptor;
@@ -267,12 +268,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods( MethodType.NON_GETTER );
 
-		List<String> actualMethodNames = new ArrayList<String>();
-		for ( MethodDescriptor methodDescriptor : methodDescriptors ) {
-			actualMethodNames.add( methodDescriptor.getName() );
-		}
-
-		List<String> expectedMethodNames = Arrays.asList(
+		assertThat( methodDescriptors ).extracting( MethodDescriptor::getName ).containsExactlyInAnyOrder(
 				"createCustomer",
 				"reset",
 				"removeCustomer",
@@ -280,13 +276,10 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 				"findCustomer",
 				"updateAccount",
 				"updateAccountStrictly",
-				"updateCustomer"
+				"updateCustomer",
+				"createOrder",
+				"getOrderContent"
 		);
-
-		Collections.sort( actualMethodNames );
-		Collections.sort( expectedMethodNames );
-
-		assertEquals( actualMethodNames, expectedMethodNames );
 	}
 
 	@Test
@@ -308,12 +301,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 				MethodType.NON_GETTER
 		);
 
-		List<String> actualMethodNames = new ArrayList<String>();
-		for ( MethodDescriptor methodDescriptor : methodDescriptors ) {
-			actualMethodNames.add( methodDescriptor.getName() );
-		}
-
-		List<String> expectedMethodNames = Arrays.asList(
+		assertThat( methodDescriptors ).extracting( MethodDescriptor::getName ).containsExactlyInAnyOrder(
 				"createCustomer",
 				"reset",
 				"removeCustomer",
@@ -322,13 +310,10 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 				"updateAccount",
 				"updateAccountStrictly",
 				"updateCustomer",
+				"createOrder",
+				"getOrderContent",
 				"getBestCustomer"
 		);
-
-		Collections.sort( actualMethodNames );
-		Collections.sort( expectedMethodNames );
-
-		assertEquals( actualMethodNames, expectedMethodNames );
 	}
 
 	@Test
@@ -402,17 +387,16 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 
 		Set<List<Class<?>>> actualParameterTypes = getParameterTypes( constructorDescriptors );
 
-		@SuppressWarnings("unchecked")
-		Set<List<Class<?>>> expectedParameterTypes = asSet(
+		assertThat( actualParameterTypes ).describedAs( "Wrong constructors" ).containsExactlyInAnyOrder(
 				Collections.<Class<?>>emptyList(),
 				Arrays.<Class<?>>asList( String.class, String.class ),
 				Arrays.<Class<?>>asList( Customer.class ),
 				Arrays.<Class<?>>asList( Account.class ),
 				Arrays.<Class<?>>asList( int.class, Account.class ),
 				Arrays.<Class<?>>asList( long.class ),
-				Arrays.<Class<?>>asList( long.class, int.class )
+				Arrays.<Class<?>>asList( long.class, int.class ),
+				Arrays.<Class<?>>asList( Map.class )
 		);
-		assertEquals( actualParameterTypes, expectedParameterTypes, "Wrong constructors" );
 	}
 
 	@Test

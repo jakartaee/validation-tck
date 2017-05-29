@@ -16,6 +16,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
@@ -87,6 +89,15 @@ public class CustomerService {
 	public CustomerService(long id, int i) {
 	}
 
+	//cascaded container elements
+	public CustomerService(Map<
+			@Valid @NotNull
+			@ConvertGroup(from = Default.class, to = BasicChecks.class) @ConvertGroup(from = ComplexChecks.class, to = ComplexProductTypeChecks.class)
+			ProductType,
+			@Size(min = 2)
+			List<@NotNull ProductOrderLine>> orderTemplate) {
+	}
+
 	//unconstrained
 	public CustomerService(String pk) {
 	}
@@ -121,6 +132,16 @@ public class CustomerService {
 		return null;
 	}
 
+	//parameter with cascaded container elements
+	public ComplexOrder createOrder(long id, Map<
+			@Valid @NotNull
+			@ConvertGroup(from = Default.class, to = BasicChecks.class) @ConvertGroup(from = ComplexChecks.class, to = ComplexProductTypeChecks.class)
+			ProductType,
+			@Size(min = 2)
+			List<@NotNull ProductOrderLine>> orders) {
+		return null;
+	}
+
 	//constrained return value
 	@Min(0)
 	public int reset() {
@@ -140,6 +161,16 @@ public class CustomerService {
 			@ConvertGroup(from = StrictCustomerServiceChecks.class, to = StrictChecks.class)
 	})
 	public Customer findCustomer(long id, int i) {
+		return null;
+	}
+
+	//return value with cascaded container elements
+	public Map<
+			@Valid @NotNull
+			@ConvertGroup(from = Default.class, to = BasicChecks.class) @ConvertGroup(from = ComplexChecks.class, to = ComplexProductTypeChecks.class)
+			ProductType,
+			@Size(min = 2)
+			List<@NotNull ProductOrderLine>> getOrderContent(long id) {
 		return null;
 	}
 
