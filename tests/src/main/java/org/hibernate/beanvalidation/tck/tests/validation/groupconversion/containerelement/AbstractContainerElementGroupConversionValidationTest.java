@@ -4,7 +4,7 @@
  * License: Apache License, Version 2.0
  * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
  */
-package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
+package org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
@@ -24,8 +24,6 @@ import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
@@ -34,14 +32,7 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ContainerElementGroupConversionValidationTest extends AbstractTCKTest {
-
-	@Deployment
-	public static WebArchive createTestArchive() {
-		return webArchiveBuilder()
-				.withTestClassPackage( ContainerElementGroupConversionValidationTest.class )
-				.build();
-	}
+public abstract class AbstractContainerElementGroupConversionValidationTest extends AbstractTCKTest {
 
 	@Test
 	// FIXME: update spec assertions
@@ -187,7 +178,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
 		RegisteredAddresses registeredAddresses = TestRegisteredAddresses.validRegisteredAddresses();
-		Method method = RegisteredAddresses.class.getMethod( "setMainAddress", Map.class );
+		Method method = RegisteredAddresses.class.getMethod( "setMainAddresses", Map.class );
 		Object[] arguments = new Object[] { TestAddresses.wrap( TestAddresses.withInvalidStreet1() ) };
 
 		//when
@@ -199,7 +190,7 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
-						.method( "setMainAddress" )
+						.method( "setMainAddresses" )
 						.parameter( "mainAddresses", 0 )
 						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
 						.property( "street1", true, null, 0, List.class, 0 )

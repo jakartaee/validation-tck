@@ -4,7 +4,7 @@
  * License: Apache License, Version 2.0
  * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
  */
-package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
+package org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class RegisteredAddresses {
 		return mainAddresses;
 	}
 
-	public void setMainAddress(Map<Year, List<@Valid @ConvertGroup(from = Default.class, to = BasicPostal.class) Address>> mainAddresses) {
+	public void setMainAddresses(Map<Year, List<@Valid @ConvertGroup(from = Default.class, to = BasicPostal.class) Address>> mainAddresses) {
 		this.mainAddresses.clear();
 		this.mainAddresses.putAll( mainAddresses );
 	}
