@@ -47,7 +47,7 @@ public class ConfigurationTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "j")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "k")
 	public void testProviderUnderTestDefinesSubInterfaceOfConfiguration() {
 		boolean foundSubinterfaceOfConfiguration = false;
 		Type[] types = TestUtil.getValidationProviderUnderTest().getClass().getGenericInterfaces();
@@ -69,7 +69,7 @@ public class ConfigurationTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "g")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "h")
 	public void testMappingsCanBeAddedViaConfiguration() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 
@@ -99,7 +99,7 @@ public class ConfigurationTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "i")
 	public void testNonResettableInputStreamCanBeAddedViaConfigurationAndFactoryCanBeCreatedSeveralTimes() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 
@@ -159,7 +159,7 @@ public class ConfigurationTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "i")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "j")
 	public void testSeveralFactoriesCanBeBuildFromOneConfiguration() {
 		Configuration<?> configuration = TestUtil.getConfigurationUnderTest();
 		Validator validator1 = configuration.buildValidatorFactory().getValidator();
