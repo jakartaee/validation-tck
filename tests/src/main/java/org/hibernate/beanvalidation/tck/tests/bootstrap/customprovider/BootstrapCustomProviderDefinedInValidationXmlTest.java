@@ -45,7 +45,7 @@ public class BootstrapCustomProviderDefinedInValidationXmlTest extends AbstractT
 
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING, id = "a")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "l")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "m")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "a")
 	public void testGetFactoryByProviderSpecifiedInValidationXml() {
 
