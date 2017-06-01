@@ -44,9 +44,9 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsAppliedOnField() {
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidMainAddress() );
 
@@ -64,9 +64,9 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testSeveralGroupConversionsAppliedOnField() {
 		RegisteredAddresses registeredAddressesWithInvalidPreferredShipmentAddress = TestRegisteredAddresses.withInvalidPreferredShipmentAddress();
 
@@ -139,8 +139,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsAppliedOnProperty() {
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidShipmentAddress() );
 
@@ -157,8 +157,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsAppliedOnMethodReturnValue() throws Exception {
 		//given
 		RegisteredAddresses registeredAddresses = TestRegisteredAddresses.validRegisteredAddresses();
@@ -182,8 +182,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsAppliedOnMethodParameter() throws Exception {
 		//given
 		RegisteredAddresses registeredAddresses = TestRegisteredAddresses.validRegisteredAddresses();
@@ -207,8 +207,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsAppliedOnConstructorReturnValue() throws Exception {
 		//given
 		Constructor<RegisteredAddresses> constructor = RegisteredAddresses.class.getConstructor( Map.class );
@@ -232,8 +232,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsAppliedOnConstructorParameter() throws Exception {
 		//given
 		Constructor<RegisteredAddresses> constructor = RegisteredAddresses.class.getConstructor( Map.class );
@@ -256,8 +256,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionIsNotExecutedRecursively() {
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidOfficeAddress() );
 
@@ -286,8 +286,8 @@ public class ContainerElementGroupConversionValidationTest extends AbstractTCKTe
 	}
 
 	@Test
-	// FIXME: update spec assertions
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION_EXAMPLES, id = "a")
 	public void testGroupConversionWithSequenceAsTo() {
 		RegisteredAddresses registeredAddresses = TestRegisteredAddresses.validRegisteredAddresses();
 
