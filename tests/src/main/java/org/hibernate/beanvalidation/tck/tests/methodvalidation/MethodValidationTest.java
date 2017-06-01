@@ -798,6 +798,9 @@ public class MethodValidationTest extends AbstractTCKTest {
 						.returnValue(),
 				pathWith()
 						.method( methodName )
+						.returnValue(),
+				pathWith()
+						.method( methodName )
 						.returnValue()
 						.property( "name" )
 		);
@@ -831,6 +834,9 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Size.class
 		);
 		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.method( methodName )
+						.returnValue(),
 				pathWith()
 						.method( methodName )
 						.returnValue(),
