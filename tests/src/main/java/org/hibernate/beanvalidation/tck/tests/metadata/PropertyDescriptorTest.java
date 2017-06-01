@@ -157,7 +157,9 @@ public class PropertyDescriptorTest extends AbstractTCKTest {
 	}
 
 	@Test
-	// FIXME: update spec assertions
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
 	public void testGetContainerElementTypes() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( ComplexOrder.class, "orderLines" );
 
