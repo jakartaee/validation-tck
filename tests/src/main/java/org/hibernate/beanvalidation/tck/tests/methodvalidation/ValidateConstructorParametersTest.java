@@ -165,6 +165,9 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 		assertThat( violations ).containsOnlyPaths(
 				pathWith()
 						.constructor( User.class )
+						.parameter( "firstName", 0 ),
+				pathWith()
+						.constructor( User.class )
 						.parameter( "firstName", 0 )
 		);
 	}
@@ -216,6 +219,9 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				MyCrossParameterConstraint.class
 		);
 		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( User.class )
+						.crossParameter(),
 				pathWith()
 						.constructor( User.class )
 						.crossParameter()

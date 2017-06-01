@@ -110,6 +110,9 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 		assertThat( violations ).containsOnlyPaths(
 				pathWith()
 						.constructor( Customer.class )
+						.returnValue(),
+				pathWith()
+						.constructor( Customer.class )
 						.returnValue()
 		);
 	}
@@ -129,6 +132,9 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 
 		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidCustomer.class );
 		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( Customer.class )
+						.returnValue(),
 				pathWith()
 						.constructor( Customer.class )
 						.returnValue()
@@ -198,6 +204,9 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 
 		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
 		assertThat( violations ).containsOnlyPaths(
+				pathWith()
+						.constructor( Customer.class )
+						.returnValue(),
 				pathWith()
 						.constructor( Customer.class )
 						.returnValue()
