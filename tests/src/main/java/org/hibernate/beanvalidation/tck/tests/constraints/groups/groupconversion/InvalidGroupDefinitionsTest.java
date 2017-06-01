@@ -24,8 +24,8 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithGroupConversionWithSequenceAsFrom;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.model.UserWithSeveralGroupConversionsForSameFrom;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.UserReadService;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter;
-import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass;
+import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnParameter;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.service.impl.InterfaceImplementationWithGroupConversionOnParameter;
@@ -182,10 +182,10 @@ public class InvalidGroupDefinitionsTest extends AbstractTCKTest {
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
-	public void testGroupConversionGivenOnParameterInSuperClassAndImplementedInterface()
+	public void testGroupConversionGivenOnParameterInImplementedInterfaceWithSuperClass()
 			throws Exception {
-		Object object = new ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter();
-		Method method = ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter.class
+		Object object = new ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass();
+		Method method = ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass.class
 				.getMethod( "addUser", User.class );
 		Object[] parameters = new Object[] { null };
 
@@ -195,10 +195,10 @@ public class InvalidGroupDefinitionsTest extends AbstractTCKTest {
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
-	public void testGroupConversionGivenOnReturnValueInSuperClassAndImplementedInterface()
+	public void testGroupConversionGivenOnReturnValueInImplementedInterfaceWithSuperClass()
 			throws Exception {
-		Object object = new ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue();
-		Method method = ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue.class
+		Object object = new ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass();
+		Method method = ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass.class
 				.getMethod( "getUser" );
 		Object returnValue = null;
 
