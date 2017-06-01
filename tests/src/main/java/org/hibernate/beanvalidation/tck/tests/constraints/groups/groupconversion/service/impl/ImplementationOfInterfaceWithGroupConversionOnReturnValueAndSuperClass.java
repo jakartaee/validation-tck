@@ -13,7 +13,7 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnReturnValue
+public class ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass
 		extends UserReadServiceBase implements UserReadServiceWithGroupConversionOnReturnValue {
 
 	@Override

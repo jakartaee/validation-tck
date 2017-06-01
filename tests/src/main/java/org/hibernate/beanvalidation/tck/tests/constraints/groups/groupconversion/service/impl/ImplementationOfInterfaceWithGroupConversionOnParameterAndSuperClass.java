@@ -13,7 +13,7 @@ import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion
 /**
  * @author Gunnar Morling
  */
-public class ImplementationOfInterfaceAndSuperClassBothWithGroupConversionOnParameter
+public class ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass
 		extends UserWriteServiceBase implements UserWriteServiceWithGroupConversionOnParameter {
 
 	@Override
