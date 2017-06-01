@@ -125,7 +125,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "a")
 	public void testUnconstrainedClass() {
-		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
 		assertFalse(
 				beanDescriptor.hasConstraints(),
 				"There should be no direct constraints on the specified bean."
@@ -193,7 +193,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "d")
 	public void testGetConstrainedPropertiesForUnconstrainedEntity() {
-		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();
 		assertEquals( constraintProperties.size(), 0, "We should get the empty set." );
 	}
@@ -319,7 +319,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "f")
 	public void testGetConstrainedMethodsForUnconstrainedEntity() {
-		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods(
 				MethodType.GETTER,
 				MethodType.NON_GETTER
@@ -402,7 +402,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "h")
 	public void testGetConstrainedConstructorsForUnconstrainedEntity() {
-		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstraintEntity.class );
+		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
 		Set<ConstructorDescriptor> constructorDescriptors = beanDescriptor.getConstrainedConstructors();
 		assertEquals( constructorDescriptors.size(), 0, "We should get the empty set." );
 	}

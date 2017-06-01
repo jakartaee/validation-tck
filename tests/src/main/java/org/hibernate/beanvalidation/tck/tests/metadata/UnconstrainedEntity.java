@@ -7,9 +7,9 @@
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
 /**
- * Empty un-constraint test class.
+ * Empty unconstrained test class.
  *
  * @author Hardy Ferentschik
  */
-public class UnconstraintEntity {
+public class UnconstrainedEntity {
 }
