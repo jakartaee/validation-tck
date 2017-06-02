@@ -6,6 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
+import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
@@ -29,13 +30,15 @@ import javax.validation.Payload;
 		CustomConstraint.ValidatorBaseClass.class,
 		CustomConstraint.ValidatorForSubClassA.class,
 		CustomConstraint.ValidatorForSubClassB.class,
+		CustomConstraint.ValidatorForSubClassC.class,
+		CustomConstraint.ValidatorForSubClassD.class,
 		CustomConstraint.ValidatorForCustomClass.class,
 		CustomConstraint.ValidatorForCustomInterface.class,
 		CustomConstraint.ValidatorForAnotherBaseClass.class,
 		CustomConstraint.ValidatorForAnotherSubClass.class
 })
 @Documented
-@Target({ METHOD, FIELD, TYPE })
+@Target({ METHOD, FIELD, TYPE, CONSTRUCTOR })
 @Retention(RUNTIME)
 public @interface CustomConstraint {
 	String message() default "my custom constraint";
@@ -70,6 +73,32 @@ public @interface CustomConstraint {
 
 		@Override
 		public boolean isValid(SubClassB subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassC implements ConstraintValidator<CustomConstraint, SubClassC> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassC subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassD implements ConstraintValidator<CustomConstraint, SubClassD> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassD subClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
 				throw new IllegalStateException( "This method should have been only called once during the tests." );

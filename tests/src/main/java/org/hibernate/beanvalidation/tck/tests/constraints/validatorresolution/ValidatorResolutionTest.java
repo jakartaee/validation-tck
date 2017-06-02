@@ -120,6 +120,42 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	}
 
 	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsMethod() throws NoSuchMethodException, SecurityException {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassD.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassD should not have been called yet."
+		);
+
+		getExecutableValidator().validateReturnValue( new SubClassDService(), SubClassDService.class.getMethod( "retrieveSubClassD" ), new SubClassD() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassD.callCounter > 0,
+				"The validate method of ValidatorForSubClassD should have been called."
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsConstructor() throws NoSuchMethodException, SecurityException {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassC.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassC should not have been called yet."
+		);
+
+		getExecutableValidator().validateConstructorReturnValue( SubClassC.class.getConstructor(), new SubClassC() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassC.callCounter > 0,
+				"The validate method of ValidatorForSubClassC should have been called."
+		);
+	}
+
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testClassLevelValidatorForSubTypeHasPredenceOverValidatorForSuperClass() {
 		assertEquals(
@@ -365,6 +401,14 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		@CustomConstraint
 		public SubClassB getBaseClass() {
 			return (SubClassB) baseClass;
+		}
+	}
+
+	private static class SubClassDService {
+
+		@CustomConstraint
+		public SubClassD retrieveSubClassD() {
+			return null;
 		}
 	}
 
