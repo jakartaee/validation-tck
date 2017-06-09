@@ -60,7 +60,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "p")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "q")
 	public void testComposedConstraints() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		Set<ConstraintViolation<FrenchAddress>> constraintViolations = getValidator().validate( address );
@@ -78,7 +78,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "p")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "q")
 	public void testComposedConstraintsAreRecursive() {
 		GermanAddress address = new GermanAddress();
 		address.setAddressline1( "Rathausstrasse 5" );
@@ -108,9 +108,9 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "n")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "q")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "r")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "u")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "s")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
 	public void testEachFailingConstraintCreatesConstraintViolation() {
 		FrenchAddress address = getFrenchAddressWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -145,7 +145,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "s")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "t")
 	public void testConstraintIndexWithListContainer() {
 		FrenchAddressListContainer address = getFrenchAddressListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -167,7 +167,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	}
 
 	@Test(expectedExceptions = { ConstraintDeclarationException.class })
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "t")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "u")
 	public void testConstraintIndexWithMixDirectAnnotationAndListContainer() {
 		FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
 		address.setZipCode( "abc" );
@@ -239,8 +239,8 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "o")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "p")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "w")
 	public void testOverriddenAttributesMustMatchInType() {
 		getValidator().validate( new DummyEntityWithZipCode( "foobar" ) );
 	}
@@ -298,7 +298,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "k")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "w")
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
 		Object object = new DummyEntityWithIllegallyComposedConstraint();
@@ -317,7 +317,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "k")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "v")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "w")
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
 		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
 		Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(
