@@ -10,6 +10,8 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -164,6 +166,25 @@ public final class TestUtil {
 			inputStream = TestUtil.class.getResourceAsStream( path );
 		}
 		return inputStream;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, I extends T> T getValidatingProxy(I implementor, Class<?>[] interfaces, Validator executableValidator, Class<?>... validationGroups) {
+		InvocationHandler handler = new ValidationInvocationHandler(
+				implementor, executableValidator, validationGroups );
+
+		return (T) Proxy.newProxyInstance(
+				implementor.getClass().getClassLoader(),
+				interfaces,
+				handler );
+	}
+
+	public static <T, I extends T> T getValidatingProxy(I implementor, Validator executableValidator, Class<?>... validationGroups) {
+		return getValidatingProxy(
+				implementor,
+				implementor.getClass().getInterfaces(),
+				executableValidator,
+				validationGroups );
 	}
 
 	private static <U extends ValidationProvider<?>> void instantiateValidationProviderUnderTest() {

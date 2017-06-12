@@ -12,6 +12,7 @@ import javax.validation.executable.ExecutableValidator;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;
 import org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
+import org.hibernate.beanvalidation.tck.util.ValidationInvocationHandler;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.ArchiveBuilder;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
 import org.jboss.arquillian.testng.Arquillian;
@@ -35,7 +36,8 @@ public abstract class AbstractTCKTest extends Arquillian {
 				AbstractTCKTest.class,
 				TestUtil.class,
 				ConstraintViolationAssert.class,
-				CollectionHelper.class
+				CollectionHelper.class,
+				ValidationInvocationHandler.class
 		);
 
 		// we don't use the Maven features of Shrinkwrap as the TCK might not be run with Maven
