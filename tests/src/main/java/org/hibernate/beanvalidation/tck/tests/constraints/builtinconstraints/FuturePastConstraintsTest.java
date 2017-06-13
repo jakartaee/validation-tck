@@ -67,7 +67,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "q")
 	public void testPastConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PastDummyEntity dummy = new PastDummyEntity();
@@ -120,7 +120,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "q")
 	public void testPastConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -160,7 +160,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "r")
 	public void testFutureConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		FutureDummyEntity dummy = new FutureDummyEntity();
@@ -213,7 +213,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "r")
 	public void testFutureConstraintForRelativePartial() {
 		// For partials not referencing a precise point in time, we need to use the FixedClockProvider
 		// to make sure the tests are working at any date
@@ -252,7 +252,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "q")
 	public void testPastOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -342,7 +342,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "q")
 	public void testPastOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -392,7 +392,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "r")
 	public void testFutureOrPresentConstraint() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 
@@ -482,7 +482,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "r")
 	public void testFutureOrPresentConstraintForRelativePartial() {
 		ZonedDateTime reference = ZonedDateTime.of( 2016, 6, 6, 14, 26, 0, 0, TZ_BERLIN );
 

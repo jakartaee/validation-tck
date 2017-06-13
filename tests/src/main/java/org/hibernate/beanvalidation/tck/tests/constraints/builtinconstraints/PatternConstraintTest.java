@@ -42,7 +42,7 @@ public class PatternConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "q")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "s")
 	public void testPatternConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PatternDummyEntity dummy = new PatternDummyEntity();

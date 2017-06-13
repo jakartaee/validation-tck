@@ -44,7 +44,7 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "p")
 	public void testDigitsConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DigitsDummyEntity dummy = new DigitsDummyEntity();
