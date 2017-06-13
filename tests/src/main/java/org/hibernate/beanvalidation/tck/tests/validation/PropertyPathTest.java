@@ -8,15 +8,16 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.BEAN_NODE_NAME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.CROSS_PARAMETER_NODE_NAME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.RETURN_VALUE_NODE_NAME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.lang.annotation.Retention;
@@ -38,6 +39,7 @@ import javax.validation.ElementKind;
 import javax.validation.Path;
 import javax.validation.Path.BeanNode;
 import javax.validation.Path.ConstructorNode;
+import javax.validation.Path.ContainerElementNode;
 import javax.validation.Path.CrossParameterNode;
 import javax.validation.Path.MethodNode;
 import javax.validation.Path.Node;
@@ -87,8 +89,11 @@ public class PropertyPathTest extends AbstractTCKTest {
 						MovieStudio.class,
 						CustomParameterNameProvider.class,
 						ValidMovieStudio.class,
-						ValidMovieStudioValidator.class
-
+						ValidMovieStudioValidator.class,
+						MovieProduction.class,
+						ExecutiveProducer.class,
+						ValidExecutiveProducer.class,
+						Location.class
 				)
 				.build();
 	}
@@ -1688,6 +1693,89 @@ public class PropertyPathTest extends AbstractTCKTest {
 		nextNode = nodeIter.next();
 		assertNode( nextNode, "name", ElementKind.PARAMETER, false, null, null );
 		nextNode.as( BeanNode.class );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "u")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ap")
+	public void testGetContainerClassGetTypeArgumentIndex() {
+		// container element node
+		Set<ConstraintViolation<MovieProduction>> constraintViolations = getValidator().validate( MovieProduction.invalidMapKey() );
+
+		assertNumberOfViolations( constraintViolations, 1 );
+		ConstraintViolation<MovieProduction> constraintViolation = constraintViolations.iterator().next();
+
+		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		Node node = nodeIter.next();
+		assertNode( node, "locationsByScene", ElementKind.PROPERTY, false, null, null );
+		PropertyNode propertyNode = node.as( PropertyNode.class );
+		assertNotNull( propertyNode );
+		assertNull( propertyNode.getContainerClass() );
+		assertNull( propertyNode.getTypeArgumentIndex() );
+
+		assertTrue( nodeIter.hasNext() );
+		node = nodeIter.next();
+		assertNode( node, "<map key>", ElementKind.CONTAINER_ELEMENT, true, null, "" );
+		ContainerElementNode containerElementNode = node.as( ContainerElementNode.class );
+		assertNotNull( containerElementNode );
+		assertEquals( containerElementNode.getContainerClass(), Map.class );
+		assertEquals( containerElementNode.getTypeArgumentIndex(), Integer.valueOf( 0 ) );
+
+		assertFalse( nodeIter.hasNext() );
+
+		// property node
+		constraintViolations = getValidator().validate( MovieProduction.invalidCascading() );
+
+		assertNumberOfViolations( constraintViolations, 1 );
+		constraintViolation = constraintViolations.iterator().next();
+
+		nodeIter = constraintViolation.getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		node = nodeIter.next();
+		assertNode( node, "locationsByScene", ElementKind.PROPERTY, false, null, null );
+		propertyNode = node.as( PropertyNode.class );
+		assertNotNull( propertyNode );
+		assertNull( propertyNode.getContainerClass() );
+		assertNull( propertyNode.getTypeArgumentIndex() );
+
+		assertTrue( nodeIter.hasNext() );
+		node = nodeIter.next();
+		assertNode( node, "zipCode", ElementKind.PROPERTY, true, null, "Scene 1" );
+		propertyNode = node.as( PropertyNode.class );
+		assertNotNull( propertyNode );
+		assertEquals( propertyNode.getContainerClass(), Map.class );
+		assertEquals( propertyNode.getTypeArgumentIndex(), Integer.valueOf( 1 ) );
+
+		assertFalse( nodeIter.hasNext() );
+
+		// bean node
+		constraintViolations = getValidator().validate( MovieProduction.invalidExecutiveProducer() );
+
+		assertNumberOfViolations( constraintViolations, 1 );
+		constraintViolation = constraintViolations.iterator().next();
+
+		nodeIter = constraintViolation.getPropertyPath().iterator();
+
+		assertTrue( nodeIter.hasNext() );
+		node = nodeIter.next();
+		assertNode( node, "executiveProducers", ElementKind.PROPERTY, false, null, null );
+		propertyNode = node.as( PropertyNode.class );
+		assertNotNull( propertyNode );
+		assertNull( propertyNode.getContainerClass() );
+		assertNull( propertyNode.getTypeArgumentIndex() );
+
+		assertTrue( nodeIter.hasNext() );
+		node = nodeIter.next();
+		assertNode( node, null, ElementKind.BEAN, true, 0, null );
+		BeanNode beanNode = node.as( BeanNode.class );
+		assertNotNull( beanNode );
+		assertEquals( beanNode.getContainerClass(), List.class );
+		assertEquals( beanNode.getTypeArgumentIndex(), Integer.valueOf( 0 ) );
+
+		assertFalse( nodeIter.hasNext() );
 	}
 
 	private void checkActorViolations(Set<ConstraintViolation<Actor>> constraintViolations) {
