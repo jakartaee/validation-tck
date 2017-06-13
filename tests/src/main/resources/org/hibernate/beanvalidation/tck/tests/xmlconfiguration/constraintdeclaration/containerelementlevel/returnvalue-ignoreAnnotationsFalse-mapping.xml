@@ -1,0 +1,34 @@
+<!--
+
+    Bean Validation TCK
+
+    License: Apache License, Version 2.0
+    See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
+
+-->
+<constraint-mappings
+        xmlns="http://xmlns.jcp.org/xml/ns/validation/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/validation/mapping validation-mapping-2.0.xsd"
+        version="2.0">
+
+    <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.containerelementlevel</default-package>
+
+    <bean class="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.containerelementlevel.ContainerElementTypeIgnoreAnnotationsMappingTest$OrderReturnValue">
+        <method name="retrieveLines" ignore-annotations="false">
+            <return-value>
+                <container-element-type type-argument-index="0" />
+                <container-element-type type-argument-index="1">
+                    <constraint annotation="javax.validation.constraints.DecimalMin">
+                        <element name="value">
+                            <value>0</value>
+                        </element>
+                        <element name="inclusive">
+                            <value>false</value>
+                        </element>
+                    </constraint>
+                </container-element-type>
+            </return-value>
+        </method>
+    </bean>
+</constraint-mappings>
