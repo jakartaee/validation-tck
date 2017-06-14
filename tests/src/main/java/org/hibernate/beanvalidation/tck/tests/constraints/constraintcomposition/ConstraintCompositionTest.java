@@ -10,7 +10,9 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -333,6 +335,20 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		);
 	}
 
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "o")
+	public void testOverridesAttributeWithDefaultName() {
+		Set<ConstraintViolation<DummyEntityWithDefaultAttributeName>> constraintViolations = getValidator().validate( DummyEntityWithDefaultAttributeName.valid() );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		constraintViolations = getValidator().validate( DummyEntityWithDefaultAttributeName.invalid() );
+		assertThat(constraintViolations).containsOnlyViolations(
+				violationOf( Pattern.class )
+						.withProperty( "zip" )
+						.withMessage( "Wrong zip code" )
+		);
+	}
+
 	private FrenchAddress getFrenchAddressWithoutZipCode() {
 		FrenchAddress address = new FrenchAddress();
 		address.setAddressline1( "10 rue des Treuils" );
@@ -383,6 +399,24 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 	private static class DummyEntityWithAnotherIllegallyComposedConstraint {
 		@ComposedConstraint
 		public void doSomething(int i) {
+		}
+	}
+
+	private static class DummyEntityWithDefaultAttributeName {
+
+		@FrenchZipcodeWithDefaultOverridesAttributeName
+		private String zip;
+
+		private static DummyEntityWithDefaultAttributeName valid() {
+			DummyEntityWithDefaultAttributeName entity = new DummyEntityWithDefaultAttributeName();
+			entity.zip = "69007";
+			return entity;
+		}
+
+		private static DummyEntityWithDefaultAttributeName invalid() {
+			DummyEntityWithDefaultAttributeName entity = new DummyEntityWithDefaultAttributeName();
+			entity.zip = "invalid";
+			return entity;
 		}
 	}
 }
