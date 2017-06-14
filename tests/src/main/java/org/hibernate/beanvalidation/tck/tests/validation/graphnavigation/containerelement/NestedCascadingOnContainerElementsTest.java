@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.contai
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -65,16 +65,14 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 		constraintViolations = validator.validate( EmailAddressMap.invalidEmailAddressMap() );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "invalid", null, Map.class, 1 )
 								.property( "email", true, null, 1, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "invalid", null, Map.class, 1 )
 								.property( "email", true, null, 2, List.class, 0 )
@@ -100,23 +98,20 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 		constraintViolations = validator.validate( invalidCinemaEmailAddresses );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, invalidCinemaEmailAddresses.map.keySet().toArray()[1], null, Map.class, 1 )
 								.property( "email", true, null, 1, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, invalidCinemaEmailAddresses.map.keySet().toArray()[1], null, Map.class, 1 )
 								.property( "email", true, null, 2, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, invalidCinemaEmailAddresses.map.keySet().toArray()[2], null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
@@ -127,9 +122,8 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 		constraintViolations = validator.validate( invalidKeyCinemaEmailAddresses );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map key>", true, invalidKeyCinemaEmailAddresses.map.keySet().toArray()[1], null, Map.class, 0 )
 								.property( "visitor", Optional.class, 0 )
@@ -156,9 +150,8 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 		constraintViolations = validator.validate( NestedCascadingListWithValidAllAlongTheWay.withNullList() );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "list" )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						)

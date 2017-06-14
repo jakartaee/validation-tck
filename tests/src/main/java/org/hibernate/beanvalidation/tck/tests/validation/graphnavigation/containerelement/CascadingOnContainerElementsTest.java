@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.contai
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -58,15 +58,13 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithList>> constraintViolations = getValidator().validate( l );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Min.class )
-						.propertyPath( pathWith()
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
 								.property( "bars" )
 								.property( "number", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "bars" )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
 						)
@@ -88,15 +86,13 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithMapValue>> constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Min.class )
-						.propertyPath( pathWith()
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
 								.property( "barMap" )
 								.property( "number", true, "bar", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "barMap" )
 								.containerElement( "<map value>", true, "foo", null, Map.class, 1 )
 						)
@@ -119,15 +115,13 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithMapKey>> constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Min.class )
-						.propertyPath( pathWith()
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
 								.property( "barMap" )
 								.property( "number", true, bar, null, Map.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "barMap" )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
 						)
@@ -147,9 +141,7 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithOptional>> constraintViolations = getValidator().validate( o );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith().property( "bar" ) )
+				violationOf( NotNull.class ).withProperty( "bar" )
 		);
 
 		o = new TypeWithOptional();
@@ -157,9 +149,8 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( o );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Min.class )
-						.propertyPath( pathWith()
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
 								.property( "bar" )
 								.property( "number", false, null, null, Optional.class, 0 )
 						)
@@ -179,15 +170,13 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithSet>> constraintViolations = getValidator().validate( s );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Min.class )
-						.propertyPath( pathWith()
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
 								.property( "bars" )
 								.property( "number", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "bars" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)

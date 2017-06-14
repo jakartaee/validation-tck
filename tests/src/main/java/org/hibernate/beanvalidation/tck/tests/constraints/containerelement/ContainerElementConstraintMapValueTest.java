@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -56,9 +56,8 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithMap1>> constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "nameMap" )
 								.containerElement( "<map value>", true, "second", null, Map.class, 1 )
 						)
@@ -76,9 +75,8 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithMap2>> constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "nameMap" )
 								.containerElement( "<map value>", true, "second", null, Map.class, 1 )
 						)
@@ -88,11 +86,7 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
-								.property( "nameMap" )
-						)
+				violationOf( NotNull.class ).withProperty( "nameMap" )
 		);
 	}
 
@@ -110,21 +104,18 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithMap3>> constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "stringMap" )
 								.containerElement( "<map value>", true, "first", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "stringMap" )
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "stringMap" )
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
 						)
@@ -150,23 +141,20 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStringMap" )
 								.returnValue()
 								.containerElement( "<map value>", true, "second", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStringMap" )
 								.returnValue()
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStringMap" )
 								.returnValue()
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
@@ -194,23 +182,20 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map value>", true, "second", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
@@ -237,23 +222,20 @@ public class ContainerElementConstraintMapValueTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithMap6.class )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map value>", true, "second", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithMap6.class )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithMap6.class )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map value>", true, "third", null, Map.class, 1 )

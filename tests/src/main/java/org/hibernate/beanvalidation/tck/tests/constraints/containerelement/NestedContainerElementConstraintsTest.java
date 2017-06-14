@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,9 +53,8 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfLists.invalidKey() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map key>", true, "k", null, Map.class, 0 )
 						)
@@ -63,9 +62,8 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfLists.invalidList() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 						)
@@ -73,16 +71,14 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfLists.invalidString() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
@@ -91,21 +87,18 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfLists.reallyInvalid() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map key>", true, "k", null, Map.class, 0 )
 						),
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "k", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "k", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
@@ -121,9 +114,8 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfListsWithAutomaticUnwrapping.invalidStringProperty() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
@@ -132,9 +124,8 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfListsWithAutomaticUnwrapping.invalidListElement() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
@@ -148,16 +139,14 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<MapOfListsUsingGetter>> constraintViolations = getValidator().validate( MapOfListsUsingGetter.invalidString() );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )

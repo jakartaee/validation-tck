@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,15 +50,13 @@ public class SameElementContainedSeveralTimesInCollectionTest extends AbstractTC
 		Set<ConstraintViolation<ListContainer>> constraintViolations = getValidator().validate( listContainer );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "values" )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "values" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
@@ -80,15 +78,13 @@ public class SameElementContainedSeveralTimesInCollectionTest extends AbstractTC
 		Set<ConstraintViolation<MapContainer>> constraintViolations = getValidator().validate( withMap );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "values" )
 								.containerElement( "<map value>", true, "EMPTY_1", null, Map.class, 1 )
 						),
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "values" )
 								.containerElement( "<map value>", true, "EMPTY_2", null, Map.class, 1 )
 						)

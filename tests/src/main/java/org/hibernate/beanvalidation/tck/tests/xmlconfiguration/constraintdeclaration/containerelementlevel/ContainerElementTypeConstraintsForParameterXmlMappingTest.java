@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclar
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,21 +79,11 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
-					violationWith()
-							.constraintType( Size.class )
-							.message( "size must be between 0 and 5" ),
-					violationWith()
-							.constraintType( Size.class )
-							.message( "size must be between 3 and 10" ),
-					violationWith()
-							.constraintType( Size.class )
-							.message( "size must be between 3 and 10" ),
-					violationWith()
-							.constraintType( Min.class )
-							.message( "must be greater than or equal to 1" ),
-					violationWith()
-							.constraintType( Min.class )
-							.message( "must be greater than or equal to 1" )
+					violationOf( Size.class ).withMessage( "size must be between 0 and 5" ),
+					violationOf( Size.class ).withMessage( "size must be between 3 and 10" ),
+					violationOf( Size.class ).withMessage( "size must be between 3 and 10" ),
+					violationOf( Min.class ).withMessage( "must be greater than or equal to 1" ),
+					violationOf( Min.class ).withMessage( "must be greater than or equal to 1" )
 			);
 		}
 	}
@@ -120,7 +110,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
-					violationWith().constraintType( NotNull.class )
+					violationOf( NotNull.class )
 			);
 		}
 	}
@@ -149,7 +139,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
-					violationWith().constraintType( NotNull.class )
+					violationOf( NotNull.class )
 			);
 		}
 	}
@@ -172,7 +162,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
-					violationWith().constraintType( NotNull.class )
+					violationOf( NotNull.class )
 			);
 		}
 	}

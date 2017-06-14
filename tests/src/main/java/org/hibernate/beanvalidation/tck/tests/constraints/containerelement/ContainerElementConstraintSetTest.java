@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -55,21 +55,18 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithSet1>> constraintViolations = getValidator().validate( s );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
@@ -84,15 +81,13 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithSet2>> constraintViolations = getValidator().validate( s );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
@@ -103,11 +98,7 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( s );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
-								.property( "names" )
-						)
+				violationOf( Size.class ).withProperty( "names" )
 		);
 	}
 
@@ -125,21 +116,18 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithSet3>> constraintViolations = getValidator().validate( s );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
@@ -159,23 +147,20 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
@@ -198,23 +183,20 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
@@ -236,23 +218,20 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithSet6.class )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithSet6.class )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithSet6.class )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
