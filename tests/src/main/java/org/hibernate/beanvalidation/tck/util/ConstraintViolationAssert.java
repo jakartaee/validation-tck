@@ -19,7 +19,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ElementKind;
 import javax.validation.Path;
-import javax.validation.metadata.ConstraintDescriptor;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.IterableAssert;
@@ -148,17 +147,6 @@ public final class ConstraintViolationAssert {
 				numberOfViolations,
 				"Wrong number of constraint violations"
 		);
-	}
-
-	public static void assertConstraintTypes(Set<? extends ConstraintDescriptor<?>> descriptors,
-			Class<?>... expectedConstraintTypes) {
-		List<Class<? extends Annotation>> actualConstraintTypes = new ArrayList<>();
-
-		for ( ConstraintDescriptor<?> descriptor : descriptors ) {
-			actualConstraintTypes.add( descriptor.getAnnotation().annotationType() );
-		}
-
-		assertCorrectConstraintTypes( actualConstraintTypes, expectedConstraintTypes );
 	}
 
 	/**
@@ -316,11 +304,11 @@ public final class ConstraintViolationAssert {
 
 		private PathExpectation propertyPath;
 
-		public ViolationExpectation(Class<? extends Annotation> constraintType) {
+		private ViolationExpectation(Class<? extends Annotation> constraintType) {
 			this.constraintType = constraintType;
 		}
 
-		public ViolationExpectation(ConstraintViolation<?> violation, ViolationExpectationPropertiesToTest propertiesToTest) {
+		private ViolationExpectation(ConstraintViolation<?> violation, ViolationExpectationPropertiesToTest propertiesToTest) {
 			this.constraintType = violation.getConstraintDescriptor().getAnnotation().annotationType();
 
 			if ( propertiesToTest.testRootBeanClass ) {
