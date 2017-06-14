@@ -7,7 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.containerelementlevel;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 		Set<ConstraintViolation<OrderField>> violations = validator.validate( OrderField.invalid() );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( DecimalMin.class )
 		);
 
 		validator = getValidator( "field-ignoreAnnotationsFalse-mapping.xml" );
@@ -67,8 +67,8 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 		violations = validator.validate( OrderField.invalid() );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( NotBlank.class ),
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( NotBlank.class ),
+				violationOf( DecimalMin.class )
 		);
 	}
 
@@ -80,7 +80,7 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 		Set<ConstraintViolation<OrderGetter>> violations = validator.validate( OrderGetter.invalid() );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( DecimalMin.class )
 		);
 
 		validator = getValidator( "getter-ignoreAnnotationsFalse-mapping.xml" );
@@ -88,8 +88,8 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 		violations = validator.validate( OrderGetter.invalid() );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( NotBlank.class ),
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( NotBlank.class ),
+				violationOf( DecimalMin.class )
 		);
 	}
 
@@ -104,7 +104,7 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 				OrderReturnValue.class.getMethod( "retrieveLines" ), invalidObject.lines );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( DecimalMin.class )
 		);
 
 		validator = getValidator( "returnvalue-ignoreAnnotationsFalse-mapping.xml" ).forExecutables();
@@ -113,8 +113,8 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 				OrderReturnValue.class.getMethod( "retrieveLines" ), invalidObject.lines );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( NotBlank.class ),
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( NotBlank.class ),
+				violationOf( DecimalMin.class )
 		);
 	}
 
@@ -131,7 +131,7 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 				OrderParameter.class.getMethod( "addLines", Map.class ), new Object[] { additionalLines } );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( DecimalMin.class )
 		);
 
 		validator = getValidator( "parameter-ignoreAnnotationsFalse-mapping.xml" ).forExecutables();
@@ -140,8 +140,8 @@ public class ContainerElementTypeIgnoreAnnotationsMappingTest extends AbstractTC
 				OrderParameter.class.getMethod( "addLines", Map.class ), new Object[] { additionalLines } );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationWith().constraintType( NotBlank.class ),
-				violationWith().constraintType( DecimalMin.class )
+				violationOf( NotBlank.class ),
+				violationOf( DecimalMin.class )
 		);
 	}
 

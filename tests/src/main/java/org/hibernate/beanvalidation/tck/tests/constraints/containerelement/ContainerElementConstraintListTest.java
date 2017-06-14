@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -56,21 +56,18 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithList1>> constraintViolations = getValidator().validate( l );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
@@ -85,15 +82,13 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithList2>> constraintViolations = getValidator().validate( l );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
@@ -104,11 +99,7 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( l );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
-								.property( "names" )
-						)
+				violationOf(  Size.class  ).withProperty( "names" )
 		);
 	}
 
@@ -123,21 +114,18 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithList3>> constraintViolations = getValidator().validate( l );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
@@ -157,23 +145,20 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
@@ -196,23 +181,20 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
@@ -234,23 +216,20 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithList6.class )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithList6.class )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithList6.class )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )

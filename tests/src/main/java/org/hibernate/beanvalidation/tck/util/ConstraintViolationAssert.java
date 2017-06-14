@@ -232,8 +232,8 @@ public final class ConstraintViolationAssert {
 		return new PathExpectation();
 	}
 
-	public static ViolationExpectation violationWith() {
-		return new ViolationExpectation();
+	public static ViolationExpectation violationOf(Class<? extends Annotation> constraintType) {
+		return new ViolationExpectation( constraintType );
 	}
 
 	public static class ConstraintViolationSetAssert extends IterableAssert<ConstraintViolation<?>> {
@@ -306,7 +306,7 @@ public final class ConstraintViolationAssert {
 
 		private final ViolationExpectationPropertiesToTest propertiesToTest = new ViolationExpectationPropertiesToTest();
 
-		private Class<? extends Annotation> constraintType;
+		private final Class<? extends Annotation> constraintType;
 
 		private Class<?> rootBeanClass;
 
@@ -316,64 +316,60 @@ public final class ConstraintViolationAssert {
 
 		private PathExpectation propertyPath;
 
-		public ViolationExpectation() {
+		public ViolationExpectation(Class<? extends Annotation> constraintType) {
+			this.constraintType = constraintType;
 		}
 
 		public ViolationExpectation(ConstraintViolation<?> violation, ViolationExpectationPropertiesToTest propertiesToTest) {
-			if ( propertiesToTest.testConstraintType ) {
-				constraintType( violation.getConstraintDescriptor().getAnnotation().annotationType() );
-			}
+			this.constraintType = violation.getConstraintDescriptor().getAnnotation().annotationType();
+
 			if ( propertiesToTest.testRootBeanClass ) {
-				rootBeanClass( violation.getRootBeanClass() );
+				withRootBeanClass( violation.getRootBeanClass() );
 			}
 			if ( propertiesToTest.testMessage ) {
-				message( violation.getMessage() );
+				withMessage( violation.getMessage() );
 			}
 			if ( propertiesToTest.testInvalidValue ) {
-				invalidValue( violation.getInvalidValue() );
+				withInvalidValue( violation.getInvalidValue() );
 			}
 			if ( propertiesToTest.testPropertyPath ) {
-				propertyPath( new PathExpectation( violation.getPropertyPath() ) );
+				withPropertyPath( new PathExpectation( violation.getPropertyPath() ) );
 			}
 		}
 
-		public ViolationExpectation constraintType(Class<? extends Annotation> constraint) {
-			propertiesToTest.testConstraintType();
-			this.constraintType = constraint;
-			return this;
-		}
-
-		public ViolationExpectation rootBeanClass(Class<?> rootBeanClass) {
+		public ViolationExpectation withRootBeanClass(Class<?> rootBeanClass) {
 			propertiesToTest.testRootBeanClass();
 			this.rootBeanClass = rootBeanClass;
 			return this;
 		}
 
-		public ViolationExpectation message(String message) {
+		public ViolationExpectation withMessage(String message) {
 			propertiesToTest.testMessage();
 			this.message = message;
 			return this;
 		}
 
-		public ViolationExpectation invalidValue(Object invalidValue) {
+		public ViolationExpectation withInvalidValue(Object invalidValue) {
 			propertiesToTest.testInvalidValue();
 			this.invalidValue = invalidValue;
 			return this;
 		}
 
-		public ViolationExpectation propertyPath(PathExpectation propertyPath) {
+		public ViolationExpectation withPropertyPath(PathExpectation propertyPath) {
 			propertiesToTest.testPropertyPath();
 			this.propertyPath = propertyPath;
 			return this;
+		}
+
+		public ViolationExpectation withProperty(String property) {
+			return withPropertyPath( pathWith().property( property ) );
 		}
 
 		@Override
 		public String toString() {
 			String lineBreak = System.getProperty( "line.separator" );
 			StringBuilder asString = new StringBuilder( lineBreak + "ViolationExpectation(" + lineBreak );
-			if ( propertiesToTest.testConstraintType ) {
-				asString.append( "  constraintType: " ).append( constraintType ).append( lineBreak );
-			}
+			asString.append( "  constraintType: " ).append( constraintType ).append( lineBreak );
 			if ( propertiesToTest.testRootBeanClass ) {
 				asString.append( "  rootBeanClass: " ).append( rootBeanClass ).append( lineBreak );
 			}
@@ -394,9 +390,7 @@ public final class ConstraintViolationAssert {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			if ( propertiesToTest.testConstraintType ) {
-				result = prime * result + ( constraintType == null ? 0 : constraintType.hashCode() );
-			}
+			result = prime * result + ( constraintType == null ? 0 : constraintType.hashCode() );
 			if ( propertiesToTest.testRootBeanClass ) {
 				result = prime * result + ( rootBeanClass == null ? 0 : rootBeanClass.hashCode() );
 			}
@@ -424,15 +418,13 @@ public final class ConstraintViolationAssert {
 				return false;
 			}
 			ViolationExpectation other = (ViolationExpectation) obj;
-			if ( propertiesToTest.testConstraintType ) {
-				if ( constraintType == null ) {
-					if ( other.constraintType != null ) {
-						return false;
-					}
-				}
-				else if ( !constraintType.equals( other.constraintType ) ) {
+			if ( constraintType == null ) {
+				if ( other.constraintType != null ) {
 					return false;
 				}
+			}
+			else if ( !constraintType.equals( other.constraintType ) ) {
+				return false;
 			}
 			if ( propertiesToTest.testRootBeanClass ) {
 				if ( rootBeanClass == null ) {
@@ -480,8 +472,6 @@ public final class ConstraintViolationAssert {
 
 	private static class ViolationExpectationPropertiesToTest {
 
-		private boolean testConstraintType = false;
-
 		private boolean testRootBeanClass = false;
 
 		private boolean testMessage = false;
@@ -492,17 +482,11 @@ public final class ConstraintViolationAssert {
 
 		private static ViolationExpectationPropertiesToTest all() {
 			ViolationExpectationPropertiesToTest propertiesToTest = new ViolationExpectationPropertiesToTest()
-					.testConstraintType()
 					.testRootBeanClass()
 					.testMessage()
 					.testInvalidValue()
 					.testPropertyPath();
 			return propertiesToTest;
-		}
-
-		private ViolationExpectationPropertiesToTest testConstraintType() {
-			testConstraintType = true;
-			return this;
 		}
 
 		private ViolationExpectationPropertiesToTest testRootBeanClass() {
@@ -529,7 +513,6 @@ public final class ConstraintViolationAssert {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ( testConstraintType ? 1 : 0 );
 			result = prime * result + ( testRootBeanClass ? 1 : 0 );
 			result = prime * result + ( testMessage ? 1 : 0 );
 			result = prime * result + ( testInvalidValue ? 1 : 0 );
@@ -550,9 +533,6 @@ public final class ConstraintViolationAssert {
 			}
 
 			ViolationExpectationPropertiesToTest other = (ViolationExpectationPropertiesToTest) obj;
-			if ( testConstraintType != other.testConstraintType ) {
-				return false;
-			}
 			if ( testRootBeanClass != other.testRootBeanClass ) {
 				return false;
 			}

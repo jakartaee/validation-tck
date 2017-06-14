@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.definition;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
@@ -197,19 +197,16 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<MapHolder>> violations = validator.validate( mapHolder );
 		assertThat( violations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( RetailOrder.class )
-						.propertyPath( pathWith()
+				violationOf( RetailOrder.class )
+						.withPropertyPath( pathWith()
 								.property( "ordersByName" )
 								.containerElement( "<map value>", true, "name1", null, Map.class, 1 ) ),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "ordersByName" )
 								.property( "id", true, "name2", null, Map.class, 1 ) ),
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith()
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
 								.property( "ordersByName" )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 ) )
 		);

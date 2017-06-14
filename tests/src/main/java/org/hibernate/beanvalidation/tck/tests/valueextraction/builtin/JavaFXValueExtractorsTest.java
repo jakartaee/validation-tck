@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.builtin;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -73,18 +73,10 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<BasicPropertiesEntity>> constraintViolations = getValidator().validate( new BasicPropertiesEntity() );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith().property( "stringProperty" ) ),
-				violationWith()
-						.constraintType( Max.class )
-						.propertyPath( pathWith().property( "doubleProperty" ) ),
-				violationWith()
-						.constraintType( Min.class )
-						.propertyPath( pathWith().property( "integerProperty" ) ),
-				violationWith()
-						.constraintType( AssertTrue.class )
-						.propertyPath( pathWith().property( "booleanProperty" ) )
+				violationOf( NotNull.class ).withProperty( "stringProperty" ),
+				violationOf( Max.class ).withProperty( "doubleProperty" ),
+				violationOf( Min.class ).withProperty( "integerProperty" ),
+				violationOf( AssertTrue.class ).withProperty( "booleanProperty" )
 		);
 	}
 
@@ -98,16 +90,13 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( ListPropertyEntity.invalidList() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith().property( "listProperty" ) )
+				violationOf( Size.class ).withProperty( "listProperty" )
 		);
 
 		constraintViolations = validator.validate( ListPropertyEntity.invalidListElement() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "listProperty" )
 								.containerElement( "<list element>", true, null, 0, ListProperty.class, 0 ) )
 		);
@@ -123,16 +112,13 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( SetPropertyEntity.invalidSet() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith().property( "setProperty" ) )
+				violationOf( Size.class ).withProperty( "setProperty" )
 		);
 
 		constraintViolations = validator.validate( SetPropertyEntity.invalidSetElement() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "setProperty" )
 								.containerElement( "<iterable element>", true, null, null, SetProperty.class, 0 ) )
 		);
@@ -148,25 +134,21 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( MapPropertyEntity.invalidMap() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith().property( "mapProperty" ) )
+				violationOf( Size.class ).withProperty( "mapProperty" )
 		);
 
 		constraintViolations = validator.validate( MapPropertyEntity.invalidMapKey() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( Size.class )
-						.propertyPath( pathWith()
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
 								.property( "mapProperty" )
 								.containerElement( "<map key>", true, "app", null, MapProperty.class, 0 ) )
 		);
 
 		constraintViolations = validator.validate( MapPropertyEntity.invalidMapValue() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.property( "mapProperty" )
 								.containerElement( "<map value>", true, "pear", null, MapProperty.class, 1 ) )
 		);

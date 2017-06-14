@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -55,9 +55,7 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithOptional1>> constraintViolations = getValidator().validate( o );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith().property( "stringOptional" ) )
+				violationOf( NotBlank.class ).withProperty( "stringOptional" )
 		);
 	}
 
@@ -69,9 +67,7 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithOptional2>> constraintViolations = getValidator().validate( o );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith().property( "stringOptional" ) )
+				violationOf( NotBlank.class ).withProperty( "stringOptional" )
 		);
 
 		o = new TypeWithOptional2();
@@ -79,9 +75,7 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( o );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotNull.class )
-						.propertyPath( pathWith().property( "stringOptional" ) )
+				violationOf( NotNull.class ).withProperty( "stringOptional" )
 		);
 	}
 
@@ -96,9 +90,7 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		Set<ConstraintViolation<TypeWithOptional3>> constraintViolations = getValidator().validate( o );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith().property( "stringOptional" ) )
+				violationOf( NotBlank.class ).withProperty( "stringOptional" )
 		);
 	}
 
@@ -115,9 +107,8 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "returnStringOptional" )
 								.returnValue()
 						)
@@ -140,9 +131,8 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "optionalParameter", 0 )
 						)
@@ -164,9 +154,8 @@ public class ContainerElementConstraintOptionalTest extends AbstractTCKTest {
 		);
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationWith()
-						.constraintType( NotBlank.class )
-						.propertyPath( pathWith()
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
 								.constructor( TypeWithOptional6.class )
 								.parameter( "optionalParameter", 0 )
 						)
