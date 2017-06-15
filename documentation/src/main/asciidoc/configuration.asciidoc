@@ -14,7 +14,7 @@ The TCK distribution comes with a directory
 `setup-examples` which contains two example projects
 for running the TCK. If you followed the instructions in <<installation>> you find the directory under
 `jsr380/tck/setup-examples`. Both setups are using
-Hibernate Validator as Bean Validation Provider and Glassfish 4 as EE
+Hibernate Validator as Bean Validation Provider and Glassfish 5 as EE
 constainer. However, one is using http://maven.apache.org/[Maven] as build tool to run the TCK,
 the other http://ant.apache.org/[Ant]. Depending which
 of the examples you want to use, you need to install the corresponding

@@ -28,6 +28,7 @@
         <asciidoctor.base-output-dir>${project.build.directory}/asciidoctor</asciidoctor.base-output-dir>
         <asciidoctor.theme-dir>${project.build.directory}/hibernate-asciidoctor-theme</asciidoctor.theme-dir>
         <asciidoctor.aggregated-resources-dir>${project.build.directory}/aggregated-resources</asciidoctor.aggregated-resources-dir>
+        <asciidoctor.tests-source-dir>${basedir}/../tests/src/main/java</asciidoctor.tests-source-dir>
 
         <!-- Skip artifact deployment -->
         <maven.deploy.skip>true</maven.deploy.skip>
@@ -177,6 +178,7 @@
                         <tckVersion>${project.version}</tckVersion>
                         <validationApiVersion>${validation.api.version}</validationApiVersion>
                         <hibernateValidatorVersion>${hibernate.validator.version}</hibernateValidatorVersion>
+                        <testsSourceDir>${asciidoctor.tests-source-dir}</testsSourceDir>
                     </attributes>
                 </configuration>
             </plugin>

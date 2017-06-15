@@ -35,12 +35,13 @@ fragment:
 
 [source,xml]
 ----
-<section id="2.1.1" title="Constraint definition properties">
-  ...
-   <assertion id="c">
-      <text>Every constraint annotation must define a message element of type String</text>
-   </assertion>
-  ...
+<section id="constraintsdefinitionimplementation-constraintdefinition-properties-message" title="message" level="4">
+    ...
+    <!-- 3.1.1.1 - CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_MESSAGE -->
+    <assertion id="a">
+        <text>Every constraint annotation must define a message element of type String.</text>
+    </assertion>
+    ...
 </section>
 ----
 
@@ -53,16 +54,13 @@ annotation as follows:
 
 [source, java]
 ----
-@Test
-@SpecAssertion(section = "2.1.1", id = "c")
+@Test(expectedExceptions = ConstraintDefinitionException.class)
+...
+@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_MESSAGE, id = "a")
+...
 public void testConstraintDefinitionWithoutMessageParameter() {
-   try {
-       Validator validator = TestUtil.getValidatorUnderTest();
-       validator.validate( new DummyEntityNoMessage() );
-       fail( "The used constraint does not define a message parameter. The validation should have failed." );
-   }
-   catch ( ConstraintDefinitionException e ) {
-       // success
+    getValidator().validate( new DummyEntityNoMessage() );
+    fail( "The used constraint does not define a message parameter. The validation should have failed." );
 }
 ----
 
@@ -134,10 +132,10 @@ TCK test suite produces all the same reports that TestNG produces. This
 section will go over those reports and show you were to go to find each of
 them.
 
-==== Maven 2, Surefire and TestNG
+==== Maven, Surefire and TestNG
 
 When the Bean Validation TCK test suite is executed during the
-Maven 2 test phase of the TCK runner project, TestNG is invoked
+Maven test phase of the TCK runner project, TestNG is invoked
 indirectly through the Maven Surefire plugin. Surefire is a test
 execution abstraction layer capable of executing a mix of tests written
 for JUnit, TestNG, and other supported test frameworks.
