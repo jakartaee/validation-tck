@@ -25,7 +25,8 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.Container;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.ContainerElement;
-import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.ContainerValueExtractor;
+import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.ContainerValueExtractorCompareInstance;
+import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.ContainerValueExtractorCountCalls;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.CustomConstraint;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.IndexedValueContainerValueExtractor;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.IterableValueContainerValueExtractor;
@@ -63,13 +64,28 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 		StringContainerHolder containerHolder = new StringContainerHolder( container );
 
 		Validator validator = Validation.byDefaultProvider().configure()
-				.addValueExtractor( new ContainerValueExtractor( container ) )
+				.addValueExtractor( new ContainerValueExtractorCompareInstance( container ) )
 				.buildValidatorFactory()
 				.getValidator();
 
 		validator.validate( containerHolder );
 
-		assertEquals( ContainerValueExtractor.callCounter, 1 );
+		assertEquals( ContainerValueExtractorCompareInstance.callCounter, 1 );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "b")
+	public void valueExtractorNotInvokedIfContainerIsNull() {
+		StringContainerHolder containerHolder = new StringContainerHolder( null );
+
+		Validator validator = Validation.byDefaultProvider().configure()
+				.addValueExtractor( new ContainerValueExtractorCountCalls() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		validator.validate( containerHolder );
+
+		assertEquals( ContainerValueExtractorCountCalls.callCounter, 0 );
 	}
 
 	@Test

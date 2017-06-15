@@ -9,13 +9,13 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model;
 import javax.validation.valueextraction.ExtractedValue;
 import javax.validation.valueextraction.ValueExtractor;
 
-public class ContainerValueExtractor implements ValueExtractor<Container<@ExtractedValue ?>> {
+public class ContainerValueExtractorCompareInstance implements ValueExtractor<Container<@ExtractedValue ?>> {
 
 	public static int callCounter = 0;
 
 	private final Container<?> containerInstance;
 
-	public ContainerValueExtractor(Container<?> containerInstance) {
+	public ContainerValueExtractorCompareInstance(Container<?> containerInstance) {
 		this.containerInstance = containerInstance;
 	}
 
