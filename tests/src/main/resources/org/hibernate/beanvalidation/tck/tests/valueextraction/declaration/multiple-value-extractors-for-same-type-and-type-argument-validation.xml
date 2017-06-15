@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Bean Validation TCK
+
+    License: Apache License, Version 2.0
+    See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
+
+-->
+<validation-config
+    xmlns="http://xmlns.jcp.org/xml/ns/validation/configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/validation/mapping validation-configuration-2.0.xsd"
+    version="2.0">
+
+    <value-extractor>org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.ReferenceValueExtractor0</value-extractor>
+    <value-extractor>org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.ReferenceValueExtractor1</value-extractor>
+</validation-config>
