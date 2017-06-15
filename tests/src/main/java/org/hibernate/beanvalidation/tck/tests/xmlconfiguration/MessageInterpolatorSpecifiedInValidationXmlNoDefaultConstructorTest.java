@@ -37,7 +37,7 @@ public class MessageInterpolatorSpecifiedInValidationXmlNoDefaultConstructorTest
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "f"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "t")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "x")
 	})
 	public void testMessageInterpolatorSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

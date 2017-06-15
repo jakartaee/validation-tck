@@ -37,7 +37,7 @@ public class TraversableResolverSpecifiedInValidationXmlNoDefaultConstructorTest
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "g"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "t")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "x")
 	})
 	public void testTraversableResolverSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

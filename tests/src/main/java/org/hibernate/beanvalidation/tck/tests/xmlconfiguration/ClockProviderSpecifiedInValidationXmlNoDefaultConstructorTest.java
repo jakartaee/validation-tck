@@ -37,7 +37,7 @@ public class ClockProviderSpecifiedInValidationXmlNoDefaultConstructorTest exten
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "j"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "u")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "y")
 	})
 	public void testClockProviderSpecifiedInValidationXmlHasNoDefaultConstructor() {
 		try {

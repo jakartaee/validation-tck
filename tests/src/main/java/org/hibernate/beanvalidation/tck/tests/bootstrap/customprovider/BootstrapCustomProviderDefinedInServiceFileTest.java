@@ -47,7 +47,7 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTCK
 
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING, id = "a")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "n")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "a")
 	public void testGetFactoryByProviderSpecifiedProgrammatically() {
 		TCKValidatorConfiguration configuration = Validation.byProvider( TCKValidationProvider.class ).configure();
@@ -57,7 +57,7 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTCK
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "m")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "n")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_RESOLVER, id = "a")
 	public void testProviderResolverReturnsListOfAvailableProviders() {
 

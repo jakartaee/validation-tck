@@ -39,7 +39,7 @@ public class ExecutableValidationGloballyDisabledTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "l")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "p")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "q")
 	public void testExecutableValidationGloballyTurnedOff() {
 		Event event = calendar.createEvent( null );

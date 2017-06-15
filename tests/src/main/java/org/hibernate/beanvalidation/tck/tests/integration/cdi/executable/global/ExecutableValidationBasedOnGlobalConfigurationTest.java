@@ -43,7 +43,7 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Abstract
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "l")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "p")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "g")
 	public void testValidationOfConstrainedMethodOnTypeAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {

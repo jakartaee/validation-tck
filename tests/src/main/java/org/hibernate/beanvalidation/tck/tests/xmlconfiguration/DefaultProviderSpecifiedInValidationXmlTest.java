@@ -51,7 +51,7 @@ public class DefaultProviderSpecifiedInValidationXmlTest extends AbstractTCKTest
 	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "e"),
-			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "t")
+			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "x")
 	})
 	public void testProviderSpecifiedInValidationXml() {
 		ValidationProviderResolver resolver = new ValidationProviderResolver() {
