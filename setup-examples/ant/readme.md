@@ -1,6 +1,6 @@
 # Ant + Ivy setup example to run the JSR-380 TCK
 
-This is an example setup to run the Bean Validation TCK 2.0 against Glassfish 4 (the Java EE 7 reference implementation)
+This is an example setup to run the Bean Validation TCK 2.0 against Glassfish 5 (the Java EE 8 reference implementation)
 using [Ant](https://ant.apache.org) + [Ivy](http://ant.apache.org/ivy/) as build environment.
 
 ## Prerequisites
@@ -8,7 +8,7 @@ using [Ant](https://ant.apache.org) + [Ivy](http://ant.apache.org/ivy/) as build
 * [Git](http://git-scm.com/)
 * [Ant](https://ant.apache.org) >= 1.8
 * [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Glassfish 4](https://glassfish.java.net/download.html)
+* [Glassfish 4](https://javaee.github.io/glassfish/download)
 
 ## How to run
 

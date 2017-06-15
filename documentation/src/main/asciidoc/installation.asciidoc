@@ -47,8 +47,8 @@ implementation.
 
 The TCK requires the following two Java runtime environments:
 
-* Java 8
-* Java EE 7 or better (e.g. Glassfish 4)
+* Java 8 (including a JavaFX implementation)
+* Java EE 8 or better (e.g. Glassfish 5)
 
 You should refer to vendor instructions for how to install the
 runtime.
@@ -89,152 +89,9 @@ Now lets have a look at one concrete test of the TCK, namely
 `ConstraintInheritanceTest` (found in
 `tck/tests/src/main/java/org/hibernate/beanvalidation/tck/tests/constraints/inheritance/ConstraintInheritanceTest.java`):
 
-[source, java]
+[source, JAVA, indent=0]
 ----
-package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
-
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.PropertyDescriptor;
-
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
-import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import org.hibernate.beanvalidation.tck.util.TestUtil;
-import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-
-import static org.hibernate.beanvalidation.tck.util.TestUtil.assertCorrectConstraintTypes;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-/**
- * @author Hardy Ferentschik
- */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ConstraintInheritanceTest extends Arquillian {
-
-    private Validator validator;
-
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return new WebArchiveBuilder()
-                .withTestClassPackage( ConstraintInheritanceTest.class )
-                .build();
-    }
-
-    @BeforeMethod
-    public void setupValidator() {
-        validator = TestUtil.getValidatorUnderTest();
-    }
-
-    @Test
-    @SpecAssertion(section = "4.3", id = "b")
-    public void testConstraintsOnSuperClassAreInherited() {
-        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
-
-        String propertyName = "foo";
-        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
-        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
-
-        Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
-                .iterator()
-                .next().getAnnotation();
-        assertTrue( constraintAnnotation.annotationType() == NotNull.class );
-    }
-
-    @Test
-    @SpecAssertions({
-            @SpecAssertion(section = "4.3", id = "a"),
-            @SpecAssertion(section = "4.3", id = "b")
-    })
-    public void testConstraintsOnInterfaceAreInherited() {
-        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
-
-        String propertyName = "fubar";
-        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
-        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
-
-        Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
-                .iterator()
-                .next().getAnnotation();
-        assertTrue( constraintAnnotation.annotationType() == NotNull.class );
-    }
-
-    @Test
-    @SpecAssertions({
-            @SpecAssertion(section = "4.3", id = "a"),
-            @SpecAssertion(section = "4.3", id = "c")
-    })
-    public void testConstraintsOnInterfaceAndImplementationAddUp() {
-        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
-
-        String propertyName = "name";
-        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
-        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
-
-        List<Class<? extends Annotation>> constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
-
-        assertEquals( constraintTypes.size(), 2 );
-        assertTrue( constraintTypes.contains( DecimalMin.class ) );
-        assertTrue( constraintTypes.contains( Size.class ) );
-    }
-
-    @Test
-    @SpecAssertions({
-            @SpecAssertion(section = "4.3", id = "a"),
-            @SpecAssertion(section = "4.3", id = "c")
-    })
-    public void testConstraintsOnSuperAndSubClassAddUp() {
-        BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Bar.class );
-
-        String propertyName = "lastName";
-        assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
-        PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
-
-        List<Class<? extends Annotation>> constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
-
-        assertEquals( constraintTypes.size(), 2 );
-        assertTrue( constraintTypes.contains( DecimalMin.class ) );
-        assertTrue( constraintTypes.contains( Size.class ) );
-    }
-
-    @Test
-    @SpecAssertion(section = "4.6", id = "a")
-    public void testValidationConsidersConstraintsFromSuperTypes() {
-        Set<ConstraintViolation<Bar>> violations = validator.validate( new Bar() );
-        assertCorrectConstraintTypes(
-                violations,
-                DecimalMin.class, DecimalMin.class, ValidBar.class, //Bar
-                NotNull.class, Size.class, ValidFoo.class, //Foo
-                NotNull.class, Size.class, ValidFubar.class //Fubar
-        );
-    }
-
-    private List<Class<? extends Annotation>> getConstraintTypes(Iterable<ConstraintDescriptor<?>> descriptors) {
-        List<Class<? extends Annotation>> constraintTypes = new ArrayList<Class<? extends Annotation>>();
-
-        for ( ConstraintDescriptor<?> constraintDescriptor : descriptors ) {
-            constraintTypes.add( constraintDescriptor.getAnnotation().annotationType() );
-        }
-
-        return constraintTypes;
-    }
-}
+include::{testsSourceDir}/org/hibernate/beanvalidation/tck/tests/constraints/inheritance/ConstraintInheritanceTest.java[lines=7..-1]
 ----
 
 Each test class is treated as an individual artifact (hence
@@ -247,7 +104,7 @@ actual tests which are getting run. Last but not least we see the use of
 the `@SpecAssertion` annotation which creates the link between
 the tck-audit.xml document and the actual test (see <<primer>>).
 
-.Running the TCK against the Bean Validation RI (Hibernate Validator) and JBoss AS 7
+.Running the TCK against the Bean Validation RI (Hibernate Validator) and WildFly 10.1
 ====
 * Install Maven. You can find documentation on how to install
 Maven 3 on the https://maven.apache.org/install.html[Maven official website].

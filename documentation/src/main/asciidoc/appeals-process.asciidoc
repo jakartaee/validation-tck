@@ -38,7 +38,7 @@ appeal.
 What is generally not challengeable are the assertions made by the
 specification. The specification document is controlled by a separate
 process and challenges to it should be handled through the {jsrVersion} EG
-by sending an e-mail to beanvalidation-tck@redhat.com[beanvalidation-tck@redhat.com].
+by sending an e-mail to mailto:beanvalidation-tck@redhat.com[beanvalidation-tck@redhat.com].
 
 === How these challenges are submitted?
 

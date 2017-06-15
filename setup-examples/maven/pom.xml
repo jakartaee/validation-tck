@@ -24,7 +24,7 @@
         <tck.suite.file>${project.build.directory}/dependency/beanvalidation-tck-tests-suite.xml</tck.suite.file>
         <arquillian.version>1.1.11.Final</arquillian.version>
 
-        <container.home>/opt/java/glassfish4</container.home>
+        <container.home>/opt/java/glassfish5</container.home>
 
         <validation.provider>org.hibernate.validator.HibernateValidator</validation.provider>
     </properties>

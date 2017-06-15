@@ -1,13 +1,13 @@
 # Maven setup example to run the JSR-380 TCK
 
-This is an example setup to run the Bean Validation TCK 2.0 against Glassfish 4 using [Maven](https://maven.apache.org).
+This is an example setup to run the Bean Validation TCK 2.0 against Glassfish 5 using [Maven](https://maven.apache.org).
 
 ## Prerequisites
 
 * [Git](http://git-scm.com)
 * [Maven](https://maven.apache.org) >= 3.0.4
 * [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Glassfish 4](https://glassfish.java.net/download.html) installation
+* [Glassfish 5](https://javaee.github.io/glassfish/download) installation
 
 ## How to run
 

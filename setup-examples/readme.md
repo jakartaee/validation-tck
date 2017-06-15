@@ -1,13 +1,13 @@
 # JSR-380 TCK setup examples
 
 This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org/) setup examples for
-running the [Bean Validation](http://beanvalidation.org/) TCK against [Glassfish 4](https://glassfish.java.net/),
-the reference implementation of Java EE 7.
+running the [Bean Validation](http://beanvalidation.org/) TCK against [Glassfish 5](https://javaee.github.io/glassfish/),
+the reference implementation of Java EE 8.
 
 Each setup contains a readme outlining how to run the test harness using the given build system. These setups
-serve as guide and can be adjusted to run against other EE containers. An example for running against JBoss AS can
+serve as guide and can be adjusted to run against other EE containers. An example for running against WildFly can
 be found as part of the [Hibernate Validator TCK Runner](https://github.com/hibernate/hibernate-validator/tree/master/tck-runner)
-setup. It is the responsibility of the container to provide all Bean Validation dependencies, namely the BeanValidation API
+setup. It is the responsibility of the container to provide all Bean Validation dependencies, namely the Bean Validation API
 as well as the Bean Validation provider. The latter is the so called Bean Validation provider under test.
 
 Generally, to adjust the build script to another container, you would have to:
