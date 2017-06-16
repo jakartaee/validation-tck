@@ -6,10 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -29,8 +27,8 @@ import org.testng.annotations.Test;
 /**
  * Tests for {@link Email} built-in constraint.
  * <p>
- * Exact semantics of what makes up a valid email address are left to Bean Validation providers so we only test very
- * basic example to be sure we have an email validator declared.
+ * Exact semantics of what makes up a valid email address are left to Bean Validation providers so we use the regexp
+ * mechanism to test an invalid email.
  *
  * @author Guillaume Smet
  */
@@ -49,17 +47,11 @@ public class EmailConstraintTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "v")
 	public void testEmailConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		EmailDummyEntity foo = new EmailDummyEntity();
+		EmailDummyEntity foo = new EmailDummyEntity( "test@example.com" );
 
 		Set<ConstraintViolation<EmailDummyEntity>> constraintViolations = validator.validate( foo );
-		assertNumberOfViolations( constraintViolations, 0 );
-
-		foo.email = "4 8";
-		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, Email.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "email" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Email.class ).withProperty( "email" )
 		);
 	}
 
@@ -69,29 +61,31 @@ public class EmailConstraintTest extends AbstractTCKTest {
 	public void testEmailConstraintOnStringBuilder() {
 		// @Email has to support CharSequence so let's also try a StringBuilder
 		Validator validator = TestUtil.getValidatorUnderTest();
-		EmailStringBuilderDummyEntity foo = new EmailStringBuilderDummyEntity();
+		EmailStringBuilderDummyEntity foo = new EmailStringBuilderDummyEntity( new StringBuilder( "test@example.com" ) );
 
 		Set<ConstraintViolation<EmailStringBuilderDummyEntity>> constraintViolations = validator.validate( foo );
-		assertNumberOfViolations( constraintViolations, 0 );
-
-		foo.email = new StringBuilder( "4 8" );
-		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, Email.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "email" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Email.class ).withProperty( "email" )
 		);
 	}
 
 	private class EmailDummyEntity {
 
-		@Email
+		@Email(regexp = "^invalid$")
 		private String email;
+
+		private EmailDummyEntity(String email) {
+			this.email = email;
+		}
 	}
 
 	private class EmailStringBuilderDummyEntity {
 
-		@Email
+		@Email(regexp = "^invalid$")
 		private StringBuilder email;
+
+		private EmailStringBuilderDummyEntity(StringBuilder email) {
+			this.email = email;
+		}
 	}
 }
