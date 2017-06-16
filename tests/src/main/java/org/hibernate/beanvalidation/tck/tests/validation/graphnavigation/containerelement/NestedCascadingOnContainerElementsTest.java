@@ -12,6 +12,7 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pa
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.Address;
+import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.AddressType;
 import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.Cinema;
 import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.EmailAddress;
 import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.Reference;
@@ -77,6 +80,40 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 								.property( "map" )
 								.containerElement( "<map value>", true, "invalid", null, Map.class, 1 )
 								.property( "email", true, null, 2, List.class, 0 )
+						)
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "l")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "m")
+	public void testNestedValidWithTwoInnerExtractions() {
+		Validator validator = getValidator();
+
+		Set<ConstraintViolation<AddressBook>> constraintViolations = validator.validate( AddressBook.valid() );
+
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		constraintViolations = validator.validate( AddressBook.invalid() );
+
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
+								.property( "addressesPerTypePerPerson" )
+								.containerElement( "<map value>", true, "Firstname Lastname", null, Map.class, 1 )
+								.property( "type", true, AddressType.invalid(), null, Map.class, 0 )
+						),
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
+								.property( "addressesPerTypePerPerson" )
+								.containerElement( "<map value>", true, "Firstname Lastname", null, Map.class, 1 )
+								.property( "zipCode", true, AddressType.invalid(), null, Map.class, 1 )
+						),
+				violationOf( NotBlank.class )
+						.withPropertyPath( pathWith()
+								.property( "addressesPerTypePerPerson" )
+								.containerElement( "<map value>", true, "Firstname Lastname", null, Map.class, 1 )
+								.property( "zipCode", true, AddressType.valid(), null, Map.class, 1 )
 						)
 		);
 	}
@@ -267,6 +304,33 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 			valid.list = Arrays.asList( (List<Cinema>) null );
 
 			return valid;
+		}
+	}
+
+	private static class AddressBook {
+
+		private Map<String, Map<@Valid AddressType, @Valid Address>> addressesPerTypePerPerson = new HashMap<>();
+
+		private static AddressBook valid() {
+			Map<AddressType, Address> addressesPerType = new HashMap<>();
+			addressesPerType.put( AddressType.valid(), Address.valid() );
+
+			AddressBook addressBook = new AddressBook();
+			addressBook.addressesPerTypePerPerson.put( "Firstname Lastname", addressesPerType );
+
+			return addressBook;
+		}
+
+		private static AddressBook invalid() {
+			Map<AddressType, Address> addressesPerType = new HashMap<>();
+			addressesPerType.put( AddressType.valid(), Address.valid() );
+			addressesPerType.put( AddressType.valid(), Address.invalid() );
+			addressesPerType.put( AddressType.invalid(), Address.invalid() );
+
+			AddressBook addressBook = new AddressBook();
+			addressBook.addressesPerTypePerPerson.put( "Firstname Lastname", addressesPerType );
+
+			return addressBook;
 		}
 	}
 }
