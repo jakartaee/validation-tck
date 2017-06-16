@@ -17,7 +17,9 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.Negative;
+import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -29,7 +31,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
 /**
- * Tests for {@link Negative} and {@link Positive} built-in constraints.
+ * Tests for {@link Negative}, {@link NegativeOrZero}, {@link Positive} and {@link PositiveOrZero} built-in constraints.
  *
  * @author Guillaume Smet
  */
@@ -51,100 +53,6 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		NegativeEntity dummy = new NegativeEntity();
 
 		Set<ConstraintViolation<NegativeEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
-
-		dummy.intPrimitive = 101;
-		dummy.longPrimitive = 1001;
-		dummy.bytePrimitive = 111;
-		dummy.shortPrimitive = 142;
-		dummy.doublePrimitive = 123.34d;
-		dummy.floatPrimitive = 456.34f;
-		dummy.intObject = Integer.valueOf( 100 );
-		dummy.longObject = Long.valueOf( 15678l );
-		dummy.byteObject = Byte.valueOf( (byte) 50 );
-		dummy.shortObject = Short.valueOf( (short) 3 );
-		dummy.doubleObject = Double.valueOf( 123.34d );
-		dummy.floatObject = Float.valueOf( 5678.56f );
-		dummy.bigDecimal = BigDecimal.valueOf( 100.9 );
-		dummy.bigInteger = BigInteger.valueOf( 100 );
-
-		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
-		);
-
-		dummy.intPrimitive = 0;
-		dummy.longPrimitive = 0;
-		dummy.bytePrimitive = 0;
-		dummy.shortPrimitive = 0;
-		dummy.doublePrimitive = 0;
-		dummy.floatPrimitive = 0;
-		dummy.intObject = Integer.valueOf( 0 );
-		dummy.longObject = Long.valueOf( 0 );
-		dummy.byteObject = Byte.valueOf( (byte) 0 );
-		dummy.shortObject = Short.valueOf( (short) 0 );
-		dummy.doubleObject = Double.valueOf( 0 );
-		dummy.floatObject = Float.valueOf( 0 );
-		dummy.bigDecimal = BigDecimal.valueOf( 0 );
-		dummy.bigInteger = BigInteger.valueOf( 0 );
-
-		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
-
-		dummy.intPrimitive = -101;
-		dummy.longPrimitive = -1001;
-		dummy.bytePrimitive = -111;
-		dummy.shortPrimitive = -142;
-		dummy.doublePrimitive = -123.34d;
-		dummy.floatPrimitive = -456.34f;
-		dummy.intObject = Integer.valueOf( -100 );
-		dummy.longObject = Long.valueOf( -15678l );
-		dummy.byteObject = Byte.valueOf( (byte) -50 );
-		dummy.shortObject = Short.valueOf( (short) -3 );
-		dummy.doubleObject = Double.valueOf( -123.34d );
-		dummy.floatObject = Float.valueOf( -5678.56f );
-		dummy.bigDecimal = BigDecimal.valueOf( -100.9 );
-		dummy.bigInteger = BigInteger.valueOf( -100 );
-
-		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
-	}
-
-	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
-	public void testStrictNegativeConstraint() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		StrictNegativeEntity dummy = new StrictNegativeEntity();
-
-		Set<ConstraintViolation<StrictNegativeEntity>> constraintViolations = validator.validate( dummy );
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "bytePrimitive" ),
@@ -281,6 +189,12 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeEntity dummy = new NegativeEntity();
 
+		dummy.intPrimitive = -1;
+		dummy.longPrimitive = -1;
+		dummy.bytePrimitive = -1;
+		dummy.shortPrimitive = -1;
+		dummy.doublePrimitive = -1;
+		dummy.floatPrimitive = -1;
 		dummy.floatObject = Float.NEGATIVE_INFINITY;
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;
 
@@ -312,12 +226,12 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
-	public void testPositiveConstraint() {
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
+	public void testNegativeOrZeroConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		PositiveEntity dummy = new PositiveEntity();
+		NegativeOrZeroEntity dummy = new NegativeOrZeroEntity();
 
-		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
+		Set<ConstraintViolation<NegativeOrZeroEntity>> constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.intPrimitive = 101;
@@ -336,7 +250,36 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "bytePrimitive" ),
+				pathWith()
+						.property( "intPrimitive" ),
+				pathWith()
+						.property( "longPrimitive" ),
+				pathWith()
+						.property( "shortPrimitive" ),
+				pathWith()
+						.property( "doublePrimitive" ),
+				pathWith()
+						.property( "floatPrimitive" ),
+				pathWith()
+						.property( "byteObject" ),
+				pathWith()
+						.property( "intObject" ),
+				pathWith()
+						.property( "longObject" ),
+				pathWith()
+						.property( "shortObject" ),
+				pathWith()
+						.property( "doubleObject" ),
+				pathWith()
+						.property( "floatObject" ),
+				pathWith()
+						.property( "bigDecimal" ),
+				pathWith()
+						.property( "bigInteger" )
+		);
 
 		dummy.intPrimitive = 0;
 		dummy.longPrimitive = 0;
@@ -372,46 +315,53 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
+		assertNumberOfViolations( constraintViolations, 0 );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
+	public void testNegativeOrZeroConstraintInfinityAndNaN() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		NegativeOrZeroEntity dummy = new NegativeOrZeroEntity();
+
+		dummy.floatObject = Float.NEGATIVE_INFINITY;
+		dummy.doubleObject = Double.NEGATIVE_INFINITY;
+
+		Set<ConstraintViolation<NegativeOrZeroEntity>> constraintViolations = validator.validate( dummy );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		dummy.floatObject = Float.POSITIVE_INFINITY;
+		dummy.doubleObject = Double.POSITIVE_INFINITY;
+
+		constraintViolations = validator.validate( dummy );
 		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
 				pathWith()
 						.property( "doubleObject" ),
 				pathWith()
-						.property( "floatObject" ),
+						.property( "floatObject" )
+		);
+
+		dummy.floatObject = Float.NaN;
+		dummy.doubleObject = Double.NaN;
+
+		constraintViolations = validator.validate( dummy );
+		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
-						.property( "bigDecimal" ),
+						.property( "doubleObject" ),
 				pathWith()
-						.property( "bigInteger" )
+						.property( "floatObject" )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
-	public void testStrictPositiveConstraint() {
+	public void testPositiveConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
-		StrictPositiveEntity dummy = new StrictPositiveEntity();
+		PositiveEntity dummy = new PositiveEntity();
 
-		Set<ConstraintViolation<StrictPositiveEntity>> constraintViolations = validator.validate( dummy );
+		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "bytePrimitive" ),
@@ -543,15 +493,151 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
 	public void testPositiveConstraintInfinityAndNaN() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveEntity dummy = new PositiveEntity();
 
+		dummy.intPrimitive = 1;
+		dummy.longPrimitive = 1;
+		dummy.bytePrimitive = 1;
+		dummy.shortPrimitive = 1;
+		dummy.doublePrimitive = 1;
+		dummy.floatPrimitive = 1;
 		dummy.floatObject = Float.POSITIVE_INFINITY;
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
 
 		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		dummy.floatObject = Float.NEGATIVE_INFINITY;
+		dummy.doubleObject = Double.NEGATIVE_INFINITY;
+
+		constraintViolations = validator.validate( dummy );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "doubleObject" ),
+				pathWith()
+						.property( "floatObject" )
+		);
+
+		dummy.floatObject = Float.NaN;
+		dummy.doubleObject = Double.NaN;
+
+		constraintViolations = validator.validate( dummy );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "doubleObject" ),
+				pathWith()
+						.property( "floatObject" )
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	public void testPositiveOrZeroConstraint() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		PositiveOrZeroEntity dummy = new PositiveOrZeroEntity();
+
+		Set<ConstraintViolation<PositiveOrZeroEntity>> constraintViolations = validator.validate( dummy );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		dummy.intPrimitive = 101;
+		dummy.longPrimitive = 1001;
+		dummy.bytePrimitive = 111;
+		dummy.shortPrimitive = 142;
+		dummy.doublePrimitive = 123.34d;
+		dummy.floatPrimitive = 456.34f;
+		dummy.intObject = Integer.valueOf( 100 );
+		dummy.longObject = Long.valueOf( 15678l );
+		dummy.byteObject = Byte.valueOf( (byte) 50 );
+		dummy.shortObject = Short.valueOf( (short) 3 );
+		dummy.doubleObject = Double.valueOf( 123.34d );
+		dummy.floatObject = Float.valueOf( 5678.56f );
+		dummy.bigDecimal = BigDecimal.valueOf( 100.9 );
+		dummy.bigInteger = BigInteger.valueOf( 100 );
+
+		constraintViolations = validator.validate( dummy );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		dummy.intPrimitive = 0;
+		dummy.longPrimitive = 0;
+		dummy.bytePrimitive = 0;
+		dummy.shortPrimitive = 0;
+		dummy.doublePrimitive = 0;
+		dummy.floatPrimitive = 0;
+		dummy.intObject = Integer.valueOf( 0 );
+		dummy.longObject = Long.valueOf( 0 );
+		dummy.byteObject = Byte.valueOf( (byte) 0 );
+		dummy.shortObject = Short.valueOf( (short) 0 );
+		dummy.doubleObject = Double.valueOf( 0 );
+		dummy.floatObject = Float.valueOf( 0 );
+		dummy.bigDecimal = BigDecimal.valueOf( 0 );
+		dummy.bigInteger = BigInteger.valueOf( 0 );
+
+		constraintViolations = validator.validate( dummy );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		dummy.intPrimitive = -101;
+		dummy.longPrimitive = -1001;
+		dummy.bytePrimitive = -111;
+		dummy.shortPrimitive = -142;
+		dummy.doublePrimitive = -123.34d;
+		dummy.floatPrimitive = -456.34f;
+		dummy.intObject = Integer.valueOf( -100 );
+		dummy.longObject = Long.valueOf( -15678l );
+		dummy.byteObject = Byte.valueOf( (byte) -50 );
+		dummy.shortObject = Short.valueOf( (short) -3 );
+		dummy.doubleObject = Double.valueOf( -123.34d );
+		dummy.floatObject = Float.valueOf( -5678.56f );
+		dummy.bigDecimal = BigDecimal.valueOf( -100.9 );
+		dummy.bigInteger = BigInteger.valueOf( -100 );
+
+		constraintViolations = validator.validate( dummy );
+		assertThat( constraintViolations ).containsOnlyPaths(
+				pathWith()
+						.property( "bytePrimitive" ),
+				pathWith()
+						.property( "intPrimitive" ),
+				pathWith()
+						.property( "longPrimitive" ),
+				pathWith()
+						.property( "shortPrimitive" ),
+				pathWith()
+						.property( "doublePrimitive" ),
+				pathWith()
+						.property( "floatPrimitive" ),
+				pathWith()
+						.property( "byteObject" ),
+				pathWith()
+						.property( "intObject" ),
+				pathWith()
+						.property( "longObject" ),
+				pathWith()
+						.property( "shortObject" ),
+				pathWith()
+						.property( "doubleObject" ),
+				pathWith()
+						.property( "floatObject" ),
+				pathWith()
+						.property( "bigDecimal" ),
+				pathWith()
+						.property( "bigInteger" )
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	public void testPositiveOrZeroConstraintInfinityAndNaN() {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		PositiveOrZeroEntity dummy = new PositiveOrZeroEntity();
+
+		dummy.floatObject = Float.POSITIVE_INFINITY;
+		dummy.doubleObject = Double.POSITIVE_INFINITY;
+
+		Set<ConstraintViolation<PositiveOrZeroEntity>> constraintViolations = validator.validate( dummy );
 		assertNumberOfViolations( constraintViolations, 0 );
 
 		dummy.floatObject = Float.NEGATIVE_INFINITY;
@@ -622,48 +708,48 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		private Float floatObject;
 	}
 
-	private static class StrictNegativeEntity {
+	private static class NegativeOrZeroEntity {
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private BigDecimal bigDecimal;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private BigInteger bigInteger;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private byte bytePrimitive;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private short shortPrimitive;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private int intPrimitive;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private long longPrimitive;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private double doublePrimitive;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private float floatPrimitive;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private Byte byteObject;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private Short shortObject;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private Integer intObject;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private Long longObject;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private Double doubleObject;
 
-		@Negative(strict = true)
+		@NegativeOrZero
 		private Float floatObject;
 	}
 
@@ -712,48 +798,48 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		private Float floatObject;
 	}
 
-	private static class StrictPositiveEntity {
+	private static class PositiveOrZeroEntity {
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private BigDecimal bigDecimal;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private BigInteger bigInteger;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private byte bytePrimitive;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private short shortPrimitive;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private int intPrimitive;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private long longPrimitive;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private double doublePrimitive;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private float floatPrimitive;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private Byte byteObject;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private Short shortObject;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private Integer intObject;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private Long longObject;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private Double doubleObject;
 
-		@Positive(strict = true)
+		@PositiveOrZero
 		private Float floatObject;
 	}
 }
