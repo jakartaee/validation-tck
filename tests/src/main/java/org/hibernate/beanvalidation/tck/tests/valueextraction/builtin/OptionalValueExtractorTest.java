@@ -6,8 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.builtin;
 
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -19,6 +20,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -47,10 +49,18 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 	public void optionalValueExtractor() {
 		Validator validator = getValidator();
 
-		Set<ConstraintViolation<OptionalHolder>> violations = validator.validate( new OptionalHolder( Optional.empty() ) );
+		Set<ConstraintViolation<OptionalHolder>> violations = validator.validate( new OptionalHolder( Optional.of( "valid" ) ) );
+		assertNumberOfViolations( violations, 0 );
 
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().property( "optional" )
+		violations = validator.validate( new OptionalHolder( Optional.of( "" ) ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "optional" )
+		);
+
+		violations = validator.validate( new OptionalHolder( Optional.empty() ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "optional" ),
+				violationOf( NotNull.class ).withProperty( "optional" )
 		);
 	}
 
@@ -59,10 +69,17 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 	public void optionalIntValueExtractor() {
 		Validator validator = getValidator();
 
-		Set<ConstraintViolation<OptionalIntHolder>> violations = validator.validate( new OptionalIntHolder( OptionalInt.of( 3 ) ) );
+		Set<ConstraintViolation<OptionalIntHolder>> violations = validator.validate( new OptionalIntHolder( OptionalInt.of( 10 ) ) );
+		assertNumberOfViolations( violations, 0 );
 
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().property( "optionalInt" )
+		violations = validator.validate( new OptionalIntHolder( OptionalInt.of( 3 ) ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "optionalInt" )
+		);
+
+		violations = validator.validate( new OptionalIntHolder( OptionalInt.empty() ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withProperty( "optionalInt" )
 		);
 	}
 
@@ -71,10 +88,17 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 	public void optionalLongValueExtractor() {
 		Validator validator = getValidator();
 
-		Set<ConstraintViolation<OptionalLongHolder>> violations = validator.validate( new OptionalLongHolder( OptionalLong.of( 3 ) ) );
+		Set<ConstraintViolation<OptionalLongHolder>> violations = validator.validate( new OptionalLongHolder( OptionalLong.of( 10 ) ) );
+		assertNumberOfViolations( violations, 0 );
 
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().property( "optionalLong" )
+		violations = validator.validate( new OptionalLongHolder( OptionalLong.of( 3 ) ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "optionalLong" )
+		);
+
+		violations = validator.validate( new OptionalLongHolder( OptionalLong.empty() ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withProperty( "optionalLong" )
 		);
 	}
 
@@ -83,17 +107,24 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 	public void optionalDoubleValueExtractor() {
 		Validator validator = getValidator();
 
-		Set<ConstraintViolation<OptionalDoubleHolder>> violations = validator.validate( new OptionalDoubleHolder( OptionalDouble.of( 3 ) ) );
+		Set<ConstraintViolation<OptionalDoubleHolder>> violations = validator.validate( new OptionalDoubleHolder( OptionalDouble.of( 10 ) ) );
+		assertNumberOfViolations( violations, 0 );
 
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().property( "optionalDouble" )
+		violations = validator.validate( new OptionalDoubleHolder( OptionalDouble.of( 3 ) ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( DecimalMin.class ).withProperty( "optionalDouble" )
+		);
+
+		violations = validator.validate( new OptionalDoubleHolder( OptionalDouble.empty() ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withProperty( "optionalDouble" )
 		);
 	}
 
 	private static class OptionalHolder {
 
 		@SuppressWarnings("unused")
-		private final Optional<@NotNull String> optional;
+		private final Optional<@NotNull @NotBlank String> optional;
 
 		private OptionalHolder(Optional<String> optional) {
 			this.optional = optional;
@@ -102,6 +133,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 
 	private static class OptionalIntHolder {
 
+		@NotNull
 		@Min(5)
 		private final OptionalInt optionalInt;
 
@@ -112,6 +144,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 
 	private static class OptionalLongHolder {
 
+		@NotNull
 		@Min(5)
 		private final OptionalLong optionalLong;
 
@@ -122,6 +155,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 
 	private static class OptionalDoubleHolder {
 
+		@NotNull
 		@DecimalMin("5")
 		private final OptionalDouble optionalDouble;
 
