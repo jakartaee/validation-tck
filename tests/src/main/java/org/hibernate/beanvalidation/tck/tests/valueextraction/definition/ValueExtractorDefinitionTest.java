@@ -59,6 +59,8 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "a")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "c")
 	public void instanceAndValueReceiverPassedToExtractValues() {
 		Container<String> container = new Container<String>( null );
 		StringContainerHolder containerHolder = new StringContainerHolder( container );
@@ -91,6 +93,8 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "c")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "g")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "c")
 	public void value() {
 		Container<ContainerElement> container = new Container<ContainerElement>( CustomConstraint.INSTANCE );
 		ContainerHolder containerHolder = new ContainerHolder( container );
@@ -112,6 +116,8 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "d")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "g")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "c")
 	public void iterableValue() {
 		Container<ContainerElement> container = new Container<ContainerElement>( CustomConstraint.INSTANCE );
 		ContainerHolder containerHolder = new ContainerHolder( container );
@@ -133,6 +139,8 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "e")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "g")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "c")
 	public void indexedValue() {
 		Container<ContainerElement> container = new Container<ContainerElement>( CustomConstraint.INSTANCE );
 		ContainerHolder containerHolder = new ContainerHolder( container );
@@ -154,6 +162,8 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "f")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "g")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "c")
 	public void keyedValue() {
 		Container<ContainerElement> container = new Container<ContainerElement>( CustomConstraint.INSTANCE );
 		ContainerHolder containerHolder = new ContainerHolder( container );
