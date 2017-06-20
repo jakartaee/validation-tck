@@ -40,8 +40,8 @@ public class InvalidValueExtractorTest extends AbstractTCKTest {
 	}
 
 	@Test(expectedExceptions = ValueExtractorDefinitionException.class)
-	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
-	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "d")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "b")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "f")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXAMPLES, id = "a")
 	@SpecAssertion(section = Sections.EXCEPTION_VALUEEXTRACTORDEFINITION, id = "a")
 	public void severalExtractedValuesThrowException() {
@@ -52,8 +52,8 @@ public class InvalidValueExtractorTest extends AbstractTCKTest {
 	}
 
 	@Test(expectedExceptions = ValueExtractorDefinitionException.class)
-	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "a")
-	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "d")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "b")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "f")
 	@SpecAssertion(section = Sections.EXCEPTION_VALUEEXTRACTORDEFINITION, id = "a")
 	public void noExtractedValueThrowsException() {
 		Validation.byDefaultProvider().configure()
