@@ -211,6 +211,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 	}
 
 	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
@@ -221,6 +222,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 	}
 
 	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
@@ -234,6 +236,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ContainerElementTypeDescriptor> containerElementTypes = parameterDescriptor.getContainerElementTypes();
 
 		ContainerElementTypeDescriptor productType = containerElementTypes.get( 0 );
+		assertEquals( productType.getElementClass(), ProductType.class );
 		assertEquals( productType.getTypeArgumentIndex().intValue(), 0 );
 		assertEquals( productType.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), NotNull.class );
 		assertEquals( productType.getContainerElementTypes().size(), 0 );
@@ -256,6 +259,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		}
 
 		ContainerElementTypeDescriptor orderLineList = containerElementTypes.get( 1 );
+		assertEquals( orderLineList.getElementClass(), List.class );
 		assertEquals( orderLineList.getTypeArgumentIndex().intValue(), 1 );
 		assertEquals( orderLineList.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), Size.class );
 		assertFalse( orderLineList.isCascaded() );
@@ -263,6 +267,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		assertEquals( orderLineList.getContainerElementTypes().size(), 1 );
 
 		ContainerElementTypeDescriptor orderLine = orderLineList.getContainerElementTypes().get( 0 );
+		assertEquals( orderLine.getElementClass(), ProductOrderLine.class );
 		assertEquals( orderLine.getTypeArgumentIndex().intValue(), 0 );
 		assertEquals( orderLine.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), NotNull.class );
 		assertEquals( orderLine.getContainerElementTypes().size(), 0 );
