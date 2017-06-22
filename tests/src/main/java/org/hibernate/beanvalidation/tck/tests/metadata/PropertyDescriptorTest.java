@@ -6,6 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import static org.hibernate.beanvalidation.tck.tests.metadata.MetaDataTestUtil.assertConstraintDescriptors;
+import static org.hibernate.beanvalidation.tck.tests.metadata.MetaDataTestUtil.getContainerElementDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -14,6 +16,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
@@ -154,13 +157,14 @@ public class PropertyDescriptorTest extends AbstractTCKTest {
 	public void testGetContainerElementMetaData() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( ComplexOrder.class, "orderLines" );
 
-		List<ContainerElementTypeDescriptor> containerElementTypes = descriptor.getContainerElementTypes();
+		Set<ContainerElementTypeDescriptor> containerElementTypes = descriptor.getConstrainedContainerElementTypes();
 
-		ContainerElementTypeDescriptor productType = containerElementTypes.get( 0 );
+		assertEquals( containerElementTypes.size(), 2 );
+
+		ContainerElementTypeDescriptor productType = getContainerElementDescriptor( containerElementTypes, Map.class, 0 );
 		assertEquals( productType.getElementClass(), ProductType.class );
-		assertEquals( productType.getTypeArgumentIndex().intValue(), 0 );
-		assertEquals( productType.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), NotNull.class );
-		assertEquals( productType.getContainerElementTypes().size(), 0 );
+		assertConstraintDescriptors( productType.getConstraintDescriptors(), NotNull.class );
+		assertEquals( productType.getConstrainedContainerElementTypes().size(), 0 );
 		assertTrue( productType.isCascaded() );
 		assertEquals( productType.getGroupConversions().size(), 2 );
 		for ( GroupConversionDescriptor groupConversionDescriptor : productType.getGroupConversions() ) {
@@ -179,19 +183,17 @@ public class PropertyDescriptorTest extends AbstractTCKTest {
 			}
 		}
 
-		ContainerElementTypeDescriptor orderLineList = containerElementTypes.get( 1 );
+		ContainerElementTypeDescriptor orderLineList = getContainerElementDescriptor( containerElementTypes, Map.class, 1 );
 		assertEquals( orderLineList.getElementClass(), List.class );
-		assertEquals( orderLineList.getTypeArgumentIndex().intValue(), 1 );
-		assertEquals( orderLineList.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), Size.class );
+		assertConstraintDescriptors( orderLineList.getConstraintDescriptors(), Size.class );
 		assertFalse( orderLineList.isCascaded() );
 		assertEquals( orderLineList.getGroupConversions().size(), 0 );
-		assertEquals( orderLineList.getContainerElementTypes().size(), 1 );
+		assertEquals( orderLineList.getConstrainedContainerElementTypes().size(), 1 );
 
-		ContainerElementTypeDescriptor orderLine = orderLineList.getContainerElementTypes().get( 0 );
+		ContainerElementTypeDescriptor orderLine = getContainerElementDescriptor( orderLineList.getConstrainedContainerElementTypes(), List.class, 0 );
 		assertEquals( orderLine.getElementClass(), ProductOrderLine.class );
-		assertEquals( orderLine.getTypeArgumentIndex().intValue(), 0 );
-		assertEquals( orderLine.getConstraintDescriptors().iterator().next().getAnnotation().annotationType(), NotNull.class );
-		assertEquals( orderLine.getContainerElementTypes().size(), 0 );
+		assertConstraintDescriptors( orderLine.getConstraintDescriptors(), NotNull.class );
+		assertEquals( orderLine.getConstrainedContainerElementTypes().size(), 0 );
 		assertFalse( orderLine.isCascaded() );
 	}
 }
