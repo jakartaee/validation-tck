@@ -36,7 +36,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -596,43 +598,43 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	private static class PastOrPresentDummyEntity {
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private Calendar calendar;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private Date date;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private HijrahDate hijrahDate;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private Instant instant;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private JapaneseDate japaneseDate;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private LocalDate localDate;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private LocalDateTime localDateTime;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private MinguoDate minguoDate;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private OffsetDateTime offsetDateTime;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private ThaiBuddhistDate thaiBuddhistDate;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private Year year;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private YearMonth yearMonth;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private ZonedDateTime zonedDateTime;
 
 		public PastOrPresentDummyEntity() {
@@ -681,13 +683,13 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	private static class PastOrPresentRelativePartialDummyEntity {
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private LocalTime localTime;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private MonthDay monthDay;
 
-		@Past(orPresent = true)
+		@PastOrPresent
 		private OffsetTime offsetTime;
 
 		public PastOrPresentRelativePartialDummyEntity() {
@@ -765,43 +767,43 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	private static class FutureOrPresentDummyEntity {
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private Calendar calendar;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private Date date;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private HijrahDate hijrahDate;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private Instant instant;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private JapaneseDate japaneseDate;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private LocalDate localDate;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private LocalDateTime localDateTime;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private MinguoDate minguoDate;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private OffsetDateTime offsetDateTime;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private ThaiBuddhistDate thaiBuddhistDate;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private Year year;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private YearMonth yearMonth;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private ZonedDateTime zonedDateTime;
 
 		private FutureOrPresentDummyEntity() {
@@ -849,13 +851,13 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	private static class FutureOrPresentRelativePartialDummyEntity {
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private LocalTime localTime;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private MonthDay monthDay;
 
-		@Future(orPresent = true)
+		@FutureOrPresent
 		private OffsetTime offsetTime;
 
 		public FutureOrPresentRelativePartialDummyEntity() {
