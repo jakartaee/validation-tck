@@ -37,9 +37,6 @@ import javax.validation.groups.Default;
  */
 public class CustomerService {
 
-	public interface BasicChecks {
-	}
-
 	public interface StrictCustomerServiceChecks {
 	}
 
