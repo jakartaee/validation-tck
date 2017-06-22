@@ -42,7 +42,7 @@ public class NotBlankConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "u")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "w")
 	public void testNotBlankConstraint() {
 		Validator validator = getValidator();
 		NotBlankDummyEntity foo = new NotBlankDummyEntity();
@@ -93,7 +93,7 @@ public class NotBlankConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "u")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "w")
 	public void testNotBlankConstraintOnStringBuilder() {
 		// @NotBlank has to support CharSequence so let's also try a StringBuilder
 		Validator validator = getValidator();

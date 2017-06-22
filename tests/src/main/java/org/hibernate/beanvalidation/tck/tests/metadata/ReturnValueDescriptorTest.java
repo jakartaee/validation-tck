@@ -192,8 +192,9 @@ public class ReturnValueDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "e")
 	public void testGetContainerElementMetaDataForReturnValue() {
 		ReturnValueDescriptor returnValueDescriptor = Executables.returnValueWithCascadedContainerElements().getReturnValueDescriptor();
 

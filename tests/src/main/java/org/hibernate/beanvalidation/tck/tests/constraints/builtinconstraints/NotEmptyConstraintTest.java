@@ -47,7 +47,7 @@ public class NotEmptyConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "t")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "v")
 	public void testNotEmptyConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NotEmptyDummyEntity dummy = new NotEmptyDummyEntity();

@@ -66,8 +66,8 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "d")
 	public void testGetContainerElementMetaDataForRoles() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( EmployeeImpl.class, "roles" );
 
@@ -93,8 +93,8 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "d")
 	public void testGetContainerElementMetaDataForDivision() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( EmployeeImpl.class, "division" );
 
@@ -113,8 +113,8 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "d")
 	public void testGetContainerElementMetaDataForColleagues() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( EmployeeImpl.class, "colleagues" );
 
@@ -133,8 +133,8 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "a")
-	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "d")
 	public void testGetContainerElementMetaDataForAddresses() {
 		PropertyDescriptor descriptor = getPropertyDescriptor( EmployeeImpl.class, "addresses" );
 
