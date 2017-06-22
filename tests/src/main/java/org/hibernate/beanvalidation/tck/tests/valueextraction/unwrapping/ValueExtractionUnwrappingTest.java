@@ -14,7 +14,6 @@ import static org.testng.Assert.assertEquals;
 import java.util.Set;
 
 import javax.validation.ConstraintDeclarationException;
-import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintViolation;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.Validator;
@@ -76,7 +75,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		getValidatorWithValueExtractors().validate( new EntityWithNoContraintValidatorForUnwrappedValue() );
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "b")
 	public void skip_and_unwrap_at_the_same_time_throws_exception() {
 		getValidatorWithValueExtractors().validate( new EntityWithSkipAndUnwrapAtTheSameTime() );
