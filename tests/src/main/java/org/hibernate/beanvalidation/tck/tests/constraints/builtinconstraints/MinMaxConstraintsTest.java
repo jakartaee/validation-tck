@@ -45,7 +45,7 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "g")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_MIN, id = "a")
 	public void testMinConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		MinDummyEntity dummy = new MinDummyEntity();
@@ -107,7 +107,7 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "h")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_MAX, id = "a")
 	public void testMaxConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		MaxDummyEntity dummy = new MaxDummyEntity();

@@ -44,7 +44,7 @@ public class EmailConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "x")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_EMAIL, id = "a")
 	public void testEmailConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		EmailDummyEntity foo = new EmailDummyEntity( "test@example.com" );
@@ -57,7 +57,7 @@ public class EmailConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "x")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_EMAIL, id = "a")
 	public void testEmailConstraintOnStringBuilder() {
 		// @Email has to support CharSequence so let's also try a StringBuilder
 		Validator validator = TestUtil.getValidatorUnderTest();

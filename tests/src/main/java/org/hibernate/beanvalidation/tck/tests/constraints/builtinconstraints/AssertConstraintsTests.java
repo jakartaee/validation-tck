@@ -43,7 +43,7 @@ public class AssertConstraintsTests extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "e")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_ASSERTTRUE, id = "a")
 	public void testAssertTrueConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		AssertTrueDummyEntity dummy = new AssertTrueDummyEntity();
@@ -70,7 +70,7 @@ public class AssertConstraintsTests extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "f")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_ASSERTFALSE, id = "a")
 	public void testAssertFalseConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		AssertFalseDummyEntity dummy = new AssertFalseDummyEntity();

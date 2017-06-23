@@ -45,7 +45,7 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "s")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_FUTURE, id = "a")
 	public void clockProviderIsUsed() {
 		FutureDummyEntity dummy = new FutureDummyEntity( ZonedDateTime.of( 2099, 1, 12, 5, 0, 0, 0, TZ_BERLIN ) );
 
@@ -97,7 +97,7 @@ public class ClockProviderFutureTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "s")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_FUTURE, id = "a")
 	public void clockProviderIsUsedForRelativePartials() {
 		FutureRelativePartialDummyEntity dummy = new FutureRelativePartialDummyEntity( ZonedDateTime.of( 2016, 6, 6, 14, 45, 0, 0, TZ_BERLIN ) );
 

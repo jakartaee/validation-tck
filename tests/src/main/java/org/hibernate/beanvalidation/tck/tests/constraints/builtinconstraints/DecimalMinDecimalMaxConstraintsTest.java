@@ -45,7 +45,7 @@ public class DecimalMinDecimalMaxConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "i")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_DECIMALMIN, id = "a")
 	public void testDecimalMinConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DecimalMinDummyEntity dummy = new DecimalMinDummyEntity();
@@ -106,7 +106,7 @@ public class DecimalMinDecimalMaxConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "j")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_DECIMALMAX, id = "a")
 	public void testDecimalMaxConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DecimalMaxDummyEntity dummy = new DecimalMaxDummyEntity();

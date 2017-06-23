@@ -43,7 +43,7 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_NULL, id = "a")
 	public void testNullConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NullDummyEntity dummy = new NullDummyEntity();
@@ -63,7 +63,7 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "d")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_NOTNULL, id = "a")
 	public void testNotNullConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NotNullDummyEntity dummy = new NotNullDummyEntity();
