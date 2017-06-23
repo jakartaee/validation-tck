@@ -47,7 +47,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_NEGATIVE, id = "a")
 	public void testNegativeConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeEntity dummy = new NegativeEntity();
@@ -184,7 +184,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "k")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_NEGATIVE, id = "a")
 	public void testNegativeConstraintInfinityAndNaN() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeEntity dummy = new NegativeEntity();
@@ -226,7 +226,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_NEGATIVEORZERO, id = "a")
 	public void testNegativeOrZeroConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeOrZeroEntity dummy = new NegativeOrZeroEntity();
@@ -320,7 +320,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "l")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_NEGATIVEORZERO, id = "a")
 	public void testNegativeOrZeroConstraintInfinityAndNaN() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NegativeOrZeroEntity dummy = new NegativeOrZeroEntity();
@@ -356,7 +356,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_POSITIVE, id = "a")
 	public void testPositiveConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveEntity dummy = new PositiveEntity();
@@ -493,7 +493,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_POSITIVEORZERO, id = "a")
 	public void testPositiveConstraintInfinityAndNaN() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveEntity dummy = new PositiveEntity();
@@ -535,7 +535,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "n")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_POSITIVEORZERO, id = "a")
 	public void testPositiveOrZeroConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveOrZeroEntity dummy = new PositiveOrZeroEntity();
@@ -629,7 +629,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "m")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_POSITIVE, id = "a")
 	public void testPositiveOrZeroConstraintInfinityAndNaN() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		PositiveOrZeroEntity dummy = new PositiveOrZeroEntity();

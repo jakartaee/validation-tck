@@ -49,7 +49,7 @@ public class ClockProviderPastOrPresentTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "r")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_PASTORPRESENT, id = "a")
 	public void clockProviderIsUsed() {
 		PastOrPresentDummyEntity dummy = new PastOrPresentDummyEntity( ZonedDateTime.of( 1985, 6, 12, 3, 0, 0, 0, TZ_BERLIN ) );
 
@@ -96,7 +96,7 @@ public class ClockProviderPastOrPresentTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "r")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_PASTORPRESENT, id = "a")
 	public void clockProviderIsUsedForRelativePartials() {
 		Calendar cal = GregorianCalendar.getInstance( TimeZone.getTimeZone( TZ_BERLIN ) );
 		cal.set( 2016, 6, 6 );

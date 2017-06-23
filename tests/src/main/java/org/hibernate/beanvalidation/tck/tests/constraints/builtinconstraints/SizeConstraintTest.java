@@ -47,7 +47,7 @@ public class SizeConstraintTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "a")
-	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS, id = "o")
+	@SpecAssertion(section = Sections.BUILTINCONSTRAINTS_SIZE, id = "a")
 	public void testSizeConstraint() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		SizeDummyEntity dummy = new SizeDummyEntity();
