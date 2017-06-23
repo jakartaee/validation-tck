@@ -201,8 +201,8 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "i")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "j")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "k")
 	public void valuePassedToExtractorRetrievedFromHost() {
 		Map<String, Order> propertyMap = new HashMap<>();
 		propertyMap.put( "name1", new Order( "INVALID-ID" ) );
