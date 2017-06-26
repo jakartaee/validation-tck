@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.unwrapping;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
@@ -122,7 +121,9 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "a")
 	public void validate_wrapper_if_unwrapping_disabled_per_constraint_for_generic_container() {
 		Set<ConstraintViolation<WrapperWithDisabledUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new WrapperWithDisabledUnwrapping() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Null.class ).withProperty( "integerWrapper" )
+		);
 	}
 
 	@Test
@@ -152,7 +153,9 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "e")
 	public void validate_wrapper_if_unwrapping_disabled_per_constraint_for_non_generic_container() {
 		Set<ConstraintViolation<IntegerWrapperWithDisabledUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new IntegerWrapperWithDisabledUnwrapping() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Null.class ).withProperty( "integerWrapper" )
+		);
 	}
 
 	@Test
@@ -183,7 +186,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.getConstraintDescriptors()
 				.iterator().next();
 
-		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), NotNull.class );
+		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Null.class );
 		assertEquals( minConstraintDescriptor.validateUnwrappedValue(), ValidateUnwrappedValue.NO );
 
 		minConstraintDescriptor = validator.getConstraintsForClass( WrapperWithForcedUnwrapping.class )
@@ -228,8 +231,8 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 	private class WrapperWithDisabledUnwrapping {
 
-		@NotNull(payload = { Unwrapping.Skip.class })
-		private final Wrapper<Integer> integerWrapper = new Wrapper<>( null );
+		@Null(payload = { Unwrapping.Skip.class })
+		private final Wrapper<Integer> integerWrapper = new Wrapper<>( 5 );
 	}
 
 	private class WrapperWithForcedUnwrapping {
@@ -246,8 +249,8 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 	private class IntegerWrapperWithDisabledUnwrapping {
 
-		@NotNull(payload = { Unwrapping.Skip.class })
-		private final IntegerWrapper integerWrapper = new IntegerWrapper( null );
+		@Null(payload = { Unwrapping.Skip.class })
+		private final IntegerWrapper integerWrapper = new IntegerWrapper( 5 );
 	}
 
 	private class IntegerWrapperWithForcedUnwrapping {
