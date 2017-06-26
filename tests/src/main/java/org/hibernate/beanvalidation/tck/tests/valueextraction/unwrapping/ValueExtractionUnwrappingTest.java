@@ -198,6 +198,74 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		assertEquals( minConstraintDescriptor.validateUnwrappedValue(), ValidateUnwrappedValue.YES );
 	}
 
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	public void validate_implicit_unwrapping_having_two_type_parameters_and_only_one_maximally_specific_value_extractor_is_ok() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		Set<ConstraintViolation<BeanWithWrapperWithTwoTypeArguments>> constraintViolations = validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "wrapper" )
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	public void validate_implicit_unwrapping_having_two_type_parameters_and_only_one_maximally_specific_value_extractor_marked_with_unwrap_by_default_is_ok() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
+				.addValueExtractor( new WrapperWithTwoTypeArgumentsSecondValueExtractor() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		Set<ConstraintViolation<BeanWithWrapperWithTwoTypeArguments>> constraintViolations = validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "wrapper" )
+		);
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	public void validate_implicit_unwrapping_having_two_type_parameters_and_two_maximally_specific_value_extractors_marked_with_unwrap_by_default_raises_exception() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
+				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsSecondValueExtractor() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	public void validate_forced_unwrapping_having_two_type_parameters_and_only_one_maximally_specific_value_extractor_is_ok() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new WrapperWithTwoTypeArgumentsFirstValueExtractor() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		Set<ConstraintViolation<BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping>> constraintViolations =
+				validator.validate( new BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "wrapper" )
+		);
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	public void validate_forced_unwrapping_having_two_type_parameters_and_two_maximally_specific_value_extractors_raises_exception() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new WrapperWithTwoTypeArgumentsFirstValueExtractor() )
+				.addValueExtractor( new WrapperWithTwoTypeArgumentsSecondValueExtractor() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		validator.validate( new BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping() );
+	}
+
 	private class EntityWithSkipAndUnwrapAtTheSameTime {
 
 		@NotNull(payload = { Unwrapping.Unwrap.class, Unwrapping.Skip.class })
@@ -259,6 +327,18 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		private final IntegerWrapper integerWrapper = new IntegerWrapper( 5 );
 	}
 
+	private class BeanWithWrapperWithTwoTypeArguments {
+
+		@Min(value = 10)
+		private final WrapperWithTwoTypeArguments<Long, String> wrapper = new WrapperWithTwoTypeArguments<>( 5L, "value" );
+	}
+
+	private class BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping {
+
+		@Min(value = 10, payload = Unwrapping.Unwrap.class)
+		private final WrapperWithTwoTypeArguments<Long, String> wrapper = new WrapperWithTwoTypeArguments<>( 5L, "value" );
+	}
+
 	private class ValueHolder<T> {
 
 		private final T value;
@@ -287,6 +367,18 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		}
 	}
 
+	private class WrapperWithTwoTypeArguments<T, U> {
+
+		private final T value1;
+		private final U value2;
+
+		private WrapperWithTwoTypeArguments(T value1, U value2) {
+			this.value1 = value1;
+			this.value2 = value2;
+		}
+
+	}
+
 	private class ValueHolderExtractor implements ValueExtractor<ValueHolder<@ExtractedValue ?>> {
 
 		@Override
@@ -301,6 +393,40 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		@Override
 		public void extractValues(Wrapper<@ExtractedValue ?> originalValue, ValueExtractor.ValueReceiver receiver) {
 			receiver.value( null, originalValue.value );
+		}
+	}
+
+	@UnwrapByDefault
+	private class UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor implements ValueExtractor<WrapperWithTwoTypeArguments<@ExtractedValue ?, ?>> {
+
+		@Override
+		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
+			receiver.value( null, originalValue.value1 );
+		}
+	}
+
+	@UnwrapByDefault
+	private class UnwrapByDefaultWrapperWithTwoTypeArgumentsSecondValueExtractor implements ValueExtractor<WrapperWithTwoTypeArguments<?, @ExtractedValue ?>> {
+
+		@Override
+		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
+			receiver.value( null, originalValue.value2 );
+		}
+	}
+
+	private class WrapperWithTwoTypeArgumentsFirstValueExtractor implements ValueExtractor<WrapperWithTwoTypeArguments<@ExtractedValue ?, ?>> {
+
+		@Override
+		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
+			receiver.value( null, originalValue.value1 );
+		}
+	}
+
+	private class WrapperWithTwoTypeArgumentsSecondValueExtractor implements ValueExtractor<WrapperWithTwoTypeArguments<?, @ExtractedValue ?>> {
+
+		@Override
+		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
+			receiver.value( null, originalValue.value2 );
 		}
 	}
 }
