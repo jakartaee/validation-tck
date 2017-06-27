@@ -9,5 +9,5 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model;
 /**
  * @author Guillaume Smet
  */
-public interface IWrapper21<T> extends IWrapper211<T>, IWrapper212<T> {
+public interface IWrapper21<T, V> extends IWrapper211<T, V>, IWrapper212<T, V> {
 }

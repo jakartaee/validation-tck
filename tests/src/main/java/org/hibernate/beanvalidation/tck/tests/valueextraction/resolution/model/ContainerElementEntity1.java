@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull;
 /**
  * @author Guillaume Smet
  */
-public class Entity1 {
+public class ContainerElementEntity1 {
 
 	@SuppressWarnings("unused")
-	private Wrapper1<@NotNull String> wrapper;
+	private Wrapper1<@NotNull String, @NotNull Long> wrapper;
 
-	public Entity1(String value) {
-		this.wrapper = new Wrapper1<String>( value );
+	public ContainerElementEntity1(String value1, Long value2) {
+		this.wrapper = new Wrapper1<String, Long>( value1, value2 );
 	}
 }

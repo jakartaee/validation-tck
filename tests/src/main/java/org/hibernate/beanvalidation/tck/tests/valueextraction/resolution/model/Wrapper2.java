@@ -9,16 +9,24 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model;
 /**
  * @author Guillaume Smet
  */
-public class Wrapper2<T> implements IWrapper21<T>, IWrapper22<T> {
+public class Wrapper2<T, V> implements IWrapper21<T, V>, IWrapper22<T, V> {
 
-	private T property;
+	private T property1;
 
-	public Wrapper2(T property) {
-		this.property = property;
+	private V property2;
+
+	public Wrapper2(T property1, V property2) {
+		this.property1 = property1;
+		this.property2 = property2;
 	}
 
 	@Override
-	public T getProperty() {
-		return property;
+	public T getProperty1() {
+		return property1;
+	}
+
+	@Override
+	public V getProperty2() {
+		return property2;
 	}
 }
