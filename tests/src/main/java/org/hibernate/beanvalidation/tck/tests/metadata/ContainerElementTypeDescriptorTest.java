@@ -23,6 +23,7 @@ import static org.testng.Assert.assertTrue;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -169,6 +171,26 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 		assertEquals( addressContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
 	}
 
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
+	public void testGetContainerElementMetaDataIfNotAContainerElement() {
+		PropertyDescriptor descriptor = getPropertyDescriptor( EmployeeImpl.class, "intern" );
+
+		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
+
+		assertEquals( containerElementTypeDescriptors.size(), 0 );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONTAINERDESCRIPTOR, id = "b")
+	public void testGetContainerElementMetaDataForContainerElementWithoutConstraintAndValid() {
+		PropertyDescriptor descriptor = getPropertyDescriptor( EmployeeImpl.class, "zoneId" );
+
+		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
+
+		assertEquals( containerElementTypeDescriptors.size(), 0 );
+	}
+
 	public interface LegalEntity {
 
 		Iterable<@NotNull String> getRoles();
@@ -218,6 +240,16 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 		@Override
 		public Optional<String> getDivision() {
 			return null;
+		}
+
+		@AssertFalse
+		public boolean isIntern() {
+			return false;
+		}
+
+		@NotNull
+		public Optional<ZoneId> getZoneId() {
+			return Optional.of( ZoneId.systemDefault() );
 		}
 	}
 
