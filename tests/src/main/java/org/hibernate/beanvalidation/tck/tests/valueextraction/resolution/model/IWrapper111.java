@@ -9,7 +9,9 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model;
 /**
  * @author Guillaume Smet
  */
-public interface IWrapper111<T> {
+public interface IWrapper111<T, V> {
 
-	T getProperty();
+	T getProperty1();
+
+	V getProperty2();
 }
