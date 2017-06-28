@@ -17,16 +17,23 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
 import javax.validation.UnexpectedTypeException;
+import javax.validation.valueextraction.ExtractedValue;
+import javax.validation.valueextraction.UnwrapByDefault;
+import javax.validation.valueextraction.Unwrapping;
+import javax.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -122,6 +129,24 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsConstructor() throws NoSuchMethodException, SecurityException {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassC.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassC should not have been called yet."
+		);
+
+		getExecutableValidator().validateConstructorReturnValue( SubClassC.class.getConstructor(), new SubClassC() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassC.callCounter > 0,
+				"The validate method of ValidatorForSubClassC should have been called."
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsMethod() throws NoSuchMethodException, SecurityException {
 		assertEquals(
 				CustomConstraint.ValidatorForSubClassD.callCounter,
@@ -138,21 +163,89 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
-	public void testTargetedTypeIsConstructor() throws NoSuchMethodException, SecurityException {
+	public void testTargetedTypeIsMethodParameter() throws NoSuchMethodException, SecurityException {
 		assertEquals(
-				CustomConstraint.ValidatorForSubClassC.callCounter,
+				CustomConstraint.ValidatorForSubClassE.callCounter,
 				0,
-				"The validate method of ValidatorForSubClassC should not have been called yet."
-		);
+				"The validate method of ValidatorForSubClassE should not have been called yet." );
 
-		getExecutableValidator().validateConstructorReturnValue( SubClassC.class.getConstructor(), new SubClassC() );
+		getExecutableValidator().validateParameters( new SubClassEService(), SubClassEService.class.getMethod( "retrieveSubClassE", SubClassE.class ),
+				new Object[]{ new SubClassE() } );
 
 		assertTrue(
-				CustomConstraint.ValidatorForSubClassC.callCounter > 0,
-				"The validate method of ValidatorForSubClassC should have been called."
-		);
+				CustomConstraint.ValidatorForSubClassE.callCounter > 0,
+				"The validate method of ValidatorForSubClassE should have been called." );
+	}
+
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsConstructorParameter() throws NoSuchMethodException, SecurityException {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassF.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassF should not have been called yet." );
+
+		getExecutableValidator().validateConstructorParameters( SubClassFService.class.getConstructor( SubClassF.class ),
+				new Object[]{ new SubClassF() } );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassF.callCounter > 0,
+				"The validate method of ValidatorForSubClassF should have been called." );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsTypeArgument() {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassG.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassG should not have been called yet." );
+
+		getValidator().validate( new SubClassGHolder() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassG.callCounter > 0,
+				"The validate method of ValidatorForSubClassG should have been called." );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsTypeArgumentForNonGenericContainerInheritingFromGenericTypeWithValueExtractor() {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassH.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassH should not have been called yet." );
+
+		getValidator().validate( new SubClassHHolder() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassH.callCounter > 0,
+				"The validate method of ValidatorForSubClassH should have been called." );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
+	public void testTargetedTypeIsTypeArgumentForNonGenericContainerWithValueExtractorWithExtractedType() {
+		assertEquals(
+				CustomConstraint.ValidatorForSubClassI.callCounter,
+				0,
+				"The validate method of ValidatorForSubClassI should not have been called yet." );
+
+		TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new SubClassIContainerValueExtractor() )
+				.buildValidatorFactory().getValidator()
+				.validate( new SubClassIHolder() );
+
+		assertTrue(
+				CustomConstraint.ValidatorForSubClassI.callCounter > 0,
+				"The validate method of ValidatorForSubClassI should have been called." );
 	}
 
 	@Test
@@ -410,6 +503,66 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		public SubClassD retrieveSubClassD() {
 			return null;
 		}
+	}
+
+	private static class SubClassEService {
+
+		@SuppressWarnings("unused")
+		public void retrieveSubClassE(@CustomConstraint SubClassE parameter) {
+		}
+	}
+
+	private static class SubClassFService {
+
+		@SuppressWarnings("unused")
+		public SubClassFService(@CustomConstraint SubClassF parameter) {
+		}
+	}
+
+	private static class SubClassGHolder {
+
+		@SuppressWarnings("unused")
+		private Optional<@CustomConstraint SubClassG> property = Optional.of( new SubClassG() );
+	}
+
+	private static class SubClassHContainer extends ArrayList<SubClassH> {
+
+		private SubClassHContainer() {
+			add( new SubClassH() );
+		}
+	}
+
+	private static class SubClassHHolder {
+
+		@CustomConstraint(payload = Unwrapping.Unwrap.class)
+		private SubClassHContainer property = new SubClassHContainer();
+	}
+
+	private static class SubClassIContainer {
+
+		private SubClassI value = new SubClassI();
+
+		private SubClassIContainer() {
+		}
+
+		private SubClassI getValue() {
+			return value;
+		}
+	}
+
+	@UnwrapByDefault
+	private static class SubClassIContainerValueExtractor implements ValueExtractor<@ExtractedValue(type = SubClassI.class) SubClassIContainer> {
+
+		@Override
+		public void extractValues(SubClassIContainer originalValue, ValueExtractor.ValueReceiver receiver) {
+			receiver.value( null, originalValue.getValue() );
+		}
+	}
+
+	private static class SubClassIHolder {
+
+		@CustomConstraint
+		private SubClassIContainer property = new SubClassIContainer();
 	}
 
 	@CustomConstraint

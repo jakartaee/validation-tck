@@ -9,6 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 /**
  * @author Guillaume Smet
  */
-public class SubClassD extends BaseClass {
+public class SubClassE extends BaseClass {
 
 }
