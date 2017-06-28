@@ -6,10 +6,12 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -32,13 +34,18 @@ import javax.validation.Payload;
 		CustomConstraint.ValidatorForSubClassB.class,
 		CustomConstraint.ValidatorForSubClassC.class,
 		CustomConstraint.ValidatorForSubClassD.class,
+		CustomConstraint.ValidatorForSubClassE.class,
+		CustomConstraint.ValidatorForSubClassF.class,
+		CustomConstraint.ValidatorForSubClassG.class,
+		CustomConstraint.ValidatorForSubClassH.class,
+		CustomConstraint.ValidatorForSubClassI.class,
 		CustomConstraint.ValidatorForCustomClass.class,
 		CustomConstraint.ValidatorForCustomInterface.class,
 		CustomConstraint.ValidatorForAnotherBaseClass.class,
 		CustomConstraint.ValidatorForAnotherSubClass.class
 })
 @Documented
-@Target({ METHOD, FIELD, TYPE, CONSTRUCTOR })
+@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 public @interface CustomConstraint {
 	String message() default "my custom constraint";
@@ -99,6 +106,71 @@ public @interface CustomConstraint {
 
 		@Override
 		public boolean isValid(SubClassD subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassE implements ConstraintValidator<CustomConstraint, SubClassE> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassE subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassF implements ConstraintValidator<CustomConstraint, SubClassF> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassF subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassG implements ConstraintValidator<CustomConstraint, SubClassG> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassG subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassH implements ConstraintValidator<CustomConstraint, SubClassH> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassH subClass, ConstraintValidatorContext constraintValidatorContext) {
+			callCounter++;
+			if ( callCounter > 1 ) {
+				throw new IllegalStateException( "This method should have been only called once during the tests." );
+			}
+			return true;
+		}
+	}
+
+	public class ValidatorForSubClassI implements ConstraintValidator<CustomConstraint, SubClassI> {
+		static int callCounter = 0;
+
+		@Override
+		public boolean isValid(SubClassI subClass, ConstraintValidatorContext constraintValidatorContext) {
 			callCounter++;
 			if ( callCounter > 1 ) {
 				throw new IllegalStateException( "This method should have been only called once during the tests." );
