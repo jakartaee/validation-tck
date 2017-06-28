@@ -8,9 +8,11 @@ package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.contai
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -54,11 +57,18 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnList() {
 		Validator validator = getValidator();
-		Set<ConstraintViolation<ValidOnList>> constraintViolations = validator.validate( ValidOnList.invalid() );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "name", true, null, 0, List.class, 0 )
+		Set<ConstraintViolation<ValidOnList>> constraintViolations = validator.validate( ValidOnList.invalidValue() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, null, 0, List.class, 0 )
+						)
+		);
+
+		constraintViolations = validator.validate( ValidOnList.invalidSize() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withProperty( "visitors" )
 		);
 	}
 
@@ -68,10 +78,12 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	public void testValidOnListAndOnTypeArgument() {
 		Validator validator = getValidator();
 		Set<ConstraintViolation<ValidOnListAndOnTypeArgument>> constraintViolations = validator.validate( ValidOnListAndOnTypeArgument.invalid() );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "name", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, null, 0, List.class, 0 )
+						)
 		);
 	}
 
@@ -81,10 +93,12 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	public void testValidOnListWithoutTypeArgument() {
 		Validator validator = getValidator();
 		Set<ConstraintViolation<ValidOnListWithoutTypeArgument>> constraintViolations = validator.validate( ValidOnListWithoutTypeArgument.invalid() );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "name", true, null, 0, MyListWithoutTypeArgument.class, null )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, null, 0, MyListWithoutTypeArgument.class, null )
+						)
 		);
 	}
 
@@ -95,17 +109,21 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 		Set<ConstraintViolation<ValidOnListAndOnTypeArgumentWithGroupConversions>> constraintViolations =
 				validator.validate( ValidOnListAndOnTypeArgumentWithGroupConversions.invalid() );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "name", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, null, 0, List.class, 0 )
+						)
 		);
 
 		constraintViolations = validator.validate( ValidOnListAndOnTypeArgumentWithGroupConversions.invalid(), ExtendedChecks1.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "extended2", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "extended2", true, null, 0, List.class, 0 )
+						)
 		);
 	}
 
@@ -114,11 +132,19 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnIterable() {
 		Validator validator = getValidator();
-		Set<ConstraintViolation<ValidOnIterable>> constraintViolations = validator.validate( ValidOnIterable.invalid() );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "name", true, null, null, Set.class, 0 )
+		Set<ConstraintViolation<ValidOnIterable>> constraintViolations = validator.validate( ValidOnIterable.invalidValue() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, null, null, Set.class, 0 )
+						)
+		);
+
+		constraintViolations = validator.validate( ValidOnIterable.invalidSize() );
+
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withProperty( "visitors" )
 		);
 	}
 
@@ -131,25 +157,57 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 
 		Museum museum = Museum.invalid();
 
-		Set<ConstraintViolation<ValidOnMap>> constraintViolations = validator.validate( ValidOnMap.invalid( museum ) );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "visitors" )
-						.property( "name", true, museum, null, Map.class, 1 )
+		Set<ConstraintViolation<ValidOnMap>> constraintViolations = validator.validate( ValidOnMap.invalidValue( museum ) );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, museum, null, Map.class, 1 )
+						)
+		);
+
+		constraintViolations = validator.validate( ValidOnMap.invalidSize() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withProperty( "visitors" )
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
+	public void testValidOnArray() {
+		Validator validator = getValidator();
+		Set<ConstraintViolation<ValidOnArray>> constraintViolations = validator.validate( ValidOnArray.invalidValue() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.property( "visitors" )
+								.property( "name", true, null, 0, Object[].class, null )
+						)
+		);
+
+		constraintViolations = validator.validate( ValidOnArray.invalidSize() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withProperty( "visitors" )
 		);
 	}
 
 	private static class ValidOnList {
 
 		@Valid
+		@Size(min = 1)
 		private final List<Visitor> visitors;
 
 		private ValidOnList(List<Visitor> visitors) {
 			this.visitors = visitors;
 		}
 
-		private static ValidOnList invalid() {
+		private static ValidOnList invalidValue() {
 			return new ValidOnList( new ArrayList<Visitor>( Arrays.asList( new Visitor( null ) ) ) );
+		}
+
+		private static ValidOnList invalidSize() {
+			return new ValidOnList( Collections.emptyList() );
 		}
 	}
 
@@ -201,31 +259,64 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	private static class ValidOnIterable {
 
 		@Valid
+		@Size(min = 1)
 		private final Set<Visitor> visitors;
 
 		private ValidOnIterable(Set<Visitor> visitors) {
 			this.visitors = visitors;
 		}
 
-		private static ValidOnIterable invalid() {
+		private static ValidOnIterable invalidValue() {
 			return new ValidOnIterable( CollectionHelper.asSet( new Visitor( null ) ) );
+		}
+
+		private static ValidOnIterable invalidSize() {
+			return new ValidOnIterable( Collections.emptySet() );
 		}
 	}
 
 	private static class ValidOnMap {
 
 		@Valid
+		@Size(min = 1)
 		private final Map<Museum, Visitor> visitors;
 
 		private ValidOnMap(Map<Museum, Visitor> visitors) {
 			this.visitors = visitors;
 		}
 
-		private static ValidOnMap invalid(Museum museum) {
+		private static ValidOnMap invalidValue(Museum museum) {
 			Map<Museum, Visitor> map = new HashMap<>();
 			map.put( museum, new Visitor( null ) );
 
 			return new ValidOnMap( map );
+		}
+
+		private static ValidOnMap invalidSize() {
+			return new ValidOnMap( new HashMap<>() );
+		}
+	}
+
+	private static class ValidOnArray {
+
+		@Valid
+		@Size(min = 1)
+		private final Visitor[] visitors;
+
+		private ValidOnArray(Visitor[] visitors) {
+			this.visitors = visitors;
+		}
+
+		private static ValidOnArray invalidValue() {
+			Visitor[] visitors = new Visitor[]{ new Visitor( null ) };
+
+			return new ValidOnArray( visitors );
+		}
+
+		private static ValidOnArray invalidSize() {
+			Visitor[] visitors = new Visitor[0];
+
+			return new ValidOnArray( visitors );
 		}
 	}
 
