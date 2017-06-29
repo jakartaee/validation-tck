@@ -47,6 +47,7 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constraint_specified_on_key_type_parameter_of_map_gets_validated() {
 		TypeWithMap1 m = new TypeWithMap1();
 		m.nameMap = new HashMap<>();
@@ -61,11 +62,13 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 								.property( "nameMap" )
 								.containerElement( "<map key>", true, "", null, Map.class, 0 )
 						)
+						.withInvalidValue( "" )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constraints_specified_on_map_and_on_key_type_parameter_of_map_get_validated() {
 		TypeWithMap2 m = new TypeWithMap2();
 		m.nameMap = new HashMap<>();
@@ -80,13 +83,16 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 								.property( "nameMap" )
 								.containerElement( "<map key>", true, "", null, Map.class, 0 )
 						)
+						.withInvalidValue( "" )
 		);
 
 		m = new TypeWithMap2();
 		constraintViolations = getValidator().validate( m );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( NotNull.class ).withProperty( "nameMap" )
+				violationOf( NotNull.class )
+						.withProperty( "nameMap" )
+						.withInvalidValue( m.nameMap )
 		);
 	}
 
@@ -94,6 +100,7 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void getter_constraint_provided_on_key_type_parameter_of_a_map_gets_validated() {
 		TypeWithMap3 m = new TypeWithMap3();
 		m.stringMap = new HashMap<>();
@@ -108,17 +115,20 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "stringMap" )
 								.containerElement( "<map key>", true, "", null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "stringMap" )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.property( "stringMap" )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -126,6 +136,7 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void return_value_constraint_provided_on_key_type_parameter_of_a_map_gets_validated() throws Exception {
 		Method method = TypeWithMap4.class.getDeclaredMethod( "returnStringMap" );
 
@@ -146,19 +157,22 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 								.method( "returnStringMap" )
 								.returnValue()
 								.containerElement( "<map key>", true, "", null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.method( "returnStringMap" )
 								.returnValue()
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.method( "returnStringMap" )
 								.returnValue()
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -166,6 +180,7 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void method_parameter_constraint_provided_as_key_type_parameter_of_a_map_gets_validated() throws Exception {
 		Method method = TypeWithMap5.class.getDeclaredMethod( "setValues", Map.class );
 
@@ -187,19 +202,22 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 								.method( "setValues" )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map key>", true, "", null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -207,6 +225,7 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constructor_parameter_constraint_provided_on_key_type_parameter_of_a_map_gets_validated() throws Exception {
 		Constructor<TypeWithMap6> constructor = TypeWithMap6.class.getDeclaredConstructor( Map.class );
 
@@ -227,19 +246,22 @@ public class ContainerElementConstraintMapKeyTest extends AbstractTCKTest {
 								.constructor( TypeWithMap6.class )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map key>", true, "", null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.constructor( TypeWithMap6.class )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.constructor( TypeWithMap6.class )
 								.parameter( "mapParameter", 0 )
 								.containerElement( "<map key>", true, null, null, Map.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
