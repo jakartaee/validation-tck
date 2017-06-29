@@ -22,4 +22,8 @@ public class ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClas
 	@Override
 	public void createEvent(Date start, Date end, List<Person> participants) {
 	}
+
+	@Override
+	public void addParticipants(Date start, Date end, List<Person> participants) {
+	}
 }

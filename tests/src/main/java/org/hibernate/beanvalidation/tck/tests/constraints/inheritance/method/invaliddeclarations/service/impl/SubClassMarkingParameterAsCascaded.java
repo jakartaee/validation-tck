@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.in
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.AbstractCalendarService;
@@ -20,6 +20,10 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 public class SubClassMarkingParameterAsCascaded extends AbstractCalendarService {
 
 	@Override
-	public void createEvent(@NotNull Date start, @NotNull Date end, @NotNull List<Person> participants) {
+	public void createEvent(Date start, Date end, @Valid List<Person> participants) {
+	}
+
+	@Override
+	public void addParticipants(Date start, Date end, List<@Valid Person> participants) {
 	}
 }

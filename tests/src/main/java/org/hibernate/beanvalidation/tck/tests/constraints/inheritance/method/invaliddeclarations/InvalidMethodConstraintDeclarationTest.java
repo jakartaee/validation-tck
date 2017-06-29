@@ -155,6 +155,108 @@ public class InvalidMethodConstraintDeclarationTest extends AbstractTCKTest {
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testParameterContainerElementConstraintsAddedInInterfaceImplementationCausesException()
+			throws Exception {
+		Object object = new ImplementationAddingParameterConstraints();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "Implementing method must add no parameter constraints. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testParameterContainerElementConstraintsAddedInSubClassCausesException() throws Exception {
+		Object object = new SubClassAddingParameterConstraints();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "Overriding subclass method must add no parameter constraints. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testParameterContainerElementMarkedAsCascadedInInterfaceImplementationCausesException()
+			throws Exception {
+		Object object = new ImplementationMarkingParameterAsCascaded();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "Implementing method must not mark a parameter cascaded. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "a")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testParameterContainerElementMarkedAsCascadedInSubClassCausesException() throws Exception {
+		Object object = new SubClassMarkingParameterAsCascaded();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "Overriding subclass method must not mark a parameter cascaded. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testConstrainedContainerElementOfParameterInOneMethodOfParallelInterfacesCausesException()
+			throws Exception {
+		Object object = new ImplementationOfConstrainedAndUnconstrainedInterfaces();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "A method defined in two parallel interfaces must have no parameter constraints. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testContainerElementOfParameterIsConstrainedInInterfaceMethodAndSuperClassMethodCausesException()
+			throws Exception {
+		Object object = new ImplementationOfConstrainedInterfaceExtendingUnconstrainedSuperClass();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "A method defined in an interface and a superclass not implementing this interface must have no parameter constraints. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testContainerElementOfParameterIsCascadingInOneMethodOfParallelInterfacesCausesException()
+			throws Exception {
+		Object object = new ImplementationOfCascadingAndNonCascadingInterfaces();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "A method defined in two parallel interfaces must not have no parameters marked as cascaded. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
+	public void testContainerElementOfParameterIsCascadingInInterfaceMethodAndSuperClassMethodCausesException()
+			throws Exception {
+		Object object = new ImplementationOfCascadingInterfaceExtendingUncascadingSuperClass();
+		Method method = getAddParticipantsMethod( object );
+		Object[] parameterValues = new Object[3];
+
+		getExecutableValidator().validateParameters( object, method, parameterValues );
+		fail( "A method defined in an interface and a superclass not implementing this interface must have no parameters marked as cascaded. Expected exception wasn't thrown." );
+	}
+
+	@Test(expectedExceptions = ConstraintDeclarationException.class)
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_INHERITANCE, id = "e")
 	public void testReturnValueIsMarkedAsCascadedInInterfaceAndImplementationCausesException()
@@ -196,6 +298,15 @@ public class InvalidMethodConstraintDeclarationTest extends AbstractTCKTest {
 	private Method getCreateEventMethod(Object object) throws NoSuchMethodException {
 		return object.getClass().getMethod(
 				"createEvent",
+				Date.class,
+				Date.class,
+				List.class
+		);
+	}
+
+	private Method getAddParticipantsMethod(Object object) throws NoSuchMethodException {
+		return object.getClass().getMethod(
+				"addParticipants",
 				Date.class,
 				Date.class,
 				List.class
