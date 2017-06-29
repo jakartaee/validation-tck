@@ -22,4 +22,8 @@ public class ImplementationAddingParameterConstraints implements CalendarService
 	@Override
 	public void createEvent(@NotNull Date start, @NotNull Date end, @NotNull List<Person> participants) {
 	}
+
+	@Override
+	public void addParticipants(Date start, Date end, List<@NotNull Person> participants) {
+	}
 }

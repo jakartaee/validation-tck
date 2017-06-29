@@ -22,4 +22,8 @@ public class ImplementationMarkingParameterAsCascaded implements CalendarService
 	@Override
 	public void createEvent(Date start, Date end, @Valid List<Person> participants) {
 	}
+
+	@Override
+	public void addParticipants(Date start, Date end, List<@Valid Person> participants) {
+	}
 }

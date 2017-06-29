@@ -9,6 +9,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.in
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.model.Person;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.AnotherCalendarService;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.invaliddeclarations.service.CalendarService;
@@ -21,5 +23,9 @@ public class ImplementationOfConstrainedAndUnconstrainedInterfaces
 
 	@Override
 	public void createEvent(Date start, Date end, List<Person> participants) {
+	}
+
+	@Override
+	public void addParticipants(Date start, Date end, List<@NotNull Person> participants) {
 	}
 }
