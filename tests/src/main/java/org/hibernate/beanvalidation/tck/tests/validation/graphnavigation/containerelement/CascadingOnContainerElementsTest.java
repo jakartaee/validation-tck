@@ -183,6 +183,54 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 		);
 	}
 
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "l")
+	public void cascading_on_container_element_of_method_return_value_is_applied() throws NoSuchMethodException, SecurityException {
+		Set<ConstraintViolation<BarService>> constraintViolations = getExecutableValidator()
+				.validateReturnValue( new BarService(), BarService.class.getMethod( "retrieveBars" ), Arrays.asList( new Bar( 2 ) ) );
+
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( "retrieveBars" )
+								.returnValue()
+								.property( "number", true, null, 0, List.class, 0 )
+						)
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "l")
+	public void cascading_on_container_element_of_method_parameter_is_applied() throws NoSuchMethodException, SecurityException {
+		Set<ConstraintViolation<BarService>> constraintViolations = getExecutableValidator()
+				.validateParameters( new BarService(), BarService.class.getMethod( "addBars", List.class ), new Object[]{ Arrays.asList( new Bar( 2 ) ) } );
+
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( "addBars" )
+								.parameter( "bars", 0 )
+								.property( "number", true, null, 0, List.class, 0 )
+						)
+		);
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "l")
+	public void cascading_on_container_element_of_constructor_parameter_is_applied() throws NoSuchMethodException, SecurityException {
+		Set<ConstraintViolation<BarService>> constraintViolations = getExecutableValidator()
+				.validateConstructorParameters( BarService.class.getConstructor( List.class ), new Object[]{ Arrays.asList( new Bar( 2 ) ) } );
+
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( BarService.class )
+								.parameter( "bars", 0 )
+								.property( "number", true, null, 0, List.class, 0 )
+						)
+		);
+	}
+
 	private static class TypeWithList {
 
 		@SuppressWarnings("unused")
@@ -218,6 +266,25 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 
 		public Bar(Integer number) {
 			this.number = number;
+		}
+	}
+
+	private static class BarService {
+
+		public BarService() {
+		}
+
+		@SuppressWarnings("unused")
+		public BarService(List<@Valid Bar> bars) {
+		}
+
+		@SuppressWarnings("unused")
+		public List<@Valid Bar> retrieveBars() {
+			return null;
+		}
+
+		@SuppressWarnings("unused")
+		public void addBars(List<@Valid Bar> bars) {
 		}
 	}
 }
