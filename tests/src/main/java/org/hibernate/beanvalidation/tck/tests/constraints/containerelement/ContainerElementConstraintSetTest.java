@@ -48,6 +48,7 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void field_constraint_provided_on_type_parameter_of_a_set_gets_validated() {
 		TypeWithSet1 s = new TypeWithSet1();
 		s.names = CollectionHelper.asSet( "First", "", null );
@@ -59,22 +60,26 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constraints_specified_on_set_and_on_type_parameter_of_set_get_validated() {
 		TypeWithSet2 s = new TypeWithSet2();
 		s.names = CollectionHelper.asSet( "First", "", null );
@@ -85,12 +90,14 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 
 		s = new TypeWithSet2();
@@ -98,7 +105,9 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( s );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Size.class ).withProperty( "names" )
+				violationOf( Size.class )
+						.withProperty( "names" )
+						.withInvalidValue( s.names )
 		);
 	}
 
@@ -106,6 +115,7 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void getter_constraint_provided_on_type_parameter_of_a_set_gets_validated() {
 		TypeWithSet3 s = new TypeWithSet3();
 		s.strings = new HashSet<>();
@@ -120,17 +130,20 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -138,6 +151,7 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void return_value_constraint_provided_on_type_parameter_of_a_set_gets_validated() throws Exception {
 		Method method = TypeWithSet4.class.getDeclaredMethod( "returnStrings" );
 		Set<ConstraintViolation<TypeWithSet4>> constraintViolations = getExecutableValidator().validateReturnValue(
@@ -152,19 +166,22 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -172,6 +189,7 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void method_parameter_constraint_provided_as_type_parameter_of_a_set_gets_validated() throws Exception {
 		Method method = TypeWithSet5.class.getDeclaredMethod( "setValues", Set.class );
 		Object[] values = new Object[] { CollectionHelper.asSet( "", "First", null ) };
@@ -188,19 +206,22 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 								.method( "setValues" )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -208,6 +229,7 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constructor_parameter_constraint_provided_on_type_parameter_of_a_set_gets_validated() throws Exception {
 		Constructor<TypeWithSet6> constructor = TypeWithSet6.class.getDeclaredConstructor( Set.class );
 		Object[] values = new Object[] { CollectionHelper.asSet( "", "First", null ) };
@@ -223,19 +245,22 @@ public class ContainerElementConstraintSetTest extends AbstractTCKTest {
 								.constructor( TypeWithSet6.class )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.constructor( TypeWithSet6.class )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.constructor( TypeWithSet6.class )
 								.parameter( "setParameter", 0 )
 								.containerElement( "<iterable element>", true, null, null, Set.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 

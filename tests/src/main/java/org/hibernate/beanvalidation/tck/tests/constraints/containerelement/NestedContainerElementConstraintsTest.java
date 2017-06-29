@@ -49,6 +49,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ad")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ae")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ag")
@@ -64,6 +65,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 								.property( "map" )
 								.containerElement( "<map key>", true, "k", null, Map.class, 0 )
 						)
+						.withInvalidValue( MapOfLists.INVALID_KEY )
 		);
 
 		constraintViolations = getValidator().validate( MapOfLists.invalidList() );
@@ -73,6 +75,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 						)
+						.withInvalidValue( MapOfLists.INVALID_LIST )
 		);
 
 		constraintViolations = getValidator().validate( MapOfLists.invalidString() );
@@ -82,13 +85,15 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
-						),
+						)
+						.withInvalidValue( MapOfLists.INVALID_STRING_1 ),
 				violationOf( Size.class )
 						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key1", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
 						)
+						.withInvalidValue( MapOfLists.INVALID_STRING_2 )
 		);
 
 		constraintViolations = getValidator().validate( MapOfLists.reallyInvalid() );
@@ -97,18 +102,21 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map key>", true, "k", null, Map.class, 0 )
-						),
+						)
+						.withInvalidValue( MapOfLists.INVALID_KEY ),
 				violationOf( Size.class )
 						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "k", null, Map.class, 1 )
-						),
+						)
+						.withInvalidValue( MapOfLists.REALLY_INVALID_LIST ),
 				violationOf( Size.class )
 						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "k", null, Map.class, 1 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
 						)
+						.withInvalidValue( MapOfLists.INVALID_STRING_1 )
 		);
 	}
 
@@ -208,6 +216,16 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 	private static class MapOfLists {
 
+		private static final String INVALID_KEY = "k";
+
+		private static final List<Optional<String>> INVALID_LIST = Arrays.asList( Optional.of( "only one value" ) );
+
+		private static final String INVALID_STRING_1 = "1";
+
+		private static final String INVALID_STRING_2 = "2";
+
+		private static final List<Optional<String>> REALLY_INVALID_LIST = Arrays.asList( Optional.of( INVALID_STRING_1 ) );
+
 		private Map<@Size(min = 2) String, @NotNull @Size(min = 2) List<Optional<@Size(min = 3) String>>> map;
 
 		private static MapOfLists valid() {
@@ -225,7 +243,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 			List<Optional<String>> list = Arrays.asList( Optional.of( "one" ), Optional.of( "two" ) );
 			foo.map = new HashMap<>();
-			foo.map.put( "k", list );
+			foo.map.put( INVALID_KEY, list );
 
 			return foo;
 		}
@@ -243,7 +261,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 		private static MapOfLists invalidString() {
 			MapOfLists foo = new MapOfLists();
 
-			List<Optional<String>> list = Arrays.asList( Optional.of( "1" ), Optional.of( "2" ) );
+			List<Optional<String>> list = Arrays.asList( Optional.of( INVALID_STRING_1 ), Optional.of( INVALID_STRING_2 ) );
 			foo.map = new HashMap<>();
 			foo.map.put( "key1", list );
 
@@ -253,9 +271,8 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 		private static MapOfLists reallyInvalid() {
 			MapOfLists foo = new MapOfLists();
 
-			List<Optional<String>> list = Arrays.asList( Optional.of( "1" ) );
 			foo.map = new HashMap<>();
-			foo.map.put( "k", list );
+			foo.map.put( INVALID_KEY, REALLY_INVALID_LIST );
 
 			return foo;
 		}

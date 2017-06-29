@@ -90,50 +90,67 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_wrapped_value_if_explicit_unwrapping() {
 		Set<ConstraintViolation<EntityWithExplicitUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new EntityWithExplicitUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "integerHolder" )
+				violationOf( Min.class )
+						.withProperty( "integerHolder" )
+						.withInvalidValue( 5 )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void validate_wrapper_itself_if_there_is_no_unwrapping() {
-		Set<ConstraintViolation<EntityWithNoUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new EntityWithNoUnwrapping() );
+		EntityWithNoUnwrapping entity = new EntityWithNoUnwrapping();
+		Set<ConstraintViolation<EntityWithNoUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( entity );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Null.class ).withProperty( "integerHolder" )
+				violationOf( Null.class )
+						.withProperty( "integerHolder" )
+						.withInvalidValue( entity.integerHolder )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "d")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_UNWRAPBYDEFAULT, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_wrapped_value_if_value_extractor_unwraps_by_default_for_generic_container() {
 		Set<ConstraintViolation<WrapperWithImplicitUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new WrapperWithImplicitUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "integerWrapper" )
+				violationOf( Min.class )
+						.withProperty( "integerWrapper" )
+						.withInvalidValue( 5 )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "a")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void validate_wrapper_if_unwrapping_disabled_per_constraint_for_generic_container() {
-		Set<ConstraintViolation<WrapperWithDisabledUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new WrapperWithDisabledUnwrapping() );
+		WrapperWithDisabledUnwrapping entity = new WrapperWithDisabledUnwrapping();
+		Set<ConstraintViolation<WrapperWithDisabledUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( entity );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Null.class ).withProperty( "integerWrapper" )
+				violationOf( Null.class )
+						.withProperty( "integerWrapper" )
+						.withInvalidValue( entity.integerWrapper )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "b")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_wrapped_value_if_value_extractor_unwraps_by_default_and_unwrapping_enabled_per_constraint_for_generic_container() {
 		Set<ConstraintViolation<WrapperWithForcedUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new WrapperWithForcedUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "integerWrapper" )
+				violationOf( Min.class )
+						.withProperty( "integerWrapper" )
+						.withInvalidValue( 5 )
 		);
 	}
 
@@ -141,6 +158,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "d")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_UNWRAPBYDEFAULT, id = "a")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_wrapped_value_if_value_extractor_unwraps_by_default_for_non_generic_container() {
 		Set<ConstraintViolation<IntegerWrapperWithImplicitUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new IntegerWrapperWithImplicitUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -149,6 +167,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 								.property( "integerWrapper" )
 								.containerElement( "wrapper", false, null, null, IntegerWrapper.class, null )
 						)
+						.withInvalidValue( 5 )
 		);
 	}
 
@@ -156,10 +175,14 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void validate_wrapper_if_unwrapping_disabled_per_constraint_for_non_generic_container() {
-		Set<ConstraintViolation<IntegerWrapperWithDisabledUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new IntegerWrapperWithDisabledUnwrapping() );
+		IntegerWrapperWithDisabledUnwrapping entity = new IntegerWrapperWithDisabledUnwrapping();
+		Set<ConstraintViolation<IntegerWrapperWithDisabledUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( entity );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Null.class ).withProperty( "integerWrapper" )
+				violationOf( Null.class )
+						.withProperty( "integerWrapper" )
+						.withInvalidValue( entity.integerWrapper )
 		);
 	}
 
@@ -167,6 +190,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "d")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "e")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_wrapped_value_if_value_extractor_unwraps_by_default_and_unwrapping_enabled_per_constraint_for_non_generic_container() {
 		Set<ConstraintViolation<IntegerWrapperWithForcedUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new IntegerWrapperWithForcedUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -175,6 +199,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 								.property( "integerWrapper" )
 								.containerElement( "wrapper", false, null, null, IntegerWrapper.class, null )
 						)
+						.withInvalidValue( 5 )
 		);
 	}
 
@@ -209,6 +234,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_implicit_unwrapping_having_two_type_parameters_and_only_one_maximally_specific_value_extractor_is_ok() {
 		Validator validator = TestUtil.getConfigurationUnderTest()
 				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
@@ -222,11 +248,13 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 								.property( "wrapper" )
 								.containerElement( "first", false, null, null, WrapperWithTwoTypeArguments.class, 0 )
 						)
+						.withInvalidValue( 5L )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_implicit_unwrapping_having_two_type_parameters_and_only_one_maximally_specific_value_extractor_marked_with_unwrap_by_default_is_ok() {
 		Validator validator = TestUtil.getConfigurationUnderTest()
 				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
@@ -241,6 +269,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 								.property( "wrapper" )
 								.containerElement( "first", false, null, null, WrapperWithTwoTypeArguments.class, 0 )
 						)
+						.withInvalidValue( 5L )
 		);
 	}
 
@@ -258,6 +287,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_forced_unwrapping_having_two_type_parameters_and_only_one_maximally_specific_value_extractor_is_ok() {
 		Validator validator = TestUtil.getConfigurationUnderTest()
 				.addValueExtractor( new WrapperWithTwoTypeArgumentsFirstValueExtractor() )
@@ -272,6 +302,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 								.property( "wrapper" )
 								.containerElement( "first", false, null, null, WrapperWithTwoTypeArguments.class, 0 )
 						)
+						.withInvalidValue( 5L )
 		);
 	}
 
@@ -289,6 +320,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "k")
 	public void validate_forced_unwrapping_having_two_reverted_type_parameters_correctly_identifies_type_parameter() {
 		Validator validator = TestUtil.getConfigurationUnderTest()
 				.addValueExtractor( new WrapperWithTwoTypeArgumentsSecondValueExtractor() )
@@ -303,6 +335,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 								.property( "wrapper" )
 								.containerElement( "second", false, null, null, WrapperWithRevertedTwoTypeArguments.class, 0 )
 						)
+						.withInvalidValue( 5L )
 		);
 	}
 

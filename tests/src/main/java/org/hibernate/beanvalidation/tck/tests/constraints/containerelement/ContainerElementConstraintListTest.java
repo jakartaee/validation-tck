@@ -49,6 +49,7 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void field_constraint_provided_on_type_parameter_of_a_list_gets_validated() {
 		TypeWithList1 l = new TypeWithList1();
 		l.names = Arrays.asList( "First", "", null );
@@ -60,22 +61,26 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "d")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constraints_specified_on_list_and_on_type_parameter_of_list_get_validated() {
 		TypeWithList2 l = new TypeWithList2();
 		l.names = Arrays.asList( "First", "", null );
@@ -86,12 +91,14 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "names" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 
 		l = new TypeWithList2();
@@ -99,7 +106,9 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 		constraintViolations = getValidator().validate( l );
 
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf(  Size.class  ).withProperty( "names" )
+				violationOf(  Size.class  )
+						.withProperty( "names" )
+						.withInvalidValue( l.names )
 		);
 	}
 
@@ -107,6 +116,7 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void getter_constraint_provided_on_type_parameter_of_a_list_gets_validated() {
 		TypeWithList3 l = new TypeWithList3();
 		l.strings = Arrays.asList( "", "First", null );
@@ -118,17 +128,20 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.property( "strings" )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -136,6 +149,7 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void return_value_constraint_provided_on_type_parameter_of_a_list_gets_validated() throws Exception {
 		Method method = TypeWithList4.class.getDeclaredMethod( "returnStrings" );
 		Set<ConstraintViolation<TypeWithList4>> constraintViolations = getExecutableValidator().validateReturnValue(
@@ -150,19 +164,22 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<list element>", true, null, 1, List.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.method( "returnStrings" )
 								.returnValue()
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -170,6 +187,7 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void method_parameter_constraint_provided_as_type_parameter_of_a_list_gets_validated() throws Exception {
 		Method method = TypeWithList5.class.getDeclaredMethod( "setValues", List.class );
 		Object[] values = new Object[] { Arrays.asList( "", "First", null ) };
@@ -186,19 +204,22 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 								.method( "setValues" )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.method( "setValues" )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 
@@ -206,6 +227,7 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "i")
 	public void constructor_parameter_constraint_provided_on_type_parameter_of_a_list_gets_validated() throws Exception {
 		Constructor<TypeWithList6> constructor = TypeWithList6.class.getDeclaredConstructor( List.class );
 		Object[] values = new Object[] { Arrays.asList( "", "First", null ) };
@@ -221,19 +243,22 @@ public class ContainerElementConstraintListTest extends AbstractTCKTest {
 								.constructor( TypeWithList6.class )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 0, List.class, 0 )
-						),
+						)
+						.withInvalidValue( "" ),
 				violationOf( NotBlank.class )
 						.withPropertyPath( pathWith()
 								.constructor( TypeWithList6.class )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
-						),
+						)
+						.withInvalidValue( null ),
 				violationOf( NotNull.class )
 						.withPropertyPath( pathWith()
 								.constructor( TypeWithList6.class )
 								.parameter( "listParameter", 0 )
 								.containerElement( "<list element>", true, null, 2, List.class, 0 )
 						)
+						.withInvalidValue( null )
 		);
 	}
 

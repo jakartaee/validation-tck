@@ -42,6 +42,7 @@ import javafx.beans.property.ReadOnlySetWrapper;
 import javafx.beans.property.SetProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -154,6 +155,27 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 		);
 	}
 
+	@Test
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_BUILTINVALUEEXTRACTORS, id = "g")
+	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_BUILTINVALUEEXTRACTORS, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "f")
+	public void testValueExtractionForListOfStringProperty() {
+		Validator validator = getValidator();
+
+		Set<ConstraintViolation<ListOfStringPropertyEntity>> constraintViolations = validator.validate( ListOfStringPropertyEntity.valid() );
+		assertNumberOfViolations( constraintViolations, 0 );
+
+		constraintViolations = validator.validate( ListOfStringPropertyEntity.invalidListElement() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.property( "listProperty" )
+								.containerElement( "<list element>", true, null, 1, ListProperty.class, 0 )
+						)
+						.withInvalidValue( "Bob" )
+		);
+	}
+
 	public class BasicPropertiesEntity {
 
 		@NotNull
@@ -251,6 +273,24 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 			innerMap.put( "cherry", "cherry@example.com" );
 
 			return new MapPropertyEntity( innerMap );
+		}
+	}
+
+	public static class ListOfStringPropertyEntity {
+
+		@SuppressWarnings("unused")
+		private final ListProperty<@Size(min = 4) StringProperty> listProperty;
+
+		private ListOfStringPropertyEntity(ObservableList<StringProperty> innerList) {
+			this.listProperty = new SimpleListProperty<>( innerList );
+		}
+
+		public static ListOfStringPropertyEntity valid() {
+			return new ListOfStringPropertyEntity( FXCollections.observableArrayList( new SimpleStringProperty( "Billy" ), new SimpleStringProperty( "Bruce" ) ) );
+		}
+
+		public static ListOfStringPropertyEntity invalidListElement() {
+			return new ListOfStringPropertyEntity( FXCollections.observableArrayList( new SimpleStringProperty( "Billy" ), new SimpleStringProperty( "Bob" ) ) );
 		}
 	}
 }
