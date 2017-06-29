@@ -15,6 +15,6 @@ public class UnwrapByDefaultIntegerWrapperValueExtractor implements ValueExtract
 
 	@Override
 	public void extractValues(IntegerWrapper originalValue, ValueExtractor.ValueReceiver receiver) {
-		receiver.value( null, originalValue.getValue() );
+		receiver.value( "wrapper", originalValue.getValue() );
 	}
 }
