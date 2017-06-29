@@ -3,6 +3,62 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.CR1 (29-06-2017)
+----------------------
+
+** Improvement
+    * [BVTCK-165] - Test with WrapperWithDisabledUnwrapping should be based on presence of violation
+    * [BVTCK-156] - Improvements to the new containsOnlyViolations() testing API
+    * [BVTCK-127] - Use containsExactlyInAnyOrder instead of containsOnly for containsOnlyPaths
+    * [BVTCK-79] - Update the references to Java EE 7 and Glassfish 4 in the documentation
+    * [BVTCK-78] - Update setup examples for TCK 2.0.0
+
+** New Feature
+    * [BVTCK-120] - Add more tests for container element constraints metadata support
+    * [BVTCK-119] - Add tests for the XML support of group conversion for container element types
+
+** Task
+    * [BVTCK-170] - Add tests for nested container element traversing
+    * [BVTCK-169] - Add test for 7.11 b)
+    * [BVTCK-168] - Add more tests for implicit unwrapping value extractor resolution algorithm
+    * [BVTCK-167] - Metadata adjustments following BVAL-655
+    * [BVTCK-166] - Add a test for the legacy behavior of @Valid on arrays
+    * [BVTCK-164] - Add tests for @PastOrPresent and @FutureOrPresent
+    * [BVTCK-163] - Add tests for ContainerElementDescriptor#getElementClass()
+    * [BVTCK-162] - Add test for Section 10 - Exception model - a - exception wrapping
+    * [BVTCK-161] - Add tests for @PositiveOrZero and @NegativeOrZero
+    * [BVTCK-159] - Add more tests regarding new style container cascading
+    * [BVTCK-158] - Add a test for cascading validation with 2 inner extractions
+    * [BVTCK-155] - Add a test for @OverridesAttribute default name()
+    * [BVTCK-154] - Update tck-audit.xml after BVAL-616, BVAL-624 and BVAL-646
+    * [BVTCK-153] - Add tests for injection of value extractors loaded by the service loader
+    * [BVTCK-152] - Add tests for "ValueExtractor resolution algorithm for container element constraints"
+    * [BVTCK-151] - Add test for ValueExtractorDeclarationException
+    * [BVTCK-150] - Add tests for XML declaration of container element constraints and cascading
+    * [BVTCK-149] - Add test for ConstraintDescriptor#validateUnwrappedValue() and Skip/Unwrap behavior
+    * [BVTCK-148] - Add test for validation.xml's value-extractor element
+    * [BVTCK-147] - Add test for Configuration#addValueExtractor()
+    * [BVTCK-146] - Add test for PropertyPathTest and container element information in Section 6.2 - ConstraintViolation
+    * [BVTCK-145] - Add tests for "ValueExtractor resolution algorithm for constraints on non-generic containers"
+    * [BVTCK-144] - Add tests for "ValueExtractor resolution algorithm for cascaded validation"
+    * [BVTCK-143] - Add tests for "ConstraintValidator resolution algorithm"
+    * [BVTCK-142] - Add tests for value extractors registration
+    * [BVTCK-141] - Fix an assertion reference in ValidatorResolutionTest
+    * [BVTCK-140] - Make available the CollectionHelper class from HV
+    * [BVTCK-139] - Add test to validate that the value extractor is not called for a null container
+    * [BVTCK-138] - Add tests for group conversions on container elements
+    * [BVTCK-137] - Add tests for validation of container elements constraints
+    * [BVTCK-136] - Add tests for cascading validation on container elements
+    * [BVTCK-135] - Create a script to increment assertion ids when one assertion is inserted
+    * [BVTCK-134] - Clarify that JavaFX is required for running and passing the TCK
+    * [BVTCK-133] - Add a test utility to assert violation properties in a consistent manner
+    * [BVTCK-132] - Add tests for section 4 - Value extractor definition
+    * [BVTCK-131] - Clarify what we should do about EmailConstraintTest
+    * [BVTCK-130] - Add tests for invalid group conversion configuration with container elements
+    * [BVTCK-129] - Update tck-audit.xml and assertion references after BVAL-618
+    * [BVTCK-123] - Add tests for non getter method and constructor for 5.7.4 - d
+    * [BVTCK-122] - Add a test checking that value() is called even if Optional does not have any value (same for Optional* primitive wrappers)
+
 2.0.0.Beta2 (24-05-2017)
 ------------------------
 
