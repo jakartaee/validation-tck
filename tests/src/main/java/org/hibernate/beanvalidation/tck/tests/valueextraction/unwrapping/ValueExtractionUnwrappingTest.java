@@ -7,6 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.valueextraction.unwrapping;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 
@@ -143,7 +144,11 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	public void validate_wrapped_value_if_value_extractor_unwraps_by_default_for_non_generic_container() {
 		Set<ConstraintViolation<IntegerWrapperWithImplicitUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new IntegerWrapperWithImplicitUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "integerWrapper" )
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.property( "integerWrapper" )
+								.containerElement( "wrapper", false, null, null, IntegerWrapper.class, null )
+						)
 		);
 	}
 
@@ -165,7 +170,11 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 	public void validate_wrapped_value_if_value_extractor_unwraps_by_default_and_unwrapping_enabled_per_constraint_for_non_generic_container() {
 		Set<ConstraintViolation<IntegerWrapperWithForcedUnwrapping>> constraintViolations = getValidatorWithValueExtractors().validate( new IntegerWrapperWithForcedUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "integerWrapper" )
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.property( "integerWrapper" )
+								.containerElement( "wrapper", false, null, null, IntegerWrapper.class, null )
+						)
 		);
 	}
 
@@ -208,7 +217,11 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<BeanWithWrapperWithTwoTypeArguments>> constraintViolations = validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "wrapper" )
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.property( "wrapper" )
+								.containerElement( "first", false, null, null, WrapperWithTwoTypeArguments.class, 0 )
+						)
 		);
 	}
 
@@ -223,7 +236,11 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<BeanWithWrapperWithTwoTypeArguments>> constraintViolations = validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "wrapper" )
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.property( "wrapper" )
+								.containerElement( "first", false, null, null, WrapperWithTwoTypeArguments.class, 0 )
+						)
 		);
 	}
 
@@ -250,7 +267,11 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		Set<ConstraintViolation<BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping>> constraintViolations =
 				validator.validate( new BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Min.class ).withProperty( "wrapper" )
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.property( "wrapper" )
+								.containerElement( "first", false, null, null, WrapperWithTwoTypeArguments.class, 0 )
+						)
 		);
 	}
 
@@ -264,6 +285,25 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.getValidator();
 
 		validator.validate( new BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping() );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
+	public void validate_forced_unwrapping_having_two_reverted_type_parameters_correctly_identifies_type_parameter() {
+		Validator validator = TestUtil.getConfigurationUnderTest()
+				.addValueExtractor( new WrapperWithTwoTypeArgumentsSecondValueExtractor() )
+				.buildValidatorFactory()
+				.getValidator();
+
+		Set<ConstraintViolation<BeanWithWrapperWithRevertedTwoTypeArgumentsAndForcedUnwrapping>> constraintViolations =
+				validator.validate( new BeanWithWrapperWithRevertedTwoTypeArgumentsAndForcedUnwrapping() );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.property( "wrapper" )
+								.containerElement( "second", false, null, null, WrapperWithRevertedTwoTypeArguments.class, 0 )
+						)
+		);
 	}
 
 	private class EntityWithSkipAndUnwrapAtTheSameTime {
@@ -339,6 +379,12 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		private final WrapperWithTwoTypeArguments<Long, String> wrapper = new WrapperWithTwoTypeArguments<>( 5L, "value" );
 	}
 
+	private class BeanWithWrapperWithRevertedTwoTypeArgumentsAndForcedUnwrapping {
+
+		@Min(value = 10, payload = Unwrapping.Unwrap.class)
+		private final WrapperWithRevertedTwoTypeArguments<Long, String> wrapper = new WrapperWithRevertedTwoTypeArguments<>( 5L, "value" );
+	}
+
 	private class ValueHolder<T> {
 
 		private final T value;
@@ -376,7 +422,13 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 			this.value1 = value1;
 			this.value2 = value2;
 		}
+	}
 
+	private class WrapperWithRevertedTwoTypeArguments<V, W> extends WrapperWithTwoTypeArguments<W, V> {
+
+		private WrapperWithRevertedTwoTypeArguments(V value1, W value2) {
+			super( value2, value1 );
+		}
 	}
 
 	private class ValueHolderExtractor implements ValueExtractor<ValueHolder<@ExtractedValue ?>> {
@@ -401,7 +453,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 		@Override
 		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
-			receiver.value( null, originalValue.value1 );
+			receiver.value( "first", originalValue.value1 );
 		}
 	}
 
@@ -410,7 +462,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 		@Override
 		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
-			receiver.value( null, originalValue.value2 );
+			receiver.value( "second", originalValue.value2 );
 		}
 	}
 
@@ -418,7 +470,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 		@Override
 		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
-			receiver.value( null, originalValue.value1 );
+			receiver.value( "first", originalValue.value1 );
 		}
 	}
 
@@ -426,7 +478,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 
 		@Override
 		public void extractValues(WrapperWithTwoTypeArguments<?, ?> originalValue, ValueExtractor.ValueReceiver receiver) {
-			receiver.value( null, originalValue.value2 );
+			receiver.value( "second", originalValue.value2 );
 		}
 	}
 }
