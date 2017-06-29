@@ -17,4 +17,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 public abstract class AbstractCalendarService {
 
 	public abstract void createEvent(Date start, Date end, List<Person> participants);
+
+	public abstract void addParticipants(Date start, Date end, List<Person> participants);
 }

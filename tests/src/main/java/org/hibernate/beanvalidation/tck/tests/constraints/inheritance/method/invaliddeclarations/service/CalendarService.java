@@ -17,4 +17,6 @@ import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.inv
 public interface CalendarService {
 
 	void createEvent(Date start, Date end, List<Person> participants);
+
+	void addParticipants(Date start, Date end, List<Person> participants);
 }
