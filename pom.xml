@@ -95,11 +95,11 @@
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <validation.api.version>2.0.0-SNAPSHOT</validation.api.version>
+        <validation.api.version>2.0.0.CR1</validation.api.version>
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency to the RI -->
-        <hibernate.validator.version>6.0.0.Beta2</hibernate.validator.version>
+        <hibernate.validator.version>6.0.0.CR1</hibernate.validator.version>
 
         <testng.version>6.11</testng.version>
         <assertj-core.version>3.7.0</assertj-core.version>
