@@ -61,6 +61,7 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	public void testSeveralGroupConversionsAppliedOnField() {
 		User userWithInvalidPreferredShipmentAddress = TestUsers.withInvalidPreferredShipmentAddress();
