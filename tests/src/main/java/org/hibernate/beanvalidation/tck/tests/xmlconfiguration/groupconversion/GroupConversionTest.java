@@ -6,12 +6,15 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.groups.Default;
 import javax.validation.metadata.ConstructorDescriptor;
 import javax.validation.metadata.GroupConversionDescriptor;
 import javax.validation.metadata.MethodDescriptor;
@@ -25,7 +28,6 @@ import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
-import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
@@ -45,10 +47,8 @@ public class GroupConversionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
-	})
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	public void testGroupConversionsAppliedOnMethod() throws Exception {
 		MethodDescriptor methodDescriptor = TestUtil.getMethodDescriptor(
 				Groups.class,
@@ -70,10 +70,8 @@ public class GroupConversionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
-	})
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	public void testGroupConversionsAppliedOnConstructor() throws Exception {
 		ConstructorDescriptor constructorDescriptor = TestUtil.getConstructorDescriptor(
 				Groups.class
@@ -85,10 +83,8 @@ public class GroupConversionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
-	})
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
 	public void testGroupConversionsAppliedOnField() throws Exception {
 		PropertyDescriptor propertyDescriptor = TestUtil.getPropertyDescriptor(
 				Groups.class, "foo"
@@ -100,10 +96,9 @@ public class GroupConversionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertions({
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a"),
-			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
-	})
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "a")
+	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_GROUPCONVERSIONS, id = "b")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "d")
 	public void testGroupConversionsAppliedOnGetter() throws Exception {
 		PropertyDescriptor propertyDescriptor = TestUtil.getPropertyDescriptor(
 				Groups.class, "snafu"
@@ -112,5 +107,24 @@ public class GroupConversionTest extends AbstractTCKTest {
 
 		Set<GroupConversionDescriptor> groupConversionDescriptors = propertyDescriptor.getGroupConversions();
 		assertTrue( groupConversionDescriptors.size() == 3 );
+
+		GroupConversionDescriptor groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, Default.class );
+		assertEquals( groupConversionDescriptor.getTo(), ConvertA.class );
+
+		groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, ConvertA.class );
+		assertEquals( groupConversionDescriptor.getTo(), ConvertB.class );
+
+		groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, ConvertB.class );
+		assertEquals( groupConversionDescriptor.getTo(), ConvertC.class );
+	}
+
+	private GroupConversionDescriptor getGroupConversionDescriptorByFrom(Set<GroupConversionDescriptor> groupConversionDescriptors, Class<?> from) {
+		Optional<GroupConversionDescriptor> groupConversionDescriptor = groupConversionDescriptors.stream()
+				.filter( gcd -> from.equals( gcd.getFrom() ) )
+				.findAny();
+
+		return groupConversionDescriptor
+				.orElseThrow( () -> new IllegalStateException(
+						String.format( "Unable to find group conversion with from %1$s in %2$s", from, groupConversionDescriptors ) ) );
 	}
 }
