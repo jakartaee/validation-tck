@@ -213,7 +213,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.iterator().next();
 
 		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Min.class );
-		assertEquals( minConstraintDescriptor.validateUnwrappedValue(), ValidateUnwrappedValue.DEFAULT );
+		assertEquals( minConstraintDescriptor.getValueUnwrapping(), ValidateUnwrappedValue.DEFAULT );
 
 		minConstraintDescriptor = validator.getConstraintsForClass( WrapperWithDisabledUnwrapping.class )
 				.getConstraintsForProperty( "integerWrapper" )
@@ -221,7 +221,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.iterator().next();
 
 		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Null.class );
-		assertEquals( minConstraintDescriptor.validateUnwrappedValue(), ValidateUnwrappedValue.NO );
+		assertEquals( minConstraintDescriptor.getValueUnwrapping(), ValidateUnwrappedValue.SKIP );
 
 		minConstraintDescriptor = validator.getConstraintsForClass( WrapperWithForcedUnwrapping.class )
 				.getConstraintsForProperty( "integerWrapper" )
@@ -229,7 +229,7 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.iterator().next();
 
 		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Min.class );
-		assertEquals( minConstraintDescriptor.validateUnwrappedValue(), ValidateUnwrappedValue.YES );
+		assertEquals( minConstraintDescriptor.getValueUnwrapping(), ValidateUnwrappedValue.UNWRAP );
 	}
 
 	@Test
