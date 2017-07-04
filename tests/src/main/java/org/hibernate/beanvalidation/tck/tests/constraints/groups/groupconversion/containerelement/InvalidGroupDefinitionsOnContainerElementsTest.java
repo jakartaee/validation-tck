@@ -103,20 +103,20 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "e")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "f")
 	public void testSeveralGroupConversionsWithSameFrom() {
 		getValidator().validate( new UserWithSeveralContainerElementGroupConversionsForSameFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "g")
 	public void testGroupConversionWithSequenceAsFrom() {
 		getValidator().validate( new UserWithContainerElementGroupConversionWithSequenceAsFrom() );
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterInSubClass() throws Exception {
 		Object object = new SubClassWithGroupConversionOnParameter();
 		Method method = SubClassWithGroupConversionOnParameter.class.getMethod(
@@ -129,8 +129,8 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterInImplementingClass() throws Exception {
 		Object object = new InterfaceImplementationWithGroupConversionOnParameter();
 		Method method = InterfaceImplementationWithGroupConversionOnParameter.class.getMethod(
@@ -143,8 +143,8 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterInParallelInterfaces() throws Exception {
 		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnParameter();
 		Method method = ImplementationOfParallelInterfacesWithGroupConversionOnParameter.class.getMethod(
@@ -157,8 +157,8 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnReturnValueInParallelInterfaces() throws Exception {
 		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue();
 		Method method = ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue.class.getMethod(
@@ -170,8 +170,8 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterImplementedInterfaceWithSuperClass()
 			throws Exception {
 		Object object = new ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass();
@@ -183,8 +183,8 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 	}
 
 	@Test(expectedExceptions = ConstraintDeclarationException.class)
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnReturnValueInImplementedInterfaceWithSuperClass()
 			throws Exception {
 		Object object = new ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass();

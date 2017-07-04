@@ -280,7 +280,7 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "d")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "e")
 	public void testGroupConversionIsNotExecutedRecursively() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( TestUsers.withInvalidOfficeAddress() );
 
@@ -306,7 +306,7 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "g")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "h")
 	public void testGroupConversionWithSequenceAsTo() {
 		User user = TestUsers.validUser();
 
