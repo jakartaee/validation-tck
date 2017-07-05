@@ -3,6 +3,19 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.CR2 (05-07-2017)
+----------------------
+
+** Improvement
+    * [BVTCK-172] - Use the full URLs in xsi:schemaLocation of our XML files
+
+** Task
+    * [BVTCK-175] - Update the BV API and HV to CR2
+    * [BVTCK-174] - from of @ConvertGroup and <convert-group /> now has a default value
+    * [BVTCK-173] - Take into account API changes introduced as part of BVAL-674
+    * [BVTCK-171] - Add tests for getInvalidValue() for container element constraints
+    * [BVTCK-162] - Add test for Section 10 - Exception model - a - exception wrapping
+
 2.0.0.CR1 (29-06-2017)
 ----------------------
 
