@@ -6,7 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequence;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -71,18 +73,28 @@ public class SequenceResolutionTest extends AbstractTCKTest {
 
 		// the constraint fails for each group
 		Set<ConstraintViolation<Car>> violations = validator.validate( car, First.class );
-		assertNumberOfViolations( violations, 1 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+		);
 
 		violations = validator.validate( car, Second.class );
-		assertNumberOfViolations( violations, 2 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( Pattern.class )
+		);
 
 		// if we validate against the sequence All we only get one violation since group Second won't be executed
 		violations = validator.validate( car, All.class );
-		assertNumberOfViolations( violations, 1 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+		);
 
 		// if we validate against the sequence AllReverse we only get two violations since group First won't be executed
 		violations = validator.validate( car, AllReverse.class );
-		assertNumberOfViolations( violations, 2 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( Pattern.class )
+		);
 	}
 
 	class Car {

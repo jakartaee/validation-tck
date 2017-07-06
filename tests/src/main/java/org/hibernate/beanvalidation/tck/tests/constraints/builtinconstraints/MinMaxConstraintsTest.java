@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -52,16 +52,11 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<MinDummyEntity>> constraintViolations = validator.validate( dummy );
 		// only the min constraints on the primitive values should fail. Object values re still null and should pass per spec
-		assertNumberOfViolations( constraintViolations, 4 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "bytePrimitive" ),
+				violationOf( Min.class ).withProperty( "intPrimitive" ),
+				violationOf( Min.class ).withProperty( "longPrimitive" ),
+				violationOf( Min.class ).withProperty( "shortPrimitive" )
 		);
 
 
@@ -78,20 +73,13 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 6 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "byteObject" ),
+				violationOf( Min.class ).withProperty( "intObject" ),
+				violationOf( Min.class ).withProperty( "longObject" ),
+				violationOf( Min.class ).withProperty( "shortObject" ),
+				violationOf( Min.class ).withProperty( "bigDecimal" ),
+				violationOf( Min.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intObject = Integer.valueOf( "101" );
@@ -102,7 +90,7 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 101 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -119,16 +107,11 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<MaxDummyEntity>> constraintViolations = validator.validate( dummy );
 		// only the max constraints on the primitive values should fail. Object values re still null and should pass per spec
-		assertNumberOfViolations( constraintViolations, 4 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Max.class ).withProperty( "bytePrimitive" ),
+				violationOf( Max.class ).withProperty( "intPrimitive" ),
+				violationOf( Max.class ).withProperty( "longPrimitive" ),
+				violationOf( Max.class ).withProperty( "shortPrimitive" )
 		);
 
 
@@ -145,20 +128,13 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 102 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 6 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Max.class ).withProperty( "byteObject" ),
+				violationOf( Max.class ).withProperty( "intObject" ),
+				violationOf( Max.class ).withProperty( "longObject" ),
+				violationOf( Max.class ).withProperty( "shortObject" ),
+				violationOf( Max.class ).withProperty( "bigDecimal" ),
+				violationOf( Max.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intObject = Integer.valueOf( "101" );
@@ -169,7 +145,7 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private static class MinDummyEntity {

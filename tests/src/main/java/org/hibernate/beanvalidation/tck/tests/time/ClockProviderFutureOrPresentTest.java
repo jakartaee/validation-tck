@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.time;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -17,6 +17,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.FutureOrPresent;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -51,7 +52,7 @@ public class ClockProviderFutureOrPresentTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 
-		assertNumberOfViolations( validator.validate( dummy ), 0 );
+		assertNoViolations( validator.validate( dummy ) );
 
 		FixedClockProvider clockProvider = new FixedClockProvider(
 				ZonedDateTime.of(
@@ -65,34 +66,20 @@ public class ClockProviderFutureOrPresentTest extends AbstractTCKTest {
 		validator = validatorFactory.getValidator();
 
 		Set<ConstraintViolation<FutureOrPresentDummyEntity>> violations = validator.validate( dummy );
-		assertNumberOfViolations( violations, 13 );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( FutureOrPresent.class ).withProperty( "date" ),
+				violationOf( FutureOrPresent.class ).withProperty( "calendar" ),
+				violationOf( FutureOrPresent.class ).withProperty( "instant" ),
+				violationOf( FutureOrPresent.class ).withProperty( "hijrahDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "japaneseDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "localDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "localDateTime" ),
+				violationOf( FutureOrPresent.class ).withProperty( "minguoDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "offsetDateTime" ),
+				violationOf( FutureOrPresent.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "year" ),
+				violationOf( FutureOrPresent.class ).withProperty( "yearMonth" ),
+				violationOf( FutureOrPresent.class ).withProperty( "zonedDateTime" )
 		);
 	}
 
@@ -107,7 +94,7 @@ public class ClockProviderFutureOrPresentTest extends AbstractTCKTest {
 				.buildValidatorFactory();
 		Validator validator = validatorFactory.getValidator();
 
-		assertNumberOfViolations( validator.validate( dummy ), 0 );
+		assertNoViolations( validator.validate( dummy ) );
 
 		clockProvider = new FixedClockProvider( ZonedDateTime.of( 2016, 8, 17, 17, 45, 0, 0, TZ_BERLIN ) );
 		validatorFactory = TestUtil.getConfigurationUnderTest()
@@ -116,14 +103,10 @@ public class ClockProviderFutureOrPresentTest extends AbstractTCKTest {
 		validator = validatorFactory.getValidator();
 
 		Set<ConstraintViolation<FutureOrPresentRelativePartialDummyEntity>> violations = validator.validate( dummy );
-		assertNumberOfViolations( violations, 3 );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( FutureOrPresent.class ).withProperty( "localTime" ),
+				violationOf( FutureOrPresent.class ).withProperty( "monthDay" ),
+				violationOf( FutureOrPresent.class ).withProperty( "offsetTime" )
 		);
 	}
 

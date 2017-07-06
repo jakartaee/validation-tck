@@ -7,7 +7,7 @@
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.RETURN_VALUE_NODE_NAME;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertSame;
@@ -428,7 +428,7 @@ public class TraversableResolverTest extends AbstractTCKTest {
 
 		Person person = new Person();
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( person );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test

@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getDefaultMessageInterpolator;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
 import static org.testng.Assert.assertEquals;
@@ -123,9 +123,8 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		Set<ConstraintViolation<DummyEntity>> constraintViolations = validator.validateProperty(
 				new DummyEntity(), "snafu"
 		);
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "messages can also be overridden at constraint declaration."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "messages can also be overridden at constraint declaration." )
 		);
 	}
 
@@ -316,16 +315,17 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "g")
 	public void testExceptionDuringMessageInterpolationIsWrappedIntoValidationException() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		ExceptionThrowingMessageInterpolator interpolator = new ExceptionThrowingMessageInterpolator();
-		Validator validator = factory.usingContext().messageInterpolator( interpolator ).getValidator();
+		try ( ValidatorFactory factory = Validation.buildDefaultValidatorFactory() ) {
+			ExceptionThrowingMessageInterpolator interpolator = new ExceptionThrowingMessageInterpolator();
+			Validator validator = factory.usingContext().messageInterpolator( interpolator ).getValidator();
 
-		try {
-			validator.validate( new TestBeanWithPropertyConstraint( "Bob" ) );
-			fail( "Expected exception wasn't thrown." );
-		}
-		catch ( ValidationException ve ) {
-			assertEquals( ve.getCause(), interpolator.exception );
+			try {
+				validator.validate( new TestBeanWithPropertyConstraint( "Bob" ) );
+				fail( "Expected exception wasn't thrown." );
+			}
+			catch (ValidationException ve) {
+				assertEquals( ve.getCause(), interpolator.exception );
+			}
 		}
 	}
 

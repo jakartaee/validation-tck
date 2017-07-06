@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -56,18 +56,12 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<DigitsDummyEntity>> constraintViolations = validator.validate( dummy );
 		// only the max constraints on the primitive values should fail. Object values re still null and should pass per spec
-		assertNumberOfViolations( constraintViolations, 4 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Digits.class ).withProperty( "bytePrimitive" ),
+				violationOf( Digits.class ).withProperty( "intPrimitive" ),
+				violationOf( Digits.class ).withProperty( "longPrimitive" ),
+				violationOf( Digits.class ).withProperty( "shortPrimitive" )
 		);
-
 
 		dummy.intPrimitive = 1;
 		dummy.longPrimitive = 1;
@@ -82,20 +76,13 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 102 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 6 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Digits.class ).withProperty( "byteObject" ),
+				violationOf( Digits.class ).withProperty( "intObject" ),
+				violationOf( Digits.class ).withProperty( "longObject" ),
+				violationOf( Digits.class ).withProperty( "shortObject" ),
+				violationOf( Digits.class ).withProperty( "bigDecimal" ),
+				violationOf( Digits.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intObject = Integer.valueOf( "1" );
@@ -106,7 +93,7 @@ public class DigitsConstraintTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 5 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private static class DigitsDummyEntity {

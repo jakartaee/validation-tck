@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
@@ -51,7 +52,9 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Abstract
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 

@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -19,6 +19,7 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
+import javax.validation.constraints.Size;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -75,13 +76,12 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertNumberOfViolations( violations, 1 );
-
-		assertCorrectConstraintTypes( violations, ValidCustomer.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						)
 		);
 
 		ConstraintViolation<Customer> violation = violations.iterator().next();
@@ -104,16 +104,17 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertNumberOfViolations( violations, 2 );
-
-		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue(),
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						),
+				violationOf( ValidBusinessCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -128,16 +129,17 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertNumberOfViolations( violations, 2 );
-
-		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidCustomer.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue(),
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						),
+				violationOf( ValidCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -152,7 +154,7 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	@Test
@@ -166,7 +168,7 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
@@ -174,11 +176,12 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, ValidCustomer.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -193,7 +196,7 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateConstructorReturnValue(
 				constructor,
@@ -202,14 +205,17 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, ValidCustomer.class, ValidBusinessCustomer.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue(),
-				pathWith()
-						.constructor( Customer.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						),
+				violationOf( ValidBusinessCustomer.class )
+						.withPropertyPath( pathWith()
+								.constructor( Customer.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -287,7 +293,9 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 				createdObject
 		);
 
-		assertNumberOfViolations( violations, 1 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+		);
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
 

@@ -6,10 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -48,47 +47,37 @@ public class NotBlankConstraintTest extends AbstractTCKTest {
 		NotBlankDummyEntity foo = new NotBlankDummyEntity();
 
 		Set<ConstraintViolation<NotBlankDummyEntity>> constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = "";
 		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = " ";
 		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = "\t";
 		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = "\n";
 		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = "john doe";
 		constraintViolations = validator.validate( foo );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -100,23 +89,19 @@ public class NotBlankConstraintTest extends AbstractTCKTest {
 		NotBlankStringBuilderDummyEntity foo = new NotBlankStringBuilderDummyEntity();
 
 		Set<ConstraintViolation<NotBlankStringBuilderDummyEntity>> constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = new StringBuilder( " " );
 		constraintViolations = validator.validate( foo );
-		assertCorrectConstraintTypes( constraintViolations, NotBlank.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotBlank.class ).withProperty( "name" )
 		);
 
 		foo.name = new StringBuilder( "john doe" );
 		constraintViolations = validator.validate( foo );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private class NotBlankDummyEntity {

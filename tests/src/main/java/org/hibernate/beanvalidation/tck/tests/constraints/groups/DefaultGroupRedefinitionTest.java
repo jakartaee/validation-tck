@@ -6,10 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.fail;
 
 import java.util.Set;
@@ -18,6 +17,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.GroupDefinitionException;
 import javax.validation.GroupSequence;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -60,21 +61,21 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validate( address );
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, Address.class, null, pathWith().property( "zipcode" ) );
-		assertCorrectConstraintViolationMessages( constraintViolations, "Zipcode may not be null" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withMessage( "Zipcode may not be null" )
+						.withProperty( "zipcode" )
+		);
 
 		address.setZipcode( "41841" );
 
 		// now the second group in the re-defined default group causes an error
 		constraintViolations = validator.validate( address );
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, Address.class, address, pathWith().bean() );
-		assertCorrectConstraintViolationMessages( constraintViolations, "Zip code is not coherent." );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( ZipCodeCoherenceChecker.class )
+						.withMessage( "Zip code is not coherent." )
+						.withPropertyPath( pathWith().bean() )
+		);
 	}
 
 	@Test
@@ -88,21 +89,18 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		// if the group sequence would not be properly redefined there would be no error when validating default.
 
 		Set<ConstraintViolation<Car>> constraintViolations = validator.validate( car );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Car type has to be between 2 and 20 characters."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withMessage( "Car type has to be between 2 and 20 characters." )
 		);
 
 		constraintViolations = validator.validateProperty( car, "type" );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Car type has to be between 2 and 20 characters."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withMessage( "Car type has to be between 2 and 20 characters." )
 		);
 
 		constraintViolations = validator.validateValue( Car.class, "type", "A" );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Car type has to be between 2 and 20 characters."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withMessage( "Car type has to be between 2 and 20 characters." )
 		);
 	}
 

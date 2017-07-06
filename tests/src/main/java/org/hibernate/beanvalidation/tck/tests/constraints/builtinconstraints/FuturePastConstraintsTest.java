@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -75,7 +75,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		PastDummyEntity dummy = new PastDummyEntity();
 
 		Set<ConstraintViolation<PastDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		ZonedDateTime reference = ZonedDateTime.now( TZ_BERLIN );
 
@@ -83,41 +83,27 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		dummy = new PastDummyEntity( future );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 13 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Past.class ).withProperty( "date" ),
+				violationOf( Past.class ).withProperty( "calendar" ),
+				violationOf( Past.class ).withProperty( "instant" ),
+				violationOf( Past.class ).withProperty( "hijrahDate" ),
+				violationOf( Past.class ).withProperty( "japaneseDate" ),
+				violationOf( Past.class ).withProperty( "localDate" ),
+				violationOf( Past.class ).withProperty( "localDateTime" ),
+				violationOf( Past.class ).withProperty( "minguoDate" ),
+				violationOf( Past.class ).withProperty( "offsetDateTime" ),
+				violationOf( Past.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( Past.class ).withProperty( "year" ),
+				violationOf( Past.class ).withProperty( "yearMonth" ),
+				violationOf( Past.class ).withProperty( "zonedDateTime" )
 		);
 
 		ZonedDateTime past = reference.minusYears( 1 ).minusMonths( 1 ).minusHours( 1 );
 		dummy = new PastDummyEntity( past );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -137,27 +123,23 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		PastRelativePartialDummyEntity dummy = new PastRelativePartialDummyEntity();
 
 		Set<ConstraintViolation<PastRelativePartialDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		ZonedDateTime future = reference.plusMonths( 1 ).plusHours( 1 );
 		dummy = new PastRelativePartialDummyEntity( future );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 3 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Past.class ).withProperty( "localTime" ),
+				violationOf( Past.class ).withProperty( "monthDay" ),
+				violationOf( Past.class ).withProperty( "offsetTime" )
 		);
 
 		ZonedDateTime past = reference.minusMonths( 1 ).minusHours( 1 );
 		dummy = new PastRelativePartialDummyEntity( past );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -168,7 +150,7 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		FutureDummyEntity dummy = new FutureDummyEntity();
 
 		Set<ConstraintViolation<FutureDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		ZonedDateTime reference = ZonedDateTime.now( TZ_BERLIN );
 
@@ -176,41 +158,27 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		dummy = new FutureDummyEntity( past );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 13 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Future.class ).withProperty( "date" ),
+				violationOf( Future.class ).withProperty( "calendar" ),
+				violationOf( Future.class ).withProperty( "instant" ),
+				violationOf( Future.class ).withProperty( "hijrahDate" ),
+				violationOf( Future.class ).withProperty( "japaneseDate" ),
+				violationOf( Future.class ).withProperty( "localDate" ),
+				violationOf( Future.class ).withProperty( "localDateTime" ),
+				violationOf( Future.class ).withProperty( "minguoDate" ),
+				violationOf( Future.class ).withProperty( "offsetDateTime" ),
+				violationOf( Future.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( Future.class ).withProperty( "year" ),
+				violationOf( Future.class ).withProperty( "yearMonth" ),
+				violationOf( Future.class ).withProperty( "zonedDateTime" )
 		);
 
 		ZonedDateTime future = reference.plusYears( 1 ).plusMonths( 1 ).plusHours( 1 );
 		dummy = new FutureDummyEntity( future );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -230,27 +198,23 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		FutureRelativePartialDummyEntity dummy = new FutureRelativePartialDummyEntity();
 
 		Set<ConstraintViolation<FutureRelativePartialDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		ZonedDateTime past = reference.minusMonths( 1 ).minusHours( 1 );
 		dummy = new FutureRelativePartialDummyEntity( past );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 3 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Future.class ).withProperty( "localTime" ),
+				violationOf( Future.class ).withProperty( "monthDay" ),
+				violationOf( Future.class ).withProperty( "offsetTime" )
 		);
 
 		ZonedDateTime future = reference.plusMonths( 1 ).plusHours( 1 );
 		dummy = new FutureRelativePartialDummyEntity( future );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -266,80 +230,52 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		PastDummyEntity pastDummy = new PastDummyEntity( reference );
 
 		Set<ConstraintViolation<PastDummyEntity>> pastConstraintViolations = validator.validate( pastDummy );
-		assertNumberOfViolations( pastConstraintViolations, 13 );
-		assertThat( pastConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( pastConstraintViolations ).containsOnlyViolations(
+				violationOf( Past.class ).withProperty( "date" ),
+				violationOf( Past.class ).withProperty( "calendar" ),
+				violationOf( Past.class ).withProperty( "instant" ),
+				violationOf( Past.class ).withProperty( "hijrahDate" ),
+				violationOf( Past.class ).withProperty( "japaneseDate" ),
+				violationOf( Past.class ).withProperty( "localDate" ),
+				violationOf( Past.class ).withProperty( "localDateTime" ),
+				violationOf( Past.class ).withProperty( "minguoDate" ),
+				violationOf( Past.class ).withProperty( "offsetDateTime" ),
+				violationOf( Past.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( Past.class ).withProperty( "year" ),
+				violationOf( Past.class ).withProperty( "yearMonth" ),
+				violationOf( Past.class ).withProperty( "zonedDateTime" )
 		);
 
 		PastOrPresentDummyEntity pastOrPresentDummy = new PastOrPresentDummyEntity();
 		Set<ConstraintViolation<PastOrPresentDummyEntity>> pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 0 );
+		assertNoViolations( pastOrPresentConstraintViolations );
 
 		pastOrPresentDummy = new PastOrPresentDummyEntity( reference );
 		pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 0 );
+		assertNoViolations( pastOrPresentConstraintViolations );
 
 		ZonedDateTime pastDate = ZonedDateTime.of( 2015, 5, 5, 13, 14, 0, 0, TZ_BERLIN );
 		pastOrPresentDummy = new PastOrPresentDummyEntity( pastDate );
 		pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 0 );
+		assertNoViolations( pastOrPresentConstraintViolations );
 
 		ZonedDateTime futureDate = ZonedDateTime.of( 2017, 7, 7, 15, 32, 0, 0, TZ_BERLIN );
 		pastOrPresentDummy = new PastOrPresentDummyEntity( futureDate );
 		pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastConstraintViolations, 13 );
-		assertThat( pastConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( pastOrPresentConstraintViolations ).containsOnlyViolations(
+				violationOf( PastOrPresent.class ).withProperty( "date" ),
+				violationOf( PastOrPresent.class ).withProperty( "calendar" ),
+				violationOf( PastOrPresent.class ).withProperty( "instant" ),
+				violationOf( PastOrPresent.class ).withProperty( "hijrahDate" ),
+				violationOf( PastOrPresent.class ).withProperty( "japaneseDate" ),
+				violationOf( PastOrPresent.class ).withProperty( "localDate" ),
+				violationOf( PastOrPresent.class ).withProperty( "localDateTime" ),
+				violationOf( PastOrPresent.class ).withProperty( "minguoDate" ),
+				violationOf( PastOrPresent.class ).withProperty( "offsetDateTime" ),
+				violationOf( PastOrPresent.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( PastOrPresent.class ).withProperty( "year" ),
+				violationOf( PastOrPresent.class ).withProperty( "yearMonth" ),
+				violationOf( PastOrPresent.class ).withProperty( "zonedDateTime" )
 		);
 	}
 
@@ -356,40 +292,32 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		PastRelativePartialDummyEntity pastDummy = new PastRelativePartialDummyEntity( reference );
 
 		Set<ConstraintViolation<PastRelativePartialDummyEntity>> pastConstraintViolations = validator.validate( pastDummy );
-		assertNumberOfViolations( pastConstraintViolations, 3 );
-		assertThat( pastConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( pastConstraintViolations ).containsOnlyViolations(
+				violationOf( Past.class ).withProperty( "localTime" ),
+				violationOf( Past.class ).withProperty( "monthDay" ),
+				violationOf( Past.class ).withProperty( "offsetTime" )
 		);
 
 		PastOrPresentRelativePartialDummyEntity pastOrPresentDummy = new PastOrPresentRelativePartialDummyEntity();
 		Set<ConstraintViolation<PastOrPresentRelativePartialDummyEntity>> pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 0 );
+		assertNoViolations( pastOrPresentConstraintViolations );
 
 		pastOrPresentDummy = new PastOrPresentRelativePartialDummyEntity( reference );
 		pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 0 );
+		assertNoViolations( pastOrPresentConstraintViolations );
 
 		ZonedDateTime pastDate = ZonedDateTime.of( 2015, 5, 5, 13, 14, 0, 0, TZ_BERLIN );
 		pastOrPresentDummy = new PastOrPresentRelativePartialDummyEntity( pastDate );
 		pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 0 );
+		assertNoViolations( pastOrPresentConstraintViolations );
 
 		ZonedDateTime futureDate = ZonedDateTime.of( 2017, 7, 7, 15, 32, 0, 0, TZ_BERLIN );
 		pastOrPresentDummy = new PastOrPresentRelativePartialDummyEntity( futureDate );
 		pastOrPresentConstraintViolations = validator.validate( pastOrPresentDummy );
-		assertNumberOfViolations( pastOrPresentConstraintViolations, 3 );
-		assertThat( pastOrPresentConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( pastOrPresentConstraintViolations ).containsOnlyViolations(
+				violationOf( PastOrPresent.class ).withProperty( "localTime" ),
+				violationOf( PastOrPresent.class ).withProperty( "monthDay" ),
+				violationOf( PastOrPresent.class ).withProperty( "offsetTime" )
 		);
 	}
 
@@ -406,80 +334,52 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		FutureDummyEntity futureDummy = new FutureDummyEntity( reference );
 
 		Set<ConstraintViolation<FutureDummyEntity>> futureConstraintViolations = validator.validate( futureDummy );
-		assertNumberOfViolations( futureConstraintViolations, 13 );
-		assertThat( futureConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( futureConstraintViolations ).containsOnlyViolations(
+				violationOf( Future.class ).withProperty( "date" ),
+				violationOf( Future.class ).withProperty( "calendar" ),
+				violationOf( Future.class ).withProperty( "instant" ),
+				violationOf( Future.class ).withProperty( "hijrahDate" ),
+				violationOf( Future.class ).withProperty( "japaneseDate" ),
+				violationOf( Future.class ).withProperty( "localDate" ),
+				violationOf( Future.class ).withProperty( "localDateTime" ),
+				violationOf( Future.class ).withProperty( "minguoDate" ),
+				violationOf( Future.class ).withProperty( "offsetDateTime" ),
+				violationOf( Future.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( Future.class ).withProperty( "year" ),
+				violationOf( Future.class ).withProperty( "yearMonth" ),
+				violationOf( Future.class ).withProperty( "zonedDateTime" )
 		);
 
 		FutureOrPresentDummyEntity futureOrPresentDummy = new FutureOrPresentDummyEntity();
 		Set<ConstraintViolation<FutureOrPresentDummyEntity>> futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 0 );
+		assertNoViolations( futureOrPresentConstraintViolations );
 
 		futureOrPresentDummy = new FutureOrPresentDummyEntity( reference );
 		futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 0 );
+		assertNoViolations( futureOrPresentConstraintViolations );
 
 		ZonedDateTime futureDate = ZonedDateTime.of( 2017, 7, 7, 15, 32, 0, 0, TZ_BERLIN );
 		futureOrPresentDummy = new FutureOrPresentDummyEntity( futureDate );
 		futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 0 );
+		assertNoViolations( futureOrPresentConstraintViolations );
 
 		ZonedDateTime pastDate = ZonedDateTime.of( 2015, 4, 3, 12, 20, 0, 0, TZ_BERLIN );
 		futureOrPresentDummy = new FutureOrPresentDummyEntity( pastDate );
 		futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureConstraintViolations, 13 );
-		assertThat( futureConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "date" ),
-				pathWith()
-						.property( "calendar" ),
-				pathWith()
-						.property( "instant" ),
-				pathWith()
-						.property( "hijrahDate" ),
-				pathWith()
-						.property( "japaneseDate" ),
-				pathWith()
-						.property( "localDate" ),
-				pathWith()
-						.property( "localDateTime" ),
-				pathWith()
-						.property( "minguoDate" ),
-				pathWith()
-						.property( "offsetDateTime" ),
-				pathWith()
-						.property( "thaiBuddhistDate" ),
-				pathWith()
-						.property( "year" ),
-				pathWith()
-						.property( "yearMonth" ),
-				pathWith()
-						.property( "zonedDateTime" )
+		assertThat( futureOrPresentConstraintViolations ).containsOnlyViolations(
+				violationOf( FutureOrPresent.class ).withProperty( "date" ),
+				violationOf( FutureOrPresent.class ).withProperty( "calendar" ),
+				violationOf( FutureOrPresent.class ).withProperty( "instant" ),
+				violationOf( FutureOrPresent.class ).withProperty( "hijrahDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "japaneseDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "localDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "localDateTime" ),
+				violationOf( FutureOrPresent.class ).withProperty( "minguoDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "offsetDateTime" ),
+				violationOf( FutureOrPresent.class ).withProperty( "thaiBuddhistDate" ),
+				violationOf( FutureOrPresent.class ).withProperty( "year" ),
+				violationOf( FutureOrPresent.class ).withProperty( "yearMonth" ),
+				violationOf( FutureOrPresent.class ).withProperty( "zonedDateTime" )
 		);
 	}
 
@@ -496,40 +396,32 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 		FutureRelativePartialDummyEntity futureDummy = new FutureRelativePartialDummyEntity( reference );
 
 		Set<ConstraintViolation<FutureRelativePartialDummyEntity>> futureConstraintViolations = validator.validate( futureDummy );
-		assertNumberOfViolations( futureConstraintViolations, 3 );
-		assertThat( futureConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( futureConstraintViolations ).containsOnlyViolations(
+				violationOf( Future.class ).withProperty( "localTime" ),
+				violationOf( Future.class ).withProperty( "monthDay" ),
+				violationOf( Future.class ).withProperty( "offsetTime" )
 		);
 
 		FutureOrPresentRelativePartialDummyEntity futureOrPresentDummy = new FutureOrPresentRelativePartialDummyEntity();
 		Set<ConstraintViolation<FutureOrPresentRelativePartialDummyEntity>> futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 0 );
+		assertNoViolations( futureOrPresentConstraintViolations );
 
 		futureOrPresentDummy = new FutureOrPresentRelativePartialDummyEntity( reference );
 		futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 0 );
+		assertNoViolations( futureOrPresentConstraintViolations );
 
 		ZonedDateTime futureDate = ZonedDateTime.of( 2017, 7, 7, 15, 32, 0, 0, TZ_BERLIN );
 		futureOrPresentDummy = new FutureOrPresentRelativePartialDummyEntity( futureDate );
 		futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 0 );
+		assertNoViolations( futureOrPresentConstraintViolations );
 
 		ZonedDateTime pastDate = ZonedDateTime.of( 2015, 4, 3, 12, 20, 0, 0, TZ_BERLIN );
 		futureOrPresentDummy = new FutureOrPresentRelativePartialDummyEntity( pastDate );
 		futureOrPresentConstraintViolations = validator.validate( futureOrPresentDummy );
-		assertNumberOfViolations( futureOrPresentConstraintViolations, 3 );
-		assertThat( futureOrPresentConstraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "localTime" ),
-				pathWith()
-						.property( "monthDay" ),
-				pathWith()
-						.property( "offsetTime" )
+		assertThat( futureOrPresentConstraintViolations ).containsOnlyViolations(
+				violationOf( FutureOrPresent.class ).withProperty( "localTime" ),
+				violationOf( FutureOrPresent.class ).withProperty( "monthDay" ),
+				violationOf( FutureOrPresent.class ).withProperty( "offsetTime" )
 		);
 	}
 

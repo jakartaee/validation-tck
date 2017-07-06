@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -48,18 +48,20 @@ public class PatternConstraintTest extends AbstractTCKTest {
 		PatternDummyEntity dummy = new PatternDummyEntity();
 
 		Set<ConstraintViolation<PatternDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.pattern = "ab cd";
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), PatternDummyEntity.class, "ab cd", pathWith().property( "pattern" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+						.withProperty( "pattern" )
+						.withInvalidValue( "ab cd" )
+						.withRootBeanClass( PatternDummyEntity.class )
 		);
 
 		dummy.pattern = "wc 00";
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private static class PatternDummyEntity {

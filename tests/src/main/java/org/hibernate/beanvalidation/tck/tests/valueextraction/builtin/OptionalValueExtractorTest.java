@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.builtin;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
@@ -50,7 +50,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<OptionalHolder>> violations = validator.validate( new OptionalHolder( Optional.of( "valid" ) ) );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = validator.validate( new OptionalHolder( Optional.of( "" ) ) );
 		assertThat( violations ).containsOnlyViolations(
@@ -70,7 +70,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<OptionalIntHolder>> violations = validator.validate( new OptionalIntHolder( OptionalInt.of( 10 ) ) );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = validator.validate( new OptionalIntHolder( OptionalInt.of( 3 ) ) );
 		assertThat( violations ).containsOnlyViolations(
@@ -89,7 +89,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<OptionalLongHolder>> violations = validator.validate( new OptionalLongHolder( OptionalLong.of( 10 ) ) );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = validator.validate( new OptionalLongHolder( OptionalLong.of( 3 ) ) );
 		assertThat( violations ).containsOnlyViolations(
@@ -108,7 +108,7 @@ public class OptionalValueExtractorTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<OptionalDoubleHolder>> violations = validator.validate( new OptionalDoubleHolder( OptionalDouble.of( 10 ) ) );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = validator.validate( new OptionalDoubleHolder( OptionalDouble.of( 3 ) ) );
 		assertThat( violations ).containsOnlyViolations(

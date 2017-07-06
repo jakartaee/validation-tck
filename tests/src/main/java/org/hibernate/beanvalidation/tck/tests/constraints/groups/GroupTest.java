@@ -6,21 +6,21 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathsAreEqual;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.GroupDefinitionException;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
@@ -187,58 +187,58 @@ public class GroupTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Book>> constraintViolations = validator.validate(
 				book, First.class, Second.class, Last.class
 		);
-		assertEquals( constraintViolations.size(), 3, "Wrong number of constraints" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ),
+				violationOf( Size.class ),
+				violationOf( Size.class )
+		);
 
 		author.setFirstName( "Gavin" );
 		author.setLastName( "King" );
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
 		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
-		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
-		assertEquals( constraintViolation.getInvalidValue(), book.getTitle(), "Wrong value" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "title" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withProperty( "title" )
+						.withInvalidValue( book.getTitle() )
 		);
+		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
 
 		book.setTitle( "Hibernate Persistence with JPA" );
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "The book's subtitle can only have 30 characters"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withMessage( "The book's subtitle can only have 30 characters" )
+						.withInvalidValue( book.getSubtitle() )
+						.withProperty( "subtitle" )
 		);
 		constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
-		assertEquals( constraintViolation.getInvalidValue(), book.getSubtitle(), "Wrong value" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "subtitle" )
-		);
 
 		book.setSubtitle( "Revised Edition" );
 		author.setCompany( "JBoss a division of RedHat" );
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
 		constraintViolation = constraintViolations.iterator().next();
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "The company name can only have 20 characters"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withMessage( "The company name can only have 20 characters" )
+						.withInvalidValue( author.getCompany() )
+						.withPropertyPath( pathWith()
+								.property( "author" )
+								.property( "company" )
+
+						)
 		);
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
-		assertEquals( constraintViolation.getInvalidValue(), author.getCompany(), "Wrong value" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "author" )
-						.property( "company" )
-		);
 
 		author.setCompany( "JBoss" );
 
 		constraintViolations = validator.validate( book, First.class, Second.class, Last.class );
-		assertEquals( constraintViolations.size(), 0, "Wrong number of constraints" );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -254,21 +254,23 @@ public class GroupTest extends AbstractTCKTest {
 		book.setAuthor( author );
 
 		Set<ConstraintViolation<Book>> constraintViolations = validator.validate( book, Book.All.class );
-		assertEquals( constraintViolations.size(), 2, "Wrong number of constraints" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( Size.class )
+		);
 
 		author.setFirstName( "Gavin" );
 		author.setLastName( "King" );
 
 		constraintViolations = validator.validate( book, Book.All.class );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "The book title cannot be null" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withMessage( "The book title cannot be null" )
+						.withInvalidValue( book.getTitle() )
+						.withProperty( "title" )
+		);
 		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
 		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
-		assertEquals( constraintViolation.getInvalidValue(), book.getTitle(), "Wrong value" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "title" )
-		);
 
 		book.setTitle( "Hibernate Persistence with JPA" );
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
@@ -285,7 +287,7 @@ public class GroupTest extends AbstractTCKTest {
 		author.setCompany( "JBoss" );
 
 		constraintViolations = validator.validate( book, Book.All.class );
-		assertEquals( constraintViolations.size(), 0, "Wrong number of constraints" );
+		assertNoViolations(  constraintViolations );
 	}
 
 	@Test
@@ -320,37 +322,17 @@ public class GroupTest extends AbstractTCKTest {
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate(
 				user, User.BuyInOneClick.class, User.Optional.class
 		);
-		assertEquals(
-				constraintViolations.size(),
-				2,
-				"There should be two violations against the implicit default group"
+		// There should be two violations against the implicit default group
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withInvalidValue( null )
+						.withRootBeanClass( User.class )
+						.withProperty( "defaultCreditCard" ),
+				violationOf( Pattern.class )
+						.withInvalidValue( "+46 123-456" )
+						.withRootBeanClass( User.class )
+						.withProperty( "phoneNumber" )
 		);
-
-		for ( ConstraintViolation<User> constraintViolation : constraintViolations ) {
-			if ( pathsAreEqual(
-					constraintViolation.getPropertyPath(), pathWith().property( "defaultCreditCard" )
-			) ) {
-				assertConstraintViolation(
-						constraintViolation,
-						User.class,
-						null,
-						pathWith().property( "defaultCreditCard" )
-				);
-			}
-			else if ( pathsAreEqual(
-					constraintViolation.getPropertyPath(), pathWith().property( "phoneNumber" )
-			) ) {
-				assertConstraintViolation(
-						constraintViolation,
-						User.class,
-						"+46 123-456",
-						pathWith().property( "phoneNumber" )
-				);
-			}
-			else {
-				fail( "Unexpected violation" );
-			}
-		}
 	}
 
 	@Test

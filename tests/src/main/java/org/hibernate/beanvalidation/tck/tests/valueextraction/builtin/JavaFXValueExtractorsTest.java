@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.builtin;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
@@ -87,7 +87,7 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<ListPropertyEntity>> constraintViolations = validator.validate( ListPropertyEntity.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( ListPropertyEntity.invalidList() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -109,7 +109,7 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<SetPropertyEntity>> constraintViolations = validator.validate( SetPropertyEntity.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( SetPropertyEntity.invalidSet() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -131,7 +131,7 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<MapPropertyEntity>> constraintViolations = validator.validate( MapPropertyEntity.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( MapPropertyEntity.invalidMap() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -163,7 +163,7 @@ public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 		Validator validator = getValidator();
 
 		Set<ConstraintViolation<ListOfStringPropertyEntity>> constraintViolations = validator.validate( ListOfStringPropertyEntity.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( ListOfStringPropertyEntity.invalidListElement() );
 		assertThat( constraintViolations ).containsOnlyViolations(

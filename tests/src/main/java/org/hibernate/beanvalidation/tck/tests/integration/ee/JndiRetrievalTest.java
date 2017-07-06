@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -16,6 +17,7 @@ import javax.naming.InitialContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -61,7 +63,9 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 				.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 
 	@Test
@@ -73,6 +77,8 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Foo>> violations = validator.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 }

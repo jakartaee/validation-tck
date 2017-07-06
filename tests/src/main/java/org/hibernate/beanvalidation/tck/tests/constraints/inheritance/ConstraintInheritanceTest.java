@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -113,11 +114,19 @@ public class ConstraintInheritanceTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE, id = "a")
 	public void testValidationConsidersConstraintsFromSuperTypes() {
 		Set<ConstraintViolation<Bar>> violations = getValidator().validate( new Bar() );
-		assertCorrectConstraintTypes(
-				violations,
-				DecimalMin.class, DecimalMin.class, ValidBar.class, //Bar
-				NotNull.class, Size.class, ValidFoo.class, //Foo
-				NotNull.class, Size.class, ValidFubar.class //Fubar
+		assertThat( violations ).containsOnlyViolations(
+				//Bar
+				violationOf( DecimalMin.class ),
+				violationOf( DecimalMin.class ),
+				violationOf( ValidBar.class ),
+				//Foo
+				violationOf( NotNull.class ),
+				violationOf( Size.class ),
+				violationOf( ValidFoo.class ),
+				//Fubar
+				violationOf( NotNull.class ),
+				violationOf( Size.class ),
+				violationOf( ValidFubar.class )
 		);
 	}
 

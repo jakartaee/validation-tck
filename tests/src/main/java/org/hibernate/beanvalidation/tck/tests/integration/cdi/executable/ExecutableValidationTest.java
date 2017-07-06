@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -101,11 +102,10 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes(
-					e.getConstraintViolations(),
-					NotNull.class,
-					Future.class,
-					CrossParameterConstraint.class
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class ),
+					violationOf( Future.class ),
+					violationOf( CrossParameterConstraint.class )
 			);
 		}
 	}
@@ -121,7 +121,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -136,7 +138,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -162,7 +166,10 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class, CrossParameterConstraint.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( Size.class ),
+					violationOf( CrossParameterConstraint.class )
+			);
 		}
 	}
 
@@ -177,7 +184,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), ValidPersonService.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( ValidPersonService.class )
+			);
 		}
 	}
 
@@ -189,7 +198,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -211,7 +222,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -233,7 +246,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -257,7 +272,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( Size.class )
+			);
 		}
 
 		//method should not be invoked
@@ -269,7 +286,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), DecimalMin.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( DecimalMin.class )
+			);
 		}
 
 		//method should have been invoked
@@ -293,7 +312,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), Size.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( Size.class )
+			);
 		}
 
 		//constructor should not be invoked
@@ -306,7 +327,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), ValidAnotherBookingService.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( ValidAnotherBookingService.class )
+			);
 		}
 
 		//constructor should have been invoked
@@ -328,7 +351,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -340,7 +365,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -352,7 +379,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -364,7 +393,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -376,7 +407,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -388,7 +421,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -400,7 +435,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 	}
 
@@ -412,7 +449,9 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
-			assertCorrectConstraintTypes( e.getConstraintViolations(), NotNull.class );
+			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
+					violationOf( NotNull.class )
+			);
 		}
 
 		String expressDelivery = deliveryService.createExpressDelivery( null );

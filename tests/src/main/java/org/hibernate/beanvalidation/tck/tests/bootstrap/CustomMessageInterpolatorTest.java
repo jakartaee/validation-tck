@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertFalse;
 
 import java.util.Locale;
@@ -24,10 +24,12 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
+
 import org.testng.annotations.Test;
 
 /**
@@ -58,14 +60,15 @@ public class CustomMessageInterpolatorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "g")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_CUSTOMRESOLUTION, id = "e")
 	public void testCustomMessageInterpolatorViaValidatorContext() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		DummyMessageInterpolator dummyMessageInterpolator = new DummyMessageInterpolator();
-		Validator validator = factory.usingContext().messageInterpolator( dummyMessageInterpolator ).getValidator();
-		assertCustomMessageInterpolatorUsed( validator );
-		assertFalse(
-				factory.getMessageInterpolator().equals( dummyMessageInterpolator ),
-				"getMessageInterpolator() should return the default message interpolator."
-		);
+		try ( ValidatorFactory factory = Validation.buildDefaultValidatorFactory() ) {
+			DummyMessageInterpolator dummyMessageInterpolator = new DummyMessageInterpolator();
+			Validator validator = factory.usingContext().messageInterpolator( dummyMessageInterpolator ).getValidator();
+			assertCustomMessageInterpolatorUsed( validator );
+			assertFalse(
+					factory.getMessageInterpolator().equals( dummyMessageInterpolator ),
+					"getMessageInterpolator() should return the default message interpolator."
+			);
+		}
 	}
 
 	private void assertCustomMessageInterpolatorUsed(Validator validator) {
@@ -74,11 +77,13 @@ public class CustomMessageInterpolatorTest extends AbstractTCKTest {
 		person.setPersonalNumber( 1234567890l );
 
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( person );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "my custom message" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "my custom message" )
+		);
 	}
 
 	private static class DummyMessageInterpolator implements MessageInterpolator {
+
 		@Override
 		public String interpolate(String message, Context context) {
 			return "my custom message";
@@ -91,6 +96,7 @@ public class CustomMessageInterpolatorTest extends AbstractTCKTest {
 	}
 
 	public class Person {
+
 		@NotNull
 		private String firstName;
 
@@ -99,7 +105,6 @@ public class CustomMessageInterpolatorTest extends AbstractTCKTest {
 
 		@Digits(integer = 10, fraction = 0)
 		private long personalNumber;
-
 
 		public String getFirstName() {
 			return firstName;

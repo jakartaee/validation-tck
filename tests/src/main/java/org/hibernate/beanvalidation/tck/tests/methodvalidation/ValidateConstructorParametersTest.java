@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
@@ -75,13 +75,12 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 1 );
-
-		assertCorrectConstraintTypes( violations, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "firstName", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "firstName", 0 )
+						)
 		);
 
 		ConstraintViolation<User> violation = violations.iterator().next();
@@ -106,13 +105,12 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 1 );
-
-		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.crossParameter()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.crossParameter()
+						)
 		);
 
 		ConstraintViolation<User> violation = violations.iterator().next();
@@ -135,16 +133,17 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 2 );
-
-		assertCorrectConstraintTypes( violations, NotNull.class, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "firstName", 0 ),
-				pathWith()
-						.constructor( User.class )
-						.parameter( "lastName", 1 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "firstName", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "lastName", 1 )
+						)
 		);
 	}
 
@@ -159,16 +158,17 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 2 );
-
-		assertCorrectConstraintTypes( violations, Pattern.class, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "firstName", 0 ),
-				pathWith()
-						.constructor( User.class )
-						.parameter( "firstName", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "firstName", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "firstName", 0 )
+						)
 		);
 	}
 
@@ -183,16 +183,17 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 2 );
-
-		assertCorrectConstraintTypes( violations, Size.class, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "lastName", 0 ),
-				pathWith()
-						.constructor( User.class )
-						.parameter( "lastName", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "lastName", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "lastName", 0 )
+						)
 		);
 	}
 
@@ -211,20 +212,17 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 2 );
-
-		assertCorrectConstraintTypes(
-				violations,
-				MyCrossParameterConstraint.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.crossParameter(),
-				pathWith()
-						.constructor( User.class )
-						.crossParameter()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.crossParameter()
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -242,7 +240,7 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	@Test
@@ -256,7 +254,7 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
@@ -264,11 +262,12 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "lastName", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "lastName", 0 )
+						)
 		);
 	}
 
@@ -286,7 +285,7 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
@@ -294,11 +293,12 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.crossParameter()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -317,7 +317,7 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateConstructorParameters(
 				constructor,
@@ -326,17 +326,22 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				Extended.class
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class, Size.class, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "firstName", 0 ),
-				pathWith()
-						.constructor( User.class )
-						.parameter( "lastName", 1 ),
-				pathWith()
-						.constructor( User.class )
-						.parameter( "dateOfBirth", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "firstName", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "lastName", 1 )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( User.class )
+								.parameter( "dateOfBirth", 2 )
+						)
 		);
 	}
 
@@ -414,7 +419,9 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 1 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+		);
 
 		ConstraintViolation<OrderLine> violation = violations.iterator().next();
 

@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -53,19 +53,13 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		NegativeEntity dummy = new NegativeEntity();
 
 		Set<ConstraintViolation<NegativeEntity>> constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Negative.class ).withProperty( "bytePrimitive" ),
+				violationOf( Negative.class ).withProperty( "intPrimitive" ),
+				violationOf( Negative.class ).withProperty( "longPrimitive" ),
+				violationOf( Negative.class ).withProperty( "shortPrimitive" ),
+				violationOf( Negative.class ).withProperty( "doublePrimitive" ),
+				violationOf( Negative.class ).withProperty( "floatPrimitive" )
 		);
 
 		dummy.intPrimitive = 101;
@@ -84,35 +78,21 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Negative.class ).withProperty( "bytePrimitive" ),
+				violationOf( Negative.class ).withProperty( "intPrimitive" ),
+				violationOf( Negative.class ).withProperty( "longPrimitive" ),
+				violationOf( Negative.class ).withProperty( "shortPrimitive" ),
+				violationOf( Negative.class ).withProperty( "doublePrimitive" ),
+				violationOf( Negative.class ).withProperty( "floatPrimitive" ),
+				violationOf( Negative.class ).withProperty( "byteObject" ),
+				violationOf( Negative.class ).withProperty( "intObject" ),
+				violationOf( Negative.class ).withProperty( "longObject" ),
+				violationOf( Negative.class ).withProperty( "shortObject" ),
+				violationOf( Negative.class ).withProperty( "doubleObject" ),
+				violationOf( Negative.class ).withProperty( "floatObject" ),
+				violationOf( Negative.class ).withProperty( "bigDecimal" ),
+				violationOf( Negative.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intPrimitive = 0;
@@ -132,35 +112,21 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( dummy );
 
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Negative.class ).withProperty( "bytePrimitive" ),
+				violationOf( Negative.class ).withProperty( "intPrimitive" ),
+				violationOf( Negative.class ).withProperty( "longPrimitive" ),
+				violationOf( Negative.class ).withProperty( "shortPrimitive" ),
+				violationOf( Negative.class ).withProperty( "doublePrimitive" ),
+				violationOf( Negative.class ).withProperty( "floatPrimitive" ),
+				violationOf( Negative.class ).withProperty( "byteObject" ),
+				violationOf( Negative.class ).withProperty( "intObject" ),
+				violationOf( Negative.class ).withProperty( "longObject" ),
+				violationOf( Negative.class ).withProperty( "shortObject" ),
+				violationOf( Negative.class ).withProperty( "doubleObject" ),
+				violationOf( Negative.class ).withProperty( "floatObject" ),
+				violationOf( Negative.class ).withProperty( "bigDecimal" ),
+				violationOf( Negative.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intPrimitive = -101;
@@ -179,7 +145,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -199,28 +165,24 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;
 
 		Set<ConstraintViolation<NegativeEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.floatObject = Float.POSITIVE_INFINITY;
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Negative.class ).withProperty( "doubleObject" ),
+				violationOf( Negative.class ).withProperty( "floatObject" )
 		);
 
 		dummy.floatObject = Float.NaN;
 		dummy.doubleObject = Double.NaN;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Negative.class ).withProperty( "doubleObject" ),
+				violationOf( Negative.class ).withProperty( "floatObject" )
 		);
 	}
 
@@ -232,7 +194,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		NegativeOrZeroEntity dummy = new NegativeOrZeroEntity();
 
 		Set<ConstraintViolation<NegativeOrZeroEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.intPrimitive = 101;
 		dummy.longPrimitive = 1001;
@@ -250,35 +212,21 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NegativeOrZero.class ).withProperty( "bytePrimitive" ),
+				violationOf( NegativeOrZero.class ).withProperty( "intPrimitive" ),
+				violationOf( NegativeOrZero.class ).withProperty( "longPrimitive" ),
+				violationOf( NegativeOrZero.class ).withProperty( "shortPrimitive" ),
+				violationOf( NegativeOrZero.class ).withProperty( "doublePrimitive" ),
+				violationOf( NegativeOrZero.class ).withProperty( "floatPrimitive" ),
+				violationOf( NegativeOrZero.class ).withProperty( "byteObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "intObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "longObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "shortObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "doubleObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "floatObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "bigDecimal" ),
+				violationOf( NegativeOrZero.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intPrimitive = 0;
@@ -297,7 +245,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 0 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.intPrimitive = -101;
 		dummy.longPrimitive = -1001;
@@ -315,7 +263,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -329,28 +277,24 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;
 
 		Set<ConstraintViolation<NegativeOrZeroEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.floatObject = Float.POSITIVE_INFINITY;
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NegativeOrZero.class ).withProperty( "doubleObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "floatObject" )
 		);
 
 		dummy.floatObject = Float.NaN;
 		dummy.doubleObject = Double.NaN;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NegativeOrZero.class ).withProperty( "doubleObject" ),
+				violationOf( NegativeOrZero.class ).withProperty( "floatObject" )
 		);
 	}
 
@@ -362,19 +306,13 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		PositiveEntity dummy = new PositiveEntity();
 
 		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Positive.class ).withProperty( "bytePrimitive" ),
+				violationOf( Positive.class ).withProperty( "intPrimitive" ),
+				violationOf( Positive.class ).withProperty( "longPrimitive" ),
+				violationOf( Positive.class ).withProperty( "shortPrimitive" ),
+				violationOf( Positive.class ).withProperty( "doublePrimitive" ),
+				violationOf( Positive.class ).withProperty( "floatPrimitive" )
 		);
 
 		dummy.intPrimitive = 101;
@@ -393,7 +331,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.intPrimitive = 0;
 		dummy.longPrimitive = 0;
@@ -412,35 +350,21 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = validator.validate( dummy );
 
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Positive.class ).withProperty( "bytePrimitive" ),
+				violationOf( Positive.class ).withProperty( "intPrimitive" ),
+				violationOf( Positive.class ).withProperty( "longPrimitive" ),
+				violationOf( Positive.class ).withProperty( "shortPrimitive" ),
+				violationOf( Positive.class ).withProperty( "doublePrimitive" ),
+				violationOf( Positive.class ).withProperty( "floatPrimitive" ),
+				violationOf( Positive.class ).withProperty( "byteObject" ),
+				violationOf( Positive.class ).withProperty( "intObject" ),
+				violationOf( Positive.class ).withProperty( "longObject" ),
+				violationOf( Positive.class ).withProperty( "shortObject" ),
+				violationOf( Positive.class ).withProperty( "doubleObject" ),
+				violationOf( Positive.class ).withProperty( "floatObject" ),
+				violationOf( Positive.class ).withProperty( "bigDecimal" ),
+				violationOf( Positive.class ).withProperty( "bigInteger" )
 		);
 
 		dummy.intPrimitive = -101;
@@ -459,35 +383,21 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Positive.class ).withProperty( "bytePrimitive" ),
+				violationOf( Positive.class ).withProperty( "intPrimitive" ),
+				violationOf( Positive.class ).withProperty( "longPrimitive" ),
+				violationOf( Positive.class ).withProperty( "shortPrimitive" ),
+				violationOf( Positive.class ).withProperty( "doublePrimitive" ),
+				violationOf( Positive.class ).withProperty( "floatPrimitive" ),
+				violationOf( Positive.class ).withProperty( "byteObject" ),
+				violationOf( Positive.class ).withProperty( "intObject" ),
+				violationOf( Positive.class ).withProperty( "longObject" ),
+				violationOf( Positive.class ).withProperty( "shortObject" ),
+				violationOf( Positive.class ).withProperty( "doubleObject" ),
+				violationOf( Positive.class ).withProperty( "floatObject" ),
+				violationOf( Positive.class ).withProperty( "bigDecimal" ),
+				violationOf( Positive.class ).withProperty( "bigInteger" )
 		);
 	}
 
@@ -508,28 +418,24 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
 
 		Set<ConstraintViolation<PositiveEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.floatObject = Float.NEGATIVE_INFINITY;
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Positive.class ).withProperty( "doubleObject" ),
+				violationOf( Positive.class ).withProperty( "floatObject" )
 		);
 
 		dummy.floatObject = Float.NaN;
 		dummy.doubleObject = Double.NaN;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Positive.class ).withProperty( "doubleObject" ),
+				violationOf( Positive.class ).withProperty( "floatObject" )
 		);
 	}
 
@@ -541,7 +447,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		PositiveOrZeroEntity dummy = new PositiveOrZeroEntity();
 
 		Set<ConstraintViolation<PositiveOrZeroEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.intPrimitive = 101;
 		dummy.longPrimitive = 1001;
@@ -559,7 +465,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.intPrimitive = 0;
 		dummy.longPrimitive = 0;
@@ -577,7 +483,7 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( 0 );
 
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.intPrimitive = -101;
 		dummy.longPrimitive = -1001;
@@ -595,35 +501,21 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.bigInteger = BigInteger.valueOf( -100 );
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "bytePrimitive" ),
-				pathWith()
-						.property( "intPrimitive" ),
-				pathWith()
-						.property( "longPrimitive" ),
-				pathWith()
-						.property( "shortPrimitive" ),
-				pathWith()
-						.property( "doublePrimitive" ),
-				pathWith()
-						.property( "floatPrimitive" ),
-				pathWith()
-						.property( "byteObject" ),
-				pathWith()
-						.property( "intObject" ),
-				pathWith()
-						.property( "longObject" ),
-				pathWith()
-						.property( "shortObject" ),
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" ),
-				pathWith()
-						.property( "bigDecimal" ),
-				pathWith()
-						.property( "bigInteger" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( PositiveOrZero.class ).withProperty( "bytePrimitive" ),
+				violationOf( PositiveOrZero.class ).withProperty( "intPrimitive" ),
+				violationOf( PositiveOrZero.class ).withProperty( "longPrimitive" ),
+				violationOf( PositiveOrZero.class ).withProperty( "shortPrimitive" ),
+				violationOf( PositiveOrZero.class ).withProperty( "doublePrimitive" ),
+				violationOf( PositiveOrZero.class ).withProperty( "floatPrimitive" ),
+				violationOf( PositiveOrZero.class ).withProperty( "byteObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "intObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "longObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "shortObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "doubleObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "floatObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "bigDecimal" ),
+				violationOf( PositiveOrZero.class ).withProperty( "bigInteger" )
 		);
 	}
 
@@ -638,28 +530,24 @@ public class NegativePositiveConstraintsTest extends AbstractTCKTest {
 		dummy.doubleObject = Double.POSITIVE_INFINITY;
 
 		Set<ConstraintViolation<PositiveOrZeroEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.floatObject = Float.NEGATIVE_INFINITY;
 		dummy.doubleObject = Double.NEGATIVE_INFINITY;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( PositiveOrZero.class ).withProperty( "doubleObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "floatObject" )
 		);
 
 		dummy.floatObject = Float.NaN;
 		dummy.doubleObject = Double.NaN;
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "doubleObject" ),
-				pathWith()
-						.property( "floatObject" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( PositiveOrZero.class ).withProperty( "doubleObject" ),
+				violationOf( PositiveOrZero.class ).withProperty( "floatObject" )
 		);
 	}
 

@@ -6,9 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -165,14 +167,14 @@ public abstract class AbstractContainerElementGroupConversionValidationTest exte
 				.validateReturnValue( registeredAddresses, method, returnValue );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "retrieveMainAddresses" )
-						.returnValue()
-						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
-						.property( "street1", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "retrieveMainAddresses" )
+							   .returnValue()
+							   .containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+							   .property( "street1", true, null, 0, List.class, 0 )
+						)
 		);
 	}
 
@@ -191,14 +193,14 @@ public abstract class AbstractContainerElementGroupConversionValidationTest exte
 				.validateParameters( registeredAddresses, method, arguments );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "setMainAddresses" )
-						.parameter( "mainAddresses", 0 )
-						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
-						.property( "street1", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setMainAddresses" )
+							   .parameter( "mainAddresses", 0 )
+							   .containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+							   .property( "street1", true, null, 0, List.class, 0 )
+						)
 		);
 	}
 
@@ -216,15 +218,15 @@ public abstract class AbstractContainerElementGroupConversionValidationTest exte
 				.validateConstructorReturnValue( constructor, createdObject );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( RegisteredAddresses.class )
-						.returnValue()
-						.property( "mainAddresses" )
-						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
-						.property( "street1", true, null, 1, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( RegisteredAddresses.class )
+							   .returnValue()
+							   .property( "mainAddresses" )
+							   .containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+							   .property( "street1", true, null, 1, List.class, 0 )
+						)
 		);
 	}
 
@@ -242,14 +244,14 @@ public abstract class AbstractContainerElementGroupConversionValidationTest exte
 				.validateConstructorParameters( constructor, arguments );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( RegisteredAddresses.class )
-						.parameter( "mainAddresses", 0 )
-						.containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
-						.property( "street1", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+				.withPropertyPath( pathWith()
+					   .constructor( RegisteredAddresses.class )
+					   .parameter( "mainAddresses", 0 )
+					   .containerElement( "<map value>", true, TestRegisteredAddresses.REFERENCE_YEAR, null, Map.class, 1 )
+					   .property( "street1", true, null, 0, List.class, 0 )
+				)
 		);
 	}
 
@@ -292,7 +294,7 @@ public abstract class AbstractContainerElementGroupConversionValidationTest exte
 		RegisteredAddresses registeredAddresses = TestRegisteredAddresses.validRegisteredAddresses();
 
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( registeredAddresses );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		registeredAddresses.getWeekendAddresses().get( TestRegisteredAddresses.REFERENCE_YEAR ).get( 0 ).setDoorCode( "ABC" );
 		constraintViolations = getValidator().validate( registeredAddresses );

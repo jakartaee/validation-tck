@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.application.method;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNotNull;
 
 import java.lang.reflect.Constructor;
@@ -54,8 +54,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -71,8 +72,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 		);
 
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -91,8 +93,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, ConsistentDateParameters.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( ConsistentDateParameters.class )
+		);
 	}
 
 	@Test
@@ -110,8 +113,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, ConsistentDateParameters.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( ConsistentDateParameters.class )
+		);
 	}
 
 	@Test
@@ -132,12 +136,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintTypes(
-				constraintViolations,
-				NotNull.class,
-				ConsistentDateParameters.class
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( ConsistentDateParameters.class )
 		);
 	}
 
@@ -157,11 +158,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintTypes(
-				constraintViolations,
-				NotNull.class,
-				ConsistentDateParameters.class
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( ConsistentDateParameters.class )
 		);
 	}
 
@@ -178,8 +177,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -193,8 +193,9 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, OnlineCalendarService.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( OnlineCalendarService.class )
+		);
 	}
 
 	@Test
@@ -210,13 +211,13 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "setUser" )
-						.parameter( "user", 0 )
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+				.withPropertyPath( pathWith()
+					   .method( "setUser" )
+					   .parameter( "user", 0 )
+					   .property( "name" )
+				)
 		);
 	}
 
@@ -231,13 +232,13 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarEvent.class )
-						.parameter( "user", 0 )
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( CalendarEvent.class )
+							   .parameter( "user", 0 )
+							   .property( "name" )
+						)
 		);
 	}
 
@@ -254,13 +255,13 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "getUser" )
-						.returnValue()
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "getUser" )
+							   .returnValue()
+							   .property( "name" )
+						)
 		);
 	}
 
@@ -275,13 +276,13 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarEvent.class )
-						.returnValue()
-						.property( "type" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( CalendarEvent.class )
+							   .returnValue()
+							   .property( "type" )
+						)
 		);
 	}
 
@@ -298,7 +299,7 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -312,7 +313,7 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -328,7 +329,7 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -344,14 +345,14 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "setUser" )
-						.parameter( "user", 0 )
-						.property( "account" )
-						.property( "login" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setUser" )
+							   .parameter( "user", 0 )
+							   .property( "account" )
+							   .property( "login" )
+						)
 		);
 	}
 
@@ -366,14 +367,14 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				parameterValues
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarEvent.class )
-						.parameter( "user", 0 )
-						.property( "account" )
-						.property( "login" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( CalendarEvent.class )
+							   .parameter( "user", 0 )
+							   .property( "account" )
+							   .property( "login" )
+						)
 		);
 	}
 
@@ -390,14 +391,14 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "getUser" )
-						.returnValue()
-						.property( "account" )
-						.property( "login" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "getUser" )
+							   .returnValue()
+							   .property( "account" )
+							   .property( "login" )
+						)
 		);
 	}
 
@@ -412,14 +413,14 @@ public class MethodValidationRequirementTest extends AbstractTCKTest {
 				returnValue
 		);
 		assertNotNull( constraintViolations );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarEvent.class )
-						.returnValue()
-						.property( "user" )
-						.property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( CalendarEvent.class )
+							   .returnValue()
+							   .property( "user" )
+							   .property( "name" )
+						)
 		);
 	}
 }

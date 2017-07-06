@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -17,6 +18,7 @@ import javax.ejb.Stateless;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 
 /**
  * A test EJB which retrieves validator and validator factory via
@@ -44,7 +46,9 @@ public class ValidationTestEjb {
 				.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 
 	public void assertDefaultValidatorGetsInjected() {
@@ -53,6 +57,8 @@ public class ValidationTestEjb {
 		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 }

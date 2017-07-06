@@ -6,9 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
@@ -154,13 +155,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateReturnValue( user, method, returnValue );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "retrieveMainAddress" )
-						.returnValue()
-						.property( "street1" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "retrieveMainAddress" )
+							   .returnValue()
+							   .property( "street1" )
+						)
 		);
 	}
 
@@ -178,13 +179,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateReturnValue( user, method, returnValue );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "retrieveWeekendAddress" )
-						.returnValue()
-						.property( "street1" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "retrieveWeekendAddress" )
+							   .returnValue()
+							   .property( "street1" )
+						)
 		);
 	}
 
@@ -202,13 +203,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateReturnValue( user, method, returnValue );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "retrieveFallbackAddress" )
-						.returnValue()
-						.property( "street1" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "retrieveFallbackAddress" )
+							   .returnValue()
+							   .property( "street1" )
+						)
 		);
 	}
 
@@ -225,13 +226,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateParameters( user, method, arguments );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.method( "setMainAddress" )
-						.parameter( "mainAddress", 0 )
-						.property( "street1" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setMainAddress" )
+							   .parameter( "mainAddress", 0 )
+							   .property( "street1" )
+						)
 		);
 	}
 
@@ -247,14 +248,14 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateConstructorReturnValue( constructor, createdObject );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.returnValue()
-						.property( "mainAddress" )
-						.property( "street1" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( User.class )
+							   .returnValue()
+							   .property( "mainAddress" )
+							   .property( "street1" )
+						)
 		);
 	}
 
@@ -270,13 +271,13 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 				.validateConstructorParameters( constructor, arguments );
 
 		//then
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.constructor( User.class )
-						.parameter( "mainAddress", 0 )
-						.property( "street1" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( User.class )
+							   .parameter( "mainAddress", 0 )
+							   .property( "street1" )
+						)
 		);
 	}
 
@@ -312,7 +313,7 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 		User user = TestUsers.validUser();
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		user.getWeekendAddress().setDoorCode( "ABC" );
 		constraintViolations = getValidator().validate( user );

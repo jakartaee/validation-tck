@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.crossparameter;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.testng.Assert.assertEquals;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -52,12 +52,12 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, GenericConstraint.class );
-		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GenericConstraint.class ).withInvalidValue( returnValue )
+		);
 	}
 
 	@Test
@@ -73,12 +73,12 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, ExplicitGenericConstraint.class );
-		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ExplicitGenericConstraint.class ).withInvalidValue( returnValue )
+		);
 	}
 
 	@Test
@@ -94,12 +94,12 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				returnValue
 		);
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateParameters( object, method, parameterValues );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, CrossParameterConstraint.class );
-		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( CrossParameterConstraint.class ).withInvalidValue( parameterValues )
+		);
 	}
 
 	@Test
@@ -118,23 +118,23 @@ public class GenericAndCrossParameterConstraintTest extends AbstractTCKTest {
 				method,
 				parameterValues
 		);
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, GenericAndCrossParameterConstraintWithOneValidator.class );
-		assertEquals( violations.iterator().next().getInvalidValue(), returnValue );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GenericAndCrossParameterConstraintWithOneValidator.class ).withInvalidValue( returnValue )
+		);
 
 		method = MobileCalendar.class.getMethod( "addEvent", Date.class, Date.class );
 
 		//constraint applies to parameters
 		violations = getExecutableValidator().validateReturnValue( object, method, returnValue );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = getExecutableValidator().validateParameters( object, method, parameterValues );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, GenericAndCrossParameterConstraintWithOneValidator.class );
-		assertEquals( violations.iterator().next().getInvalidValue(), parameterValues );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GenericAndCrossParameterConstraintWithOneValidator.class ).withInvalidValue( parameterValues )
+		);
 	}
 
 	private static class Calendar {

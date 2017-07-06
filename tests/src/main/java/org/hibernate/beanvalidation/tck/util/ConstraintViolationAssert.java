@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.ElementKind;
 import javax.validation.Path;
 
@@ -52,44 +51,6 @@ public final class ConstraintViolationAssert {
 	 * Private constructor in order to avoid instantiation.
 	 */
 	private ConstraintViolationAssert() {
-	}
-
-	/**
-	 * Asserts that the messages in the violation list matches exactly the expected messages list.
-	 *
-	 * @param violations The violation list to verify.
-	 * @param expectedMessages The expected constraint violation messages.
-	 */
-	public static void assertCorrectConstraintViolationMessages(Set<? extends ConstraintViolation<?>> violations,
-			String... expectedMessages) {
-		List<String> actualMessages = new ArrayList<>();
-		for ( ConstraintViolation<?> violation : violations ) {
-			actualMessages.add( violation.getMessage() );
-		}
-
-		Assertions.assertThat( actualMessages ).containsExactlyInAnyOrder( expectedMessages );
-	}
-
-	public static void assertCorrectConstraintViolationMessages(ConstraintViolationException e,
-			String... expectedMessages) {
-		assertCorrectConstraintViolationMessages( e.getConstraintViolations(), expectedMessages );
-	}
-
-	/**
-	 * Asserts that the violated constraint type in the violation list matches exactly the expected constraint types
-	 * list.
-	 *
-	 * @param violations The violation list to verify.
-	 * @param expectedConstraintTypes The expected constraint types.
-	 */
-	public static void assertCorrectConstraintTypes(Set<? extends ConstraintViolation<?>> violations,
-			Class<?>... expectedConstraintTypes) {
-		List<Class<? extends Annotation>> actualConstraintTypes = new ArrayList<>();
-		for ( ConstraintViolation<?> violation : violations ) {
-			actualConstraintTypes.add( violation.getConstraintDescriptor().getAnnotation().annotationType() );
-		}
-
-		assertCorrectConstraintTypes( actualConstraintTypes, expectedConstraintTypes );
 	}
 
 	public static ConstraintViolationSetAssert assertThat(Set<? extends ConstraintViolation<?>> actualViolations) {
@@ -135,18 +96,12 @@ public final class ConstraintViolationAssert {
 	}
 
 	/**
-	 * Asserts that the given violation list has the expected number of violations.
+	 * Asserts that the given violation list has no violations (is empty).
 	 *
 	 * @param violations The violation list to verify.
-	 * @param numberOfViolations The expected number of violation.
 	 */
-	public static void assertNumberOfViolations(Set<? extends ConstraintViolation<?>> violations,
-			int numberOfViolations) {
-		assertEquals(
-				violations.size(),
-				numberOfViolations,
-				"Wrong number of constraint violations"
-		);
+	public static void assertNoViolations(Set<? extends ConstraintViolation<?>> violations) {
+		Assertions.assertThat( violations ).isEmpty();
 	}
 
 	/**

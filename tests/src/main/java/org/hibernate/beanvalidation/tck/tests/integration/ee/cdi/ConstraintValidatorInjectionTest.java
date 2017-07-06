@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee.cdi;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNotNull;
 
 import java.util.Set;
@@ -51,7 +52,10 @@ public class ConstraintValidatorInjectionTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Foo>> violations = validatorFactory.getValidator().validate( new Foo() );
 
-		assertCorrectConstraintViolationMessages( violations, "Hello, bar!", "Good morning, qux!" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GreetingConstraint.class ).withMessage( "Hello, Mr. bar!" ),
+				violationOf( GreetingConstraint.class ).withMessage( "Good morning, Mr. qux!" )
+		);
 	}
 
 	private static class Foo {
