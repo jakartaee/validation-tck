@@ -6,16 +6,15 @@
  */
 package org.hibernate.beanvalidation.tck.util.shrinkwrap;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.container.ClassContainer;
 import org.jboss.shrinkwrap.api.container.LibraryContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.impl.base.URLPackageScanner;
 
 /**
@@ -39,7 +38,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	protected List<String> packages = null;
 	protected List<String> classes = null;
 	protected List<ServiceProviderDescriptor> serviceProviders = null;
-	protected List<JavaArchive> additionalJars = null;
+	protected List<File> additionalJars = null;
 
 	public T withName(String name) {
 		this.name = name;
@@ -49,7 +48,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	public T withServiceProvider(ServiceProviderDescriptor serviceProvider) {
 
 		if ( serviceProviders == null ) {
-			serviceProviders = new ArrayList<ServiceProviderDescriptor>();
+			serviceProviders = new ArrayList<>();
 		}
 
 		serviceProviders.add( serviceProvider );
@@ -58,7 +57,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 
 	public T withClass(Class<?> clazz) {
 		if ( this.classes == null ) {
-			this.classes = new ArrayList<String>();
+			this.classes = new ArrayList<>();
 		}
 
 		this.classes.add( clazz.getName() );
@@ -108,7 +107,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	public T withPackage(Package pack) {
 
 		if ( this.packages == null ) {
-			this.packages = new ArrayList<String>();
+			this.packages = new ArrayList<>();
 		}
 
 		this.packages.add( pack.getName() );
@@ -126,7 +125,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 
 	public T withResource(String source, String target, boolean useTestPackageToLocateSource) {
 		if ( this.resources == null ) {
-			this.resources = new ArrayList<ResourceDescriptor>();
+			this.resources = new ArrayList<>();
 		}
 
 		this.resources.add( new ResourceDescriptor( source, target, useTestPackageToLocateSource ) );
@@ -140,13 +139,12 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 
 	public abstract T withEmptyBeansXml();
 
-	public T withAdditionalJar(String jarName, String... packages) {
+	public T withAdditionalJar(String jarName) {
 		if ( additionalJars == null ) {
 			additionalJars = new ArrayList<>();
 		}
 
-		JavaArchive archive = ShrinkWrap.create( JavaArchive.class, "arquillian-" + jarName )
-				.addPackages( true, packages );
+		File archive = new File( jarName );
 		additionalJars.add( archive );
 
 		return self();
@@ -243,7 +241,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 			return;
 		}
 
-		for ( JavaArchive additionalJar : additionalJars ) {
+		for ( File additionalJar : additionalJars ) {
 			archive.addAsLibrary( additionalJar );
 		}
 	}

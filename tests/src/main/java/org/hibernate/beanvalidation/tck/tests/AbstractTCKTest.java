@@ -9,6 +9,7 @@ package org.hibernate.beanvalidation.tck.tests;
 import javax.validation.Validator;
 import javax.validation.executable.ExecutableValidator;
 
+import org.assertj.core.api.Assert;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;
 import org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -43,8 +44,11 @@ public abstract class AbstractTCKTest extends Arquillian {
 		// we don't use the Maven features of Shrinkwrap as the TCK might not be run with Maven
 		// or it could be run in an offline environment
 		// thus we directly include the classes from the classpath
-		webArchiveBuilder
-				.withAdditionalJar( "assertj-core.jar", "org.assertj.core" );
+		webArchiveBuilder.withAdditionalJar( Assert.class.getProtectionDomain()
+				.getCodeSource()
+				.getLocation()
+				.getPath()
+		);
 
 		return webArchiveBuilder;
 	}
