@@ -6,8 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.clazzlevel;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -56,8 +57,9 @@ public class ClassLevelOverridingTest extends AbstractTCKTest {
 		Package p = new Package();
 		Set<ConstraintViolation<Package>> violations = validator.validate( p );
 
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintViolationMessages( violations, "ValidPackage defined in XML" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidPackage.class ).withMessage( "ValidPackage defined in XML" )
+		);
 	}
 
 	@Test
@@ -70,8 +72,9 @@ public class ClassLevelOverridingTest extends AbstractTCKTest {
 		Package p = new Package();
 		Set<ConstraintViolation<Package>> violations = validator.validate( p );
 
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintViolationMessages( violations, "ValidPackage defined in XML" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidPackage.class ).withMessage( "ValidPackage defined in XML" )
+		);
 	}
 
 	@Test
@@ -85,9 +88,9 @@ public class ClassLevelOverridingTest extends AbstractTCKTest {
 		Package p = new Package();
 		Set<ConstraintViolation<Package>> violations = validator.validate( p );
 
-		assertNumberOfViolations( violations, 2 );
-		assertCorrectConstraintViolationMessages(
-				violations, "ValidPackage defined in XML", "ValidPackage defined as annotation"
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidPackage.class ).withMessage( "ValidPackage defined in XML" ),
+				violationOf( ValidPackage.class ).withMessage( "ValidPackage defined as annotation" )
 		);
 	}
 }

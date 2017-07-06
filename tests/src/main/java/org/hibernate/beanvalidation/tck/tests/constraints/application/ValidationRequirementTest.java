@@ -6,15 +6,16 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.application;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -54,27 +55,26 @@ public class ValidationRequirementTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Woman>> violations = validator.validate( sarah );
 
-		assertNumberOfViolations(
-				violations, 2
-		); // SecurityCheck for Default in Person and Citizen
-		assertCorrectConstraintTypes( violations, SecurityCheck.class, SecurityCheck.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( SecurityCheck.class ), violationOf( SecurityCheck.class )
+		);
 
 		violations = validator.validate( sarah, TightSecurity.class );
-		assertNumberOfViolations(
-				violations, 1
-		); // SecurityCheck for TightSecurity in Citizen
-		assertCorrectConstraintTypes( violations, SecurityCheck.class );
+		// SecurityCheck for TightSecurity in Citizen
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( SecurityCheck.class )
+		);
 
 		// just to make sure - validating against a group which does not have any constraints assigned to it
 		violations = validator.validate( sarah, DummyGroup.class );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		sarah.setPersonalNumber( "740523-1234" );
 		violations = validator.validate( sarah );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		violations = validator.validate( sarah, TightSecurity.class );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	@Test
@@ -86,12 +86,13 @@ public class ValidationRequirementTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<SuperWoman>> violations = validator.validateProperty( superwoman, "firstName" );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		superwoman.setFirstName( null );
 		violations = validator.validateProperty( superwoman, "firstName" );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -103,12 +104,13 @@ public class ValidationRequirementTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<SuperWoman>> violations = validator.validateProperty( superwoman, "lastName" );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		superwoman.setHiddenName( null );
 		violations = validator.validateProperty( superwoman, "lastName" );
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -119,9 +121,11 @@ public class ValidationRequirementTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Building>> violations = validator.validate( building );
-		assertNumberOfViolations( violations, 2 );
 		String expectedMessage = "Building costs are max {max} dollars.";
-		assertCorrectConstraintViolationMessages( violations, expectedMessage, expectedMessage );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Max.class ).withMessage( expectedMessage ),
+				violationOf( Max.class ).withMessage( expectedMessage )
+		);
 	}
 
 	@Test(enabled = false)
@@ -133,7 +137,7 @@ public class ValidationRequirementTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<StaticFieldsAndProperties>> violations = validator.validate( entity );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	@Test
@@ -143,23 +147,18 @@ public class ValidationRequirementTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Visibility>> violations = validator.validate( entity );
-		assertNumberOfViolations( violations, 6 );
-		assertCorrectConstraintTypes(
-				violations, Min.class, Min.class, Min.class, DecimalMin.class, DecimalMin.class, DecimalMin.class
-		);
-		assertCorrectConstraintViolationMessages(
-				violations,
-				"publicField",
-				"protectedField",
-				"privateField",
-				"publicProperty",
-				"protectedProperty",
-				"privateProperty"
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class ).withMessage( "publicField" ),
+				violationOf( Min.class ).withMessage( "protectedField" ),
+				violationOf( Min.class ).withMessage( "privateField" ),
+				violationOf( DecimalMin.class ).withMessage( "publicProperty" ),
+				violationOf( DecimalMin.class ).withMessage( "protectedProperty" ),
+				violationOf( DecimalMin.class ).withMessage( "privateProperty" )
 		);
 
 		entity.setValues( 100 );
 		violations = validator.validate( entity );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	static class StaticFieldsAndProperties {

@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.containerelement;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
@@ -56,7 +56,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah")
 	public void validation_of_nested_type_arguments_works_with_map_of_list_of_optional() {
 		Set<ConstraintViolation<MapOfLists>> constraintViolations = getValidator().validate( MapOfLists.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = getValidator().validate( MapOfLists.invalidKey() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -129,7 +129,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah")
 	public void validation_of_nested_type_arguments_works_with_map_of_list_of_stringproperty() {
 		Set<ConstraintViolation<MapOfListsWithAutomaticUnwrapping>> constraintViolations = getValidator().validate( MapOfListsWithAutomaticUnwrapping.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = getValidator().validate( MapOfListsWithAutomaticUnwrapping.invalidStringProperty() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -181,7 +181,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah")
 	public void validation_of_nested_type_arguments_works_with_list_of_maps() {
 		Set<ConstraintViolation<ListOfMaps>> constraintViolations = getValidator().validate( ListOfMaps.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = getValidator().validate( ListOfMaps.invalidValue() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -201,7 +201,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ah")
 	public void validation_of_nested_type_arguments_works_with_list_of_iterables() {
 		Set<ConstraintViolation<ListOfIterables>> constraintViolations = getValidator().validate( ListOfIterables.valid() );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = getValidator().validate( ListOfIterables.invalid() );
 		assertThat( constraintViolations ).containsOnlyViolations(

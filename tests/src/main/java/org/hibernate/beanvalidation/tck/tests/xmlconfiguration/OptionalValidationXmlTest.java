@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 
 import java.util.Set;
 
@@ -46,6 +46,6 @@ public class OptionalValidationXmlTest extends AbstractTCKTest {
 
 		Order order = new Order();
 		Set<ConstraintViolation<Order>> constraintViolations = validator.validate( order );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 }

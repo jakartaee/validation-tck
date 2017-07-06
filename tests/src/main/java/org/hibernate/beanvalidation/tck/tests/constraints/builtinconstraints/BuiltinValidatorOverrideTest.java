@@ -6,7 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getInputStreamForPath;
 
 import java.io.InputStream;
@@ -52,11 +54,13 @@ public class BuiltinValidatorOverrideTest extends AbstractTCKTest {
 		Validator validator = config.buildValidatorFactory().getValidator();
 		DummyEntity dummy = new DummyEntity();
 		Set<ConstraintViolation<DummyEntity>> violations = validator.validate( dummy );
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 
 		dummy.dummyProperty = "foobar";
 		violations = validator.validate( dummy );
-		assertNumberOfViolations( violations, 1 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	private static class DummyEntity {

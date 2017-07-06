@@ -6,10 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -81,27 +81,28 @@ public class MethodValidationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				Min.class,
-				Size.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -125,27 +126,28 @@ public class MethodValidationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				Min.class,
-				Size.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -170,27 +172,28 @@ public class MethodValidationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				Min.class,
-				Size.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -216,18 +219,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 
 		violations = getExecutableValidator().validateParameters(
@@ -237,19 +239,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				Min.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						)
 		);
 	}
 
@@ -274,12 +275,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class
 		);
 
-		assertCorrectConstraintTypes( violations, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						)
 		);
 	}
 
@@ -304,27 +306,28 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class, Default.class
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				Min.class,
-				Size.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -350,15 +353,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						)
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
@@ -371,14 +377,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Now the constraints of the Complex group should fail
-		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -404,15 +413,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
-		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						)
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
@@ -425,23 +437,23 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
-		assertCorrectConstraintTypes(
-				violations,
-				MyCrossParameterConstraint.class,
-				Size.class,
-				Min.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.crossParameter(),
-				pathWith()
-						.method( methodName )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.method( methodName )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -461,27 +473,28 @@ public class MethodValidationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				Min.class,
-				Size.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.crossParameter(),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -501,7 +514,7 @@ public class MethodValidationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	@Test
@@ -521,18 +534,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.crossParameter(),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "customer", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "customer", 0 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.crossParameter()
+						)
 		);
 
 		violations = getExecutableValidator().validateConstructorParameters(
@@ -541,19 +553,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				Min.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "quantity", 2 )
+						)
 		);
 	}
 
@@ -573,12 +584,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class
 		);
 
-		assertCorrectConstraintTypes( violations, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "item", 1 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						)
 		);
 	}
 
@@ -598,27 +610,28 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class, Default.class
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				Min.class,
-				Size.class,
-				MyCrossParameterConstraint.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.crossParameter(),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -639,15 +652,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "item", 1 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						)
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "BV Specification" ), (byte) 0 };
@@ -659,14 +675,17 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Now the constraints of the Complex group should fail
-		assertCorrectConstraintTypes( violations, MyCrossParameterConstraint.class, Min.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.crossParameter(),
-				pathWith()
-						.constructor( OrderService.class )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -689,15 +708,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
-		assertCorrectConstraintTypes( violations, Size.class, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.parameter( "customer", 0 ),
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.parameter( "item", 1 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.parameter( "customer", 0 )
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						)
 		);
 
 		parameterValues = new Object[] { "Bob", new Item( "" ), (byte) 0 };
@@ -709,23 +731,23 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Item should fail
-		assertCorrectConstraintTypes(
-				violations,
-				MyCrossParameterConstraint.class,
-				Size.class,
-				Min.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.crossParameter(),
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.parameter( "item", 1 )
-						.property( "name" ),
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.parameter( "quantity", 2 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.parameter( "item", 1 )
+								.property( "name" )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.parameter( "quantity", 2 )
+						),
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.crossParameter()
+						)
 		);
 	}
 
@@ -750,19 +772,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrder.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -786,23 +807,23 @@ public class MethodValidationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrder.class,
-				ValidRetailOrder.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						),
+				violationOf( ValidRetailOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -827,23 +848,23 @@ public class MethodValidationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrder.class,
-				ValidRetailOrder.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						),
+				violationOf( ValidRetailOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -869,14 +890,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				ValidRetailOrder.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidRetailOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 
 		violations = getExecutableValidator().validateReturnValue(
@@ -886,19 +905,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrder.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -923,12 +941,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class
 		);
 
-		assertCorrectConstraintTypes( violations, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 
@@ -953,14 +972,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class, Default.class
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrder.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -986,15 +1003,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, ValidOrder.class, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 
 		returnValue = new Order( "BV Specification" );
@@ -1007,11 +1027,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Now the constraints of the Complex group should fail
-		assertCorrectConstraintTypes( violations, ValidRetailOrder.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidRetailOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -1037,15 +1058,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Only the constraints of the Basic group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Order should fail
-		assertCorrectConstraintTypes( violations, Size.class, ValidOrder.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 
 		returnValue = new Order( "valid" );
@@ -1058,15 +1082,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 
 		//Now the constraints of the Default group on OrderServiceWithRedefinedDefaultGroupSequence and of
 		//the Default group on Order should fail
-		assertCorrectConstraintTypes( violations, Size.class, ValidRetailOrder.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue(),
-				pathWith()
-						.method( methodName )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidRetailOrder.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -1085,20 +1112,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 				constructor,
 				returnValue
 		);
-
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrderService.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue(),
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+								.property( "name" )
+						),
+				violationOf( ValidOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -1118,14 +1143,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				ValidRetailOrderService.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( ExtendedOrderService.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidRetailOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( ExtendedOrderService.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -1146,14 +1169,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Basic group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				ValidRetailOrderService.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidRetailOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+						)
 		);
 
 		violations = getExecutableValidator().validateConstructorReturnValue(
@@ -1162,19 +1183,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//only constraints in Default group should fail
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrderService.class,
-				Size.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue(),
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 
@@ -1194,12 +1214,13 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class
 		);
 
-		assertCorrectConstraintTypes( violations, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 
@@ -1219,14 +1240,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Basic.class, Default.class
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				ValidOrderService.class
-		);
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -1247,15 +1266,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, ValidOrderService.class, Size.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue(),
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 
 		returnValue = new OrderService( "valid order service" );
@@ -1267,11 +1289,12 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Now the constraints of the Complex group should fail
-		assertCorrectConstraintTypes( violations, ValidRetailOrderService.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderService.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidRetailOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderService.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -1296,15 +1319,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 				);
 
 		//Only the constraints of the Basic group should fail
-		assertCorrectConstraintTypes( violations, Size.class, ValidOrderService.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.returnValue(),
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.returnValue()
+						),
+				violationOf( Size.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 
 		returnValue = new OrderServiceWithRedefinedDefaultGroupSequence( "valid" );
@@ -1315,15 +1341,18 @@ public class MethodValidationTest extends AbstractTCKTest {
 		);
 
 		//Now the constraints of the Default group should fail
-		assertCorrectConstraintTypes( violations, Pattern.class, ValidRetailOrderService.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.returnValue(),
-				pathWith()
-						.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidRetailOrderService.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.returnValue()
+						),
+				violationOf( Pattern.class )
+						.withPropertyPath( pathWith()
+								.constructor( OrderServiceWithRedefinedDefaultGroupSequence.class )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 }

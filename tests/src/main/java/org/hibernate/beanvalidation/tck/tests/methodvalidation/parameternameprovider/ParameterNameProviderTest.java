@@ -6,10 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
-import static org.testng.Assert.assertEquals;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.fail;
 
@@ -20,15 +19,18 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.NotNull;
 import javax.validation.executable.ExecutableValidator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
+
 import org.testng.annotations.Test;
 
 /**
@@ -103,11 +105,17 @@ public class ParameterNameProviderTest extends AbstractTCKTest {
 				method,
 				parameters
 		);
-		assertNumberOfViolations( constraintViolations, 2 );
-
-		Set<String> actualParameterNames = getParameterNames( constraintViolations );
-		Set<String> expectedParameterNames = asSet( "param0", "param1" );
-
-		assertEquals( actualParameterNames, expectedParameterNames );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setNames" )
+							   .parameter( "param0", 0 )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setNames" )
+							   .parameter( "param1", 1 )
+						)
+		);
 	}
 }

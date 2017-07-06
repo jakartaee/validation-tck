@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -67,7 +67,9 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -83,7 +85,9 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -99,12 +103,13 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( "createEvent" )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( "createEvent" )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 
@@ -121,7 +126,10 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class, ValidCalendarEvent.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( ValidCalendarEvent.class )
+		);
 	}
 
 	@Test
@@ -137,11 +145,10 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes(
-				violations,
-				NotNull.class,
-				ValidCalendarEvent.class,
-				ValidBusinessCalendarEvent.class
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ),
+				violationOf( ValidBusinessCalendarEvent.class ),
+				violationOf( ValidCalendarEvent.class )
 		);
 	}
 
@@ -158,12 +165,13 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( "createEvent" )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( "createEvent" )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 
@@ -178,7 +186,9 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, Min.class );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class )
+		);
 	}
 
 	@Test
@@ -192,12 +202,13 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarServiceSubClass.class )
-						.parameter( "defaultEvent", 0 )
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( CalendarServiceSubClass.class )
+								.parameter( "defaultEvent", 0 )
+								.property( "name" )
+						)
 		);
 	}
 
@@ -213,11 +224,12 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 		);
 
 		//only the constraint on the sub-type constructor should be validated
-		assertCorrectConstraintTypes( violations, ValidCalendarServiceSubClass.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarServiceSubClass.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidCalendarServiceSubClass.class )
+						.withPropertyPath( pathWith()
+								.constructor( CalendarServiceSubClass.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -232,12 +244,13 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, Min.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( CalendarServiceSubClass.class )
-						.returnValue()
-						.property( "mode" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+								.constructor( CalendarServiceSubClass.class )
+								.returnValue()
+								.property( "mode" )
+						)
 		);
 	}
 
@@ -254,12 +267,13 @@ public class ValidMethodConstraintDeclarationTest extends AbstractTCKTest {
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( "createEvent" )
-						.returnValue()
-						.property( "name" )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( "createEvent" )
+								.returnValue()
+								.property( "name" )
+						)
 		);
 	}
 

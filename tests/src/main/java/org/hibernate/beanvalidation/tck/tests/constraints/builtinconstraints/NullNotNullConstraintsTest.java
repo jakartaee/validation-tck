@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -50,15 +50,16 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 		Object foo = new Object();
 		dummy.setProperty( foo );
 		Set<ConstraintViolation<NullDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 1 );
-
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), NullDummyEntity.class, foo, pathWith().property( "property" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Null.class )
+						.withProperty( "property" )
+						.withInvalidValue( foo )
+						.withRootBeanClass( NullDummyEntity.class )
 		);
 
 		dummy.setProperty( null );
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -68,14 +69,16 @@ public class NullNotNullConstraintsTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		NotNullDummyEntity dummy = new NotNullDummyEntity();
 		Set<ConstraintViolation<NotNullDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), NotNullDummyEntity.class, null, pathWith().property( "property" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withProperty( "property" )
+						.withInvalidValue( null )
+						.withRootBeanClass( NotNullDummyEntity.class )
 		);
 
 		dummy.setProperty( new Object() );
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private static class NullDummyEntity {

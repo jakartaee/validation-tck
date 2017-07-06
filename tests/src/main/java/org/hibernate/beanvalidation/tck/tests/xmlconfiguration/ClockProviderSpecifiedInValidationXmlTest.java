@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertTrue;
 
 import java.time.Clock;
@@ -74,7 +75,9 @@ public class ClockProviderSpecifiedInValidationXmlTest extends AbstractTCKTest {
 		User user = new User();
 		user.setBirthday( ZonedDateTime.of( 1980, 11, 10, 9, 16, 0, 0, ZoneId.of( "Europe/Paris" ) ) );
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertCorrectConstraintTypes( constraintViolations, Past.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Past.class )
+		);
 	}
 
 	private static class ConfigurationDefinedClockProvider implements ClockProvider {

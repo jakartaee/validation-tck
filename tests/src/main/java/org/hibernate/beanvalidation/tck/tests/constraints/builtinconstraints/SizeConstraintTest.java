@@ -6,10 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,7 +52,7 @@ public class SizeConstraintTest extends AbstractTCKTest {
 		SizeDummyEntity dummy = new SizeDummyEntity();
 
 		Set<ConstraintViolation<SizeDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		dummy.collection = new HashSet<String>();
 		dummy.collection.add( "foo" );
@@ -73,34 +72,20 @@ public class SizeConstraintTest extends AbstractTCKTest {
 		dummy.shortArray = new short[0];
 
 		constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "collection" ),
-				pathWith()
-						.property( "map" ),
-				pathWith()
-						.property( "string" ),
-				pathWith()
-						.property( "integerArray" ),
-				pathWith()
-						.property( "booleanArray" ),
-				pathWith()
-						.property( "byteArray" ),
-				pathWith()
-						.property( "charArray" ),
-				pathWith()
-						.property( "doubleArray" ),
-				pathWith()
-						.property( "floatArray" ),
-				pathWith()
-						.property( "intArray" ),
-				pathWith()
-						.property( "longArray" ),
-				pathWith()
-						.property( "shortArray" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withProperty( "collection" ),
+				violationOf( Size.class ).withProperty( "map" ),
+				violationOf( Size.class ).withProperty( "string" ),
+				violationOf( Size.class ).withProperty( "integerArray" ),
+				violationOf( Size.class ).withProperty( "booleanArray" ),
+				violationOf( Size.class ).withProperty( "byteArray" ),
+				violationOf( Size.class ).withProperty( "charArray" ),
+				violationOf( Size.class ).withProperty( "doubleArray" ),
+				violationOf( Size.class ).withProperty( "floatArray" ),
+				violationOf( Size.class ).withProperty( "intArray" ),
+				violationOf( Size.class ).withProperty( "longArray" ),
+				violationOf( Size.class ).withProperty( "shortArray" )
 		);
-		assertCorrectConstraintTypes( constraintViolations, Size.class, Size.class, Size.class, Size.class, Size.class, Size.class, Size.class, Size.class,
-				Size.class, Size.class, Size.class, Size.class );
 
 		dummy.collection.remove( "bar" );
 		dummy.string = "a";
@@ -115,7 +100,7 @@ public class SizeConstraintTest extends AbstractTCKTest {
 		dummy.shortArray = new short[1];
 		dummy.map.remove( "key1" );
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private static class SizeDummyEntity {

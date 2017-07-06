@@ -6,8 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -20,6 +21,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Payload;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.validation.metadata.BeanDescriptor;
 import javax.validation.metadata.ConstraintDescriptor;
 
@@ -77,9 +80,8 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 	public void testClassConstraintDefinedInXml() {
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user, TestGroup.class );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Message from xml"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( ConsistentUserInformation.class ).withMessage( "Message from xml" )
 		);
 
 		ConstraintViolation<User> constraintViolation = constraintViolations.iterator().next();
@@ -89,7 +91,7 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 
 		user.setConsistent( true );
 		constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -103,11 +105,12 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 	})
 	public void testIgnoreValidationXml() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
+		//TODO: is this needed? this validator is not used later.
 		Validator validator = config.ignoreXmlConfiguration().buildValidatorFactory().getValidator();
 
 		Order order = new Order();
 		Set<ConstraintViolation<Order>> constraintViolations = getValidator().validate( order );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -125,12 +128,13 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setFirstname( "Wolfeschlegelsteinhausenbergerdorff" );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "Size is limited!" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ).withMessage( "Size is limited!" )
+		);
 
 		user.setFirstname( "Wolfgang" );
 		constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -149,14 +153,13 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setLastname( "doe" );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Last name has to start with with a capital letter."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class ).withMessage( "Last name has to start with with a capital letter." )
 		);
 
 		user.setLastname( "Doe" );
 		constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -174,14 +177,13 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setPhoneNumber( "police" );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "A phone number can only contain numbers, whitespaces and dashes."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class ).withMessage( "A phone number can only contain numbers, whitespaces and dashes." )
 		);
 
 		user.setPhoneNumber( "112" );
 		constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -201,12 +203,13 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		user.setCreditcard( card );
 
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "Not a credit card number." );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class ).withMessage( "Not a credit card number." )
+		);
 
 		card.setNumber( "1234567890" );
 		constraintViolations = getValidator().validate( user );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test

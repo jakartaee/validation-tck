@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -83,7 +83,8 @@ public class ConfigurationViaXmlAndAnnotationsTest extends AbstractTCKTest {
 		p.setMaxWeight( 30 );
 		Set<ConstraintViolation<Package>> violations = validator.validate( p, Default.class );
 
-		assertNumberOfViolations( violations, 1 );
-		assertCorrectConstraintViolationMessages( violations, "ValidPackage defined as annotation" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidPackage.class ).withMessage( "ValidPackage defined as annotation" )
+		);
 	}
 }

@@ -6,11 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.validatorcontext;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -65,8 +63,9 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		DummyBean bean = new DummyBean( "foobar" );
 
 		Set<ConstraintViolation<DummyBean>> constraintViolations = validator.validate( bean );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "dummy message" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Dummy.class ).withMessage( "dummy message" )
+		);
 	}
 
 	@Test(expectedExceptions = ValidationException.class)
@@ -97,11 +96,10 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		DummyBean bean = new DummyBean( "foobar" );
 
 		Set<ConstraintViolation<DummyBean>> constraintViolations = validator.validate( bean );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "message1" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "value" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Dummy.class )
+						.withMessage( "message1" )
+						.withProperty( "value" )
 		);
 	}
 
@@ -121,12 +119,13 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		DummyBean bean = new DummyBean( "foobar" );
 
 		Set<ConstraintViolation<DummyBean>> constraintViolations = validator.validate( bean );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "subnode message" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "value" )
-						.property( "subnode" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Dummy.class )
+						.withMessage( "subnode message" )
+						.withPropertyPath( pathWith()
+							   .property( "value" )
+							   .property( "subnode" )
+						)
 		);
 	}
 
@@ -140,13 +139,13 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		Group group = new Group( Gender.MALE, new Person( Gender.FEMALE ) );
 
 		Set<ConstraintViolation<Group>> constraintViolations = validator.validate( group );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "persons" )
-						.property( null, true, null, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( CompatiblePersons.class )
+						.withPropertyPath( pathWith()
+							   .property( "persons" )
+							   .property( null, true, null, 0 )
+						)
 		);
-		assertCorrectConstraintTypes( constraintViolations, CompatiblePersons.class );
 	}
 
 	private enum Gender {

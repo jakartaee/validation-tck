@@ -6,11 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
@@ -122,23 +120,23 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		address.setCity( townInNorthWales );
 
 		Set<ConstraintViolation<Address>> constraintViolations = getValidator().validateProperty( address, "city" );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, Size.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withMessage( "City name cannot be longer than 30 characters." )
+						.withProperty( "city" )
+						.withInvalidValue( townInNorthWales )
+		);
 
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
-		assertConstraintViolation( violation, Address.class, townInNorthWales, pathWith().property( "city" ) );
 		assertEquals( violation.getRootBean(), address );
 		assertEquals( violation.getLeafBean(), address );
 		assertEquals( violation.getInvalidValue(), townInNorthWales );
 		assertNull( violation.getExecutableParameters() );
 		assertNull( violation.getExecutableReturnValue() );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "City name cannot be longer than 30 characters."
-		);
 
 		address.setCity( "London" );
 		constraintViolations = getValidator().validateProperty( address, "city" );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -149,7 +147,7 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		customer.addOrder( order );
 
 		Set<ConstraintViolation<Customer>> constraintViolations = getValidator().validateProperty( customer, "orders" );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test(expectedExceptions = ValidationException.class)

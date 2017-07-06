@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternameprovider;
 
-import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
-import static org.hibernate.beanvalidation.tck.util.TestUtil.getParameterNames;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -20,6 +20,7 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ParameterNameProvider;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -55,12 +56,18 @@ public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator()
 				.validateParameters( object, method, parameters );
-		assertNumberOfViolations( constraintViolations, 2 );
-
-		Set<String> actualParameterNames = getParameterNames( constraintViolations );
-		Set<String> expectedParameterNames = asSet( "firstName", "lastName" );
-
-		assertEquals( actualParameterNames, expectedParameterNames );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setNames" )
+							   .parameter( "firstName", 0 )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .method( "setNames" )
+							   .parameter( "lastName", 1 )
+						)
+		);
 	}
 
 	@Test
@@ -75,12 +82,23 @@ public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<User>> constraintViolations = getExecutableValidator()
 				.validateConstructorParameters( constructor, parameters );
-		assertNumberOfViolations( constraintViolations, 3 );
-
-		Set<String> actualParameterNames = getParameterNames( constraintViolations );
-		Set<String> expectedParameterNames = asSet( "firstName", "lastName", "dateOfBirth" );
-
-		assertEquals( actualParameterNames, expectedParameterNames );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( User.class )
+							   .parameter( "firstName", 0 )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( User.class )
+							   .parameter( "lastName", 1 )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .constructor( User.class )
+							   .parameter( "dateOfBirth", 2 )
+						)
+		);
 	}
 
 	@Test

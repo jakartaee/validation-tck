@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition.nestedconstraintcomposition;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -47,12 +47,9 @@ public class NestedConstraintCompositionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity1 dummy = new DummyEntity1( "" );
 		Set<ConstraintViolation<DummyEntity1>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintTypes(
-				constraintViolations, Pattern.class, NestedConstraintSingleViolation.class
-		);
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Pattern must match abc", "NestedConstraintSingleViolation failed."
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class ).withMessage( "Pattern must match abc" ),
+				violationOf( NestedConstraintSingleViolation.class ).withMessage( "NestedConstraintSingleViolation failed." )
 		);
 	}
 
@@ -62,9 +59,9 @@ public class NestedConstraintCompositionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity2 dummy = new DummyEntity2( "" );
 		Set<ConstraintViolation<DummyEntity2>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, CompositeConstraint2.class );
-		assertCorrectConstraintViolationMessages( constraintViolations, "CompositeConstraint2 failed." );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( CompositeConstraint2.class ).withMessage( "CompositeConstraint2 failed." )
+		);
 	}
 
 	@Test
@@ -73,10 +70,10 @@ public class NestedConstraintCompositionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity3 dummy = new DummyEntity3( "" );
 		Set<ConstraintViolation<DummyEntity3>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 3 );
-		assertCorrectConstraintTypes( constraintViolations, Pattern.class, Pattern.class, Size.class );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, "Pattern must match abc", "Pattern must match ...", "Size must be 3"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class ).withMessage( "Pattern must match abc" ),
+				violationOf( Pattern.class ).withMessage( "Pattern must match ..." ),
+				violationOf( Size.class ).withMessage( "Size must be 3" )
 		);
 	}
 
@@ -86,9 +83,9 @@ public class NestedConstraintCompositionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		DummyEntity4 dummy = new DummyEntity4( "" );
 		Set<ConstraintViolation<DummyEntity4>> constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintTypes( constraintViolations, CompositeConstraint4.class );
-		assertCorrectConstraintViolationMessages( constraintViolations, "CompositeConstraint4 failed." );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( CompositeConstraint4.class ).withMessage( "CompositeConstraint4 failed." )
+		);
 	}
 
 	class DummyEntity1 {

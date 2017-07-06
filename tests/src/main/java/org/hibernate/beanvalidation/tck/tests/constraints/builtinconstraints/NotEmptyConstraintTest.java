@@ -6,10 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.builtinconstraints;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -67,36 +66,21 @@ public class NotEmptyConstraintTest extends AbstractTCKTest {
 		dummy.shortArray = new short[0];
 
 		Set<ConstraintViolation<NotEmptyDummyEntity>> constraintViolations = validator.validate( dummy );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "collection" ),
-				pathWith()
-						.property( "map" ),
-				pathWith()
-						.property( "string" ),
-				pathWith()
-						.property( "stringBuilder" ),
-				pathWith()
-						.property( "integerArray" ),
-				pathWith()
-						.property( "booleanArray" ),
-				pathWith()
-						.property( "byteArray" ),
-				pathWith()
-						.property( "charArray" ),
-				pathWith()
-						.property( "doubleArray" ),
-				pathWith()
-						.property( "floatArray" ),
-				pathWith()
-						.property( "intArray" ),
-				pathWith()
-						.property( "longArray" ),
-				pathWith()
-						.property( "shortArray" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotEmpty.class ).withProperty( "collection" ),
+				violationOf( NotEmpty.class ).withProperty( "map" ),
+				violationOf( NotEmpty.class ).withProperty( "string" ),
+				violationOf( NotEmpty.class ).withProperty( "stringBuilder" ),
+				violationOf( NotEmpty.class ).withProperty( "integerArray" ),
+				violationOf( NotEmpty.class ).withProperty( "booleanArray" ),
+				violationOf( NotEmpty.class ).withProperty( "byteArray" ),
+				violationOf( NotEmpty.class ).withProperty( "charArray" ),
+				violationOf( NotEmpty.class ).withProperty( "doubleArray" ),
+				violationOf( NotEmpty.class ).withProperty( "floatArray" ),
+				violationOf( NotEmpty.class ).withProperty( "intArray" ),
+				violationOf( NotEmpty.class ).withProperty( "longArray" ),
+				violationOf( NotEmpty.class ).withProperty( "shortArray" )
 		);
-		assertCorrectConstraintTypes( constraintViolations, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class,
-				NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class, NotEmpty.class );
 
 		dummy.collection.add( "foo" );
 		dummy.string = "a";
@@ -112,7 +96,7 @@ public class NotEmptyConstraintTest extends AbstractTCKTest {
 		dummy.longArray = new long[1];
 		dummy.shortArray = new short[1];
 		constraintViolations = validator.validate( dummy );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	private static class NotEmptyDummyEntity {

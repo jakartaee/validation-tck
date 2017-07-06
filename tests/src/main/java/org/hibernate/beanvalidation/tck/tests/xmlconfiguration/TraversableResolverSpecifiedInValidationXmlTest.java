@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
@@ -15,6 +16,7 @@ import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -54,7 +56,9 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 		assertTrue(
 				XmlDefinedTraversableResolver.numberOfIsReachableCalls > 0,
 				"The resolver should have been called at least once if it was properly picked up by xml configuration."
@@ -77,7 +81,9 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 		assertTrue(
 				ConfigurationDefinedTraversableResolver.numberOfIsReachableCalls > 0,
 				"The resolver should have been called at least once if configuration settings were applied."

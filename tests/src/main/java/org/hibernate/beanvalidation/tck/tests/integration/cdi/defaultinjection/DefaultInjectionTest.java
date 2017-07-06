@@ -6,7 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.defaultinjection;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -74,7 +75,9 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 				.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 
 	@Test
@@ -95,7 +98,9 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 				.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 
 	@Test
@@ -109,7 +114,9 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 
 	@Test
@@ -125,7 +132,9 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Foo>> violations = qualifiedDefaultValidator.validate( new Foo() );
 
 		//expecting message from interpolator configured in META-INF/validation.xml
-		assertCorrectConstraintViolationMessages( violations, "Invalid constraint" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "Invalid constraint" )
+		);
 	}
 
 	private static class Foo {

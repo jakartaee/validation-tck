@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
@@ -64,7 +64,7 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<EmailAddressMap>> constraintViolations = validator.validate( EmailAddressMap.validEmailAddressMap() );
 
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( EmailAddressMap.invalidEmailAddressMap() );
 
@@ -92,7 +92,7 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<AddressBook>> constraintViolations = validator.validate( AddressBook.valid() );
 
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( AddressBook.invalid() );
 
@@ -131,7 +131,7 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 
 		Set<ConstraintViolation<CinemaEmailAddresses>> constraintViolations = validator.validate( CinemaEmailAddresses.validCinemaEmailAddresses() );
 
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		CinemaEmailAddresses invalidCinemaEmailAddresses = CinemaEmailAddresses.invalidCinemaEmailAddresses();
 		constraintViolations = validator.validate( invalidCinemaEmailAddresses );
@@ -185,7 +185,7 @@ public class NestedCascadingOnContainerElementsTest extends AbstractTCKTest {
 		Set<ConstraintViolation<NestedCascadingListWithValidAllAlongTheWay>> constraintViolations = validator
 				.validate( NestedCascadingListWithValidAllAlongTheWay.valid() );
 
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( NestedCascadingListWithValidAllAlongTheWay.withNullList() );
 

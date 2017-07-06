@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -61,9 +61,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().method( methodName ).parameter( "name", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "name", 0 )
+						)
 		);
 	}
 
@@ -79,9 +82,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().constructor( LineItem.class ).parameter( "name", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( LineItem.class )
+								.parameter( "name", 0 )
+						)
 		);
 	}
 
@@ -100,9 +106,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().method( methodName ).returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -118,9 +127,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				createdObject
 		);
 
-		assertCorrectConstraintTypes( violations, ValidLineItem.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().constructor( LineItem.class ).returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidLineItem.class )
+						.withPropertyPath( pathWith()
+								.constructor( LineItem.class )
+								.returnValue()
+						)
 		);
 	}
 
@@ -139,9 +151,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().method( methodName ).parameter( "name", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.parameter( "name", 0 )
+						)
 		);
 	}
 
@@ -157,9 +172,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().constructor( WarehouseItem.class ).parameter( "name", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( WarehouseItem.class )
+								.parameter( "name", 0 )
+						)
 		);
 	}
 
@@ -178,9 +196,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().method( methodName ).returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -196,9 +217,12 @@ public class ExecutableValidationIgnoresValidatedExecutableAnnotationSettingsTes
 				createdObject
 		);
 
-		assertCorrectConstraintTypes( violations, ValidWarehouseItem.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith().constructor( WarehouseItem.class ).returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidWarehouseItem.class )
+						.withPropertyPath( pathWith()
+								.constructor( WarehouseItem.class )
+								.returnValue()
+						)
 		);
 	}
 }

@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -15,6 +15,7 @@ import javax.validation.Configuration;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -54,9 +55,8 @@ public class MessageInterpolatorSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, XmlDefinedMessageInterpolator.STATIC_INTERPOLATION_STRING
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( XmlDefinedMessageInterpolator.STATIC_INTERPOLATION_STRING )
 		);
 	}
 
@@ -74,9 +74,8 @@ public class MessageInterpolatorSpecifiedInValidationXmlTest extends AbstractTCK
 
 		User user = new User();
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations, ConfigurationDefinedMessageInterpolator.STATIC_INTERPOLATION_STRING
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( ConfigurationDefinedMessageInterpolator.STATIC_INTERPOLATION_STRING )
 		);
 	}
 }

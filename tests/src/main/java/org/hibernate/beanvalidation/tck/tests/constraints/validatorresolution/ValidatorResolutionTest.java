@@ -6,12 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -26,6 +23,8 @@ import javax.validation.ConstraintDefinitionException;
 import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintViolation;
 import javax.validation.UnexpectedTypeException;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import javax.validation.valueextraction.ExtractedValue;
 import javax.validation.valueextraction.UnwrapByDefault;
 import javax.validation.valueextraction.Unwrapping;
@@ -272,46 +271,46 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		// all values are null and should pass
 		Set<ConstraintViolation<Suburb>> constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		suburb.setName( "" );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), Suburb.class, "", pathWith().property( "name" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withProperty( "name" )
+						.withInvalidValue( "" )
+						.withRootBeanClass( Suburb.class )
 		);
 
 		suburb.setName( "Hoegsbo" );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		suburb.addFacility( Suburb.Facility.SHOPPING_MALL, false );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(),
-				Suburb.class,
-				suburb.getFacilities(),
-				pathWith().property( "facilities" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withProperty( "facilities" )
+						.withInvalidValue( suburb.getFacilities() )
+						.withRootBeanClass( Suburb.class )
 		);
 
 		suburb.addFacility( Suburb.Facility.BUS_TERMINAL, true );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		suburb.addStreetName( "Sikelsgatan" );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(),
-				Suburb.class,
-				suburb.getStreetNames(),
-				pathWith().property( "streetNames" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withProperty( "streetNames" )
+						.withInvalidValue( suburb.getStreetNames() )
+						.withRootBeanClass( Suburb.class )
 		);
 
 		suburb.addStreetName( "Marklandsgatan" );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		Coordinate[] boundingBox = new Coordinate[3];
 		boundingBox[0] = new Coordinate( 0l, 0l );
@@ -319,12 +318,11 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		boundingBox[2] = new Coordinate( 1l, 0l );
 		suburb.setBoundingBox( boundingBox );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(),
-				Suburb.class,
-				suburb.getBoundingBox(),
-				pathWith().property( "boundingBox" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+						.withProperty( "boundingBox" )
+						.withInvalidValue( suburb.getBoundingBox() )
+						.withRootBeanClass( Suburb.class )
 		);
 
 		boundingBox = new Coordinate[4];
@@ -334,7 +332,7 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		boundingBox[3] = new Coordinate( 1l, 1l );
 		suburb.setBoundingBox( boundingBox );
 		constraintViolations = getValidator().validate( suburb );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -342,12 +340,9 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	public void testResolutionOfMinMaxForDifferentTypes() {
 		MinMax minMax = new MinMax( "5", 5 );
 		Set<ConstraintViolation<MinMax>> constraintViolations = getValidator().validate( minMax );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "number" ),
-				pathWith()
-						.property( "numberAsString" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withProperty( "number" ),
+				violationOf( Min.class ).withProperty( "numberAsString" )
 		);
 	}
 
@@ -373,10 +368,12 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "k")
 	public void testValidatorForWrapperTypeIsAppliedForPrimitiveType() {
 		PrimitiveHolder primitiveHolder = new PrimitiveHolder();
-		Set<ConstraintViolation<PrimitiveHolder>> violations = getValidator().validate( primitiveHolder );
+		Set<ConstraintViolation<PrimitiveHolder>> constraintViolations = getValidator().validate( primitiveHolder );
 
-		assertNumberOfViolations( violations, 2 );
-		assertCorrectConstraintTypes( violations, ValidInteger.class, ValidLong.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( ValidInteger.class ),
+				violationOf( ValidLong.class )
+		);
 	}
 
 	@Test(expectedExceptions = ConstraintDefinitionException.class)
@@ -406,10 +403,12 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		Method method = OfflineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
 		Object[] parameterValues = new Object[2];
 
-		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
+		Set<ConstraintViolation<Object>> constraintViolations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
 
-		assertCorrectConstraintViolationMessages( violations, "violation created by cross-parameter validator" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( GenericAndCrossParameterConstraint.class ).withMessage( "violation created by cross-parameter validator" )
+		);
 	}
 
 	@Test
@@ -421,7 +420,9 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
-		assertCorrectConstraintViolationMessages( violations, "violation created by cross-parameter validator" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GenericAndCrossParameterConstraint.class ).withMessage( "violation created by cross-parameter validator" )
+		);
 	}
 
 	@Test
@@ -434,7 +435,9 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
-		assertCorrectConstraintViolationMessages( violations, "violation created by validator for Object[]" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( CrossParameterConstraintWithObjectArrayValidator.class ).withMessage( "violation created by validator for Object[]" )
+		);
 	}
 
 	@Test
@@ -447,7 +450,9 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateParameters( object, method, parameterValues );
-		assertCorrectConstraintViolationMessages( violations, "violation created by validator for Object" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( CrossParameterConstraintWithObjectValidator.class ).withMessage( "violation created by validator for Object" )
+		);
 	}
 
 	@Test
@@ -459,14 +464,18 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 
 		Set<ConstraintViolation<Object>> violations = getExecutableValidator()
 				.validateReturnValue( object, method, returnValue );
-		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GenericAndCrossParameterConstraint.class ).withMessage( "violation created by generic validator" )
+		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "j")
 	public void testGenericValidatorIsUsedForConstraintTargetingField() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validate( new TestBean() );
-		assertCorrectConstraintViolationMessages( violations, "violation created by generic validator" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( GenericAndCrossParameterConstraint.class ).withMessage( "violation created by generic validator" )
+		);
 	}
 
 	@Test(expectedExceptions = UnexpectedTypeException.class)

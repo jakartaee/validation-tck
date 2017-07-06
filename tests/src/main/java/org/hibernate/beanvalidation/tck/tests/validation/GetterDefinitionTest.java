@@ -6,7 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
+
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
@@ -42,7 +44,9 @@ public class GetterDefinitionTest extends AbstractTCKTest {
 		Shipment shipment = new Shipment();
 
 		Set<ConstraintViolation<Shipment>> constraintViolations = getValidator().validateProperty( shipment, "id" );
-		assertCorrectConstraintTypes( constraintViolations, NotNull.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+		);
 	}
 
 	@Test
@@ -51,6 +55,8 @@ public class GetterDefinitionTest extends AbstractTCKTest {
 		Shipment shipment = new Shipment();
 
 		Set<ConstraintViolation<Shipment>> constraintViolations = getValidator().validateProperty( shipment, "shipped" );
-		assertCorrectConstraintTypes( constraintViolations, AssertTrue.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( AssertTrue.class )
+		);
 	}
 }

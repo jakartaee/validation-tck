@@ -8,7 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.messageinterpolation;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -72,7 +73,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "b")
 	public void testInterpolationWithElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "firstName" );
-		assertCorrectConstraintViolationMessages( violations, "2" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "2" )
+		);
 	}
 
 	@Test
@@ -80,7 +83,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "b")
 	public void testInterpolationWithSeveralElExpressions() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "lastName" );
-		assertCorrectConstraintViolationMessages( violations, "2 some text 6" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "2 some text 6" )
+		);
 	}
 
 	@Test
@@ -88,28 +93,36 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "f")
 	public void testInterpolationWithUnknownElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "houseNo" );
-		assertCorrectConstraintViolationMessages( violations, "${unknown}" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "${unknown}" )
+		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "f")
 	public void testInterpolationWithInvalidElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "addition" );
-		assertCorrectConstraintViolationMessages( violations, "${1*}" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "${1*}" )
+		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "f")
 	public void testInterpolationWithElExpressionThrowingAnException() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "continent" );
-		assertCorrectConstraintViolationMessages( violations, "${validatedValue}" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidContinent.class ).withMessage( "${validatedValue}" )
+		);
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "a")
 	public void testInterpolationWithIncompleteElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "zipCode" );
-		assertCorrectConstraintViolationMessages( violations, "${incomplete" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "${incomplete" )
+		);
 	}
 
 	@Test
@@ -117,7 +130,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "b")
 	public void testOnlyDollarSignIsSupportedForEnclosingElExpressions() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "middleName" );
-		assertCorrectConstraintViolationMessages( violations, "#{1+1}" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "#{1+1}" )
+		);
 	}
 
 	@Test
@@ -125,7 +140,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "c")
 	public void testInterpolationUsingAnnotationAttributesInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "street" );
-		assertCorrectConstraintViolationMessages( violations, "must be longer than 30" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class ).withMessage( "must be longer than 30" )
+		);
 	}
 
 	@Test
@@ -133,7 +150,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "c")
 	public void testInterpolationUsingGroupsAndPayloadInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "country" );
-		assertCorrectConstraintViolationMessages( violations, "groups: Default, payload: CustomPayload" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "groups: Default, payload: CustomPayload" )
+		);
 	}
 
 	@Test
@@ -141,7 +160,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "d")
 	public void testInterpolationUsingValidatedValueInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "city" );
-		assertCorrectConstraintViolationMessages( violations, "Foo is not long enough" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Size.class ).withMessage( "Foo is not long enough" )
+		);
 	}
 
 	@Test
@@ -149,7 +170,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "e")
 	public void testInterpolationUsingFormatterInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "longitude" );
-		assertCorrectConstraintViolationMessages( violations, "98.12 must be larger than 100" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class ).withMessage( "98.12 must be larger than 100" )
+		);
 	}
 
 	@Test
@@ -157,7 +180,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION_EXPRESSIONLANGUAGE, id = "e")
 	public void testInterpolationUsingFormatterWithSeveralObjectsInElExpression() {
 		Set<ConstraintViolation<TestBean>> violations = getValidator().validateProperty( new TestBean(), "latitude" );
-		assertCorrectConstraintViolationMessages( violations, "98.12 (that is, 98.1235) must be larger than 100" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class ).withMessage( "98.12 (that is, 98.1235) must be larger than 100" )
+		);
 	}
 
 	@Test
@@ -167,7 +192,9 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 		Locale.setDefault( Locale.GERMAN );
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<TestBean>> violations = validator.validateProperty( new TestBean(), "longitude" );
-		assertCorrectConstraintViolationMessages( violations, "98,12 must be larger than 100" );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Min.class ).withMessage( "98,12 must be larger than 100" )
+		);
 	}
 
 	private interface CustomPayload extends Payload {

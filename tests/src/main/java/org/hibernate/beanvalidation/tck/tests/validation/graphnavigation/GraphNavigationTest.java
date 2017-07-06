@@ -6,12 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.testng.Assert.assertEquals;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.List;
 import java.util.Map;
@@ -19,15 +17,19 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
+
 import org.testng.annotations.Test;
 
 /**
@@ -76,20 +78,25 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<Order>> constraintViolations = validator.validate( order );
-		assertNumberOfViolations( constraintViolations, 3 );
-		assertThat(constraintViolations).containsOnlyPaths(
-				pathWith()
-						.property( "shippingAddress" )
-						.property( "addressline1" ),
-				pathWith()
-						.property( "customer" )
-						.property( "addresses" )
-						.property( "addressline1", true, null, 0, List.class, 0 ),
-				pathWith()
-						.property( "billingAddress" )
-						.property( "inhabitant" )
-						.property( "addresses" )
-						.property( "addressline1", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .property( "shippingAddress" )
+							   .property( "addressline1" )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .property( "customer" )
+							   .property( "addresses" )
+							   .property( "addressline1", true, null, 0, List.class, 0 )
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .property( "billingAddress" )
+							   .property( "inhabitant" )
+							   .property( "addresses" )
+							   .property( "addressline1", true, null, 0, List.class, 0 )
+						)
 		);
 	}
 
@@ -105,33 +112,39 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( john );
-		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), User.class, null, pathWith().property( "lastName" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withProperty( "lastName" )
+						.withRootBeanClass( User.class )
+						.withInvalidValue( null )
 		);
-
 
 		User jane = new User( "Jane", "Doe" );
 		jane.knows( john );
 		john.knows( jane );
 
 		constraintViolations = validator.validate( john );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertConstraintViolation(
-				constraintViolations.iterator().next(), User.class, null, pathWith().property( "lastName" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withProperty( "lastName" )
+						.withRootBeanClass( User.class )
+						.withInvalidValue( null )
 		);
 
 		constraintViolations = validator.validate( jane );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "knowsUser" )
-						.property( "lastName", true, null, 0, List.class, 0 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withRootBeanClass( User.class )
+						.withInvalidValue( null )
+						.withPropertyPath( pathWith()
+							   .property( "knowsUser" )
+							   .property( "lastName", true, null, 0, List.class, 0 )
+						)
 		);
 
 		john.setLastName( "Doe" );
 		constraintViolations = validator.validate( john );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -144,8 +157,9 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<SingleCage>> constraintViolations = validator.validate( cage );
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "An elephant weighs at least 1000 kg" );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withMessage( "An elephant weighs at least 1000 kg" )
+		);
 	}
 
 	@Test
@@ -160,11 +174,9 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<MultiCage>> constraintViolations = validator.validate( cage );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations,
-				"A zebra needs a name",
-				"A zebra needs a name"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "A zebra needs a name" ),
+				violationOf( NotNull.class ).withMessage( "A zebra needs a name" )
 		);
 	}
 
@@ -182,11 +194,9 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<GameReserve<Zebra>>> constraintViolations = validator.validate( reserve );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations,
-				"A zebra needs a name",
-				"A zebra needs a name"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withMessage( "A zebra needs a name" ),
+				violationOf( NotNull.class ).withMessage( "A zebra needs a name" )
 		);
 	}
 
@@ -207,13 +217,10 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Zoo>> constraintViolations = validator.validate( zoo );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintViolationMessages(
-				constraintViolations,
-				"The wingspan of a condor is at least 250 cm",
-				"An elephant weighs at least 1000 kg"
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class ).withMessage( "An elephant weighs at least 1000 kg" ),
+				violationOf( Min.class ).withMessage( "The wingspan of a condor is at least 250 cm" )
 		);
-
 	}
 
 	@Test
@@ -234,14 +241,17 @@ public class GraphNavigationTest extends AbstractTCKTest {
 
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<AnimalCaretaker>> constraintViolations = validator.validate( caretaker );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "caresFor" )
-						.property( "weight", true, "Jumbo", null, Map.class, 1 ),
-				pathWith()
-						.property( "caresFor" )
-						.property( "wingspan", true, "Andes", null, Map.class, 1 )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+							   .property( "caresFor" )
+							   .property( "weight", true, "Jumbo", null, Map.class, 1 )
+						),
+				violationOf( Min.class )
+						.withPropertyPath( pathWith()
+							   .property( "caresFor" )
+							   .property( "wingspan", true, "Andes", null, Map.class, 1 )
+						)
 		);
 	}
 
@@ -255,19 +265,18 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		p.setChild( new Child() );
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Parent>> errors = validator.validate( p, Parent.ProperOrder.class );
-		assertNumberOfViolations( errors, 1 );
-		assertThat( errors ).containsOnlyPaths(
-				pathWith()
-						.property( "child" )
-						.property( "name" )
+		assertThat( errors ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+							   .property( "child" )
+							   .property( "name" )
+						)
 		);
 
 		p.getChild().setName( "Emmanuel" );
 		errors = validator.validate( p, Parent.ProperOrder.class );
-		assertNumberOfViolations( errors, 1 );
-		assertThat( errors ).containsOnlyPaths(
-				pathWith()
-						.property( "name" )
+		assertThat( errors ).containsOnlyViolations(
+				violationOf( NotNull.class ).withProperty( "name" )
 		);
 	}
 
@@ -277,6 +286,6 @@ public class GraphNavigationTest extends AbstractTCKTest {
 		Parent p = new Parent();
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Set<ConstraintViolation<Parent>> errors = validator.validateProperty( p, "child" );
-		assertNumberOfViolations( errors, 0 );
+		assertNoViolations( errors );
 	}
 }

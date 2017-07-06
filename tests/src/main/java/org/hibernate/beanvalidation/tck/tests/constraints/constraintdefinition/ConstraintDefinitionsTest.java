@@ -6,7 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
@@ -59,7 +61,9 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 		}
 
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( new Person( "John", "Doe" ) );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( AlwaysValid.class )
+		);
 	}
 
 	@Test
@@ -81,13 +85,17 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 		}
 
 		Set<ConstraintViolation<Movie>> constraintViolations = validator.validate( new Movie( "Title" ) );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 
 		constraintViolations = validator.validate( new Movie( "A" ) );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+		);
 
 		constraintViolations = validator.validate( new Movie( "A movie title far too long that does not respect the constraint" ) );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class )
+		);
 	}
 
 	@Test

@@ -8,8 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
@@ -152,15 +151,20 @@ public class ValidateTest extends AbstractTCKTest {
 		Engine engine = new Engine();
 		engine.setSerialNumber( "mail@foobar.com" );
 		Set<ConstraintViolation<Engine>> constraintViolations = validator.validate( engine );
-		assertNumberOfViolations( constraintViolations, 2 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class ),
+				violationOf( Pattern.class )
+		);
 
 		engine.setSerialNumber( "ABCDEFGH1234" );
 		constraintViolations = validator.validate( engine );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+		);
 
 		engine.setSerialNumber( "ABCD-EFGH-1234" );
 		constraintViolations = validator.validate( engine );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -177,8 +181,10 @@ public class ValidateTest extends AbstractTCKTest {
 		address.setCity( "Llanfairpwllgwyngyllgogerychwyrndrobwyll-llantysiliogogogoch" ); //town in North Wales
 
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validate( address );
-		assertNumberOfViolations( constraintViolations, 2 );
-		assertCorrectConstraintTypes( constraintViolations, Size.class, NotEmpty.class );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Size.class ),
+				violationOf( NotEmpty.class )
+		);
 	}
 
 	@Test
@@ -203,7 +209,9 @@ public class ValidateTest extends AbstractTCKTest {
 		Engine engine = new Engine();
 		engine.setSerialNumber( "ABCDEFGH1234" );
 		Set<ConstraintViolation<Engine>> constraintViolations = validator.validate( engine );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+		);
 
 		ConstraintViolation<Engine> violation = constraintViolations.iterator().next();
 
@@ -225,7 +233,7 @@ public class ValidateTest extends AbstractTCKTest {
 
 		engine.setSerialNumber( "ABCD-EFGH-1234" );
 		constraintViolations = validator.validate( engine );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -241,7 +249,9 @@ public class ValidateTest extends AbstractTCKTest {
 
 		DirtBike bike = new DirtBike();
 		Set<ConstraintViolation<DirtBike>> constraintViolations = validator.validate( bike );
-		assertNumberOfViolations( constraintViolations, 1 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( ValidDirtBike.class )
+		);
 
 		ConstraintViolation<DirtBike> violation = constraintViolations.iterator().next();
 
@@ -280,22 +290,26 @@ public class ValidateTest extends AbstractTCKTest {
 		clint.addPlayedWith( morgan );
 
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
-		assertNumberOfViolations( constraintViolations, 2 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withMessage( "Everyone has a last name." )
+						.withPropertyPath( pathWith()
+								.property( "playedWith" )
+								.property( "playedWith", true, null, 0, List.class, 0 )
+								.property( "lastName", true, null, 1, List.class, 0 )
+						),
+				violationOf( NotNull.class )
+						.withMessage( "Everyone has a last name." )
+						.withPropertyPath( pathWith()
+								.property( "playedWith" )
+								.property( "lastName", true, null, 1, List.class, 0 )
+						)
+		);
 
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
 		assertEquals( constraintViolation.getLeafBean(), morgan );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "playedWith" )
-						.property( "playedWith", true, null, 0, List.class, 0 )
-						.property( "lastName", true, null, 1, List.class, 0 ),
-				pathWith()
-						.property( "playedWith" )
-						.property( "lastName", true, null, 1, List.class, 0 )
-		);
 	}
 
 	@Test
@@ -319,20 +333,24 @@ public class ValidateTest extends AbstractTCKTest {
 		clint.addPlayedWith( morgan );
 
 		Set<ConstraintViolation<Actor>> constraintViolations = validator.validate( clint );
-		assertNumberOfViolations( constraintViolations, 2 );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withMessage( "Everyone has a last name." )
+						.withPropertyPath( pathWith()
+								.property( "playedWith" )
+								.property( "playedWith", true, null, 0, Object[].class, null )
+								.property( "lastName", true, null, 1, Object[].class, null )
+						),
+				violationOf( NotNull.class )
+						.withMessage( "Everyone has a last name." )
+						.withPropertyPath( pathWith()
+								.property( "playedWith" )
+								.property( "lastName", true, null, 1, Object[].class, null )
+						)
+		);
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getMessage(), "Everyone has a last name.", "Wrong message" );
 		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
 		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "playedWith" )
-						.property( "playedWith", true, null, 0, Object[].class, null )
-						.property( "lastName", true, null, 1, Object[].class, null ),
-				pathWith()
-						.property( "playedWith" )
-						.property( "lastName", true, null, 1, Object[].class, null )
-		);
 	}
 
 	@Test
@@ -344,13 +362,15 @@ public class ValidateTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Car>> violations = validator.validateProperty(
 				car, "licensePlateNumber", First.class, Second.class
 		);
-		assertNumberOfViolations( violations, 1 );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( Pattern.class )
+		);
 
 		car.setLicensePlateNumber( "USD-298" );
 		violations = validator.validateProperty(
 				car, "licensePlateNumber", First.class, Second.class
 		);
-		assertNumberOfViolations( violations, 0 );
+		assertNoViolations( violations );
 	}
 
 	@Test(expectedExceptions = ValidationException.class)

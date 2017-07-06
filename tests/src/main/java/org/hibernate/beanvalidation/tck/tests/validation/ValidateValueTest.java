@@ -6,12 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertConstraintViolation;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintViolationMessages;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.testng.Assert.assertEquals;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
@@ -20,6 +17,7 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -60,7 +58,7 @@ public class ValidateValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateValue(
 				Address.class, "city", "Paris"
 		);
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -71,8 +69,11 @@ public class ValidateValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Address>> constraintViolations = validator.validateValue(
 				Address.class, "city", null
 		);
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertCorrectConstraintViolationMessages( constraintViolations, "You have to specify a city." );
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withProperty( "city" )
+						.withMessage( "You have to specify a city." )
+		);
 	}
 
 	@Test
@@ -91,23 +92,22 @@ public class ValidateValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Order>> constraintViolations = validator.validateValue(
 				Order.class, "orderNumber", null
 		);
-		assertNumberOfViolations( constraintViolations, 1 );
-		assertThat( constraintViolations ).containsOnlyPaths(
-				pathWith()
-						.property( "orderNumber" )
+		assertThat( constraintViolations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withProperty( "orderNumber" )
+						.withMessage( "An order must have an order number." )
+						.withInvalidValue( null )
+						.withRootBeanClass( Order.class )
 		);
-		assertCorrectConstraintViolationMessages( constraintViolations, "An order must have an order number." );
 
 		ConstraintViolation<Order> constraintViolation = constraintViolations.iterator().next();
-		assertConstraintViolation( constraintViolation, Order.class, null, pathWith().property( "orderNumber" ) );
-		assertEquals( constraintViolation.getRootBeanClass(), Order.class, "Wrong root bean class" );
 		assertNull( constraintViolation.getRootBean() );
 		assertNull( constraintViolation.getLeafBean() );
 		assertNull( constraintViolation.getExecutableParameters() );
 		assertNull( constraintViolation.getExecutableReturnValue() );
 
 		constraintViolations = validator.validateValue( Order.class, "orderNumber", 1234 );
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 
 	@Test
@@ -180,6 +180,6 @@ public class ValidateValueTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Customer>> constraintViolations = validator.validateValue(
 				Customer.class, "orders", order
 		);
-		assertNumberOfViolations( constraintViolations, 0 );
+		assertNoViolations( constraintViolations );
 	}
 }

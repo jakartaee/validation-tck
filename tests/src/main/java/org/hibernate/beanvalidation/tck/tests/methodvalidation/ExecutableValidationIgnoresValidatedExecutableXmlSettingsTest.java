@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertCorrectConstraintTypes;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 
 import java.lang.reflect.Constructor;
@@ -65,11 +65,12 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+				.withPropertyPath( pathWith()
 						.method( methodName )
 						.parameter( "name", 0 )
+				)
 		);
 	}
 
@@ -90,11 +91,12 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 				parameterValues
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( StockItem.class )
-						.parameter( "name", 0 )
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( StockItem.class )
+								.parameter( "name", 0 )
+						)
 		);
 	}
 
@@ -118,11 +120,12 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 				returnValue
 		);
 
-		assertCorrectConstraintTypes( violations, NotNull.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.method( methodName )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.method( methodName )
+								.returnValue()
+						)
 		);
 	}
 
@@ -143,11 +146,12 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 				createdObject
 		);
 
-		assertCorrectConstraintTypes( violations, ValidStockItem.class );
-		assertThat( violations ).containsOnlyPaths(
-				pathWith()
-						.constructor( StockItem.class )
-						.returnValue()
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidStockItem.class )
+						.withPropertyPath( pathWith()
+								.constructor( StockItem.class )
+								.returnValue()
+						)
 		);
 	}
 }
