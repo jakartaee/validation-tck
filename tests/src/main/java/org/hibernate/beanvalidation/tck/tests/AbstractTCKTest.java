@@ -41,9 +41,11 @@ public abstract class AbstractTCKTest extends Arquillian {
 				ValidationInvocationHandler.class
 		);
 
-		// we don't use the Maven features of Shrinkwrap as the TCK might not be run with Maven
-		// or it could be run in an offline environment
-		// thus we directly include the classes from the classpath
+		// We don't use the Maven features of Shrinkwrap as the TCK might not be run with Maven
+		// or it could be run in an offline environment.
+		// Thus we use the protection domain API to obtain the original jar and include it in the war.
+		// According to our security policy, the TCK has the permission to access the API even if
+		// the security manager is enabled.
 		webArchiveBuilder.withAdditionalJar( Assert.class.getProtectionDomain()
 				.getCodeSource()
 				.getLocation()

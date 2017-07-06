@@ -139,13 +139,12 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 
 	public abstract T withEmptyBeansXml();
 
-	public T withAdditionalJar(String jarName) {
+	public T withAdditionalJar(String jarPath) {
 		if ( additionalJars == null ) {
 			additionalJars = new ArrayList<>();
 		}
 
-		File archive = new File( jarName );
-		additionalJars.add( archive );
+		additionalJars.add( new File( jarPath ) );
 
 		return self();
 	}
