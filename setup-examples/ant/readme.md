@@ -8,7 +8,7 @@ using [Ant](https://ant.apache.org) + [Ivy](http://ant.apache.org/ivy/) as build
 * [Git](http://git-scm.com/)
 * [Ant](https://ant.apache.org) >= 1.8
 * [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Glassfish 4](https://javaee.github.io/glassfish/download)
+* [Glassfish 5](https://javaee.github.io/glassfish/download)
 
 ## How to run
 
