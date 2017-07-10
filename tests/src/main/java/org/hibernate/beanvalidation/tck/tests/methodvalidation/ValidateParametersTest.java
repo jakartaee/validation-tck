@@ -10,11 +10,16 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -27,8 +32,10 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ContainerElementsOrder;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ProductCategory;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
@@ -40,6 +47,7 @@ import org.testng.annotations.Test;
 
 /**
  * @author Gunnar Morling
+ * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class ValidateParametersTest extends AbstractTCKTest {
@@ -53,6 +61,8 @@ public class ValidateParametersTest extends AbstractTCKTest {
 				.withClass( Item.class )
 				.withClass( OrderLine.class )
 				.withClass( User.class )
+				.withClass( ContainerElementsOrder.class )
+				.withClass( ProductCategory.class )
 				.build();
 	}
 
@@ -479,5 +489,31 @@ public class ValidateParametersTest extends AbstractTCKTest {
 		assertEquals( violation.getInvalidValue(), "foo" );
 		assertEquals( violation.getExecutableParameters(), parameterValues );
 		assertNull( violation.getExecutableReturnValue() );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	public void testContainerElementLeafBean() throws NoSuchMethodException, SecurityException {
+		Method method = ContainerElementsOrder.class.getMethod( "replaceOrderLines", Map.class );
+
+		ContainerElementsOrder order = new ContainerElementsOrder( "order" );
+		Item invalidItem = new Item( "s" );
+
+		Map<ProductCategory, List<OrderLine>> invalidLines = new HashMap<>();
+		invalidLines.put( null, Arrays.asList( new OrderLine( new Item( "item name" ) ) ) );
+		invalidLines.put( ProductCategory.MUSIC, Arrays.asList( new OrderLine( invalidItem ) ) );
+
+		Object[] parameterValues = new Object[] { invalidLines };
+
+		Set<ConstraintViolation<ContainerElementsOrder>> violations = getExecutableValidator().validateParameters(
+				order,
+				method,
+				parameterValues
+		);
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withLeafBean( order ),
+				violationOf( Size.class ).withLeafBean( invalidItem )
+		);
 	}
 }
