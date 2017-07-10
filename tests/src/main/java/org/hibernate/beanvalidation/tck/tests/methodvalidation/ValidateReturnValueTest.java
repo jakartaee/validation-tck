@@ -10,15 +10,21 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -26,12 +32,14 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ContainerElementsOrder;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Customer.Extended;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Email;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ProductCategory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -54,6 +62,8 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 				.withClass( Email.class )
 				.withClass( Item.class )
 				.withClass( OrderLine.class )
+				.withClass( ContainerElementsOrder.class )
+				.withClass( ProductCategory.class )
 				.build();
 	}
 
@@ -333,5 +343,30 @@ public class ValidateReturnValueTest extends AbstractTCKTest {
 		assertEquals( violation.getInvalidValue(), "foo" );
 		assertNull( violation.getExecutableParameters() );
 		assertEquals( violation.getExecutableReturnValue(), returnValue );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	public void testContainerElementLeafBean() throws NoSuchMethodException, SecurityException {
+		Method method = ContainerElementsOrder.class.getMethod( "getOrder" );
+
+		Item invalidItem = new Item( "s" );
+
+		Map<ProductCategory, List<OrderLine>> invalidLines = new HashMap<>();
+		invalidLines.put( null, Arrays.asList( new OrderLine( new Item( "item name" ) ) ) );
+		invalidLines.put( ProductCategory.MUSIC, Arrays.asList( new OrderLine( invalidItem ) ) );
+
+		ContainerElementsOrder invalidOrder = new ContainerElementsOrder( "order name", invalidLines );
+
+		Set<ConstraintViolation<ContainerElementsOrder>> violations = getExecutableValidator().validateReturnValue(
+				invalidOrder,
+				method,
+				invalidOrder
+		);
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withLeafBean( invalidOrder ),
+				violationOf( Size.class ).withLeafBean( invalidItem )
+		);
 	}
 }

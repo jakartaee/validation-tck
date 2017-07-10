@@ -12,6 +12,7 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNumberOfViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -21,7 +22,10 @@ import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.Constraint;
@@ -32,6 +36,7 @@ import javax.validation.Payload;
 import javax.validation.UnexpectedTypeException;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.validation.groups.Default;
@@ -74,7 +79,11 @@ public class ValidateTest extends AbstractTCKTest {
 						Address.class,
 						BadlyBehavedEntity.class,
 						Last.class,
-						NotEmpty.class
+						NotEmpty.class,
+						ContainerElementsOrder.class,
+						OrderLine.class,
+						ProductCategory.class,
+						Item.class
 				)
 				.build();
 	}
@@ -349,6 +358,25 @@ public class ValidateTest extends AbstractTCKTest {
 	public void testUnexpectedExceptionsInValidateGetWrappedInValidationExceptions() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new BadlyBehavedEntity() );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	public void testContainerElementLeafBean() throws NoSuchMethodException, SecurityException {
+		Item invalidItem = new Item( "s" );
+
+		Map<ProductCategory, List<OrderLine>> invalidOrderLines = new HashMap<>();
+		invalidOrderLines.put( null, Arrays.asList( new OrderLine( new Item( "item name" ) ) ) );
+		invalidOrderLines.put( ProductCategory.MUSIC, Arrays.asList( new OrderLine( invalidItem ) ) );
+
+		ContainerElementsOrder invalidOrder = new ContainerElementsOrder( "order name", invalidOrderLines );
+
+		Set<ConstraintViolation<ContainerElementsOrder>> violations = getValidator().validate( invalidOrder );
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withLeafBean( invalidOrder ),
+				violationOf( Size.class ).withLeafBean( invalidItem )
+		);
 	}
 
 	private static class Car {
