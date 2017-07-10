@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
  * Tests for {@link org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.ConstraintViolationSetAssert}.
  *
  * @author Marko Bekhta
+ * @author Guillaume Smet
  */
 public class ConstraintViolationAssertTest extends AbstractTCKTest {
 
@@ -143,6 +144,23 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 								.property( "nonExistingProperty" )
 								.returnValue()
 						)
+		);
+	}
+
+	@Test
+	public void testLeafBeanCorrect() {
+		Foo foo = new Foo( null );
+		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( foo );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withLeafBean( foo )
+		);
+	}
+
+	@Test(expectedExceptions = AssertionError.class)
+	public void testLeafBeanIncorrect() {
+		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class ).withLeafBean( "not the leaf bean" )
 		);
 	}
 

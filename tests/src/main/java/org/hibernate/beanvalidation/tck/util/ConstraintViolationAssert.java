@@ -304,6 +304,8 @@ public final class ConstraintViolationAssert {
 
 		private PathExpectation propertyPath;
 
+		private Object leafBean;
+
 		private ViolationExpectation(Class<? extends Annotation> constraintType) {
 			this.constraintType = constraintType;
 		}
@@ -322,6 +324,9 @@ public final class ConstraintViolationAssert {
 			}
 			if ( propertiesToTest.testPropertyPath ) {
 				withPropertyPath( new PathExpectation( violation.getPropertyPath() ) );
+			}
+			if ( propertiesToTest.testLeafBean ) {
+				withLeafBean( violation.getLeafBean() );
 			}
 		}
 
@@ -353,6 +358,12 @@ public final class ConstraintViolationAssert {
 			return withPropertyPath( pathWith().property( property ) );
 		}
 
+		public ViolationExpectation withLeafBean(Object leafBean) {
+			propertiesToTest.testLeafBean();
+			this.leafBean = leafBean;
+			return this;
+		}
+
 		@Override
 		public String toString() {
 			String lineBreak = System.getProperty( "line.separator" );
@@ -369,6 +380,9 @@ public final class ConstraintViolationAssert {
 			}
 			if ( propertiesToTest.testPropertyPath ) {
 				asString.append( "  propertyPath: " ).append( propertyPath.toStringInViolation() ).append( lineBreak );
+			}
+			if ( propertiesToTest.testLeafBean ) {
+				asString.append( "  leafBean: " ).append( leafBean ).append( lineBreak );
 			}
 
 			return asString.append( ")" ).toString();
@@ -390,6 +404,9 @@ public final class ConstraintViolationAssert {
 			}
 			if ( propertiesToTest.testPropertyPath ) {
 				result = prime * result + ( propertyPath == null ? 0 : propertyPath.hashCode() );
+			}
+			if ( propertiesToTest.testLeafBean ) {
+				result = prime * result + ( leafBean == null ? 0 : leafBean.hashCode() );
 			}
 			return result;
 		}
@@ -454,6 +471,16 @@ public final class ConstraintViolationAssert {
 					return false;
 				}
 			}
+			if ( propertiesToTest.testLeafBean ) {
+				if ( leafBean == null ) {
+					if ( other.leafBean != null ) {
+						return false;
+					}
+				}
+				else if ( !leafBean.equals( other.leafBean ) ) {
+					return false;
+				}
+			}
 			return true;
 		}
 	}
@@ -468,12 +495,15 @@ public final class ConstraintViolationAssert {
 
 		private boolean testPropertyPath = false;
 
+		private boolean testLeafBean = false;
+
 		private static ViolationExpectationPropertiesToTest all() {
 			ViolationExpectationPropertiesToTest propertiesToTest = new ViolationExpectationPropertiesToTest()
 					.testRootBeanClass()
 					.testMessage()
 					.testInvalidValue()
-					.testPropertyPath();
+					.testPropertyPath()
+					.testLeafBean();
 			return propertiesToTest;
 		}
 
@@ -497,6 +527,11 @@ public final class ConstraintViolationAssert {
 			return this;
 		}
 
+		private ViolationExpectationPropertiesToTest testLeafBean() {
+			testLeafBean = true;
+			return this;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -505,6 +540,7 @@ public final class ConstraintViolationAssert {
 			result = prime * result + ( testMessage ? 1 : 0 );
 			result = prime * result + ( testInvalidValue ? 1 : 0 );
 			result = prime * result + ( testPropertyPath ? 1 : 0 );
+			result = prime * result + ( testLeafBean ? 1 : 0 );
 			return result;
 		}
 
@@ -531,6 +567,9 @@ public final class ConstraintViolationAssert {
 				return false;
 			}
 			if ( testPropertyPath != other.testPropertyPath ) {
+				return false;
+			}
+			if ( testLeafBean != other.testLeafBean ) {
 				return false;
 			}
 
