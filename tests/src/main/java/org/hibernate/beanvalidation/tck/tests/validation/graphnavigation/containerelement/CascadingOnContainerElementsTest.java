@@ -77,7 +77,7 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
-	public void constraint_provided_on_custom_bean_used_as_map_parameter_valueand_cascading_gets_validated() {
+	public void constraint_provided_on_custom_bean_used_as_map_parameter_value_and_cascading_gets_validated() {
 		TypeWithMapValue m = new TypeWithMapValue();
 		m.barMap = new HashMap<>();
 		m.barMap.put( "bar", new Bar( 2 ) );
@@ -105,7 +105,7 @@ public class CascadingOnContainerElementsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS, id = "c")
-	public void constraint_provided_on_custom_bean_used_as_map_parameter_keyand_cascading_gets_validated() {
+	public void constraint_provided_on_custom_bean_used_as_map_parameter_key_and_cascading_gets_validated() {
 		Bar bar = new Bar( 2 );
 		TypeWithMapKey m = new TypeWithMapKey();
 		m.barMap = new HashMap<>();
