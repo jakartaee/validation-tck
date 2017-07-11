@@ -3,6 +3,19 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.0.CR3 (11-07-2017)
+----------------------
+
+** Improvement
+    * [BVTCK-181] - Fix 2 typos in test method names
+    * [BVTCK-180] - Add CONTRIBUTING.md file
+    * [BVTCK-179] - Add tests for ConstraintViolationAssert
+    * [BVTCK-177] - Create test war files more efficiently
+
+** Task
+    * [BVTCK-182] - Upgrade to Bean Validation 2.0.0.CR3 and HV 6.0.0.CR3
+    * [BVTCK-176] - Add tests for getLeafBean on container element constraint violations
+
 2.0.0.CR2 (05-07-2017)
 ----------------------
 
