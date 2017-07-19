@@ -38,12 +38,12 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class CascadingValueExtactorResolutionAlgorithmTest extends AbstractTCKTest {
+public class CascadingValueExtractorResolutionAlgorithmTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( CascadingValueExtactorResolutionAlgorithmTest.class )
+				.withTestClass( CascadingValueExtractorResolutionAlgorithmTest.class )
 				.withPackage( IWrapper11.class.getPackage() )
 				.build();
 	}
