@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class CascadingEntity2 {
 
 	@SuppressWarnings("unused")
-	private IWrapper212<@Valid Bean21, @Valid Bean22> wrapper;
+	private IWrapper21<@Valid Bean21, @Valid Bean22> wrapper;
 
 	public CascadingEntity2(String value) {
 		this.wrapper = new Wrapper2<Bean21, Bean22>( new Bean21( value ), new Bean22( value ) );
