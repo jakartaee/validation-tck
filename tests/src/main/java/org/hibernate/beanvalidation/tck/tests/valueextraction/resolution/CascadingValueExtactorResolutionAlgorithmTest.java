@@ -24,6 +24,7 @@ import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.C
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.CascadingEntity2;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.IWrapper11;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.IWrapper111;
+import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.IWrapper21;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.IWrapper211;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.IWrapper212;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.Wrapper2;
@@ -116,10 +117,10 @@ public class CascadingValueExtactorResolutionAlgorithmTest extends AbstractTCKTe
 		assertThat( violations ).containsOnlyPaths(
 				pathWith()
 						.property( "wrapper" )
-						.property( "property", false, null, null, IWrapper212.class, 0 ),
+						.property( "property", false, null, null, IWrapper21.class, 0 ),
 				pathWith()
 						.property( "wrapper" )
-						.property( "property", false, null, null, IWrapper212.class, 1 )
+						.property( "property", false, null, null, IWrapper21.class, 1 )
 		);
 	}
 
