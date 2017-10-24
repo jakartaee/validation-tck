@@ -266,7 +266,7 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 		Class<? extends Payload>[] payload() default {};
 	}
 
-	public class ValidAddressValidator implements ConstraintValidator<ValidAddress, Address> {
+	public static class ValidAddressValidator implements ConstraintValidator<ValidAddress, Address> {
 
 		@Override
 		public boolean isValid(Address value, ConstraintValidatorContext context) {
