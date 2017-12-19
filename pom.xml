@@ -95,7 +95,7 @@
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <validation.api.version>2.0.0.Final</validation.api.version>
+        <validation.api.version>2.0.1.Final</validation.api.version>
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency to the RI -->
