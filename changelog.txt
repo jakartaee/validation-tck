@@ -3,6 +3,16 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.1.Final (20-12-2017)
+------------------------
+
+** Bug
+    * [BVTCK-186] - Fix invalid constraint validator declarations
+
+** Task
+    * [BVTCK-187] - Upgrade referenced version of Hibernate Validator to 6.0.7.Final
+    * [BVTCK-185] - Upgrade Bean Validation API to 2.0.1.Final
+
 2.0.0.Final (03-08-2017)
 ------------------------
 
