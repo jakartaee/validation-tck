@@ -29,6 +29,7 @@ public class Version10InValidationXmlTest extends AbstractTCKTest {
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClass( Version10InValidationXmlTest.class )
+				.withClass( DummyMessageInterpolator.class )
 				.withValidationXml( "validation-Version10InValidationXmlTest.xml" )
 				.build();
 	}
