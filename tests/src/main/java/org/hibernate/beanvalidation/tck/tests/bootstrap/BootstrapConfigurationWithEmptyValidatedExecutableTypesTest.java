@@ -10,7 +10,7 @@ import javax.validation.BootstrapConfiguration;
 import javax.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -22,7 +22,12 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class BootstrapConfigurationWithEmptyValidatedExecutableTypesTest extends AbstractTCKTest {
+public class BootstrapConfigurationWithEmptyValidatedExecutableTypesTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {

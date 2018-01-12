@@ -12,7 +12,7 @@ import static org.testng.Assert.fail;
 import javax.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -24,7 +24,12 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MissingMandatoryElementTest extends AbstractTCKTest {
+public class MissingMandatoryElementTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -36,15 +41,10 @@ public class MissingMandatoryElementTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "i")
 	public void testMissingMandatoryElementInConstraintDeclaration() {
-		try {
-			TestUtil.getValidatorUnderTest();
-			fail( "Creating the validator should have failed since the constraint declaration in xml is incomplete." );
-		}
-		catch ( ValidationException e ) {
-			// success
-		}
+		TestUtil.getValidatorUnderTest();
+		fail( "Creating the validator should have failed since the constraint declaration in xml is incomplete." );
 	}
 }
