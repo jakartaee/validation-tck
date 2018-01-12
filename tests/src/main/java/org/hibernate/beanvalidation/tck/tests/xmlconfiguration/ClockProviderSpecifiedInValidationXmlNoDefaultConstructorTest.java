@@ -11,7 +11,7 @@ import static org.testng.Assert.fail;
 import javax.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -24,7 +24,12 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ClockProviderSpecifiedInValidationXmlNoDefaultConstructorTest extends AbstractTCKTest {
+public class ClockProviderSpecifiedInValidationXmlNoDefaultConstructorTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -34,18 +39,13 @@ public class ClockProviderSpecifiedInValidationXmlNoDefaultConstructorTest exten
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "j"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "y")
 	})
 	public void testClockProviderSpecifiedInValidationXmlHasNoDefaultConstructor() {
-		try {
-			TestUtil.getValidatorUnderTest();
-			fail( "Bootstrapping should have failed due to missing no-arg constructor in ClockProvider" );
-		}
-		catch ( ValidationException e ) {
-			// success
-		}
+		TestUtil.getValidatorUnderTest();
+		fail( "Bootstrapping should have failed due to missing no-arg constructor in ClockProvider" );
 	}
 }

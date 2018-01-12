@@ -10,7 +10,7 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -23,7 +23,12 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class WrongPropertyNameTest extends AbstractTCKTest {
+public class WrongPropertyNameTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -35,17 +40,12 @@ public class WrongPropertyNameTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_PROPERTYLEVELOVERRIDING, id = "g")
 	})
 	public void testWrongPropertyNameThrowsException() {
-		try {
-			Validator validator = TestUtil.getValidatorUnderTest();
-			validator.getConstraintsForClass( User.class );
-		}
-		catch ( ValidationException e ) {
-			// success
-		}
+		Validator validator = TestUtil.getValidatorUnderTest();
+		validator.getConstraintsForClass( User.class );
 	}
 }

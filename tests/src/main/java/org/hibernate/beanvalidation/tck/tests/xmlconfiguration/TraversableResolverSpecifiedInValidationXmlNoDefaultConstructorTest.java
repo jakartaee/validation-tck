@@ -11,7 +11,7 @@ import static org.testng.Assert.fail;
 import javax.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -24,7 +24,12 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class TraversableResolverSpecifiedInValidationXmlNoDefaultConstructorTest extends AbstractTCKTest {
+public class TraversableResolverSpecifiedInValidationXmlNoDefaultConstructorTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -34,18 +39,13 @@ public class TraversableResolverSpecifiedInValidationXmlNoDefaultConstructorTest
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "g"),
 			@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "x")
 	})
 	public void testTraversableResolverSpecifiedInValidationXmlHasNoDefaultConstructor() {
-		try {
-			TestUtil.getValidatorUnderTest();
-			fail( "Bootstrapping should have failed due to missing no-arg constructor in TraversableResolver" );
-		}
-		catch ( ValidationException e ) {
-			// success
-		}
+		TestUtil.getValidatorUnderTest();
+		fail( "Bootstrapping should have failed due to missing no-arg constructor in TraversableResolver" );
 	}
 }
