@@ -13,7 +13,7 @@ import javax.validation.Configuration;
 import javax.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -25,12 +25,17 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ReservedElementNameTest extends AbstractTCKTest {
+public class ReservedElementNameTest extends AbstractBootstrapFailureTCKTest {
 
 	private final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdeclaration/";
 	private final static String mappingFile1 = "constraints-GroupIsNotAllowedAsElementNameTest.xml";
 	private final static String mappingFile2 = "constraints-MessageIsNotAllowedAsElementNameTest.xml";
 	private final static String mappingFile3 = "constraints-PayloadIsNotAllowedAsElementNameTest.xml";
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
