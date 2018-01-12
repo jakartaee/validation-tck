@@ -35,6 +35,7 @@ public abstract class AbstractTCKTest extends Arquillian {
 				ArchiveBuilder.class,
 				WebArchiveBuilder.class,
 				AbstractTCKTest.class,
+				AbstractBootstrapFailureTCKTest.class,
 				TestUtil.class,
 				ConstraintViolationAssert.class,
 				CollectionHelper.class,
