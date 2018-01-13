@@ -117,8 +117,8 @@ public class ArtifactDumper {
 			if ( file.getAbsolutePath().endsWith( ".class" ) ) {
 				// removes the .class extension
 				String className = file.getPath().substring( 0, file.getPath().length() - 6 );
-				className = className.replace( "/", "." );
-				className = className.substring( className.indexOf( packageName ) );
+				className = className.replace( File.separator, "." );
+				className = className.substring( className.lastIndexOf(File.separator) );
 
 				try {
 					Class<?> clazz = Class.forName( className );
