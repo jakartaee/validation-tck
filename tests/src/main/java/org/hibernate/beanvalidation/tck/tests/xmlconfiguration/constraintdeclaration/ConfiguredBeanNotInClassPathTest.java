@@ -11,7 +11,7 @@ import static org.testng.Assert.fail;
 import javax.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -23,7 +23,12 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class ConfiguredBeanNotInClassPathTest extends AbstractTCKTest {
+public class ConfiguredBeanNotInClassPathTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValidationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
@@ -34,15 +39,10 @@ public class ConfiguredBeanNotInClassPathTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test
+	@Test(expectedExceptions = ValidationException.class)
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML, id = "f")
 	public void testExceptionIsThrownForUnknownBeanNameInXml() {
-		try {
-			TestUtil.getValidatorUnderTest();
-			fail( "Test should have thrown an exception due to wrong class name" );
-		}
-		catch ( ValidationException e ) {
-			//success
-		}
+		TestUtil.getValidatorUnderTest();
+		fail( "Test should have thrown an exception due to wrong class name" );
 	}
 }

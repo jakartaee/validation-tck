@@ -10,7 +10,7 @@ import javax.validation.Validation;
 import javax.validation.valueextraction.ValueExtractorDeclarationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.Cinema;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -23,7 +23,12 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
-public class MultipleValueExtractorsInValidationXmlForSameTypeAndTypeArgumentTest extends AbstractTCKTest {
+public class MultipleValueExtractorsInValidationXmlForSameTypeAndTypeArgumentTest extends AbstractBootstrapFailureTCKTest {
+
+	@Override
+	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
+		return ValueExtractorDeclarationException.class;
+	}
 
 	@Deployment
 	public static WebArchive createTestArchive() {
