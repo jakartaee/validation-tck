@@ -35,7 +35,7 @@ public class ArtifactDumper {
 		// get a URL reference to something we now is part of the classpath (our own classes)
 		String currentClassName = new RuntimeException().getStackTrace()[0].getClassName();
 		int hopsToRoot = currentClassName.split( "\\." ).length;
-		URL url = contextClassLoader.getResource( currentClassName.replace( '.', '/' ) + ".class" );
+		URL url = contextClassLoader.getResource( currentClassName.replace( '.', File.separatorChar ) + ".class" );
 		if ( url == null ) {
 			throw new RuntimeException( "Unable to determine URL of " + currentClassName );
 		}
@@ -94,7 +94,7 @@ public class ArtifactDumper {
 		ArrayList<File> directories = new ArrayList<File>();
 		try {
 			ClassLoader cld = Thread.currentThread().getContextClassLoader();
-			String path = packageName.replace( '.', '/' );
+			String path = packageName.replace( '.', File.separatorChar );
 			// Ask for all resources for the path
 			Enumeration<URL> resources = cld.getResources( path );
 			while ( resources.hasMoreElements() ) {
@@ -117,7 +117,7 @@ public class ArtifactDumper {
 			if ( file.getAbsolutePath().endsWith( ".class" ) ) {
 				// removes the .class extension
 				String className = file.getPath().substring( 0, file.getPath().length() - 6 );
-				className = className.replace( File.separator, "." );
+				className = className.replace( File.separatorChar, '.' );
 				className = className.substring( className.indexOf( packageName ) );
 
 				try {
