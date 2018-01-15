@@ -95,6 +95,13 @@ public abstract class AbstractBootstrapFailureTCKTest extends AbstractTCKTest {
 			}
 		}
 
+		for ( Throwable suppressedException : exception.getSuppressed() ) {
+			Exception acceptedDeploymentException = extractAcceptedDeploymentException( acceptedDeploymentExceptionType, suppressedException );
+			if ( acceptedDeploymentException != null ) {
+				return acceptedDeploymentException;
+			}
+		}
+
 		// in the case of Weld, the wrapped exceptions are simply stored in the message, so we check for the exception
 		// class name in the message and we try to forge an exception with a constructor taking a String parameter
 		if ( exception.getMessage().contains( acceptedDeploymentExceptionType.getName() ) ) {
