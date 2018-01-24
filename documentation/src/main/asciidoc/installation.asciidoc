@@ -108,7 +108,7 @@ the tck-audit.xml document and the actual test (see <<primer>>).
 ====
 * Install Maven. You can find documentation on how to install
 Maven 3 on the https://maven.apache.org/install.html[Maven official website].
-* Change to the `ri/hibernate-validator-tck-runner` directory.
+* Change to the `ri/tck-runner` directory.
 * Next, instruct Maven to run the TCK:
 +
 [source]
