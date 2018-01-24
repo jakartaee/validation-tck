@@ -13,29 +13,30 @@ import org.testng.IMethodSelectorContext;
 import org.testng.ITestNGMethod;
 
 /**
- * TestNG test selector which will, depending on the system property <i>excludeIntegrationTests</i> and
- * the existence of the {@code @IntegrationTest} annotation on a test class, in- or exclude the test.
+ * TestNG test selector which will, depending on the system property <i>includeJavaFXTests</i> and
+ * the existence of the {@code @JavaFXTest} annotation on a test class, in- or exclude the test.
  *
  * @author Hardy Ferentschik
+ * @author Guillaume Smet
  */
-public class IntegrationTestsMethodSelector implements IMethodSelector {
+public class JavaFXTestsMethodSelector implements IMethodSelector {
 
 	/**
 	 * Name of the system property for excluding integration tests.
 	 */
-	private static final String EXCLUDE_INTEGRATION_TESTS = "excludeIntegrationTests";
+	private static final String INCLUDE_JAVAFX_TESTS = "includeJavaFXTests";
 
-	private static boolean excludeIntegrationTests = false;
+	private static boolean includeJavaFXTests = false;
 
 	static {
-		String envSetting = System.getProperty( EXCLUDE_INTEGRATION_TESTS );
-		excludeIntegrationTests = Boolean.valueOf( envSetting );
+		String envSetting = System.getProperty( INCLUDE_JAVAFX_TESTS );
+		includeJavaFXTests = Boolean.valueOf( envSetting );
 	}
 
 	@Override
 	public boolean includeMethod(IMethodSelectorContext context, ITestNGMethod method, boolean isTestMethod) {
-		if ( excludeIntegrationTests && method.getConstructorOrMethod().getDeclaringClass().isAnnotationPresent(
-				IntegrationTest.class
+		if ( !includeJavaFXTests && method.getConstructorOrMethod().getDeclaringClass().isAnnotationPresent(
+				JavaFXTest.class
 		) ) {
 			context.setStopped( true );
 			return false;

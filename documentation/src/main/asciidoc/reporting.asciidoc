@@ -151,11 +151,11 @@ mode.
  T E S T S
 -------------------------------------------------------
 Running TestSuite
-Tests run: 963, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.288 sec - in TestSuite
+Tests run: 976, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.288 sec - in TestSuite
 
 Results :
 
-Tests run: 963, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 976, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 [NOTE]
