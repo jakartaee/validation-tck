@@ -15,6 +15,9 @@
             <method-selector>
                 <selector-class name="org.hibernate.beanvalidation.tck.util.IntegrationTestsMethodSelector"/>
             </method-selector>
+            <method-selector>
+                <selector-class name="org.hibernate.beanvalidation.tck.util.JavaFXTestsMethodSelector"/>
+            </method-selector>
         </method-selectors>
 
         <packages>
