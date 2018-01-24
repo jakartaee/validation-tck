@@ -13,7 +13,7 @@ import org.testng.IMethodSelectorContext;
 import org.testng.ITestNGMethod;
 
 /**
- * TestNG test selector which will depending on the system property <i>excludeIntegrationTests</i> and
+ * TestNG test selector which will, depending on the system property <i>excludeIntegrationTests</i> and
  * the existence of the {@code @IntegrationTest} annotation on a test class, in- or exclude the test.
  *
  * @author Hardy Ferentschik
