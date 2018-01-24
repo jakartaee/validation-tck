@@ -18,9 +18,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.valueextraction.Unwrapping;
@@ -33,10 +35,6 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
-@SuppressWarnings("restriction")
 @SpecVersion(spec = "beanvalidation", version = "2.0.0")
 public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
@@ -133,7 +131,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 		constraintViolations = getValidator().validate( MapOfListsWithAutomaticUnwrapping.invalidStringProperty() );
 		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Size.class )
+				violationOf( Min.class )
 						.withPropertyPath( pathWith()
 								.property( "map" )
 								.containerElement( "<map value>", true, "key", null, Map.class, 1 )
@@ -296,13 +294,13 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 	private static class MapOfListsWithAutomaticUnwrapping {
 
-		private Map<@Size(min = 2) String, List<@NotNull(payload = { Unwrapping.Skip.class }) @Size(min = 2) StringProperty>> map;
+		private Map<@Size(min = 2) String, List<@NotNull(payload = { Unwrapping.Skip.class }) @Min(2) OptionalInt>> map;
 
 		private static MapOfListsWithAutomaticUnwrapping valid() {
 			MapOfListsWithAutomaticUnwrapping bar = new MapOfListsWithAutomaticUnwrapping();
 
-			List<StringProperty> list = Arrays.asList( new SimpleStringProperty( "one" ), new SimpleStringProperty( "tw" ),
-					new SimpleStringProperty( "three" ) );
+			List<OptionalInt> list = Arrays.asList( OptionalInt.of( 3 ), OptionalInt.of( 4 ),
+					OptionalInt.of( 5 ) );
 			bar.map = new HashMap<>();
 			bar.map.put( "key", list );
 
@@ -312,8 +310,8 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 		private static MapOfListsWithAutomaticUnwrapping invalidStringProperty() {
 			MapOfListsWithAutomaticUnwrapping bar = new MapOfListsWithAutomaticUnwrapping();
 
-			List<StringProperty> list = Arrays.asList( new SimpleStringProperty( "one" ), new SimpleStringProperty( "t" ),
-					new SimpleStringProperty( "three" ) );
+			List<OptionalInt> list = Arrays.asList( OptionalInt.of( 3 ), OptionalInt.of( 1 ),
+					OptionalInt.of( 5 ) );
 			bar.map = new HashMap<>();
 			bar.map.put( "key", list );
 
@@ -323,7 +321,7 @@ public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 		private static MapOfListsWithAutomaticUnwrapping invalidListElement() {
 			MapOfListsWithAutomaticUnwrapping bar = new MapOfListsWithAutomaticUnwrapping();
 
-			List<StringProperty> list = Arrays.asList( null, new SimpleStringProperty( "two" ) );
+			List<OptionalInt> list = Arrays.asList( null, OptionalInt.of( 3 ) );
 			bar.map = new HashMap<>();
 			bar.map.put( "key", list );
 
