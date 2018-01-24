@@ -160,3 +160,18 @@ Another interesting property is
 Arquillian to dump the test artifacts to the specified directory on disk.
 Inspection of the deployed artifacts can be very useful when debugging
 test failures.
+
+[[configuration-javafx]]
+
+The Bean Validation specification mandates a support of JavaFX if JavaFX is available in the classpath.
+
+While JavaFX is included in the Oracle JDK and some other JDKs include https://wiki.openjdk.java.net/display/OpenJFX/Main[OpenJFX],
+it might not be included in all JDKs.
+
+Having JavaFX available in a container environment might also not be straightforward.
+
+For these reasons, the JavaFX tests are disabled when running the TCK with the default options.
+
+It is highly recommended to run the TCK in at least one configuration that allows to test the support of JavaFX.
+
+Using this configuration, the JavaFX tests can be enabled by passing the `-DincludeJavaFXTests=true` option to the TCK.
