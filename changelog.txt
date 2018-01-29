@@ -3,6 +3,20 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.2.Final (29-01-2018)
+------------------------
+
+** Bug
+    * [BVTCK-191] - TCK does not run on Windows due to path issues
+    * [BVTCK-190] - A few deployment archives are missing classes
+
+** Improvement
+    * [BVTCK-188] - Allow invalid validation.xml errors to be thrown at deployment time
+    * [BVTCK-74] - Make ArchiveClassLoader work with JDK 9
+
+** Task
+    * [BVTCK-189] - Disable the JavaFX tests by default and provide an option to enable them
+
 2.0.1.Final (20-12-2017)
 ------------------------
 
