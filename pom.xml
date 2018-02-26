@@ -265,6 +265,7 @@
                         <exclude>**/*.html</exclude>
                         <exclude>**/*.sh</exclude>
                         <exclude>beanvalidation-release-scripts/**</exclude>
+                        <exclude>.mvn/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
