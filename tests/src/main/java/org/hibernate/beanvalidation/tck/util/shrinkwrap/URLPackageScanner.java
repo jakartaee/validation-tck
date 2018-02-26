@@ -131,15 +131,16 @@ public class URLPackageScanner {
 	private void handleArchiveByFile(File file) throws IOException, ClassNotFoundException {
 		try {
 			log.fine( "archive: " + file );
-			ZipFile zip = new ZipFile( file );
-			Enumeration<? extends ZipEntry> entries = zip.entries();
-			while ( entries.hasMoreElements() ) {
-				ZipEntry entry = entries.nextElement();
-				String name = entry.getName();
-				if ( name.startsWith( packageNamePath ) && name.endsWith( ".class" )
-						&& ( addRecursively || !name.substring( packageNamePath.length() + 1 ).contains( "/" ) ) ) {
-					String className = name.replace( "/", "." ).substring( 0, name.length() - ".class".length() );
-					foundClass( className );
+			try ( ZipFile zip = new ZipFile( file ) ) {
+				Enumeration<? extends ZipEntry> entries = zip.entries();
+				while ( entries.hasMoreElements() ) {
+					ZipEntry entry = entries.nextElement();
+					String name = entry.getName();
+					if ( name.startsWith( packageNamePath ) && name.endsWith( ".class" )
+							&& ( addRecursively || !name.substring( packageNamePath.length() + 1 ).contains( "/" ) ) ) {
+						String className = name.replace( "/", "." ).substring( 0, name.length() - ".class".length() );
+						foundClass( className );
+					}
 				}
 			}
 		}
