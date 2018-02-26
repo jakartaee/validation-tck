@@ -15,7 +15,6 @@ import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.container.ClassContainer;
 import org.jboss.shrinkwrap.api.container.LibraryContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
-import org.jboss.shrinkwrap.impl.base.URLPackageScanner;
 
 /**
  * Abstract ShrinkWrap archive builder for Bean Validation TCK Arquillian test.
