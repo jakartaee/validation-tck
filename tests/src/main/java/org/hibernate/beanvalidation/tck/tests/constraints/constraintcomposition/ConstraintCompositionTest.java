@@ -308,7 +308,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 				"doSomething",
 				int.class
 		);
-		Object[] parameterValues = new Object[0];
+		Object[] parameterValues = new Object[] { 0 };
 
 		getExecutableValidator().validateParameters(
 				object,
@@ -326,7 +326,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 				"doSomething",
 				int.class
 		);
-		Object[] parameterValues = new Object[0];
+		Object[] parameterValues = new Object[] { 0 };
 
 		getExecutableValidator().validateParameters(
 				object,
