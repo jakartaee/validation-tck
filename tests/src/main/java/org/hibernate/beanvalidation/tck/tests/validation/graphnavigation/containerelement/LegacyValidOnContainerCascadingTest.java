@@ -26,7 +26,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.ExtendedChecks1;
 import org.hibernate.beanvalidation.tck.tests.validation.graphnavigation.containerelement.model.ValidOnListAndOnTypeArgumentWithGroupConversions;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -98,31 +97,6 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 						.withPropertyPath( pathWith()
 								.property( "visitors" )
 								.property( "name", true, null, 0, MyListWithoutTypeArgument.class, null )
-						)
-		);
-	}
-
-	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "g")
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
-	public void testValidOnListAndOnTypeArgumentWithGroupConversions() {
-		Validator validator = getValidator();
-		Set<ConstraintViolation<ValidOnListAndOnTypeArgumentWithGroupConversions>> constraintViolations =
-				validator.validate( ValidOnListAndOnTypeArgumentWithGroupConversions.invalid() );
-		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( NotNull.class )
-						.withPropertyPath( pathWith()
-								.property( "visitors" )
-								.property( "name", true, null, 0, List.class, 0 )
-						)
-		);
-
-		constraintViolations = validator.validate( ValidOnListAndOnTypeArgumentWithGroupConversions.invalid(), ExtendedChecks1.class );
-		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( NotNull.class )
-						.withPropertyPath( pathWith()
-								.property( "visitors" )
-								.property( "extended2", true, null, 0, List.class, 0 )
 						)
 		);
 	}
