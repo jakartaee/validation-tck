@@ -53,7 +53,7 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "g")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnList() {
 		Validator validator = getValidator();
@@ -73,7 +73,7 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "g")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnListAndOnTypeArgument() {
 		Validator validator = getValidator();
@@ -88,7 +88,7 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "g")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnListWithoutTypeArgument() {
 		Validator validator = getValidator();
@@ -103,7 +103,7 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "g")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnListAndOnTypeArgumentWithGroupConversions() {
 		Validator validator = getValidator();
@@ -129,8 +129,9 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "c")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
-	public void testValidOnIterable() {
+	public void testValidOnIterableAndSet() {
 		Validator validator = getValidator();
 		Set<ConstraintViolation<ValidOnIterable>> constraintViolations = validator.validate( ValidOnIterable.invalidValue() );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -173,7 +174,7 @@ public class LegacyValidOnContainerCascadingTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "f")
+	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS_GRAPHVALIDATION, id = "i")
 	public void testValidOnArray() {
 		Validator validator = getValidator();
