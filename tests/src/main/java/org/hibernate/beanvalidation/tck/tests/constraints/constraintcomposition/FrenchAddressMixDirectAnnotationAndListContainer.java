@@ -33,7 +33,7 @@ public class FrenchAddressMixDirectAnnotationAndListContainer extends Address {
 
 	@Pattern(regexp = ".....")
 	@Pattern.List({ @Pattern(regexp = "bar") })
-	@Constraint(validatedBy = FrenchZipcodeConstraintValidator.class)
+	@Constraint(validatedBy = FrenchZipcodeMixDirectAnnotationAndListContainerConstraintValidator.class)
 	@Documented
 	@Target({ METHOD, FIELD, TYPE })
 	@Retention(RUNTIME)

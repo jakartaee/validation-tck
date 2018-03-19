@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * @author Guillaume Smet
  */
-public class ZeroConstraintValidator implements ConstraintValidator<Negative, Integer> {
+public class ZeroConstraintValidator implements ConstraintValidator<Zero, Integer> {
 
 	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {

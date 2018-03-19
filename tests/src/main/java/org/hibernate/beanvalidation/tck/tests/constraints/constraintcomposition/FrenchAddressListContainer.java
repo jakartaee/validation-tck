@@ -36,7 +36,7 @@ public class FrenchAddressListContainer extends Address {
 	@Size
 	// first pattern just duplicates the length of 5 characters, the second pattern is just to prove that parameters can be overridden.
 	@Pattern.List({ @Pattern(regexp = "....."), @Pattern(regexp = "bar") })
-	@Constraint(validatedBy = FrenchZipcodeConstraintValidator.class)
+	@Constraint(validatedBy = FrenchZipcodeListContainerConstraintValidator.class)
 	@Documented
 	@Target({ METHOD, FIELD, TYPE })
 	@Retention(RUNTIME)
