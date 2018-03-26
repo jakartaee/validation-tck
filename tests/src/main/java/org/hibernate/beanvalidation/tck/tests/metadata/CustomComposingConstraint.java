@@ -20,7 +20,7 @@ import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Min;
 import javax.validation.constraintvalidation.SupportedValidationTarget;
 import javax.validation.constraintvalidation.ValidationTarget;
 
@@ -31,7 +31,7 @@ import javax.validation.constraintvalidation.ValidationTarget;
 @Constraint(validatedBy = { CustomComposingConstraint.Validator.class })
 @Target({ METHOD, FIELD, TYPE })
 @Retention(RUNTIME)
-@Size
+@Min(0)
 public @interface CustomComposingConstraint {
 	String message() default "CustomComposingConstraint.message";
 
