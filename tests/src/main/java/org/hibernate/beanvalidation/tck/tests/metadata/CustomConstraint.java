@@ -29,7 +29,7 @@ import javax.validation.constraintvalidation.ValidationTarget;
 @Constraint(validatedBy = { CustomConstraint.Validator.class })
 @Target({ METHOD, FIELD })
 @Retention(RUNTIME)
-@CustomComposingConstraint(validationAppliesTo = ConstraintTarget.PARAMETERS)
+@CustomComposingConstraint(validationAppliesTo = ConstraintTarget.RETURN_VALUE)
 public @interface CustomConstraint {
 	String message() default "CustomConstraint.message";
 
