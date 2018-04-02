@@ -174,9 +174,7 @@ public class ValidateValueTest extends AbstractTCKTest {
 	public void testValidIsNotHonoredValidateValue() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
-		Customer customer = new Customer();
 		Order order = new Order();
-		customer.addOrder( order );
 
 		Set<ConstraintViolation<Customer>> constraintViolations = validator.validateValue(
 				Customer.class, "orders", Collections.singleton(order)
