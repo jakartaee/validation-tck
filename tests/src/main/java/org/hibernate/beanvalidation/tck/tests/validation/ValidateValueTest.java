@@ -16,6 +16,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -178,7 +179,7 @@ public class ValidateValueTest extends AbstractTCKTest {
 		customer.addOrder( order );
 
 		Set<ConstraintViolation<Customer>> constraintViolations = validator.validateValue(
-				Customer.class, "orders", order
+				Customer.class, "orders", Collections.singleton(order)
 		);
 		assertNumberOfViolations( constraintViolations, 0 );
 	}
