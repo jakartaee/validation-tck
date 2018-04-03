@@ -12,10 +12,7 @@ import static org.testng.Assert.assertTrue;
 import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraintvalidation.SupportedValidationTarget;
-import javax.validation.constraintvalidation.ValidationTarget;
 
-@SupportedValidationTarget(value = ValidationTarget.PARAMETERS)
 public class CustomConstraintValidator implements ConstraintValidator<CustomConstraint, Object> {
 
 	@Inject
