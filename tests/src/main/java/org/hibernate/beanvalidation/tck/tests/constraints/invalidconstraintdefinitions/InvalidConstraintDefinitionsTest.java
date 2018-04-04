@@ -69,7 +69,7 @@ public class InvalidConstraintDefinitionsTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_PAYLOAD, id = "a")
 	@SpecAssertion(section = Sections.EXCEPTION_CONSTRAINTDEFINITION, id = "a")
 	public void testConstraintDefinitionWithoutPayloadParameter() {
-		getValidator().validate( new DummyEntityNoGroups() );
+		getValidator().validate( new DummyEntityNoPayload() );
 		fail( "The used constraint does not define a payload parameter. The validation should have failed." );
 	}
 
