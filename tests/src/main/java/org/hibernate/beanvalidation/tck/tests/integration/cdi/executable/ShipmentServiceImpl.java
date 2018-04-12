@@ -6,15 +6,13 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author Gunnar Morling
  */
 public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
-	public void findShipment(@NotNull String id) {
+	public void findShipment(String id) {
 	}
 
 	@Override
