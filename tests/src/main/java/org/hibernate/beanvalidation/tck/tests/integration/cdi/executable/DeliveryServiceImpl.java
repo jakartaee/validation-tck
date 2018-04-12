@@ -20,7 +20,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	//should be validated, since @ValidateOnExecution from overridden method applies
 	@Override
-	public void createDelivery(@NotNull String name) {
+	public void createDelivery(String name) {
 	}
 
 	//should not be validated, since @ValidateOnExecution from this type applies
