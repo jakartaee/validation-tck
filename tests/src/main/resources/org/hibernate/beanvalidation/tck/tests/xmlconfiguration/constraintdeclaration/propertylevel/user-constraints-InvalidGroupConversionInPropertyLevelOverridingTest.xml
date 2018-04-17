@@ -13,9 +13,9 @@
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.propertylevel
     </default-package>
     <bean class="User" ignore-annotations="false">
-        <field name="firstCreditCard">
+        <getter name="firstCreditCard">
             <valid/>
             <convert-group from="javax.validation.groups.Default" to="User$CreditRatingAA"/>
-        </field>
+        </getter>
     </bean>
 </constraint-mappings>
