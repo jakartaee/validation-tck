@@ -99,7 +99,7 @@
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency to the RI -->
-        <hibernate.validator.version>6.0.7.Final</hibernate.validator.version>
+        <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
 
         <testng.version>6.11</testng.version>
         <assertj-core.version>3.7.0</assertj-core.version>
