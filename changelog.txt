@@ -3,6 +3,28 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.3.Final (30-04-2018)
+------------------------
+
+** Bug
+    * [BVTCK-204] - TCK method inheritance setups violation specification
+    * [BVTCK-203] - Copy/paste error in InvalidConstraintDefinitionsTest
+    * [BVTCK-202] - Apparent TCK misuse of ValidationTarget.PARAMETERS
+    * [BVTCK-201] - Incompatible value submitted to Validator#validateValue()
+    * [BVTCK-200] - Invalid validationAppliesTo value for @CustomComposingConstraint
+    * [BVTCK-199] - Do not use the @Size constraint on an int
+    * [BVTCK-198] - Test BootstrapConfigurationWithValidatedExecutableTypesContainingNONETest is incorrect
+    * [BVTCK-197] - Fix mismatch between registered constraint and defined constraint for a few constraint validators
+    * [BVTCK-196] - Fix two ConstraintCompositionTest tests using an invalid parameter values object
+    * [BVTCK-192] - ArchiveBuilder uses the internal ShrinkWrap URLPackageScanner API
+
+** Improvement
+    * [BVTCK-205] - Improve consistency of InvalidGroupConversionInPropertyLevelOverridingTest
+    * [BVTCK-193] - Exclude the Maven wrapper directory from the license check
+
+** Task
+    * [BVTCK-195] - Remove test from the TCK which relates to undefined spec behavior
+
 2.0.2.Final (29-01-2018)
 ------------------------
 
