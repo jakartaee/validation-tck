@@ -75,7 +75,8 @@ public class URLPackageScanner {
 	 *
 	 * @param addRecursively flag to add child packages
 	 * @param classLoader class loader that will have classes added
-	 * @param pkg Package that will be scanned
+	 * @param packageName Package that will be scanned
+	 * @param callback a callback
 	 * @return new instance of URLPackageScanner
 	 */
 	public static URLPackageScanner newInstance(boolean addRecursively, final ClassLoader classLoader,
@@ -86,9 +87,9 @@ public class URLPackageScanner {
 	/**
 	 * Factory method to create an instance of URLPackageScanner in the default package
 	 *
-	 * @param pkg Package that will be scanned
 	 * @param addRecursively flag to add child packages
 	 * @param classLoader class loader that will have classes added
+	 * @param callback a callback
 	 * @return new instance of URLPackageScanner
 	 */
 	public static URLPackageScanner newInstance(boolean addRecursively, ClassLoader classLoader, Callback callback) {
