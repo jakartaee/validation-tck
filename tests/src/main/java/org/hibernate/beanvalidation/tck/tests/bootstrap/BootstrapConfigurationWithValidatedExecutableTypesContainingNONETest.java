@@ -43,7 +43,7 @@ public class BootstrapConfigurationWithValidatedExecutableTypesContainingNONETes
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "f")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "q")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "i")
-	public void testGetDefaultValidatedExecutableTypesReturnsEmptySetIfNONEIsContained() {
+	public void testGetDefaultValidatedExecutableTypesStripsNONEIfNONEIsContained() {
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
