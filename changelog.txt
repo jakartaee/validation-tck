@@ -3,6 +3,12 @@ Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+2.0.4.Final (10-08-2018)
+------------------------
+
+** Bug
+    * [BVTCK-206] - Portability issue in a CDI test
+
 2.0.3.Final (30-04-2018)
 ------------------------
 
