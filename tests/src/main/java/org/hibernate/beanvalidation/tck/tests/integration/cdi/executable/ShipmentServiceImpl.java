@@ -6,9 +6,13 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
+
 /**
  * @author Gunnar Morling
  */
+@ValidateOnExecution(type = ExecutableType.ALL)
 public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
