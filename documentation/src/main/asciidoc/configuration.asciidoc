@@ -14,7 +14,7 @@ The TCK distribution comes with a directory
 `setup-examples` which contains two example projects
 for running the TCK. If you followed the instructions in <<installation>> you find the directory under
 `jakarta-bean-validation/tck/setup-examples`. Both setups are using
-Hibernate Validator as Jakarta Bean Validation Provider and Glassfish 5 as EE
+Hibernate Validator as Jakarta Bean Validation Provider and Eclipse GlassFish 5.1+ as EE
 constainer. However, one is using http://maven.apache.org/[Maven] as build tool to run the TCK,
 the other http://ant.apache.org/[Ant]. Depending which
 of the examples you want to use, you need to install the corresponding
@@ -22,7 +22,7 @@ build tool.
 
 Each example comes with a `readme.md` containing
 the prerequisites for using this setup, how to run the TCK against
-Hibernate Validator and Glassfish. The readme in
+Hibernate Validator and Eclipse GlassFish. The readme in
 `setup-examples` itself contains information about what
 needs to be changed to use a different Jakarta Bean Validation provider and EE
 container.
@@ -94,9 +94,9 @@ Arquillian picks which container it is going to use to deploy the test
 archive and negotiate test execution using Java's service provider
 mechanism. Concretely Arquillian is looking for an implementation of the
 `DeployableContainer` SPI on the classpath. The setup
-examples use a remote Glassfish container adapter, which means that
+examples use a remote Eclipse GlassFish container adapter, which means that
 Arquillian tries to deploy the test artifacts onto a specified remote
-Glassfish instance, run the tests remotely and report the results back to
+Eclipse GlassFish instance, run the tests remotely and report the results back to
 the current JVM. The installation directory of the remote container is
 specified via the `container.home` property in the
 example build files.

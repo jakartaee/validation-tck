@@ -143,5 +143,5 @@ container and pass with an unmodified TestNG suite file.
 ====
 The designated reference runtime for compatibility testing of
 the Jakarta Bean Validation specification is the Jakarta EE 8 reference
-implementation (RI), aka Glassfish 5.
+implementation (RI), aka Eclipse GlassFish 5.1+.
 ====
