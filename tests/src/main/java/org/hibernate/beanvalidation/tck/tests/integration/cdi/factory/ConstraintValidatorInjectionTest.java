@@ -45,8 +45,8 @@ public class ConstraintValidatorInjectionTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "c")
 	public void testDependencyInjectionIntoConstraintValidator() {
 		Set<ConstraintViolation<Foo>> violations = defaultValidatorFactory.getValidator().validate( new Foo() );
 

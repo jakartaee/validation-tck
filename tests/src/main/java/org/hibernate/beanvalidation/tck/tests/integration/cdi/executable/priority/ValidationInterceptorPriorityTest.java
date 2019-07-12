@@ -46,7 +46,7 @@ public class ValidationInterceptorPriorityTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_METHODCONSTRUCTORVALIDATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_METHODCONSTRUCTORVALIDATION, id = "a")
 	public void testValidationInterceptorHasPriority4800() {
 		calendar.createEvent( null );
 

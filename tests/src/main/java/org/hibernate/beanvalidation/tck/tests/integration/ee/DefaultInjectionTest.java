@@ -42,14 +42,14 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "b")
 	private void testDefaultValidatorFactoryGetsInjectedAtResource() throws Exception {
 		assertNotNull( testEjb );
 		testEjb.assertDefaultValidatorFactoryGetsInjected();
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "b")
 	private void testDefaultValidatorGetsInjectedWithAtResource() {
 		assertNotNull( testEjb );
 		testEjb.assertDefaultValidatorGetsInjected();

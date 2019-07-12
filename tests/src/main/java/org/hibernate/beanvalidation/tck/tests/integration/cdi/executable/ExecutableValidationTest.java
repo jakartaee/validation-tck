@@ -93,7 +93,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testParameterValidationOfConstrainedMethod() {
 		try {
 			Calendar endDate = Calendar.getInstance();
@@ -114,7 +114,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testReturnValueValidationOfConstrainedMethod() {
 		try {
 			calendar.createEvent();
@@ -131,7 +131,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testCascadedReturnValueValidationOfConstrainedMethod() {
 		try {
 			cascadingCalendar.createValidEvent();
@@ -148,7 +148,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testGettersAreNotValidatedByDefault() {
 		Event event = calendar.getEvent();
 		assertNull( event, "The event should be null, since getters are not validated by default." );
@@ -158,7 +158,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testParameterValidationOfConstrainedConstructor() {
 		try {
 			nameProducer.setName( "Bob" );
@@ -177,7 +177,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "b")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testReturnValueValidationOfConstrainedConstructor() {
 		try {
 			personServiceInstance.get();

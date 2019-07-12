@@ -62,8 +62,8 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "b")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_VALIDATORFACTORY, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_VALIDATORFACTORY, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testDefaultValidatorFactoryGetsInjected() {
 		assertNotNull( defaultValidatorFactory, "Default validator factory should be injectable." );
 		assertTrue(
@@ -83,7 +83,7 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "b")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_VALIDATORFACTORY, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_VALIDATORFACTORY, id = "a")
 	public void testQualifiedDefaultValidatorFactoryGetsInjected() {
 		assertNotNull(
 				qualifiedDefaultValidatorFactory,
@@ -106,8 +106,8 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "b")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_VALIDATORFACTORY, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_VALIDATORFACTORY, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testDefaultValidatorGetsInjected() {
 		assertNotNull( defaultValidator, "Default validator should be injectable." );
 
@@ -122,7 +122,7 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "a")
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "b")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_VALIDATORFACTORY, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_VALIDATORFACTORY, id = "a")
 	public void testQualifiedDefaultValidatorGetsInjected() {
 		assertNotNull(
 				qualifiedDefaultValidator,
