@@ -31,7 +31,7 @@ You can also download the source code from GitHub - https://github.com/beanvalid
 
 The Jakarta Bean Validation reference implementation (RI) project is named
 Hibernate Validator. You can obtain the Hibernate Validator release used
-as reference implementation from the Hibernate Validator http://www.hibernate.org/subprojects/validator/download[download
+as reference implementation from the Hibernate Validator https://hibernate.org/validator/releases/[download
 page].
 
 [NOTE]
