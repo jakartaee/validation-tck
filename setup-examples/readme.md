@@ -1,7 +1,7 @@
 # Jakarta Bean Validation TCK setup examples
 
 This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org/) setup examples for
-running the [Jakarta Bean Validation](http://beanvalidation.org/) TCK against [Glassfish 5](https://javaee.github.io/glassfish/),
+running the [Jakarta Bean Validation](http://beanvalidation.org/) TCK against [Eclipse GlassFish 5.1+](https://projects.eclipse.org/projects/ee4j.glassfish),
 the reference implementation of Jakarta EE 8.
 
 Each setup contains a readme outlining how to run the test harness using the given build system. These setups
