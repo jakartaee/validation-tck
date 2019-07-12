@@ -14,7 +14,7 @@ The TCK distribution comes with a directory
 `setup-examples` which contains two example projects
 for running the TCK. If you followed the instructions in <<installation>> you find the directory under
 `jakarta-bean-validation/tck/setup-examples`. Both setups are using
-Hibernate Validator as Jakarta Bean Validation Provider and Eclipse GlassFish 5.1+ as EE
+Hibernate Validator as Jakarta Bean Validation Provider and Eclipse GlassFish 5.1+ as Jakarta EE
 constainer. However, one is using http://maven.apache.org/[Maven] as build tool to run the TCK,
 the other http://ant.apache.org/[Ant]. Depending which
 of the examples you want to use, you need to install the corresponding
@@ -24,7 +24,7 @@ Each example comes with a `readme.md` containing
 the prerequisites for using this setup, how to run the TCK against
 Hibernate Validator and Eclipse GlassFish. The readme in
 `setup-examples` itself contains information about what
-needs to be changed to use a different Jakarta Bean Validation provider and EE
+needs to be changed to use a different Jakarta Bean Validation provider and Jakarta EE
 container.
 
 The following chapters contain some more information about the
@@ -105,7 +105,7 @@ adapter is provided as part of the distribution
 (`beanvalidation-standalone-container-adapter-{tckVersion}.jar`).
 Using this adapter the tests are not executed in a remote Jakarta EE
 container, but in the current JVM. This allows for easy and fast
-debugging. Some tests, however, are only runnable in a EE container
+debugging. Some tests, however, are only runnable in a Jakarta EE container
 and will fail in this in JVM execution mode. By setting the property
 `excludeIntegrationTests` to
 true these tests can be excluded.

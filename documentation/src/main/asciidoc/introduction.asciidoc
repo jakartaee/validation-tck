@@ -77,7 +77,7 @@ and the TCK is rigorous about enforcing the rules the specification lays down.
 The Jakarta Bean Validation TCK is designed as a portable, configurable and
 automated test suite for verifying the compatibility of an implementation
 of Jakarta Bean Validation. The test suite is built atop TestNG and provides a series
-of extensions that allow runtime packaging and deployment of JEE artifacts
+of extensions that allow runtime packaging and deployment of Jakarta EE artifacts
 for in-container testing (Arquillian).
 
 Each test class in the suite acts as a deployable unit. The
@@ -122,7 +122,7 @@ by release notes identifying updates between versions.
 
 * *TCK Container Adapter*
 provided as a convenience for developers in order to run and debug
-tests outside of the EE container.
+tests outside of the Jakarta EE container.
 
 * *Setup examples* demonstrating
 Maven and Ant setups to run the TCK test suite
@@ -136,7 +136,7 @@ for becoming a certified Jakarta Bean Validation provider), you need to:
 * Pass the Jakarta Bean Validation signature tests (see <<sigtest>>) asserting the correctness of the Bean
 Validation API used.
 
-* Run and pass the test suite (see <<configuration>>). The test must be run within an EE 8
+* Run and pass the test suite (see <<configuration>>). The test must be run within a Jakarta EE 8
 container and pass with an unmodified TestNG suite file.
 
 [NOTE]
