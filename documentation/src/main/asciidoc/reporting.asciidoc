@@ -10,7 +10,7 @@ results.
 A specification can be distilled into a collection of assertions
 that define the behavior of the software. This section introduces the Bean
 Validation TCK coverage report, which documents the relationship between
-the assertions that have been identified in the {jsrVersion} specification
+the assertions that have been identified in the Jakarta Bean Validation specification
 document and the tests in the TCK test suite.
 
 The structure of this report is controlled by the assertion
@@ -18,7 +18,7 @@ document, so we'll start there.
 
 ==== Jakarta Bean Validation TCK Assertions
 
-The Jakarta Bean Validation TCK developers have analyzed the {jsrVersion}
+The Jakarta Bean Validation TCK developers have analyzed the Jakarta Bean Validation
 specification document and identified the assertions that are present in
 each chapter. Here's an example of one such assertion found in section
 2.1: "Every constraint annotation must define a message element of

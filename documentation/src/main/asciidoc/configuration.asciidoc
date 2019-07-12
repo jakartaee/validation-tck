@@ -13,7 +13,7 @@ sections.
 The TCK distribution comes with a directory
 `setup-examples` which contains two example projects
 for running the TCK. If you followed the instructions in <<installation>> you find the directory under
-`jsr380/tck/setup-examples`. Both setups are using
+`jakarta-bean-validation/tck/setup-examples`. Both setups are using
 Hibernate Validator as Jakarta Bean Validation Provider and Glassfish 5 as EE
 constainer. However, one is using http://maven.apache.org/[Maven] as build tool to run the TCK,
 the other http://ant.apache.org/[Ant]. Depending which
@@ -46,8 +46,8 @@ modify the file (see also the TestNG http://testng.org/doc/documentation-main.ht
 
 [source,xml]
 ----
-<suite name="JSR-380-TCK" verbose="1">
-    <test name="JSR-380-TCK">
+<suite name="Jakarta-Bean-Validation-TCK" verbose="1">
+    <test name="Jakarta-Bean-Validation-TCK">
 
         <method-selectors>
             <method-selector>
@@ -114,7 +114,7 @@ The adapter is also available as Maven artifact under the GAV
 `org.hibernate.beanvalidation.tck:beanvalidation-standalone-container-adapter:{tckVersion}.`
 You can refer to `pom.xml` in the tck-runner module
 of Hibernate Validator (in the directory
-`jsr380/ri/tck-runner`, if you followed the
+`jakarta-bean-validation/ri/tck-runner`, if you followed the
 instruction in <<installation>>) to see how it is
 used.
 

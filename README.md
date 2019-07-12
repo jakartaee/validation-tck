@@ -1,7 +1,7 @@
 # Jakarta Bean Validation TCK
 *Version: 2.0.4.Final - 10-08-2018*
 
-This repository contains the Jakarta Bean Validation 2.0 ([JSR 380](http://www.jcp.org/en/jsr/detail?id=380))
+This repository contains the Jakarta Bean Validation 2.0
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source

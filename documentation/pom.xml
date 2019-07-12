@@ -19,8 +19,8 @@
     <artifactId>beanvalidation-tck-documentation</artifactId>
     <packaging>jar</packaging>
 
-    <name>JSR-380 TCK Documentation</name>
-    <description>&gt;Jakarta Bean Validation TCK Documentation</description>
+    <name>Jakarta Bean Validation TCK Documentation</name>
+    <description>Jakarta Bean Validation TCK Documentation</description>
 
     <properties>
         <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>
@@ -174,7 +174,6 @@
                         <tabsize>4</tabsize>
 
                         <copyrightYear>2009 - ${current-year}</copyrightYear>
-                        <jsrVersion>JSR 380</jsrVersion>
                         <tckVersion>${project.version}</tckVersion>
                         <validationApiVersion>${validation.api.version}</validationApiVersion>
                         <hibernateValidatorVersion>${hibernate.validator.version}</hibernateValidatorVersion>

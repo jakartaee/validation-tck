@@ -2,11 +2,11 @@
 == Appeals Process
 
 While the Jakarta Bean Validation TCK is rigorous about enforcing an
-implementation's conformance to the {jsrVersion} specification, it's
+implementation's conformance to the Jakarta Bean Validation specification, it's
 reasonable to assume that an implementor may discover new and/or better ways
 to validate the assertions. This chapter covers the appeals process, defined
 by the Specification Lead, Red Hat, Inc., which allows implementors of the
-{jsrVersion} specification to challenge one or more tests defined by the
+Jakarta Bean Validation specification to challenge one or more tests defined by the
 Jakarta Bean Validation TCK.
 
 The appeals process identifies who can make challenges to the TCK,
@@ -25,8 +25,8 @@ make a private appeal are therefore provided.
 === Who can make challenges to the TCK?
 
 Any implementor may submit an appeal to challenge one or more tests
-in the Jakarta Bean Validation TCK. In fact, members of the {jsrVersion} Expert
-Group (EG) encourage this level of participation.
+in the Jakarta Bean Validation TCK. In fact, members of the Jakarta Bean Validation
+Expert Group (EG) encourage this level of participation.
 
 === What challenges to the TCK may be submitted?
 
@@ -37,7 +37,7 @@ appeal.
 
 What is generally not challengeable are the assertions made by the
 specification. The specification document is controlled by a separate
-process and challenges to it should be handled through the {jsrVersion} EG
+process and challenges to it should be handled through the Jakarta Bean Validation EG
 by sending an e-mail to mailto:beanvalidation-tck@redhat.com[beanvalidation-tck@redhat.com].
 
 === How these challenges are submitted?
@@ -81,5 +81,5 @@ issue to be resolved.
 
 Resolved issue not addressed for 30 days will be closed by the TCK
 Project Lead. If the TCK Project Lead and appellant are unable to agree on
-the issue resolution, it will be referred to the {jsrVersion}
+the issue resolution, it will be referred to the Jakarta Bean Validation
 specification lead or his/her designate.

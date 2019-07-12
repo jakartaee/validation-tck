@@ -13,10 +13,10 @@
     <artifactId>beanvalidation-tck-parent</artifactId>
     <packaging>pom</packaging>
     <version>2.0.5-SNAPSHOT</version>
-    <name>JSR-380 TCK Aggregator</name>
+    <name>Jakarta Bean Validation TCK Aggregator</name>
     <url>http://beanvalidation.org/</url>
 
-    <description>JSR-380 TCK</description>
+    <description>Jakarta Bean Validation TCK</description>
 
     <modules>
         <module>tests</module>

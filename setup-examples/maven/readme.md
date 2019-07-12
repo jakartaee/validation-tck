@@ -1,4 +1,4 @@
-# Maven setup example to run the JSR-380 TCK
+# Maven setup example to run the Jakarta Bean Validation TCK
 
 This is an example setup to run the Jakarta Bean Validation TCK 2.0 against Glassfish 5 using [Maven](https://maven.apache.org).
 

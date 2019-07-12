@@ -29,7 +29,7 @@ readme.md
 
 You can also download the source code from GitHub - https://github.com/beanvalidation/beanvalidation-tck[https://github.com/beanvalidation/beanvalidation-tck].
 
-The {jsrVersion} reference implementation (RI) project is named
+The Jakarta Bean Validation reference implementation (RI) project is named
 Hibernate Validator. You can obtain the Hibernate Validator release used
 as reference implementation from the Hibernate Validator http://www.hibernate.org/subprojects/validator/download[download
 page].
@@ -55,8 +55,8 @@ runtime.
 
 The rest of the TCK software can simply be extracted. It's
 recommended that you create a dedicated folder to hold all of the
-JSR 380-related artifacts. This guide assumes the folder is called
-`jsr380`. Extract the `src` folder
+Jakarta Bean Validation-related artifacts. This guide assumes the folder is called
+`jakarta-bean-validation`. Extract the `src` folder
 of the TCK distribution into a sub-folder named `tck`
 or use the following git commands:
 
@@ -80,7 +80,7 @@ The resulting folder structure is shown here:
 
 [source]
 ----
-jsr380/
+jakarta-bean-validation/
    ri/
    tck/
 ----

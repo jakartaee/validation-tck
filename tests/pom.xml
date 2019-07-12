@@ -20,8 +20,8 @@
     <artifactId>beanvalidation-tck-tests</artifactId>
     <packaging>jar</packaging>
 
-    <name>JSR-380 TCK Test Suite</name>
-    <description>JSR-380 TCK test suite</description>
+    <name>Jakarta Bean Validation TCK Test Suite</name>
+    <description>Jakarta Bean Validation TCK test suite</description>
 
     <properties>
         <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>

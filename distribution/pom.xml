@@ -19,8 +19,8 @@
 
     <artifactId>beanvalidation-tck-distribution</artifactId>
 
-    <name>JSR-380 TCK Distribution</name>
-    <description>JSR-380 TCK Distribution</description>
+    <name>Jakarta Bean Validation TCK Distribution</name>
+    <description>Jakarta Bean Validation TCK Distribution</description>
 
     <properties>
         <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>
