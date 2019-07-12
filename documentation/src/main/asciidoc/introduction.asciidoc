@@ -69,8 +69,8 @@ ensuring the same extent of reliability for all Java platform
 ports.
 
 The Jakarta Bean Validation specification goes to great lengths to ensure
-that programs written for Java EE are compatible and the TCK is rigorous
-about enforcing the rules the specification lays down.
+that programs written for Jakarta EE are compatible
+and the TCK is rigorous about enforcing the rules the specification lays down.
 
 === About the Jakarta Bean Validation TCK
 
@@ -92,8 +92,8 @@ merely a developer convenience.
 
 [NOTE]
 ====
-The reason the Jakarta Bean Validation TCK must pass running in a EE
-container is that Jakarta Bean Validation is part of Java EE 8 itself.
+The reason the Jakarta Bean Validation TCK must pass running in a Jakarta EE
+container is that Jakarta Bean Validation is part of Jakarta EE 8 itself.
 ====
 
 ==== TCK Components
@@ -142,6 +142,6 @@ container and pass with an unmodified TestNG suite file.
 [NOTE]
 ====
 The designated reference runtime for compatibility testing of
-the Jakarta Bean Validation specification is the Sun Java Platform, Enterprise
-Edition (Java EE) 8 reference implementation (RI), aka Glassfish 5.
+the Jakarta Bean Validation specification is the Jakarta EE 8 reference
+implementation (RI), aka Glassfish 5.
 ====

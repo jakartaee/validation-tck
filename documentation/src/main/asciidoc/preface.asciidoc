@@ -7,7 +7,7 @@ implementation of Jakarta Bean Validation 2.0.
 
 The Jakarta Bean Validation TCK is built atop http://www.jboss.org/arquillian.html[Arquillian], a portable
 and configurable automated test suite for authoring unit and integration
-tests in a Java EE environment.
+tests in a Jakarta EE environment.
 
 The Jakarta Bean Validation TCK is provided under the http://www.apache.org/licenses/LICENSE-2.0[Apache Public License
 2.0].
