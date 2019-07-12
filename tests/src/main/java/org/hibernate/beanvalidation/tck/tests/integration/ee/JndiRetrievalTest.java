@@ -45,7 +45,7 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "a")
 	private void testDefaultValidatorFactoryCanBeRetrievedFromJndi() throws Exception {
 		ValidatorFactory validatorFactory = InitialContext.doLookup( "java:comp/ValidatorFactory" );
 		assertNotNull(
@@ -65,7 +65,7 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "a")
 	private void testDefaultValidatorCanBeRetrievedFromJndi() throws Exception {
 		Validator validator = InitialContext.doLookup( "java:comp/Validator" );
 		assertNotNull( validator, "Default validator should be bound to JNDI tree." );

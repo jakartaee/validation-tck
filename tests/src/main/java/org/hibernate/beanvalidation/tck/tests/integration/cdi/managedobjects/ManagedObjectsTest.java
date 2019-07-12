@@ -58,8 +58,8 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testMessageInterpolatorIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		MessageInterpolator messageInterpolator = defaultValidatorFactory.getMessageInterpolator();
@@ -69,8 +69,8 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testTraversableResolverIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
@@ -83,8 +83,8 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testConstraintValidatorFactoryIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 
@@ -98,8 +98,8 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testParameterNameProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ParameterNameProvider parameterNameProvider = defaultValidatorFactory.getParameterNameProvider();
@@ -112,8 +112,8 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testClockProviderIsSubjectToDependencyInjection() {
 		assertNotNull( defaultValidatorFactory );
 		ClockProvider clockProvider = defaultValidatorFactory.getClockProvider();

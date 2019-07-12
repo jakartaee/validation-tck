@@ -56,7 +56,7 @@ public class ManagedServiceLoaderValueExtractorsTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "b")
 	public void testServiceLoaderValueExtractorsAreSubjectToDependencyInjection() {
 		assertNotNull( defaultValidator );
 

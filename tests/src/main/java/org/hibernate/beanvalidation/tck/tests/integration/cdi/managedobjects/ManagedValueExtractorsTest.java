@@ -53,8 +53,8 @@ public class ManagedValueExtractorsTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_OBJECTSLIFECYCLE, id = "d")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "a")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testValueExtractorsAreSubjectToDependencyInjection() {
 		assertNotNull( defaultValidator );
 

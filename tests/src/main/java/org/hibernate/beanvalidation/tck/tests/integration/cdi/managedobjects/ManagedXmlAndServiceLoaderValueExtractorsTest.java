@@ -56,7 +56,7 @@ public class ManagedXmlAndServiceLoaderValueExtractorsTest extends AbstractTCKTe
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_CDI_CUSTOMCONFIGURATION, id = "b")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_REGISTERING, id = "e")
 	public void testValueExtractorsAreSubjectToDependencyInjection() {
 		assertNotNull( defaultValidator );

@@ -40,8 +40,8 @@ public class ConstraintValidatorInjectionTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.INTEGRATION_JAVAEE, id = "c")
-	@SpecAssertion(section = Sections.INTEGRATION_CDI, id = "a")
+	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "c")
+	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testJndiBoundValidatorFactoryIsCdiEnabled() throws Exception {
 		ValidatorFactory validatorFactory = InitialContext.doLookup( "java:comp/ValidatorFactory" );
 		assertNotNull(
