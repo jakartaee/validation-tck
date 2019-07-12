@@ -5,7 +5,7 @@ This chapter covers the two types of reports that can be generated
 from the TCK, an assertion coverage report and the test execution
 results.
 
-=== Bean Validation TCK Coverage Report
+=== Jakarta Bean Validation TCK Coverage Report
 
 A specification can be distilled into a collection of assertions
 that define the behavior of the software. This section introduces the Bean
@@ -16,16 +16,16 @@ document and the tests in the TCK test suite.
 The structure of this report is controlled by the assertion
 document, so we'll start there.
 
-==== Bean Validation TCK Assertions
+==== Jakarta Bean Validation TCK Assertions
 
-The Bean Validation TCK developers have analyzed the {jsrVersion}
+The Jakarta Bean Validation TCK developers have analyzed the {jsrVersion}
 specification document and identified the assertions that are present in
 each chapter. Here's an example of one such assertion found in section
 2.1: "Every constraint annotation must define a message element of
 type String"
 
 The assertions are listed in the XML file
-`tck-audit.xml` in the Bean Validation TCK
+`tck-audit.xml` in the Jakarta Bean Validation TCK
 distribution. Each assertion is identified by the section of the
 specification document in which it resides and assigned a unique
 paragraph identifier to narrow down the location of the assertion
@@ -45,7 +45,7 @@ fragment:
 </section>
 ----
 
-The strategy of the Bean Validation TCK is to write a test which
+The strategy of the Jakarta Bean Validation TCK is to write a test which
 validates this assertion when run against an implementation. A test case
 (a method annotated with `@Test`) is correlated with an
 assertion using the
@@ -126,15 +126,15 @@ tests are passing. That's where the TestNG reports come in.
 
 === The TestNG Report
 
-As you by now know, the Bean Validation TCK test suite is really
-just a TestNG test suite. That means an execution of the Bean Validation
+As you by now know, the Jakarta Bean Validation TCK test suite is really
+just a TestNG test suite. That means an execution of the Jakarta Bean Validation
 TCK test suite produces all the same reports that TestNG produces. This
 section will go over those reports and show you were to go to find each of
 them.
 
 ==== Maven, Surefire and TestNG
 
-When the Bean Validation TCK test suite is executed during the
+When the Jakarta Bean Validation TCK test suite is executed during the
 Maven test phase of the TCK runner project, TestNG is invoked
 indirectly through the Maven Surefire plugin. Surefire is a test
 execution abstraction layer capable of executing a mix of tests written

@@ -1,13 +1,13 @@
 [[appeals-process]]
 == Appeals Process
 
-While the Bean Validation TCK is rigorous about enforcing an
+While the Jakarta Bean Validation TCK is rigorous about enforcing an
 implementation's conformance to the {jsrVersion} specification, it's
 reasonable to assume that an implementor may discover new and/or better ways
 to validate the assertions. This chapter covers the appeals process, defined
 by the Specification Lead, Red Hat, Inc., which allows implementors of the
 {jsrVersion} specification to challenge one or more tests defined by the
-Bean Validation TCK.
+Jakarta Bean Validation TCK.
 
 The appeals process identifies who can make challenges to the TCK,
 what challenges to the TCK may be submitted, how these challenges are
@@ -25,7 +25,7 @@ make a private appeal are therefore provided.
 === Who can make challenges to the TCK?
 
 Any implementor may submit an appeal to challenge one or more tests
-in the Bean Validation TCK. In fact, members of the {jsrVersion} Expert
+in the Jakarta Bean Validation TCK. In fact, members of the {jsrVersion} Expert
 Group (EG) encourage this level of participation.
 
 === What challenges to the TCK may be submitted?
@@ -72,7 +72,7 @@ Project Summary Page].
 === How accepted challenges to the TCK are managed?
 
 Accepted challenges will be acknowledged via the filed issue's
-comment section. Communication between the Bean Validation TCK Project
+comment section. Communication between the Jakarta Bean Validation TCK Project
 Lead and the appellant will take place via the issue comments. The issue's
 status will be set to "Resolved" when the TCK project lead believes the
 issue to be resolved. The appellant should, within 30 days, either close

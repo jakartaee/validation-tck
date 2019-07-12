@@ -2,7 +2,7 @@
 == Introduction
 
 This chapter explains the purpose of a TCK and identifies the
-foundation elements of the Bean Validation TCK.
+foundation elements of the Jakarta Bean Validation TCK.
 
 [[primer]]
 === TCK Primer
@@ -68,13 +68,13 @@ confidence.
 ensuring the same extent of reliability for all Java platform
 ports.
 
-The Bean Validation specification goes to great lengths to ensure
+The Jakarta Bean Validation specification goes to great lengths to ensure
 that programs written for Java EE are compatible and the TCK is rigorous
 about enforcing the rules the specification lays down.
 
-=== About the Bean Validation TCK
+=== About the Jakarta Bean Validation TCK
 
-The Bean Validation TCK is designed as a portable, configurable and
+The Jakarta Bean Validation TCK is designed as a portable, configurable and
 automated test suite for verifying the compatibility of an implementation
 of {jsrVersion}. The test suite is built atop TestNG and provides a series
 of extensions that allow runtime packaging and deployment of JEE artifacts
@@ -85,29 +85,29 @@ deployable units, or artifacts, are defined in a declarative way using
 annotations.
 
 The declarative approach allows many of the tests to be executed in
-a standalone implementation of Bean Validation, accounting for a boost in
+a standalone implementation of Jakarta Bean Validation, accounting for a boost in
 developer productivity. However, an implementation is only valid if all
 tests pass using the in-container execution mode. The standalone mode is
 merely a developer convenience.
 
 [NOTE]
 ====
-The reason the Bean Validation TCK must pass running in a EE
-container is that Bean Validation is part of Java EE 8 itself.
+The reason the Jakarta Bean Validation TCK must pass running in a EE
+container is that Jakarta Bean Validation is part of Java EE 8 itself.
 ====
 
 ==== TCK Components
 
-The Bean Validation TCK includes the following components:
+The Jakarta Bean Validation TCK includes the following components:
 
 * *The test suite*, which is a
 collection of TestNG tests, the TestNG test suite descriptor and
-supplemental resources that configure Bean Validation and other
+supplemental resources that configure Jakarta Bean Validation and other
 software components.
 
 * *The TCK audit*
 (`tck-audit.xml`) used to list out the assertions
-identified in the Bean Validation specification. It matches the
+identified in the Jakarta Bean Validation specification. It matches the
 assertions to test cases in the test suite by unique identifier and
 produces a coverage report.
 +
@@ -128,12 +128,12 @@ tests outside of the EE container.
 Maven and Ant setups to run the TCK test suite
 
 [[passing-the-tck]]
-==== Passing the Bean Validation TCK
+==== Passing the Jakarta Bean Validation TCK
 
-In order to pass the Bean Validation TCK (which is one requirement
-for becoming a certified Bean Validation provider), you need to:
+In order to pass the Jakarta Bean Validation TCK (which is one requirement
+for becoming a certified Jakarta Bean Validation provider), you need to:
 
-* Pass the Bean Validation signature tests (see <<sigtest>>) asserting the correctness of the Bean
+* Pass the Jakarta Bean Validation signature tests (see <<sigtest>>) asserting the correctness of the Bean
 Validation API used.
 
 * Run and pass the test suite (see <<configuration>>). The test must be run within an EE 8
@@ -142,6 +142,6 @@ container and pass with an unmodified TestNG suite file.
 [NOTE]
 ====
 The designated reference runtime for compatibility testing of
-the Bean Validation specification is the Sun Java Platform, Enterprise
+the Jakarta Bean Validation specification is the Sun Java Platform, Enterprise
 Edition (Java EE) 8 reference implementation (RI), aka Glassfish 5.
 ====
