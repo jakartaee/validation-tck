@@ -7,7 +7,7 @@
     See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
 
 -->
-<project name="JSR-380 TCK" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="Jakarta Bean Validation TCK" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <!-- ====================================================================== -->
     <!-- Build environment properties                                           -->

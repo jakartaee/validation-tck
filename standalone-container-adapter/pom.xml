@@ -20,8 +20,8 @@
     <artifactId>beanvalidation-standalone-container-adapter</artifactId>
     <packaging>jar</packaging>
 
-    <name>JSR-380 TCK Container Adapter</name>
-    <description>JSR-380 TCK Arquillian Standalone Container Adapter</description>
+    <name>Jakarta Bean Validation TCK Container Adapter</name>
+    <description>Jakarta Bean Validation TCK Arquillian Standalone Container Adapter</description>
 
     <properties>
         <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>

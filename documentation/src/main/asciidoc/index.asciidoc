@@ -1,4 +1,4 @@
-= TCK Reference Guide for {jsrVersion} - Jakarta Bean Validation
+= TCK Reference Guide for Jakarta Bean Validation
 Emmanuel Bernard - Red Hat, Inc.; Hardy Ferentschik - Red Hat, Inc.; Gunnar Morling - Red Hat, Inc.
 :doctype: book
 :revdate: {docdate}

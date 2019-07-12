@@ -1,4 +1,4 @@
-# JSR-380 TCK setup examples
+# Jakarta Bean Validation TCK setup examples
 
 This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org/) setup examples for
 running the [Jakarta Bean Validation](http://beanvalidation.org/) TCK against [Glassfish 5](https://javaee.github.io/glassfish/),

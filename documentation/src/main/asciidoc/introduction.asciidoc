@@ -76,7 +76,7 @@ about enforcing the rules the specification lays down.
 
 The Jakarta Bean Validation TCK is designed as a portable, configurable and
 automated test suite for verifying the compatibility of an implementation
-of {jsrVersion}. The test suite is built atop TestNG and provides a series
+of Jakarta Bean Validation. The test suite is built atop TestNG and provides a series
 of extensions that allow runtime packaging and deployment of JEE artifacts
 for in-container testing (Arquillian).
 

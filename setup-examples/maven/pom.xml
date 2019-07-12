@@ -17,7 +17,7 @@
     <version>2.0-SNAPSHOT</version>
 
     <name>Example Jakarta Bean Validation TCK Runner</name>
-    <description>Aggregates dependencies and runs the JSR-380 TCK</description>
+    <description>Aggregates dependencies and runs the Jakarta Bean Validation TCK</description>
 
     <properties>
         <tck.version>2.0.0-SNAPSHOT</tck.version>
