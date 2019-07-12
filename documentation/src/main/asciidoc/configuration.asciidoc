@@ -2,7 +2,7 @@
 == Running the TCK test suite
 
 This chapter lays out how to run and configure the TCK harness against
-a given Jakarta Bean Validation provider in a given Java EE container. If you have
+a given Jakarta Bean Validation provider in a given Jakarta EE container. If you have
 not by now made yourself familiar with the https://docs.jboss.org/author/display/ARQ/Reference+Guide[Arquillian
 documentation], this is a good time to do it. It will give you a
 deeper understanding of the different parts described in the following
@@ -103,7 +103,7 @@ example build files.
 To make it easier to develop, debug or test the TCK, an in JVM
 adapter is provided as part of the distribution
 (`beanvalidation-standalone-container-adapter-{tckVersion}.jar`).
-Using this adapter the tests are not executed in a remote Java EE
+Using this adapter the tests are not executed in a remote Jakarta EE
 container, but in the current JVM. This allows for easy and fast
 debugging. Some tests, however, are only runnable in a EE container
 and will fail in this in JVM execution mode. By setting the property
