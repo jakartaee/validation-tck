@@ -7,9 +7,9 @@ system.
 
 === Obtaining the Software
 
-You can obtain a release of the Bean Validation TCK project via the
-official http://beanvalidation.org/tck/[Bean Validation
-home page]. The Bean Validation TCK is distributed as a ZIP file,
+You can obtain a release of the Jakarta Bean Validation TCK project via the
+official http://beanvalidation.org/tck/[Jakarta Bean Validation
+home page]. The Jakarta Bean Validation TCK is distributed as a ZIP file,
 which contains the TCK artifacts (the test suite binary and source, the
 test suite descriptor, the audit source and report), the TCK library
 dependencies in `/lib` and documentation in `/doc`.
@@ -38,7 +38,7 @@ page].
 ====
 Hibernate Validator is not required for running the Bean
 Validation TCK, but it can be used as a reference for familiarizing
-yourself with the TCK before testing your own Bean Validation
+yourself with the TCK before testing your own Jakarta Bean Validation
 implementation.
 ====
 
@@ -104,7 +104,7 @@ actual tests which are getting run. Last but not least we see the use of
 the `@SpecAssertion` annotation which creates the link between
 the tck-audit.xml document and the actual test (see <<primer>>).
 
-.Running the TCK against the Bean Validation RI (Hibernate Validator) and WildFly 10.1
+.Running the TCK against the Jakarta Bean Validation RI (Hibernate Validator) and WildFly 10.1
 ====
 * Install Maven. You can find documentation on how to install
 Maven 3 on the https://maven.apache.org/install.html[Maven official website].

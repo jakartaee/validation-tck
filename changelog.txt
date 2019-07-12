@@ -1,4 +1,4 @@
-Bean Validation TCK Changelog
+Jakarta Bean Validation TCK Changelog
 ===============================
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues

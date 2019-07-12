@@ -2,7 +2,7 @@
 == Running the Signature Test
 
 One of the requirements of an implementation passing the TCK is for it
-to pass the Bean Validation signature test. This section describes how to run
+to pass the Jakarta Bean Validation signature test. This section describes how to run
 it against your implementation as a part of a Maven build.
 
 === Executing the signature check

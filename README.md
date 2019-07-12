@@ -1,7 +1,7 @@
-# Bean Validation TCK
+# Jakarta Bean Validation TCK
 *Version: 2.0.4.Final - 10-08-2018*
 
-This repository contains the Bean Validation 2.0 ([JSR 380](http://www.jcp.org/en/jsr/detail?id=380))
+This repository contains the Jakarta Bean Validation 2.0 ([JSR 380](http://www.jcp.org/en/jsr/detail?id=380))
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source
@@ -20,7 +20,7 @@ and the TCK coverage report refer to _tests/target/artifacts_ and _tests/target/
 The documentation for the TCK is included in the docs directory of the [distribution package](https://sourceforge.net/projects/hibernate/files/beanvalidation-tck/)
 or viewable [online](http://docs.jboss.org/hibernate/stable/beanvalidation/tck/reference/html_single/).
 
-If you are looking at a quick start for testing your Bean Validation provider implementation against this TCK have a look at
+If you are looking at a quick start for testing your Jakarta Bean Validation provider implementation against this TCK have a look at
 the _[setup-examples](https://github.com/beanvalidation/beanvalidation-tck/tree/master/setup-examples)_ directory.
 It contains a setup example for [Ant](https://github.com/beanvalidation/beanvalidation-tck/blob/master/setup-examples/ant/readme.md)
 and [Maven](https://github.com/beanvalidation/beanvalidation-tck/blob/master/setup-examples/maven/readme.md).
@@ -31,4 +31,4 @@ The release notes for this release can be found [here](https://github.com/beanva
 
 # Issue tracking
 
-The Bean Validation TCK issue tracker is [BVTCK](https://hibernate.atlassian.net/projects/BVTCK/).
+The Jakarta Bean Validation TCK issue tracker is [BVTCK](https://hibernate.atlassian.net/projects/BVTCK/).

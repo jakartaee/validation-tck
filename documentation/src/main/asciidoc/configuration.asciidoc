@@ -2,7 +2,7 @@
 == Running the TCK test suite
 
 This chapter lays out how to run and configure the TCK harness against
-a given Bean Validation provider in a given Java EE container. If you have
+a given Jakarta Bean Validation provider in a given Java EE container. If you have
 not by now made yourself familiar with the https://docs.jboss.org/author/display/ARQ/Reference+Guide[Arquillian
 documentation], this is a good time to do it. It will give you a
 deeper understanding of the different parts described in the following
@@ -14,7 +14,7 @@ The TCK distribution comes with a directory
 `setup-examples` which contains two example projects
 for running the TCK. If you followed the instructions in <<installation>> you find the directory under
 `jsr380/tck/setup-examples`. Both setups are using
-Hibernate Validator as Bean Validation Provider and Glassfish 5 as EE
+Hibernate Validator as Jakarta Bean Validation Provider and Glassfish 5 as EE
 constainer. However, one is using http://maven.apache.org/[Maven] as build tool to run the TCK,
 the other http://ant.apache.org/[Ant]. Depending which
 of the examples you want to use, you need to install the corresponding
@@ -24,7 +24,7 @@ Each example comes with a `readme.md` containing
 the prerequisites for using this setup, how to run the TCK against
 Hibernate Validator and Glassfish. The readme in
 `setup-examples` itself contains information about what
-needs to be changed to use a different Bean Validation provider and EE
+needs to be changed to use a different Jakarta Bean Validation provider and EE
 container.
 
 The following chapters contain some more information about the
@@ -33,7 +33,7 @@ above the simple readme files.
 
 === Configuring TestNG to execute the TCK
 
-The Bean Validation test harness is built atop TestNG, and it is
+The Jakarta Bean Validation test harness is built atop TestNG, and it is
 TestNG that is responsible for selecting the tests to execute, the order
 of execution, and reporting the results. Detailed TestNG documentation can
 be found at http://testng.org/doc/documentation-main.html[testng.org].
@@ -70,7 +70,7 @@ more information.
 === Selecting the `ValidationProvider`
 
 The most important configuration you have make in order to run the
-Bean Validation TCK is to specify your
+Jakarta Bean Validation TCK is to specify your
 `ValidationProvider` you want to run your tests
 against. To do so you need to set the Java system property
 `validation.provider` to the fully specified class name
@@ -82,7 +82,7 @@ system property will be picked up by
 `org.hibernate.beanvalidation.tck.util.TestUtil`
 which will instantiate the `Validator` under test.
 This means the test harness does not rely on the service provider
-mechanism to instantiate the Bean Validation provider under test, partly
+mechanism to instantiate the Jakarta Bean Validation provider under test, partly
 because this selection mechanism is under test as well.
 
 [[configuration-deployable-container]]
@@ -163,7 +163,7 @@ test failures.
 
 [[configuration-javafx]]
 
-The Bean Validation specification mandates a support of JavaFX if JavaFX is available in the classpath.
+The Jakarta Bean Validation specification mandates a support of JavaFX if JavaFX is available in the classpath.
 
 While JavaFX is included in the Oracle JDK and some other JDKs include https://wiki.openjdk.java.net/display/OpenJFX/Main[OpenJFX],
 it might not be included in all JDKs.
