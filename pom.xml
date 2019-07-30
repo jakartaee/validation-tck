@@ -40,9 +40,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/beanvalidation/beanvalidation-tck.git</connection>
-        <developerConnection>scm:git:git@github.com:beanvalidation/beanvalidation-tck.git</developerConnection>
-        <url>http://github.com/beanvalidation/beanvalidation-tck</url>
+        <connection>scm:git:git://github.com/eclipse-ee4j/beanvalidation-tck.git</connection>
+        <developerConnection>scm:git:git@github.com:eclipse-ee4j/beanvalidation-tck.git</developerConnection>
+        <url>http://github.com/eclipse-ee4j/beanvalidation-tck</url>
       <tag>HEAD</tag>
     </scm>
 
@@ -80,7 +80,7 @@
     <mailingLists>
         <mailingList>
             <name>beanvalidation-dev</name>
-            <post>beanvalidation-dev@lists.jboss.org</post>
+            <post>bean-validation-dev@eclipse.org</post>
         </mailingList>
         <mailingList>
             <name>hibernate-dev</name>

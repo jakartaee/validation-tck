@@ -21,13 +21,13 @@ The documentation for the TCK is included in the docs directory of the [distribu
 or viewable [online](http://docs.jboss.org/hibernate/stable/beanvalidation/tck/reference/html_single/).
 
 If you are looking at a quick start for testing your Jakarta Bean Validation provider implementation against this TCK have a look at
-the _[setup-examples](https://github.com/beanvalidation/beanvalidation-tck/tree/master/setup-examples)_ directory.
-It contains a setup example for [Ant](https://github.com/beanvalidation/beanvalidation-tck/blob/master/setup-examples/ant/readme.md)
-and [Maven](https://github.com/beanvalidation/beanvalidation-tck/blob/master/setup-examples/maven/readme.md).
+the _[setup-examples](https://github.com/eclipse-ee4j/beanvalidation-tck/tree/master/setup-examples)_ directory.
+It contains a setup example for [Ant](https://github.com/eclipse-ee4j/beanvalidation-tck/blob/master/setup-examples/ant/readme.md)
+and [Maven](https://github.com/eclipse-ee4j/beanvalidation-tck/blob/master/setup-examples/maven/readme.md).
 
 # Release Notes
 
-The release notes for this release can be found [here](https://github.com/beanvalidation/beanvalidation-tck/blob/master/changelog.txt).
+The release notes for this release can be found [here](https://github.com/eclipse-ee4j/beanvalidation-tck/blob/master/changelog.txt).
 
 # Issue tracking
 

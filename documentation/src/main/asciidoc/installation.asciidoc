@@ -27,7 +27,7 @@ src/
 readme.md
 ----
 
-You can also download the source code from GitHub - https://github.com/beanvalidation/beanvalidation-tck[https://github.com/beanvalidation/beanvalidation-tck].
+You can also download the source code from GitHub - https://github.com/eclipse-ee4j/beanvalidation-tck[https://github.com/eclipse-ee4j/beanvalidation-tck].
 
 The Jakarta Bean Validation reference implementation (RI) project is named
 Hibernate Validator. You can obtain the Hibernate Validator release used
@@ -62,7 +62,7 @@ or use the following git commands:
 
 [source,subs="attributes"]
 ----
-git clone git://github.com/beanvalidation/beanvalidation-tck tck
+git clone git://github.com/eclipse-ee4j/beanvalidation-tck tck
 git checkout {tckVersion}
 ----
 
