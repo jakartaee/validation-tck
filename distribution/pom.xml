@@ -50,7 +50,7 @@
                         <descriptor>${basedir}/src/main/assembly/dist.xml</descriptor>
                     </descriptors>
                     <finalName>beanvalidation-tck-dist-${project.version}</finalName>
-                    <tarLongFileMode>gnu</tarLongFileMode>
+                    <tarLongFileMode>posix</tarLongFileMode>
                 </configuration>
                 <executions>
                     <execution>
