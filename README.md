@@ -6,7 +6,7 @@ This repository contains the Jakarta Bean Validation 2.0
 
 ## Build from Source
 
-You can build the TCK from source by cloning the git repository https://github.com/beanvalidation/beanvalidation-tck.git.
+You can build the TCK from source by cloning the git repository https://github.com/eclipse-ee4j/beanvalidation-tck.git.
 You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 8 and
 [Maven](http://maven.apache.org/) 3. With these prerequisites in place you can compile the source via:
 
