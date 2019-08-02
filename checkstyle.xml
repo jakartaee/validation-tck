@@ -13,13 +13,10 @@
 
 <module name="Checker">
 
-    <!-- Allows usage of CHECKSTYLE:ON/OFF in code to suppress violations within a pair of comments -->
-    <module name="SuppressionCommentFilter"/>
-
     <module name="TreeWalker">
 
-        <!-- SuppressionCommentFilter filter only works in conjunction with a FileContentsHolder -->
-        <module name="FileContentsHolder"/>
+        <!-- Allows usage of CHECKSTYLE:ON/OFF in code to suppress violations within a pair of comments -->
+        <module name="SuppressionCommentFilter"/>
 
         <!-- Checks for imports -->
         <module name="AvoidStarImport"/>
