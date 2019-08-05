@@ -103,6 +103,12 @@
 
         <validation.api.version>2.0.2</validation.api.version>
 
+        <!-- What license to include in the dist binary. For Jakarta releases that are used to certify implementations, this
+        must be the EFTL.txt file. Default is the Apache license. Override with -Dlicense.file=EFTL.txt in CI build of
+        final release version.
+        -->
+        <license.file>license.txt</license.file>
+
         <!-- This is only needed for an example in the documentation; there is
              no dependency to the RI -->
         <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
