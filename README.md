@@ -1,5 +1,5 @@
 # Jakarta Bean Validation TCK
-*Version: 2.0.5 - 02-08-2019*
+*Version: 2.0.5 - 05-08-2019*
 
 This repository contains the Jakarta Bean Validation 2.0
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
@@ -31,4 +31,4 @@ The release notes for this release can be found [here](https://github.com/eclips
 
 # Issue tracking
 
-The Jakarta Bean Validation TCK issue tracker is [BVTCK](https://hibernate.atlassian.net/projects/BVTCK/).
+The Jakarta Bean Validation TCK issue tracker is [BVTCK](https://github.com/eclipse-ee4j/beanvalidation-tck/issues).
