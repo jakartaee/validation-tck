@@ -31,4 +31,4 @@ The release notes for this release can be found [here](https://github.com/eclips
 
 # Issue tracking
 
-The Jakarta Bean Validation TCK issue tracker is [BVTCK](https://hibernate.atlassian.net/projects/BVTCK/).
+The Jakarta Bean Validation TCK issue tracker is [hosted on GitHub](https://github.com/eclipse-ee4j/beanvalidation-tck/issues).
