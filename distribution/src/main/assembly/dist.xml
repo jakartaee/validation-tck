@@ -76,7 +76,7 @@
             <directory>..</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>license.txt</include>
+                <include>${license.file}</include>
                 <include>changelog.txt</include>
                 <include>readme.md</include>
             </includes>

@@ -9,10 +9,16 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.5</version>
+    </parent>
+
     <groupId>org.hibernate.beanvalidation.tck</groupId>
     <artifactId>beanvalidation-tck-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>2.0.5</version>
     <name>Jakarta Bean Validation TCK Aggregator</name>
     <url>http://beanvalidation.org/</url>
 
@@ -96,6 +102,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <validation.api.version>2.0.2</validation.api.version>
+
+        <!-- What license to include in the dist binary. For Jakarta releases that are used to certify implementations, this
+        must be the EFTL.txt file. Default is the Apache license. Override with -Dlicense.file=EFTL.txt in CI build of
+        final release version.
+        -->
+        <license.file>license.txt</license.file>
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency to the RI -->
