@@ -21,7 +21,7 @@
         </method-selectors>
 
         <packages>
-            <package name="org.hibernate.beanvalidation.tck.tests"/>
+            <package name="org.hibernate.beanvalidation.tck.tests.*"/>
         </packages>
     </test>
 </suite>
