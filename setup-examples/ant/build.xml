@@ -24,14 +24,14 @@
 
     <!-- Remote repositories and ivy settings -->
     <property name="maven.repo.central" value="http://repo1.maven.org/maven2"/>
-    <property name="maven.repo.jboss-public" value="https://repository.jboss.org/nexus/content/groups/public-jboss"/>
+    <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
     <property name="ivy.install.version" value="2.4.0"/>
     <property name="ivy.jar.dir" value="${basedir}/.ivy"/>
     <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar"/>
 
     <!-- Build the remote path to the testng suite file-->
     <property name="remote.tck.suite.file"
-              value="${maven.repo.jboss-public}/org/hibernate/beanvalidation/tck/beanvalidation-tck-tests/${version.tck}/beanvalidation-tck-tests-${version.tck}-suite.xml"/>
+              value="${maven.repo.local}/org/hibernate/beanvalidation/tck/beanvalidation-tck-tests/${version.tck}/beanvalidation-tck-tests-${version.tck}-suite.xml"/>
 
     <!-- ====================================================================== -->
     <!-- Ivy bootstrap targets                                                  -->
@@ -76,11 +76,14 @@
 
     <target name="get-testng-suite">
         <mkdir dir="${project.build.directory}"/>
-        <get src="${remote.tck.suite.file}"
-             dest="${project.build.directory}/${tck.suite.file}"
-             skipexisting="true"/>
+        <copy file="${remote.tck.suite.file}"
+              tofile="${project.build.directory}/${tck.suite.file}"
+        />
     </target>
 
+    <target name="pom-to-ivy" depends="load-ivy">
+        <ivy:convertpom pomFile="tests/pom.xml" ivyFile="ivyfrompom.xml" />
+    </target>
     <!-- ====================================================================== -->
     <!-- Cleaning up target                                                     -->
     <!-- ====================================================================== -->
@@ -111,6 +114,8 @@
             <path refid="build.test.classpath.container"/>
             <pathelement location="${project.testResource.outputDirectory}"/>
         </path>
+        <pathconvert property="testClasspath" refid="test.path" />
+        <echo message="path=${testClasspath}" />
         <testng classpathref="test.path"
                 outputDir="${project.test.reportsOutputDirectory}"
                 haltOnfailure="false">
@@ -118,12 +123,11 @@
             <jvmarg value="-Xmx1024m"/> 
 
             <!-- Uncomment for remote debugging -->
-            <!--             
+            <!-- -->
             <jvmarg value="-Xnoagent"/>
             <jvmarg value="-Djava.compiler=NONE"/>
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
-             -->  
 
             <!-- Container qualifier used in arquillian.xml -->
             <sysproperty key="arquillian.launch" value="incontainer"/>
