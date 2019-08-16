@@ -1,67 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Jakarta Bean Validation TCK
+
+    License: Apache License, Version 2.0
+    See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
+
+-->
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-  <info organisation="null"
+  <info organisation="Red Hat, Inc."
         module="beanvalidation-tck-tests"
-        revision="working@Scotts-iMacPro"
-        status="integration"
+        revision="2.0.5"
+        status="Final"
         publication="20190814202711"
   >
     <description homepage="">
       Jakarta Bean Validation TCK test suite
     </description>
-    <m:properties__jakarta.el.version>3.0.2</m:properties__jakarta.el.version>
-    <m:properties__cdi-api.version>2.0.1</m:properties__cdi-api.version>
-    <m:properties__maven.compiler.source>1.8</m:properties__maven.compiler.source>
-    <m:properties__hibernate.validator.version>6.2.0.Final</m:properties__hibernate.validator.version>
-    <m:properties__jboss.test.audit.version>1.1.3.Final</m:properties__jboss.test.audit.version>
-    <m:properties__beanvalidation-tck-parent.basedir>${project.basedir}</m:properties__beanvalidation-tck-parent.basedir>
-    <m:properties__license.file>license.txt</m:properties__license.file>
-    <m:properties__jruby.version>1.7.26</m:properties__jruby.version>
-    <m:properties__com.puppycrawl.tools.version>8.23</m:properties__com.puppycrawl.tools.version>
-    <m:properties__assertj-core.version>3.7.0</m:properties__assertj-core.version>
-    <m:properties__maven.compiler.target>1.8</m:properties__maven.compiler.target>
-    <m:properties__shrinkwrap.descriptors.version>2.0.0-alpha-10</m:properties__shrinkwrap.descriptors.version>
-    <m:properties__asciidoctorj-pdf.version>1.5.0-alpha.11</m:properties__asciidoctorj-pdf.version>
-    <m:properties__testng.version>6.11</m:properties__testng.version>
-    <m:properties__asciidoctorj.version>1.5.4.1</m:properties__asciidoctorj.version>
-    <m:properties__validation.api.version>2.0.2</m:properties__validation.api.version>
-    <m:properties__asciidoctor-maven-plugin.version>1.5.3</m:properties__asciidoctor-maven-plugin.version>
-    <m:properties__arquillian.version>1.1.11.Final</m:properties__arquillian.version>
-    <m:properties__project.build.sourceEncoding>UTF-8</m:properties__project.build.sourceEncoding>
-    <m:properties__hibernate-asciidoctor-theme.version>1.0.1.Final</m:properties__hibernate-asciidoctor-theme.version>
-    <m:dependency.management__org.testng__testng__version>6.11</m:dependency.management__org.testng__testng__version>
-    <m:dependency.management__org.assertj__assertj-core__version>3.7.0
-    </m:dependency.management__org.assertj__assertj-core__version>
-    <m:dependency.management__jakarta.validation__jakarta.validation-api__version>2.0.2
-    </m:dependency.management__jakarta.validation__jakarta.validation-api__version>
-    <m:dependency.management__org.hibernate.validator__hibernate-validator__version>6.0.17.Final
-    </m:dependency.management__org.hibernate.validator__hibernate-validator__version>
-    <m:dependency.management__org.jboss.test-audit__jboss-test-audit-api__version>1.1.3.Final
-    </m:dependency.management__org.jboss.test-audit__jboss-test-audit-api__version>
-    <m:dependency.management__org.jboss.test-audit__jboss-test-audit-impl__version>1.1.3.Final
-    </m:dependency.management__org.jboss.test-audit__jboss-test-audit-impl__version>
-    <m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-container__version>1.1.11.Final
-    </m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-container__version>
-    <m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-javaee__version>2.0.0-alpha-10
-    </m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-javaee__version>
-    <m:dependency.management__jakarta.enterprise__jakarta.enterprise.cdi-api__version>2.0.1
-    </m:dependency.management__jakarta.enterprise__jakarta.enterprise.cdi-api__version>
-    <m:dependency.management__jakarta.enterprise__jakarta.enterprise.cdi-api__exclusion_0>jakarta.el__jakarta.el-api
-    </m:dependency.management__jakarta.enterprise__jakarta.enterprise.cdi-api__exclusion_0>
-    <m:dependency.management__jakarta.enterprise__jakarta.enterprise.cdi-api__exclusion_1>
-      jakarta.interceptor__jakarta.interceptor-api
-    </m:dependency.management__jakarta.enterprise__jakarta.enterprise.cdi-api__exclusion_1>
-    <m:dependency.management__jakarta.interceptor__jakarta.interceptor-api__version>1.2.4
-    </m:dependency.management__jakarta.interceptor__jakarta.interceptor-api__version>
-    <m:dependency.management__jakarta.ejb__jakarta.ejb-api__version>3.2.5
-    </m:dependency.management__jakarta.ejb__jakarta.ejb-api__version>
-    <m:dependency.management__jakarta.annotation__jakarta.annotation-api__version>1.3.4
-    </m:dependency.management__jakarta.annotation__jakarta.annotation-api__version>
-    <m:dependency.management__jakarta.el__jakarta.el-api__version>3.0.2
-    </m:dependency.management__jakarta.el__jakarta.el-api__version>
-    <m:maven.plugins>
-      org.codehaus.mojo__exec-maven-plugin__null|org.codehaus.mojo__build-helper-maven-plugin__null|null__maven-compiler-plugin__null|org.bsc.maven__maven-processor-plugin__null|org.apache.maven.plugins__maven-checkstyle-plugin__null|org.apache.maven.plugins__maven-dependency-plugin__null|org.netbeans.tools__sigtest-maven-plugin__null|ch.mfrey.maven.plugin__copy-maven-plugin__null
-    </m:maven.plugins>
   </info>
   <configurations>
     <conf name="default" visibility="public"/>
@@ -70,7 +25,7 @@
   </configurations>
 
   <dependencies>
-    <dependency org="org.testng" name="testng" rev="6.11" force="true" conf="test->default(*)"/>
+    <dependency org="org.testng" name="testng" rev="6.9.9" force="true" conf="test->default(*)"/>
     <dependency org="org.assertj" name="assertj-core" rev="3.7.0" force="true" conf="test->default(*)"/>
     <dependency org="jakarta.validation" name="jakarta.validation-api" rev="2.0.2" force="true" conf="test->default(*)"/>
     <dependency org="org.jboss.test-audit" name="jboss-test-audit-api" rev="1.1.3.Final" force="true" conf="test->default(*)"/>

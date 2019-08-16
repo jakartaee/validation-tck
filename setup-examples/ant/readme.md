@@ -21,8 +21,11 @@ using [Ant](https://ant.apache.org) + [Ivy](http://ant.apache.org/ivy/) as build
            <jvm-options>-Dvalidation.provider=org.hibernate.validator.HibernateValidator</jvm-options>
         </java-config>
 1. Make sure that _container.home_ in _build.properties_ points to your <container.home> directory
+1. Extract the BV TCK distribution.
+1. Edit the setup-examples/artifact-install.sh script and set the TCK_DIST to the path of the extracted BV TCK.
 1. Run once:
 
+        bash ../artifact-install.sh
         ant install-testng-jar
 1. Run the TCK tests:
 

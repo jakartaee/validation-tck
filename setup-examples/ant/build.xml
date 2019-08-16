@@ -123,16 +123,19 @@
             <jvmarg value="-Xmx1024m"/> 
 
             <!-- Uncomment for remote debugging -->
-            <!-- -->
+            <!--
             <jvmarg value="-Xnoagent"/>
             <jvmarg value="-Djava.compiler=NONE"/>
             <jvmarg value="-Xdebug"/>
             <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"/>
+            -->
 
             <!-- Container qualifier used in arquillian.xml -->
             <sysproperty key="arquillian.launch" value="incontainer"/>
             <!-- Specify the Jakarta Bean Validation provider under test -->
             <sysproperty key="validation.provider" value="${validation.provider}"/>
+            <!-- Uncomment to include JavaFX tests -->
+            <!-- sysproperty key="includeJavaFXTests" value="true"/> -->
 
             <!-- Uncomment to skip integration tests -->
             <!-- <sysproperty key="excludeIntegrationTests" value="true"/> -->
