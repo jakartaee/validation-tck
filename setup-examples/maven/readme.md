@@ -29,5 +29,9 @@ This is an example setup to run the Jakarta Bean Validation TCK 2.0 against Ecli
 1. Run the TCK tests:
 
         mvn test
-1. Test results can be found in _target/surefire-reports/index.html_
+> Note: when testing a staged final TCK you need to use the -Pstaing profile
+
+        mvn -Pstaging test
+
+Test results can be found in _target/surefire-reports/index.html_
 
