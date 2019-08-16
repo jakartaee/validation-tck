@@ -9,10 +9,16 @@
 -->
 <ivysettings>
     <settings defaultResolver="default"/>
+    <property name="m2-pattern" value="${user.home}/.m2/repository/[organisation]/[module]/[revision]/[module]-[revision](-[classifier]).[ext]" override="false" />
+
     <resolvers>
         <chain name="default">
-            <ibiblio name="jboss-public" m2compatible="true" checksums="" root="https://repository.jboss.org/nexus/content/groups/public-jboss"/>
+            <filesystem name="local-maven2" m2compatible="true" >
+                <artifact pattern="${m2-pattern}"/>
+                <ivy pattern="${m2-pattern}"/>
+            </filesystem>
             <ibiblio name="maven2" m2compatible="true"/>
+            <ibiblio name="ee4j-staging" m2compatible="true" root="https://oss.sonatype.org/content/repositories/staging"/>
         </chain>
     </resolvers>
 </ivysettings>
