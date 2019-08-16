@@ -20,6 +20,12 @@ This is an example setup to run the Jakarta Bean Validation TCK 2.0 against Ecli
            <jvm-options>-Dvalidation.provider=org.hibernate.validator.HibernateValidator</jvm-options>
         </java-config>
 1. Make sure that _container.home_ in _pom.xml_ points to your <container.home> directory
+1. Extract the BV TCK distribution.
+1. Edit the setup-examples/artifact-install.sh script and set the TCK_DIST to the path of the extracted BV TCK.
+1. Run once:
+
+        bash ../artifact-install.sh
+
 1. Run the TCK tests:
 
         mvn test

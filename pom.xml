@@ -113,7 +113,7 @@
              no dependency to the RI -->
         <hibernate.validator.version>6.2.0.Final</hibernate.validator.version>
 
-        <testng.version>6.11</testng.version>
+        <testng.version>6.9.9</testng.version>
         <assertj-core.version>3.7.0</assertj-core.version>
 
         <cdi-api.version>2.0.1</cdi-api.version>
