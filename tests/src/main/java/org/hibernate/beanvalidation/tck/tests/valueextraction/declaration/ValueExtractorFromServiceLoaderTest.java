@@ -11,9 +11,9 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pa
 
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -39,8 +39,8 @@ public class ValueExtractorFromServiceLoaderTest extends AbstractTCKTest {
 				.withTestClass( ValueExtractorFromServiceLoaderTest.class )
 				.withPackage( Cinema.class.getPackage() )
 				.withResource(
-						"javax.validation.valueextraction.ValueExtractor",
-						"META-INF/services/javax.validation.valueextraction.ValueExtractor",
+						"jakarta.validation.valueextraction.ValueExtractor",
+						"META-INF/services/jakarta.validation.valueextraction.ValueExtractor",
 						true
 				)
 				.build();

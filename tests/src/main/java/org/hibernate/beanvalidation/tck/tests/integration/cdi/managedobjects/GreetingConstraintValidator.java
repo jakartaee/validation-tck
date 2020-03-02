@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * @author Gunnar Morling

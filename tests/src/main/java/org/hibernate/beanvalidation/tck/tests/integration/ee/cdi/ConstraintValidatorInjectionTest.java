@@ -13,8 +13,8 @@ import static org.testng.Assert.assertNotNull;
 import java.util.Set;
 
 import javax.naming.InitialContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ValidatorFactory;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

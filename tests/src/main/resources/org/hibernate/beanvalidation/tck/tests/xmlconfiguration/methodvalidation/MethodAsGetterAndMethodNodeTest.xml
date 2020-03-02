@@ -16,12 +16,12 @@
           ignore-annotations="true">
 
         <getter name="repositoryId">
-            <constraint annotation="javax.validation.constraints.NotNull"/>
+            <constraint annotation="jakarta.validation.constraints.NotNull"/>
         </getter>
 
         <method name="getRepositoryId">
             <return-value>
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </return-value>
         </method>
 

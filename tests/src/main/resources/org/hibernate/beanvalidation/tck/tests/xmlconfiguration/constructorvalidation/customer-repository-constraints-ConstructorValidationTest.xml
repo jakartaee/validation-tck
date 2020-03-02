@@ -21,37 +21,37 @@
         </constructor>
         <constructor>
             <parameter type="java.lang.String">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
             <return-value>
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </return-value>
         </constructor>
         <constructor>
             <parameter type="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation.CustomerRepository">
                 <valid/>
-                <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <convert-group from="jakarta.validation.groups.Default" to="RepositoryGroup"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
             <return-value>
                 <valid/>
-                <convert-group from="javax.validation.groups.Default" to="RepositoryGroup"/>
+                <convert-group from="jakarta.validation.groups.Default" to="RepositoryGroup"/>
             </return-value>
         </constructor>
         <constructor>
             <parameter type="java.lang.String">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
             <parameter type="[LCustomer;">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
         </constructor>
         <constructor>
             <parameter type="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation.CustomerRepository">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
             <parameter type="CustomerRepository">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
             <cross-parameter>
                 <constraint annotation="CrossRepositoryConstraint"/>

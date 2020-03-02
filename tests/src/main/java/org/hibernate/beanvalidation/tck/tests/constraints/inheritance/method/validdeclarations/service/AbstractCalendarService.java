@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.va
 
 import java.util.Date;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.constraint.ValidAbstractCalendarService;
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;

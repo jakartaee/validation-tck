@@ -9,8 +9,8 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclar
 
 import static org.testng.Assert.fail;
 
-import javax.validation.Configuration;
-import javax.validation.ValidationException;
+import jakarta.validation.Configuration;
+import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;

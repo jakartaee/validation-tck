@@ -11,7 +11,7 @@ import java.time.MonthDay;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
-import javax.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.FutureOrPresent;
 
 public class FutureOrPresentRelativePartialDummyEntity {
 

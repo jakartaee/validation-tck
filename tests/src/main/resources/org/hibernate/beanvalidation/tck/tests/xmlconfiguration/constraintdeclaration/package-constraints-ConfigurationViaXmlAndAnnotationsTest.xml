@@ -13,7 +13,7 @@
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration</default-package>
     <bean class="Package" ignore-annotations="false">
         <field name="maxWeight">
-            <constraint annotation="javax.validation.constraints.NotNull"/>
+            <constraint annotation="jakarta.validation.constraints.NotNull"/>
         </field>
     </bean>
 </constraint-mappings>

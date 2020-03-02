@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * @author Hardy Ferentschik

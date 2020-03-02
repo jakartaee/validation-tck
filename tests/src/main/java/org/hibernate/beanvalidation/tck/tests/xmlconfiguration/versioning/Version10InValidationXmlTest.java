@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import static org.testng.Assert.assertEquals;
 
-import javax.validation.Configuration;
+import jakarta.validation.Configuration;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

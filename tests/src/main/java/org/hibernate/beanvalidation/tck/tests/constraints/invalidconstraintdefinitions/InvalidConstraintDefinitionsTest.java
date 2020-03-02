@@ -11,7 +11,7 @@ import static org.testng.Assert.fail;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import javax.validation.ConstraintDefinitionException;
+import jakarta.validation.ConstraintDefinitionException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

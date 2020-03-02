@@ -25,7 +25,7 @@
 
     <bean class="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.containerelementlevel.ContainerElementTypeConstraintsForGetterXmlMappingTest$Fish" ignore-annotations="false">
         <getter name="name">
-            <constraint annotation="javax.validation.constraints.NotNull" />
+            <constraint annotation="jakarta.validation.constraints.NotNull" />
         </getter>
     </bean>
 </constraint-mappings>

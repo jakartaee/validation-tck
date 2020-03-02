@@ -19,7 +19,7 @@
 
         <field name="foo">
             <valid/>
-            <convert-group from="javax.validation.groups.Default" to="ConvertA"/>
+            <convert-group from="jakarta.validation.groups.Default" to="ConvertA"/>
             <convert-group from="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion.ConvertB"
                            to="ConvertC"/>
         </field>
@@ -35,18 +35,18 @@
         <constructor>
             <return-value>
                 <valid/>
-                <convert-group from="javax.validation.groups.Default" to="ConvertA"/>
+                <convert-group from="jakarta.validation.groups.Default" to="ConvertA"/>
             </return-value>
         </constructor>
 
         <method name="convert">
             <parameter type="java.lang.String">
                 <valid/>
-                <convert-group from="javax.validation.groups.Default" to="ConvertA"/>
+                <convert-group from="jakarta.validation.groups.Default" to="ConvertA"/>
             </parameter>
             <return-value>
                 <valid/>
-                <convert-group from="javax.validation.groups.Default"
+                <convert-group from="jakarta.validation.groups.Default"
                                to="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion.ConvertB"/>
                 <convert-group from="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion.ConvertB"
                                to="ConvertC"/>

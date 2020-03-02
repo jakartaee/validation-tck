@@ -18,7 +18,7 @@
         <constructor ignore-annotations="true">
             <parameter type="java.lang.String"/>
             <parameter type="java.lang.String" ignore-annotations="false">
-                <convert-group from="javax.validation.groups.Default"
+                <convert-group from="jakarta.validation.groups.Default"
                                to="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation.IgnoreAnnotations$B"/>
             </parameter>
             <cross-parameter/>

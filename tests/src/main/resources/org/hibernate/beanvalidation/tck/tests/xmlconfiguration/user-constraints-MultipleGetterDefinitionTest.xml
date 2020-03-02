@@ -13,17 +13,17 @@
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration</default-package>
     <bean class="User" ignore-annotations="false">
         <getter name="firstname" ignore-annotations="true">
-            <constraint annotation="javax.validation.constraints.Size">
+            <constraint annotation="jakarta.validation.constraints.Size">
                 <message>Size is limited!</message>
                 <groups>
                     <value>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.TestGroup</value>
-                    <value>javax.validation.groups.Default</value>
+                    <value>jakarta.validation.groups.Default</value>
                 </groups>
                 <element name="max">10</element>
             </constraint>
         </getter>
         <getter name="firstname" ignore-annotations="true">
-            <constraint annotation="javax.validation.constraints.NotNull">
+            <constraint annotation="jakarta.validation.constraints.NotNull">
                 <message>Cannot be null</message>
             </constraint>
         </getter>

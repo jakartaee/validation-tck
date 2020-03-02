@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global
 
 import static org.testng.Assert.assertNotNull;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

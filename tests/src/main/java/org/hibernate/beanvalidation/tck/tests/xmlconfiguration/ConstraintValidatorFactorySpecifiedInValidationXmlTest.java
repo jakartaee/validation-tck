@@ -8,10 +8,10 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 import static org.testng.Assert.assertTrue;
 
-import javax.validation.Configuration;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
+import jakarta.validation.Configuration;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

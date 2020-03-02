@@ -16,7 +16,7 @@
     <bean class="CustomerRepository">
         <constructor>
             <parameter type="Customer">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
         </constructor>
     </bean>

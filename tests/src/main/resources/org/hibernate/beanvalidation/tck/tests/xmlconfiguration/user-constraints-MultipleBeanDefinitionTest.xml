@@ -20,7 +20,7 @@
             <constraint annotation="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.ConsistentUserInformation">
                 <message>Message from xml</message>
                 <groups>
-                    <value>javax.validation.groups.Default</value>
+                    <value>jakarta.validation.groups.Default</value>
                 </groups>
                 <element name="stringParam">foobar</element>
                 <element name="stringArrayParam">
@@ -42,7 +42,7 @@
             </constraint>
         </class>
         <field name="lastname">
-            <constraint annotation="javax.validation.constraints.Pattern">
+            <constraint annotation="jakarta.validation.constraints.Pattern">
                 <message>Last name has to start with with a capital letter.</message>
                 <element name="regexp">^[A-Z][a-z]+</element>
             </constraint>
@@ -51,11 +51,11 @@
             <valid/>
         </field>
         <getter name="firstname" ignore-annotations="true">
-            <constraint annotation="javax.validation.constraints.Size">
+            <constraint annotation="jakarta.validation.constraints.Size">
                 <message>Size is limited!</message>
                 <groups>
                     <value>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.TestGroup</value>
-                    <value>javax.validation.groups.Default</value>
+                    <value>jakarta.validation.groups.Default</value>
                 </groups>
                 <element name="max">10</element>
             </constraint>

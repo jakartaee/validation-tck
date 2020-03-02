@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequence;
 
-import javax.validation.GroupSequence;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik

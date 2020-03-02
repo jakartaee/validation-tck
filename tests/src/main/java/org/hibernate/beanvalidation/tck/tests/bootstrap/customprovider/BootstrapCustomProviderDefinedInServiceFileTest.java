@@ -9,9 +9,9 @@ package org.hibernate.beanvalidation.tck.tests.bootstrap.customprovider;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import javax.validation.Configuration;
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.Configuration;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
@@ -38,8 +38,8 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTCK
 				.withTestClass( BootstrapCustomProviderDefinedInServiceFileTest.class )
 				.withClasses( TCKValidatorConfiguration.class, TCKValidationProvider.class )
 				.withResource(
-						"javax.validation.spi.ValidationProvider",
-						"META-INF/services/javax.validation.spi.ValidationProvider",
+						"jakarta.validation.spi.ValidationProvider",
+						"META-INF/services/jakarta.validation.spi.ValidationProvider",
 						true
 				)
 				.build();

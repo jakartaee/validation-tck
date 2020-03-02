@@ -14,7 +14,7 @@
           ignore-annotations="false">
         <field name="firstname" ignore-annotations="true"/>
         <field name="lastname" ignore-annotations="false">
-            <constraint annotation="javax.validation.constraints.Pattern">
+            <constraint annotation="jakarta.validation.constraints.Pattern">
                 <message>Last name has to start with with a capital letter.</message>
                 <element name="regexp">^[A-Z][a-z]+</element>
             </constraint>

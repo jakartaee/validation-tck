@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.unwrapping.model;
 
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.UnwrapByDefault;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.UnwrapByDefault;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 @UnwrapByDefault
 public class UnwrapByDefaultIntegerWrapperValueExtractor implements ValueExtractor<@ExtractedValue(type = Integer.class) IntegerWrapper> {

@@ -17,13 +17,13 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Configuration;
-import javax.validation.Validation;
-import javax.validation.ValidationProviderResolver;
-import javax.validation.ValidatorFactory;
-import javax.validation.bootstrap.GenericBootstrap;
-import javax.validation.bootstrap.ProviderSpecificBootstrap;
-import javax.validation.spi.ValidationProvider;
+import jakarta.validation.Configuration;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationProviderResolver;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.bootstrap.GenericBootstrap;
+import jakarta.validation.bootstrap.ProviderSpecificBootstrap;
+import jakarta.validation.spi.ValidationProvider;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
@@ -112,7 +112,7 @@ public class ValidationTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "d")
 	public void testVerifyMethodsOfValidationObjects() {
-		Class<?> validatorClass = javax.validation.Validation.class;
+		Class<?> validatorClass = jakarta.validation.Validation.class;
 
 		List<Method> expectedValidationMethods = new ArrayList<Method>();
 		Method buildDefaultValidatorFactoryMethod = null;

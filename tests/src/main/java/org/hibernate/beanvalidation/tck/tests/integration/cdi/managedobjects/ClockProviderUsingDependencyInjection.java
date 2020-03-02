@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import java.time.Clock;
 
-import javax.inject.Inject;
-import javax.validation.ClockProvider;
+import jakarta.inject.Inject;
+import jakarta.validation.ClockProvider;
 
 /**
  * @author Guillaume Smet

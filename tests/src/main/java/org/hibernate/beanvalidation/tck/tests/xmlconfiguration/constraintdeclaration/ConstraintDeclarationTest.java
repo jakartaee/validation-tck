@@ -9,9 +9,9 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclar
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import javax.validation.Configuration;
-import javax.validation.Validator;
-import javax.validation.metadata.BeanDescriptor;
+import jakarta.validation.Configuration;
+import jakarta.validation.Validator;
+import jakarta.validation.metadata.BeanDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

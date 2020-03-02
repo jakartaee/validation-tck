@@ -6,11 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.runtime;
 
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.constraints.Min;
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

@@ -8,9 +8,9 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.inject.Inject;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 /**
  * @author Guillaume Smet

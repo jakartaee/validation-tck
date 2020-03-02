@@ -13,9 +13,9 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.Collections;
 
-import javax.validation.Validation;
-import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.MethodDescriptor;
+import jakarta.validation.Validation;
+import jakarta.validation.metadata.ConstructorDescriptor;
+import jakarta.validation.metadata.MethodDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

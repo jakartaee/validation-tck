@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public class Order {
 

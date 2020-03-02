@@ -12,8 +12,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import javax.validation.ConstraintDeclarationException;
-import javax.validation.ConstraintTarget;
+import jakarta.validation.ConstraintDeclarationException;
+import jakarta.validation.ConstraintTarget;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.declaration;
 
-import javax.validation.Validation;
-import javax.validation.valueextraction.ValueExtractorDeclarationException;
+import jakarta.validation.Validation;
+import jakarta.validation.valueextraction.ValueExtractorDeclarationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

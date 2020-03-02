@@ -12,10 +12,10 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pa
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -44,8 +44,8 @@ public class ValueExtractorsPrecedenceTest extends AbstractTCKTest {
 				.withPackage( Cinema.class.getPackage() )
 				.withValidationXml( "value-extractors-precedence-validation.xml" )
 				.withResource(
-						"javax.validation.valueextraction.ValueExtractor",
-						"META-INF/services/javax.validation.valueextraction.ValueExtractor",
+						"jakarta.validation.valueextraction.ValueExtractor",
+						"META-INF/services/jakarta.validation.valueextraction.ValueExtractor",
 						true
 				)
 				.build();

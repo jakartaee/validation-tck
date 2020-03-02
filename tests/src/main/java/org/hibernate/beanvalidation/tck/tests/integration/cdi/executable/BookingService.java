@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Gunnar Morling

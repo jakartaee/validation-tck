@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItem;
 

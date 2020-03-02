@@ -9,7 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.time;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 
-import javax.validation.ClockProvider;
+import jakarta.validation.ClockProvider;
 
 /**
  * A clock provider referencing a fixed point in time.

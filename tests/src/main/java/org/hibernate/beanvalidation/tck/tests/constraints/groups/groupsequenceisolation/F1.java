@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequenceisolation;
 
-import javax.validation.GroupSequence;
-import javax.validation.constraints.Size;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Hardy Ferentschik

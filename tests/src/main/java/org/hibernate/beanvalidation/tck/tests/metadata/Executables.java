@@ -11,8 +11,8 @@ import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor
 
 import java.util.Map;
 
-import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.MethodDescriptor;
+import jakarta.validation.metadata.ConstructorDescriptor;
+import jakarta.validation.metadata.MethodDescriptor;
 
 /**
  * @author Gunnar Morling

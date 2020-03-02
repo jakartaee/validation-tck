@@ -13,7 +13,7 @@
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration</default-package>
     <bean class="User" ignore-annotations="true">
         <field>
-            <constraint annotation="javax.validation.constraints.Pattern">
+            <constraint annotation="jakarta.validation.constraints.Pattern">
                 <message>Last name has to start with with a capital letter.</message>
                 <element name="regexp">^[A-Z][a-z]+</element>
             </constraint>

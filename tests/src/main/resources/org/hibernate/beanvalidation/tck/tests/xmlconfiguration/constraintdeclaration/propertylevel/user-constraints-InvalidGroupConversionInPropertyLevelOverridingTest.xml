@@ -15,7 +15,7 @@
     <bean class="User" ignore-annotations="false">
         <getter name="firstCreditCard">
             <valid/>
-            <convert-group from="javax.validation.groups.Default" to="User$CreditRatingAA"/>
+            <convert-group from="jakarta.validation.groups.Default" to="User$CreditRatingAA"/>
         </getter>
     </bean>
 </constraint-mappings>

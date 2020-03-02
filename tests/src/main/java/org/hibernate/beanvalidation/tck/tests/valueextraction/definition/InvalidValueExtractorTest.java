@@ -9,10 +9,10 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.definition;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Validation;
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.ValueExtractor;
-import javax.validation.valueextraction.ValueExtractorDefinitionException;
+import jakarta.validation.Validation;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.ValueExtractor;
+import jakarta.validation.valueextraction.ValueExtractorDefinitionException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversio
 
 import java.util.List;
 
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
+import jakarta.validation.groups.ConvertGroup;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Gunnar Morling

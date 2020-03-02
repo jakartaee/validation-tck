@@ -13,7 +13,7 @@
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration</default-package>
     <bean class="Order" ignore-annotations="false">
         <field name="orderDate">
-            <constraint annotation="javax.validation.constraints.NotNull">
+            <constraint annotation="jakarta.validation.constraints.NotNull">
             </constraint>
         </field>
     </bean>

@@ -12,12 +12,12 @@ import static org.testng.Assert.fail;
 
 import java.util.Set;
 
-import javax.validation.Configuration;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.constraints.Pattern;
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.Configuration;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

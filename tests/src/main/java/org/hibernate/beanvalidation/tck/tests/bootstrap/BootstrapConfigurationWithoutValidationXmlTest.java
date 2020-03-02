@@ -13,8 +13,8 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.EnumSet;
 
-import javax.validation.BootstrapConfiguration;
-import javax.validation.executable.ExecutableType;
+import jakarta.validation.BootstrapConfiguration;
+import jakarta.validation.executable.ExecutableType;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

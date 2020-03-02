@@ -16,7 +16,7 @@
 
         <constructor ignore-annotations="true">
             <parameter type="java.lang.String">
-                <constraint annotation="javax.validation.constraints.NotNull"/>
+                <constraint annotation="jakarta.validation.constraints.NotNull"/>
             </parameter>
         </constructor>
 

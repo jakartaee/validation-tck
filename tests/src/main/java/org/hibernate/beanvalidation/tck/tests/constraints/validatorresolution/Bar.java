@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Hardy Ferentschik

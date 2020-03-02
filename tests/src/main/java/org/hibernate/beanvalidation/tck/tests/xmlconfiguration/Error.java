@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 
 /**
  * @author Hardy Ferentschik

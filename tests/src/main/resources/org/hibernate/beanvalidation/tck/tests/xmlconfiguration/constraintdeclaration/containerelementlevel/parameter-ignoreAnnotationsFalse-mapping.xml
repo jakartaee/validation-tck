@@ -20,7 +20,7 @@
             <parameter type="java.util.Map">
                 <container-element-type type-argument-index="0" />
                 <container-element-type type-argument-index="1">
-                    <constraint annotation="javax.validation.constraints.DecimalMin">
+                    <constraint annotation="jakarta.validation.constraints.DecimalMin">
                         <element name="value">
                             <value>0</value>
                         </element>

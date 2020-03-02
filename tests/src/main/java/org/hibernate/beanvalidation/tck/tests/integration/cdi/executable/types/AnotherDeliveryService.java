@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.types;
 
-import javax.inject.Inject;
-import javax.validation.constraints.Size;
-import javax.validation.executable.ValidateOnExecution;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling

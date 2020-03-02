@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorFactory;
-import javax.validation.ValidationException;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorFactory;
+import jakarta.validation.ValidationException;
 
 /**
  * @author Hardy Ferentschik

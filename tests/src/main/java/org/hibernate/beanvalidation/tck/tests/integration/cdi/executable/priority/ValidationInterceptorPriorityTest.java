@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priori
 
 import static org.testng.Assert.assertTrue;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;

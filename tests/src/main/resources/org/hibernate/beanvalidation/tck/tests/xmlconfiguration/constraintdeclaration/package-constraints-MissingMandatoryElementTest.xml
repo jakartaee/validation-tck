@@ -16,7 +16,7 @@
             <!-- Using Min constraint without specifying the mandatory value parameter. Using this mapping
              should throw an exception
              -->
-            <constraint annotation="javax.validation.constraints.Min"/>
+            <constraint annotation="jakarta.validation.constraints.Min"/>
         </field>
     </bean>
 </constraint-mappings>

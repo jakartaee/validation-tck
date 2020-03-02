@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Gunnar Morling

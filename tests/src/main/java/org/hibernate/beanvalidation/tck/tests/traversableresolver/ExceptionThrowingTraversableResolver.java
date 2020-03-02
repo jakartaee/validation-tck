@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
 import java.lang.annotation.ElementType;
 
-import javax.validation.Path;
-import javax.validation.TraversableResolver;
+import jakarta.validation.Path;
+import jakarta.validation.TraversableResolver;
 
 /**
  * @author Emmanuel Bernard

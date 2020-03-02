@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
-import javax.validation.GroupSequence;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Emmanuel Bernard

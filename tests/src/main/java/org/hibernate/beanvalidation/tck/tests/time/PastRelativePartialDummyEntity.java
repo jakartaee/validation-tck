@@ -11,7 +11,7 @@ import java.time.MonthDay;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
-import javax.validation.constraints.Past;
+import jakarta.validation.constraints.Past;
 
 public class PastRelativePartialDummyEntity {
 

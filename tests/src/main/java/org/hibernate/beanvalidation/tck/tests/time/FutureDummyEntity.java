@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.validation.constraints.Future;
+import jakarta.validation.constraints.Future;
 
 public class FutureDummyEntity {
 

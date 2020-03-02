@@ -9,9 +9,9 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priori
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class CustomConstraintValidator implements ConstraintValidator<CustomConstraint, Object> {
 

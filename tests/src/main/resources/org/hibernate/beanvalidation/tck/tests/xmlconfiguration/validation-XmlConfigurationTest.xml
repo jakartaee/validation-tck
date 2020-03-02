@@ -12,5 +12,5 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <constraint-mapping>org/hibernate/beanvalidation/tck/tests/xmlconfiguration/order-constraints.xml</constraint-mapping>
     <constraint-mapping>org/hibernate/beanvalidation/tck/tests/xmlconfiguration/user-constraints.xml</constraint-mapping>
-    <property name="javax.validation.test">foobar</property>
+    <property name="jakarta.validation.test">foobar</property>
 </validation-config>

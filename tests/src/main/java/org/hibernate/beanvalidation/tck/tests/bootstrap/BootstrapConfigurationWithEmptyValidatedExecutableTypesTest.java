@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import javax.validation.BootstrapConfiguration;
-import javax.validation.ValidationException;
+import jakarta.validation.BootstrapConfiguration;
+import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;

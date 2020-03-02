@@ -19,7 +19,7 @@
         <method name="test1">
             <return-value>
                 <container-element-type type-argument-index="0">
-                    <constraint annotation="javax.validation.constraints.Size">
+                    <constraint annotation="jakarta.validation.constraints.Size">
                         <element name="min">
                             <value>3</value>
                         </element>
@@ -29,7 +29,7 @@
                     </constraint>
                 </container-element-type>
                 <container-element-type type-argument-index="1">
-                    <constraint annotation="javax.validation.constraints.Min">
+                    <constraint annotation="jakarta.validation.constraints.Min">
                         <element name="value">
                             <value>1</value>
                         </element>

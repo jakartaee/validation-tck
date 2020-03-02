@@ -8,10 +8,10 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import java.lang.annotation.ElementType;
 
-import javax.inject.Inject;
-import javax.validation.Path;
-import javax.validation.Path.Node;
-import javax.validation.TraversableResolver;
+import jakarta.inject.Inject;
+import jakarta.validation.Path;
+import jakarta.validation.Path.Node;
+import jakarta.validation.TraversableResolver;
 
 /**
  * @author Gunnar Morling
