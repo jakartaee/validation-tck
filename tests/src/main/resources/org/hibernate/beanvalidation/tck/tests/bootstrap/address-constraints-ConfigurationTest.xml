@@ -8,10 +8,11 @@
 
 -->
 <constraint-mappings
-        xmlns="http://jboss.org/xml/ns/javax/validation/mapping"
+        xmlns="https://xmlns.jakarta.ee/xml/ns/validation/mapping"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation=
-                "http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.0.xsd">
+                "https://xmlns.jakarta.ee/xml/ns/validation/mapping validation-mapping-3.0.xsd"
+                version="3.0">
 
     <bean class="org.hibernate.beanvalidation.tck.tests.bootstrap.Address" ignore-annotations="false">
         <field name="street">
