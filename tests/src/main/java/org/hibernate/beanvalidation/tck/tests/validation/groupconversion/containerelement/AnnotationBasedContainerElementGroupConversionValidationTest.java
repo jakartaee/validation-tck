@@ -10,7 +10,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecVersion;
 
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class AnnotationBasedContainerElementGroupConversionValidationTest extends AbstractContainerElementGroupConversionValidationTest {
 
 	@Deployment

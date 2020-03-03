@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class DefaultConstraintValidatorFactoryTest extends AbstractTCKTest {
 
 	@Deployment

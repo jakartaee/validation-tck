@@ -26,7 +26,7 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ContainerElementConstraintGroupValidationTest extends AbstractTCKTest {
 
 	@Deployment

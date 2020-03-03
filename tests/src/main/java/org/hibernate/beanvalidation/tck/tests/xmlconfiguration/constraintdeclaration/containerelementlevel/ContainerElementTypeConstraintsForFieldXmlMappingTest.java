@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
 /**
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ContainerElementTypeConstraintsForFieldXmlMappingTest extends AbstractTCKTest {
 
 	@Deployment

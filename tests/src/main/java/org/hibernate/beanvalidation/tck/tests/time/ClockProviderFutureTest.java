@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
  *
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ClockProviderFutureTest extends AbstractTCKTest {
 
 	private static final ZoneId TZ_BERLIN = ZoneId.of( "Europe/Berlin" );
