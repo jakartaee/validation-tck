@@ -13,11 +13,11 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.groups.Default;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ConstraintDefinitionsTest extends AbstractTCKTest {
 
 	@Deployment

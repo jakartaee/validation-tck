@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik

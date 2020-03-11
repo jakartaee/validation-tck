@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 import java.time.Clock;
 
-import javax.validation.ClockProvider;
+import jakarta.validation.ClockProvider;
 
 /**
  * @author Guillaume Smet

@@ -13,11 +13,11 @@ import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.Configuration;
-import javax.validation.ConstraintValidator;
-import javax.validation.Validator;
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.PropertyDescriptor;
+import jakarta.validation.Configuration;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.Validator;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.PropertyDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class XmlConfiguredConstraintValidatorTest extends AbstractTCKTest {
 
 	public final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdefinition/";

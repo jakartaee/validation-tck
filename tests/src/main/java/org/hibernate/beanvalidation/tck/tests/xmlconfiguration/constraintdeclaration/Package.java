@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration;
 
-import javax.validation.GroupSequence;
-import javax.validation.constraints.Max;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.constraints.Max;
 
 /**
  * @author Hardy Ferentschik

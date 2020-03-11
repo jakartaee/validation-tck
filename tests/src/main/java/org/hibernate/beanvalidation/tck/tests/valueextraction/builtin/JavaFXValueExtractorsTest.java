@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.builtin;
 
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.javafx.JavaFXValueExtractorsTestImpl;
@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
  * @see JavaFXValueExtractorsTestImpl
  */
 @JavaFXTest
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class JavaFXValueExtractorsTest extends AbstractTCKTest {
 
 	@Deployment

@@ -14,13 +14,13 @@ import static org.testng.Assert.assertEquals;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.Valid;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
-import javax.validation.metadata.GroupConversionDescriptor;
-import javax.validation.metadata.ParameterDescriptor;
-import javax.validation.metadata.PropertyDescriptor;
-import javax.validation.metadata.ReturnValueDescriptor;
+import jakarta.validation.Valid;
+import jakarta.validation.groups.ConvertGroup;
+import jakarta.validation.groups.Default;
+import jakarta.validation.metadata.GroupConversionDescriptor;
+import jakarta.validation.metadata.ParameterDescriptor;
+import jakarta.validation.metadata.PropertyDescriptor;
+import jakarta.validation.metadata.ReturnValueDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
 /**
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ConvertGroupDefaultFromTest extends AbstractTCKTest {
 
 	@Deployment

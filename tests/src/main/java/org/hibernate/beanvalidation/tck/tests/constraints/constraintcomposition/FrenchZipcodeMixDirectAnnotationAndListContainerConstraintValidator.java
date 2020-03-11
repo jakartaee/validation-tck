@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition.FrenchAddressMixDirectAnnotationAndListContainer.FrenchZipcodeMixDirectAnnotationAndListContainer;
 

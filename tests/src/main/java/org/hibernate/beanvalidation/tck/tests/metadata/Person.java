@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import javax.validation.ConstraintTarget;
-import javax.validation.constraints.Size;
+import jakarta.validation.ConstraintTarget;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Hardy Ferentschik

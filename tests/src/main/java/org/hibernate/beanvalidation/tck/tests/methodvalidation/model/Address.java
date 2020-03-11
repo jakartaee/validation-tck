@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
-import javax.validation.constraints.Past;
+import jakarta.validation.constraints.Past;
 
 /**
  * @author Gunnar Morling

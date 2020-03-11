@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Gunnar Morling

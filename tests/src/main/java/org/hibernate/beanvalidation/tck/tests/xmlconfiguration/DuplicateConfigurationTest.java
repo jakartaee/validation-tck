@@ -12,12 +12,12 @@ import static org.testng.Assert.fail;
 
 import java.util.Set;
 
-import javax.validation.Configuration;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
-import javax.validation.constraints.Pattern;
-import javax.validation.metadata.BeanDescriptor;
-import javax.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.Configuration;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.metadata.BeanDescriptor;
+import jakarta.validation.metadata.ConstraintDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class DuplicateConfigurationTest extends AbstractTCKTest {
 
 	public final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/";

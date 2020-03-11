@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author Gunnar Morling

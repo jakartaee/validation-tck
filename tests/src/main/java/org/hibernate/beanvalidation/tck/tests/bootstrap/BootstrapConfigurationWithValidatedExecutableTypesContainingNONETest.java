@@ -11,8 +11,8 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.EnumSet;
 
-import javax.validation.BootstrapConfiguration;
-import javax.validation.executable.ExecutableType;
+import jakarta.validation.BootstrapConfiguration;
+import jakarta.validation.executable.ExecutableType;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class BootstrapConfigurationWithValidatedExecutableTypesContainingNONETest extends AbstractTCKTest {
 
 	@Deployment

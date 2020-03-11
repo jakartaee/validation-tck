@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorFactory;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorFactory;
 
 /**
  * @author Gunnar Morling

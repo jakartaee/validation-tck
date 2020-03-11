@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests;
 
-import javax.validation.Validator;
-import javax.validation.executable.ExecutableValidator;
+import jakarta.validation.Validator;
+import jakarta.validation.executable.ExecutableValidator;
 
 import org.assertj.core.api.Assert;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;

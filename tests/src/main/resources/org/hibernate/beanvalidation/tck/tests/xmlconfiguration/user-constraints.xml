@@ -8,8 +8,9 @@
 
 -->
 <constraint-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.0.xsd"
-                     xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
+                     xsi:schemaLocation="https://xmlns.jakarta.ee/xml/ns/validation/mapping validation-mapping-3.0.xsd"
+                     xmlns="https://xmlns.jakarta.ee/xml/ns/validation/mapping"
+                     version="3.0">
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration</default-package>
     <bean class="User" ignore-annotations="false">
         <class ignore-annotations="true">
@@ -54,7 +55,7 @@
             </constraint>
         </class>
         <field name="lastname">
-            <constraint annotation="javax.validation.constraints.Pattern">
+            <constraint annotation="jakarta.validation.constraints.Pattern">
                 <message>Last name has to start with with a capital letter.</message>
                 <element name="regexp">^[A-Z][a-z]+</element>
             </constraint>
@@ -63,11 +64,11 @@
             <valid/>
         </field>
         <getter name="firstname" ignore-annotations="true">
-            <constraint annotation="javax.validation.constraints.Size">
+            <constraint annotation="jakarta.validation.constraints.Size">
                 <message>Size is limited!</message>
                 <groups>
                     <value>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.TestGroup</value>
-                    <value>javax.validation.groups.Default</value>
+                    <value>jakarta.validation.groups.Default</value>
                 </groups>
                 <element name="max">10</element>
             </constraint>

@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion;
 
-import javax.validation.GroupSequence;
+import jakarta.validation.GroupSequence;
 
 /**
  * @author Gunnar Morling

@@ -6,9 +6,9 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdefinition;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ValidationException;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ValidationException;
 
 /**
  * Check that a char sequence's length is between min and max.

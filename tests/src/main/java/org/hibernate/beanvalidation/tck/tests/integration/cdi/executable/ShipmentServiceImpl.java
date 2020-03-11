@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
+import jakarta.validation.executable.ExecutableType;
+import jakarta.validation.executable.ValidateOnExecution;
 
 /**
  * @author Gunnar Morling

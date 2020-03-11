@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ParameterNameProvider;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ParameterNameProvider;
+import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 	@Deployment

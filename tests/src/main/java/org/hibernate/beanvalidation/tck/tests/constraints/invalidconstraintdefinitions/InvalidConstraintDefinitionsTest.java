@@ -11,7 +11,7 @@ import static org.testng.Assert.fail;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import javax.validation.ConstraintDefinitionException;
+import jakarta.validation.ConstraintDefinitionException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class InvalidConstraintDefinitionsTest extends AbstractTCKTest {
 
 	@Deployment

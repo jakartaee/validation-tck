@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import javax.validation.ValidationException;
+import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class UnknownVersionInMappingXmlTest extends AbstractTCKTest {
 
 	private static final String MAPPING_FILE = "UnknownVersionInMappingXmlTest.xml";

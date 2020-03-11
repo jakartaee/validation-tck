@@ -13,9 +13,9 @@ import static org.testng.Assert.assertNotNull;
 
 import java.util.Collections;
 
-import javax.validation.Validation;
-import javax.validation.metadata.ConstructorDescriptor;
-import javax.validation.metadata.MethodDescriptor;
+import jakarta.validation.Validation;
+import jakarta.validation.metadata.ConstructorDescriptor;
+import jakarta.validation.metadata.MethodDescriptor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest extends AbstractTCKTest {
 
 	@Deployment

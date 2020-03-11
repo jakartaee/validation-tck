@@ -12,14 +12,14 @@ import static org.testng.Assert.assertNotNull;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
-import javax.inject.Inject;
-import javax.validation.ClockProvider;
-import javax.validation.ConstraintValidatorFactory;
-import javax.validation.MessageInterpolator;
-import javax.validation.ParameterNameProvider;
-import javax.validation.TraversableResolver;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.inject.Inject;
+import jakarta.validation.ClockProvider;
+import jakarta.validation.ConstraintValidatorFactory;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.ParameterNameProvider;
+import jakarta.validation.TraversableResolver;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @IntegrationTest
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ManagedObjectsTest extends AbstractTCKTest {
 
 	@Inject

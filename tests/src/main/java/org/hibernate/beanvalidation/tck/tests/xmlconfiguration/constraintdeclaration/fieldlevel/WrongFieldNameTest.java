@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.fieldlevel;
 
-import javax.validation.ValidationException;
-import javax.validation.Validator;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class WrongFieldNameTest extends AbstractBootstrapFailureTCKTest {
 
 	@Override

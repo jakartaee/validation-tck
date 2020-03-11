@@ -17,10 +17,10 @@ import java.util.GregorianCalendar;
 import java.util.Set;
 import java.util.TimeZone;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.constraints.Past;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.Past;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -37,7 +37,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ClockProviderPastTest extends AbstractTCKTest {
 
 	private static final ZoneId TZ_BERLIN = ZoneId.of( "Europe/Berlin" );

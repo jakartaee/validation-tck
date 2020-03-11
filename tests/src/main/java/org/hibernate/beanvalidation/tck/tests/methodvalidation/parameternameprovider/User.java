@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternamepro
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Gunnar Morling

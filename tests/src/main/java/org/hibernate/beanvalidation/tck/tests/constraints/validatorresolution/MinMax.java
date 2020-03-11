@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 /**
  * @author Hardy Ferentschik

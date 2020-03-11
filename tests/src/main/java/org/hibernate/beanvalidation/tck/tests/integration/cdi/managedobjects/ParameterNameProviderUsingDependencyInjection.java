@@ -11,8 +11,8 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.validation.ParameterNameProvider;
+import jakarta.inject.Inject;
+import jakarta.validation.ParameterNameProvider;
 
 /**
  * @author Gunnar Morling

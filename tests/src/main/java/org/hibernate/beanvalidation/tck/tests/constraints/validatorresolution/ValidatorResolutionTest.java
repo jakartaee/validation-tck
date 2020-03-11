@@ -19,16 +19,16 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.ConstraintDefinitionException;
-import javax.validation.ConstraintTarget;
-import javax.validation.ConstraintViolation;
-import javax.validation.UnexpectedTypeException;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.UnwrapByDefault;
-import javax.validation.valueextraction.Unwrapping;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.ConstraintDefinitionException;
+import jakarta.validation.ConstraintTarget;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.UnexpectedTypeException;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.UnwrapByDefault;
+import jakarta.validation.valueextraction.Unwrapping;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -45,7 +45,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ValidatorResolutionTest extends AbstractTCKTest{
 
 	@Deployment

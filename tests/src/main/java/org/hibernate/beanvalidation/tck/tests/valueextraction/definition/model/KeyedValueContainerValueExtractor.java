@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model;
 
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 public class KeyedValueContainerValueExtractor implements ValueExtractor<Container<@ExtractedValue ?>> {
 

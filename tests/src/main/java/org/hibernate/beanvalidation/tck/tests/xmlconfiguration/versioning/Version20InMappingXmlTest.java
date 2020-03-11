@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import static org.testng.Assert.assertFalse;
 
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 /**
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class Version20InMappingXmlTest extends AbstractTCKTest {
 
 	private static final String MAPPING_FILE = "Version20InMappingXmlTest.xml";

@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model;
 
 import java.util.Map;
 
-import javax.validation.valueextraction.ExtractedValue;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.valueextraction.ExtractedValue;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 public class LocalMapKeyExtractor implements ValueExtractor<Map<@ExtractedValue ?, ?>> {
 

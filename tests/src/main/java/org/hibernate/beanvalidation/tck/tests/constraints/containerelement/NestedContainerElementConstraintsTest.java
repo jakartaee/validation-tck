@@ -21,11 +21,11 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Set;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.valueextraction.Unwrapping;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.valueextraction.Unwrapping;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -35,7 +35,7 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
 
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class NestedContainerElementConstraintsTest extends AbstractTCKTest {
 
 	@Deployment

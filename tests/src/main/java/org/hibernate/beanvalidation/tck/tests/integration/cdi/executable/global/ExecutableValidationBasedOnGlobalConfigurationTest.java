@@ -11,9 +11,9 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.vi
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
-import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.NotNull;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.constraints.NotNull;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @IntegrationTest
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ExecutableValidationBasedOnGlobalConfigurationTest extends AbstractTCKTest {
 
 	@Inject

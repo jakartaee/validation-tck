@@ -8,10 +8,10 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 import static org.testng.Assert.assertTrue;
 
-import javax.validation.Configuration;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.Validator;
+import jakarta.validation.Configuration;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends AbstractTCKTest {
 
 	@Deployment

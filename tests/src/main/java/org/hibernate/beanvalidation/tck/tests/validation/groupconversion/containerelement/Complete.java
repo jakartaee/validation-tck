@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Gunnar Morling

@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation.model;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Gunnar Morling

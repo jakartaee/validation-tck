@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Hardy Ferentschik

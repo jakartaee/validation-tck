@@ -8,16 +8,17 @@
 
 -->
 <constraint-mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://jboss.org/xml/ns/javax/validation/mapping validation-mapping-1.0.xsd"
-                     xmlns="http://jboss.org/xml/ns/javax/validation/mapping">
+                     xsi:schemaLocation="https://xmlns.jakarta.ee/xml/ns/validation/mapping validation-mapping-3.0.xsd"
+                     xmlns="https://xmlns.jakarta.ee/xml/ns/validation/mapping"
+                     version="3.0">
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration</default-package>
     <bean class="User" ignore-annotations="true">
         <field name="lastname">
-            <constraint annotation="javax.validation.constraints.Pattern">
+            <constraint annotation="jakarta.validation.constraints.Pattern">
                 <message>Last name has to start with with a capital letter.</message>
                 <element name="regexp">^[A-Z][a-z]+</element>
                 <element name="groups">
-                    <value>javax.validation.groups.Default</value>
+                    <value>jakarta.validation.groups.Default</value>
                 </element>
             </constraint>
         </field>

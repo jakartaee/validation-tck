@@ -12,9 +12,9 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
-import javax.validation.metadata.ConstraintDescriptor;
-import javax.validation.metadata.CrossParameterDescriptor;
-import javax.validation.metadata.Scope;
+import jakarta.validation.metadata.ConstraintDescriptor;
+import jakarta.validation.metadata.CrossParameterDescriptor;
+import jakarta.validation.metadata.Scope;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class CrossParameterDescriptorTest extends AbstractTCKTest {
 
 	@Deployment

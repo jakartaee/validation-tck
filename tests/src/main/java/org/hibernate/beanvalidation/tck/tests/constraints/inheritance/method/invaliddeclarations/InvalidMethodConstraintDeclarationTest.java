@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.ConstraintDeclarationException;
+import jakarta.validation.ConstraintDeclarationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class InvalidMethodConstraintDeclarationTest extends AbstractTCKTest {
 
 	@Deployment

@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * @author Gunnar Morling

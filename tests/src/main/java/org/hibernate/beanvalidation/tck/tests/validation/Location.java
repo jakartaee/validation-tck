@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author Guillaume Smet

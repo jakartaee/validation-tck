@@ -8,8 +8,8 @@ package org.hibernate.beanvalidation.tck.tests.validatorfactory;
 
 import static org.testng.Assert.assertTrue;
 
-import javax.validation.ConstraintValidatorFactory;
-import javax.validation.ValidationException;
+import jakarta.validation.ConstraintValidatorFactory;
+import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class DefaultConstraintValidatorFactoryTest extends AbstractTCKTest {
 
 	@Deployment

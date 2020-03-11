@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.valueextraction.declaration;
 
-import javax.validation.Validation;
-import javax.validation.valueextraction.ValueExtractorDeclarationException;
+import jakarta.validation.Validation;
+import jakarta.validation.valueextraction.ValueExtractorDeclarationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class MultipleValueExtractorsDeclaredProgrammaticallyForSameTypeAndTypeArgumentTest extends AbstractTCKTest {
 
 	@Deployment

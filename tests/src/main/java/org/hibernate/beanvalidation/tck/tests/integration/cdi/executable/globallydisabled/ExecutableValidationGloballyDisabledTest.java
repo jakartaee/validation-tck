@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.global
 
 import static org.testng.Assert.assertNotNull;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  */
 @IntegrationTest
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class ExecutableValidationGloballyDisabledTest extends AbstractTCKTest {
 
 	@Inject

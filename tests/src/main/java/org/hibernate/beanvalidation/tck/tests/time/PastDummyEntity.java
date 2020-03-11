@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.validation.constraints.Past;
+import jakarta.validation.constraints.Past;
 
 public class PastDummyEntity {
 

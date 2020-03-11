@@ -6,11 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequenceisolation;
 
-import javax.validation.GroupSequence;
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Size;
-import javax.validation.groups.Default;
+import jakarta.validation.GroupSequence;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik

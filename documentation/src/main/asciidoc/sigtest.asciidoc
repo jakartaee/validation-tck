@@ -65,9 +65,9 @@ parameter of the `sigtest-maven-plugin` plugin like this:
         </execution>
     </executions>
     <configuration>
-        <packages>javax.validation,javax.validation.bootstrap,javax.validation.constraints,
-            javax.validation.constraintvalidation,javax.validation.executable,javax.validation.groups,
-            javax.validation.metadata,javax.validation.spi,javax.validation.valueextraction
+        <packages>jakarta.validation,jakarta.validation.bootstrap,jakarta.validation.constraints,
+            jakarta.validation.constraintvalidation,jakarta.validation.executable,jakarta.validation.groups,
+            jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
         </packages>
         <sigfile>${project.build.directory}/api-signature/validation-api-java8.sig</sigfile>
     </configuration>
@@ -78,7 +78,7 @@ parameter of the `sigtest-maven-plugin` plugin like this:
 
 If you would like to verify that the signature test is running correctly, make a copy of the
 signature file somewhere on your local file system and modify it. For example let us change the
-`value()` of `javax.validation.constraints.Max` to `val()` which should make SigTest fail.
+`value()` of `jakarta.validation.constraints.Max` to `val()` which should make SigTest fail.
 
 After modifying the signature file, update the `sigfile` parameter of the `sigtest-maven-plugin` to point to the modified file:
 
@@ -97,6 +97,6 @@ Check mode: bin [throws removed]
 Constant checking: on
 
 
-Class javax.validation.constraints.Max
-  "E2.7 - Removing member from annotation type" : method public abstract long javax.validation.constraints.Max.val()
+Class jakarta.validation.constraints.Max
+  "E2.7 - Removing member from annotation type" : method public abstract long jakarta.validation.constraints.Max.val()
 ```

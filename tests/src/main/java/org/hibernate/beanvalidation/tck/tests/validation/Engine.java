@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 
 /**

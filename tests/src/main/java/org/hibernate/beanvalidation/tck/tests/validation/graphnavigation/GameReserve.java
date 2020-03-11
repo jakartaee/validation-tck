@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * @author Hardy Ferentschik

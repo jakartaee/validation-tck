@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation.graphnavigation;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 /**
  * @author Hardy Ferentschik

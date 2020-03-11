@@ -8,7 +8,7 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.va
 
 import java.util.Date;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.hibernate.beanvalidation.tck.tests.constraints.inheritance.method.validdeclarations.model.CalendarEvent;
 

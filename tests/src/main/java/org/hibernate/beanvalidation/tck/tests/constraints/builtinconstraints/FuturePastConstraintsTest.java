@@ -31,14 +31,14 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Set;
 
-import javax.validation.ClockProvider;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.PastOrPresent;
+import jakarta.validation.ClockProvider;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -55,7 +55,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class FuturePastConstraintsTest extends AbstractTCKTest {
 
 	private static final ZoneId TZ_BERLIN = ZoneId.of( "Europe/Berlin" );

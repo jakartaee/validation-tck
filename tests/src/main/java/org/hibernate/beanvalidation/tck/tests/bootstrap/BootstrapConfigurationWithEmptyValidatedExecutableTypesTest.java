@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import javax.validation.BootstrapConfiguration;
-import javax.validation.ValidationException;
+import jakarta.validation.BootstrapConfiguration;
+import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 /**
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class BootstrapConfigurationWithEmptyValidatedExecutableTypesTest extends AbstractBootstrapFailureTCKTest {
 
 	@Override

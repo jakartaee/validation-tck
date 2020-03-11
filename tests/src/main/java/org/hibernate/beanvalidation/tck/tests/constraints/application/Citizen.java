@@ -6,8 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.application;
 
-import javax.validation.constraints.Pattern;
-import javax.validation.groups.Default;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.groups.Default;
 
 /**
  * @author Hardy Ferentschik

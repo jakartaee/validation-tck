@@ -8,20 +8,20 @@ package org.hibernate.beanvalidation.tck.tests.bootstrap.customprovider;
 
 import java.io.InputStream;
 
-import javax.validation.BootstrapConfiguration;
-import javax.validation.ClockProvider;
-import javax.validation.Configuration;
-import javax.validation.ConstraintValidatorFactory;
-import javax.validation.MessageInterpolator;
-import javax.validation.ParameterNameProvider;
-import javax.validation.TraversableResolver;
-import javax.validation.Validation;
-import javax.validation.ValidationException;
-import javax.validation.ValidatorFactory;
-import javax.validation.spi.BootstrapState;
-import javax.validation.spi.ConfigurationState;
-import javax.validation.spi.ValidationProvider;
-import javax.validation.valueextraction.ValueExtractor;
+import jakarta.validation.BootstrapConfiguration;
+import jakarta.validation.ClockProvider;
+import jakarta.validation.Configuration;
+import jakarta.validation.ConstraintValidatorFactory;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.ParameterNameProvider;
+import jakarta.validation.TraversableResolver;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.spi.BootstrapState;
+import jakarta.validation.spi.ConfigurationState;
+import jakarta.validation.spi.ValidationProvider;
+import jakarta.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "2.0.0")
+@SpecVersion(spec = "beanvalidation", version = "3.0.0")
 public class BootstrapNonAvailableValidationProviderTest extends AbstractBootstrapFailureTCKTest {
 
 	@Override

@@ -8,18 +8,18 @@
 
 -->
 <constraint-mappings
-        xmlns="http://xmlns.jcp.org/xml/ns/validation/mapping"
+        xmlns="https://xmlns.jakarta.ee/xml/ns/validation/mapping"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/validation/mapping
-            http://xmlns.jcp.org/xml/ns/validation/mapping/validation-mapping-2.0.xsd"
-        version="2.0">
+        xsi:schemaLocation="https://xmlns.jakarta.ee/xml/ns/validation/mapping
+            https://xmlns.jakarta.ee/xml/ns/validation/mapping/validation-mapping-3.0.xsd"
+        version="3.0">
 
     <bean class="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.RegisteredAddresses" ignore-annotations="true">
         <field name="mainAddresses">
             <container-element-type type-argument-index="1">
                 <container-element-type>
                     <valid />
-                    <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                    <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                 </container-element-type>
             </container-element-type>
         </field>
@@ -27,7 +27,7 @@
             <container-element-type type-argument-index="1">
                 <container-element-type>
                     <valid />
-                    <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                    <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                     <convert-group from="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.Complex" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.ComplexPostal" />
                 </container-element-type>
             </container-element-type>
@@ -36,7 +36,7 @@
             <container-element-type type-argument-index="1">
                 <container-element-type>
                     <valid />
-                    <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                    <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                     <convert-group from="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.ComplexPostal" />
                 </container-element-type>
             </container-element-type>
@@ -45,7 +45,7 @@
             <container-element-type type-argument-index="1">
                 <container-element-type>
                     <valid />
-                    <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.PostalSequence" />
+                    <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.PostalSequence" />
                 </container-element-type>
             </container-element-type>
         </field>
@@ -53,7 +53,7 @@
             <container-element-type type-argument-index="1">
                 <container-element-type>
                     <valid />
-                    <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                    <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                 </container-element-type>
             </container-element-type>
         </getter>
@@ -62,13 +62,13 @@
                 <container-element-type type-argument-index="1">
                     <container-element-type>
                         <valid />
-                        <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                        <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                     </container-element-type>
                 </container-element-type>
             </parameter>
             <return-value>
                 <valid />
-                <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
             </return-value>
         </constructor>
         <method name="setMainAddresses">
@@ -76,7 +76,7 @@
                 <container-element-type type-argument-index="1">
                     <container-element-type>
                         <valid />
-                        <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                        <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                     </container-element-type>
                 </container-element-type>
             </parameter>
@@ -86,7 +86,7 @@
                 <container-element-type type-argument-index="1">
                     <container-element-type>
                         <valid />
-                        <convert-group from="javax.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
+                        <convert-group from="jakarta.validation.groups.Default" to="org.hibernate.beanvalidation.tck.tests.validation.groupconversion.containerelement.BasicPostal" />
                     </container-element-type>
                 </container-element-type>
             </return-value>
