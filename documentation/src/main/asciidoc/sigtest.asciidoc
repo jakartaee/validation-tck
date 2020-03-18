@@ -31,7 +31,7 @@ as shown below:
             <configuration>
                 <artifactItems>
                     <artifactItem>
-                        <groupId>org.hibernate.beanvalidation.tck</groupId>
+                        <groupId>jakarta.validation</groupId>
                         <artifactId>beanvalidation-tck-tests</artifactId>
                         <version>${beanvalidation-tck-tests.version}</version>
                         <type>jar</type>

@@ -15,7 +15,7 @@
         <version>1.0.6</version>
     </parent>
 
-    <groupId>org.hibernate.beanvalidation.tck</groupId>
+    <groupId>jakarta.validation</groupId>
     <artifactId>beanvalidation-tck-parent</artifactId>
     <packaging>pom</packaging>
     <version>3.0.0-M1</version>

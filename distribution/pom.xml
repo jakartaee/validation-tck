@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.hibernate.beanvalidation.tck</groupId>
+        <groupId>jakarta.validation</groupId>
         <artifactId>beanvalidation-tck-parent</artifactId>
         <version>3.0.0-M1</version>
         <relativePath>../pom.xml</relativePath>
@@ -29,12 +29,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.hibernate.beanvalidation.tck</groupId>
+            <groupId>jakarta.validation</groupId>
             <artifactId>beanvalidation-tck-tests</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate.beanvalidation.tck</groupId>
+            <groupId>jakarta.validation</groupId>
             <artifactId>beanvalidation-standalone-container-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
