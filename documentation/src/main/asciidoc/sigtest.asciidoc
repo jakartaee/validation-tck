@@ -91,8 +91,8 @@ an error similar to next:
 
 ```
 [INFO] SignatureTest report
-Base version: 2.0.0-SNAPSHOT
-Tested version: 2.0.0-SNAPSHOT
+Base version: 3.0.0-SNAPSHOT
+Tested version: 3.0.0-SNAPSHOT
 Check mode: bin [throws removed]
 Constant checking: on
 

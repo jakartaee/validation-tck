@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.hibernate.beanvalidation.tck</groupId>
         <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.0-M1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 

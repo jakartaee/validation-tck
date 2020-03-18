@@ -2,7 +2,7 @@
 
 This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org/) setup examples for
 running the [Jakarta Bean Validation](http://beanvalidation.org/) TCK against [Eclipse GlassFish 5.1+](https://projects.eclipse.org/projects/ee4j.glassfish),
-the reference implementation of Jakarta EE 8.
+the reference implementation of Jakarta EE 9.
 
 Each setup contains a readme outlining how to run the test harness using the given build system. These setups
 serve as guide and can be adjusted to run against other EE containers. An example for running against WildFly can
@@ -24,5 +24,5 @@ Generally, to adjust the build script to another container, you would have to:
 of your Jakarta Bean Validation implementation.
 
 Note, that is it **not** enough to just run and pass the TCK tests in order to be compliant Jakarta Bean Validation implementation.
-An other requirement for example is to pass the API [signature test](http://docs.jboss.org/hibernate/beanvalidation/tck/2.0/reference/html_single/#sigtest).
-More information about all requirements of the Jakarta Bean Validation TCK can be found [here](http://docs.jboss.org/hibernate/beanvalidation/tck/2.0/reference/html_single/index.html#passing-the-tck).
+An other requirement for example is to pass the API [signature test](http://docs.jboss.org/hibernate/beanvalidation/tck/3.0/reference/html_single/#sigtest).
+More information about all requirements of the Jakarta Bean Validation TCK can be found [here](http://docs.jboss.org/hibernate/beanvalidation/tck/3.0/reference/html_single/index.html#passing-the-tck).

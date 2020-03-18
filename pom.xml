@@ -18,7 +18,7 @@
     <groupId>org.hibernate.beanvalidation.tck</groupId>
     <artifactId>beanvalidation-tck-parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0-M1</version>
     <name>Jakarta Bean Validation TCK Aggregator</name>
     <url>http://beanvalidation.org/</url>
 
