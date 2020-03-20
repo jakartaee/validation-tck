@@ -545,6 +545,9 @@
                     </snapshots>
                 </pluginRepository>
             </pluginRepositories>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
         <profile>
             <id>release</id>
