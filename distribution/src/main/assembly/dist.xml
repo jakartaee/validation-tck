@@ -96,5 +96,10 @@
             <outputDirectory>setup-examples/maven</outputDirectory>
             <filtered>true</filtered>
         </file>
+        <file>
+            <source>../setup-examples/ant/build.properties</source>
+            <outputDirectory>setup-examples/ant</outputDirectory>
+            <filtered>true</filtered>
+        </file>
     </files>
 </assembly>
