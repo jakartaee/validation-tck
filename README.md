@@ -1,7 +1,7 @@
 # Jakarta Bean Validation TCK
 *Version: 2.0.5 - 05-08-2019*
 
-This repository contains the Jakarta Bean Validation 2.0
+This repository contains the Jakarta Bean Validation 3.0
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source
@@ -10,7 +10,7 @@ You can build the TCK from source by cloning the git repository https://github.c
 You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 8 and
 [Maven](http://maven.apache.org/) 3. With these prerequisites in place you can compile the source via:
 
-    mvn clean install -s settings-example.xml
+    mvn clean install
 
 After successful execution you can find the full distribution bundles in _distribution/target_. To inspect the different test artifacts
 and the TCK coverage report refer to _tests/target/artifacts_ and _tests/target/coverage-report_ respectively.
