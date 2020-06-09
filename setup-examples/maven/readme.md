@@ -7,7 +7,7 @@ This is an example setup to run the Jakarta Bean Validation TCK 2.0 against Ecli
 * [Git](http://git-scm.com)
 * [Maven](https://maven.apache.org) >= 3.0.4
 * [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Eclipse GlassFish 5.1+](https://projects.eclipse.org/projects/ee4j.glassfish) installation
+* [Eclipse GlassFish 6+](https://projects.eclipse.org/projects/ee4j.glassfish) installation
 
 ## How to run
 
