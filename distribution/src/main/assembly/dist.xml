@@ -48,6 +48,7 @@
                 <exclude>**/*.iml</exclude>
                 <exclude>.gitignore</exclude>
                 <exclude>setup-examples/**</exclude>
+                <exclude>.idea/**</exclude>
             </excludes>
             <useDefaultExcludes/>
         </fileSet>
@@ -57,6 +58,7 @@
             <useDefaultExcludes>true</useDefaultExcludes>
             <excludes>
                 <exclude>artifact-install.sh</exclude>
+                <exclude>**/target/**</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -93,6 +95,11 @@
         </file>
         <file>
             <source>../setup-examples/maven/pom.xml</source>
+            <outputDirectory>setup-examples/maven</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../setup-examples/maven/pom-local.xml</source>
             <outputDirectory>setup-examples/maven</outputDirectory>
             <filtered>true</filtered>
         </file>

@@ -30,8 +30,15 @@ This is an example setup to run the Jakarta Bean Validation TCK 2.0 against Ecli
 
         mvn test
 > Note: when testing a staged final TCK you need to use the -Pstaing profile
-
         mvn -Pstaging test
 
 Test results can be found in _target/surefire-reports/index.html_
 
+## Running local only tests
+You can run the tests that do not require a Jakarta EE container
+by using the pom-local.xml file:
+
+        mvn -f pom-local.xml test
+or when using staged TCKs:
+
+        mvn -f pom-local.xml -Pstaging test
