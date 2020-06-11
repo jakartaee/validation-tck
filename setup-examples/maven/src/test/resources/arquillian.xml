@@ -16,14 +16,24 @@
     </engine>
 
     <!-- Run tests in the GlassFish container -->
-    <container qualifier="incontainer" default="true">
+    <container qualifier="incontainer">
         <protocol type="Servlet 5.0" />
         <configuration>
             <property name="glassFishHome">${container.home}</property>
             <property name="adminHost">localhost</property>
             <property name="adminPort">4848</property>
             <property name="debug">true</property>
+            <property name="debugRequests">false</property>
             <property name="outputToConsole">true</property>
+        </configuration>
+    </container>
+
+    <container qualifier="remote">
+        <protocol type="Servlet 5.0" />
+        <configuration>
+            <property name="adminHost">localhost</property>
+            <property name="adminPort">4848</property>
+            <property name="debugRequests">false</property>
         </configuration>
     </container>
 

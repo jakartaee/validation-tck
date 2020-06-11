@@ -6,6 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests;
 
+import com.beust.jcommander.JCommander;
 import jakarta.validation.Validator;
 import jakarta.validation.executable.ExecutableValidator;
 
@@ -52,6 +53,13 @@ public abstract class AbstractTCKTest extends Arquillian {
 				.getLocation()
 				.getPath()
 		);
+		// testng 6.14.3 has dependency on jcommander
+		webArchiveBuilder.withAdditionalJar( JCommander.class.getProtectionDomain()
+													 .getCodeSource()
+													 .getLocation()
+													 .getPath()
+		);
+
 
 		return webArchiveBuilder;
 	}

@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.9.9</version>
+            <version>6.14.3</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
-            <artifactId>arquillian-glassfish-managed-6</artifactId>
+            <artifactId>arquillian-glassfish-remote-6</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
@@ -116,7 +116,7 @@
                     </suiteXmlFiles>
                     <systemPropertyVariables>
                         <validation.provider>${validation.provider}</validation.provider>
-                        <arquillian.launch>incontainer</arquillian.launch>
+                        <arquillian.launch>remote</arquillian.launch>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
