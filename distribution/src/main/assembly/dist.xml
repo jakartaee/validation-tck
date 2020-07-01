@@ -7,9 +7,9 @@
     See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
 
 -->
-<assembly xmlns="http://maven.apache.org/POM/4.0.0"
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
     <id>dist</id>
     <baseDirectory>beanvalidation-tck-dist-${project.version}</baseDirectory>
     <formats>
@@ -48,6 +48,7 @@
                 <exclude>**/*.iml</exclude>
                 <exclude>.gitignore</exclude>
                 <exclude>setup-examples/**</exclude>
+                <exclude>.idea/**</exclude>
             </excludes>
             <useDefaultExcludes/>
         </fileSet>
@@ -55,10 +56,14 @@
             <directory>../setup-examples</directory>
             <outputDirectory>setup-examples</outputDirectory>
             <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>artifact-install.sh</exclude>
+                <exclude>**/target/**</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>../tests/src/main/resources</directory>
-            <outputDirectory>/artifacts</outputDirectory>
+            <outputDirectory>artifacts</outputDirectory>
             <includes>
                 <include>tck-audit.xml</include>
                 <include>tck-tests.xml</include>
@@ -67,14 +72,13 @@
         </fileSet>
         <fileSet>
             <directory>../test/target</directory>
-            <outputDirectory>/artifacts</outputDirectory>
+            <outputDirectory>artifacts</outputDirectory>
             <includes>
                 <include>coverage.html</include>
             </includes>
         </fileSet>
         <fileSet>
             <directory>..</directory>
-            <outputDirectory>/</outputDirectory>
             <includes>
                 <include>${license.file}</include>
                 <include>changelog.txt</include>
@@ -82,4 +86,27 @@
             </includes>
         </fileSet>
     </fileSets>
+    <!-- -->
+    <files>
+        <file>
+            <source>../setup-examples/artifact-install.sh</source>
+            <outputDirectory>setup-examples</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../setup-examples/maven/pom.xml</source>
+            <outputDirectory>setup-examples/maven</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../setup-examples/maven/pom-local.xml</source>
+            <outputDirectory>setup-examples/maven</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../setup-examples/ant/build.properties</source>
+            <outputDirectory>setup-examples/ant</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+    </files>
 </assembly>
