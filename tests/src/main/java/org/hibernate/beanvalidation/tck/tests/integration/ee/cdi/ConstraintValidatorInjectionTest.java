@@ -53,8 +53,8 @@ public class ConstraintValidatorInjectionTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Foo>> violations = validatorFactory.getValidator().validate( new Foo() );
 
 		assertThat( violations ).containsOnlyViolations(
-				violationOf( GreetingConstraint.class ).withMessage( "Hello, Mr. bar!" ),
-				violationOf( GreetingConstraint.class ).withMessage( "Good morning, Mr. qux!" )
+				violationOf( GreetingConstraint.class ).withMessage( "Hello, bar!" ),
+				violationOf( GreetingConstraint.class ).withMessage( "Good morning, qux!" )
 		);
 	}
 
