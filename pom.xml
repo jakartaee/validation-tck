@@ -101,7 +101,7 @@
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <validation.api.version>3.0.0-M1</validation.api.version>
+        <validation.api.version>3.0.0</validation.api.version>
 
         <!-- What license to include in the dist binary. For Jakarta releases that are used to certify implementations, this
         must be the EFTL.txt file. Default is the Apache license. Override with -Dlicense.file=EFTL.txt in CI build of
@@ -111,7 +111,7 @@
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency to the RI -->
-        <hibernate.validator.version>7.0.0.Alpha4</hibernate.validator.version>
+        <hibernate.validator.version>7.0.0.Alpha5</hibernate.validator.version>
 
         <testng.version>6.14.3</testng.version>
         <assertj-core.version>3.7.0</assertj-core.version>
