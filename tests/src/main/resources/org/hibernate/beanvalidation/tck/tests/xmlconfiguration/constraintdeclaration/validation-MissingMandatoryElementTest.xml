@@ -7,8 +7,8 @@
     See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
 
 -->
-<validation-config xmlns="https://xmlns.jakarta.ee/xml/ns/validation/configuration"
-                   xsi:schemaLocation="https://xmlns.jakarta.ee/xml/ns/validation/configuration validation-configuration-3.0.xsd"
+<validation-config xmlns="https://jakarta.ee/xml/ns/validation/configuration"
+                   xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/configuration validation-configuration-3.0.xsd"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    version="3.0">
     <constraint-mapping>/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdeclaration/package-constraints-MissingMandatoryElementTest.xml</constraint-mapping>

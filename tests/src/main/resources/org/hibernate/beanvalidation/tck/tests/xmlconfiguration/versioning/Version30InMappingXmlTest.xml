@@ -9,8 +9,8 @@
 -->
 <constraint-mappings
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="https://xmlns.jakarta.ee/xml/ns/validation/mapping validation-mapping-3.0.xsd"
-        xmlns="https://xmlns.jakarta.ee/xml/ns/validation/mapping"
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/mapping validation-mapping-3.0.xsd"
+        xmlns="https://jakarta.ee/xml/ns/validation/mapping"
         version="3.0">
     <bean class="org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.TestEntity"/>
 </constraint-mappings>
