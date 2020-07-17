@@ -30,11 +30,7 @@
 
     <properties>
         <tck.suite.file>target/dependency/beanvalidation-tck-tests-suite.xml</tck.suite.file>
-        <!-- This currently does not match the root version since it depends on a build of
-        the jakartaee9 branch of https://github.com/jakartaredhat/arquillian-core.git as
-        the update has not been released as 1.7.0.Alpha2
-        -->
-        <arquillian.version>1.7.0.Alpha1-M1</arquillian.version>
+        <arquillian.version>1.7.0.Alpha2</arquillian.version>
         <!-- Where GlassFish is unpacked to -->
         <container.home>/tmp/glassfish6</container.home>
 
@@ -55,12 +51,6 @@
         <dependency>
             <groupId>org.jboss.arquillian.testng</groupId>
             <artifactId>arquillian-testng-container</artifactId>
-            <version>${arquillian.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
             <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>

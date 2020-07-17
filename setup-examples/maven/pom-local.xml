@@ -27,7 +27,7 @@
     <properties>
         <tck.version>${tck.version}</tck.version>
         <tck.suite.file>target/dependency/beanvalidation-tck-tests-suite.xml</tck.suite.file>
-        <arquillian.version>1.7.0.Alpha1</arquillian.version>
+        <arquillian.version>1.7.0.Alpha2</arquillian.version>
         <jakarta.cdi.version>3.0.0-M3</jakarta.cdi.version>
         <jakarta.el.version>4.0.0-RC1</jakarta.el.version>
         <jakarta.interceptor.version>2.0.0-RC2</jakarta.interceptor.version>
@@ -36,7 +36,7 @@
         <glassfish.el.version>4.0.0-RC1</glassfish.el.version>
         <weld.version>4.0.0.Alpha2</weld.version>
 
-        <hibernate.validator.version>7.0.0.Alpha3</hibernate.validator.version>
+        <hibernate.validator.version>7.0.0.Alpha5</hibernate.validator.version>
         <validation.provider>org.hibernate.validator.HibernateValidator</validation.provider>
     </properties>
 

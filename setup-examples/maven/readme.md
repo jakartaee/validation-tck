@@ -8,9 +8,7 @@ This is an example setup to run the Jakarta Bean Validation TCK 3.0 against Ecli
 * [Maven](https://maven.apache.org) >= 3.0.4
 * [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Eclipse GlassFish 6+](https://projects.eclipse.org/projects/ee4j.glassfish/downloads) installation
-* Local builds of these arquillian projects need to be performed:
-  * https://github.com/jakartaredhat/arquillian-core.git on the jakartaee9 branch
-* A local build of the [arquillian-container-glassfish6](https://github.com/jakartaredhat/arquillian-container-glassfish6)
+* A local build of the [arquillian-container-glassfish6](https://github.com/arquillian/arquillian-container-glassfish6)
 
 ## How to run
 
@@ -32,7 +30,7 @@ This is an example setup to run the Jakarta Bean Validation TCK 3.0 against Ecli
 1. Run the TCK tests:
 
         mvn test
-> Note: when testing a staged final TCK you need to use the -Pstaing profile
+> Note: when testing a staged final TCK you need to use the -Pstaging profile
         mvn -Pstaging test
 
 Test results can be found in _target/surefire-reports/index.html_
