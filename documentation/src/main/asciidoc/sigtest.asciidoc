@@ -74,6 +74,21 @@ parameter of the `sigtest-maven-plugin` plugin like this:
 </plugin>
 ```
 
+Running a profile with this plugin enabled against that Hibernate Validator 7.0.0.Alpha5 release produces:
+```
+Scotts-iMac:tck-runner starksm$ mvn -Psigtest test
+...
+[INFO] --- sigtest-maven-plugin:1.2:check (default) @ hibernate-validator-tck-runner ---
+[INFO] Packages: jakarta.validation,jakarta.validation.bootstrap,jakarta.validation.constraints,
+                                jakarta.validation.constraintvalidation,jakarta.validation.executable,jakarta.validation.groups,
+                                jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
+[INFO] SignatureTest report
+Base version: 3.0.0
+Tested version: 7.0.0-Alpha5
+Check mode: src [throws normalized]
+Constant checking: on
+```
+
 === Forcing a signature test failure
 
 If you would like to verify that the signature test is running correctly, make a copy of the
@@ -91,9 +106,9 @@ an error similar to next:
 
 ```
 [INFO] SignatureTest report
-Base version: 3.0.0-SNAPSHOT
-Tested version: 3.0.0-SNAPSHOT
-Check mode: bin [throws removed]
+Base version: 3.0.0
+Tested version: 7.0.0-Alpha5
+Check mode: bin [throws normalized]
 Constant checking: on
 
 

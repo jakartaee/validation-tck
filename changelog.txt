@@ -3,6 +3,10 @@ Jakarta Bean Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+3.0.0 (21-09-2020)
+------------------------
+** Changes; updated to support the change in the EE API package from javax.* to jakarta.*
+
 2.0.3.Final (30-04-2018)
 ------------------------
 

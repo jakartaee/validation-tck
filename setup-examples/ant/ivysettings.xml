@@ -18,7 +18,7 @@
                 <ivy pattern="${m2-pattern}"/>
             </filesystem>
             <ibiblio name="maven2" m2compatible="true"/>
-            <ibiblio name="ee4j-staging" m2compatible="true" root="https://oss.sonatype.org/content/repositories/staging"/>
+            <ibiblio name="ee4j-staging" m2compatible="true" root="https://jakarta.oss.sonatype.org/content/repositories/staging"/>
         </chain>
     </resolvers>
 </ivysettings>
