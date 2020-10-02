@@ -10,7 +10,7 @@
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
   <info organisation="Red Hat, Inc."
         module="beanvalidation-tck-tests"
-        revision="2.0.5"
+        revision="2.0.6"
         status="Final"
         publication="20190814202711"
   >
