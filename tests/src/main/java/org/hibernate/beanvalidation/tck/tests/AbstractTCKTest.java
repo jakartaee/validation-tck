@@ -9,6 +9,7 @@ package org.hibernate.beanvalidation.tck.tests;
 import javax.validation.Validator;
 import javax.validation.executable.ExecutableValidator;
 
+import com.beust.jcommander.JCommander;
 import org.assertj.core.api.Assert;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;
 import org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert;
@@ -48,6 +49,12 @@ public abstract class AbstractTCKTest extends Arquillian {
 		// According to our security policy, the TCK has the permission to access the API even if
 		// the security manager is enabled.
 		webArchiveBuilder.withAdditionalJar( Assert.class.getProtectionDomain()
+				.getCodeSource()
+				.getLocation()
+				.getPath()
+		);
+		// testng 6.14.3 has dependency on jcommander
+		webArchiveBuilder.withAdditionalJar( JCommander.class.getProtectionDomain()
 				.getCodeSource()
 				.getLocation()
 				.getPath()
