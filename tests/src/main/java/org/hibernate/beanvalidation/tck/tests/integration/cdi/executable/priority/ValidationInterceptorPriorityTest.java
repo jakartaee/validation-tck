@@ -41,7 +41,7 @@ public class ValidationInterceptorPriorityTest extends AbstractTCKTest {
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClassPackage( ValidationInterceptorPriorityTest.class )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

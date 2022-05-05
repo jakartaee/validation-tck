@@ -60,7 +60,7 @@ public class ExecutableTypesTest extends AbstractTCKTest {
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClassPackage( ExecutableTypesTest.class )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

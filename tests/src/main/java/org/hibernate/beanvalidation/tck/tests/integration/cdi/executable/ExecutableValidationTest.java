@@ -85,7 +85,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClassPackage( ExecutableValidationTest.class )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

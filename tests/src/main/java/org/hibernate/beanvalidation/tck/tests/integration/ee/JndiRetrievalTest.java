@@ -42,7 +42,7 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 				.withClass( ConstantMessageInterpolator.class )
 				.withClass( Foo.class )
 				.withValidationXml( "test-validation.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

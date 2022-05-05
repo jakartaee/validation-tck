@@ -55,7 +55,7 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 		return webArchiveBuilder()
 				.withTestClassPackage( DefaultInjectionTest.class )
 				.withValidationXml( "validation-DefaultInjectionTest.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

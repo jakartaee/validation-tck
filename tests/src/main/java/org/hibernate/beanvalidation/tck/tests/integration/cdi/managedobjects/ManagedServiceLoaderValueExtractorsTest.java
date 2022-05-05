@@ -46,7 +46,7 @@ public class ManagedServiceLoaderValueExtractorsTest extends AbstractTCKTest {
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClassPackage( ManagedServiceLoaderValueExtractorsTest.class )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.withResource(
 						"jakarta.validation.valueextraction.ValueExtractor",
 						"META-INF/services/jakarta.validation.valueextraction.ValueExtractor",

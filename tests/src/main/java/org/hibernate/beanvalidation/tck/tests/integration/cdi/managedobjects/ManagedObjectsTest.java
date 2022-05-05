@@ -52,7 +52,7 @@ public class ManagedObjectsTest extends AbstractTCKTest {
 		return webArchiveBuilder()
 				.withTestClassPackage( ManagedObjectsTest.class )
 				.withValidationXml( "validation-ManagedObjectsTest.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

@@ -47,7 +47,7 @@ public class ManagedValueExtractorsTest extends AbstractTCKTest {
 		return webArchiveBuilder()
 				.withTestClassPackage( ManagedValueExtractorsTest.class )
 				.withValidationXml( "validation-ManagedValueExtractorsTest.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

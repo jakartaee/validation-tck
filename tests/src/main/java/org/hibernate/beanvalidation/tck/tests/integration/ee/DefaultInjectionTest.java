@@ -37,7 +37,7 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 				.withClass( Foo.class )
 				.withClass( ValidationTestEjb.class )
 				.withValidationXml( "test-validation.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

@@ -46,7 +46,7 @@ public class ManagedXmlAndServiceLoaderValueExtractorsTest extends AbstractTCKTe
 		return webArchiveBuilder()
 				.withTestClassPackage( ManagedXmlAndServiceLoaderValueExtractorsTest.class )
 				.withValidationXml( "validation-ManagedXmlAndServiceLoaderValueExtractorsTest.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.withResource(
 						"jakarta.validation.valueextraction.ValueExtractor-throwsException",
 						"META-INF/services/jakarta.validation.valueextraction.ValueExtractor",

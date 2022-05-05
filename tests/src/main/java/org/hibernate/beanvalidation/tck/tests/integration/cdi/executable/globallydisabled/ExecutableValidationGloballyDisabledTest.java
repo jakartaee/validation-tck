@@ -34,7 +34,7 @@ public class ExecutableValidationGloballyDisabledTest extends AbstractTCKTest {
 		return webArchiveBuilder()
 				.withTestClassPackage( ExecutableValidationGloballyDisabledTest.class )
 				.withValidationXml( "validation-ExecutableValidationGloballyDisabledTest.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 
