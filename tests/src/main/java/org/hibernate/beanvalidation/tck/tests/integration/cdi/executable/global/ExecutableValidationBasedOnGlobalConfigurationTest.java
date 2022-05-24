@@ -39,7 +39,7 @@ public class ExecutableValidationBasedOnGlobalConfigurationTest extends Abstract
 		return webArchiveBuilder()
 				.withTestClassPackage( ExecutableValidationBasedOnGlobalConfigurationTest.class )
 				.withValidationXml( "validation-ExecutableValidationBasedOnGlobalConfigurationTest.xml" )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

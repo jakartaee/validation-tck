@@ -39,7 +39,7 @@ public class ConstraintValidatorInjectionTest extends AbstractTCKTest {
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClassPackage( ConstraintValidatorInjectionTest.class )
-				.withEmptyBeansXml()
+				.withBeansXml()
 				.build();
 	}
 

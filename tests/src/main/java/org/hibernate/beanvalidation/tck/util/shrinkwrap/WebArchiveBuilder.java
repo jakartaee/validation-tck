@@ -27,6 +27,11 @@ import org.jboss.shrinkwrap.descriptor.api.webcommon30.WebAppVersionType;
  */
 public class WebArchiveBuilder extends ArchiveBuilder<WebArchiveBuilder, WebArchive> {
 
+	private static String BEANS_XML = "<beans xmlns=\"https://jakarta.ee/xml/ns/jakartaee\" " +
+			"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+			"xsi:schemaLocation=\"https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/beans_3_0.xsd\"\n" +
+			"bean-discovery-mode=\"all\"></beans>";
+
 	private List<ResourceDescriptor> webInfResources = null;
 
 	@Override
@@ -61,6 +66,10 @@ public class WebArchiveBuilder extends ArchiveBuilder<WebArchiveBuilder, WebArch
 	@Override
 	public WebArchiveBuilder withEmptyBeansXml() {
 		return withWebInfResource( EmptyAsset.INSTANCE, "beans.xml" );
+	}
+
+	public WebArchiveBuilder withBeansXml() {
+		return withWebInfResource(new StringAsset(BEANS_XML), "beans.xml");
 	}
 
 	private WebArchiveBuilder withWebInfResource(Asset asset, String target) {
