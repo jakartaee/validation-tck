@@ -1,5 +1,5 @@
-Jakarta Bean Validation TCK Changelog
-===============================
+Jakarta Validation TCK Changelog
+================================
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
