@@ -121,10 +121,8 @@
         <jakarta.interceptor.version>2.0.0-RC2</jakarta.interceptor.version>
         <jakarta.ejb.version>4.0.0-RC1</jakarta.ejb.version>
         <jakarta.annotation.version>2.0.0-RC1</jakarta.annotation.version>
-        <javax.annotation.version>1.3.2</javax.annotation.version>
-        <javafx.version>20.0.2</javafx.version>
 
-        <jboss.test.audit.version>2.0.0.Final</jboss.test.audit.version>
+        <jboss.test.audit.version>1.1.3.Final</jboss.test.audit.version>
         <arquillian.version>1.7.0.Alpha2</arquillian.version>
         <shrinkwrap.descriptors.version>2.0.0</shrinkwrap.descriptors.version>
 
@@ -215,19 +213,9 @@
                 <version>${jakarta.annotation.version}</version>
             </dependency>
             <dependency>
-              <groupId>javax.annotation</groupId>
-              <artifactId>javax.annotation-api</artifactId>
-              <version>${javax.annotation.version}</version>
-            </dependency>            
-            <dependency>
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
                 <version>${jakarta.el.version}</version>
-            </dependency>
-            <dependency>
-              <groupId>org.openjfx</groupId>
-              <artifactId>javafx-controls</artifactId>
-              <version>${javafx.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -250,7 +238,7 @@
                                     <version>3.0.3</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[17,)</version>
+                                    <version>[1.8,9)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -388,7 +376,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>1.5.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.bsc.maven</groupId>
@@ -433,7 +421,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>org.codehaus.mojo</groupId>
                                         <artifactId>exec-maven-plugin</artifactId>
-                                        <versionRange>[3.1.0,)</versionRange>
+                                        <versionRange>[1.5.0,)</versionRange>
                                         <goals>
                                             <goal>java</goal>
                                         </goals>
