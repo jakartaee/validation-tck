@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Jakarta Bean Validation TCK
+    Jakarta Validation TCK
 
     License: Apache License, Version 2.0
     See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
 
 -->
-<project name="Jakarta Bean Validation TCK" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="Jakarta Validation TCK" default="test" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <!-- ====================================================================== -->
     <!-- Build environment properties                                           -->
@@ -132,7 +132,7 @@
 
             <!-- Container qualifier used in arquillian.xml -->
             <sysproperty key="arquillian.launch" value="incontainer"/>
-            <!-- Specify the Jakarta Bean Validation provider under test -->
+            <!-- Specify the Jakarta Validation provider under test -->
             <sysproperty key="validation.provider" value="${validation.provider}"/>
             <!-- Uncomment to include JavaFX tests -->
             <!-- sysproperty key="includeJavaFXTests" value="true"/> -->
