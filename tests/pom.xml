@@ -41,6 +41,14 @@
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
         <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-controls</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>javax.annotation</groupId>
+          <artifactId>javax.annotation-api</artifactId>
+        </dependency>            
+        <dependency>
             <groupId>org.jboss.test-audit</groupId>
             <artifactId>jboss-test-audit-api</artifactId>
         </dependency>
