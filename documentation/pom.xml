@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Jakarta Bean Validation TCK
+    Jakarta Validation TCK
 
     License: Apache License, Version 2.0
     See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
@@ -19,8 +19,8 @@
     <artifactId>beanvalidation-tck-documentation</artifactId>
     <packaging>jar</packaging>
 
-    <name>Jakarta Bean Validation TCK Documentation</name>
-    <description>Jakarta Bean Validation TCK Documentation</description>
+    <name>Jakarta Validation TCK Documentation</name>
+    <description>Jakarta Validation TCK Documentation</description>
 
     <properties>
         <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>

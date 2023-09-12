@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Location where the Bean Validation TCK dist has been extracted
+# Location where the Validation TCK dist has been extracted
 TCK_DIST=/tmp/BV/beanvalidation-tck-dist-${tck.version}
 
 # Parent pom

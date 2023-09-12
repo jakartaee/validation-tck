@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Jakarta Bean Validation TCK
+    Jakarta Validation TCK
 
     License: Apache License, Version 2.0
     See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
@@ -21,8 +21,8 @@
     <artifactId>tck-runner</artifactId>
     <version>${tck.version}</version>
 
-    <name>Example Jakarta Bean Validation TCK Runner</name>
-    <description>Aggregates dependencies and runs the Jakarta Bean Validation TCK</description>
+    <name>Example Jakarta Validation TCK Runner</name>
+    <description>Aggregates dependencies and runs the Jakarta Validation TCK</description>
 
     <properties>
         <tck.version>${tck.version}</tck.version>

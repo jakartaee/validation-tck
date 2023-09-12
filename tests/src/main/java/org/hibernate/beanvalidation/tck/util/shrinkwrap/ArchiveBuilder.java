@@ -1,5 +1,5 @@
 /**
- * Jakarta Bean Validation TCK
+ * Jakarta Validation TCK
  *
  * License: Apache License, Version 2.0
  * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
@@ -17,10 +17,10 @@ import org.jboss.shrinkwrap.api.container.LibraryContainer;
 import org.jboss.shrinkwrap.api.container.ResourceContainer;
 
 /**
- * Abstract ShrinkWrap archive builder for Jakarta Bean Validation TCK Arquillian test.
+ * Abstract ShrinkWrap archive builder for Jakarta Validation TCK Arquillian test.
  * <p>
  * This is a base class for builders that try to solve most <b>JBoss Test Harness</b> to <b>Arquillian</b> migration issues. The
- * main goal was to use Jakarta Bean Validation TCK 1.0 tests with minimum code changes.
+ * main goal was to use Jakarta Validation TCK 1.0 tests with minimum code changes.
  * </p>
  *
  * @param <T> Self type to enable abstract builder pattern

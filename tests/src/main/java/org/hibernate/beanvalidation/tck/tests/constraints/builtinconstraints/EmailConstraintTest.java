@@ -1,5 +1,5 @@
 /**
- * Jakarta Bean Validation TCK
+ * Jakarta Validation TCK
  *
  * License: Apache License, Version 2.0
  * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 /**
  * Tests for {@link Email} built-in constraint.
  * <p>
- * Exact semantics of what makes up a valid email address are left to Jakarta Bean Validation providers so we use the regexp
+ * Exact semantics of what makes up a valid email address are left to Jakarta Validation providers so we use the regexp
  * mechanism to test an invalid email.
  *
  * @author Guillaume Smet
