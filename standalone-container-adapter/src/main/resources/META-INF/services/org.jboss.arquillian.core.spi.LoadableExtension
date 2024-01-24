@@ -1,1 +1,1 @@
-!org.hibernate.validator.tck.arquillian.BeanValidationLocalContainerExtension
+org.hibernate.validator.tck.arquillian.BeanValidationLocalContainerExtension
