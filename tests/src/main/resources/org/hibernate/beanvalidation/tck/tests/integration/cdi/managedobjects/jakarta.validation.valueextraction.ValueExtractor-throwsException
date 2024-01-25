@@ -1,2 +1,2 @@
-!org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapKeyValueExtractorUsingDependencyInjectionThrowsException
+org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapKeyValueExtractorUsingDependencyInjectionThrowsException
 org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapValueValueExtractorUsingDependencyInjectionThrowsException

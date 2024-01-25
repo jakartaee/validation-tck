@@ -31,6 +31,7 @@ public class JavaFXTestsMethodSelector implements IMethodSelector {
 	static {
 		String envSetting = System.getProperty( INCLUDE_JAVAFX_TESTS );
 		includeJavaFXTests = Boolean.valueOf( envSetting );
+		System.out.printf("JavaFXTestsMethodSelector.includeJavaFXTests = %s%n", includeJavaFXTests);
 	}
 
 	@Override
@@ -39,6 +40,7 @@ public class JavaFXTestsMethodSelector implements IMethodSelector {
 				JavaFXTest.class
 		) ) {
 			context.setStopped( true );
+			System.out.printf("JavaFXTestsMethodSelector.Excluding test %s%n", method.getMethodName());
 			return false;
 		}
 		else {

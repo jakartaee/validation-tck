@@ -12,13 +12,13 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.9</version>
     </parent>
 
     <groupId>jakarta.validation</groupId>
     <artifactId>beanvalidation-tck-parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.1</version>
+    <version>3.1.0-M2</version>
     <name>Jakarta Validation TCK Aggregator</name>
     <url>http://beanvalidation.org/</url>
 
@@ -95,8 +95,8 @@
     </mailingLists>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
 
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -111,32 +111,30 @@
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency from the TCK to Hibernate Validator -->
-        <hibernate.validator.version>7.0.0.Alpha5</hibernate.validator.version>
+        <hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
 
-        <testng.version>6.14.3</testng.version>
+        <testng.version>7.9.0</testng.version>
         <assertj-core.version>3.7.0</assertj-core.version>
 
-        <jakarta.cdi.version>3.0.0-M3</jakarta.cdi.version>
-        <jakarta.el.version>4.0.0-RC1</jakarta.el.version>
-        <jakarta.interceptor.version>2.0.0-RC2</jakarta.interceptor.version>
-        <jakarta.ejb.version>4.0.0-RC1</jakarta.ejb.version>
-        <jakarta.annotation.version>2.0.0-RC1</jakarta.annotation.version>
+        <jakarta.cdi.version>4.1.0-M1</jakarta.cdi.version>
+        <jakarta.el.version>6.0.0-M2</jakarta.el.version>
+        <jakarta.interceptor.version>2.2.0-M1</jakarta.interceptor.version>
+        <jakarta.ejb.version>4.0.1</jakarta.ejb.version>
+        <jakarta.annotation.version>3.0.0-M1</jakarta.annotation.version>
 
-        <jboss.test.audit.version>1.1.3.Final</jboss.test.audit.version>
-        <arquillian.version>1.7.0.Alpha2</arquillian.version>
+        <jboss.test.audit.version>2.0.0.Final</jboss.test.audit.version>
+        <arquillian.version>1.7.1.Final</arquillian.version>
         <shrinkwrap.descriptors.version>2.0.0</shrinkwrap.descriptors.version>
 
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.1.Final</hibernate-asciidoctor-theme.version>
-        <asciidoctor-maven-plugin.version>1.5.3</asciidoctor-maven-plugin.version>
-        <jruby.version>1.7.26</jruby.version>
-        <asciidoctorj.version>1.5.4.1</asciidoctorj.version>
-        <asciidoctorj-pdf.version>1.5.0-alpha.11</asciidoctorj-pdf.version>
+        <asciidoctor-maven-plugin.version>2.2.5</asciidoctor-maven-plugin.version>
+        <asciidoctorj-pdf.version>2.3.10</asciidoctorj-pdf.version>
 
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>8.29</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>10.12.7</com.puppycrawl.tools.version>
     </properties>
 
     <dependencyManagement>
@@ -224,8 +222,9 @@
         <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <id>enforce</id>
@@ -238,7 +237,7 @@
                                     <version>3.0.3</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[1.8,9)</version>
+                                    <version>[8,21)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -247,7 +246,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
                 <configuration>
                     <preparationGoals>clean install</preparationGoals>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -256,7 +254,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.6.0</version>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
                     <descriptors>
@@ -296,16 +294,16 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.12.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.3.0</version>
                     <configuration>
                         <archive>
                             <manifest>
@@ -317,32 +315,22 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
                     <artifactId>asciidoctor-maven-plugin</artifactId>
                     <version>${asciidoctor-maven-plugin.version}</version>
                     <dependencies>
-                        <dependency>
-                            <groupId>org.jruby</groupId>
-                            <artifactId>jruby-complete</artifactId>
-                            <version>${jruby.version}</version>
-                        </dependency>
-                         <dependency>
-                            <groupId>org.asciidoctor</groupId>
-                            <artifactId>asciidoctorj</artifactId>
-                            <version>${asciidoctorj.version}</version>
-                        </dependency>
                         <dependency>
                             <groupId>org.asciidoctor</groupId>
                             <artifactId>asciidoctorj-pdf</artifactId>
@@ -351,18 +339,13 @@
                     </dependencies>
                 </plugin>
                 <plugin>
-                    <groupId>ch.mfrey.maven.plugin</groupId>
-                    <artifactId>copy-maven-plugin</artifactId>
-                    <version>0.0.5</version>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.12</version>
+                    <version>3.5.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.3.0</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -383,87 +366,10 @@
                     <artifactId>maven-processor-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[2.8,)</versionRange>
-                                        <goals>
-                                            <goal>unpack</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.asciidoctor</groupId>
-                                        <artifactId>asciidoctor-maven-plugin</artifactId>
-                                        <versionRange>[1.5.3,)</versionRange>
-                                        <goals>
-                                            <goal>process-asciidoc</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>exec-maven-plugin</artifactId>
-                                        <versionRange>[1.5.0,)</versionRange>
-                                        <goals>
-                                            <goal>java</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>build-helper-maven-plugin</artifactId>
-                                        <versionRange>[1.12,)</versionRange>
-                                        <goals>
-                                            <goal>timestamp-property</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.netbeans.tools</groupId>
-                                        <artifactId>sigtest-maven-plugin</artifactId>
-                                        <versionRange>[1.0,)</versionRange>
-                                        <goals>
-                                            <goal>generate</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore></ignore>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.3.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
@@ -492,9 +398,9 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <groupId>org.netbeans.tools</groupId>
+                    <groupId>org.jboss.tools</groupId>
                     <artifactId>sigtest-maven-plugin</artifactId>
-                    <version>1.0</version>
+                    <version>2.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

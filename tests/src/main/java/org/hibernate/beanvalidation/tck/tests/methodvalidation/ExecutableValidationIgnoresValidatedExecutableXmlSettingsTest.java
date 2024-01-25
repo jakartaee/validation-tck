@@ -23,7 +23,9 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItem;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItemRecord;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.StockItem;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.StockItemRecord;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -42,6 +44,8 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 				.withTestClass( ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest.class )
 				.withClass( StockItem.class )
 				.withClass( ValidStockItem.class )
+				.withClass( StockItemRecord.class )
+				.withClass( ValidStockItemRecord.class )
 				.withValidationXml( "validation-ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest.xml" )
 				.build();
 	}
@@ -150,6 +154,31 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 				violationOf( ValidStockItem.class )
 						.withPropertyPath( pathWith()
 								.constructor( StockItem.class )
+								.returnValue()
+						)
+		);
+	}
+
+	@Test
+	public void testValidateRecordConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
+			throws Exception {
+		assertEquals(
+				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
+				Collections.emptySet()
+		);
+
+		Constructor<StockItemRecord> constructor = StockItemRecord.class.getConstructor( String.class );
+		StockItemRecord createdObject = new StockItemRecord( null );
+
+		Set<ConstraintViolation<StockItemRecord>> violations = getExecutableValidator().validateConstructorReturnValue(
+				constructor,
+				createdObject
+		);
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( ValidStockItemRecord.class )
+						.withPropertyPath( pathWith()
+								.constructor( StockItemRecord.class )
 								.returnValue()
 						)
 		);

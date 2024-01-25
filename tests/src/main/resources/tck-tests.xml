@@ -13,10 +13,10 @@
 
         <method-selectors>
             <method-selector>
-                <selector-class name="org.hibernate.beanvalidation.tck.util.IntegrationTestsMethodSelector"/>
+                <selector-class name="org.hibernate.beanvalidation.tck.util.IntegrationTestsMethodSelector" priority="1"/>
             </method-selector>
             <method-selector>
-                <selector-class name="org.hibernate.beanvalidation.tck.util.JavaFXTestsMethodSelector"/>
+                <selector-class name="org.hibernate.beanvalidation.tck.util.JavaFXTestsMethodSelector" priority="2"/>
             </method-selector>
         </method-selectors>
 

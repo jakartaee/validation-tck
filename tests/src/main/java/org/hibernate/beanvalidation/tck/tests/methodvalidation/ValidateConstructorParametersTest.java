@@ -6,27 +6,11 @@
  */
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -35,6 +19,7 @@ import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ContainerEl
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ProductCategory;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.StockItemRecord;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Basic;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.User.Extended;
@@ -43,6 +28,22 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 import org.testng.annotations.Test;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
+import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 /**
  * @author Gunnar Morling
@@ -60,6 +61,7 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				.withClass( Item.class )
 				.withClass( OrderLine.class )
 				.withClass( User.class )
+				.withClass( StockItemRecord.class )
 				.withClass( ContainerElementsOrder.class )
 				.withClass( ProductCategory.class )
 				.build();
@@ -101,6 +103,34 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 		assertNull( violation.getExecutableReturnValue() );
 	}
 
+	@Test
+	public void testRecordValidation() throws Exception {
+		Constructor<StockItemRecord> constructor = StockItemRecord.class.getConstructor( String.class );
+		Annotation[] a = constructor.getParameters()[0].getAnnotations();
+		String arg0 = null;
+		Object[] parameterValues = new Object[] { arg0 };
+
+		Set<ConstraintViolation<StockItemRecord>> violations = getExecutableValidator().validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( StockItemRecord.class )
+								.parameter( "name", 0 )
+						)
+		);
+
+		ConstraintViolation<StockItemRecord> violation = violations.iterator().next();
+		assertNull( violation.getRootBean() );
+		assertEquals( violation.getRootBeanClass(), StockItemRecord.class );
+		assertNull( violation.getLeafBean() );
+		assertEquals( violation.getInvalidValue(), arg0 );
+		assertEquals( violation.getExecutableParameters(), parameterValues );
+		assertNull( violation.getExecutableReturnValue() );
+	}
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
