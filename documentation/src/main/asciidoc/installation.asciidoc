@@ -47,8 +47,8 @@ implementation.
 
 The TCK requires the following two Java runtime environments:
 
-* Java 8 (including a JavaFX implementation)
-* Jakarta EE 8 or better (e.g. Eclipse GlassFish 5.1+)
+* Java 17 (including a JavaFX implementation)
+* Jakarta EE 10 or better (e.g. Eclipse GlassFish 7+)
 
 You should refer to vendor instructions for how to install the
 runtime.

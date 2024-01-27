@@ -7,6 +7,8 @@
 package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ElementKind;
+import jakarta.validation.Path;
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,6 +17,7 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Address;
+import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ComplexStockItemRecord;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.ContainerElementsOrder;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.Item;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.model.OrderLine;
@@ -27,6 +30,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.annotation.Annotation;
@@ -156,6 +160,81 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 
 		assertEquals( violation.getInvalidValue(), parameterValues );
 		assertNull( violation.getLeafBean() );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "j")
+	public void testOneViolationFromRecordCrossParameterConstraint() throws Exception {
+		Constructor<ComplexStockItemRecord> constructor = ComplexStockItemRecord.class.getConstructor( String.class, String.class );
+		Object[] parameterValues = new Object[] { "StockItem1", "StockItem1 Description" };
+
+		Set<ConstraintViolation<ComplexStockItemRecord>> violations = getExecutableValidator().validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( ComplexStockItemRecord.class )
+								.crossParameter()
+						)
+		);
+
+		ConstraintViolation<ComplexStockItemRecord> violation = violations.iterator().next();
+
+		assertEquals( violation.getInvalidValue(), parameterValues );
+		assertNull( violation.getLeafBean() );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "h")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "f")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "j")
+	public void testTwoViolationsFromRecordCrossParameterConstraint() throws Exception {
+		Constructor<ComplexStockItemRecord> constructor = ComplexStockItemRecord.class.getConstructor( String.class, String.class );
+		Object[] parameterValues = new Object[] { "StockItem1", null };
+
+		Set<ConstraintViolation<ComplexStockItemRecord>> violations = getExecutableValidator().validateConstructorParameters(
+				constructor,
+				parameterValues
+		);
+
+		assertThat( violations ).containsOnlyViolations(
+				violationOf( MyCrossParameterConstraint.class )
+						.withPropertyPath( pathWith()
+								.constructor( ComplexStockItemRecord.class )
+								.crossParameter()
+						),
+				violationOf( NotNull.class )
+						.withPropertyPath( pathWith()
+								.constructor( ComplexStockItemRecord.class )
+								.parameter( "description", 1 )
+						)
+
+		);
+
+		Assert.assertTrue(violations.size() == 2, "Expected 2 violations");
+		ConstraintViolation<ComplexStockItemRecord>[] faults = new ConstraintViolation[2];
+		violations.toArray(faults);
+
+		ConstraintViolation<ComplexStockItemRecord> nullViolation = null;
+		ConstraintViolation<ComplexStockItemRecord> crossViolation = null;
+		for(Path.Node n : faults[0].getPropertyPath()) {
+			if(n.getKind() == ElementKind.PARAMETER) {
+				nullViolation = faults[0];
+				crossViolation = faults[1];
+			} else if(n.getKind() == ElementKind.CROSS_PARAMETER) {
+				nullViolation = faults[1];
+				crossViolation = faults[0];
+			}
+		}
+		assertEquals( nullViolation.getInvalidValue(), null );
+		assertEquals( nullViolation.getRootBean(), null );
+		assertEquals( crossViolation.getInvalidValue(),  parameterValues);
+		assertEquals( crossViolation.getRootBean(), null );
 	}
 
 	@Test
