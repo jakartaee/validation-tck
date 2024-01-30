@@ -22,7 +22,7 @@ import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.METHOD;
 
 /**
- * @author Gunnar Morling
+ * A constraint which validates {@link StockItemRecord} instances.
  */
 @Target({ METHOD, CONSTRUCTOR, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
