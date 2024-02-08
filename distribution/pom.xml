@@ -13,7 +13,7 @@
     <parent>
         <groupId>jakarta.validation</groupId>
         <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0-M2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -25,6 +25,7 @@
     <properties>
         <beanvalidation-tck-parent.basedir>${project.parent.basedir}</beanvalidation-tck-parent.basedir>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <tck.version>${project.version}</tck.version>
     </properties>
 
     <dependencies>

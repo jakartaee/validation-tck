@@ -1,2 +1,2 @@
-!org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapKeyValueExtractorUsingDependencyInjection
+org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapKeyValueExtractorUsingDependencyInjection
 org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects.MapValueValueExtractorUsingDependencyInjection

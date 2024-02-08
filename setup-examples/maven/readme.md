@@ -1,14 +1,13 @@
 # Maven setup example to run the Jakarta Bean Validation TCK
 
-This is an example setup to run the Jakarta Bean Validation TCK 3.0 against Eclipse GlassFish 6+ using [Maven](https://maven.apache.org).
+This is an example setup to run the Jakarta Bean Validation TCK 3.1 against Eclipse GlassFish 7+ using [Maven](https://maven.apache.org).
 
 ## Prerequisites
 
 * [Git](http://git-scm.com)
-* [Maven](https://maven.apache.org) >= 3.0.4
-* [JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Eclipse GlassFish 6+](https://projects.eclipse.org/projects/ee4j.glassfish/downloads) installation
-* A local build of the [arquillian-container-glassfish6](https://github.com/arquillian/arquillian-container-glassfish6)
+* [Maven](https://maven.apache.org) >= 3.9.0
+* [JDK 17](https://adoptium.net/temurin/releases/)
+* [Eclipse GlassFish 7+](https://projects.eclipse.org/projects/ee4j.glassfish/downloads) installation
 
 ## How to run
 
@@ -27,7 +26,7 @@ This is an example setup to run the Jakarta Bean Validation TCK 3.0 against Ecli
 
         bash ../artifact-install.sh
 
-1. Run the TCK tests:
+1. Run the TCK tests against the default glassfish-managed profile:
 
         mvn test
 > Note: when testing a staged final TCK you need to use the -Pstaging profile
@@ -35,12 +34,11 @@ This is an example setup to run the Jakarta Bean Validation TCK 3.0 against Ecli
 
 Test results can be found in _target/surefire-reports/index.html_
 
-## Running tests against a running GlassFish 6+ instance
+## Running tests against a running GlassFish 7+ instance
 There is a glassfish-remote profile that allows the testsuite to run against
-a running GlassFish 6+ instance. To use that profile, run with:
+a running GlassFish 7+ instance. To use that profile, run with:
 
         mvn -Pglassish-remote test
-
 
 ## Running local only tests
 You can run the tests that do not require a Jakarta EE container

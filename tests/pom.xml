@@ -13,7 +13,7 @@
     <parent>
         <groupId>jakarta.validation</groupId>
         <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.1.0-M2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -51,6 +51,11 @@
         <dependency>
             <groupId>org.jboss.shrinkwrap.descriptors</groupId>
             <artifactId>shrinkwrap-descriptors-impl-javaee</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.8</version>
         </dependency>
         <dependency>
             <groupId>jakarta.enterprise</groupId>
@@ -167,13 +172,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgument>-proc:none</compilerArgument>
-                    <compilerArgument>-parameters</compilerArgument>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.bsc.maven</groupId>
                 <artifactId>maven-processor-plugin</artifactId>
                 <configuration>
@@ -237,7 +235,7 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.netbeans.tools</groupId>
+                <groupId>jakarta.tck</groupId>
                 <artifactId>sigtest-maven-plugin</artifactId>
                 <executions>
                     <execution>
@@ -253,37 +251,21 @@
                         jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
                     </packages>
                     <attach>false</attach>
+                    <sigfile>target/classes/validation-api-jdk17.sig</sigfile>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>ch.mfrey.maven.plugin</groupId>
-                <artifactId>copy-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <move>true</move>
-                                    <includes>
-                                        <include>beanvalidation-tck-tests-${project.version}.sigfile</include>
-                                    </includes>
-                                    <paths>
-                                        <path>
-                                            <from>beanvalidation-tck-tests-${project.version}.sigfile</from>
-                                            <to>classes/validation-api-java8.sig</to>
-                                        </path>
-                                    </paths>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgument>-proc:none</compilerArgument>
+                    <compilerArgument>-parameters</compilerArgument>
+
+                    <source>16</source>
+                    <target>16</target>
+                    <testSource>16</testSource>
+                    <testTarget>16</testTarget>
+                </configuration>
             </plugin>
         </plugins>
     </build>

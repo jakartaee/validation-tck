@@ -1,13 +1,13 @@
 !# Jakarta Validation TCK
-*Version: 2.0.5 - 05-08-2019*
+*Version: 3.1.0 - 24-01-2024*
 
-This repository contains the Jakarta Validation 3.0
+This repository contains the Jakarta Validation 3.1
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source
 
 You can build the TCK from source by cloning the git repository https://github.com/jakartaee/validation-tck
-You will also need a [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) 8 and
+You will also need a [JDK](https://adoptium.net/temurin/releases/) 17 and
 [Maven](http://maven.apache.org/) 3. With these prerequisites in place you can compile the source via:
 
     mvn clean install
