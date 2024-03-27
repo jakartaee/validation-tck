@@ -12,12 +12,12 @@
 
     <parent>
         <groupId>jakarta.validation</groupId>
-        <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.1.0-M2</version>
+        <artifactId>validation-tck-parent</artifactId>
+        <version>3.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>beanvalidation-tck-distribution</artifactId>
+    <artifactId>validation-tck-distribution</artifactId>
 
     <name>Jakarta Validation TCK Distribution</name>
     <description>Jakarta Validation TCK Distribution</description>
@@ -31,12 +31,20 @@
     <dependencies>
         <dependency>
             <groupId>jakarta.validation</groupId>
-            <artifactId>beanvalidation-tck-tests</artifactId>
+            <artifactId>validation-tck-tests</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
-            <artifactId>beanvalidation-standalone-container-adapter</artifactId>
+            <artifactId>validation-tck-tests</artifactId>
+            <version>${project.version}</version>
+            <classifier>sigtest-jdk17</classifier>
+            <type>sig</type>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>validation-standalone-container-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
@@ -53,7 +61,7 @@
                     <descriptors>
                         <descriptor>${basedir}/src/main/assembly/dist.xml</descriptor>
                     </descriptors>
-                    <finalName>beanvalidation-tck-dist-${project.version}</finalName>
+                    <finalName>validation-tck-dist-${project.version}</finalName>
                     <tarLongFileMode>posix</tarLongFileMode>
                 </configuration>
                 <executions>

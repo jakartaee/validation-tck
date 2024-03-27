@@ -1,6 +1,6 @@
-# Maven setup example to run the Jakarta Bean Validation TCK
+# Maven setup example to run the Jakarta Validation TCK
 
-This is an example setup to run the Jakarta Bean Validation TCK 3.1 against Eclipse GlassFish 7+ using [Maven](https://maven.apache.org).
+This is an example setup to run the Jakarta Validation TCK 3.1 against Eclipse GlassFish 7+ using [Maven](https://maven.apache.org).
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ This is an example setup to run the Jakarta Bean Validation TCK 3.1 against Ecli
 
 1. Extract Eclipse GlassFish into a directory (this directory is referenced subsequently as <container.home>)
 1. Add the JVM option _validation.provider_ to _domain.xml_ under <container.home>/domains/domain1/config/domain.xml in
-   the <java-config> section (this is used by the test harness to look up the Jakarta Bean Validation provider under test):
+   the <java-config> section (this is used by the test harness to look up the Jakarta Validation provider under test):
 
         <java-config>
             ...

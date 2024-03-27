@@ -11,12 +11,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>jakarta.validation</groupId>
-        <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.1.0-M2</version>
+        <artifactId>validation-tck-parent</artifactId>
+        <version>3.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>beanvalidation-tck-documentation</artifactId>
+    <artifactId>validation-tck-documentation</artifactId>
     <packaging>jar</packaging>
 
     <name>Jakarta Validation TCK Documentation</name>
@@ -253,7 +253,7 @@
                                             <paths>
                                                 <path>
                                                     <from>index.pdf</from>
-                                                    <to>beanvalidation-tck-documentation.pdf</to>
+                                                    <to>validation-tck-documentation.pdf</to>
                                                 </path>
                                             </paths>
                                         </resource>

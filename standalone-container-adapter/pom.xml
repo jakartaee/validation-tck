@@ -12,12 +12,12 @@
 
     <parent>
         <groupId>jakarta.validation</groupId>
-        <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.1.0-M2</version>
+        <artifactId>validation-tck-parent</artifactId>
+        <version>3.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>beanvalidation-standalone-container-adapter</artifactId>
+    <artifactId>validation-standalone-container-adapter</artifactId>
     <packaging>jar</packaging>
 
     <name>Jakarta Validation TCK Container Adapter</name>

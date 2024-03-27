@@ -1,7 +1,7 @@
 [[appeals-process]]
 == Appeals Process
 
-While the Jakarta Bean Validation TCK is rigorous about enforcing an implementation's conformance to the Jakarta Bean Validation specification,
+While the Jakarta Validation TCK is rigorous about enforcing an implementation's conformance to the Jakarta Validation specification,
 it's reasonable to assume that an implementor may discover new and/or better ways to validate the assertions.
 The appeals process is defined by the Jakarta EE https://github.com/jakartaee/specification-committee/blob/master/process.adoc[Jakarta EE TCK Process 1.0].
 
@@ -14,7 +14,7 @@ appeal.
 
 What is generally not challengeable are the assertions made by the
 specification. The specification document is controlled by a separate
-process and challenges to it should be handled through the Jakarta Bean Validation EG
+process and challenges to it should be handled through the Jakarta Validation Specification project
 by sending an e-mail to mailto:bean-validation-dev@eclipse.org[bean-validation-dev@eclipse.org].
 
 === How these challenges are submitted?

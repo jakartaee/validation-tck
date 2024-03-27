@@ -16,9 +16,9 @@
     </parent>
 
     <groupId>jakarta.validation</groupId>
-    <artifactId>beanvalidation-tck-parent</artifactId>
+    <artifactId>validation-tck-parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.1.0-M2</version>
+    <version>3.1.0</version>
     <name>Jakarta Validation TCK Aggregator</name>
     <url>http://beanvalidation.org/</url>
 
@@ -46,9 +46,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/eclipse-ee4j/beanvalidation-tck.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/beanvalidation-tck.git</developerConnection>
-        <url>http://github.com/eclipse-ee4j/beanvalidation-tck</url>
+        <connection>scm:git:https://github.com/jakartaee/validation-tck.git</connection>
+        <developerConnection>scm:git:git@github.com:jakartaee/validation-tck.git</developerConnection>
+        <url>https://github.com/jakartaee/validation-tck</url>
       <tag>HEAD</tag>
     </scm>
 
@@ -85,7 +85,7 @@
 
     <mailingLists>
         <mailingList>
-            <name>beanvalidation-dev</name>
+            <name>validation-dev</name>
             <post>bean-validation-dev@eclipse.org</post>
         </mailingList>
         <mailingList>
@@ -101,7 +101,7 @@
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <validation.api.version>3.0.0</validation.api.version>
+        <validation.api.version>3.1.0</validation.api.version>
 
         <!-- What license to include in the dist binary. For Jakarta releases that are used to certify implementations, this
         must be the EFTL.txt file. Default is the Apache license. Override with -Dlicense.file=EFTL.txt in CI build of
@@ -116,14 +116,14 @@
         <testng.version>7.9.0</testng.version>
         <assertj-core.version>3.7.0</assertj-core.version>
 
-        <jakarta.cdi.version>4.1.0-M1</jakarta.cdi.version>
-        <jakarta.el.version>6.0.0-M2</jakarta.el.version>
-        <jakarta.interceptor.version>2.2.0-M1</jakarta.interceptor.version>
+        <jakarta.cdi.version>4.1.0</jakarta.cdi.version>
+        <jakarta.el.version>6.0.0</jakarta.el.version>
+        <jakarta.interceptor.version>2.2.0</jakarta.interceptor.version>
         <jakarta.ejb.version>4.0.1</jakarta.ejb.version>
-        <jakarta.annotation.version>3.0.0-M1</jakarta.annotation.version>
+        <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 
         <jboss.test.audit.version>2.0.0.Final</jboss.test.audit.version>
-        <arquillian.version>1.7.1.Final</arquillian.version>
+        <arquillian.version>1.8.0.Final</arquillian.version>
         <shrinkwrap.descriptors.version>2.0.0</shrinkwrap.descriptors.version>
 
         <!-- Asciidoctor -->
@@ -278,6 +278,7 @@
                         <exclude>**/*.html</exclude>
                         <exclude>**/*.sh</exclude>
                         <exclude>beanvalidation-release-scripts/**</exclude>
+                        <exclude>validation-release-scripts/**</exclude>
                         <exclude>.mvn/**</exclude>
                     </excludes>
                 </configuration>
@@ -400,7 +401,7 @@
                 <plugin>
                     <groupId>jakarta.tck</groupId>
                     <artifactId>sigtest-maven-plugin</artifactId>
-                    <version>2.0</version>
+                    <version>2.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>

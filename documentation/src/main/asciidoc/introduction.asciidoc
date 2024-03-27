@@ -2,7 +2,7 @@
 == Introduction
 
 This chapter explains the purpose of a TCK and identifies the
-foundation elements of the Jakarta Bean Validation TCK.
+foundation elements of the Jakarta Validation TCK.
 
 [[primer]]
 === TCK Primer
@@ -68,15 +68,15 @@ confidence.
 ensuring the same extent of reliability for all Java platform
 ports.
 
-The Jakarta Bean Validation specification goes to great lengths to ensure
+The Jakarta Validation specification goes to great lengths to ensure
 that programs written for Jakarta EE are compatible
 and the TCK is rigorous about enforcing the rules the specification lays down.
 
-=== About the Jakarta Bean Validation TCK
+=== About the Jakarta Validation TCK
 
-The Jakarta Bean Validation TCK is designed as a portable, configurable and
+The Jakarta Validation TCK is designed as a portable, configurable and
 automated test suite for verifying the compatibility of an implementation
-of Jakarta Bean Validation. The test suite is built atop TestNG and provides a series
+of Jakarta Validation. The test suite is built atop TestNG and provides a series
 of extensions that allow runtime packaging and deployment of Jakarta EE artifacts
 for in-container testing (Arquillian).
 
@@ -85,29 +85,29 @@ deployable units, or artifacts, are defined in a declarative way using
 annotations.
 
 The declarative approach allows many of the tests to be executed in
-a standalone implementation of Jakarta Bean Validation, accounting for a boost in
+a standalone implementation of Jakarta Validation, accounting for a boost in
 developer productivity. However, an implementation is only valid if all
 tests pass using the in-container execution mode. The standalone mode is
 merely a developer convenience.
 
 [NOTE]
 ====
-The reason the Jakarta Bean Validation TCK must pass running in a Jakarta EE
-container is that Jakarta Bean Validation is part of Jakarta EE 8 itself.
+The reason the Jakarta Validation TCK must pass running in a Jakarta EE
+container is that Jakarta Validation is part of Jakarta EE 8 itself.
 ====
 
 ==== TCK Components
 
-The Jakarta Bean Validation TCK includes the following components:
+The Jakarta Validation TCK includes the following components:
 
 * *The test suite*, which is a
 collection of TestNG tests, the TestNG test suite descriptor and
-supplemental resources that configure Jakarta Bean Validation and other
+supplemental resources that configure Jakarta Validation and other
 software components.
 
 * *The TCK audit*
 (`tck-audit.xml`) used to list out the assertions
-identified in the Jakarta Bean Validation specification. It matches the
+identified in the Jakarta Validation specification. It matches the
 assertions to test cases in the test suite by unique identifier and
 produces a coverage report.
 +
@@ -125,23 +125,23 @@ provided as a convenience for developers in order to run and debug
 tests outside of the Jakarta EE container.
 
 * *Setup examples* demonstrating
-Maven and Ant setups to run the TCK test suite
+Maven setups to run the TCK test suite
 
 [[passing-the-tck]]
-==== Passing the Jakarta Bean Validation TCK
+==== Passing the Jakarta Validation TCK
 
-In order to pass the Jakarta Bean Validation TCK (which is one requirement
-for becoming a certified Jakarta Bean Validation provider), you need to:
+In order to pass the Jakarta Validation TCK (which is one requirement
+for becoming a certified Jakarta Validation provider), you need to:
 
-* Pass the Jakarta Bean Validation signature tests (see <<sigtest>>) asserting the correctness of the Bean
+* Pass the Jakarta Validation signature tests (see <<sigtest>>) asserting the correctness of the Bean
 Validation API used.
 
-* Run and pass the test suite (see <<configuration>>). The test must be run within a Jakarta EE 8
+* Run and pass the test suite (see <<configuration>>). The test must be run within a Jakarta EE 11
 container and pass with an unmodified TestNG suite file.
 
 [NOTE]
 ====
 The designated reference runtime for compatibility testing of
-the Jakarta Bean Validation specification is the Jakarta EE 8 reference
-implementation (RI), aka Eclipse GlassFish 5.1+.
+the Jakarta Validation specification is the Jakarta EE 11 ratified
+implementation (CI), aka Hibernate Validator 8.1.0.Final.
 ====

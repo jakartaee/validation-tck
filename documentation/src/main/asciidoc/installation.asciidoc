@@ -7,9 +7,9 @@ system.
 
 === Obtaining the Software
 
-You can obtain a release of the Jakarta Bean Validation TCK project via the
-official http://beanvalidation.org/tck/[Jakarta Bean Validation
-home page]. The Jakarta Bean Validation TCK is distributed as a ZIP file,
+You can obtain a release of the Jakarta Validation TCK project via the
+official http://beanvalidation.org/tck/[Jakarta Validation
+home page]. The Jakarta Validation TCK is distributed as a ZIP file,
 which contains the TCK artifacts (the test suite binary and source, the
 test suite descriptor, the audit source and report), the TCK library
 dependencies in `/lib` and documentation in `/doc`.
@@ -27,9 +27,9 @@ src/
 readme.md
 ----
 
-You can also download the source code from GitHub - https://github.com/eclipse-ee4j/beanvalidation-tck[https://github.com/eclipse-ee4j/beanvalidation-tck].
+You can also download the source code from GitHub - https://github.com/jakartaee/validation-tck[validation-tck].
 
-The Jakarta Bean Validation reference implementation (RI) project is named
+The Jakarta Validation compatibility implementation (CI) project is named
 Hibernate Validator. You can obtain the Hibernate Validator release used
 as reference implementation from the Hibernate Validator https://hibernate.org/validator/releases/[download
 page].
@@ -38,7 +38,7 @@ page].
 ====
 Hibernate Validator is not required for running the Bean
 Validation TCK, but it can be used as a reference for familiarizing
-yourself with the TCK before testing your own Jakarta Bean Validation
+yourself with the TCK before testing your own Jakarta Validation
 implementation.
 ====
 
@@ -55,14 +55,14 @@ runtime.
 
 The rest of the TCK software can simply be extracted. It's
 recommended that you create a dedicated folder to hold all of the
-Jakarta Bean Validation-related artifacts. This guide assumes the folder is called
+Jakarta Validation-related artifacts. This guide assumes the folder is called
 `jakarta-bean-validation`. Extract the `src` folder
 of the TCK distribution into a sub-folder named `tck`
 or use the following git commands:
 
 [source,subs="attributes"]
 ----
-git clone git://github.com/eclipse-ee4j/beanvalidation-tck tck
+git clone https://github.com/jakartaee/validation-tck tck
 git checkout {tckVersion}
 ----
 
@@ -104,11 +104,11 @@ actual tests which are getting run. Last but not least we see the use of
 the `@SpecAssertion` annotation which creates the link between
 the tck-audit.xml document and the actual test (see <<primer>>).
 
-.Running the TCK against the Jakarta Bean Validation RI (Hibernate Validator) and WildFly 10.1
+.Running the TCK against the Jakarta Validation RI (Hibernate Validator) and WildFly 10.1
 ====
 * Install Maven. You can find documentation on how to install
 Maven 3 on the https://maven.apache.org/install.html[Maven official website].
-* Change to the `ri/tck-runner` directory.
+* Change to the `setup-examples/maven` directory.
 * Next, instruct Maven to run the TCK:
 +
 [source]

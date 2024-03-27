@@ -30,7 +30,7 @@
 
     <properties>
         <tck.suite.file>target/dependency/beanvalidation-tck-tests-suite.xml</tck.suite.file>
-        <arquillian.version>1.7.1.Final</arquillian.version>
+        <arquillian.version>1.8.0.Final</arquillian.version>
         <!-- The version for org.omnifaces.arquillian:arquillian-glassfish-server-remote -->
         <glassfish.container.version>1.4</glassfish.container.version>
         <!-- Where GlassFish is unpacked to -->

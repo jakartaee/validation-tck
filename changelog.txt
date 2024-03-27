@@ -3,6 +3,18 @@ Jakarta Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+3.1.0 (27-03-2024)
+------------------------
+** Renamed Jakarta Bean Validation to Jakarta Validation
+** Added basic tests for Java Records
+** Updated version dependencies for Jakarta EE 11
+*** Jakarta Validation 3.1.0
+*** Jakarta CDI 4.1.0
+*** Jakarta EL 6.0.0
+*** Jakarta Interceptors 2.2.0
+*** Jakarta Annotations 3.0.0
+*** Arquillian 1.8.0.Final
+
 3.0.0 (21-09-2020)
 ------------------------
 ** Changes; updated to support the change in the EE API package from javax.* to jakarta.*

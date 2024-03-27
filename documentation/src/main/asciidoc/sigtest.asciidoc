@@ -2,91 +2,52 @@
 == Running the Signature Test
 
 One of the requirements of an implementation passing the TCK is for it
-to pass the Jakarta Bean Validation signature test. This section describes how to run
+to pass the Jakarta Validation signature test. This section describes how to run
 it against your implementation as a part of a Maven build.
 
 === Executing the signature check
 
-The signature file bundled inside this TCK is created using the http://wiki.netbeans.org/SigTest[SigTest Maven plugin].
+The signature file bundled inside this TCK is created using the https://github.com/eclipse-ee4j/jakartaee-tck-tools/tree/master/tools/sigtest
+[SigTest Maven plugin].
 The same plugin can be used to run a signature test to check for any incompatibilities.
 Let's take a look how it can be done as a part of a Maven build.
 Note that there must be no dependency declared for this project besides the API artifact you wish to test.
 
-Before running an actual test you need to obtain the signature file first. It is packaged inside the
-_beanvalidation-tck-tests_ artifact, so we can get it using the `unpack` goal of the `maven-dependency-plugin`
-as shown below:
+Before running an actual test you need to obtain the signature file first. It is included inside the
+validation tck distribution artifacts subdirectory as validation-tck-tests-{tckVersion}-sigtest-jdk17.sig.
 
-```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-dependency-plugin</artifactId>
-    <version>3.0.0</version>
-    <executions>
-        <execution>
-            <id>copy-tck-bv-api-signature-file</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-                <goal>unpack</goal>
-            </goals>
-            <configuration>
-                <artifactItems>
-                    <artifactItem>
-                        <groupId>jakarta.validation</groupId>
-                        <artifactId>beanvalidation-tck-tests</artifactId>
-                        <version>${beanvalidation-tck-tests.version}</version>
-                        <type>jar</type>
-                        <overWrite>false</overWrite>
-                    </artifactItem>
-                </artifactItems>
-                <!-- We just need the signature file and nothing else -->
-                <includes>**/*.sig</includes>
-                <outputDirectory>${project.build.directory}/api-signature</outputDirectory>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-```
 
 To actually run a signature test, the `check` goal of the `sigtest-maven-plugin` can be used.
-The plugin configuration above puts the signature file to the _api-signature_ subdirectory of your project's
-build directory. Having the file there, it can be referenced via the `sigfile`
-parameter of the `sigtest-maven-plugin` plugin like this:
+The TCK distribution setup-examples/maven/pom-local.xml includes a sigtest profile that can be used to run the signature test.
 
-```xml
-<plugin>
-    <groupId>org.jboss.tools</groupId>
-    <artifactId>sigtest-maven-plugin</artifactId>
-    <version>2.0</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>check</goal>
-            </goals>
-        </execution>
-    </executions>
-    <configuration>
-        <packages>jakarta.validation,jakarta.validation.bootstrap,jakarta.validation.constraints,
-            jakarta.validation.constraintvalidation,jakarta.validation.executable,jakarta.validation.groups,
-            jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
-        </packages>
-        <sigfile>${project.build.directory}/api-signature/validation-api-java8.sig</sigfile>
-    </configuration>
-</plugin>
+Running a profile with this plugin enabled against that Hibernate Validator 8.1.0.Final release produces:
 ```
-
-Running a profile with this plugin enabled against that Hibernate Validator 7.0.0.Alpha5 release produces:
-```
-Scotts-iMac:tck-runner starksm$ mvn -Psigtest test
+maven % mvn -Psigtest -Pstaging -f pom-local.xml process-sources
 ...
-[INFO] --- sigtest-maven-plugin:1.2:check (default) @ hibernate-validator-tck-runner ---
+[INFO] Scanning for projects...
+[INFO]
+[INFO] -------------------< jakarta.validation:tck-runner >--------------------
+[INFO] Building Example Jakarta Validation TCK Runner 3.1.0
+[INFO]   from pom-local.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- dependency:3.6.1:unpack-dependencies (unpack-dependencies) @ tck-runner ---
+[INFO]
+[INFO] --- sigtest:2.2:check (default) @ tck-runner ---
 [INFO] Packages: jakarta.validation,jakarta.validation.bootstrap,jakarta.validation.constraints,
                                 jakarta.validation.constraintvalidation,jakarta.validation.executable,jakarta.validation.groups,
                                 jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
+Mar 27, 2024 3:17:33 PM com.sun.tdk.signaturetest.SignatureTest parseParameters
+...
 [INFO] SignatureTest report
-Base version: 3.0.0
-Tested version: 7.0.0-Alpha5
-Check mode: src [throws normalized]
+Base version: 3.1.0
+Tested version: 3.1.0
+Check mode: bin [throws removed]
 Constant checking: on
+
+
+
+[INFO] /private/tmp/validation-tck-dist-3.1.0/setup-examples/maven/target/surefire-reports/sigtest/TEST-tck-runner-3.1.0.xml: 0 failures in /private/tmp/validation-tck-dist-3.1.0/artifacts/validation-tck-tests-3.1.0-sigtest-jdk17.sig
 ```
 
 === Forcing a signature test failure
@@ -105,10 +66,10 @@ If all is done correctly, while running `mvn sigtest:check` on your project, you
 an error similar to next:
 
 ```
-[INFO] SignatureTest report
-Base version: 3.0.0
-Tested version: 7.0.0-Alpha5
-Check mode: bin [throws normalized]
+[ERROR] SignatureTest report
+Base version: 3.1.0
+Tested version: 3.1.0
+Check mode: bin [throws removed]
 Constant checking: on
 
 

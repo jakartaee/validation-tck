@@ -26,15 +26,15 @@
 
     <properties>
         <tck.version>${tck.version}</tck.version>
-        <tck.suite.file>target/dependency/beanvalidation-tck-tests-suite.xml</tck.suite.file>
-        <arquillian.version>1.7.1.Final</arquillian.version>
-        <jakarta.cdi.version>3.0.0-M3</jakarta.cdi.version>
-        <jakarta.el.version>4.0.0-RC1</jakarta.el.version>
-        <jakarta.interceptor.version>2.0.0-RC2</jakarta.interceptor.version>
-        <jakarta.ejb.version>4.0.0-RC1</jakarta.ejb.version>
-        <jakarta.annotation.version>2.0.0-RC1</jakarta.annotation.version>
-        <glassfish.el.version>4.0.0</glassfish.el.version>
-        <weld.version>4.0.3.Final</weld.version>
+        <tck.suite.file>target/dependency/validation-tck-tests-suite.xml</tck.suite.file>
+        <arquillian.version>1.8.0.Final</arquillian.version>
+        <jakarta.cdi.version>4.1.0</jakarta.cdi.version>
+        <jakarta.el.version>6.0.0</jakarta.el.version>
+        <jakarta.interceptor.version>2.2.0</jakarta.interceptor.version>
+        <jakarta.ejb.version>4.0.1</jakarta.ejb.version>
+        <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
+        <glassfish.el.version>5.0.0-M1</glassfish.el.version>
+        <weld.version>6.0.0.Beta1</weld.version>
 
         <hibernate.validator.version>7.0.0.Alpha5</hibernate.validator.version>
         <validation.provider>org.hibernate.validator.HibernateValidator</validation.provider>
@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
-            <artifactId>beanvalidation-tck-tests</artifactId>
+            <artifactId>validation-tck-tests</artifactId>
             <version>${tck.version}</version>
         </dependency>
         <dependency>
@@ -81,7 +81,7 @@
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
-            <artifactId>beanvalidation-standalone-container-adapter</artifactId>
+            <artifactId>validation-standalone-container-adapter</artifactId>
             <version>${tck.version}</version>
         </dependency>
         <dependency>
@@ -125,7 +125,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>jakarta.validation</groupId>
-                                    <artifactId>beanvalidation-tck-tests</artifactId>
+                                    <artifactId>validation-tck-tests</artifactId>
                                     <type>xml</type>
                                     <classifier>suite</classifier>
                                     <overWrite>false</overWrite>
@@ -169,4 +169,52 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>sigtest</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-dependencies</id>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>unpack-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <stripVersion>true</stripVersion>
+                                    <overWriteReleases>true</overWriteReleases>
+                                    <outputDirectory>target/classes</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>jakarta.tck</groupId>
+                        <artifactId>sigtest-maven-plugin</artifactId>
+                        <version>2.2</version>
+                        <executions>
+                            <execution>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <packages>jakarta.validation,jakarta.validation.bootstrap,jakarta.validation.constraints,
+                                jakarta.validation.constraintvalidation,jakarta.validation.executable,jakarta.validation.groups,
+                                jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
+                            </packages>
+                            <sigfile>../../artifacts/validation-tck-tests-${tck.version}-sigtest-jdk17.sig</sigfile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

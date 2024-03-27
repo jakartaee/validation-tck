@@ -12,12 +12,12 @@
 
     <parent>
         <groupId>jakarta.validation</groupId>
-        <artifactId>beanvalidation-tck-parent</artifactId>
-        <version>3.1.0-M2</version>
+        <artifactId>validation-tck-parent</artifactId>
+        <version>3.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>beanvalidation-tck-tests</artifactId>
+    <artifactId>validation-tck-tests</artifactId>
     <packaging>jar</packaging>
 
     <name>Jakarta Validation TCK Test Suite</name>
@@ -165,6 +165,11 @@
                                     <file>${basedir}/target/coverage-report/coverage-beanvalidation.html</file>
                                     <type>html</type>
                                     <classifier>coverage</classifier>
+                                </artifact>
+                                <artifact>
+                                    <file>${basedir}/target/classes/validation-api-jdk17.sig</file>
+                                    <type>sig</type>
+                                    <classifier>sigtest-jdk17</classifier>
                                 </artifact>
                             </artifacts>
                         </configuration>

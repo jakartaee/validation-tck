@@ -10,7 +10,7 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">    <id>dist</id>
-    <baseDirectory>beanvalidation-tck-dist-${project.version}</baseDirectory>
+    <baseDirectory>validation-tck-dist-${project.version}</baseDirectory>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
@@ -20,8 +20,8 @@
             <outputDirectory>artifacts</outputDirectory>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <includes>
-                <include>jakarta.validation:beanvalidation-tck-tests</include>
-                <include>jakarta.validation:beanvalidation-standalone-container-adapter</include>
+                <include>jakarta.validation:validation-tck-tests</include>
+                <include>jakarta.validation:validation-standalone-container-adapter</include>
             </includes>
         </dependencySet>
 
@@ -29,8 +29,8 @@
             <outputDirectory>lib</outputDirectory>
             <useTransitiveDependencies>true</useTransitiveDependencies>
             <excludes>
-                <exclude>jakarta.validation:beanvalidation-tck-tests</exclude>
-                <exclude>jakarta.validation:beanvalidation-standalone-container-adapter</exclude>
+                <exclude>jakarta.validation:validation-tck-tests</exclude>
+                <exclude>jakarta.validation:validation-standalone-container-adapter</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>
@@ -69,7 +69,6 @@
             <includes>
                 <include>tck-audit.xml</include>
                 <include>tck-tests.xml</include>
-                <include>validation-api-java8.sig</include>
             </includes>
         </fileSet>
         <fileSet>
