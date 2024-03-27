@@ -13,7 +13,7 @@ sections.
 The TCK distribution comes with a directory
 `setup-examples` which contains an example maven project
 for running the TCK. If you followed the instructions in <<installation>> you find the directory under
-`jakarta-bean-validation/tck/setup-examples/maven`. The example is using
+`validation-tck-dist-{tck-version}/setup-examples/maven`. The example is using
 Hibernate Validator as Jakarta Validation Provider and Eclipse GlassFish 7.0+ as the Jakarta EE
 constainer.
 
@@ -43,8 +43,8 @@ modify the file (see also the TestNG http://testng.org/doc/documentation-main.ht
 
 [source,xml]
 ----
-<suite name="Jakarta-Bean-Validation-TCK" verbose="1">
-    <test name="Jakarta-Bean-Validation-TCK">
+<suite name="Jakarta-Validation-TCK" verbose="1">
+    <test name="Jakarta-Validation-TCK">
 
         <method-selectors>
             <method-selector>

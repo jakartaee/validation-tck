@@ -8,8 +8,8 @@
 -->
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Jakarta-Bean-Validation-TCK" verbose="1">
-    <test name="Jakarta-Bean-Validation-TCK">
+<suite name="Jakarta-Validation-TCK" verbose="1">
+    <test name="Jakarta-Validation-TCK">
 
         <method-selectors>
             <method-selector>
