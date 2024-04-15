@@ -66,6 +66,7 @@ public class ValidateConstructorParametersTest extends AbstractTCKTest {
 				.withClass( OrderLine.class )
 				.withClass( User.class )
 				.withClass( StockItemRecord.class )
+                .withClass( ComplexStockItemRecord.class )
 				.withClass( ContainerElementsOrder.class )
 				.withClass( ProductCategory.class )
 				.build();
