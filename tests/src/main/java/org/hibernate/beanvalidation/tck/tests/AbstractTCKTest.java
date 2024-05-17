@@ -6,6 +6,8 @@
  */
 package org.hibernate.beanvalidation.tck.tests;
 
+import java.net.URISyntaxException;
+
 import com.beust.jcommander.JCommander;
 import jakarta.validation.Validator;
 import jakarta.validation.executable.ExecutableValidator;
@@ -48,18 +50,9 @@ public abstract class AbstractTCKTest extends Arquillian {
 		// Thus we use the protection domain API to obtain the original jar and include it in the war.
 		// According to our security policy, the TCK has the permission to access the API even if
 		// the security manager is enabled.
-		webArchiveBuilder.withAdditionalJar( Assert.class.getProtectionDomain()
-				.getCodeSource()
-				.getLocation()
-				.getPath()
-		);
+		webArchiveBuilder.withAdditionalJar( jarPath( Assert.class ) );
 		// testng 6.14.3 has dependency on jcommander
-		webArchiveBuilder.withAdditionalJar( JCommander.class.getProtectionDomain()
-													 .getCodeSource()
-													 .getLocation()
-													 .getPath()
-		);
-
+		webArchiveBuilder.withAdditionalJar( jarPath( JCommander.class ) );
 
 		return webArchiveBuilder;
 	}
@@ -76,5 +69,18 @@ public abstract class AbstractTCKTest extends Arquillian {
 			executableValidator = getValidator().forExecutables();
 		}
 		return executableValidator;
+	}
+
+	private static String jarPath(Class<?> libraryClass) {
+		try {
+			return libraryClass.getProtectionDomain()
+					.getCodeSource()
+					.getLocation()
+					.toURI()
+					.getPath();
+		}
+		catch (URISyntaxException e) {
+			throw new IllegalStateException( "Cannot resolve jar path for " + libraryClass.getPackageName(), e );
+		}
 	}
 }
