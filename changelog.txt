@@ -3,6 +3,12 @@ Jakarta Validation TCK Changelog
 
 See also https://hibernate.atlassian.net/projects/BVTCK/issues
 
+3.1.1 (04-06-2024)
+------------------------
+* Adding lib jars to the web archive in TCK may result in an error if the path to
+the jar has escapable symbols
+** https://github.com/jakartaee/validation-spec/issues/284
+
 3.1.0 (27-03-2024)
 ------------------------
 ** Renamed Jakarta Bean Validation to Jakarta Validation
