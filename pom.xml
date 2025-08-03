@@ -18,9 +18,9 @@
     <groupId>jakarta.validation</groupId>
     <artifactId>validation-tck-parent</artifactId>
     <packaging>pom</packaging>
-    <version>3.1.1</version>
+    <version>4.0.0-SNAPSHOT</version>
     <name>Jakarta Validation TCK Aggregator</name>
-    <url>http://beanvalidation.org/</url>
+    <url>https://beanvalidation.org/</url>
 
     <description>Jakarta Validation TCK</description>
 
@@ -58,28 +58,28 @@
             <name>Emmanuel Bernard</name>
             <email>emmanuel@hibernate.org</email>
             <organization>Red Hat, Inc.</organization>
-            <url>http://in.relation.to/emmanuel-bernard/</url>
+            <url>https://in.relation.to/emmanuel-bernard/</url>
         </developer>
         <developer>
             <id>hardy.ferentschik</id>
             <name>Hardy Ferentschik</name>
             <email>hferents@redhat.com</email>
             <organization>Red Hat, Inc.</organization>
-            <url>http://in.relation.to/hardy-ferentschik/</url>
+            <url>https://in.relation.to/hardy-ferentschik/</url>
         </developer>
         <developer>
             <id>gunnar.morling</id>
             <name>Gunnar Morling</name>
             <email>gunnar@hibernate.org</email>
             <organization>Red Hat, Inc.</organization>
-            <url>http://in.relation.to/gunnar-morling/</url>
+            <url>https://in.relation.to/gunnar-morling/</url>
         </developer>
         <developer>
             <id>guillaume.smet</id>
             <name>Guillaume Smet</name>
             <email>guillaume.smet@hibernate.org</email>
             <organization>Red Hat, Inc.</organization>
-            <url>http://in.relation.to/guillaume-smet/</url>
+            <url>https://in.relation.to/guillaume-smet/</url>
         </developer>
     </developers>
 
