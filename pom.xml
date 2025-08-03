@@ -32,8 +32,8 @@
     </modules>
 
     <issueManagement>
-        <system>JIRA</system>
-        <url>https://hibernate.atlassian.net/projects/BVTCK/</url>
+        <system>GitHub</system>
+        <url>https://github.com/jakartaee/validation-tck/issues</url>
     </issueManagement>
 
     <inceptionYear>2008</inceptionYear>
