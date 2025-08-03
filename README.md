@@ -1,4 +1,4 @@
-!# Jakarta Validation TCK
+# Jakarta Validation TCK
 *Version: 3.1.0 - 24-01-2024*
 
 This repository contains the Jakarta Validation 3.1
