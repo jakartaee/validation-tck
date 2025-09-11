@@ -238,7 +238,7 @@
                                     <version>3.0.3</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[8,22)</version>
+                                    <version>[8,26)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
@@ -281,6 +281,8 @@
                         <exclude>beanvalidation-release-scripts/**</exclude>
                         <exclude>validation-release-scripts/**</exclude>
                         <exclude>.mvn/**</exclude>
+                        <exclude>mvnw</exclude>
+                        <exclude>mvnw.cmd</exclude>
                     </excludes>
                 </configuration>
                 <executions>
