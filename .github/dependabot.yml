@@ -31,3 +31,9 @@ updates:
           - "org.apache.maven*:*"
           # Test dependencies:
           - "org.testng*"
+    ignore:
+      # We have a fixed major version of OpenJFX to work with the min JDK we require
+      - dependency-name: "org.openjfx:*"
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
