@@ -125,6 +125,7 @@
         <jboss.test.audit.version>2.0.0.Final</jboss.test.audit.version>
         <arquillian.version>1.8.0.Final</arquillian.version>
         <shrinkwrap.descriptors.version>2.0.0</shrinkwrap.descriptors.version>
+        <openjfx.version>17.0.16</openjfx.version>
 
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.1.Final</hibernate-asciidoctor-theme.version>
@@ -214,6 +215,11 @@
                 <groupId>jakarta.el</groupId>
                 <artifactId>jakarta.el-api</artifactId>
                 <version>${jakarta.el.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-controls</artifactId>
+                <version>${openjfx.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
