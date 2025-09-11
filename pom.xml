@@ -134,7 +134,7 @@
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>10.12.7</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>11.0.1</com.puppycrawl.tools.version>
     </properties>
 
     <dependencyManagement>
