@@ -123,7 +123,7 @@
         <jakarta.annotation.version>3.0.0</jakarta.annotation.version>
 
         <jboss.test.audit.version>2.0.0.Final</jboss.test.audit.version>
-        <arquillian.version>1.8.0.Final</arquillian.version>
+        <arquillian.version>1.10.0.Final</arquillian.version>
         <shrinkwrap.descriptors.version>2.0.0</shrinkwrap.descriptors.version>
 
         <!-- Asciidoctor -->
