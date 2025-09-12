@@ -29,8 +29,14 @@ updates:
           # Maven plugins:
           - "*maven*plugin*"
           - "org.apache.maven*:*"
+          # Build dependencies:
+          - "com.puppycrawl*"
+          - "org.hibernate.infra*"
           # Test dependencies:
           - "org.testng*"
+          - "org.jboss.arquillian*"
+          - "org.jboss.shrinkwrap*"
+          - "org.assertj*"
     ignore:
       # We have a fixed major version of OpenJFX to work with the min JDK we require
       - dependency-name: "org.openjfx:*"
