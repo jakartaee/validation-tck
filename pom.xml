@@ -131,7 +131,7 @@
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.4.Final</hibernate-asciidoctor-theme.version>
         <asciidoctor-maven-plugin.version>3.2.0</asciidoctor-maven-plugin.version>
-        <asciidoctorj-pdf.version>2.3.10</asciidoctorj-pdf.version>
+        <asciidoctorj-pdf.version>2.3.19</asciidoctorj-pdf.version>
 
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
