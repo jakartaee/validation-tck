@@ -1,7 +1,8 @@
 # Jakarta Validation TCK
-*Version: 3.1.0 - 24-01-2024*
 
-This repository contains the Jakarta Validation 3.1
+[![Maven Central](https://img.shields.io/maven-central/v/jakarta.validation/validation-tck-distribution.svg?label=Maven%20Central&style=for-the-badge)](https://central.sonatype.com/search?namespace=jakarta.validation&sort=name)
+
+This repository contains the Jakarta Validation TCK 4.0
 [TCK](http://en.wikipedia.org/wiki/Technology_Compatibility_Kit).
 
 ## Build from Source
