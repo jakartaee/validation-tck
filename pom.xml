@@ -129,7 +129,7 @@
         <openjfx.version>17.0.16</openjfx.version>
 
         <!-- Asciidoctor -->
-        <hibernate-asciidoctor-theme.version>1.0.1.Final</hibernate-asciidoctor-theme.version>
+        <hibernate-asciidoctor-theme.version>1.0.4.Final</hibernate-asciidoctor-theme.version>
         <asciidoctor-maven-plugin.version>3.2.0</asciidoctor-maven-plugin.version>
         <asciidoctorj-pdf.version>2.3.10</asciidoctorj-pdf.version>
 
