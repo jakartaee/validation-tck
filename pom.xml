@@ -272,24 +272,20 @@
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
-                <version>3.0</version>
+                <version>5.0.0</version>
                 <configuration>
                     <header>${beanvalidation-tck-parent.basedir}/src/main/build-config/license.txt</header>
                     <strictCheck>true</strictCheck>
-                    <excludes>
-                        <exclude>**/*.txt</exclude>
-                        <exclude>**/*.properties</exclude>
-                        <exclude>**/*.sig</exclude>
-                        <exclude>**/*.asciidoc</exclude>
-                        <exclude>**/*.md</exclude>
-                        <exclude>**/*.html</exclude>
-                        <exclude>**/*.sh</exclude>
-                        <exclude>beanvalidation-release-scripts/**</exclude>
-                        <exclude>validation-release-scripts/**</exclude>
-                        <exclude>.mvn/**</exclude>
-                        <exclude>mvnw</exclude>
-                        <exclude>mvnw.cmd</exclude>
-                    </excludes>
+                    <headerDefinitions>
+                        <headerDefinition>${beanvalidation-tck-parent.basedir}/src/main/build-config/java-header-style.xml</headerDefinition>
+                    </headerDefinitions>
+                    <mapping>
+                        <java>JAVA_CLASS_STYLE</java>
+                    </mapping>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.xml</include>
+                    </includes>
                 </configuration>
                 <executions>
                     <execution>
