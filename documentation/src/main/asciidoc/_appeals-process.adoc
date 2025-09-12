@@ -3,49 +3,53 @@
 
 While the Jakarta Validation TCK is rigorous about enforcing an implementation's conformance to the Jakarta Validation specification,
 it's reasonable to assume that an implementor may discover new and/or better ways to validate the assertions.
-The appeals process is defined by the Jakarta EE https://github.com/jakartaee/specification-committee/blob/master/process.adoc[Jakarta EE TCK Process 1.0].
+The appeals process is defined by the https://jakarta.ee/committees/specification/tckprocess/[Jakarta EE TCK Process].
 
 === What challenges to the TCK may be submitted?
 
 Any test case (i.e. `@Test` method), test case
 configuration (e.g. `@Deployment`, validation.xml),
-test entities, annotations and other resources may be challenged by an
-appeal.
+test entities, annotations and other resources may be challenged by an appeal.
+See also what is considered to be a https://jakarta.ee/committees/specification/tckprocess/#_valid_challenges[valid challenge].
 
 What is generally not challengeable are the assertions made by the
 specification. The specification document is controlled by a separate
 process and challenges to it should be handled through the Jakarta Validation Specification project
 by sending an e-mail to mailto:bean-validation-dev@eclipse.org[bean-validation-dev@eclipse.org].
+See also what is considered to be an https://jakarta.ee/committees/specification/tckprocess/#_invalid_challenges[invalid challenge].
 
 === How these challenges are submitted?
 
 To submit a challenge, a new issue of type Bug should be created
-against https://hibernate.atlassian.net/browse/BVTCK[BVTCK] in the
-Hibernate JIRA instance. The appellant should complete the Summary,
-Component (TCK Appeal), Environment and Description fields only. Any
-communication regarding the issue should be added in the comments of the
+against https://github.com/jakartaee/validation-tck/issues[GitHub issues] of the Jakarta Validation TCK repository.
+The challenge request should include the following information:
+
+* The relevant specification version and section number(s)
+* The coordinates of the challenged test(s)
+* The exact TCK version
+* The implementation being tested, including name and company
+* A full description of why the test is invalid and what the correct behavior is believed to be
+* Any supporting material; debug logs, test output, test logs, run scripts, etc.
+* Any communication regarding the issue should be added in the comments of the
 issue for accurate record.
 
-To submit an issue in the Hibernate JIRA, you must have a (free)
-JIRA member account. You can create a member account using the https://hibernate.atlassian.net/secure/Signup!default.jspa[on-line
-registration].
+To submit a GitHub issue, you must have a (free) GitHub account.
+
+For additional information, see how to https://jakarta.ee/committees/specification/tckprocess/#_invalid_challenges[file a challenge].
 
 === How and by whom challenges are addressed?
 
-The challenges will be addressed in a timely fashion by the Bean Validation TCK Project Lead,
-as designated by the Specification Lead, Red Hat Inc., or his/her designate.
-The appellant can also monitor the process by
-watching the issue filed against https://hibernate.atlassian.net/browse/BVTCK[BVTCK].
+Challenges can be resolved by a specification project lead,
+or a project challenge triage team, after a consensus of the specification project committers is reached or attempts to gain consensus fails.
 
-The current TCK Project Lead is listed on the https://jakarta.ee/specifications/bean-validation[Bean Validation Project Summary Page] on Jakarta EE.
+The appellant can also monitor the process by watching the filed GitHub issue.
+
+The current TCK Project Lead and Project Committers are listed on the https://projects.eclipse.org/projects/ee4j.validation/who[Jakarta Validation Project Summary Page].
 
 === How accepted challenges to the TCK are managed?
 
-The workflow for TCK challenges is outlined in the https://github.com/jakartaee/specification-committee/blob/master/process.adoc[Jakarta EE TCK Process 1.0].
+The workflow for TCK challenges is outlined in the https://jakarta.ee/committees/specification/tckprocess/#_challenge_resolution[Jakarta EE TCK Process].
 
 Periodically, an updated TCK will be released, containing tests altered due to challenges - no new tests will be added.
 Implementations are required to pass the updated TCK.
 This release stream is named 4.0.x, where x will be incremented.
-
-Additionally, new tests will be added to the TCK improving coverage of the specification.
-We encourage implementations to pass this TCK, however it is not required.
