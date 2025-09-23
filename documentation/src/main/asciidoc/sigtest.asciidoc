@@ -20,14 +20,14 @@ validation tck distribution artifacts subdirectory as validation-tck-tests-{tckV
 To actually run a signature test, the `check` goal of the `sigtest-maven-plugin` can be used.
 The TCK distribution setup-examples/maven/pom-local.xml includes a sigtest profile that can be used to run the signature test.
 
-Running a profile with this plugin enabled against that Hibernate Validator 8.1.0.Final release produces:
+Running a profile with this plugin enabled against the Hibernate Validator 8.1.0.Final release produces:
 ```
 maven % mvn -Psigtest -Pstaging -f pom-local.xml process-sources
 ...
 [INFO] Scanning for projects...
 [INFO]
 [INFO] -------------------< jakarta.validation:tck-runner >--------------------
-[INFO] Building Example Jakarta Validation TCK Runner 3.1.0
+[INFO] Building Example Jakarta Validation TCK Runner 4.0.0
 [INFO]   from pom-local.xml
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO]
@@ -40,14 +40,14 @@ maven % mvn -Psigtest -Pstaging -f pom-local.xml process-sources
 Mar 27, 2024 3:17:33 PM com.sun.tdk.signaturetest.SignatureTest parseParameters
 ...
 [INFO] SignatureTest report
-Base version: 3.1.0
-Tested version: 3.1.0
+Base version: 4.0.0
+Tested version: 4.0.0
 Check mode: bin [throws removed]
 Constant checking: on
 
 
 
-[INFO] /private/tmp/validation-tck-dist-3.1.0/setup-examples/maven/target/surefire-reports/sigtest/TEST-tck-runner-3.1.0.xml: 0 failures in /private/tmp/validation-tck-dist-3.1.0/artifacts/validation-tck-tests-3.1.0-sigtest-jdk17.sig
+[INFO] /private/tmp/validation-tck-dist-4.0.0/setup-examples/maven/target/surefire-reports/sigtest/TEST-tck-runner-4.0.0.xml: 0 failures in /private/tmp/validation-tck-dist-4.0.0/artifacts/validation-tck-tests-4.0.0-sigtest-jdk17.sig
 ```
 
 === Forcing a signature test failure
@@ -59,7 +59,7 @@ signature file somewhere on your local file system and modify it. For example le
 After modifying the signature file, update the `sigfile` parameter of the `sigtest-maven-plugin` to point to the modified file:
 
 ```
-<sigfile>${path_to_folder_containing_your_modified_signature_file}/validation-api-java8.sig</sigfile>
+<sigfile>${path_to_folder_containing_your_modified_signature_file}/validation-tck-tests-{tckVersion}-sigtest-jdk17.sig</sigfile>
 ```
 
 If all is done correctly, while running `mvn sigtest:check` on your project, you should see
@@ -67,8 +67,8 @@ an error similar to next:
 
 ```
 [ERROR] SignatureTest report
-Base version: 3.1.0
-Tested version: 3.1.0
+Base version: 4.0.0
+Tested version: 4.0.0
 Check mode: bin [throws removed]
 Constant checking: on
 

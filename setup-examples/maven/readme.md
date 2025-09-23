@@ -1,6 +1,6 @@
 # Maven setup example to run the Jakarta Validation TCK
 
-This is an example setup to run the Jakarta Validation TCK 3.1 against Eclipse GlassFish 7+ using [Maven](https://maven.apache.org).
+This is an example setup to run the Jakarta Validation TCK 4.0 against Eclipse GlassFish 7+ using [Maven](https://maven.apache.org).
 
 ## Prerequisites
 
