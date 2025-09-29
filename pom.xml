@@ -115,7 +115,7 @@
         <hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
 
         <testng.version>7.11.0</testng.version>
-        <assertj-core.version>3.27.4</assertj-core.version>
+        <assertj-core.version>3.27.6</assertj-core.version>
 
         <jakarta.cdi.version>4.1.0</jakarta.cdi.version>
         <jakarta.el.version>6.0.1</jakarta.el.version>
@@ -136,7 +136,7 @@
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>11.0.1</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>11.1.0</com.puppycrawl.tools.version>
     </properties>
 
     <dependencyManagement>
