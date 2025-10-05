@@ -241,10 +241,10 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.0.3</version>
+                                    <version>${version.min.maven}</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <version>[8,26)</version>
+                                    <version>[17,27)</version>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
