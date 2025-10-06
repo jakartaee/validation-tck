@@ -130,7 +130,7 @@
 
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.4.Final</hibernate-asciidoctor-theme.version>
-        <asciidoctorj-pdf.version>2.3.19</asciidoctorj-pdf.version>
+        <asciidoctorj-pdf.version>2.3.20</asciidoctorj-pdf.version>
 
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
