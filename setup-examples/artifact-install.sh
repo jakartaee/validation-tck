@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # Location where the Validation TCK dist has been extracted
-TCK_DIST=/tmp/BV/validation-tck-dist-${tck.version}
+if [ -z "$TCK_DIST" ]; then
+  TCK_DIST=/tmp/BV/validation-tck-dist-${tck.version}
+fi
 
 # Parent pom
 mvn org.apache.maven.plugins:maven-install-plugin:3.1.1:install-file \
