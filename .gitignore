@@ -5,6 +5,7 @@
 # Build output directories
 /target
 */target
+**/*/target
 */test-output
 
 # IntelliJ specific files/directories
@@ -21,4 +22,3 @@
 
 # Release scripts
 /beanvalidation-release-scripts
-
