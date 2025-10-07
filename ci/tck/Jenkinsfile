@@ -1,0 +1,92 @@
+/*
+ * Jakarta Validation API
+ *
+ * License: Apache License, Version 2.0
+ * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+@Library('releng-pipeline') _
+
+// Avoid running the pipeline on branch indexing
+if (currentBuild.getBuildCauses().toString().contains('BranchIndexingCause')) {
+	print "INFO: Build skipped due to trigger being Branch Indexing"
+	currentBuild.result = 'NOT_BUILT'
+	return
+}
+
+pipeline {
+	agent none
+	triggers {
+		cron '@midnight'
+	}
+	options {
+		buildDiscarder logRotator(daysToKeepStr: '10', numToKeepStr: '3')
+		disableConcurrentBuilds(abortPrevious: true)
+		overrideIndexTriggers(false)
+	}
+	stages {
+		stage('Test') {
+			matrix {
+				axes {
+					axis {
+						name 'JDK_FOR_TEST'
+						values 'openjdk-jdk25-latest', 'openjdk-jdk21-latest', 'openjdk-jdk17-latest'
+					}
+					axis {
+						name 'JAKARTA_VALIDATION_IMPLEMENTATION'
+						values 'hibernate-validator', 'bval'
+					}
+				}
+				stages {
+					stage('Run TCK') {
+						agent {
+							label 'basic'
+						}
+						stages {
+							stage('Prebuild TCK') {
+								steps {
+									withMaven(jdk: env.JDK_FOR_TEST, maven: 'apache-maven-3.9.11',
+											mavenLocalRepo: env.WORKSPACE_TMP + '/.m2repository',
+											options: [
+													artifactsPublisher(disabled: true),
+													junitPublisher(disabled: true)
+											]) {
+										sh './mvnw clean install -DskipTests -Denforcer.skip=true'
+									}
+								}
+							}
+							stage('TCK Standalone') {
+								steps {
+									withMaven(jdk: env.JDK_FOR_TEST, maven: 'apache-maven-3.9.11',
+											mavenLocalRepo: env.WORKSPACE_TMP + '/.m2repository',
+											options: [
+													artifactsPublisher(disabled: true),
+													junitPublisher(disabled: true)
+											]) {
+										sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=4.0.0-SNAPSHOT -P${env.JAKARTA_VALIDATION_IMPLEMENTATION}"
+									}
+								}
+							}
+
+							stage('TCK Sigtest') {
+								steps {
+									withMaven(jdk: env.JDK_FOR_TEST, maven: 'apache-maven-3.9.11',
+											mavenLocalRepo: env.WORKSPACE_TMP + '/.m2repository',
+											options: [
+													artifactsPublisher(disabled: true),
+													junitPublisher(disabled: true)
+											]) {
+										script {
+											def sigFileLocation = sh(script: 'echo $(pwd)/tests/target/classes/validation-api-jdk17.sig', returnStdout: true).trim()
+											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=4.0.0-SNAPSHOT -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psigtest -Dsigfile-location=$sigFileLocation"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
