@@ -1,12 +1,12 @@
 # Jakarta Validation TCK setup examples
 
-This directory contains [Ant](https://ant.apache.org) and [Maven](https://maven.apache.org/) setup examples for
-running the [Jakarta Validation](https://github.com/jakartaee/validation-tck) TCK against [Eclipse GlassFish 7+](https://projects.eclipse.org/projects/ee4j.glassfish/downloads),
-the ratifying implementation for Jakarta EE 10.
+This directory contains [Maven](https://maven.apache.org/) setup examples for
+running the [Jakarta Validation](https://github.com/jakartaee/validation-tck) TCK against [WildFly](https://www.wildfly.org/),
+the implementation for Jakarta EE 11.
 
 Each setup contains a readme outlining how to run the test harness using the given build system. These setups
 serve as guide and can be adjusted to run against other EE containers. An example for running against WildFly can
-be found as part of the [Hibernate Validator TCK Runner](https://github.com/hibernate/hibernate-validator/tree/master/tck-runner)
+be found as part of the [Hibernate Validator TCK Runner](https://github.com/hibernate/hibernate-validator/tree/main/tck-runner)
 setup. It is the responsibility of the container to provide all Jakarta Validation dependencies, namely the Jakarta Validation API
 as well as the Jakarta Validation provider. The latter is the so-called Jakarta Validation provider under test.
 

@@ -63,11 +63,38 @@ pipeline {
 													artifactsPublisher(disabled: true),
 													junitPublisher(disabled: true)
 											]) {
-										sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=4.0.0-SNAPSHOT -P${env.JAKARTA_VALIDATION_IMPLEMENTATION}"
+										script {
+											def tckVersion = sh(script: './mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=${tckVersion} -P${env.JAKARTA_VALIDATION_IMPLEMENTATION}"
+										}
 									}
 								}
 							}
+							stage('TCK In Container') {
+								when {
+									expression {
+										return env.JAKARTA_VALIDATION_IMPLEMENTATION == "hibernate-validator"
+									}
+								}
+								steps {
+									withMaven(jdk: env.JDK_FOR_TEST, maven: 'apache-maven-3.9.11',
+											mavenLocalRepo: env.WORKSPACE_TMP + '/.m2repository',
+											options: [
+													artifactsPublisher(disabled: true),
+													junitPublisher(disabled: true)
+											]) {
+										script {
+											def tckVersion = sh(script: './mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+											echo "Preparing the WildFly server as a container..."
+											sh "./mvnw clean package -f setup-examples/maven/pom.xml -Dtck.version=${tckVersion} -Pprepare-server"
 
+											def serverLocation = sh(script: 'echo $(pwd)/setup-examples/maven/target/wildfly-patched/wildfly-preview-37.0.1.Final', returnStdout: true).trim()
+											echo "Running in-container tests..."
+											sh "./mvnw verify -f setup-examples/maven/pom.xml -Dtck.version=${tckVersion} -Pin-container-test -Dcontainer.home=${serverLocation}"
+										}
+									}
+								}
+							}
 							stage('TCK Sigtest') {
 								steps {
 									withMaven(jdk: env.JDK_FOR_TEST, maven: 'apache-maven-3.9.11',
@@ -77,8 +104,9 @@ pipeline {
 													junitPublisher(disabled: true)
 											]) {
 										script {
+											def tckVersion = sh(script: './mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
 											def sigFileLocation = sh(script: 'echo $(pwd)/tests/target/classes/validation-api-jdk17.sig', returnStdout: true).trim()
-											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=4.0.0-SNAPSHOT -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psigtest -Dsigfile-location=$sigFileLocation"
+											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=${tckVersion} -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psigtest -Dsigfile-location=$sigFileLocation"
 										}
 									}
 								}

@@ -1,50 +1,45 @@
 # Maven setup example to run the Jakarta Validation TCK
 
-This is an example setup to run the Jakarta Validation TCK 4.0 against Eclipse GlassFish 7+ using [Maven](https://maven.apache.org).
+This is an example setup to run the Jakarta Validation TCK 4.0 against WildFly Preview 37+ using [Maven](https://maven.apache.org).
 
 ## Prerequisites
 
 * [Git](http://git-scm.com)
 * [Maven](https://maven.apache.org) >= 3.9.0
 * [JDK 17](https://adoptium.net/temurin/releases/)
-* [Eclipse GlassFish 7+](https://projects.eclipse.org/projects/ee4j.glassfish/downloads) installation
+* [WildFly Preview](https://github.com/wildfly/wildfly/releases) installation
 
 ## How to run
 
-1. Extract Eclipse GlassFish into a directory (this directory is referenced subsequently as <container.home>)
-1. Add the JVM option _validation.provider_ to _domain.xml_ under <container.home>/domains/domain1/config/domain.xml in
-   the <java-config> section (this is used by the test harness to look up the Jakarta Validation provider under test):
-
-        <java-config>
-            ...
-           <jvm-options>-Dvalidation.provider=org.hibernate.validator.HibernateValidator</jvm-options>
-        </java-config>
-1. Make sure that _container.home_ in _pom.xml_ points to your <container.home> directory
+1. Prepare the WildFly Preview installation first. This can be done with the following maven command:
+    ```shell
+    ./mvnw clean package -f setup-examples/maven/pom.xml -Dtck.version=4.0.0-SNAPSHOT -Pprepare-server
+    ```
+   Or alternatively, download the WildFly distribution, patch the validation module with the required Jakarta Validation API version, 
+   and with your validation provider.
+1. Make sure that _container.home_ in _pom.xml_ points to your <container.home> directory. Can be passed as part of the maven command via `-Dcontainer.home=path/to/your/wildfly`
 1. Extract the BV TCK distribution.
 1. Edit the setup-examples/artifact-install.sh script and set the TCK_DIST to the path of the extracted BV TCK.
+   Or use the `TCK_DIST` environment variable to point to the extracted TCK  
 1. Run once:
-
-        bash ../artifact-install.sh
-
-1. Run the TCK tests against the default glassfish-managed profile:
-
-        mvn test
-> Note: when testing a staged final TCK you need to use the -Pstaging profile
-        mvn -Pstaging test
-
+   ```shell
+   bash ../artifact-install.sh
+   ```
+1. Run the TCK tests against the default in-container profile:
+   ```shell
+   ./mvnw verify -f pom.xml -Pin-container-test -Dcontainer.home=path/to/your/wildfly
+   ```
 Test results can be found in _target/surefire-reports/index.html_
-
-## Running tests against a running GlassFish 7+ instance
-There is a glassfish-remote profile that allows the testsuite to run against
-a running GlassFish 7+ instance. To use that profile, run with:
-
-        mvn -Pglassish-remote test
 
 ## Running local only tests
 You can run the tests that do not require a Jakarta EE container
 by using the pom-local.xml file:
 
-        mvn -f pom-local.xml test
-or when using staged TCKs:
+```shell
+./mvnw -f pom-local.xml test -Phibernate-validator
+```
 
-        mvn -f pom-local.xml -Pstaging test
+    # Note: pom-local.xml example comes with hibernate-validator/bval profiles
+    # to run with the tests against one of the implementations.
+
+NOTE: if you run these examples from this repository directly, you need to specify the TCK version to use via `-Dtck.version=4.0.0`
