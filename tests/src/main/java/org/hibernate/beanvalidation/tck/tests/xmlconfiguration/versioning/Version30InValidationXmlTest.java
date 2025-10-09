@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 /**
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class Version30InValidationXmlTest extends AbstractTCKTest {
 
 	@Deployment
@@ -36,7 +36,7 @@ public class Version30InValidationXmlTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.XML_CONFIG_XSD, id = "a")
-	public void testValidationXmlVersion20() {
+	public void testValidationXmlVersion30() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertEquals(
 				config.getBootstrapConfiguration().getClockProviderClassName(),

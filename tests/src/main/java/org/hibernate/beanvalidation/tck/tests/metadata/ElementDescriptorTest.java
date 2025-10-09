@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class ElementDescriptorTest extends AbstractTCKTest {
 
 	@Deployment

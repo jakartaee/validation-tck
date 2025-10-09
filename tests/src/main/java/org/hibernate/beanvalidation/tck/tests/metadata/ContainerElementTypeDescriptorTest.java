@@ -55,7 +55,7 @@ import org.testng.annotations.Test;
 /**
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 	@Deployment

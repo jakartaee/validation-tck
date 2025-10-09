@@ -11,6 +11,6 @@
         xmlns="https://jakarta.ee/xml/ns/validation/configuration"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/configuration
-            https://jakarta.ee/xml/ns/validation/validation-configuration-3.0.xsd"
+            https://jakarta.ee/xml/ns/validation/validation-configuration-4.0.xsd"
         version="1.2">
 </validation-config>

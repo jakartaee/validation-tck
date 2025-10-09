@@ -8,9 +8,9 @@
 
 -->
 <validation-config xmlns="https://jakarta.ee/xml/ns/validation/configuration"
-                   xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/configuration validation-configuration-3.0.xsd"
+                   xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/configuration validation-configuration-4.0.xsd"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   version="3.0">
+                   version="4.0">
     <constraint-mapping>
         org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constructorvalidation/customer-repository-constraints-UnknownConstructorValidationTest.xml
     </constraint-mapping>
