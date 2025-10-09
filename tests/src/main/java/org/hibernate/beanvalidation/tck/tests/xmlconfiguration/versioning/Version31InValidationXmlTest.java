@@ -8,35 +8,33 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
 import static org.testng.Assert.assertEquals;
 
-import jakarta.validation.Configuration;
-
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
+
+import jakarta.validation.Configuration;
 import org.testng.annotations.Test;
 
-/**
- * @author Guillaume Smet
- */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
-public class Version30InValidationXmlTest extends AbstractTCKTest {
+@SpecVersion(spec = "beanvalidation", version = "3.1.0")
+public class Version31InValidationXmlTest extends AbstractTCKTest {
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
-				.withTestClass( Version30InValidationXmlTest.class )
+				.withTestClass( Version31InValidationXmlTest.class )
 				.withClass( DummyClockProvider.class )
-				.withValidationXml( "validation-Version30InValidationXmlTest.xml" )
+				.withValidationXml( "validation-Version31InValidationXmlTest.xml" )
 				.build();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.XML_CONFIG_XSD, id = "a")
-	public void testValidationXmlVersion30() {
+	public void testValidationXmlVersion31() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		assertEquals(
 				config.getBootstrapConfiguration().getClockProviderClassName(),
