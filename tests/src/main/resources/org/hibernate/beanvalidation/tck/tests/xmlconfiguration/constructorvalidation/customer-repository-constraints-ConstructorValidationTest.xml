@@ -10,7 +10,7 @@
 <constraint-mappings
         xmlns="https://jakarta.ee/xml/ns/validation/mapping"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/mapping validation-mapping-3.0.xsd" version="3.0">
+        xsi:schemaLocation="https://jakarta.ee/xml/ns/validation/mapping validation-mapping-4.0.xsd" version="4.0">
 
     <default-package>org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constructorvalidation</default-package>
     <bean class="CustomerRepository">
