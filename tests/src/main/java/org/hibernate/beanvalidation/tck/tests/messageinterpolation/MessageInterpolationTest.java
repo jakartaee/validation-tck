@@ -54,7 +54,7 @@ import org.testng.annotations.Test;
  * @author Hardy Ferentschik
  * @author Gunnar Morling
  */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class MessageInterpolationTest extends AbstractTCKTest {
 
 	@Deployment

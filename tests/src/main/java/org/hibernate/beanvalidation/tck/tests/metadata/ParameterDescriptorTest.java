@@ -39,7 +39,7 @@ import org.testng.annotations.Test;
  * @author Gunnar Morling
  * @author Guillaume Smet
  */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class ParameterDescriptorTest extends AbstractTCKTest {
 
 	@Deployment

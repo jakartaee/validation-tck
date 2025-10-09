@@ -20,7 +20,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import jakarta.validation.Configuration;
 import org.testng.annotations.Test;
 
-@SpecVersion(spec = "beanvalidation", version = "3.1.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class Version31InValidationXmlTest extends AbstractTCKTest {
 
 	@Deployment

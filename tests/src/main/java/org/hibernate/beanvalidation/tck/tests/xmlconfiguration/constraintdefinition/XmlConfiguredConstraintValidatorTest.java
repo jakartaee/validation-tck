@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@SpecVersion(spec = "beanvalidation", version = "3.0.0")
+@SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class XmlConfiguredConstraintValidatorTest extends AbstractTCKTest {
 
 	public final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdefinition/";
