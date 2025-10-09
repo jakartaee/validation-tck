@@ -542,5 +542,17 @@
                 <createChecksum>true</createChecksum>
             </properties>
         </profile>
+        <profile>
+            <id>license-apache</id>
+            <properties>
+                <license.file>license.txt</license.file>
+            </properties>
+        </profile>
+        <profile>
+            <id>license-eftl</id>
+            <properties>
+                <license.file>EFTL.txt</license.file>
+            </properties>
+        </profile>
     </profiles>
 </project>
