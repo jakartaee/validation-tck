@@ -264,11 +264,6 @@
                 <configuration>
                     <compilerArgument>-proc:none</compilerArgument>
                     <compilerArgument>-parameters</compilerArgument>
-
-                    <source>16</source>
-                    <target>16</target>
-                    <testSource>16</testSource>
-                    <testTarget>16</testTarget>
                 </configuration>
             </plugin>
         </plugins>
