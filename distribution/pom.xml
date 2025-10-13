@@ -76,4 +76,22 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>jdk21</id>
+            <activation>
+                <jdk>[21;)</jdk>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>jakarta.validation</groupId>
+                    <artifactId>validation-tck-tests</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>sigtest-jdk21</classifier>
+                    <type>sig</type>
+                    <optional>true</optional>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

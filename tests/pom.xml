@@ -243,19 +243,31 @@
                 <artifactId>sigtest-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>generate-jdk-17</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
+                        <configuration>
+                            <sigfile>target/classes/validation-api-jdk17.sig</sigfile>
+                            <release>17</release>
+                            <releaseVersion>17</releaseVersion>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
                     <classes>${project.build.directory}/validation-api</classes>
-                    <packages>jakarta.validation,jakarta.validation.bootstrap,jakarta.validation.constraints,
-                        jakarta.validation.constraintvalidation,jakarta.validation.executable,jakarta.validation.groups,
-                        jakarta.validation.metadata,jakarta.validation.spi,jakarta.validation.valueextraction
+                    <packages>
+                        jakarta.validation,jakarta.validation.bootstrap,
+                        jakarta.validation.constraints,
+                        jakarta.validation.constraintvalidation,
+                        jakarta.validation.executable,
+                        jakarta.validation.groups,
+                        jakarta.validation.metadata,
+                        jakarta.validation.spi,
+                        jakarta.validation.valueextraction
                     </packages>
                     <attach>false</attach>
-                    <sigfile>target/classes/validation-api-jdk17.sig</sigfile>
+                    <ignoreJDKClasses/>
                 </configuration>
             </plugin>
             <plugin>
@@ -275,6 +287,55 @@
             <properties>
                 <createChecksum>true</createChecksum>
             </properties>
+        </profile>
+        <profile>
+            <id>jdk21</id>
+            <activation>
+                <jdk>[21,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>jakarta.tck</groupId>
+                        <artifactId>sigtest-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-jdk-21</id>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <sigfile>target/classes/validation-api-jdk21.sig</sigfile>
+                                    <release>21</release>
+                                    <releaseVersion>21</releaseVersion>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-artifacts-21</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${basedir}/target/classes/validation-api-jdk21.sig</file>
+                                            <type>sig</type>
+                                            <classifier>sigtest-jdk21</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
