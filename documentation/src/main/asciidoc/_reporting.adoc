@@ -145,7 +145,7 @@ you are going to get a summary of the test run on the commandline.
 Here's the output generated when the tests are run using standalone
 mode.
 
-[source]
+[source,bash]
 ----
 -------------------------------------------------------
  T E S T S

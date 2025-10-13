@@ -157,17 +157,17 @@
                         <configuration>
                             <backend>html5</backend>
                             <outputDirectory>${asciidoctor.base-output-dir}/html_single</outputDirectory>
-                            <sourceHighlighter>prettify</sourceHighlighter>
                             <attributes>
                                 <stylesdir>css</stylesdir>
                                 <iconfont-remote>false</iconfont-remote>
                                 <iconfont-name>font-awesome/css/font-awesome.min</iconfont-name>
+                                <source-highlighter>rouge</source-highlighter>
                             </attributes>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
-                    <sourceDocumentName>index.asciidoc</sourceDocumentName>
+                    <sourceDocumentName>index.adoc</sourceDocumentName>
                     <attributes>
                         <docinfodir>${asciidoctor.aggregated-resources-dir}/docinfo</docinfodir>
                         <icons>font</icons>
