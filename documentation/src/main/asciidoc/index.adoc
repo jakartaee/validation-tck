@@ -14,21 +14,21 @@ Emmanuel Bernard - Red Hat, Inc.; Hardy Ferentschik - Red Hat, Inc.; Gunnar Morl
 
 // PDF uses :title-logo-image: on first page, no need to repeat image later on
 ifndef::backend-pdf[]
-image::beanvalidation_logo_smaller.png[align="center"]
+image::images/beanvalidation_logo_smaller.png[align="center"]
 endif::[]
 
-include::preface.asciidoc[]
+include::_preface.adoc[]
 
 :numbered:
 
-include::introduction.asciidoc[]
+include::_introduction.adoc[]
 
-include::appeals-process.asciidoc[]
+include::_appeals-process.adoc[]
 
-include::installation.asciidoc[]
+include::_installation.adoc[]
 
-include::reporting.asciidoc[]
+include::_reporting.adoc[]
 
-include::configuration.asciidoc[]
+include::_configuration.adoc[]
 
-include::sigtest.asciidoc[]
+include::_sigtest.adoc[]
