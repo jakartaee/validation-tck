@@ -249,7 +249,7 @@ public abstract class ArchiveBuilder<T extends ArchiveBuilder<T, A>, A extends A
 	 *
 	 * @author Martin Kouba
 	 */
-	protected class ServiceProviderDescriptor {
+	protected static class ServiceProviderDescriptor {
 		private final Class<?> serviceInterface;
 
 		private final Class<?>[] serviceImplementations;
