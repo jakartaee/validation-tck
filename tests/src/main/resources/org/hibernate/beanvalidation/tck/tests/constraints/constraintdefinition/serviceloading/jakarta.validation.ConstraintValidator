@@ -1,0 +1,2 @@
+org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition.serviceloading.ServiceLoadedConstraintValidator
+org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition.serviceloading.SizeServiceLoadedConstraintValidator
