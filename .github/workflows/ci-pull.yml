@@ -47,4 +47,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build TCK
-        run: ./mvnw clean install
+        run: ./mvnw clean install -Psnapshots
