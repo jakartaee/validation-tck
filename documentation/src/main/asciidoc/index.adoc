@@ -9,13 +9,6 @@ Emmanuel Bernard - Red Hat, Inc.; Hardy Ferentschik - Red Hat, Inc.; Gunnar Morl
 :toc: left
 :docinfodir: {docinfodir}
 :docinfo:
-// Comment out logo for final release for now
-//:title-logo-image: image:beanvalidation_logo.png[align=left,pdfwidth=20%]
-
-// PDF uses :title-logo-image: on first page, no need to repeat image later on
-ifndef::backend-pdf[]
-image::images/beanvalidation_logo_smaller.png[align="center"]
-endif::[]
 
 include::_preface.adoc[]
 
