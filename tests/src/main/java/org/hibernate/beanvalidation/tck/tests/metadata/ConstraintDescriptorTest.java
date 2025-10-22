@@ -6,6 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintDescriptorsFor;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -81,6 +82,14 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 						5,
 						"The min parameter should reflect the overridden parameter"
 				);
+				assertEquals(
+						desc.getAttribute( "min", Integer.class ),
+						5,
+						"The min parameter should reflect the overridden parameter"
+				);
+
+				assertThatThrownBy( () -> desc.getAttribute( "min", StringBuilder.class ) )
+						.isInstanceOf( ClassCastException.class );
 			}
 			else if ( desc.getAnnotation().annotationType().equals( NotNull.class ) ) {
 			}
@@ -113,7 +122,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetGroups() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertTrue( groups.size() == 1 );
+		assertEquals( groups.size(), 1 );
 		assertEquals( groups.iterator().next(), Person.PersonValidation.class, "Wrong group" );
 	}
 
@@ -122,7 +131,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetGroupsOnInterface() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertTrue( groups.size() == 1 );
+		assertEquals( groups.size(), 1 );
 		assertEquals( groups.iterator().next(), Default.class, "Wrong group" );
 	}
 
@@ -131,7 +140,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetGroupsWithImplicitGroup() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Man.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertTrue( groups.size() == 2 );
+		assertEquals( groups.size(), 2 );
 		for ( Class<?> group : groups ) {
 			if ( !( group.equals( Default.class ) || group.equals( Person.class ) ) ) {
 				fail( "Invalid group." );
@@ -144,7 +153,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testDefaultGroupIsReturnedIfNoGroupSpecifiedInDeclaration() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertTrue( groups.size() == 1 );
+		assertEquals( groups.size(), 1 );
 		assertEquals( groups.iterator().next(), Default.class, "Wrong group" );
 	}
 
@@ -156,7 +165,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
 		assertEquals( composingDescriptors.size(), 2, "Wrong number of composing constraints" );
 		for ( ConstraintDescriptor<?> desc : composingDescriptors ) {
-			assertTrue( desc.getGroups().size() == 1 );
+			assertEquals( desc.getGroups().size(), 1 );
 			assertEquals( desc.getGroups().iterator().next(), Person.PersonValidation.class, "Wrong group" );
 		}
 	}
@@ -166,13 +175,13 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<? extends Payload>> payload = descriptor.getPayload();
-		assertTrue( payload.size() == 1 );
+		assertEquals( payload.size(), 1 );
 		assertEquals( payload.iterator().next(), Severity.Info.class, "Wrong payload" );
 
 		descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		payload = descriptor.getPayload();
-		assertTrue( payload != null );
-		assertTrue( payload.size() == 0 );
+		assertNotNull( payload );
+		assertEquals( payload.size(), 0 );
 	}
 
 	@Test
@@ -183,7 +192,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
 		assertEquals( composingDescriptors.size(), 2, "Wrong number of composing constraints" );
 		for ( ConstraintDescriptor<?> desc : composingDescriptors ) {
-			assertTrue( desc.getGroups().size() == 1 );
+			assertEquals( desc.getGroups().size(), 1 );
 			assertEquals( desc.getPayload().iterator().next(), Severity.Info.class, "Wrong payload" );
 		}
 	}
@@ -220,7 +229,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 
 	private ConstraintDescriptor<?> getConstraintDescriptor(Class<?> clazz, String property) {
 		Set<ConstraintDescriptor<?>> descriptors = getConstraintDescriptorsFor( clazz, property );
-		assertTrue( descriptors.size() == 1, "There should only by one descriptor." );
+		assertEquals( descriptors.size(), 1, "There should only by one descriptor." );
 		return descriptors.iterator().next();
 	}
 }
