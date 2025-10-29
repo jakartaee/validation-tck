@@ -44,6 +44,14 @@
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
+            <artifactId>validation-tck-tests</artifactId>
+            <version>${project.version}</version>
+            <classifier>sigtest-jdk21</classifier>
+            <type>sig</type>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
             <artifactId>validation-standalone-container-adapter</artifactId>
             <version>${project.version}</version>
         </dependency>
