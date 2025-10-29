@@ -218,46 +218,17 @@
                                 <configuration>
                                     <backend>pdf</backend>
                                     <outputDirectory>${asciidoctor.base-output-dir}/pdf</outputDirectory>
-                                    <sourceHighlighter>coderay</sourceHighlighter>
+                                    <outputFile>validation-tck-documentation.pdf</outputFile>
                                     <attributes>
                                         <imagesDir>${asciidoctor.aggregated-resources-dir}/images/</imagesDir>
                                         <pdf-stylesdir>${asciidoctor.aggregated-resources-dir}/theme</pdf-stylesdir>
                                         <pdf-style>hibernate</pdf-style>
                                         <pdf-fontsdir>${asciidoctor.aggregated-resources-dir}/theme/fonts</pdf-fontsdir>
+                                        <source-highlighter>rouge</source-highlighter>
                                         <pagenums/>
                                         <idprefix/>
                                         <idseparator>-</idseparator>
                                     </attributes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>ch.mfrey.maven.plugin</groupId>
-                        <artifactId>copy-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <resources>
-                                        <resource>
-                                            <directory>${asciidoctor.base-output-dir}/pdf</directory>
-                                            <move>true</move>
-                                            <includes>
-                                                <include>index.pdf</include>
-                                            </includes>
-                                            <paths>
-                                                <path>
-                                                    <from>index.pdf</from>
-                                                    <to>validation-tck-documentation.pdf</to>
-                                                </path>
-                                            </paths>
-                                        </resource>
-                                    </resources>
                                 </configuration>
                             </execution>
                         </executions>

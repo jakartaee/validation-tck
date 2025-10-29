@@ -82,7 +82,7 @@ pipeline {
 								sh "git tag -a -m 'Release ${params.RELEASE_VERSION}' ${params.RELEASE_VERSION}"
 
 								// deploy to Maven Central:
-								sh "./mvnw clean deploy -Poss-release -Plicense-${params.LICENSE_TO_APPLY} -DskipTests=true "
+								sh "./mvnw clean deploy -Poss-release -Plicense-${params.LICENSE_TO_APPLY} -Pdocumentation-pdf -DskipTests=true "
 
 								// reset the version back to dev:
 								sh "./mvnw versions:set -DnewVersion=${params.DEVELOPMENT_VERSION} -DgenerateBackupPoms=false"
