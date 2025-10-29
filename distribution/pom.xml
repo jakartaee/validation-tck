@@ -54,16 +54,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <filters>
-                        <filter>src/main/assembly/filter.properties</filter>
-                    </filters>
-                    <descriptors>
-                        <descriptor>${basedir}/src/main/assembly/dist.xml</descriptor>
-                    </descriptors>
-                    <finalName>validation-tck-dist-${project.version}</finalName>
-                    <tarLongFileMode>posix</tarLongFileMode>
-                </configuration>
                 <executions>
                     <execution>
                         <id>make-assembly</id>
@@ -71,6 +61,17 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <filters>
+                                <filter>src/main/assembly/filter.properties</filter>
+                            </filters>
+                            <descriptors>
+                                <descriptor>${basedir}/src/main/assembly/dist.xml</descriptor>
+                            </descriptors>
+                            <finalName>validation-tck-dist-${project.version}</finalName>
+                            <tarLongFileMode>posix</tarLongFileMode>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -80,7 +81,10 @@
         <profile>
             <id>jdk21</id>
             <activation>
-                <jdk>[21;)</jdk>
+                <property>
+                    <name>build.require.jdk21</name>
+                    <value>!false</value>
+                </property>
             </activation>
             <dependencies>
                 <dependency>
