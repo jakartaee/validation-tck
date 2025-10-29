@@ -291,7 +291,10 @@
         <profile>
             <id>jdk21</id>
             <activation>
-                <jdk>[21,)</jdk>
+                <property>
+                    <name>build.require.jdk21</name>
+                    <value>!false</value>
+                </property>
             </activation>
             <build>
                 <plugins>
