@@ -94,15 +94,14 @@ pipeline {
 								sh "git push origin ${params.RELEASE_VERSION}"
 
 								sshagent(['projects-storage.eclipse.org-bot-ssh']) {
-									sh "ssh genie.validation@projects-storage.eclipse.org mkdir -p /home/data/httpd/download.eclipse.org/ee4j/bean-validation/${specVersion}"
-									sh "sha256sum distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.zip >> distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.info"
-									sh "sha256sum distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.tar.gz >> distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.info"
-									sh "ls -l distribution/target/validation-tck-dist-${params.RELEASE_VERSION}* >> distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.info"
+									sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.zip >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.info"
+									sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.tar.gz >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.info"
+									sh "ls -l distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}* >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.info"
 
-									sh "sha256sum distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.zip | cut -d ' ' -f 1 >> distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.zip.sha256"
-									sh "sha256sum distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.tar.gz | cut -d ' ' -f 1 >> distribution/target/validation-tck-dist-${params.RELEASE_VERSION}.tar.gz.sha256"
+									sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.zip | cut -d ' ' -f 1 >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.zip.sha256"
+									sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.tar.gz | cut -d ' ' -f 1 >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.tar.gz.sha256"
 
-									sh "rsync -avz --include='validation-tck-dist-*' --exclude='*' distribution/target/ genie.validation@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/ee4j/bean-validation/${specVersion}/"
+									sh "rsync -avz --mkpath --progress --verbose --include='validation-tck-distribution-*' --exclude='*' distribution/target/ genie.bean-validation@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/jakartaee/bean-validation/${specVersion}/"
 								}
 							}
 						}
