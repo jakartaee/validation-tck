@@ -69,7 +69,7 @@
                             <descriptors>
                                 <descriptor>${basedir}/src/main/assembly/dist.xml</descriptor>
                             </descriptors>
-                            <finalName>validation-tck-dist-${project.version}</finalName>
+                            <finalName>validation-tck-distribution-${project.version}</finalName>
                             <tarLongFileMode>posix</tarLongFileMode>
                         </configuration>
                     </execution>
@@ -96,6 +96,61 @@
                     <optional>true</optional>
                 </dependency>
             </dependencies>
+        </profile>
+        <profile>
+            <id>pull-validation-tck-distribution</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>pull-validation-tck-distributions</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>jakarta.validation</groupId>
+                                            <artifactId>validation-tck-distribution</artifactId>
+                                            <version>${version.jakarta.validation.tck-distribution.pull}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>jakarta.validation</groupId>
+                                            <artifactId>validation-tck-distribution</artifactId>
+                                            <version>${version.jakarta.validation.tck-distribution.pull}</version>
+                                            <type>zip.asc</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>jakarta.validation</groupId>
+                                            <artifactId>validation-tck-distribution</artifactId>
+                                            <version>${version.jakarta.validation.tck-distribution.pull}</version>
+                                            <type>tar.gz</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>jakarta.validation</groupId>
+                                            <artifactId>validation-tck-distribution</artifactId>
+                                            <version>${version.jakarta.validation.tck-distribution.pull}</version>
+                                            <type>tar.gz.asc</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

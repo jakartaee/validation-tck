@@ -1,0 +1,75 @@
+/*
+ * Jakarta Validation API
+ *
+ * License: Apache License, Version 2.0
+ * See the license.txt file in the root directory or <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+@Library('releng-pipeline') _
+
+// Avoid running the pipeline on branch indexing
+if (currentBuild.getBuildCauses().toString().contains('BranchIndexingCause')) {
+	print "INFO: Build skipped due to trigger being Branch Indexing"
+	currentBuild.result = 'NOT_BUILT'
+	return
+}
+
+pipeline {
+	agent {
+		label 'basic'
+	}
+	tools {
+		maven 'apache-maven-3.9.11'
+		jdk 'openjdk-jdk25-latest'
+	}
+	options {
+		buildDiscarder logRotator(daysToKeepStr: '30', numToKeepStr: '10')
+		disableConcurrentBuilds(abortPrevious: false)
+	}
+	parameters {
+		string(
+				name: 'RELEASE_VERSION',
+				defaultValue: '',
+				description: 'The version to pull and upload, e.g. 4.0.0.',
+				trim: true
+		)
+	}
+	stages {
+		stage('Upload dist package') {
+			when {
+				beforeAgent true
+				// Releases must be triggered explicitly
+				// This is just for safety; normally the Jenkins job for this pipeline
+				// should be configured to "Suppress automatic SCM triggering"
+				// See https://stackoverflow.com/questions/58259326/prevent-jenkins-multibranch-pipeline-from-triggering-builds-for-new-branches
+				triggeredBy cause: "UserIdCause"
+			}
+			steps {
+				script {
+					// Check that all the necessary parameters are set
+					if (!params.RELEASE_VERSION) {
+						throw new IllegalArgumentException("Missing value for parameter RELEASE_VERSION.")
+					}
+					def specVersion = sh(script: "echo \"${params.RELEASE_VERSION}\" | awk -F'.' '{print \$1\".\"\$2}'", returnStdout: true).trim()
+
+					echo "Performing Upload for version ${specVersion} (${params.RELEASE_VERSION})"
+
+					withMaven(mavenLocalRepo: env.WORKSPACE_TMP + '/.m2repository') {
+						sh "./mvnw clean process-resources -pl :validation-tck-distribution -Ppull-validation-tck-distribution -Dversion.jakarta.validation.tck-distribution.pull=${params.RELEASE_VERSION}"
+
+						sshagent(['projects-storage.eclipse.org-bot-ssh']) {
+							sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.zip >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.info"
+							sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.tar.gz >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.info"
+							sh "ls -l distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}* >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.info"
+
+							sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.zip | cut -d ' ' -f 1 >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.zip.sha256"
+							sh "sha256sum distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.tar.gz | cut -d ' ' -f 1 >> distribution/target/validation-tck-distribution-${params.RELEASE_VERSION}.tar.gz.sha256"
+
+							sh "rsync -avz --mkpath --progress --verbose --include='validation-tck-distribution-*' --exclude='*' distribution/target/ genie.bean-validation@projects-storage.eclipse.org:/home/data/httpd/download.eclipse.org/jakartaee/bean-validation/${specVersion}/"
+						}
+					}
+				}
+			}
+		}
+	}
+}
