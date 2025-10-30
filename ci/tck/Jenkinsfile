@@ -14,6 +14,25 @@ if (currentBuild.getBuildCauses().toString().contains('BranchIndexingCause')) {
 	return
 }
 
+Map settings() {
+	switch (env.JDK_FOR_TEST) {
+		case 'openjdk-jdk25-latest':
+			return [
+					additionalMavenArgs: ''
+			]
+		case 'openjdk-jdk21-latest':
+			return [
+					additionalMavenArgs: '',
+			]
+		case 'openjdk-jdk17-latest':
+			return [
+					additionalMavenArgs: '-Dbuild.require.jdk21=false',
+			]
+		default:
+			return [:]
+	}
+}
+
 pipeline {
 	agent none
 	triggers {
@@ -51,7 +70,10 @@ pipeline {
 													artifactsPublisher(disabled: true),
 													junitPublisher(disabled: true)
 											]) {
-										sh './mvnw clean install -DskipTests -Denforcer.skip=true -Psnapshots'
+										script {
+											def extraArgs = settings().additionalMavenArgs
+											sh "./mvnw clean install -DskipTests -Denforcer.skip=true -Psnapshots ${extraArgs}"
+										}
 									}
 								}
 							}
@@ -64,8 +86,9 @@ pipeline {
 													junitPublisher(disabled: true)
 											]) {
 										script {
-											def tckVersion = sh(script: './mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
-											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=${tckVersion} -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psnapshots"
+											def extraArgs = settings().additionalMavenArgs
+											def tckVersion = sh(script: "./mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout ${extraArgs}", returnStdout: true).trim()
+											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=${tckVersion} -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psnapshots ${extraArgs}"
 										}
 									}
 								}
@@ -84,13 +107,14 @@ pipeline {
 													junitPublisher(disabled: true)
 											]) {
 										script {
-											def tckVersion = sh(script: './mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+											def extraArgs = settings().additionalMavenArgs
+											def tckVersion = sh(script: "./mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout ${extraArgs}", returnStdout: true).trim()
 											echo "Preparing the WildFly server as a container..."
-											sh "./mvnw clean package -f setup-examples/maven/pom.xml -Dtck.version=${tckVersion} -Pprepare-server -Psnapshots"
+											sh "./mvnw clean package -f setup-examples/maven/pom.xml -Dtck.version=${tckVersion} -Pprepare-server -Psnapshots ${extraArgs}"
 
 											def serverLocation = sh(script: 'echo $(pwd)/setup-examples/maven/target/wildfly-patched/wildfly-preview-37.0.1.Final', returnStdout: true).trim()
 											echo "Running in-container tests..."
-											sh "./mvnw verify -f setup-examples/maven/pom.xml -Dtck.version=${tckVersion} -Pin-container-test -Psnapshots -Dcontainer.home=${serverLocation}"
+											sh "./mvnw verify -f setup-examples/maven/pom.xml -Dtck.version=${tckVersion} -Pin-container-test -Psnapshots -Dcontainer.home=${serverLocation} ${extraArgs}"
 										}
 									}
 								}
@@ -104,9 +128,10 @@ pipeline {
 													junitPublisher(disabled: true)
 											]) {
 										script {
-											def tckVersion = sh(script: './mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true).trim()
+											def extraArgs = settings().additionalMavenArgs
+											def tckVersion = sh(script: "./mvnw org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version -q -DforceStdout ${extraArgs}", returnStdout: true).trim()
 											def sigFileLocation = sh(script: 'echo $(pwd)/tests/target/classes/validation-api-jdk17.sig', returnStdout: true).trim()
-											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=${tckVersion} -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psigtest -Psnapshots -Dsigfile-location=$sigFileLocation"
+											sh "./mvnw clean verify -f setup-examples/maven/pom-local.xml -Dtck.version=${tckVersion} -P${env.JAKARTA_VALIDATION_IMPLEMENTATION} -Psigtest -Psnapshots -Dsigfile-location=$sigFileLocation ${extraArgs}"
 										}
 									}
 								}
