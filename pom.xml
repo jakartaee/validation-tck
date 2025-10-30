@@ -102,7 +102,7 @@
         <!-- see http://maven.apache.org/general.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <validation.api.version>4.0.0-SNAPSHOT</validation.api.version>
+        <validation.api.version>4.0.0-M1</validation.api.version>
 
         <!-- What license to include in the dist binary. For Jakarta releases that are used to certify implementations, this
         must be the EFTL.txt file. Default is the Apache license. Override with -Dlicense.file=EFTL.txt in CI build of
