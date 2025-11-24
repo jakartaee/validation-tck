@@ -137,7 +137,7 @@
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>12.1.1</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>12.1.2</com.puppycrawl.tools.version>
 
         <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
         <version.sigtest-maven-plugin>2.6</version.sigtest-maven-plugin>
