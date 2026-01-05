@@ -206,10 +206,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
             <!-- Signature generation related plugins -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -336,6 +332,11 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    <!-- Checkstyle 13 requires at least JDK 21 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
