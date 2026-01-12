@@ -128,7 +128,7 @@
         <jboss.test.audit.version>2.0.0.Final</jboss.test.audit.version>
         <arquillian.version>1.10.0.Final</arquillian.version>
         <shrinkwrap.descriptors.version>2.0.0</shrinkwrap.descriptors.version>
-        <openjfx.version>17.0.16</openjfx.version>
+        <openjfx.version>17.0.17</openjfx.version>
 
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.4.Final</hibernate-asciidoctor-theme.version>
