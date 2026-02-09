@@ -131,30 +131,30 @@
         <openjfx.version>17.0.18</openjfx.version>
 
         <!-- Asciidoctor -->
-        <hibernate-asciidoctor-theme.version>1.0.4.Final</hibernate-asciidoctor-theme.version>
+        <hibernate-asciidoctor-theme.version>6.1.2.Final</hibernate-asciidoctor-theme.version>
         <asciidoctorj-pdf.version>2.3.23</asciidoctorj-pdf.version>
 
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>13.0.0</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>13.2.0</com.puppycrawl.tools.version>
 
         <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
         <version.sigtest-maven-plugin>2.6</version.sigtest-maven-plugin>
         <version.maven-checkstyle-plugin>3.6.0</version.maven-checkstyle-plugin>
-        <version.maven-processor-plugin>3.1.0</version.maven-processor-plugin>
-        <version.exec-maven-plugin>1.5.0</version.exec-maven-plugin>
+        <version.maven-processor-plugin>5.1</version.maven-processor-plugin>
+        <version.exec-maven-plugin>3.6.3</version.exec-maven-plugin>
         <version.maven-source-plugin>3.4.0</version.maven-source-plugin>
         <version.build-helper-maven-plugin>3.6.1</version.build-helper-maven-plugin>
         <version.asciidoctor-maven-plugin>3.2.0</version.asciidoctor-maven-plugin>
         <version.maven-resources-plugin>3.4.0</version.maven-resources-plugin>
         <version.maven-deploy-plugin>3.1.4</version.maven-deploy-plugin>
         <version.maven-install-plugin>3.1.4</version.maven-install-plugin>
-        <version.maven-jar-plugin>3.3.0</version.maven-jar-plugin>
-        <version.maven-dependency-plugin>3.9.0</version.maven-dependency-plugin>
-        <version.maven-compiler-plugin>3.12.1</version.maven-compiler-plugin>
+        <version.maven-jar-plugin>3.5.0</version.maven-jar-plugin>
+        <version.maven-dependency-plugin>3.10.0</version.maven-dependency-plugin>
+        <version.maven-compiler-plugin>3.15.0</version.maven-compiler-plugin>
         <version.maven-wrapper-plugin>3.3.4</version.maven-wrapper-plugin>
-        <version.maven-assembly-plugin>3.6.0</version.maven-assembly-plugin>
+        <version.maven-assembly-plugin>3.8.0</version.maven-assembly-plugin>
         <version.maven-enforcer-plugin>3.6.2</version.maven-enforcer-plugin>
         <version.license-maven-plugin>5.0.0</version.license-maven-plugin>
 
