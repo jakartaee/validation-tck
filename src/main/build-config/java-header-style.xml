@@ -9,7 +9,7 @@
 -->
 <additionalHeaders>
     <java_class_style>
-        <firstLine>/**</firstLine>
+        <firstLine>/*</firstLine>
         <beforeEachLine> * </beforeEachLine>
         <endLine> */</endLine>
         <!--<afterEachLine></afterEachLine>-->
