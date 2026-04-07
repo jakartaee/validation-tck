@@ -17,7 +17,6 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
 import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -28,7 +27,6 @@ import org.testng.annotations.Test;
 /**
  * @author Hardy Ferentschik
  */
-@IntegrationTest
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTCKTest {
 

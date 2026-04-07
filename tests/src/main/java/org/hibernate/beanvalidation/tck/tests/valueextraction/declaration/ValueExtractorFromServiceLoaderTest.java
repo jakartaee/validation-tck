@@ -19,7 +19,6 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.Cinema;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.Reference;
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
@@ -30,7 +29,6 @@ import org.testng.annotations.Test;
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
-@IntegrationTest
 public class ValueExtractorFromServiceLoaderTest extends AbstractTCKTest {
 
 	@Deployment
