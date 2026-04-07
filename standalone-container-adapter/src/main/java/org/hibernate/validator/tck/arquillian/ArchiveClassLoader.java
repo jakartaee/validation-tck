@@ -14,6 +14,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.Node;
@@ -65,6 +69,28 @@ public class ArchiveClassLoader extends URLClassLoader {
 		}
 		else {
 			return super.getResource( name );
+		}
+	}
+
+	@Override
+	public Enumeration<URL> getResources(String name) throws IOException {
+		Enumeration<URL> defaultResources = super.getResources(name);
+		if ( archive.get( archivePrefix + name ) != null ) {
+			try {
+				URL archiveResource = new URL(null, "archive:" + archive.getName() + "/" + name, new ArchiveURLStreamHandler());
+				List<URL> urls = new ArrayList<>();
+				urls.add(archiveResource);
+				while ( defaultResources.hasMoreElements() ) {
+					urls.add(defaultResources.nextElement());
+				}
+				return Collections.enumeration(urls);
+			}
+			catch (MalformedURLException e) {
+				throw new RuntimeException( "Could not create URL for archive: " + archive.getName() + " and resource " + name, e );
+			}
+		}
+		else {
+			return defaultResources;
 		}
 	}
 
