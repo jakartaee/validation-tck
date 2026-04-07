@@ -15,7 +15,6 @@ import java.util.Set;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
-import org.hibernate.beanvalidation.tck.util.IntegrationTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -32,7 +31,6 @@ import org.testng.annotations.Test;
  * @author Marko Bekhta
  */
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
-@IntegrationTest
 public class ServiceLoadedConstraintTest extends AbstractTCKTest {
 
 	@Deployment
