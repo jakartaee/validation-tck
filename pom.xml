@@ -114,7 +114,7 @@
 
         <!-- This is only needed for an example in the documentation; there is
              no dependency from the TCK to Hibernate Validator -->
-        <hibernate.validator.version>8.0.1.Final</hibernate.validator.version>
+        <hibernate.validator.version>9.1.0.Final</hibernate.validator.version>
 
         <testng.version>7.12.0</testng.version>
         <assertj-core.version>3.27.7</assertj-core.version>
