@@ -131,13 +131,13 @@
         <openjfx.version>17.0.19</openjfx.version>
 
         <!-- Asciidoctor -->
-        <hibernate-asciidoctor-theme.version>6.1.2.Final</hibernate-asciidoctor-theme.version>
+        <hibernate-asciidoctor-theme.version>6.1.3.Final</hibernate-asciidoctor-theme.version>
         <asciidoctorj-pdf.version>2.3.23</asciidoctorj-pdf.version>
 
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>13.6.0</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>13.7.0</com.puppycrawl.tools.version>
 
         <version.flatten-maven-plugin>1.7.3</version.flatten-maven-plugin>
         <version.sigtest-maven-plugin>2.6</version.sigtest-maven-plugin>
