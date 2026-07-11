@@ -10,8 +10,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -27,6 +25,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -44,7 +43,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -99,12 +98,12 @@ public class ValidateParametersTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
-		assertEquals( violation.getRootBean(), object );
-		assertEquals( violation.getRootBeanClass(), User.class );
-		assertEquals( violation.getLeafBean(), object );
-		assertEquals( violation.getInvalidValue(), arg0 );
-		assertEquals( violation.getExecutableParameters(), parameterValues );
-		assertNull( violation.getExecutableReturnValue() );
+		Assertions.assertThat( violation.getRootBean() ).isEqualTo( object );
+		Assertions.assertThat( violation.getRootBeanClass() ).isEqualTo( User.class );
+		Assertions.assertThat( violation.getLeafBean() ).isEqualTo( object );
+		Assertions.assertThat( violation.getInvalidValue() ).isEqualTo( arg0 );
+		Assertions.assertThat( violation.getExecutableParameters() ).isEqualTo( parameterValues );
+		Assertions.assertThat( violation.getExecutableReturnValue() ).isNull();
 	}
 
 	@Test
@@ -133,8 +132,8 @@ public class ValidateParametersTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
-		assertEquals( violation.getLeafBean(), object );
-		assertEquals( violation.getInvalidValue(), parameterValues );
+		Assertions.assertThat( violation.getLeafBean() ).isEqualTo( object );
+		Assertions.assertThat( violation.getInvalidValue() ).isEqualTo( parameterValues  );
 	}
 
 	@Test
@@ -384,88 +383,112 @@ public class ValidateParametersTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "a")
 	public void testUnexpectedType() throws Exception {
-		String methodName = "setName";
+		Assertions.assertThatThrownBy( () -> {
 
-		Object object = new Address();
-		Method method = Address.class.getMethod( methodName, String.class );
-		Object[] parameterValues = new Object[] { "S" };
+			String methodName = "setName";
 
-		getExecutableValidator().validateParameters( object, method, parameterValues );
+			Object object = new Address();
+			Method method = Address.class.getMethod( methodName, String.class );
+			Object[] parameterValues = new Object[] { "S" };
+
+			getExecutableValidator().validateParameters( object, method, parameterValues );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "c")
 	public void testNullPassedForObjectCausesException() throws Exception {
-		Object object = null;
-		Method method = User.class.getMethod( "setFirstName", String.class );
-		Object[] parameterValues = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues
-		);
+			Object object = null;
+			Method method = User.class.getMethod( "setFirstName", String.class );
+			Object[] parameterValues = new Object[] { null };
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "c")
 	public void testNullPassedForMethodCausesException() throws Exception {
-		Object object = new User();
-		Method method = null;
-		Object[] parameterValues = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues
-		);
+			Object object = new User();
+			Method method = null;
+			Object[] parameterValues = new Object[] { null };
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "c")
 	public void testNullPassedForParameterValuesCausesException() throws Exception {
-		Object object = new User();
-		Method method = User.class.getMethod( "setFirstName", String.class );
-		Object[] parameterValues = null;
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues
-		);
+			Object object = new User();
+			Method method = User.class.getMethod( "setFirstName", String.class );
+			Object[] parameterValues = null;
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "c")
 	public void testNullPassedForGroupsCausesException() throws Exception {
-		Object object = new User();
-		Method method = User.class.getMethod( "setFirstName", String.class );
-		Object[] parameterValues = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues,
-				(Class<?>[]) null
-		);
+			Object object = new User();
+			Method method = User.class.getMethod( "setFirstName", String.class );
+			Object[] parameterValues = new Object[] { null };
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues,
+					(Class<?>[]) null
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "c")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
-		Object object = new User();
-		Method method = User.class.getMethod( "setFirstName", String.class );
-		Object[] parameterValues = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues,
-				(Class<?>) null
-		);
+			Object object = new User();
+			Method method = User.class.getMethod( "setFirstName", String.class );
+			Object[] parameterValues = new Object[] { null };
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues,
+					(Class<?>) null
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
@@ -493,10 +516,10 @@ public class ValidateParametersTest extends AbstractTCKTest {
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
 
-		assertEquals( violation.getLeafBean(), leaf );
-		assertEquals( violation.getInvalidValue(), "foo" );
-		assertEquals( violation.getExecutableParameters(), parameterValues );
-		assertNull( violation.getExecutableReturnValue() );
+		Assertions.assertThat(  violation.getLeafBean() ).isEqualTo( leaf  );
+		Assertions.assertThat(  violation.getInvalidValue() ).isEqualTo( "foo"  );
+		Assertions.assertThat(  violation.getExecutableParameters() ).isEqualTo( parameterValues  );
+		Assertions.assertThat(  violation.getExecutableReturnValue() ).isNull();
 	}
 
 	@Test

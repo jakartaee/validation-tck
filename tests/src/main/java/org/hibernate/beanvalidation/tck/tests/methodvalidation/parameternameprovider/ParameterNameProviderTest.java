@@ -9,8 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternamepro
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertSame;
-import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -22,6 +20,7 @@ import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.executable.ExecutableValidator;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -31,7 +30,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -49,27 +48,28 @@ public class ParameterNameProviderTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test(expectedExceptions = UnsupportedOperationException.class,
-			expectedExceptionsMessageRegExp = "Exception in ParameterNameProvider")
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_NAMINGPARAMETERS, id = "b")
 	public void testExceptionInParameterNameProviderIsWrappedIntoValidationException()
 			throws Throwable {
-		Validator validator = TestUtil.getConfigurationUnderTest()
-				.parameterNameProvider( new BrokenCustomParameterNameProvider() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
+			Validator validator = TestUtil.getConfigurationUnderTest()
+					.parameterNameProvider( new BrokenCustomParameterNameProvider() )
+					.buildValidatorFactory()
+					.getValidator();
 
-		try {
-			Object object = new User();
-			Method method = User.class.getMethod( "setNames", String.class, String.class );
-			Object[] parameters = new Object[] { null, null };
+			try {
+				Object object = new User();
+				Method method = User.class.getMethod( "setNames", String.class, String.class );
+				Object[] parameters = new Object[] { null, null };
 
-			validator.forExecutables().validateParameters( object, method, parameters );
-			fail( "Expected exception wasn't thrown" );
-		}
-		catch ( ValidationException e ) {
-			throw e.getCause();
-		}
+				validator.forExecutables().validateParameters( object, method, parameters );
+			}
+			catch ( ValidationException e ) {
+				throw e.getCause();
+			}
+		} ).isInstanceOf( UnsupportedOperationException.class )
+				.hasMessageContaining( "Exception in ParameterNameProvider" );
 	}
 
 	@Test
@@ -81,11 +81,7 @@ public class ParameterNameProviderTest extends AbstractTCKTest {
 				.parameterNameProvider( parameterNameProvider )
 				.buildValidatorFactory();
 
-		assertSame(
-				validatorFactory.getParameterNameProvider(),
-				parameterNameProvider,
-				"getParameterNameProvider() should return the parameter name provider set via configuration"
-		);
+		Assertions.assertThat( validatorFactory.getParameterNameProvider() ).as( "getParameterNameProvider() should return the parameter name provider set via configuration" ).isSameAs( parameterNameProvider );
 	}
 
 	@Test

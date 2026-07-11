@@ -47,7 +47,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Future} and {@link Past} built-in constraints.
@@ -571,7 +571,6 @@ public class FuturePastConstraintsTest extends AbstractTCKTest {
 			offsetTime = OffsetTime.from( dateTime );
 		}
 	}
-
 
 	private static class PastOrPresentRelativePartialDummyEntity {
 

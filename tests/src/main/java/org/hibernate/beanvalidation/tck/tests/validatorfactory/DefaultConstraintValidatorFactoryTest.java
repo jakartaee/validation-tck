@@ -6,11 +6,10 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validatorfactory;
 
-import static org.testng.Assert.assertTrue;
-
 import jakarta.validation.ConstraintValidatorFactory;
 import jakarta.validation.ValidationException;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -18,7 +17,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -44,17 +44,18 @@ public class DefaultConstraintValidatorFactoryTest extends AbstractTCKTest {
 		ConstraintValidatorFactory factory = TestUtil.getConfigurationUnderTest()
 				.getDefaultConstraintValidatorFactory();
 		factory.getInstance( MyConstraintValidator.class );
-		assertTrue(
-				MyConstraintValidator.defaultConstructorCalled,
-				"The no-arg default constructor should have been called."
-		);
+		assertThat( MyConstraintValidator.defaultConstructorCalled ).as( "The no-arg default constructor should have been called." ).isTrue();
 	}
 
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "c")
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	public void testRuntimeExceptionInValidatorCreationIsWrapped() {
-		ConstraintValidatorFactory factory = TestUtil.getConfigurationUnderTest()
-				.getDefaultConstraintValidatorFactory();
-		factory.getInstance( MySecondConstraintValidator.class );
+		Assertions.assertThatThrownBy( () -> {
+
+			ConstraintValidatorFactory factory = TestUtil.getConfigurationUnderTest()
+					.getDefaultConstraintValidatorFactory();
+			factory.getInstance( MySecondConstraintValidator.class );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 }

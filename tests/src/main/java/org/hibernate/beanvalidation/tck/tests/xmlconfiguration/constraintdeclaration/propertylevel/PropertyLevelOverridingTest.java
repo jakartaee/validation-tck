@@ -6,12 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.propertylevel;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
 import java.util.Set;
 
 import jakarta.validation.Validator;
@@ -23,6 +17,7 @@ import jakarta.validation.metadata.ConstraintDescriptor;
 import jakarta.validation.metadata.GroupConversionDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -31,7 +26,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -57,10 +53,10 @@ public class PropertyLevelOverridingTest extends AbstractTCKTest {
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor  ).isNotNull();
 
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstname" );
-		assertNull( propDescriptor, "The annotation defined constraints should be ignored." );
+		assertThat( propDescriptor ).as( "The annotation defined constraints should be ignored." ).isNull();
 	}
 
 	@Test
@@ -72,13 +68,13 @@ public class PropertyLevelOverridingTest extends AbstractTCKTest {
 	public void testIncludeAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor  ).isNotNull();
 
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "lastname" );
-		assertNotNull( propDescriptor );
+		assertThat( propDescriptor  ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> constraintDescriptors = propDescriptor.getConstraintDescriptors();
-		assertEquals( constraintDescriptors.size(), 2, "There should be two constraints" );
+		assertThat( constraintDescriptors.size() ).as( "There should be two constraints" ).isEqualTo( 2 );
 
 		boolean foundNotNullConstraint = false;
 		boolean foundPatternConstraint = false;
@@ -90,11 +86,11 @@ public class PropertyLevelOverridingTest extends AbstractTCKTest {
 				foundPatternConstraint = true;
 			}
 			else {
-				fail( "Invalid constraint for property." );
+				Assertions.fail( "Invalid constraint for property." );
 			}
 		}
 		if ( !( foundNotNullConstraint && foundPatternConstraint ) ) {
-			fail( "Not all configured constraints discovered." );
+			Assertions.fail( "Not all configured constraints discovered." );
 		}
 	}
 
@@ -105,14 +101,14 @@ public class PropertyLevelOverridingTest extends AbstractTCKTest {
 	public void testCascadedConfiguration() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor  ).isNotNull();
 
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstCreditCard" );
-		assertNotNull( propDescriptor );
-		assertTrue( propDescriptor.isCascaded(), "Cascaded validation is configured via xml." );
+		assertThat( propDescriptor  ).isNotNull();
+		assertThat( propDescriptor.isCascaded() ).as( "Cascaded validation is configured via xml." ).isTrue();
 
 		propDescriptor = beanDescriptor.getConstraintsForProperty( "secondCreditCard" );
-		assertNull( propDescriptor, "The @Valid annotation should be ignored." );
+		assertThat( propDescriptor ).as( "The @Valid annotation should be ignored." ).isNull();
 	}
 
 	@Test
@@ -122,17 +118,14 @@ public class PropertyLevelOverridingTest extends AbstractTCKTest {
 	public void testGroupConversionsAreAdditive() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor  ).isNotNull();
 
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstCreditCard" );
-		assertNotNull( propDescriptor );
-		assertTrue( propDescriptor.isCascaded(), "Cascaded validation is configured via xml." );
+		assertThat( propDescriptor  ).isNotNull();
+		assertThat( propDescriptor.isCascaded() ).as( "Cascaded validation is configured via xml." ).isTrue();
 		Set<GroupConversionDescriptor> groupConversionDescriptorSet = propDescriptor.getGroupConversions();
 
-		assertTrue(
-				groupConversionDescriptorSet.size() == 2,
-				"There should be two group conversions. One configured via annotations and one via XML"
-		);
+		assertThat( groupConversionDescriptorSet.size() == 2 ).as( "There should be two group conversions. One configured via annotations and one via XML" ).isTrue();
 
 		boolean foundDefaultToRatingA = false;
 		boolean foundDefaultToRatingAA = false;
@@ -146,13 +139,10 @@ public class PropertyLevelOverridingTest extends AbstractTCKTest {
 				foundDefaultToRatingAA = true;
 			}
 			else {
-				fail( "Unexpected group conversion" );
+				Assertions.fail( "Unexpected group conversion" );
 			}
 		}
 
-		assertTrue(
-				foundDefaultToRatingA && foundDefaultToRatingAA,
-				"Group conversions defined via XML and Annotation are additive"
-		);
+		assertThat( foundDefaultToRatingA && foundDefaultToRatingAA ).as( "Group conversions defined via XML and Annotation are additive" ).isTrue();
 	}
 }

@@ -6,11 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validation;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -25,6 +20,7 @@ import jakarta.validation.bootstrap.GenericBootstrap;
 import jakarta.validation.bootstrap.ProviderSpecificBootstrap;
 import jakarta.validation.spi.ValidationProvider;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
 import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
@@ -34,7 +30,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for the implementation of <code>Validation</code>.
@@ -57,12 +54,12 @@ public class ValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "a")
 	public void testBuildDefaultValidatorFactory() {
 		ValidatorFactory defaultFactory = Validation.buildDefaultValidatorFactory();
-		assertNotNull( defaultFactory, "We should be able to get a factory." );
+		assertThat( defaultFactory ).as( "We should be able to get a factory." ).isNotNull();
 
 		ValidatorFactory defaultProviderFactory = Validation.byDefaultProvider().configure().buildValidatorFactory();
-		assertNotNull( defaultProviderFactory, "We should be able to get a factory." );
+		assertThat( defaultProviderFactory ).as( "We should be able to get a factory." ).isNotNull();
 
-		assertEquals( defaultFactory.getClass(), defaultFactory.getClass(), "The factories have to be identical." );
+		assertThat( defaultFactory.getClass() ).as( "The factories have to be identical." ).isEqualTo( defaultFactory.getClass( ) );
 	}
 
 	@Test
@@ -84,7 +81,7 @@ public class ValidationTest extends AbstractTCKTest {
 		Configuration<?> config = bootstrap.providerResolver( resolver ).configure();
 
 		ValidatorFactory factory = config.buildValidatorFactory();
-		assertTrue( factory instanceof TCKValidationProvider.DummyValidatorFactory );
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory ).isTrue();
 	}
 
 	@Test
@@ -106,7 +103,7 @@ public class ValidationTest extends AbstractTCKTest {
 		ProviderSpecificBootstrap<TCKValidatorConfiguration> bootstrap = Validation.byProvider( TCKValidationProvider.class );
 		Configuration<?> config = bootstrap.providerResolver( resolver ).configure();
 		ValidatorFactory factory = config.buildValidatorFactory();
-		assertTrue( factory instanceof TCKValidationProvider.DummyValidatorFactory );
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory ).isTrue();
 	}
 
 	@Test
@@ -120,7 +117,7 @@ public class ValidationTest extends AbstractTCKTest {
 			buildDefaultValidatorFactoryMethod = validatorClass.getMethod( "buildDefaultValidatorFactory" );
 		}
 		catch ( NoSuchMethodException e ) {
-			fail( "Validation class is missing bootstrap method." );
+			Assertions.fail( "Validation class is missing bootstrap method." );
 		}
 		expectedValidationMethods.add( buildDefaultValidatorFactoryMethod );
 
@@ -129,7 +126,7 @@ public class ValidationTest extends AbstractTCKTest {
 			byDefaultProviderMethod = validatorClass.getMethod( "byDefaultProvider" );
 		}
 		catch ( NoSuchMethodException e ) {
-			fail( "Validation class is missing bootstrap method." );
+			Assertions.fail( "Validation class is missing bootstrap method." );
 		}
 		expectedValidationMethods.add( byDefaultProviderMethod );
 
@@ -138,7 +135,7 @@ public class ValidationTest extends AbstractTCKTest {
 			byProviderMethod = validatorClass.getMethod( "byProvider", Class.class );
 		}
 		catch ( NoSuchMethodException e ) {
-			fail( "Validation class is missing bootstrap method." );
+			Assertions.fail( "Validation class is missing bootstrap method." );
 		}
 		expectedValidationMethods.add( byProviderMethod );
 
@@ -148,7 +145,7 @@ public class ValidationTest extends AbstractTCKTest {
 				continue;
 			}
 			if ( Modifier.isPublic( m.getModifiers() ) || Modifier.isProtected( m.getModifiers() ) ) {
-				fail( "Validation cannot have a non private method on top of the specified ones. " + m.getName() + " not allowed." );
+				Assertions.fail( "Validation cannot have a non private method on top of the specified ones. " + m.getName() + " not allowed." );
 			}
 		}
 
@@ -158,7 +155,7 @@ public class ValidationTest extends AbstractTCKTest {
 				continue;
 			}
 			if ( Modifier.isPublic( f.getModifiers() ) || Modifier.isProtected( f.getModifiers() ) ) {
-				fail( "Validation cannot have a non private field. " + f.getName() + " not allowed." );
+				Assertions.fail( "Validation cannot have a non private field. " + f.getName() + " not allowed." );
 			}
 		}
 	}

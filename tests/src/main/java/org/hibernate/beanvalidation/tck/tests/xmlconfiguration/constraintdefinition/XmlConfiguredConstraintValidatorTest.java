@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdefinition;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +23,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -60,17 +58,13 @@ public class XmlConfiguredConstraintValidatorTest extends AbstractTCKTest {
 				.getConstraintsForProperty( "name" );
 
 		Set<ConstraintDescriptor<?>> descriptors = propDescriptor.getConstraintDescriptors();
-		assertEquals( descriptors.size(), 1, "There should only be one constraint." );
+		assertThat( descriptors.size() ).as( "There should only be one constraint." ).isEqualTo( 1 );
 
 		@SuppressWarnings("unchecked")
 		ConstraintDescriptor<T> descriptor = (ConstraintDescriptor<T>) descriptors.iterator().next();
 		List<Class<? extends ConstraintValidator<T, ?>>> validators = descriptor.getConstraintValidatorClasses();
 
-		assertEquals(
-				validators.size(),
-				0,
-				"No xml defined validator and annotations are ignored -> no validator"
-		);
+		assertThat( validators.size() ).as( "No xml defined validator and annotations are ignored -> no validator" ).isEqualTo( 0 );
 	}
 
 	@Test
@@ -86,22 +80,15 @@ public class XmlConfiguredConstraintValidatorTest extends AbstractTCKTest {
 		PropertyDescriptor propDescriptor = validator.getConstraintsForClass( Name.class )
 				.getConstraintsForProperty( "name" );
 
-
 		Set<ConstraintDescriptor<?>> descriptors = propDescriptor.getConstraintDescriptors();
-		assertEquals( descriptors.size(), 1, "There should only be one constraint." );
+		assertThat( descriptors.size() ).as( "There should only be one constraint." ).isEqualTo( 1 );
 
 		@SuppressWarnings("unchecked")
 		ConstraintDescriptor<T> descriptor = (ConstraintDescriptor<T>) descriptors.iterator().next();
 		List<Class<? extends ConstraintValidator<T, ?>>> validators = descriptor.getConstraintValidatorClasses();
 
-		assertEquals( validators.size(), 2, "One validator should be defined in annotation and one in xml" );
-		assertTrue(
-				validators.contains( LengthValidator.class ),
-				"Validator configured in annotation should be present"
-		);
-		assertTrue(
-				validators.contains( DummyLengthValidator.class ),
-				"Validator configured via XML should be present"
-		);
+		assertThat( validators.size() ).as( "One validator should be defined in annotation and one in xml" ).isEqualTo( 2 );
+		assertThat( validators.contains( LengthValidator.class ) ).as( "Validator configured in annotation should be present" ).isTrue();
+		assertThat( validators.contains( DummyLengthValidator.class ) ).as( "Validator configured via XML should be present" ).isTrue();
 	}
 }

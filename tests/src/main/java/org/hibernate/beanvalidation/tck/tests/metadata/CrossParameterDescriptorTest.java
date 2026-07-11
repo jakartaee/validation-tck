@@ -6,10 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Set;
 
 import jakarta.validation.metadata.ConstraintDescriptor;
@@ -23,7 +19,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -44,7 +41,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 	public void testGetElementClass() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
-		assertEquals( descriptor.getElementClass(), Object[].class );
+		assertThat( descriptor.getElementClass() ).isEqualTo( Object[].class );
 	}
 
 	@Test
@@ -52,14 +49,14 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 	public void testHasConstraintsForMethod() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedMethod()
 				.getCrossParameterDescriptor();
-		assertTrue( descriptor.hasConstraints(), "Should have constraints" );
+		assertThat( descriptor.hasConstraints() ).as( "Should have constraints" ).isTrue();
 	}
 
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "c")
 	public void testHasConstraintsForUnconstrainedMethod() {
 		CrossParameterDescriptor descriptor = Executables.unconstrainedMethod()
 				.getCrossParameterDescriptor();
-		assertFalse( descriptor.hasConstraints(), "Should have no constraints" );
+		assertThat( descriptor.hasConstraints() ).as( "Should have no constraints" ).isFalse();
 	}
 
 	@Test
@@ -67,7 +64,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 	public void testHasConstraintsForConstructor() {
 		CrossParameterDescriptor descriptor = Executables.crossParameterConstrainedConstructor()
 				.getCrossParameterDescriptor();
-		assertTrue( descriptor.hasConstraints(), "Should have constraints" );
+		assertThat( descriptor.hasConstraints() ).as( "Should have constraints" ).isTrue();
 	}
 
 	@Test
@@ -75,7 +72,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 	public void testHasConstraintsForConstructorWithoutCrossParameterConstraints() {
 		CrossParameterDescriptor descriptor = Executables.returnValueConstrainedConstructor()
 				.getCrossParameterDescriptor();
-		assertFalse( descriptor.hasConstraints(), "Should have no constraints" );
+		assertThat( descriptor.hasConstraints() ).as( "Should have no constraints" ).isFalse();
 	}
 
 	@Test
@@ -87,14 +84,10 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.getConstraintDescriptors();
-		assertEquals( constraints.size(), 1, "Should have constraints" );
+		assertThat( constraints.size() ).as( "Should have constraints" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> constraint = constraints.iterator().next();
-		assertEquals(
-				constraint.getAnnotation().annotationType(),
-				MyCrossParameterConstraint.class,
-				"Wrong constraint type"
-		);
+		assertThat( constraint.getAnnotation().annotationType() ).as( "Wrong constraint type" ).isEqualTo( MyCrossParameterConstraint.class );
 	}
 
 	@Test
@@ -105,7 +98,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.getConstraintDescriptors();
-		assertEquals( constraints.size(), 0, "Should have no constraints" );
+		assertThat( constraints.size() ).as( "Should have no constraints" ).isEqualTo( 0 );
 	}
 
 	@Test
@@ -116,14 +109,10 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.getConstraintDescriptors();
-		assertEquals( constraints.size(), 1, "Should have constraints" );
+		assertThat( constraints.size() ).as( "Should have constraints" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> constraint = constraints.iterator().next();
-		assertEquals(
-				constraint.getAnnotation().annotationType(),
-				MyCrossParameterConstraint.class,
-				"Wrong constraint type"
-		);
+		assertThat( constraint.getAnnotation().annotationType() ).as( "Wrong constraint type" ).isEqualTo( MyCrossParameterConstraint.class );
 	}
 
 	@Test
@@ -134,7 +123,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.getConstraintDescriptors();
-		assertEquals( constraints.size(), 0, "Should have no constraints" );
+		assertThat( constraints.size() ).as( "Should have no constraints" ).isEqualTo( 0 );
 	}
 
 	@Test
@@ -145,14 +134,10 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.findConstraints().getConstraintDescriptors();
-		assertEquals( constraints.size(), 1, "Should have constraints" );
+		assertThat( constraints.size() ).as( "Should have constraints" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> constraint = constraints.iterator().next();
-		assertEquals(
-				constraint.getAnnotation().annotationType(),
-				MyCrossParameterConstraint.class,
-				"Wrong constraint type"
-		);
+		assertThat( constraint.getAnnotation().annotationType() ).as( "Wrong constraint type" ).isEqualTo( MyCrossParameterConstraint.class );
 	}
 
 	@Test
@@ -165,23 +150,15 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 		Set<ConstraintDescriptor<?>> constraints = descriptor.findConstraints()
 				.lookingAt( Scope.LOCAL_ELEMENT )
 				.getConstraintDescriptors();
-		assertEquals(
-				constraints.size(),
-				0,
-				"Should have no local constraints"
-		);
+		assertThat( constraints.size() ).as( "Should have no local constraints" ).isEqualTo( 0 );
 
 		constraints = descriptor.findConstraints()
 				.lookingAt( Scope.HIERARCHY )
 				.getConstraintDescriptors();
-		assertEquals( constraints.size(), 1, "Should have constraints" );
+		assertThat( constraints.size() ).as( "Should have constraints" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> constraint = constraints.iterator().next();
-		assertEquals(
-				constraint.getAnnotation().annotationType(),
-				MyCrossParameterConstraint.class,
-				"Wrong constraint type"
-		);
+		assertThat( constraint.getAnnotation().annotationType() ).as( "Wrong constraint type" ).isEqualTo( MyCrossParameterConstraint.class );
 	}
 
 	@Test
@@ -194,23 +171,15 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 		Set<ConstraintDescriptor<?>> constraints = descriptor.findConstraints()
 				.lookingAt( Scope.LOCAL_ELEMENT )
 				.getConstraintDescriptors();
-		assertEquals(
-				constraints.size(),
-				0,
-				"Should have no local constraints"
-		);
+		assertThat( constraints.size() ).as( "Should have no local constraints" ).isEqualTo( 0 );
 
 		constraints = descriptor.findConstraints()
 				.lookingAt( Scope.HIERARCHY )
 				.getConstraintDescriptors();
-		assertEquals( constraints.size(), 1, "Should have constraints" );
+		assertThat( constraints.size() ).as( "Should have constraints" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> constraint = constraints.iterator().next();
-		assertEquals(
-				constraint.getAnnotation().annotationType(),
-				MyCrossParameterConstraint.class,
-				"Wrong constraint type"
-		);
+		assertThat( constraint.getAnnotation().annotationType() ).as( "Wrong constraint type" ).isEqualTo( MyCrossParameterConstraint.class );
 	}
 
 	@Test
@@ -221,7 +190,7 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.findConstraints().getConstraintDescriptors();
-		assertEquals( constraints.size(), 0, "Should have no constraints" );
+		assertThat( constraints.size() ).as( "Should have no constraints" ).isEqualTo( 0 );
 	}
 
 	@Test
@@ -232,14 +201,10 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.findConstraints().getConstraintDescriptors();
-		assertEquals( constraints.size(), 1, "Should have constraints" );
+		assertThat( constraints.size() ).as( "Should have constraints" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> constraint = constraints.iterator().next();
-		assertEquals(
-				constraint.getAnnotation().annotationType(),
-				MyCrossParameterConstraint.class,
-				"Wrong constraint type"
-		);
+		assertThat( constraint.getAnnotation().annotationType() ).as( "Wrong constraint type" ).isEqualTo( MyCrossParameterConstraint.class );
 	}
 
 	@Test
@@ -250,6 +215,6 @@ public class CrossParameterDescriptorTest extends AbstractTCKTest {
 				.getCrossParameterDescriptor();
 
 		Set<ConstraintDescriptor<?>> constraints = descriptor.findConstraints().getConstraintDescriptors();
-		assertEquals( constraints.size(), 0, "Should have no constraints" );
+		assertThat( constraints.size() ).as( "Should have no constraints" ).isEqualTo( 0 );
 	}
 }

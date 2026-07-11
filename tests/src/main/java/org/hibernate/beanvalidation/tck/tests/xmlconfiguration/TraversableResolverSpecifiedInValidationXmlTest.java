@@ -8,7 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -18,6 +17,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -26,7 +26,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -59,10 +59,7 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends AbstractTCK
 		assertThat( constraintViolations ).containsOnlyViolations(
 				violationOf( NotNull.class )
 		);
-		assertTrue(
-				XmlDefinedTraversableResolver.numberOfIsReachableCalls > 0,
-				"The resolver should have been called at least once if it was properly picked up by xml configuration."
-		);
+		Assertions.assertThat( XmlDefinedTraversableResolver.numberOfIsReachableCalls > 0 ).as( "The resolver should have been called at least once if it was properly picked up by xml configuration." ).isTrue();
 
 	}
 
@@ -84,9 +81,6 @@ public class TraversableResolverSpecifiedInValidationXmlTest extends AbstractTCK
 		assertThat( constraintViolations ).containsOnlyViolations(
 				violationOf( NotNull.class )
 		);
-		assertTrue(
-				ConfigurationDefinedTraversableResolver.numberOfIsReachableCalls > 0,
-				"The resolver should have been called at least once if configuration settings were applied."
-		);
+		Assertions.assertThat( ConfigurationDefinedTraversableResolver.numberOfIsReachableCalls > 0 ).as( "The resolver should have been called at least once if configuration settings were applied." ).isTrue();
 	}
 }

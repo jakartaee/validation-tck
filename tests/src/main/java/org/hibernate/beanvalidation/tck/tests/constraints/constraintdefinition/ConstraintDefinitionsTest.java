@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
 
@@ -19,6 +18,7 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.groups.Default;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -26,7 +26,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -51,13 +51,9 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 				.getConstraintsForProperty( "lastName" )
 				.getConstraintDescriptors();
 
-		assertEquals( descriptors.size(), 2, "There should be two constraints on the lastName property." );
+		Assertions.assertThat( descriptors.size() ).as( "There should be two constraints on the lastName property." ).isEqualTo( 2 );
 		for ( ConstraintDescriptor<?> descriptor : descriptors ) {
-			assertEquals(
-					descriptor.getAnnotation().annotationType().getName(),
-					AlwaysValid.class.getName(),
-					"Wrong annotation type."
-			);
+			Assertions.assertThat( descriptor.getAnnotation().annotationType().getName() ).as( "Wrong annotation type." ).isEqualTo( AlwaysValid.class.getName() );
 		}
 
 		Set<ConstraintViolation<Person>> constraintViolations = validator.validate( new Person( "John", "Doe" ) );
@@ -75,13 +71,9 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 				.getConstraintsForProperty( "title" )
 				.getConstraintDescriptors();
 
-		assertEquals( descriptors.size(), 2, "There should be two constraints on the title property." );
+		Assertions.assertThat( descriptors.size() ).as( "There should be two constraints on the title property." ).isEqualTo( 2 );
 		for ( ConstraintDescriptor<?> descriptor : descriptors ) {
-			assertEquals(
-					descriptor.getAnnotation().annotationType().getName(),
-					Size.class.getName(),
-					"Wrong annotation type."
-			);
+			Assertions.assertThat( descriptor.getAnnotation().annotationType().getName() ).as( "Wrong annotation type." ).isEqualTo( Size.class.getName() );
 		}
 
 		Set<ConstraintViolation<Movie>> constraintViolations = validator.validate( new Movie( "Title" ) );
@@ -109,7 +101,7 @@ public class ConstraintDefinitionsTest extends AbstractTCKTest {
 				.next();
 
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertEquals( groups.size(), 1, "The group set should only contain one entry." );
-		assertEquals( groups.iterator().next(), Default.class, "The Default group should be returned." );
+		Assertions.assertThat( groups.size() ).as( "The group set should only contain one entry." ).isEqualTo( 1 );
+		Assertions.assertThat( groups.iterator().next() ).as( "The Default group should be returned." ).isEqualTo( Default.class );
 	}
 }

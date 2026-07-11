@@ -35,11 +35,11 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-// CHECKSTYLE:OFF
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-// CHECKSTYLE:ON
-import org.testng.annotations.Test;
+//CHECKSTYLE:OFF
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+//CHECKSTYLE:ON
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -56,13 +56,13 @@ public class ExpressionLanguageMessageInterpolationTest extends AbstractTCKTest 
 				.build();
 	}
 
-	@BeforeMethod
+	@BeforeEach
 	public void setDefaultLocaleToEnglish() {
 		originalLocale = Locale.getDefault();
 		Locale.setDefault( Locale.ENGLISH );
 	}
 
-	@AfterMethod
+	@AfterEach
 	public void resetDefaultLocale() {
 		Locale.setDefault( originalLocale );
 	}

@@ -6,8 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintValidator;
@@ -20,8 +19,8 @@ public class CustomConstraintValidator implements ConstraintValidator<CustomCons
 
 	@Override
 	public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
-		assertTrue( invocationTracker.isEarlierInterceptorInvoked() );
-		assertFalse( invocationTracker.isLaterInterceptorInvoked() );
+		assertThat( invocationTracker.isEarlierInterceptorInvoked() ).isTrue();
+		assertThat( invocationTracker.isLaterInterceptorInvoked() ).isFalse();
 
 		invocationTracker.setValidatorInvoked( true );
 		return true;

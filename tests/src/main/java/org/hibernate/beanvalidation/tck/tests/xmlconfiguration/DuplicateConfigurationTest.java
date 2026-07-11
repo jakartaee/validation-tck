@@ -6,10 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
 import java.util.Set;
 
 import jakarta.validation.Configuration;
@@ -19,6 +15,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -27,7 +24,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -63,7 +61,6 @@ public class DuplicateConfigurationTest extends AbstractTCKTest {
 				.build();
 	}
 
-
 	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING, id = "a")
 	public void testXmlConfiguredConstraintExposesCorrespondingAnnotationViaMetadata() {
@@ -71,22 +68,19 @@ public class DuplicateConfigurationTest extends AbstractTCKTest {
 		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
 		Validator validator = config.buildValidatorFactory().getValidator();
 
-
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
 		Set<ConstraintDescriptor<?>> constraintDescriptors = beanDescriptor.getConstraintDescriptors();
-		assertEquals( constraintDescriptors.size(), 1, "There should be one class level constraint defined in xml" );
+		assertThat( constraintDescriptors.size() ).as( "There should be one class level constraint defined in xml" ).isEqualTo( 1 );
 
 		ConstraintDescriptor<?> descriptor = constraintDescriptors.iterator().next();
-		assertTrue( descriptor.getAnnotation() instanceof ConsistentUserInformation );
-
+		assertThat( descriptor.getAnnotation() instanceof ConsistentUserInformation ).isTrue();
 
 		constraintDescriptors = beanDescriptor.getConstraintsForProperty( "lastname" )
 				.getConstraintDescriptors();
-		assertEquals( constraintDescriptors.size(), 1, "There should be one constraint defined in xml for 'lastname'" );
+		assertThat( constraintDescriptors.size() ).as( "There should be one constraint defined in xml for 'lastname'" ).isEqualTo( 1 );
 		descriptor = constraintDescriptors.iterator().next();
-		assertTrue( descriptor.getAnnotation() instanceof Pattern );
+		assertThat( descriptor.getAnnotation() instanceof Pattern ).isTrue();
 	}
-
 
 	@Test
 	@SpecAssertions({
@@ -99,7 +93,7 @@ public class DuplicateConfigurationTest extends AbstractTCKTest {
 			config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
 			config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );
 			config.buildValidatorFactory().getValidator();
-			fail( "You should not be able to define the same bean multiple times." );
+			Assertions.fail( "You should not be able to define the same bean multiple times." );
 		}
 		catch ( ValidationException e ) {
 			// success
@@ -116,7 +110,7 @@ public class DuplicateConfigurationTest extends AbstractTCKTest {
 			Configuration<?> config = TestUtil.getConfigurationUnderTest();
 			config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile3 ) );
 			config.buildValidatorFactory().getValidator();
-			fail( "You should not be able to define multiple field mappings per entity" );
+			Assertions.fail( "You should not be able to define multiple field mappings per entity" );
 		}
 		catch ( ValidationException e ) {
 			// success
@@ -133,7 +127,7 @@ public class DuplicateConfigurationTest extends AbstractTCKTest {
 			Configuration<?> config = TestUtil.getConfigurationUnderTest();
 			config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile4 ) );
 			config.buildValidatorFactory().getValidator();
-			fail( "You should not be able to define multiple getter mappings per entity" );
+			Assertions.fail( "You should not be able to define multiple getter mappings per entity" );
 		}
 		catch ( ValidationException e ) {
 			// success

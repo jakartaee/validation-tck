@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap.customprovider;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import jakarta.validation.Configuration;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
@@ -22,7 +19,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -50,8 +48,8 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTCK
 	public void testGetFactoryByProviderSpecifiedProgrammatically() {
 		TCKValidatorConfiguration configuration = Validation.byProvider( TCKValidationProvider.class ).configure();
 		ValidatorFactory factory = configuration.buildValidatorFactory();
-		assertNotNull( factory );
-		assertTrue( factory instanceof TCKValidationProvider.DummyValidatorFactory );
+		assertThat( factory  ).isNotNull();
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory ).isTrue();
 	}
 
 	@Test
@@ -64,12 +62,12 @@ public class BootstrapCustomProviderDefinedInServiceFileTest extends AbstractTCK
 
 		TCKValidatorConfiguration configuration = Validation.byProvider( TCKValidationProvider.class ).configure();
 		ValidatorFactory factory = configuration.buildValidatorFactory();
-		assertNotNull( factory );
+		assertThat( factory  ).isNotNull();
 
 		@SuppressWarnings("unchecked")
 		Configuration<?> config = Validation.byProvider( TestUtil.getValidationProviderUnderTest().getClass() )
 				.configure();
 		factory = config.buildValidatorFactory();
-		assertNotNull( factory );
+		assertThat( factory  ).isNotNull();
 	}
 }

@@ -6,13 +6,13 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.constraintdefinition.serviceloading;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
 import java.util.Set;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -25,7 +25,7 @@ import org.jboss.test.audit.annotations.SpecVersion;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Marko Bekhta
@@ -51,7 +51,7 @@ public class ServiceLoadedConstraintOrderTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_REGISTER_VALIDATORS, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_REGISTER_VALIDATORS, id = "d")
 	public void testConstraintValidatorLoadedOrderBuiltInConstraint() {
-		assertThatThrownBy( () -> {
+		Assertions.assertThatThrownBy( () -> {
 			Validator validator = TestUtil.getValidatorUnderTest();
 			validator.validate( new BuiltInOrderBean() );
 		} ).isInstanceOf( ValidationException.class );
@@ -62,7 +62,7 @@ public class ServiceLoadedConstraintOrderTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_REGISTER_VALIDATORS, id = "b")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_REGISTER_VALIDATORS, id = "d")
 	public void testConstraintValidatorLoadedOrderAnnotation() {
-		assertThatThrownBy( () -> {
+		Assertions.assertThatThrownBy( () -> {
 			Validator validator = TestUtil.getValidatorUnderTest();
 			validator.validate( new OrderAnnotationBean( "foo" ) );
 		} ).isInstanceOf( ValidationException.class );
@@ -73,7 +73,7 @@ public class ServiceLoadedConstraintOrderTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_REGISTER_VALIDATORS, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_REGISTER_VALIDATORS, id = "d")
 	public void testConstraintValidatorLoadedOrderXml() {
-		assertThatThrownBy( () -> {
+		Assertions.assertThatThrownBy( () -> {
 			Validator validator = TestUtil.getValidatorUnderTest();
 			validator.validate( new OrderXmlBean( "foo" ) );
 		} ).isInstanceOf( ValidationException.class );

@@ -9,9 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.constraintcomposition
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -32,13 +29,14 @@ import jakarta.validation.groups.Default;
 import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for composing constraints.
@@ -168,12 +166,16 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		assertNoViolations( constraintViolations );
 	}
 
-	@Test(expectedExceptions = { ConstraintDeclarationException.class })
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "u")
 	public void testConstraintIndexWithMixDirectAnnotationAndListContainer() {
-		FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
-		address.setZipCode( "abc" );
-		getValidator().validate( address );
+		Assertions.assertThatThrownBy( () -> {
+
+			FrenchAddressMixDirectAnnotationAndListContainer address = getFrenchAddressMixDirectAnnotationAndListContainerWithoutZipCode();
+			address.setZipCode( "abc" );
+			getValidator().validate( address );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	@Test
@@ -188,12 +190,9 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		ConstraintViolation<FrenchAddress> constraintViolation = constraintViolations.iterator().next();
 		NotNull notNull = (NotNull) constraintViolation.getConstraintDescriptor().getAnnotation();
 		List<Class<?>> groups = Arrays.asList( notNull.groups() );
-		assertTrue( groups.size() == 2, "There should be two groups" );
-		assertTrue( groups.contains( Default.class ), "The default group should be in the list." );
-		assertTrue(
-				groups.contains( FrenchAddress.FullAddressCheck.class ),
-				"The FrenchAddress.FullAddressCheck group should be inherited."
-		);
+		Assertions.assertThat( groups.size() == 2 ).as( "There should be two groups" ).isTrue();
+		Assertions.assertThat( groups.contains( Default.class ) ).as( "The default group should be in the list." ).isTrue();
+		Assertions.assertThat(  groups.contains( FrenchAddress.FullAddressCheck.class ) ).as( "The FrenchAddress.FullAddressCheck group should be inherited." ).isTrue();
 	}
 
 	@Test
@@ -221,7 +220,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		Set<ConstraintDescriptor<?>> constraintDescriptors = descriptor.getConstraintsForProperty( "zipCode" )
 				.getConstraintDescriptors();
 		boolean findPattern = checkForAppropriateAnnotation( constraintDescriptors );
-		assertTrue( findPattern, "Could not find @Pattern in composing constraints" );
+		Assertions.assertThat(  findPattern ).as( "Could not find @Pattern in composing constraints" ).isTrue();
 	}
 
 	private boolean checkForAppropriateAnnotation(Set<ConstraintDescriptor<?>> constraintDescriptors) {
@@ -231,7 +230,7 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 			if ( Pattern.class.getName().equals( ann.annotationType().getName() ) ) {
 				String regexp = ( (Pattern) ann ).regexp();
 				if ( regexp.equals( "bar" ) ) {
-					fail( "The regular expression attributes are defined in the composing constraint." );
+					Assertions.fail( "The regular expression attributes are defined in the composing constraint." );
 				}
 				findPattern = true;
 			}
@@ -240,17 +239,25 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		return findPattern;
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "p")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "w")
 	public void testOverriddenAttributesMustMatchInType() {
-		getValidator().validate( new DummyEntityWithZipCode( "foobar" ) );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new DummyEntityWithZipCode( "foobar" ) );
+	
+		} ).isInstanceOf( ConstraintDefinitionException.class );
 	}
 
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "j")
 	public void testAllComposingConstraintsMustBeApplicableToAnnotatedType() {
-		getValidator().validate( new Shoe( 41 ) );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new Shoe( 41 ) );
+	
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
 	@Test
@@ -267,9 +274,9 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 		ConstraintViolation<Friend> constraintViolation = constraintViolations.iterator().next();
 		Set<Class<? extends Payload>> payloads = constraintViolation.getConstraintDescriptor().getPayload();
 
-		assertTrue( payloads.size() == 1, "There should be one payload in the set" );
+		Assertions.assertThat( payloads.size() == 1 ).as( "There should be one payload in the set" ).isTrue();
 		Class<? extends Payload> payload = payloads.iterator().next();
-		assertTrue( payload.getName().equals( Severity.Warn.class.getName() ), "Unexpected payload" );
+		Assertions.assertThat( payload.getName().equals( Severity.Warn.class.getName() ) ).as( "Unexpected payload" ).isTrue();
 	}
 
 	@Test
@@ -293,47 +300,52 @@ public class ConstraintCompositionTest extends AbstractTCKTest {
 
 		//and it should inherit the constraint target from the composed constraint
 		ConstraintViolation<Object> constraintViolation = constraintViolations.iterator().next();
-		assertEquals(
-				constraintViolation.getConstraintDescriptor().getValidationAppliesTo(),
-				ConstraintTarget.PARAMETERS
-		);
+		Assertions.assertThat(  constraintViolation.getConstraintDescriptor().getValidationAppliesTo() ).isEqualTo( ConstraintTarget.PARAMETERS );
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "k")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "w")
 	public void testMixedConstraintTargetsInComposedAndComposingConstraintsCauseException()
 			throws Exception {
-		Object object = new DummyEntityWithIllegallyComposedConstraint();
-		Method method = DummyEntityWithIllegallyComposedConstraint.class.getMethod(
-				"doSomething",
-				int.class
-		);
-		Object[] parameterValues = new Object[] { 0 };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues
-		);
+			Object object = new DummyEntityWithIllegallyComposedConstraint();
+			Method method = DummyEntityWithIllegallyComposedConstraint.class.getMethod(
+					"doSomething",
+					int.class
+			);
+			Object[] parameterValues = new Object[] { 0 };
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues
+			);
+	
+		} ).isInstanceOf( ConstraintDefinitionException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "k")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTCOMPOSITION, id = "w")
 	public void testMixedConstraintTargetsInComposingConstraintsCauseException() throws Exception {
-		Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
-		Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(
-				"doSomething",
-				int.class
-		);
-		Object[] parameterValues = new Object[] { 0 };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters(
-				object,
-				method,
-				parameterValues
-		);
+			Object object = new DummyEntityWithAnotherIllegallyComposedConstraint();
+			Method method = DummyEntityWithAnotherIllegallyComposedConstraint.class.getMethod(
+					"doSomething",
+					int.class
+			);
+			Object[] parameterValues = new Object[] { 0 };
+
+			getExecutableValidator().validateParameters(
+					object,
+					method,
+					parameterValues
+			);
+	
+		} ).isInstanceOf( ConstraintDefinitionException.class );
 	}
 
 	@Test

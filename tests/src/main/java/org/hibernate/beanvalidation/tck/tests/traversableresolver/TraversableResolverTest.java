@@ -8,9 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.RETURN_VALUE_NODE_NAME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 
 import java.lang.annotation.ElementType;
 import java.lang.reflect.Method;
@@ -26,6 +23,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.executable.ExecutableValidator;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -34,7 +32,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Emmanuel Bernard
@@ -150,8 +149,8 @@ public class TraversableResolverTest extends AbstractTCKTest {
 
 		v.validate( suit );
 
-		assertEquals( resolver.getReachableCallCount(), 5 );
-		assertEquals( resolver.getCascadableCallCount(), 2 );
+		assertThat( resolver.getReachableCallCount() ).isEqualTo( 5 );
+		assertThat( resolver.getCascadableCallCount() ).isEqualTo( 2 );
 	}
 
 	@Test
@@ -197,8 +196,8 @@ public class TraversableResolverTest extends AbstractTCKTest {
 
 		v.validateValue( Suit.class, "size", 3333 );
 
-		assertEquals( resolver.getReachableCallCount(), 1 );
-		assertEquals( resolver.getCascadableCallCount(), 0 );
+		assertThat( resolver.getReachableCallCount() ).isEqualTo( 1 );
+		assertThat( resolver.getCascadableCallCount() ).isEqualTo( 0 );
 	}
 
 	@Test
@@ -305,8 +304,8 @@ public class TraversableResolverTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-		assertEquals( resolver.getReachableCallCount(), 5 );
-		assertEquals( resolver.getCascadableCallCount(), 2 );
+		assertThat( resolver.getReachableCallCount() ).isEqualTo( 5  );
+		assertThat( resolver.getCascadableCallCount() ).isEqualTo( 2  );
 	}
 
 	@Test
@@ -413,8 +412,8 @@ public class TraversableResolverTest extends AbstractTCKTest {
 				suit
 		);
 
-		assertEquals( resolver.getReachableCallCount(), 5 );
-		assertEquals( resolver.getCascadableCallCount(), 2 );
+		assertThat( resolver.getReachableCallCount() ).isEqualTo( 5  );
+		assertThat( resolver.getCascadableCallCount() ).isEqualTo( 2  );
 	}
 
 	@Test
@@ -440,26 +439,30 @@ public class TraversableResolverTest extends AbstractTCKTest {
 		configuration.traversableResolver( traversableResolver );
 		ValidatorFactory factory = configuration.buildValidatorFactory();
 
-		assertSame( factory.getTraversableResolver(), traversableResolver );
+		assertThat( factory.getTraversableResolver() ).isSameAs( traversableResolver  );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TRAVERSABLE, id = "j")
 	public void testResolverExceptionsGetWrappedInValidationException() {
-		ExceptionThrowingTraversableResolver resolver = new ExceptionThrowingTraversableResolver();
-		Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
+		Assertions.assertThatThrownBy( () -> {
 
-		ValidatorFactory factory = config.buildValidatorFactory();
-		Validator v = factory.getValidator();
+			ExceptionThrowingTraversableResolver resolver = new ExceptionThrowingTraversableResolver();
+			Configuration<?> config = TestUtil.getConfigurationUnderTest().traversableResolver( resolver );
 
-		v.validate( new Suit() );
+			ValidatorFactory factory = config.buildValidatorFactory();
+			Validator v = factory.getValidator();
+
+			v.validate( new Suit() );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "b")
 	public void testDefaultTraversableResolverIsNotNull() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		assertNotNull( config.getDefaultTraversableResolver() );
+		assertThat( config.getDefaultTraversableResolver() ).isNotNull();
 	}
 
 	private static class DummyTraversableResolver implements TraversableResolver {

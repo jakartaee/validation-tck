@@ -12,10 +12,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Documented;
@@ -43,6 +39,7 @@ import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -51,7 +48,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -87,7 +84,7 @@ public class ValidateTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	// UnexpectedTypeException is a subclass of ValidationException
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_REQUIREMENTS, id = "a"),
@@ -95,8 +92,10 @@ public class ValidateTest extends AbstractTCKTest {
 			@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "c")
 	})
 	public void testUnexpectedTypeException() {
-		Boy boy = new Boy();
-		TestUtil.getValidatorUnderTest().validate( boy );
+		Assertions.assertThatThrownBy( () -> {
+			Boy boy = new Boy();
+			TestUtil.getValidatorUnderTest().validate( boy );
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
 	@Test
@@ -108,35 +107,43 @@ public class ValidateTest extends AbstractTCKTest {
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty( "orderNumber" );
 		Set<ConstraintDescriptor<?>> descriptors = propertyDescriptor.getConstraintDescriptors();
 
-		assertEquals( descriptors.size(), 1, "There should be only one constraint descriptor" );
+		Assertions.assertThat( descriptors.size() ).as( "There should be only one constraint descriptor" ).isEqualTo( 1 );
 		ConstraintDescriptor<?> descriptor = descriptors.iterator().next();
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertTrue( groups.size() == 1, "There should be only one group" );
-		assertEquals(
-				groups.iterator().next(),
-				Default.class,
-				"The declared constraint does not explicitly define a group, hence Default is expected"
-		);
+		Assertions.assertThat( groups.size() == 1 ).as( "There should be only one group" ).isTrue();
+		Assertions.assertThat( groups.iterator().next() ).as( "The declared constraint does not explicitly define a group, hence Default is expected" ).isEqualTo( Default.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_VALIDATOR, id = "b")
 	public void testNullParameterToGetConstraintsForClass() {
-		TestUtil.getValidatorUnderTest().getConstraintsForClass( null );
+		Assertions.assertThatThrownBy( () -> {
+
+			TestUtil.getValidatorUnderTest().getConstraintsForClass( null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "b")
 	public void testValidateWithNullValue() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( null );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "b")
 	public void testValidateWithNullGroup() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new Boy(), (Class<?>) null );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( new Boy(), (Class<?>) null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
@@ -215,17 +222,17 @@ public class ValidateTest extends AbstractTCKTest {
 
 		ConstraintViolation<Engine> violation = constraintViolations.iterator().next();
 
-		assertEquals( violation.getMessage(), "must match ^....-....-....$", "Wrong message" );
-		assertEquals( violation.getMessageTemplate(), "must match {regexp}", "Wrong message template" );
-		assertEquals( violation.getRootBean(), engine, "Wrong root entity." );
-		assertEquals( violation.getRootBeanClass(), Engine.class, "Wrong root bean class." );
-		assertEquals( violation.getLeafBean(), engine );
-		assertEquals( violation.getInvalidValue(), "ABCDEFGH1234", "Wrong validated value" );
-		assertNull( violation.getExecutableParameters() );
-		assertNull( violation.getExecutableReturnValue() );
-		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
+		Assertions.assertThat( violation.getMessage() ).as( "Wrong message" ).isEqualTo( "must match ^....-....-....$" );
+		Assertions.assertThat( violation.getMessageTemplate() ).as( "Wrong message template" ).isEqualTo( "must match {regexp}" );
+		Assertions.assertThat( violation.getRootBean() ).as( "Wrong root entity." ).isEqualTo( engine );
+		Assertions.assertThat( violation.getRootBeanClass() ).as( "Wrong root bean class." ).isEqualTo( Engine.class );
+		Assertions.assertThat( violation.getLeafBean() ).isEqualTo( engine );
+		Assertions.assertThat( violation.getInvalidValue() ).as( "Wrong validated value" ).isEqualTo( "ABCDEFGH1234" );
+		Assertions.assertThat( violation.getExecutableParameters() ).isNull();
+		Assertions.assertThat( violation.getExecutableReturnValue() ).isNull();
+		Assertions.assertThat( violation.getConstraintDescriptor() ).as( "Constraint descriptor should not be null" ).isNotNull();
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
-		assertEquals( ann.annotationType(), Pattern.class, "Wrong annotation type" );
+		Assertions.assertThat( ann.annotationType() ).as( "Wrong annotation type" ).isEqualTo( Pattern.class );
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()
 						.property( "serialNumber" )
@@ -255,14 +262,14 @@ public class ValidateTest extends AbstractTCKTest {
 
 		ConstraintViolation<DirtBike> violation = constraintViolations.iterator().next();
 
-		assertEquals( violation.getRootBean(), bike, "Wrong root entity." );
-		assertEquals( violation.getRootBeanClass(), DirtBike.class, "Wrong root bean class." );
-		assertEquals( violation.getLeafBean(), bike, "Wrong leaf bean." );
-		assertEquals( violation.getInvalidValue(), bike, "Wrong validated value" );
-		assertNotNull( violation.getConstraintDescriptor(), "Constraint descriptor should not be null" );
+		Assertions.assertThat( violation.getRootBean() ).as( "Wrong root entity." ).isEqualTo( bike );
+		Assertions.assertThat( violation.getRootBeanClass() ).as( "Wrong root bean class." ).isEqualTo( DirtBike.class );
+		Assertions.assertThat( violation.getLeafBean() ).as( "Wrong leaf bean." ).isEqualTo( bike );
+		Assertions.assertThat( violation.getInvalidValue() ).as( "Wrong validated value" ).isEqualTo( bike );
+		Assertions.assertThat( violation.getConstraintDescriptor() ).as( "Constraint descriptor should not be null" ).isNotNull();
 
 		Annotation ann = violation.getConstraintDescriptor().getAnnotation();
-		assertEquals( ann.annotationType(), ValidDirtBike.class, "Wrong annotation type" );
+		Assertions.assertThat( ann.annotationType() ).as( "Wrong annotation type" ).isEqualTo( ValidDirtBike.class );
 
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith().bean()
@@ -307,9 +314,9 @@ public class ValidateTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
-		assertEquals( constraintViolation.getLeafBean(), morgan );
-		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
+		Assertions.assertThat( constraintViolation.getRootBean() ).as( "Wrong root entity" ).isEqualTo( clint );
+		Assertions.assertThat( constraintViolation.getLeafBean() ).isEqualTo( morgan );
+		Assertions.assertThat( constraintViolation.getInvalidValue() ).as( "Wrong value" ).isEqualTo( morgan.getLastName( ) );
 	}
 
 	@Test
@@ -349,8 +356,8 @@ public class ValidateTest extends AbstractTCKTest {
 						)
 		);
 		ConstraintViolation<Actor> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getRootBean(), clint, "Wrong root entity" );
-		assertEquals( constraintViolation.getInvalidValue(), morgan.getLastName(), "Wrong value" );
+		Assertions.assertThat(  constraintViolation.getRootBean() ).as( "Wrong root entity" ).isEqualTo( clint );
+		Assertions.assertThat(  constraintViolation.getInvalidValue() ).as( "Wrong value" ).isEqualTo( morgan.getLastName( ) );
 	}
 
 	@Test
@@ -373,11 +380,15 @@ public class ValidateTest extends AbstractTCKTest {
 		assertNoViolations( violations );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "k")
 	public void testUnexpectedExceptionsInValidateGetWrappedInValidationExceptions() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new BadlyBehavedEntity() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( new BadlyBehavedEntity() );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@Test

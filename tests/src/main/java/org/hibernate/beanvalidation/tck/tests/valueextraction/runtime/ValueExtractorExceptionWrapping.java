@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.valueextraction.ExtractedValue;
 import jakarta.validation.valueextraction.ValueExtractor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -19,7 +20,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -34,15 +35,19 @@ public class ValueExtractorExceptionWrapping extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION, id = "i")
 	@SpecAssertion(section = Sections.EXCEPTION, id = "a")
 	public void exception_in_value_extractor_is_wrapped() {
-		Validator validator = TestUtil.getConfigurationUnderTest()
-				.addValueExtractor( new ThrowsExceptionInExtractValuesValueHolderExtractor() )
-				.buildValidatorFactory()
-				.getValidator();
-		validator.validate( new Entity() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getConfigurationUnderTest()
+					.addValueExtractor( new ThrowsExceptionInExtractValuesValueHolderExtractor() )
+					.buildValidatorFactory()
+					.getValidator();
+			validator.validate( new Entity() );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	private class Entity {

@@ -9,9 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.customconstraint;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -22,6 +19,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -29,7 +27,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Emmanuel Bernard
@@ -67,19 +65,13 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		shoe.size = -2;
 		final PropertyDescriptor propertyDescriptor = validator.getConstraintsForClass( Shoe.class )
 				.getConstraintsForProperty( "size" );
-		assertNotNull( propertyDescriptor );
+		Assertions.assertThat(  propertyDescriptor  ).isNotNull();
 
 		BoundariesConstraintValidator.isValidCalls = 0;
 		final Set<ConstraintViolation<Shoe>> constraintViolations = validator.validate( shoe );
-		assertEquals( 1, constraintViolations.size() );
-		assertTrue(
-				BoundariesConstraintValidator.isValidCalls >= 1,
-				"Ensure the right validator implementation class was picked."
-		);
-		assertTrue(
-				BoundariesConstraintValidator.initializeCalled,
-				"Check initialize was called. Note this is not really ensuring that it was called before isValid. That is done in the actual implementation of the validator."
-		);
+		Assertions.assertThat( constraintViolations.size() ).isEqualTo( 1 );
+		Assertions.assertThat(  BoundariesConstraintValidator.isValidCalls >= 1 ).as( "Ensure the right validator implementation class was picked." ).isTrue();
+		Assertions.assertThat(  BoundariesConstraintValidator.initializeCalled ).as( "Check initialize was called. Note this is not really ensuring that it was called before isValid. That is done in the actual implementation of the validator." ).isTrue();
 	}
 
 	@Test
@@ -93,56 +85,55 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		int nbrOfValidCalls = 0;
 		BoundariesConstraintValidator.isValidCalls = 0;
 		validator.validate( shoe );
-		assertTrue(
-				BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls,
-				"Ensure is valid has been called."
-		);
+		Assertions.assertThat(  BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls ).as( "Ensure is valid has been called." ).isTrue();
 		nbrOfValidCalls = BoundariesConstraintValidator.isValidCalls;
 
 		validator.validate( shoe );
-		assertTrue(
-				BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls,
-				"Ensure is valid has been called."
-		);
+		Assertions.assertThat(  BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls ).as( "Ensure is valid has been called." ).isTrue();
 		nbrOfValidCalls = BoundariesConstraintValidator.isValidCalls;
 
 		validator.validateProperty( shoe, "size" );
-		assertTrue(
-				BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls,
-				"Ensure is valid has been called."
-		);
+		Assertions.assertThat(  BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls ).as( "Ensure is valid has been called." ).isTrue();
 		nbrOfValidCalls = BoundariesConstraintValidator.isValidCalls;
 
 		validator.validateValue( Shoe.class, "size", 41 );
-		assertTrue(
-				BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls,
-				"Ensure is valid has been called."
-		);
+		Assertions.assertThat(  BoundariesConstraintValidator.isValidCalls > nbrOfValidCalls ).as( "Ensure is valid has been called." ).isTrue();
 	}
-
 
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "m")
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	public void testUnexpectedTypeExceptionIsRaisedForInvalidType() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new OddShoe() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( new OddShoe() );
+	
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "n")
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	public void testRuntimeExceptionFromIsValidIsWrapped() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		Shoe shoe = new Shoe();
-		shoe.size = -2;
-		BoundariesConstraintValidator.throwRuntimeExceptionFromIsValid = true;
-		validator.validate( shoe );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			Shoe shoe = new Shoe();
+			shoe.size = -2;
+			BoundariesConstraintValidator.throwRuntimeExceptionFromIsValid = true;
+			validator.validate( shoe );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "n")
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	public void testRuntimeExceptionFromInitializeIsWrapped() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new Freezer() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( new Freezer() );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@Test
@@ -154,7 +145,6 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		author.setLastName( "" );
 		author.setFirstName( "" );
 		author.setCompany( "" );
-
 
 		Set<ConstraintViolation<Author>> constraintViolations = validator.validate( author );
 		assertThat( constraintViolations ).containsOnlyViolations(
@@ -197,8 +187,8 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Author> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getMessageTemplate(), "The company name must be a minimum {min} characters" );
-		assertTrue( !constraintViolation.getMessageTemplate().equals( constraintViolation.getMessage() ) );
+		Assertions.assertThat(  constraintViolation.getMessageTemplate() ).isEqualTo( "The company name must be a minimum {min} characters"  );
+		Assertions.assertThat( !constraintViolation.getMessageTemplate().equals( constraintViolation.getMessage() ) ).isTrue();
 	}
 
 	@Test
@@ -216,7 +206,6 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 				violationOf( Size.class ).withProperty( "company" )
 		);
 	}
-
 
 	public static class Shoe {
 		@Positive

@@ -31,6 +31,7 @@ import jakarta.validation.constraintvalidation.SupportedValidationTarget;
 import jakarta.validation.constraintvalidation.ValidationTarget;
 import jakarta.validation.executable.ExecutableValidator;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -38,7 +39,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -167,7 +168,6 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 				parameterValues
 		);
 
-
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith().method( "setAddresses" ).parameter( "param0", 0 ),
 				pathWith().method( "setAddresses" ).parameter( "param0", 0 ).bean(),
@@ -178,11 +178,15 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = Exception.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "az")
 	public void testAddParameterNodeForFieldLevelConstraintCausesException() throws Throwable {
-		getValidator().validate( new Bar() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new Bar() );
+	
+		} ).isInstanceOf( Exception.class );
 	}
 
 	@Test

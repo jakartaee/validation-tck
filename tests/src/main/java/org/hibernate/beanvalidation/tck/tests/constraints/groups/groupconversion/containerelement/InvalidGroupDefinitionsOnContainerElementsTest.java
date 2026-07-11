@@ -12,6 +12,7 @@ import java.util.List;
 
 import jakarta.validation.ConstraintDeclarationException;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.constraints.groups.groupconversion.containerelement.model.UserWithContainerElementGroupConversionButWithoutValidAnnotationConstructorParameter;
@@ -33,7 +34,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for definition of group conversion rules.
@@ -55,143 +56,195 @@ public class InvalidGroupDefinitionsOnContainerElementsTest extends AbstractTCKT
 				.build();
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnField() {
-		getValidator().validate( new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnField() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnField() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnProperty() {
-		getValidator().validate( new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnProperty() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnProperty() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnMethodReturnValue() throws Exception {
-		Object object = new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodReturnValue();
-		Method method = UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodReturnValue.class.getMethod(
-				"retrieveAddresses"
-		);
-		Object returnValue = null;
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateReturnValue( object, method, returnValue );
+			Object object = new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodReturnValue();
+			Method method = UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodReturnValue.class.getMethod(
+					"retrieveAddresses"
+			);
+			Object returnValue = null;
+
+			getExecutableValidator().validateReturnValue( object, method, returnValue );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnMethodParameter() throws Exception {
-		Object object = new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodParameter();
-		Method method = UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodParameter.class.getMethod(
-				"setAddresses",
-				List.class
-		);
-		Object[] parameters = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameters );
+			Object object = new UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodParameter();
+			Method method = UserWithContainerElementGroupConversionButWithoutValidAnnotationOnMethodParameter.class.getMethod(
+					"setAddresses",
+					List.class
+			);
+			Object[] parameters = new Object[] { null };
+
+			getExecutableValidator().validateParameters( object, method, parameters );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "a")
 	public void testGroupConversionWithoutValidAnnotationOnConstructorParameter() throws Exception {
-		Constructor<UserWithContainerElementGroupConversionButWithoutValidAnnotationConstructorParameter> constructor = UserWithContainerElementGroupConversionButWithoutValidAnnotationConstructorParameter.class
-				.getConstructor( List.class );
-		Object[] parameters = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorParameters( constructor, parameters );
+			Constructor<UserWithContainerElementGroupConversionButWithoutValidAnnotationConstructorParameter> constructor = UserWithContainerElementGroupConversionButWithoutValidAnnotationConstructorParameter.class
+					.getConstructor( List.class );
+			Object[] parameters = new Object[] { null };
+
+			getExecutableValidator().validateConstructorParameters( constructor, parameters );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "f")
 	public void testSeveralGroupConversionsWithSameFrom() {
-		getValidator().validate( new UserWithSeveralContainerElementGroupConversionsForSameFrom() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new UserWithSeveralContainerElementGroupConversionsForSameFrom() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "g")
 	public void testGroupConversionWithSequenceAsFrom() {
-		getValidator().validate( new UserWithContainerElementGroupConversionWithSequenceAsFrom() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new UserWithContainerElementGroupConversionWithSequenceAsFrom() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterInSubClass() throws Exception {
-		Object object = new SubClassWithGroupConversionOnParameter();
-		Method method = SubClassWithGroupConversionOnParameter.class.getMethod(
-				"addUsers",
-				List.class
-		);
-		Object[] parameters = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameters );
+			Object object = new SubClassWithGroupConversionOnParameter();
+			Method method = SubClassWithGroupConversionOnParameter.class.getMethod(
+					"addUsers",
+					List.class
+			);
+			Object[] parameters = new Object[] { null };
+
+			getExecutableValidator().validateParameters( object, method, parameters );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterInImplementingClass() throws Exception {
-		Object object = new InterfaceImplementationWithGroupConversionOnParameter();
-		Method method = InterfaceImplementationWithGroupConversionOnParameter.class.getMethod(
-				"addUsers",
-				List.class
-		);
-		Object[] parameters = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameters );
+			Object object = new InterfaceImplementationWithGroupConversionOnParameter();
+			Method method = InterfaceImplementationWithGroupConversionOnParameter.class.getMethod(
+					"addUsers",
+					List.class
+			);
+			Object[] parameters = new Object[] { null };
+
+			getExecutableValidator().validateParameters( object, method, parameters );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterInParallelInterfaces() throws Exception {
-		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnParameter();
-		Method method = ImplementationOfParallelInterfacesWithGroupConversionOnParameter.class.getMethod(
-				"addUsers",
-				List.class
-		);
-		Object[] parameters = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameters );
+			Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnParameter();
+			Method method = ImplementationOfParallelInterfacesWithGroupConversionOnParameter.class.getMethod(
+					"addUsers",
+					List.class
+			);
+			Object[] parameters = new Object[] { null };
+
+			getExecutableValidator().validateParameters( object, method, parameters );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnReturnValueInParallelInterfaces() throws Exception {
-		Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue();
-		Method method = ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue.class.getMethod(
-				"getUsers"
-		);
-		Object returnValue = null;
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateReturnValue( object, method, returnValue );
+			Object object = new ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue();
+			Method method = ImplementationOfParallelInterfacesWithGroupConversionOnReturnValue.class.getMethod(
+					"getUsers"
+			);
+			Object returnValue = null;
+
+			getExecutableValidator().validateReturnValue( object, method, returnValue );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnParameterImplementedInterfaceWithSuperClass()
 			throws Exception {
-		Object object = new ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass();
-		Method method = ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass.class
-				.getMethod( "addUsers", List.class );
-		Object[] parameters = new Object[] { null };
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameters );
+			Object object = new ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass();
+			Method method = ImplementationOfInterfaceWithGroupConversionOnParameterAndSuperClass.class
+					.getMethod( "addUsers", List.class );
+			Object[] parameters = new Object[] { null };
+
+			getExecutableValidator().validateParameters( object, method, parameters );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "j")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "k")
 	public void testGroupConversionGivenOnReturnValueInImplementedInterfaceWithSuperClass()
 			throws Exception {
-		Object object = new ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass();
-		Method method = ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass.class
-				.getMethod( "getUsers" );
-		Object returnValue = null;
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateReturnValue( object, method, returnValue );
+			Object object = new ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass();
+			Method method = ImplementationOfInterfaceWithGroupConversionOnReturnValueAndSuperClass.class
+					.getMethod( "getUsers" );
+			Object returnValue = null;
+
+			getExecutableValidator().validateReturnValue( object, method, returnValue );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 }

@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
-import static org.testng.Assert.assertNotNull;
-
 import jakarta.ejb.EJB;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -17,7 +15,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -43,15 +42,15 @@ public class DefaultInjectionTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "b")
-	private void testDefaultValidatorFactoryGetsInjectedAtResource() throws Exception {
-		assertNotNull( testEjb );
+	void testDefaultValidatorFactoryGetsInjectedAtResource() throws Exception {
+		assertThat( testEjb  ).isNotNull();
 		testEjb.assertDefaultValidatorFactoryGetsInjected();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "b")
-	private void testDefaultValidatorGetsInjectedWithAtResource() {
-		assertNotNull( testEjb );
+	void testDefaultValidatorGetsInjectedWithAtResource() {
+		assertThat( testEjb  ).isNotNull();
 		testEjb.assertDefaultValidatorGetsInjected();
 	}
 }

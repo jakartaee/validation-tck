@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
-import static org.testng.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -120,10 +120,10 @@ public final class TestUtil {
 	public static String getParameterName(Path path) {
 		Iterator<Node> nodes = path.iterator();
 
-		assertTrue( nodes.hasNext() );
+		assertThat( nodes.hasNext() ).isTrue();
 		nodes.next();
 
-		assertTrue( nodes.hasNext() );
+		assertThat( nodes.hasNext() ).isTrue();
 		return nodes.next().getName();
 	}
 

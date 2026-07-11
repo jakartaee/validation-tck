@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import static org.testng.Assert.assertFalse;
-
 import jakarta.validation.Validator;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -17,7 +15,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Guillaume Smet
@@ -44,6 +43,6 @@ public class Version20InMappingXmlTest extends AbstractTCKTest {
 				.buildValidatorFactory()
 				.getValidator();
 
-		assertFalse( validator.getConstraintsForClass( TestEntity.class ).isBeanConstrained() );
+		assertThat( validator.getConstraintsForClass( TestEntity.class ).isBeanConstrained() ).isFalse();
 	}
 }

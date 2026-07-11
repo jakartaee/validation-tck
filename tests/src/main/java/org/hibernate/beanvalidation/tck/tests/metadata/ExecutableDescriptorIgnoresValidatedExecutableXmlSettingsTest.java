@@ -8,8 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 import java.util.Collections;
 
@@ -23,7 +21,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -45,12 +44,10 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testMethodDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEInXml() {
-		assertEquals(
-				Validation.byDefaultProvider()
+		assertThat( Validation.byDefaultProvider()
 						.configure()
 						.getBootstrapConfiguration()
-						.getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
+						.getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( )
 		);
 
 		MethodDescriptor descriptor = getMethodDescriptor(
@@ -59,20 +56,18 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 				String.class
 		);
 
-		assertNotNull( descriptor );
-		assertEquals( descriptor.getName(), "setName" );
-		assertEquals( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size(), 1 );
+		assertThat( descriptor ).isNotNull();
+		assertThat( descriptor.getName() ).isEqualTo( "setName"  );
+		assertThat( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size() ).isEqualTo( 1  );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_EXECUTABLEDESCRIPTOR, id = "h")
 	public void testConstructorDescriptorCanBeRetrievedAlsoIfValidateExecutableIsSetToNONEInXml() {
-		assertEquals(
-				Validation.byDefaultProvider()
+		assertThat( Validation.byDefaultProvider()
 						.configure()
 						.getBootstrapConfiguration()
-						.getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
+						.getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( )
 		);
 
 		ConstructorDescriptor descriptor = getConstructorDescriptor(
@@ -80,8 +75,8 @@ public class ExecutableDescriptorIgnoresValidatedExecutableXmlSettingsTest exten
 				String.class
 		);
 
-		assertNotNull( descriptor );
-		assertEquals( descriptor.getName(), "StockItem" );
-		assertEquals( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size(), 1 );
+		assertThat( descriptor  ).isNotNull();
+		assertThat( descriptor.getName() ).isEqualTo( "StockItem"  );
+		assertThat( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size() ).isEqualTo( 1  );
 	}
 }

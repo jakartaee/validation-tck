@@ -9,6 +9,7 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.declaration;
 import jakarta.validation.Validation;
 import jakarta.validation.valueextraction.ValueExtractorDeclarationException;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.Cinema;
@@ -18,7 +19,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -35,21 +36,29 @@ public class MultipleValueExtractorsDeclaredProgrammaticallyForSameTypeAndTypeAr
 				.build();
 	}
 
-	@Test(expectedExceptions = ValueExtractorDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "h")
 	public void configuringMultipleExtractorsForSameTypeAndTypeUseCausesException() throws Exception {
-		Validation.byDefaultProvider()
-				.configure()
-				.addValueExtractor( new ReferenceValueExtractor0() )
-				.addValueExtractor( new ReferenceValueExtractor1() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validation.byDefaultProvider()
+					.configure()
+					.addValueExtractor( new ReferenceValueExtractor0() )
+					.addValueExtractor( new ReferenceValueExtractor1() );
+	
+		} ).isInstanceOf( ValueExtractorDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ValueExtractorDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATORFACTORY, id = "h")
 	public void configuringValidatorWithMultipleExtractorsForSameTypeAndTypeUseCausesException() throws Exception {
-		Validation.buildDefaultValidatorFactory()
-				.usingContext()
-				.addValueExtractor( new ReferenceValueExtractor0() )
-				.addValueExtractor( new ReferenceValueExtractor1() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validation.buildDefaultValidatorFactory()
+					.usingContext()
+					.addValueExtractor( new ReferenceValueExtractor0() )
+					.addValueExtractor( new ReferenceValueExtractor1() );
+	
+		} ).isInstanceOf( ValueExtractorDeclarationException.class );
 	}
 }

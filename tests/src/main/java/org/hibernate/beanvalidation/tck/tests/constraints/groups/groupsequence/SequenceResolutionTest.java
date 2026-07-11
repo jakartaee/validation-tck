@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.groups.groupsequence;
 
-
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
@@ -19,6 +18,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -26,7 +26,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -41,15 +41,19 @@ public class SequenceResolutionTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test(expectedExceptions = GroupDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "f")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "i")
 	@SpecAssertion(section = Sections.EXCEPTION_GROUPDEFINITION, id = "a")
 	public void testInvalidDefinitionOfDefaultSequenceInEntity() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		TestEntity entity = new TestEntity();
-		validator.validate( entity, Complete.class );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			TestEntity entity = new TestEntity();
+			validator.validate( entity, Complete.class );
+	
+		} ).isInstanceOf( GroupDefinitionException.class );
 	}
 
 	@Test

@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.groups.inheritance;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
 
@@ -22,6 +21,7 @@ import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -29,7 +29,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -74,23 +74,23 @@ public class GroupInheritanceTest extends AbstractTCKTest {
 		Set<ConstraintDescriptor<?>> descriptorsForGroup = propertyDescriptor.findConstraints()
 				.unorderedAndMatchingGroups( All.class )
 				.getConstraintDescriptors();
-		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
-		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), Digits.class );
+		Assertions.assertThat(  descriptorsForGroup.size() ).as( "Wrong number of descriptors" ).isEqualTo( 1 );
+		Assertions.assertThat(  descriptorsForGroup.iterator().next().getAnnotation().annotationType() ).isEqualTo( Digits.class  );
 
 		//  PostManufacturing belongs implicitly to All
 		propertyDescriptor = descriptor.getConstraintsForProperty( "qaChecked" );
 		descriptorsForGroup = propertyDescriptor.findConstraints()
 				.unorderedAndMatchingGroups( All.class )
 				.getConstraintDescriptors();
-		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
-		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), AssertTrue.class );
+		Assertions.assertThat(  descriptorsForGroup.size() ).as( "Wrong number of descriptors" ).isEqualTo( 1 );
+		Assertions.assertThat(  descriptorsForGroup.iterator().next().getAnnotation().annotationType() ).isEqualTo( AssertTrue.class  );
 
 		propertyDescriptor = descriptor.getConstraintsForProperty( "size" );
 		descriptorsForGroup = propertyDescriptor.findConstraints()
 				.unorderedAndMatchingGroups( All.class )
 				.getConstraintDescriptors();
-		assertEquals( descriptorsForGroup.size(), 1, "Wrong number of descriptors" );
-		assertEquals( descriptorsForGroup.iterator().next().getAnnotation().annotationType(), Max.class );
+		Assertions.assertThat(  descriptorsForGroup.size() ).as( "Wrong number of descriptors" ).isEqualTo( 1 );
+		Assertions.assertThat(  descriptorsForGroup.iterator().next().getAnnotation().annotationType() ).isEqualTo( Max.class  );
 	}
 
 	class Part {

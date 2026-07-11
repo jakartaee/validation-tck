@@ -12,7 +12,8 @@
         "http://checkstyle.sourceforge.net/dtds/import_control_1_2.dtd">
 
 <import-control pkg="org.hibernate">
+    <disallow class="org.testng"/>
+    <disallow class="org.junit.jupiter.api.BeforeEach"/>
+    <disallow class="org.junit.jupiter.api.AfterEach"/>
     <allow pkg=".*\.*" regex="true"/>
-    <disallow class="org.testng.annotations.BeforeMethod"/>
-    <disallow class="org.testng.annotations.AfterMethod"/>
 </import-control>

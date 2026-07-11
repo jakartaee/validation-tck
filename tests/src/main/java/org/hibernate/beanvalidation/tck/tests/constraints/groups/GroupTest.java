@@ -10,8 +10,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -26,6 +24,7 @@ import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -33,7 +32,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the group and group sequence feature.
@@ -70,18 +69,14 @@ public class GroupTest extends AbstractTCKTest {
 	public void testConstraintWithNoExplicitlySpecifiedGroupBelongsToDefault() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertTrue( beanDescriptor.isBeanConstrained() );
+		Assertions.assertThat( beanDescriptor.isBeanConstrained() ).isTrue();
 
 		PropertyDescriptor propDesc = beanDescriptor.getConstraintsForProperty( "firstname" );
-		assertTrue( propDesc.getConstraintDescriptors().size() == 1 );
+		Assertions.assertThat( propDesc.getConstraintDescriptors().size() == 1 ).isTrue();
 
 		ConstraintDescriptor<?> descriptor = propDesc.getConstraintDescriptors().iterator().next();
-		assertTrue( descriptor.getGroups().size() == 1 );
-		assertEquals(
-				descriptor.getGroups().iterator().next(),
-				Default.class,
-				"Constraint should implicitly belong to the Default group."
-		);
+		Assertions.assertThat( descriptor.getGroups().size() == 1 ).isTrue();
+		Assertions.assertThat(  descriptor.getGroups().iterator().next() ).as( "Constraint should implicitly belong to the Default group." ).isEqualTo( Default.class );
 	}
 
 	@Test
@@ -95,67 +90,31 @@ public class GroupTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate( user );
-		assertEquals(
-				constraintViolations.size(),
-				2,
-				"There should be two violations against the implicit default group"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "There should be two violations against the implicit default group" ).isEqualTo( 2 );
 
 		constraintViolations = validator.validate( user, Default.class );
-		assertEquals(
-				constraintViolations.size(),
-				2,
-				"There should be two violations against the explicit default group"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "There should be two violations against the explicit default group" ).isEqualTo( 2 );
 
 		constraintViolations = validator.validate( user, User.Billable.class );
-		assertEquals(
-				constraintViolations.size(),
-				1,
-				"There should be one violation against Billable"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "There should be one violation against Billable" ).isEqualTo( 1 );
 
 		constraintViolations = validator.validate( user, Default.class, User.Billable.class );
-		assertEquals(
-				constraintViolations.size(),
-				3,
-				"There should be 3 violation against Default and  Billable"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "There should be 3 violation against Default and  Billable" ).isEqualTo( 3 );
 
 		constraintViolations = validator.validate( user, User.BuyInOneClick.class );
-		assertEquals(
-				constraintViolations.size(),
-				3,
-				"Three violations expected since BuyInOneClick extends Default and Billable"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "Three violations expected since BuyInOneClick extends Default and Billable" ).isEqualTo( 3 );
 
 		constraintViolations = validator.validate( user, User.BuyInOneClick.class, User.Billable.class );
-		assertEquals(
-				constraintViolations.size(),
-				3,
-				"BuyInOneClick already contains all other groups. Adding Billable does not change the number of violations"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "BuyInOneClick already contains all other groups. Adding Billable does not change the number of violations" ).isEqualTo( 3 );
 
 		constraintViolations = validator.validate( user, User.BuyInOneClick.class, Default.class );
-		assertEquals(
-				constraintViolations.size(),
-				3,
-				"BuyInOneClick already contains all other groups. Adding Default does not change the number of violations"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "BuyInOneClick already contains all other groups. Adding Default does not change the number of violations" ).isEqualTo( 3 );
 
 		constraintViolations = validator.validate( user, User.BuyInOneClick.class, Default.class, User.Billable.class );
-		assertEquals(
-				constraintViolations.size(),
-				3,
-				"BuyInOneClick already contains all other groups. Adding Billable and Default does not change the number of violations"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "BuyInOneClick already contains all other groups. Adding Billable and Default does not change the number of violations" ).isEqualTo( 3 );
 
 		constraintViolations = validator.validate( user, User.Billable.class, User.Billable.class );
-		assertEquals(
-				constraintViolations.size(),
-				1,
-				"Adding the same group twice is still only leads to a single violation"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "Adding the same group twice is still only leads to a single violation" ).isEqualTo( 1 );
 	}
 
 	@Test
@@ -163,13 +122,13 @@ public class GroupTest extends AbstractTCKTest {
 	public void testConstraintCanBelongToMoreThanOneGroup() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertTrue( beanDescriptor.isBeanConstrained() );
+		Assertions.assertThat( beanDescriptor.isBeanConstrained() ).isTrue();
 
 		PropertyDescriptor propDesc = beanDescriptor.getConstraintsForProperty( "defaultCreditCard" );
-		assertTrue( propDesc.getConstraintDescriptors().size() == 1 );
+		Assertions.assertThat( propDesc.getConstraintDescriptors().size() == 1 ).isTrue();
 
 		ConstraintDescriptor<?> descriptor = propDesc.getConstraintDescriptors().iterator().next();
-		assertTrue( descriptor.getGroups().size() == 2 );
+		Assertions.assertThat( descriptor.getGroups().size() == 2 ).isTrue();
 	}
 
 	@Test
@@ -203,7 +162,7 @@ public class GroupTest extends AbstractTCKTest {
 						.withProperty( "title" )
 						.withInvalidValue( book.getTitle() )
 		);
-		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
+		Assertions.assertThat( constraintViolation.getRootBean() ).as( "Wrong root entity" ).isEqualTo( book );
 
 		book.setTitle( "Hibernate Persistence with JPA" );
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
@@ -216,7 +175,7 @@ public class GroupTest extends AbstractTCKTest {
 						.withProperty( "subtitle" )
 		);
 		constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
+		Assertions.assertThat( constraintViolation.getRootBean() ).as( "Wrong root entity" ).isEqualTo( book );
 
 		book.setSubtitle( "Revised Edition" );
 		author.setCompany( "JBoss a division of RedHat" );
@@ -233,7 +192,7 @@ public class GroupTest extends AbstractTCKTest {
 
 						)
 		);
-		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
+		Assertions.assertThat(  constraintViolation.getRootBean() ).as( "Wrong root entity" ).isEqualTo( book );
 
 		author.setCompany( "JBoss" );
 
@@ -270,19 +229,19 @@ public class GroupTest extends AbstractTCKTest {
 						.withProperty( "title" )
 		);
 		ConstraintViolation<Book> constraintViolation = constraintViolations.iterator().next();
-		assertEquals( constraintViolation.getRootBean(), book, "Wrong root entity" );
+		Assertions.assertThat(  constraintViolation.getRootBean() ).as( "Wrong root entity" ).isEqualTo( book );
 
 		book.setTitle( "Hibernate Persistence with JPA" );
 		book.setSubtitle( "Revised Edition of Hibernate in Action" );
 
 		constraintViolations = validator.validate( book, Book.All.class );
-		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
+		Assertions.assertThat(  constraintViolations.size() ).as( "Wrong number of constraints" ).isEqualTo( 1 );
 
 		book.setSubtitle( "Revised Edition" );
 		author.setCompany( "JBoss a division of RedHat" );
 
 		constraintViolations = validator.validate( book, Book.All.class );
-		assertEquals( constraintViolations.size(), 1, "Wrong number of constraints" );
+		Assertions.assertThat(  constraintViolations.size() ).as( "Wrong number of constraints" ).isEqualTo( 1 );
 
 		author.setCompany( "JBoss" );
 
@@ -302,11 +261,7 @@ public class GroupTest extends AbstractTCKTest {
 		Set<ConstraintViolation<Animal>> constraintViolations = validator.validate(
 				elephant, First.class, Second.class
 		);
-		assertEquals(
-				constraintViolations.size(),
-				1,
-				"The should be only one invalid constraint even though the constraint belongs to both groups"
-		);
+		Assertions.assertThat(  constraintViolations.size() ).as( "The should be only one invalid constraint even though the constraint belongs to both groups" ).isEqualTo( 1 );
 	}
 
 	@Test
@@ -340,26 +295,30 @@ public class GroupTest extends AbstractTCKTest {
 	public void testImplicitGrouping() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Order.class );
-		assertTrue( beanDescriptor.isBeanConstrained() );
+		Assertions.assertThat( beanDescriptor.isBeanConstrained() ).isTrue();
 
 		// validating the Default Group should validate all 5 constraints
 		Order order = new Order();
 		Set<ConstraintViolation<Order>> violations = validator.validate( order );
-		assertTrue( violations.size() == 5, "All 5 NotNull constraints should fail." );
+		Assertions.assertThat( violations.size() == 5 ).as( "All 5 NotNull constraints should fail." ).isTrue();
 
 		// use implicit group Auditable  - only the constraints defined on Auditable should be validated
 		violations = validator.validate( order, Auditable.class );
-		assertTrue( violations.size() == 4, "All 4 NotNull constraints on Auditable should fail." );
+		Assertions.assertThat( violations.size() == 4 ).as( "All 4 NotNull constraints on Auditable should fail." ).isTrue();
 	}
 
-	@Test(expectedExceptions = GroupDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "f")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPSEQUENCE, id = "i")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_FORMALDEFINITION, id = "j")
 	@SpecAssertion(section = Sections.EXCEPTION_GROUPDEFINITION, id = "a")
 	public void testCyclicGroupSequence() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new Order(), CyclicGroupSequence.class );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( new Order(), CyclicGroupSequence.class );
+	
+		} ).isInstanceOf( GroupDefinitionException.class );
 	}
 }

@@ -8,10 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
 
 import java.util.Calendar;
 
@@ -23,6 +19,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
@@ -30,7 +27,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -99,7 +96,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 			Calendar endDate = Calendar.getInstance();
 			endDate.set( 1980, 1, 1 );
 			calendar.createEvent( null, endDate.getTime() );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -118,7 +115,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testReturnValueValidationOfConstrainedMethod() {
 		try {
 			calendar.createEvent();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -135,7 +132,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testCascadedReturnValueValidationOfConstrainedMethod() {
 		try {
 			cascadingCalendar.createValidEvent();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -151,7 +148,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testGettersAreNotValidatedByDefault() {
 		Event event = calendar.getEvent();
-		assertNull( event, "The event should be null, since getters are not validated by default." );
+		Assertions.assertThat(  event ).as( "The event should be null, since getters are not validated by default." ).isNull();
 	}
 
 	@Test
@@ -163,7 +160,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		try {
 			nameProducer.setName( "Bob" );
 			userServiceInstance.get();
-			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -181,7 +178,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testReturnValueValidationOfConstrainedConstructor() {
 		try {
 			personServiceInstance.get();
-			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -195,7 +192,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testValidationOfConstrainedMethodAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			annotatedCalendar.createEvent( null );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -208,7 +205,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "e")
 	public void testValidationOfConstrainedMethodAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Event event = annotatedCalendar.createEvent( -10 );
-		assertNotNull( event );
+		Assertions.assertThat(  event  ).isNotNull();
 
 		// success; the constraint is invalid, but no violation exception is
 		// expected since the executable type is not given in @ValidateOnExecution
@@ -219,7 +216,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			classLevelAnnotatedCalendar.getEvent();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -232,7 +229,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "f")
 	public void testValidationOfConstrainedMethodOnClassAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Event event = classLevelAnnotatedCalendar.createEvent( null );
-		assertNotNull( event );
+		Assertions.assertThat(  event  ).isNotNull();
 
 		// success; the constraint is invalid, but no violation exception is
 		// expected since the executable type is not given in @ValidateOnExecution
@@ -243,7 +240,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testValidationOfConstrainedMethodOnInterfaceAnnotatedWithValidateOnExecutionContainingExecutableType() {
 		try {
 			orderService.getOrder();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -256,7 +253,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_GENERAL_EXECUTABLE, id = "f")
 	public void testValidationOfConstrainedMethodOnInterfaceAnnotatedWithValidateOnExecutionNotContainingExecutableType() {
 		Order order = orderService.placeOrder( null );
-		assertNotNull( order );
+		Assertions.assertThat(  order  ).isNotNull();
 
 		// success; the constraint is invalid, but no violation exception is
 		// expected since the executable type is not given in @ValidateOnExecution
@@ -269,7 +266,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		//parameter constraint is violated
 		try {
 			bookingService.placeBooking( "9999" );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -278,12 +275,12 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		}
 
 		//method should not be invoked
-		assertEquals( bookingService.getInvocationCount(), 0 );
+		Assertions.assertThat(  bookingService.getInvocationCount() ).isEqualTo( 0  );
 
 		//parameter constraint is valid, but return value constraint is violated
 		try {
 			bookingService.placeBooking( "10000" );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -292,13 +289,13 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		}
 
 		//method should have been invoked
-		assertEquals( bookingService.getInvocationCount(), 1 );
+		Assertions.assertThat(  bookingService.getInvocationCount() ).isEqualTo( 1  );
 
 		//valid invocation
 		String booking = bookingService.placeBooking( "10001" );
-		assertEquals( booking, "10001" );
+		Assertions.assertThat(  booking ).isEqualTo( "10001"  );
 
-		assertEquals( bookingService.getInvocationCount(), 2 );
+		Assertions.assertThat(  bookingService.getInvocationCount() ).isEqualTo( 2  );
 	}
 
 	@Test
@@ -309,7 +306,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		//parameter constraint is violated
 		try {
 			anotherBookingService.get();
-			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -318,13 +315,13 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		}
 
 		//constructor should not be invoked
-		assertEquals( AnotherBookingService.getInvocationCount(), 0 );
+		Assertions.assertThat(  AnotherBookingService.getInvocationCount() ).isEqualTo( 0  );
 
 		//parameter constraint is valid, but return value constraint is violated
 		nameProducer.setName( "10000" );
 		try {
 			anotherBookingService.get();
-			fail( "Constructor invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Constructor invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -333,14 +330,14 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		}
 
 		//constructor should have been invoked
-		assertEquals( AnotherBookingService.getInvocationCount(), 1 );
+		Assertions.assertThat(  AnotherBookingService.getInvocationCount() ).isEqualTo( 1  );
 
 		//valid invocation
 		nameProducer.setName( "10001" );
 		AnotherBookingService instance = anotherBookingService.get();
-		assertNotNull( instance );
+		Assertions.assertThat(  instance  ).isNotNull();
 
-		assertEquals( AnotherBookingService.getInvocationCount(), 2 );
+		Assertions.assertThat(  AnotherBookingService.getInvocationCount() ).isEqualTo( 2  );
 	}
 
 	@Test
@@ -348,7 +345,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesDefaultSettingSinceValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			shipmentService.findShipment( null );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -362,7 +359,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			shipmentService.getShipment();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -376,7 +373,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			shipmentService.getAnotherShipment();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -390,7 +387,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesDefaultSettingIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
 			shipmentServiceSubClass.findShipment( null );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -404,7 +401,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesSettingFromSuperTypeMethodIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
 			shipmentServiceSubClass.getShipment();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -418,7 +415,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesSettingFromSuperTypeIfValidatedMethodOverridesASuperTypeMethod() {
 		try {
 			shipmentServiceSubClass.getAnotherShipment();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -432,7 +429,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesSettingFromHighestMethodInHierarchyIfValidatedMethodImplementsAnInterfaceMethod() {
 		try {
 			anotherShipmentService.getShipment();
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -446,7 +443,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 	public void testExecutableValidationUsesSettingFromSuperTypeForOverriddenMethodsAndLocalSettingForNonOverriddenMethod() {
 		try {
 			deliveryService.createDelivery( null );
-			fail( "Method invocation should have caused a ConstraintViolationException" );
+			Assertions.fail( "Method invocation should have caused a ConstraintViolationException" );
 		}
 		catch ( ConstraintViolationException e ) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -455,7 +452,7 @@ public class ExecutableValidationTest extends AbstractTCKTest {
 		}
 
 		String expressDelivery = deliveryService.createExpressDelivery( null );
-		assertNotNull( expressDelivery );
+		Assertions.assertThat(  expressDelivery  ).isNotNull();
 
 		// success; the constraint is invalid, but no violation exception is
 		// expected since @ValidateOnExecution is given on the type

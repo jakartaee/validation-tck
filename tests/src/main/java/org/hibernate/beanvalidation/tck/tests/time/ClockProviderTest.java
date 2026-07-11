@@ -13,8 +13,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertSame;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -38,6 +36,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.Past;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -45,7 +44,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -69,7 +68,7 @@ public class ClockProviderTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "e")
 	public void testDefaultClockProviderProvidedByConfiguration() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		assertNotNull( config.getDefaultClockProvider() );
+		Assertions.assertThat( config.getDefaultClockProvider() ).isNotNull();
 		checkClockProviderHasDefaultProperties( config.getDefaultClockProvider() );
 	}
 
@@ -89,7 +88,7 @@ public class ClockProviderTest extends AbstractTCKTest {
 		configuration.clockProvider( clockProvider );
 		ValidatorFactory factory = configuration.buildValidatorFactory();
 
-		assertSame( factory.getClockProvider(), clockProvider );
+		Assertions.assertThat( factory.getClockProvider() ).isSameAs( clockProvider  );
 	}
 
 	@Test
@@ -129,20 +128,24 @@ public class ClockProviderTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "n")
 	@SpecAssertion(section = Sections.EXCEPTION, id = "a")
 	public void testClockProviderExceptionsGetWrappedInValidationException() {
-		ExceptionThrowingClockProvider clockProvider = new ExceptionThrowingClockProvider();
-		Configuration<?> config = TestUtil.getConfigurationUnderTest().clockProvider( clockProvider );
+		Assertions.assertThatThrownBy( () -> {
 
-		ValidatorFactory factory = config.buildValidatorFactory();
-		Validator v = factory.getValidator();
+			ExceptionThrowingClockProvider clockProvider = new ExceptionThrowingClockProvider();
+			Configuration<?> config = TestUtil.getConfigurationUnderTest().clockProvider( clockProvider );
 
-		Person person = new Person();
-		person.setBirthday( Instant.now().minus( Duration.ofDays( 3 ) ) );
+			ValidatorFactory factory = config.buildValidatorFactory();
+			Validator v = factory.getValidator();
 
-		v.validate( person );
+			Person person = new Person();
+			person.setBirthday( Instant.now().minus( Duration.ofDays( 3 ) ) );
+
+			v.validate( person );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@Test

@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.definition;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +20,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.Container;
@@ -41,7 +41,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -72,7 +72,7 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 
 		validator.validate( containerHolder );
 
-		assertEquals( ContainerValueExtractorCompareInstance.callCounter, 1 );
+		Assertions.assertThat(  ContainerValueExtractorCompareInstance.callCounter ).isEqualTo( 1  );
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class ValueExtractorDefinitionTest extends AbstractTCKTest {
 
 		validator.validate( containerHolder );
 
-		assertEquals( ContainerValueExtractorCountCalls.callCounter, 0 );
+		Assertions.assertThat(  ContainerValueExtractorCountCalls.callCounter ).isEqualTo( 0  );
 	}
 
 	@Test

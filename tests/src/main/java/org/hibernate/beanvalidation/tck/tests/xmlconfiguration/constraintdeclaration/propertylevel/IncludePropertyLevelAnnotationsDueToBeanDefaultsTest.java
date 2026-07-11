@@ -6,10 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.propertylevel;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Set;
 
 import jakarta.validation.Validator;
@@ -26,7 +22,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -52,14 +49,14 @@ public class IncludePropertyLevelAnnotationsDueToBeanDefaultsTest extends Abstra
 	public void testAnnotationsIncluded() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor  ).isNotNull();
 
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstname" );
-		assertNotNull( propDescriptor );
+		assertThat( propDescriptor  ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> constraintDescriptors = propDescriptor.getConstraintDescriptors();
-		assertEquals( constraintDescriptors.size(), 1, "There should be two constraints" );
+		assertThat( constraintDescriptors.size() ).as( "There should be two constraints" ).isEqualTo( 1 );
 		ConstraintDescriptor<?> descriptor = constraintDescriptors.iterator().next();
-		assertTrue( descriptor.getAnnotation() instanceof NotNull, "Wrong constraint annotation." );
+		assertThat( descriptor.getAnnotation() instanceof NotNull ).as( "Wrong constraint annotation." ).isTrue();
 	}
 }

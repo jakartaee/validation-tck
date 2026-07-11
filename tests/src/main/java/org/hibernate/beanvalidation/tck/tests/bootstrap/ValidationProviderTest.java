@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.FileAssert.fail;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
@@ -21,6 +19,7 @@ import jakarta.validation.ValidationProviderResolver;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.spi.ValidationProvider;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.common.TCKValidationProvider;
 import org.hibernate.beanvalidation.tck.common.TCKValidatorConfiguration;
@@ -30,7 +29,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -66,7 +66,7 @@ public class ValidationProviderTest extends AbstractTCKTest {
 				.configure();
 
 		ValidatorFactory factory = configuration.buildValidatorFactory();
-		assertTrue( factory instanceof TCKValidationProvider.DummyValidatorFactory );
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory ).isTrue();
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class ValidationProviderTest extends AbstractTCKTest {
 				.providerResolver( resolver )
 				.configure();
 		ValidatorFactory factory = configuration.buildValidatorFactory();
-		assertTrue( factory instanceof TCKValidationProvider.DummyValidatorFactory );
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory ).isTrue();
 	}
 
 	@Test
@@ -97,25 +97,29 @@ public class ValidationProviderTest extends AbstractTCKTest {
 		ValidationProvider<?> validationProviderUnderTest = TestUtil.getValidationProviderUnderTest();
 		try {
 			Constructor<?> constructor = validationProviderUnderTest.getClass().getConstructor();
-			assertTrue( Modifier.isPublic( constructor.getModifiers() ) );
+			assertThat( Modifier.isPublic( constructor.getModifiers() ) ).isTrue();
 		}
 		catch ( Exception e ) {
-			fail( "The validation provider must have a public no arg constructor" );
+			Assertions.fail( "The validation provider must have a public no arg constructor" );
 		}
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATION, id = "f")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_VALIDATIONPROVIDER_PROVIDER, id = "e")
 	public void testValidationExceptionIsThrownInCaseValidatorFactoryCreationFails() {
-		ValidationProviderResolver resolver = new ValidationProviderResolver() {
+		Assertions.assertThatThrownBy( () -> {
 
-			@Override
-			public List<ValidationProvider<?>> getValidationProviders() {
-				throw new RuntimeException( "ValidationProviderResolver failed!" );
-			}
-		};
+			ValidationProviderResolver resolver = new ValidationProviderResolver() {
 
-		Validation.byDefaultProvider().providerResolver( resolver ).configure();
+				@Override
+				public List<ValidationProvider<?>> getValidationProviders() {
+					throw new RuntimeException( "ValidationProviderResolver failed!" );
+				}
+			};
+
+			Validation.byDefaultProvider().providerResolver( resolver ).configure();
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 }

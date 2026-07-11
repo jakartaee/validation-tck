@@ -12,12 +12,10 @@ import org.jboss.arquillian.core.spi.LoadableExtension;
 /**
  * @author Hardy Ferentschik
  */
-public class BeanValidationLocalContainerExtension implements LoadableExtension
-{
+public class BeanValidationLocalContainerExtension implements LoadableExtension {
 	@Override
-	public void register(ExtensionBuilder builder)
-	{
-		builder.service(DeployableContainer.class, BeanValidationLocalContainer.class);
+	public void register(ExtensionBuilder builder) {
+		builder.service( DeployableContainer.class, BeanValidationLocalContainer.class );
 	}
 }
 

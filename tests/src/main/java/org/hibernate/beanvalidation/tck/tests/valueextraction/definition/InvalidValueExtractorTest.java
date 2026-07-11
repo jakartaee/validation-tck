@@ -14,6 +14,7 @@ import jakarta.validation.valueextraction.ExtractedValue;
 import jakarta.validation.valueextraction.ValueExtractor;
 import jakarta.validation.valueextraction.ValueExtractorDefinitionException;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.definition.model.Container;
@@ -21,7 +22,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the exceptions thrown in case of an invalid {@link ValueExtractor}.
@@ -39,27 +40,35 @@ public class InvalidValueExtractorTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test(expectedExceptions = ValueExtractorDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "b")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "f")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXAMPLES, id = "a")
 	@SpecAssertion(section = Sections.EXCEPTION_VALUEEXTRACTORDEFINITION, id = "a")
 	public void severalExtractedValuesThrowException() {
-		Validation.byDefaultProvider().configure()
-				.addValueExtractor( new SeveralExtractedValuesValueExtractor() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
+
+			Validation.byDefaultProvider().configure()
+					.addValueExtractor( new SeveralExtractedValuesValueExtractor() )
+					.buildValidatorFactory()
+					.getValidator();
+	
+		} ).isInstanceOf( ValueExtractorDefinitionException.class );
 	}
 
-	@Test(expectedExceptions = ValueExtractorDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "b")
 	@SpecAssertion(section = Sections.VALUEEXTRACTORDEFINITION_EXTRACTEDVALUE, id = "f")
 	@SpecAssertion(section = Sections.EXCEPTION_VALUEEXTRACTORDEFINITION, id = "a")
 	public void noExtractedValueThrowsException() {
-		Validation.byDefaultProvider().configure()
-				.addValueExtractor( new NoExtractedValueValueExtractor() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
+
+			Validation.byDefaultProvider().configure()
+					.addValueExtractor( new NoExtractedValueValueExtractor() )
+					.buildValidatorFactory()
+					.getValidator();
+	
+		} ).isInstanceOf( ValueExtractorDefinitionException.class );
 	}
 
 	private class SeveralExtractedValuesValueExtractor implements ValueExtractor<Map<@ExtractedValue ?, @ExtractedValue ?>> {

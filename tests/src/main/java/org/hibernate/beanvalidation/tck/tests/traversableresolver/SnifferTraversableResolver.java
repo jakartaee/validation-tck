@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.traversableresolver;
 
-import static org.testng.Assert.fail;
 
 import java.lang.annotation.ElementType;
 import java.util.HashSet;
@@ -17,6 +16,7 @@ import java.util.Set;
 
 import jakarta.validation.Path;
 import jakarta.validation.TraversableResolver;
+import org.assertj.core.api.Assertions;
 
 /**
  * A {@link TraversableResolver} implementation used for asserting that the
@@ -88,7 +88,7 @@ public class SnifferTraversableResolver implements TraversableResolver {
 
 	private boolean assertIsExpectedCall(Set<Call> calls, Call call) {
 		if ( !calls.contains( call ) ) {
-			fail( "Unexpected call to " + call.toString() );
+			Assertions.fail( "Unexpected call to " + call.toString() );
 		}
 		return true;
 	}

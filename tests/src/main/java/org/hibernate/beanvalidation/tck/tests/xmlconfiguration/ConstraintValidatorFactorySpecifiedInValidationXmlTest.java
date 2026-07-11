@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-import static org.testng.Assert.assertTrue;
-
 import jakarta.validation.Configuration;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
@@ -21,7 +19,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -52,10 +51,7 @@ public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends Abst
 			validator.validate( new User() );
 		}
 		catch ( ValidationException e ) {
-			assertTrue(
-					XmlDefinedConstraintValidatorFactory.numberOfIsReachableCalls > 0,
-					"The factory should have been called at least once if it was properly picked up by xml configuration."
-			);
+			assertThat( XmlDefinedConstraintValidatorFactory.numberOfIsReachableCalls > 0 ).as( "The factory should have been called at least once if it was properly picked up by xml configuration." ).isTrue();
 		}
 	}
 
@@ -75,10 +71,7 @@ public class ConstraintValidatorFactorySpecifiedInValidationXmlTest extends Abst
 			validator.validate( new User() );
 		}
 		catch ( ValidationException e ) {
-			assertTrue(
-					ConfigurationDefinedConstraintValidatorFactoryResolver.numberOfIsReachableCalls > 0,
-					"The factory  should have been called at least once if configuration settings were applied."
-			);
+			assertThat( ConfigurationDefinedConstraintValidatorFactoryResolver.numberOfIsReachableCalls > 0 ).as( "The factory  should have been called at least once if configuration settings were applied." ).isTrue();
 		}
 	}
 }

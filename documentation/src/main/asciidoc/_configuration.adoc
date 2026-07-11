@@ -28,40 +28,36 @@ The following chapters contain some more information about the
 general structure of the TCK which will give you a deeper understanding
 above the simple readme files.
 
-=== Configuring TestNG to execute the TCK
+=== Configuring JUnit to execute the TCK
 
-The Jakarta Validation test harness is built atop TestNG, and it is
-TestNG that is responsible for selecting the tests to execute, the order
-of execution, and reporting the results. Detailed TestNG documentation can
-be found at http://testng.org/doc/documentation-main.html[testng.org].
+The Jakarta Validation test harness is built atop JUnit 6 (Jupiter), and it is
+JUnit that is responsible for selecting the tests to execute, the order
+of execution, and reporting the results. Detailed JUnit documentation can
+be found at https://junit.org/junit5/docs/current/user-guide/[junit.org].
 
-The `tck-tests.xml` artifact provided in the TCK
-distribution must be run by TestNG (described by the TestNG documentation
-as "with a `testng.xml` file") unmodified for an
-implementation to pass the TCK. For testing purposes it is of course ok to
-modify the file (see also the TestNG http://testng.org/doc/documentation-main.html#testng-xml[documentation])
+The TCK tests are discovered automatically via classpath scanning. When using
+the Maven Surefire plugin, this is configured through the `dependenciesToScan`
+option, which instructs Surefire to scan the TCK artifact for test classes.
+The test suite must be run unmodified for an implementation to pass the TCK.
+For testing purposes it is of course ok to apply additional configuration
+(see also the JUnit https://junit.org/junit5/docs/current/user-guide/[documentation])
 
 [source,xml]
 ----
-<suite name="Jakarta-Validation-TCK" verbose="1">
-    <test name="Jakarta-Validation-TCK">
-
-        <method-selectors>
-            <method-selector>
-                <selector-class name="org.hibernate.beanvalidation.tck.util.IntegrationTestsMethodSelector"/>
-            </method-selector>
-        </method-selectors>
-
-        <packages>
-            <package name="org.hibernate.beanvalidation.tck.tests"/>
-        </packages>
-    </test>
-</suite>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+        <dependenciesToScan>
+            <dependency>jakarta.validation:validation-tck-tests</dependency>
+        </dependenciesToScan>
+    </configuration>
+</plugin>
 ----
 
-TestNG provides extensive reporting information. Depending on the
+JUnit provides extensive reporting information. Depending on the
 build tool or IDE you use, the reporting will take a different format.
-Please consult the TestNG documentation and the tool documentation for
+Please consult the JUnit documentation and the tool documentation for
 more information.
 
 === Selecting the `ValidationProvider`

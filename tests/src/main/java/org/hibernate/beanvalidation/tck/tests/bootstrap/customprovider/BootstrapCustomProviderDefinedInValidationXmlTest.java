@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap.customprovider;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +23,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -64,11 +62,9 @@ public class BootstrapCustomProviderDefinedInValidationXmlTest extends AbstractT
 				.providerResolver( resolver )
 				.configure()
 				.buildValidatorFactory();
-		assertNotNull( factory );
-		assertTrue(
-				factory instanceof TCKValidationProvider.DummyValidatorFactory,
-				"Since TCKValidationProvider is configured in validation.xml it should be the bootstrapped provider " +
-						"even though the provider under test is first in the list of providers in the resolver."
-		);
+		assertThat( factory  ).isNotNull();
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory )
+				.as( "Since TCKValidationProvider is configured in validation.xml it should be the bootstrapped provider "
+							 + "even though the provider under test is first in the list of providers in the resolver." ).isTrue();
 	}
 }

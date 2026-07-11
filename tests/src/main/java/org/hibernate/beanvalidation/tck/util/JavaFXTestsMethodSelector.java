@@ -6,47 +6,29 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
-import java.util.List;
-
-import org.testng.IMethodSelector;
-import org.testng.IMethodSelectorContext;
-import org.testng.ITestNGMethod;
+import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+import org.junit.jupiter.api.extension.ExecutionCondition;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
- * TestNG test selector which will, depending on the system property <i>includeJavaFXTests</i> and
+ * JUnit execution condition which will, depending on the system property <i>includeJavaFXTests</i> and
  * the existence of the {@code @JavaFXTest} annotation on a test class, in- or exclude the test.
  *
  * @author Hardy Ferentschik
  * @author Guillaume Smet
  */
-public class JavaFXTestsMethodSelector implements IMethodSelector {
+public class JavaFXTestsMethodSelector implements ExecutionCondition {
 
-	/**
-	 * Name of the system property for excluding integration tests.
-	 */
 	private static final String INCLUDE_JAVAFX_TESTS = "includeJavaFXTests";
 
-	private static boolean includeJavaFXTests = false;
-
-	static {
-		String envSetting = System.getProperty( INCLUDE_JAVAFX_TESTS );
-		includeJavaFXTests = Boolean.valueOf( envSetting );
-	}
-
 	@Override
-	public boolean includeMethod(IMethodSelectorContext context, ITestNGMethod method, boolean isTestMethod) {
-		if ( !includeJavaFXTests && method.getConstructorOrMethod().getDeclaringClass().isAnnotationPresent(
-				JavaFXTest.class
-		) ) {
-			context.setStopped( true );
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
+	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
+		boolean includeJavaFXTests = Boolean.getBoolean( INCLUDE_JAVAFX_TESTS );
 
-	@Override
-	public void setTestMethods(List<ITestNGMethod> testMethods) {
+		if ( !includeJavaFXTests && context.getRequiredTestClass().isAnnotationPresent( JavaFXTest.class ) ) {
+			return ConditionEvaluationResult.disabled( "JavaFX tests are excluded" );
+		}
+
+		return ConditionEvaluationResult.enabled( "JavaFX tests are included" );
 	}
 }

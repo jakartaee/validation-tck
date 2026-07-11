@@ -8,8 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.inheritance;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -24,13 +22,14 @@ import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -51,13 +50,13 @@ public class ConstraintInheritanceTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "foo";
-		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+		Assertions.assertThat( beanDescriptor.getConstraintsForProperty( propertyName ) ).isNotNull();
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
 		Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
 				.iterator()
 				.next().getAnnotation();
-		assertTrue( constraintAnnotation.annotationType() == NotNull.class );
+		Assertions.assertThat( constraintAnnotation.annotationType() ).isEqualTo( NotNull.class );
 	}
 
 	@Test
@@ -67,13 +66,13 @@ public class ConstraintInheritanceTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "fubar";
-		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+		Assertions.assertThat( beanDescriptor.getConstraintsForProperty( propertyName ) ).isNotNull();
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
 		Annotation constraintAnnotation = propDescriptor.getConstraintDescriptors()
 				.iterator()
 				.next().getAnnotation();
-		assertTrue( constraintAnnotation.annotationType() == NotNull.class );
+		Assertions.assertThat( constraintAnnotation.annotationType() ).isEqualTo( NotNull.class );
 	}
 
 	@Test
@@ -83,14 +82,14 @@ public class ConstraintInheritanceTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "name";
-		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+		Assertions.assertThat( beanDescriptor.getConstraintsForProperty( propertyName ) ).isNotNull();
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
 		List<Class<? extends Annotation>> constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
 
-		assertEquals( constraintTypes.size(), 2 );
-		assertTrue( constraintTypes.contains( DecimalMin.class ) );
-		assertTrue( constraintTypes.contains( Size.class ) );
+		Assertions.assertThat( constraintTypes ).hasSize( 2 );
+		Assertions.assertThat( constraintTypes ).contains( DecimalMin.class );
+		Assertions.assertThat( constraintTypes ).contains( Size.class );
 	}
 
 	@Test
@@ -100,14 +99,14 @@ public class ConstraintInheritanceTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Bar.class );
 
 		String propertyName = "lastName";
-		assertTrue( beanDescriptor.getConstraintsForProperty( propertyName ) != null );
+		Assertions.assertThat( beanDescriptor.getConstraintsForProperty( propertyName ) ).isNotNull();
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( propertyName );
 
 		List<Class<? extends Annotation>> constraintTypes = getConstraintTypes( propDescriptor.getConstraintDescriptors() );
 
-		assertEquals( constraintTypes.size(), 2 );
-		assertTrue( constraintTypes.contains( DecimalMin.class ) );
-		assertTrue( constraintTypes.contains( Size.class ) );
+		Assertions.assertThat( constraintTypes ).hasSize( 2 );
+		Assertions.assertThat( constraintTypes ).contains( DecimalMin.class );
+		Assertions.assertThat( constraintTypes ).contains( Size.class );
 	}
 
 	@Test

@@ -8,7 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertFalse;
 
 import java.util.Locale;
 import java.util.Set;
@@ -22,6 +21,7 @@ import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 
@@ -30,7 +30,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -64,10 +64,7 @@ public class CustomMessageInterpolatorTest extends AbstractTCKTest {
 			DummyMessageInterpolator dummyMessageInterpolator = new DummyMessageInterpolator();
 			Validator validator = factory.usingContext().messageInterpolator( dummyMessageInterpolator ).getValidator();
 			assertCustomMessageInterpolatorUsed( validator );
-			assertFalse(
-					factory.getMessageInterpolator().equals( dummyMessageInterpolator ),
-					"getMessageInterpolator() should return the default message interpolator."
-			);
+			Assertions.assertThat( factory.getMessageInterpolator().equals( dummyMessageInterpolator ) ).as( "getMessageInterpolator() should return the default message interpolator." ).isFalse();
 		}
 	}
 

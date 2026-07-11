@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import jakarta.validation.metadata.CrossParameterDescriptor;
 import jakarta.validation.metadata.MethodDescriptor;
 import jakarta.validation.metadata.ParameterDescriptor;
@@ -21,7 +18,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -48,15 +46,15 @@ public class IgnoreAnnotationsInMethodConfigurationTest extends AbstractTCKTest 
 				String.class
 		);
 		CrossParameterDescriptor crossParameterDescriptor = descriptor.getCrossParameterDescriptor();
-		assertFalse( crossParameterDescriptor.hasConstraints(), "Cross parameter constraints should be ignored." );
+		assertThat( crossParameterDescriptor.hasConstraints() ).as( "Cross parameter constraints should be ignored." ).isFalse();
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertFalse( returnValueDescriptor.hasConstraints(), "Return value constraints should be ignored." );
+		assertThat( returnValueDescriptor.hasConstraints() ).as( "Return value constraints should be ignored." ).isFalse();
 
 		ParameterDescriptor parameterDescriptor = descriptor.getParameterDescriptors().get( 0 );
-		assertFalse( parameterDescriptor.hasConstraints(), "First parameter constraints should be ignored." );
+		assertThat( parameterDescriptor.hasConstraints() ).as( "First parameter constraints should be ignored." ).isFalse();
 
 		parameterDescriptor = descriptor.getParameterDescriptors().get( 1 );
-		assertTrue( parameterDescriptor.hasConstraints(), "Second parameter constraints should be applied." );
+		assertThat( parameterDescriptor.hasConstraints() ).as( "Second parameter constraints should be applied." ).isTrue();
 	}
 }

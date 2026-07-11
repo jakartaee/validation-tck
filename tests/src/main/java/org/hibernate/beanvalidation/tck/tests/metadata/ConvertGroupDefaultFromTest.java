@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
-import static org.testng.Assert.assertEquals;
 
 import java.util.Optional;
 import java.util.Set;
@@ -28,7 +27,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Guillaume Smet
@@ -51,7 +51,7 @@ public class ConvertGroupDefaultFromTest extends AbstractTCKTest {
 		Set<GroupConversionDescriptor> groupConversionDescriptors = descriptor.getGroupConversions();
 
 		GroupConversionDescriptor groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, Default.class );
-		assertEquals( groupConversionDescriptor.getTo(), ComplexChecks.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ComplexChecks.class );
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class ConvertGroupDefaultFromTest extends AbstractTCKTest {
 		Set<GroupConversionDescriptor> groupConversionDescriptors = descriptor.getGroupConversions();
 
 		GroupConversionDescriptor groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, Default.class );
-		assertEquals( groupConversionDescriptor.getTo(), ComplexChecks.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ComplexChecks.class );
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class ConvertGroupDefaultFromTest extends AbstractTCKTest {
 		Set<GroupConversionDescriptor> groupConversionDescriptors = descriptor.getGroupConversions();
 
 		GroupConversionDescriptor groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, Default.class );
-		assertEquals( groupConversionDescriptor.getTo(), ComplexChecks.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ComplexChecks.class );
 	}
 
 	@Test
@@ -87,7 +87,7 @@ public class ConvertGroupDefaultFromTest extends AbstractTCKTest {
 		Set<GroupConversionDescriptor> groupConversionDescriptors = descriptor.getGroupConversions();
 
 		GroupConversionDescriptor groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, Default.class );
-		assertEquals( groupConversionDescriptor.getTo(), ComplexChecks.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ComplexChecks.class );
 	}
 
 	private GroupConversionDescriptor getGroupConversionDescriptorByFrom(Set<GroupConversionDescriptor> groupConversionDescriptors, Class<?> from) {

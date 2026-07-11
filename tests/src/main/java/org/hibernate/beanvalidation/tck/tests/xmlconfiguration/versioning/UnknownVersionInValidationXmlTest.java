@@ -9,25 +9,21 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.util.ExpectBootstrapFailure;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
-public class UnknownVersionInValidationXmlTest extends AbstractBootstrapFailureTCKTest {
-
-	@Override
-	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
-		return ValidationException.class;
-	}
-
+@ExpectBootstrapFailure(ValidationException.class)
+public class UnknownVersionInValidationXmlTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
@@ -36,7 +32,7 @@ public class UnknownVersionInValidationXmlTest extends AbstractBootstrapFailureT
 				.build();
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_CONFIG_XSD, id = "c")
 	public void testValidationXmlWithUnknownSchemaVersion() {
 		TestUtil.getConfigurationUnderTest()

@@ -9,9 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.validatorresolution;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -30,6 +27,7 @@ import jakarta.validation.valueextraction.UnwrapByDefault;
 import jakarta.validation.valueextraction.Unwrapping;
 import jakarta.validation.valueextraction.ValueExtractor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -37,7 +35,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for constraint validator resolution.
@@ -58,210 +56,135 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "b")
 	public void testTargetTypeIsInterface() {
-		assertEquals(
-				CustomConstraint.ValidatorForCustomInterface.callCounter,
-				0,
-				"The validate method of ValidatorForCustomInterface should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForCustomInterface.callCounter ).as( "The validate method of ValidatorForCustomInterface should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new CustomInterfaceImpl() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForCustomInterface.callCounter > 0,
-				"The validate method of ValidatorForCustomInterface should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForCustomInterface.callCounter > 0 ).as( "The validate method of ValidatorForCustomInterface should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "b")
 	public void testTargetTypeIsClass() {
-		assertEquals(
-				CustomConstraint.ValidatorForCustomClass.callCounter,
-				0,
-				"The validate method of ValidatorForCustomClass should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForCustomClass.callCounter ).as( "The validate method of ValidatorForCustomClass should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new CustomClass() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForCustomClass.callCounter > 0,
-				"The validate method of ValidatorForCustomClass should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForCustomClass.callCounter > 0 ).as( "The validate method of ValidatorForCustomClass should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsField() {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassA.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassA should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassA.callCounter ).as( "The validate method of ValidatorForSubClassA should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new SubClassAHolder( new SubClassA() ) );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassA.callCounter > 0,
-				"The validate method of ValidatorForSubClassA should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassA.callCounter > 0 ).as( "The validate method of ValidatorForSubClassA should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsGetter() {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassB.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassB should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassB.callCounter ).as( "The validate method of ValidatorForSubClassB should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new SubClassBHolder( new SubClassB() ) );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassB.callCounter > 0,
-				"The validate method of ValidatorForSubClassB should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassB.callCounter > 0 ).as( "The validate method of ValidatorForSubClassB should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsConstructor() throws NoSuchMethodException, SecurityException {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassC.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassC should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassC.callCounter ).as( "The validate method of ValidatorForSubClassC should not have been called yet." ).isEqualTo( 0 );
 
 		getExecutableValidator().validateConstructorReturnValue( SubClassC.class.getConstructor(), new SubClassC() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassC.callCounter > 0,
-				"The validate method of ValidatorForSubClassC should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassC.callCounter > 0 ).as( "The validate method of ValidatorForSubClassC should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsMethod() throws NoSuchMethodException, SecurityException {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassD.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassD should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassD.callCounter ).as( "The validate method of ValidatorForSubClassD should not have been called yet." ).isEqualTo( 0 );
 
 		getExecutableValidator().validateReturnValue( new SubClassDService(), SubClassDService.class.getMethod( "retrieveSubClassD" ), new SubClassD() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassD.callCounter > 0,
-				"The validate method of ValidatorForSubClassD should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassD.callCounter > 0 ).as( "The validate method of ValidatorForSubClassD should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsMethodParameter() throws NoSuchMethodException, SecurityException {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassE.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassE should not have been called yet." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassE.callCounter ).as( "The validate method of ValidatorForSubClassE should not have been called yet." ).isEqualTo( 0 );
 
 		getExecutableValidator().validateParameters( new SubClassEService(), SubClassEService.class.getMethod( "retrieveSubClassE", SubClassE.class ),
 				new Object[]{ new SubClassE() } );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassE.callCounter > 0,
-				"The validate method of ValidatorForSubClassE should have been called." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassE.callCounter > 0 ).as( "The validate method of ValidatorForSubClassE should have been called." ).isTrue();
 	}
-
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsConstructorParameter() throws NoSuchMethodException, SecurityException {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassF.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassF should not have been called yet." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassF.callCounter ).as( "The validate method of ValidatorForSubClassF should not have been called yet." ).isEqualTo( 0 );
 
 		getExecutableValidator().validateConstructorParameters( SubClassFService.class.getConstructor( SubClassF.class ),
 				new Object[]{ new SubClassF() } );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassF.callCounter > 0,
-				"The validate method of ValidatorForSubClassF should have been called." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassF.callCounter > 0 ).as( "The validate method of ValidatorForSubClassF should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "f")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsTypeArgument() {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassG.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassG should not have been called yet." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassG.callCounter ).as( "The validate method of ValidatorForSubClassG should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new SubClassGHolder() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassG.callCounter > 0,
-				"The validate method of ValidatorForSubClassG should have been called." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassG.callCounter > 0 ).as( "The validate method of ValidatorForSubClassG should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "g")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsTypeArgumentForNonGenericContainerInheritingFromGenericTypeWithValueExtractor() {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassH.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassH should not have been called yet." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassH.callCounter ).as( "The validate method of ValidatorForSubClassH should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new SubClassHHolder() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassH.callCounter > 0,
-				"The validate method of ValidatorForSubClassH should have been called." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassH.callCounter > 0 ).as( "The validate method of ValidatorForSubClassH should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "h")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testTargetedTypeIsTypeArgumentForNonGenericContainerWithValueExtractorWithExtractedType() {
-		assertEquals(
-				CustomConstraint.ValidatorForSubClassI.callCounter,
-				0,
-				"The validate method of ValidatorForSubClassI should not have been called yet." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassI.callCounter ).as( "The validate method of ValidatorForSubClassI should not have been called yet." ).isEqualTo( 0 );
 
 		TestUtil.getConfigurationUnderTest()
 				.addValueExtractor( new SubClassIContainerValueExtractor() )
 				.buildValidatorFactory().getValidator()
 				.validate( new SubClassIHolder() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForSubClassI.callCounter > 0,
-				"The validate method of ValidatorForSubClassI should have been called." );
+		Assertions.assertThat(  CustomConstraint.ValidatorForSubClassI.callCounter > 0 ).as( "The validate method of ValidatorForSubClassI should have been called." ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "m")
 	public void testClassLevelValidatorForSubTypeHasPredenceOverValidatorForSuperClass() {
-		assertEquals(
-				CustomConstraint.ValidatorForAnotherSubClass.callCounter,
-				0,
-				"The validate method of ValidatorForAnotherSubClass should not have been called yet."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForAnotherSubClass.callCounter ).as( "The validate method of ValidatorForAnotherSubClass should not have been called yet." ).isEqualTo( 0 );
 
 		getValidator().validate( new AnotherSubClass() );
 
-		assertTrue(
-				CustomConstraint.ValidatorForAnotherSubClass.callCounter > 0,
-				"The validate method of ValidatorForAnotherSubClass should have been called."
-		);
+		Assertions.assertThat(  CustomConstraint.ValidatorForAnotherSubClass.callCounter > 0 ).as( "The validate method of ValidatorForAnotherSubClass should have been called." ).isTrue();
 	}
 
 	@Test
@@ -346,22 +269,29 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		);
 	}
 
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "l")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "m")
 	public void testUnexpectedTypeInValidatorResolution() {
-		Bar bar = new Bar();
-		getValidator().validate( bar );
+		Assertions.assertThatThrownBy( () -> {
+
+			Bar bar = new Bar();
+			getValidator().validate( bar );
+	
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "n")
 	@SpecAssertion(section = Sections.EXCEPTION_CONSTRAINTDECLARATION, id = "b")
 	public void testAmbiguousValidatorResolution() {
-		Foo foo = new Foo( new SerializableBarSubclass() );
-		getValidator().validate( foo );
-		fail( "The test should have failed due to ambiguous validator resolution." );
+		Assertions.assertThatThrownBy( () -> {
+
+			Foo foo = new Foo( new SerializableBarSubclass() );
+			getValidator().validate( foo );
+	
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
 	@Test
@@ -376,24 +306,32 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		);
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testSeveralCrossParameterValidatorsCauseConstraintDefinitionException() throws Exception {
-		Object object = new CalendarService();
-		Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
-		Object[] parameterValues = new Object[2];
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameterValues );
+			Object object = new CalendarService();
+			Method method = CalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+			Object[] parameterValues = new Object[2];
+
+			getExecutableValidator().validateParameters( object, method, parameterValues );
+	
+		} ).isInstanceOf( ConstraintDefinitionException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDefinitionException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "a")
 	public void testCrossParameterConstraintWithoutValidatorCausesConstraintDefinitionException() throws Exception {
-		Object object = new OnlineCalendarService();
-		Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
-		Object[] parameterValues = new Object[2];
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameterValues );
+			Object object = new OnlineCalendarService();
+			Method method = OnlineCalendarService.class.getMethod( "createEvent", Date.class, Date.class );
+			Object[] parameterValues = new Object[2];
+
+			getExecutableValidator().validateParameters( object, method, parameterValues );
+	
+		} ).isInstanceOf( ConstraintDefinitionException.class );
 	}
 
 	@Test
@@ -478,10 +416,14 @@ public class ValidatorResolutionTest extends AbstractTCKTest{
 		);
 	}
 
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_TYPEVALIDATORRESOLUTION, id = "n")
 	public void testTwoValidatorsForSameTypeCauseUnexpectedTypeException() {
-		getValidator().validate( new AnotherBean() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new AnotherBean() );
+	
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
 	private static class SubClassAHolder {

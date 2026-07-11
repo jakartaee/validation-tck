@@ -16,9 +16,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static org.hibernate.beanvalidation.tck.tests.metadata.MetaDataTestUtil.assertConstraintDescriptors;
 import static org.hibernate.beanvalidation.tck.tests.metadata.MetaDataTestUtil.getContainerElementDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -50,7 +47,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Guillaume Smet
@@ -75,21 +73,21 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypeDescriptors.size(), 2 );
+		assertThat( containerElementTypeDescriptors.size() ).isEqualTo( 2  );
 
 		ContainerElementTypeDescriptor iterableContainerElementTypeDescriptor = getContainerElementDescriptor( containerElementTypeDescriptors, Iterable.class, 0 );
-		assertEquals( iterableContainerElementTypeDescriptor.getElementClass(), String.class );
+		assertThat( iterableContainerElementTypeDescriptor.getElementClass() ).isEqualTo( String.class  );
 		assertConstraintDescriptors( iterableContainerElementTypeDescriptor.getConstraintDescriptors(), NotNull.class );
-		assertEquals( iterableContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 0 );
-		assertFalse( iterableContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( iterableContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
+		assertThat( iterableContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( iterableContainerElementTypeDescriptor.isCascaded() ).isFalse();
+		assertThat( iterableContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 0  );
 
 		ContainerElementTypeDescriptor setContainerElementTypeDescriptor = getContainerElementDescriptor( containerElementTypeDescriptors, Set.class, 0 );
-		assertEquals( setContainerElementTypeDescriptor.getElementClass(), String.class );
+		assertThat( setContainerElementTypeDescriptor.getElementClass() ).isEqualTo( String.class  );
 		assertConstraintDescriptors( setContainerElementTypeDescriptor.getConstraintDescriptors(), NotBlank.class, NotEmpty.class );
-		assertEquals( setContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 0 );
-		assertFalse( setContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( setContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
+		assertThat( setContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( setContainerElementTypeDescriptor.isCascaded() ).isFalse();
+		assertThat( setContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 0  );
 	}
 
 	@Test
@@ -102,14 +100,14 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypeDescriptors.size(), 1 );
+		assertThat( containerElementTypeDescriptors.size() ).isEqualTo( 1  );
 
 		ContainerElementTypeDescriptor iterableContainerElementTypeDescriptor = getContainerElementDescriptor( containerElementTypeDescriptors, Optional.class, 0 );
-		assertEquals( iterableContainerElementTypeDescriptor.getElementClass(), String.class );
+		assertThat( iterableContainerElementTypeDescriptor.getElementClass() ).isEqualTo( String.class  );
 		assertConstraintDescriptors( iterableContainerElementTypeDescriptor.getConstraintDescriptors(), NotBlank.class );
-		assertEquals( iterableContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 0 );
-		assertFalse( iterableContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( iterableContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
+		assertThat( iterableContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( iterableContainerElementTypeDescriptor.isCascaded() ).isFalse();
+		assertThat( iterableContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 0  );
 	}
 
 	@Test
@@ -122,14 +120,14 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypeDescriptors.size(), 1 );
+		assertThat( containerElementTypeDescriptors.size() ).isEqualTo( 1  );
 
 		ContainerElementTypeDescriptor iterableContainerElementTypeDescriptor = getContainerElementDescriptor( containerElementTypeDescriptors, Set.class, 0 );
-		assertEquals( iterableContainerElementTypeDescriptor.getElementClass(), Employee.class );
-		assertEquals( iterableContainerElementTypeDescriptor.getConstraintDescriptors().size(), 0 );
-		assertEquals( iterableContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 0 );
-		assertTrue( iterableContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( iterableContainerElementTypeDescriptor.getGroupConversions().size(), 1 );
+		assertThat( iterableContainerElementTypeDescriptor.getElementClass() ).isEqualTo( Employee.class  );
+		assertThat( iterableContainerElementTypeDescriptor.getConstraintDescriptors().size() ).isEqualTo( 0  );
+		assertThat( iterableContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( iterableContainerElementTypeDescriptor.isCascaded() ).isTrue();
+		assertThat( iterableContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 1  );
 	}
 
 	@Test
@@ -142,33 +140,33 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypeDescriptors.size(), 2 );
+		assertThat( containerElementTypeDescriptors.size() ).isEqualTo( 2  );
 
 		ContainerElementTypeDescriptor mapKeyContainerElementTypeDescriptor = getContainerElementDescriptor( containerElementTypeDescriptors, Map.class, 0 );
-		assertEquals( mapKeyContainerElementTypeDescriptor.getElementClass(), String.class );
+		assertThat( mapKeyContainerElementTypeDescriptor.getElementClass() ).isEqualTo( String.class  );
 		assertConstraintDescriptors( mapKeyContainerElementTypeDescriptor.getConstraintDescriptors(), NotNull.class );
-		assertEquals( mapKeyContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 0 );
-		assertFalse( mapKeyContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( mapKeyContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
+		assertThat( mapKeyContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( mapKeyContainerElementTypeDescriptor.isCascaded() ).isFalse();
+		assertThat( mapKeyContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 0  );
 
 		ContainerElementTypeDescriptor mapValueContainerElementTypeDescriptor = getContainerElementDescriptor( containerElementTypeDescriptors, Map.class, 1 );
-		assertEquals( mapValueContainerElementTypeDescriptor.getElementClass(), List.class );
+		assertThat( mapValueContainerElementTypeDescriptor.getElementClass() ).isEqualTo( List.class  );
 		assertConstraintDescriptors( mapValueContainerElementTypeDescriptor.getConstraintDescriptors(), NotEmpty.class );
-		assertEquals( mapValueContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 1 );
-		assertFalse( mapValueContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( mapValueContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
+		assertThat( mapValueContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 1  );
+		assertThat( mapValueContainerElementTypeDescriptor.isCascaded() ).isFalse();
+		assertThat( mapValueContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 0  );
 
 		Set<ContainerElementTypeDescriptor> nestedMapValueContainerElementTypeDescriptors = mapValueContainerElementTypeDescriptor
 				.getConstrainedContainerElementTypes();
 
-		assertEquals( nestedMapValueContainerElementTypeDescriptors.size(), 1 );
+		assertThat( nestedMapValueContainerElementTypeDescriptors.size() ).isEqualTo( 1  );
 
 		ContainerElementTypeDescriptor addressContainerElementTypeDescriptor = getContainerElementDescriptor( nestedMapValueContainerElementTypeDescriptors, List.class, 0 );
-		assertEquals( addressContainerElementTypeDescriptor.getElementClass(), Address.class );
+		assertThat( addressContainerElementTypeDescriptor.getElementClass() ).isEqualTo( Address.class  );
 		assertConstraintDescriptors( addressContainerElementTypeDescriptor.getConstraintDescriptors(), NotNull.class, ValidAddress.class );
-		assertEquals( addressContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size(), 0 );
-		assertTrue( addressContainerElementTypeDescriptor.isCascaded() );
-		assertEquals( addressContainerElementTypeDescriptor.getGroupConversions().size(), 0 );
+		assertThat( addressContainerElementTypeDescriptor.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( addressContainerElementTypeDescriptor.isCascaded() ).isTrue();
+		assertThat( addressContainerElementTypeDescriptor.getGroupConversions().size() ).isEqualTo( 0  );
 	}
 
 	@Test
@@ -178,7 +176,7 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypeDescriptors.size(), 0 );
+		assertThat( containerElementTypeDescriptors.size() ).isEqualTo( 0  );
 	}
 
 	@Test
@@ -188,7 +186,7 @@ public class ContainerElementTypeDescriptorTest extends AbstractTCKTest {
 
 		Set<ContainerElementTypeDescriptor> containerElementTypeDescriptors = descriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypeDescriptors.size(), 0 );
+		assertThat( containerElementTypeDescriptors.size() ).isEqualTo( 0  );
 	}
 
 	public interface LegalEntity {

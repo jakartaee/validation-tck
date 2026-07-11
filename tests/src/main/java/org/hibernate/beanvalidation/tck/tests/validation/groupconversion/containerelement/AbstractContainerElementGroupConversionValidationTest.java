@@ -28,7 +28,7 @@ import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -43,7 +43,6 @@ public abstract class AbstractContainerElementGroupConversionValidationTest exte
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONTAINERELEMENTCONSTRAINTS, id = "i")
 	public void testGroupConversionIsAppliedOnField() {
 		Set<ConstraintViolation<RegisteredAddresses>> constraintViolations = getValidator().validate( TestRegisteredAddresses.withInvalidMainAddress() );
-
 
 		assertThat( constraintViolations ).containsOnlyPaths(
 				pathWith()

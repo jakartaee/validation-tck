@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.valueextraction.unwrapping;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
 
 import java.util.Set;
 
@@ -28,6 +27,7 @@ import jakarta.validation.valueextraction.UnwrapByDefault;
 import jakarta.validation.valueextraction.Unwrapping;
 import jakarta.validation.valueextraction.ValueExtractor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.unwrapping.model.IntegerWrapper;
@@ -37,7 +37,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the various scenarios for explicit and implicit unwrapping of values.
@@ -68,23 +68,35 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.getValidator();
 	}
 
-	@Test(expectedExceptions = UnexpectedTypeException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "b")
 	public void no_constraint_validator_for_unwrapped_value_throws_exception() {
-		getValidatorWithValueExtractors().validate( new EntityWithNoContraintValidatorForUnwrappedValue() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidatorWithValueExtractors().validate( new EntityWithNoContraintValidatorForUnwrappedValue() );
+	
+		} ).isInstanceOf( UnexpectedTypeException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_CONTAINERELEMENTCONSTRAINTS_IMPLICITUNWRAPPING, id = "b")
 	public void skip_and_unwrap_at_the_same_time_throws_exception() {
-		getValidatorWithValueExtractors().validate( new EntityWithSkipAndUnwrapAtTheSameTime() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidatorWithValueExtractors().validate( new EntityWithSkipAndUnwrapAtTheSameTime() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
 	public void missing_value_extractor_throws_exception() {
-		getValidatorWithoutValueExtractor().validate( new EntityWithExplicitUnwrapping() );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidatorWithoutValueExtractor().validate( new EntityWithExplicitUnwrapping() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	@Test
@@ -212,24 +224,24 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 				.getConstraintDescriptors()
 				.iterator().next();
 
-		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Min.class );
-		assertEquals( minConstraintDescriptor.getValueUnwrapping(), ValidateUnwrappedValue.DEFAULT );
+		Assertions.assertThat(  minConstraintDescriptor.getAnnotation().annotationType() ).isEqualTo( Min.class  );
+		Assertions.assertThat(  minConstraintDescriptor.getValueUnwrapping() ).isEqualTo( ValidateUnwrappedValue.DEFAULT  );
 
 		minConstraintDescriptor = validator.getConstraintsForClass( WrapperWithDisabledUnwrapping.class )
 				.getConstraintsForProperty( "integerWrapper" )
 				.getConstraintDescriptors()
 				.iterator().next();
 
-		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Null.class );
-		assertEquals( minConstraintDescriptor.getValueUnwrapping(), ValidateUnwrappedValue.SKIP );
+		Assertions.assertThat(  minConstraintDescriptor.getAnnotation().annotationType() ).isEqualTo( Null.class  );
+		Assertions.assertThat(  minConstraintDescriptor.getValueUnwrapping() ).isEqualTo( ValidateUnwrappedValue.SKIP  );
 
 		minConstraintDescriptor = validator.getConstraintsForClass( WrapperWithForcedUnwrapping.class )
 				.getConstraintsForProperty( "integerWrapper" )
 				.getConstraintDescriptors()
 				.iterator().next();
 
-		assertEquals( minConstraintDescriptor.getAnnotation().annotationType(), Min.class );
-		assertEquals( minConstraintDescriptor.getValueUnwrapping(), ValidateUnwrappedValue.UNWRAP );
+		Assertions.assertThat(  minConstraintDescriptor.getAnnotation().annotationType() ).isEqualTo( Min.class  );
+		Assertions.assertThat(  minConstraintDescriptor.getValueUnwrapping() ).isEqualTo( ValidateUnwrappedValue.UNWRAP  );
 	}
 
 	@Test
@@ -273,16 +285,20 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
 	public void validate_implicit_unwrapping_having_two_type_parameters_and_two_maximally_specific_value_extractors_marked_with_unwrap_by_default_raises_exception() {
-		Validator validator = TestUtil.getConfigurationUnderTest()
-				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
-				.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsSecondValueExtractor() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
 
-		validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
+			Validator validator = TestUtil.getConfigurationUnderTest()
+					.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsFirstValueExtractor() )
+					.addValueExtractor( new UnwrapByDefaultWrapperWithTwoTypeArgumentsSecondValueExtractor() )
+					.buildValidatorFactory()
+					.getValidator();
+
+			validator.validate( new BeanWithWrapperWithTwoTypeArguments() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	@Test
@@ -306,16 +322,20 @@ public class ValueExtractionUnwrappingTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_IMPLICITUNWRAPPING, id = "c")
 	public void validate_forced_unwrapping_having_two_type_parameters_and_two_maximally_specific_value_extractors_raises_exception() {
-		Validator validator = TestUtil.getConfigurationUnderTest()
-				.addValueExtractor( new WrapperWithTwoTypeArgumentsFirstValueExtractor() )
-				.addValueExtractor( new WrapperWithTwoTypeArgumentsSecondValueExtractor() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
 
-		validator.validate( new BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping() );
+			Validator validator = TestUtil.getConfigurationUnderTest()
+					.addValueExtractor( new WrapperWithTwoTypeArgumentsFirstValueExtractor() )
+					.addValueExtractor( new WrapperWithTwoTypeArgumentsSecondValueExtractor() )
+					.buildValidatorFactory()
+					.getValidator();
+
+			validator.validate( new BeanWithWrapperWithTwoTypeArgumentsAndForcedUnwrapping() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	@Test
