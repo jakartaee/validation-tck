@@ -33,7 +33,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class NestedContainerElementConstraintsTest extends AbstractTCKTest {

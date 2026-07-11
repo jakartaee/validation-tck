@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.propertylevel;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-
 import jakarta.validation.Validator;
 import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
@@ -21,7 +18,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -47,9 +45,9 @@ public class ExcludePropertyLevelAnnotationsDueToBeanDefaultsTest extends Abstra
 	public void testIgnoreAnnotations() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor  ).isNotNull();
 
 		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstname" );
-		assertNull( propDescriptor, "The annotation defined constraints should be ignored." );
+		assertThat( propDescriptor ).as( "The annotation defined constraints should be ignored." ).isNull();
 	}
 }

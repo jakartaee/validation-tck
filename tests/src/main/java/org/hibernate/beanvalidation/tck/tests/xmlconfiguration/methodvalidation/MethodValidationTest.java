@@ -6,11 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +26,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -56,19 +52,19 @@ public class MethodValidationTest extends AbstractTCKTest {
 	})
 	public void testXmlMethodConfigurationApplied() throws Exception {
 		MethodDescriptor descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "listCustomers" );
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.hasConstrainedReturnValue() );
-		assertFalse( descriptor.hasConstrainedParameters() );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
+		assertThat( descriptor.hasConstrainedReturnValue() ).isTrue();
+		assertThat( descriptor.hasConstrainedParameters() ).isFalse();
 
 		descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "findCustomer", String.class );
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.hasConstrainedReturnValue() );
-		assertTrue( descriptor.hasConstrainedParameters() );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
+		assertThat( descriptor.hasConstrainedReturnValue() ).isTrue();
+		assertThat( descriptor.hasConstrainedParameters() ).isTrue();
 
 		descriptor = TestUtil.getMethodDescriptor( CustomerRepository.class, "isCustomer", String.class );
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertFalse( descriptor.hasConstrainedReturnValue() );
-		assertTrue( descriptor.hasConstrainedParameters() );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
+		assertThat( descriptor.hasConstrainedReturnValue() ).isFalse();
+		assertThat( descriptor.hasConstrainedParameters() ).isTrue();
 	}
 
 	@Test
@@ -83,8 +79,8 @@ public class MethodValidationTest extends AbstractTCKTest {
 				"addCustomers",
 				Customer[].class
 		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
-		assertTrue( descriptor.hasConstrainedParameters() );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
+		assertThat( descriptor.hasConstrainedParameters() ).isTrue();
 	}
 
 	@Test
@@ -100,19 +96,15 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Customer.class,
 				String.class
 		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
 		CrossParameterDescriptor crossParameterDescriptor = descriptor.getCrossParameterDescriptor();
-		assertTrue( crossParameterDescriptor.hasConstraints() );
+		assertThat( crossParameterDescriptor.hasConstraints() ).isTrue();
 
 		Set<ConstraintDescriptor<?>> constraintDescriptors = crossParameterDescriptor.getConstraintDescriptors();
-		assertTrue( constraintDescriptors.size() == 1 );
+		assertThat( constraintDescriptors.size() == 1 ).isTrue();
 
 		ConstraintDescriptor<?> constraintDescriptor = constraintDescriptors.iterator().next();
-		assertEquals(
-				constraintDescriptor.getAnnotation().annotationType(),
-				CrossRepositoryConstraint.class,
-				"Unexpected constraint type"
-		);
+		assertThat( constraintDescriptor.getAnnotation().annotationType() ).as( "Unexpected constraint type" ).isEqualTo( CrossRepositoryConstraint.class );
 	}
 
 	@Test
@@ -127,32 +119,24 @@ public class MethodValidationTest extends AbstractTCKTest {
 				Customer.class,
 				String.class
 		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
 		Set<ConstraintDescriptor<?>> constraintDescriptors = returnValueDescriptor.getConstraintDescriptors();
-		assertTrue( constraintDescriptors.size() == 1 );
+		assertThat( constraintDescriptors.size() == 1 ).isTrue();
 
 		ConstraintDescriptor<?> constraintDescriptor = constraintDescriptors.iterator().next();
-		assertEquals(
-				constraintDescriptor.getAnnotation().annotationType(),
-				NotNull.class,
-				"Unexpected constraint type"
-		);
+		assertThat( constraintDescriptor.getAnnotation().annotationType() ).as( "Unexpected constraint type" ).isEqualTo( NotNull.class );
 
 		List<ParameterDescriptor> parameterDescriptors = descriptor.getParameterDescriptors();
-		assertTrue( parameterDescriptors.size() == 2 );
+		assertThat( parameterDescriptors.size() == 2 ).isTrue();
 
 		ParameterDescriptor parameterDescriptor = parameterDescriptors.get( 0 );
 		constraintDescriptors = parameterDescriptor.getConstraintDescriptors();
-		assertTrue( constraintDescriptors.size() == 1 );
+		assertThat( constraintDescriptors.size() == 1 ).isTrue();
 
 		constraintDescriptor = constraintDescriptors.iterator().next();
-		assertEquals(
-				constraintDescriptor.getAnnotation().annotationType(),
-				NotNull.class,
-				"Unexpected constraint type"
-		);
+		assertThat( constraintDescriptor.getAnnotation().annotationType() ).as( "Unexpected constraint type" ).isEqualTo( NotNull.class );
 	}
 
 	@Test
@@ -163,16 +147,16 @@ public class MethodValidationTest extends AbstractTCKTest {
 				"findByExample",
 				Customer.class
 		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertTrue( returnValueDescriptor.isCascaded(), "<valid/> is used to configure cascading" );
+		assertThat( returnValueDescriptor.isCascaded() ).as( "<valid/> is used to configure cascading" ).isTrue();
 
 		List<ParameterDescriptor> parameterDescriptors = descriptor.getParameterDescriptors();
-		assertTrue( parameterDescriptors.size() == 1 );
+		assertThat( parameterDescriptors.size() == 1 ).isTrue();
 
 		ParameterDescriptor parameterDescriptor = parameterDescriptors.get( 0 );
-		assertTrue( parameterDescriptor.isCascaded(), "<valid/> is used to configure cascading" );
+		assertThat( parameterDescriptor.isCascaded() ).as( "<valid/> is used to configure cascading" ).isTrue();
 	}
 
 	@Test
@@ -183,23 +167,23 @@ public class MethodValidationTest extends AbstractTCKTest {
 				"findByExample",
 				Customer.class
 		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
 		Set<GroupConversionDescriptor> groupConversionDescriptors = returnValueDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 1 );
+		assertThat( groupConversionDescriptors.size() == 1 ).isTrue();
 
 		GroupConversionDescriptor groupConversionDescriptor = groupConversionDescriptors.iterator().next();
-		assertEquals( groupConversionDescriptor.getFrom(), Default.class, "Wrong from class for group conversion" );
+		assertThat( groupConversionDescriptor.getFrom() ).as( "Wrong from class for group conversion" ).isEqualTo( Default.class );
 
 		List<ParameterDescriptor> parameterDescriptors = descriptor.getParameterDescriptors();
-		assertTrue( parameterDescriptors.size() == 1 );
+		assertThat( parameterDescriptors.size() == 1 ).isTrue();
 
 		ParameterDescriptor parameterDescriptor = parameterDescriptors.get( 0 );
 		groupConversionDescriptors = parameterDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 1 );
+		assertThat( groupConversionDescriptors.size() == 1 ).isTrue();
 
 		groupConversionDescriptor = groupConversionDescriptors.iterator().next();
-		assertEquals( groupConversionDescriptor.getFrom(), Default.class, "Wrong from class for group conversion" );
+		assertThat( groupConversionDescriptor.getFrom() ).as( "Wrong from class for group conversion" ).isEqualTo( Default.class );
 	}
 }

@@ -8,8 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -19,6 +17,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
@@ -26,7 +25,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -48,16 +47,10 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "a")
-	private void testDefaultValidatorFactoryCanBeRetrievedFromJndi() throws Exception {
+	void testDefaultValidatorFactoryCanBeRetrievedFromJndi() throws Exception {
 		ValidatorFactory validatorFactory = InitialContext.doLookup( "java:comp/ValidatorFactory" );
-		assertNotNull(
-				validatorFactory,
-				"Default validator factory should be bound to JNDI tree."
-		);
-		assertTrue(
-				validatorFactory.getMessageInterpolator() instanceof ConstantMessageInterpolator,
-				"Default validator factory bound to JNDI should be configured based on META-INF/validation.xml."
-		);
+		Assertions.assertThat( validatorFactory ).as( "Default validator factory should be bound to JNDI tree." ).isNotNull();
+		Assertions.assertThat( validatorFactory.getMessageInterpolator() instanceof ConstantMessageInterpolator ).as( "Default validator factory bound to JNDI should be configured based on META-INF/validation.xml." ).isTrue();
 
 		Set<ConstraintViolation<Foo>> violations = validatorFactory.getValidator()
 				.validate( new Foo() );
@@ -70,9 +63,9 @@ public class JndiRetrievalTest extends AbstractTCKTest {
 
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_JAKARTAEE, id = "a")
-	private void testDefaultValidatorCanBeRetrievedFromJndi() throws Exception {
+	void testDefaultValidatorCanBeRetrievedFromJndi() throws Exception {
 		Validator validator = InitialContext.doLookup( "java:comp/Validator" );
-		assertNotNull( validator, "Default validator should be bound to JNDI tree." );
+		Assertions.assertThat( validator ).as( "Default validator should be bound to JNDI tree." ).isNotNull();
 
 		Set<ConstraintViolation<Foo>> violations = validator.validate( new Foo() );
 

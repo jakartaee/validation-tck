@@ -6,10 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.groupconversion;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,7 +25,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -55,18 +52,18 @@ public class GroupConversionTest extends AbstractTCKTest {
 				"convert",
 				String.class
 		);
-		assertNotNull( methodDescriptor, "the specified method should be configured in xml" );
+		assertThat( methodDescriptor ).as( "the specified method should be configured in xml" ).isNotNull();
 
 		ReturnValueDescriptor returnValueDescriptor = methodDescriptor.getReturnValueDescriptor();
 		Set<GroupConversionDescriptor> groupConversionDescriptors = returnValueDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 2 );
+		assertThat( groupConversionDescriptors.size() == 2 ).isTrue();
 
 		List<ParameterDescriptor> parameterDescriptors = methodDescriptor.getParameterDescriptors();
-		assertTrue( parameterDescriptors.size() == 1 );
+		assertThat( parameterDescriptors.size() == 1 ).isTrue();
 
 		ParameterDescriptor parameterDescriptor = parameterDescriptors.get( 0 );
 		groupConversionDescriptors = parameterDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 1 );
+		assertThat( groupConversionDescriptors.size() == 1 ).isTrue();
 	}
 
 	@Test
@@ -76,10 +73,10 @@ public class GroupConversionTest extends AbstractTCKTest {
 		ConstructorDescriptor constructorDescriptor = TestUtil.getConstructorDescriptor(
 				Groups.class
 		);
-		assertNotNull( constructorDescriptor, "the specified constructor should be configured in xml" );
+		assertThat( constructorDescriptor ).as( "the specified constructor should be configured in xml" ).isNotNull();
 		ReturnValueDescriptor returnValueDescriptor = constructorDescriptor.getReturnValueDescriptor();
 		Set<GroupConversionDescriptor> groupConversionDescriptors = returnValueDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 1 );
+		assertThat( groupConversionDescriptors.size() == 1 ).isTrue();
 	}
 
 	@Test
@@ -89,10 +86,10 @@ public class GroupConversionTest extends AbstractTCKTest {
 		PropertyDescriptor propertyDescriptor = TestUtil.getPropertyDescriptor(
 				Groups.class, "foo"
 		);
-		assertNotNull( propertyDescriptor, "the specified property should be configured in xml" );
+		assertThat( propertyDescriptor ).as( "the specified property should be configured in xml" ).isNotNull();
 
 		Set<GroupConversionDescriptor> groupConversionDescriptors = propertyDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 2 );
+		assertThat( groupConversionDescriptors.size() == 2 ).isTrue();
 	}
 
 	@Test
@@ -103,19 +100,19 @@ public class GroupConversionTest extends AbstractTCKTest {
 		PropertyDescriptor propertyDescriptor = TestUtil.getPropertyDescriptor(
 				Groups.class, "snafu"
 		);
-		assertNotNull( propertyDescriptor, "the specified property should be configured in xml" );
+		assertThat( propertyDescriptor ).as( "the specified property should be configured in xml" ).isNotNull();
 
 		Set<GroupConversionDescriptor> groupConversionDescriptors = propertyDescriptor.getGroupConversions();
-		assertTrue( groupConversionDescriptors.size() == 3 );
+		assertThat( groupConversionDescriptors.size() == 3 ).isTrue();
 
 		GroupConversionDescriptor groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, Default.class );
-		assertEquals( groupConversionDescriptor.getTo(), ConvertA.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ConvertA.class  );
 
 		groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, ConvertA.class );
-		assertEquals( groupConversionDescriptor.getTo(), ConvertB.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ConvertB.class  );
 
 		groupConversionDescriptor = getGroupConversionDescriptorByFrom( groupConversionDescriptors, ConvertB.class );
-		assertEquals( groupConversionDescriptor.getTo(), ConvertC.class );
+		assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ConvertC.class  );
 	}
 
 	private GroupConversionDescriptor getGroupConversionDescriptorByFrom(Set<GroupConversionDescriptor> groupConversionDescriptors, Class<?> from) {

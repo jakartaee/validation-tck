@@ -8,24 +8,29 @@ package org.hibernate.beanvalidation.tck.tests;
 
 import java.net.URISyntaxException;
 
-import com.beust.jcommander.JCommander;
 import jakarta.validation.Validator;
 import jakarta.validation.executable.ExecutableValidator;
 
 import org.assertj.core.api.Assert;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;
 import org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert;
+import org.hibernate.beanvalidation.tck.util.ExpectBootstrapFailure;
+import org.hibernate.beanvalidation.tck.util.TckArquillianExtension;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.hibernate.beanvalidation.tck.util.ValidationInvocationHandler;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.ArchiveBuilder;
 import org.hibernate.beanvalidation.tck.util.shrinkwrap.WebArchiveBuilder;
-import org.jboss.arquillian.testng.Arquillian;
+
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * @author Marko Bekhta
  * @author Guillaume Smet
  */
-public abstract class AbstractTCKTest extends Arquillian {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(TckArquillianExtension.class)
+public abstract class AbstractTCKTest {
 
 	private Validator validator;
 
@@ -38,11 +43,12 @@ public abstract class AbstractTCKTest extends Arquillian {
 				ArchiveBuilder.class,
 				WebArchiveBuilder.class,
 				AbstractTCKTest.class,
-				AbstractBootstrapFailureTCKTest.class,
+				TckArquillianExtension.class,
 				TestUtil.class,
 				ConstraintViolationAssert.class,
 				CollectionHelper.class,
-				ValidationInvocationHandler.class
+				ValidationInvocationHandler.class,
+				ExpectBootstrapFailure.class
 		);
 
 		// We don't use the Maven features of Shrinkwrap as the TCK might not be run with Maven
@@ -51,8 +57,6 @@ public abstract class AbstractTCKTest extends Arquillian {
 		// According to our security policy, the TCK has the permission to access the API even if
 		// the security manager is enabled.
 		webArchiveBuilder.withAdditionalJar( jarPath( Assert.class ) );
-		// testng 6.14.3 has dependency on jcommander
-		webArchiveBuilder.withAdditionalJar( jarPath( JCommander.class ) );
 
 		return webArchiveBuilder;
 	}

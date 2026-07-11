@@ -8,7 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.integration.ee.cdi;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertNotNull;
 
 import java.util.Set;
 
@@ -16,6 +15,7 @@ import javax.naming.InitialContext;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidatorFactory;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
@@ -23,7 +23,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -45,10 +45,7 @@ public class ConstraintValidatorInjectionTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION, id = "a")
 	public void testJndiBoundValidatorFactoryIsCdiEnabled() throws Exception {
 		ValidatorFactory validatorFactory = InitialContext.doLookup( "java:comp/ValidatorFactory" );
-		assertNotNull(
-				validatorFactory,
-				"Default validator factory should be bound to JNDI tree."
-		);
+		Assertions.assertThat(  validatorFactory ).as( "Default validator factory should be bound to JNDI tree." ).isNotNull();
 
 		Set<ConstraintViolation<Foo>> violations = validatorFactory.getValidator().validate( new Foo() );
 

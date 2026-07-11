@@ -8,9 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getPropertyDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.AssertJUnit.assertTrue;
 
 import java.lang.annotation.ElementType;
 import java.util.Set;
@@ -29,7 +26,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -49,24 +47,24 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	public void testGetElementClass() {
 		Validator validator = getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SuperClass.class );
-		assertEquals( beanDescriptor.getElementClass(), SuperClass.class, "Wrong element class" );
+		assertThat( beanDescriptor.getElementClass() ).as( "Wrong element class" ).isEqualTo( SuperClass.class );
 
 		ElementDescriptor elementDescriptor = beanDescriptor.getConstraintsForProperty( "myField" );
-		assertEquals( elementDescriptor.getElementClass(), String.class, "Wrong element class" );
+		assertThat( elementDescriptor.getElementClass() ).as( "Wrong element class" ).isEqualTo( String.class );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "b")
 	public void testGetConstraintDescriptors() {
 		ElementDescriptor descriptor = getPropertyDescriptor( SubClass.class, "myField" );
-		assertEquals( descriptor.getConstraintDescriptors().size(), 2, "There should be two constraints on myField" );
+		assertThat( descriptor.getConstraintDescriptors().size() ).as( "There should be two constraints on myField" ).isEqualTo( 2 );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "c")
 	public void testHasConstraints() {
 		ElementDescriptor descriptor = getPropertyDescriptor( SubClass.class, "myField" );
-		assertTrue( descriptor.hasConstraints() );
+		assertThat( descriptor.hasConstraints() ).isTrue();
 	}
 
 	@Test
@@ -75,19 +73,19 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	public void testUnorderedAndMatchingGroups() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.unorderedAndMatchingGroups( Default.class, SuperClass.BasicGroup.class )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 2 );
+		assertThat( descriptors.size() == 2 ).isTrue();
 
 		descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.unorderedAndMatchingGroups( SuperClass.UnusedGroup.class )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 0 );
+		assertThat( descriptors.size() == 0 ).isTrue();
 	}
 
 	@Test
@@ -96,13 +94,13 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	public void testUnorderedAndMatchingGroupsWithInheritance() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.unorderedAndMatchingGroups( SuperClass.InheritedGroup.class )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 1 );
+		assertThat( descriptors.size() == 1 ).isTrue();
 	}
 
 	@Test
@@ -111,13 +109,13 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	public void testUnorderedAndMatchingGroupsWithDefaultGroupOverriding() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.unorderedAndMatchingGroups( Default.class )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 1 );
+		assertThat( descriptors.size() == 1 ).isTrue();
 	}
 
 	@Test
@@ -126,28 +124,28 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	public void testDeclaredOn() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.lookingAt( Scope.HIERARCHY )
 				.declaredOn( ElementType.TYPE )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 0 );
+		assertThat( descriptors.size() == 0 ).isTrue();
 
 		descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.lookingAt( Scope.HIERARCHY )
 				.declaredOn( ElementType.METHOD )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 0 );
+		assertThat( descriptors.size() == 0 ).isTrue();
 
 		descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.lookingAt( Scope.HIERARCHY )
 				.declaredOn( ElementType.FIELD )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 2 );
+		assertThat( descriptors.size() == 2 ).isTrue();
 	}
 
 	@Test
@@ -156,18 +154,18 @@ public class ElementDescriptorTest extends AbstractTCKTest {
 	public void testLookingAt() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( SubClass.class );
-		assertNotNull( beanDescriptor );
+		assertThat( beanDescriptor ).isNotNull();
 
 		Set<ConstraintDescriptor<?>> descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.lookingAt( Scope.HIERARCHY )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 2 );
+		assertThat( descriptors.size() == 2 ).isTrue();
 
 		descriptors = beanDescriptor.getConstraintsForProperty( "myField" )
 				.findConstraints()
 				.lookingAt( Scope.LOCAL_ELEMENT )
 				.getConstraintDescriptors();
-		assertTrue( descriptors.size() == 1 );
+		assertThat( descriptors.size() == 1 ).isTrue();
 	}
 }

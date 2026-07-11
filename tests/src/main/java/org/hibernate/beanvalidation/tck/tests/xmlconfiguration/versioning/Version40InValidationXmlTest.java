@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import static org.testng.Assert.assertEquals;
-
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -18,7 +16,8 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 
 import jakarta.validation.Configuration;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class Version40InValidationXmlTest extends AbstractTCKTest {
@@ -36,10 +35,6 @@ public class Version40InValidationXmlTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.XML_CONFIG_XSD, id = "a")
 	public void testValidationXmlVersion40() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		assertEquals(
-				config.getBootstrapConfiguration().getClockProviderClassName(),
-				"org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyClockProvider",
-				"Wrong clock provider class name."
-		);
+		assertThat( config.getBootstrapConfiguration().getClockProviderClassName() ).as( "Wrong clock provider class name." ).isEqualTo( "org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyClockProvider" );
 	}
 }

@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
-
-import static org.testng.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +25,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -70,6 +68,6 @@ public class DefaultProviderSpecifiedInValidationXmlTest extends AbstractTCKTest
 				.providerResolver( resolver )
 				.configure();
 		ValidatorFactory factory = configuration.buildValidatorFactory();
-		assertTrue( factory instanceof TCKValidationProvider.DummyValidatorFactory );
+		assertThat( factory instanceof TCKValidationProvider.DummyValidatorFactory ).isTrue();
 	}
 }

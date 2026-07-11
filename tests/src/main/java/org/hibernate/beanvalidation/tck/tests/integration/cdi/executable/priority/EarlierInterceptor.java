@@ -6,7 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
-import static org.testng.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
@@ -24,9 +24,9 @@ public class EarlierInterceptor {
 
 	@AroundInvoke
 	public Object invoke(InvocationContext ctx) throws Exception {
-		assertFalse( invocationTracker.isEarlierInterceptorInvoked() );
-		assertFalse( invocationTracker.isValidatorInvoked() );
-		assertFalse( invocationTracker.isLaterInterceptorInvoked() );
+		assertThat( invocationTracker.isEarlierInterceptorInvoked() ).isFalse();
+		assertThat( invocationTracker.isValidatorInvoked() ).isFalse();
+		assertThat( invocationTracker.isLaterInterceptorInvoked() ).isFalse();
 
 		invocationTracker.setEarlierInterceptorInvoked( true );
 		return ctx.proceed();

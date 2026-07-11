@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-
 import jakarta.validation.metadata.MethodDescriptor;
 import jakarta.validation.metadata.ParameterDescriptor;
 import jakarta.validation.metadata.ReturnValueDescriptor;
@@ -20,7 +17,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -46,12 +44,12 @@ public class DisabledCascadedValidationTest extends AbstractTCKTest {
 				"cascade",
 				String.class
 		);
-		assertNotNull( descriptor, "the specified method should be configured in xml" );
+		assertThat( descriptor ).as( "the specified method should be configured in xml" ).isNotNull();
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertFalse( returnValueDescriptor.isCascaded(), "Cascaded validation should be ignored" );
+		assertThat( returnValueDescriptor.isCascaded() ).as( "Cascaded validation should be ignored" ).isFalse();
 
 		ParameterDescriptor parameterDescriptor = descriptor.getParameterDescriptors().get( 0 );
-		assertFalse( parameterDescriptor.isCascaded(), "Cascaded validation should be ignored" );
+		assertThat( parameterDescriptor.isCascaded() ).as( "Cascaded validation should be ignored" ).isFalse();
 	}
 }

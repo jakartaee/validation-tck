@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import static org.testng.Assert.assertEquals;
-
 import jakarta.validation.Configuration;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -17,7 +15,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -38,10 +37,6 @@ public class Version11InValidationXmlTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.XML_CONFIG_XSD, id = "a")
 	public void testValidationXmlVersion11() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		assertEquals(
-				config.getBootstrapConfiguration().getMessageInterpolatorClassName(),
-				"org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyMessageInterpolator",
-				"Wrong message interpolator class name."
-		);
+		assertThat( config.getBootstrapConfiguration().getMessageInterpolatorClassName() ).as( "Wrong message interpolator class name." ).isEqualTo( "org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning.DummyMessageInterpolator" );
 	}
 }

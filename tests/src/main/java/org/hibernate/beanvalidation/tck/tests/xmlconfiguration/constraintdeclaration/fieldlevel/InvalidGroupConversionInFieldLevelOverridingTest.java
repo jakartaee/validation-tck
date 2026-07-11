@@ -11,6 +11,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -19,7 +20,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -37,14 +38,16 @@ public class InvalidGroupConversionInFieldLevelOverridingTest extends AbstractTC
 				.build();
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertions({
 			@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_FIELDLEVELOVERRIDING, id = "f")
 	})
 	public void testGroupConversionsAreAdditiveAndExceptionIsThrownForMultipleConversionWithSameSource() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
-		PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstCreditCard" );
-		propDescriptor.getGroupConversions();
+		Assertions.assertThatThrownBy( () -> {
+			Validator validator = TestUtil.getValidatorUnderTest();
+			BeanDescriptor beanDescriptor = validator.getConstraintsForClass( User.class );
+			PropertyDescriptor propDescriptor = beanDescriptor.getConstraintsForProperty( "firstCreditCard" );
+			propDescriptor.getGroupConversions();
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 }

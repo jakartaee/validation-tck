@@ -29,7 +29,6 @@
     <description>Aggregates dependencies and runs the Jakarta Validation TCK</description>
 
     <properties>
-        <tck.suite.file>target/dependency/validation-tck-tests-suite.xml</tck.suite.file>
         <arquillian.version>1.8.0.Final</arquillian.version>
 
         <version.jakarta.validation-api>4.0.0-SNAPSHOT</version.jakarta.validation-api>
@@ -51,9 +50,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.11.0</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.1.1</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
@@ -61,8 +60,8 @@
             <version>${tck.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.testng</groupId>
-            <artifactId>arquillian-testng-container</artifactId>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
             <version>${arquillian.version}</version>
             <scope>test</scope>
         </dependency>
@@ -80,33 +79,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
-            </plugin>
-            <!-- We are using the dependency plugin to download and install the TestNG suite file locally -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-tck-test-suite-file</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <stripVersion>true</stripVersion>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jakarta.validation</groupId>
-                                    <artifactId>validation-tck-tests</artifactId>
-                                    <type>xml</type>
-                                    <classifier>suite</classifier>
-                                    <overWrite>false</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
@@ -147,9 +119,9 @@
                         <configuration>
                             <argLine>-Xmx1024m</argLine>
                             <forkCount>1</forkCount>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>${tck.suite.file}</suiteXmlFile>
-                            </suiteXmlFiles>
+                            <dependenciesToScan>
+                                <dependency>jakarta.validation:validation-tck-tests</dependency>
+                            </dependenciesToScan>
                             <systemPropertyVariables>
                                 <validation.provider>${validation.provider}</validation.provider>
                                 <arquillian.launch>incontainer</arquillian.launch>

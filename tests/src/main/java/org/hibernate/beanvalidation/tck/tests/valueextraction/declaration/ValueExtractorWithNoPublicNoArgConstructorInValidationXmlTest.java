@@ -10,26 +10,22 @@ import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.util.ExpectBootstrapFailure;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.declaration.model.Cinema;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
  * @author Guillaume Smet
  */
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
-public class ValueExtractorWithNoPublicNoArgConstructorInValidationXmlTest extends AbstractBootstrapFailureTCKTest {
-
-	@Override
-	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
-		return ValidationException.class;
-	}
-
+@ExpectBootstrapFailure(ValidationException.class)
+public class ValueExtractorWithNoPublicNoArgConstructorInValidationXmlTest extends AbstractTCKTest {
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
@@ -39,10 +35,10 @@ public class ValueExtractorWithNoPublicNoArgConstructorInValidationXmlTest exten
 				.build();
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "m")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "y")
 	public void valueExtractorWithNoPublicNoArgConstructorInValidationXmlThrowsException() throws Exception {
-		Validation.buildDefaultValidatorFactory();
+				Validation.buildDefaultValidatorFactory();
 	}
 }

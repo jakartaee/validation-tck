@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.versioning;
 
-import static org.testng.Assert.assertFalse;
-
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -18,7 +16,8 @@ import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
 
 import jakarta.validation.Validator;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class Version40InMappingXmlTest extends AbstractTCKTest {
@@ -42,6 +41,6 @@ public class Version40InMappingXmlTest extends AbstractTCKTest {
 				.buildValidatorFactory()
 				.getValidator();
 
-		assertFalse( validator.getConstraintsForClass( TestEntity.class ).isBeanConstrained() );
+		assertThat( validator.getConstraintsForClass( TestEntity.class ).isBeanConstrained() ).isFalse();
 	}
 }

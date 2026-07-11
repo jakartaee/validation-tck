@@ -10,8 +10,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
 
 import java.lang.reflect.Constructor;
 import java.util.Date;
@@ -21,6 +19,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.Size;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.MyCrossParameterConstraint;
@@ -37,7 +36,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -85,12 +84,12 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Customer> violation = violations.iterator().next();
-		assertNull( violation.getRootBean() );
-		assertEquals( violation.getRootBeanClass(), Customer.class );
-		assertEquals( violation.getLeafBean(), returnValue );
-		assertEquals( violation.getInvalidValue(), returnValue );
-		assertNull( violation.getExecutableParameters() );
-		assertEquals( violation.getExecutableReturnValue(), returnValue );
+		Assertions.assertThat( violation.getRootBean() ).isNull();
+		Assertions.assertThat( violation.getRootBeanClass() ).isEqualTo( Customer.class );
+		Assertions.assertThat( violation.getLeafBean() ).isEqualTo( returnValue );
+		Assertions.assertThat( violation.getInvalidValue() ).isEqualTo( returnValue );
+		Assertions.assertThat( violation.getExecutableParameters() ).isNull();
+		Assertions.assertThat( violation.getExecutableReturnValue() ).isEqualTo( returnValue );
 	}
 
 	@Test
@@ -219,63 +218,83 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "j")
 	public void testUnexpectedType() throws Exception {
-		Constructor<Email> constructor = Email.class.getConstructor();
-		Email returnValue = new Email();
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorReturnValue( constructor, returnValue );
+			Constructor<Email> constructor = Email.class.getConstructor();
+			Email returnValue = new Email();
+
+			getExecutableValidator().validateConstructorReturnValue( constructor, returnValue );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "l")
 	public void testNullPassedForConstructorCausesException() throws Exception {
-		Constructor<Customer> constructor = null;
-		Customer returnValue = new Customer();
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorReturnValue(
-				constructor,
-				returnValue
-		);
+			Constructor<Customer> constructor = null;
+			Customer returnValue = new Customer();
+
+			getExecutableValidator().validateConstructorReturnValue(
+					constructor,
+					returnValue
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "l")
 	public void testNullPassedForReturnValueCausesException() throws Exception {
-		Constructor<Customer> constructor = Customer.class.getConstructor();
-		Customer returnValue = null;
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorReturnValue(
-				constructor,
-				returnValue
-		);
+			Constructor<Customer> constructor = Customer.class.getConstructor();
+			Customer returnValue = null;
+
+			getExecutableValidator().validateConstructorReturnValue(
+					constructor,
+					returnValue
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "l")
 	public void testNullPassedForGroupsCausesException() throws Exception {
-		Constructor<Customer> constructor = Customer.class.getConstructor();
-		Customer returnValue = new Customer();
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorReturnValue(
-				constructor,
-				returnValue,
-				(Class<?>[]) null
-		);
+			Constructor<Customer> constructor = Customer.class.getConstructor();
+			Customer returnValue = new Customer();
+
+			getExecutableValidator().validateConstructorReturnValue(
+					constructor,
+					returnValue,
+					(Class<?>[]) null
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "l")
 	public void testNullPassedAsSingleGroupCausesException() throws Exception {
-		Constructor<Customer> constructor = Customer.class.getConstructor();
-		Customer returnValue = new Customer();
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorReturnValue(
-				constructor,
-				returnValue,
-				(Class<?>) null
-		);
+			Constructor<Customer> constructor = Customer.class.getConstructor();
+			Customer returnValue = new Customer();
+
+			getExecutableValidator().validateConstructorReturnValue(
+					constructor,
+					returnValue,
+					(Class<?>) null
+			);
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
@@ -299,9 +318,9 @@ public class ValidateConstructorReturnValueTest extends AbstractTCKTest {
 
 		ConstraintViolation<Object> violation = violations.iterator().next();
 
-		assertEquals( violation.getLeafBean(), leaf );
-		assertEquals( violation.getInvalidValue(), "foo" );
-		assertNull( violation.getExecutableParameters() );
-		assertEquals( violation.getExecutableReturnValue(), createdObject );
+		Assertions.assertThat( violation.getLeafBean() ).isEqualTo( leaf );
+		Assertions.assertThat( violation.getInvalidValue() ).isEqualTo( "foo" );
+		Assertions.assertThat( violation.getExecutableParameters() ).isNull();
+		Assertions.assertThat( violation.getExecutableReturnValue() ).isEqualTo( createdObject );
 	}
 }

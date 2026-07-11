@@ -9,9 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.util.Set;
@@ -26,6 +23,7 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.metadata.BeanDescriptor;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -34,7 +32,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -86,8 +84,8 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 
 		ConstraintViolation<User> constraintViolation = constraintViolations.iterator().next();
 		Set<Class<? extends Payload>> payloads = constraintViolation.getConstraintDescriptor().getPayload();
-		assertTrue( payloads.size() == 1, "One one payload class is defined in xml" );
-		assertTrue( Error.class.equals( payloads.iterator().next() ) );
+		Assertions.assertThat( payloads.size() == 1 ).as( "One one payload class is defined in xml" ).isTrue();
+		Assertions.assertThat( Error.class.equals( payloads.iterator().next() ) ).isTrue();
 
 		user.setConsistent( true );
 		constraintViolations = getValidator().validate( user );
@@ -215,10 +213,7 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "t")
 	public void testMappingFilesAddedViaConfigurationGetAddedToXmlConfiguredMappings() {
-		assertFalse(
-				getValidator().getConstraintsForClass( Order.class ).isBeanConstrained(),
-				"Without additional mapping Order should be unconstrained"
-		);
+		Assertions.assertThat( getValidator().getConstraintsForClass( Order.class ).isBeanConstrained() ).as( "Without additional mapping Order should be unconstrained" ).isFalse();
 
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.addMapping(
@@ -228,10 +223,7 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 		);
 		Validator validator = config.buildValidatorFactory().getValidator();
 
-		assertTrue(
-				validator.getConstraintsForClass( Order.class ).isBeanConstrained(),
-				"With additional mapping Order should be constrained"
-		);
+		Assertions.assertThat( validator.getConstraintsForClass( Order.class ).isBeanConstrained() ).as( "With additional mapping Order should be constrained" ).isTrue();
 	}
 
 	@Test
@@ -256,47 +248,51 @@ public class XmlConfigurationTest extends AbstractTCKTest {
 	})
 	public void testElementConversionInXmlConfiguredConstraint() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( User.class );
-		assertTrue( beanDescriptor.isBeanConstrained() );
+		Assertions.assertThat( beanDescriptor.isBeanConstrained() ).isTrue();
 
 		Set<ConstraintDescriptor<?>> constraintDescriptors = beanDescriptor.getConstraintDescriptors();
-		assertTrue( constraintDescriptors.size() == 1 );
+		Assertions.assertThat( constraintDescriptors.size() == 1 ).isTrue();
 
 		ConstraintDescriptor<?> descriptor = constraintDescriptors.iterator().next();
-		assertEquals( descriptor.getMessageTemplate(), "Message from xml" );
-		assertEquals( descriptor.getGroups(), TestUtil.<Class<?>>asSet( TestGroup.class ) );
-		assertEquals( descriptor.getPayload(), TestUtil.<Class<?>>asSet( Error.class ) );
+		Assertions.assertThat( descriptor.getMessageTemplate() ).isEqualTo( "Message from xml" );
+		Assertions.assertThat( descriptor.getGroups() ).isEqualTo( TestUtil.<Class<?>>asSet( TestGroup.class ) );
+		Assertions.assertThat( descriptor.getPayload() ).isEqualTo( TestUtil.<Class<?>>asSet( Error.class  ) );
 
 		ConsistentUserInformation constraintAnnotation = (ConsistentUserInformation) descriptor.getAnnotation();
 
-		assertEquals( constraintAnnotation.byteParam(), Byte.MAX_VALUE, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.shortParam(), Short.MAX_VALUE, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.intParam(), Integer.MAX_VALUE, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.longParam(), Long.MAX_VALUE, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.floatParam(), Float.MAX_VALUE, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.doubleParam(), Double.MAX_VALUE, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.booleanParam(), true, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.charParam(), 'A', "Wrong parameter value" );
+		Assertions.assertThat( constraintAnnotation.byteParam() ).as( "Wrong parameter value" ).isEqualTo( Byte.MAX_VALUE );
+		Assertions.assertThat( constraintAnnotation.shortParam() ).as( "Wrong parameter value" ).isEqualTo( Short.MAX_VALUE );
+		Assertions.assertThat( constraintAnnotation.intParam() ).as( "Wrong parameter value" ).isEqualTo( Integer.MAX_VALUE );
+		Assertions.assertThat( constraintAnnotation.longParam() ).as( "Wrong parameter value" ).isEqualTo( Long.MAX_VALUE );
+		Assertions.assertThat( constraintAnnotation.floatParam() ).as( "Wrong parameter value" ).isEqualTo( Float.MAX_VALUE );
+		Assertions.assertThat( constraintAnnotation.doubleParam() ).as( "Wrong parameter value" ).isEqualTo( Double.MAX_VALUE );
+		Assertions.assertThat( constraintAnnotation.booleanParam() ).as( "Wrong parameter value" ).isEqualTo( true );
+		Assertions.assertThat(  constraintAnnotation.charParam() ).as( "Wrong parameter value" ).isEqualTo( 'A' );
 
-		assertEquals( constraintAnnotation.stringParam(), "foobar", "Wrong parameter value" );
-		assertEquals( constraintAnnotation.classParam(), String.class, "Wrong parameter value" );
-		assertEquals( constraintAnnotation.unqualifiedClassParam(), UserType.class, "Wrong parameter value" );
+		Assertions.assertThat(  constraintAnnotation.stringParam() ).as( "Wrong parameter value" ).isEqualTo( "foobar" );
+		Assertions.assertThat(  constraintAnnotation.classParam() ).as( "Wrong parameter value" ).isEqualTo( String.class );
+		Assertions.assertThat(  constraintAnnotation.unqualifiedClassParam() ).as( "Wrong parameter value" ).isEqualTo( UserType.class );
 
-		assertEquals( constraintAnnotation.userType(), UserType.SELLER, "Wrong parameter value" );
+		Assertions.assertThat(  constraintAnnotation.userType() ).as( "Wrong parameter value" ).isEqualTo( UserType.SELLER );
 
-		assertEquals( constraintAnnotation.stringArrayParam(), new String[] { "foo", "bar" }, "Wrong parameter value" );
+		Assertions.assertThat( constraintAnnotation.stringArrayParam() ).as( "Wrong parameter value" ).isEqualTo( new String[] { "foo", "bar" } );
 
-		assertEquals( constraintAnnotation.max().value(), 10, "Wrong parameter value. Default should be used" );
-		assertEquals( constraintAnnotation.patterns().length, 2, "Wrong array size" );
+		Assertions.assertThat(  constraintAnnotation.max().value() ).as( "Wrong parameter value. Default should be used" ).isEqualTo( 10 );
+		Assertions.assertThat(  constraintAnnotation.patterns().length ).as( "Wrong array size" ).isEqualTo( 2 );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_TYPECONVERSION, id = "l")
 	public void testIllegalAnnotationValueInXmlMappingCausesException() {
-		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		config.addMapping( getStream( "superuser-constraints.xml" ) );
-		Validator validator = config.buildValidatorFactory().getValidator();
+		Assertions.assertThatThrownBy( () -> {
 
-		validator.getConstraintsForClass( SuperUser.class );
+			Configuration<?> config = TestUtil.getConfigurationUnderTest();
+			config.addMapping( getStream( "superuser-constraints.xml" ) );
+			Validator validator = config.buildValidatorFactory().getValidator();
+
+			validator.getConstraintsForClass( SuperUser.class );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	private InputStream getStream(String fileName) {

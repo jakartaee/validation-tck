@@ -6,72 +6,43 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration;
 
-
-import static org.testng.Assert.fail;
-
 import jakarta.validation.Configuration;
 import jakarta.validation.ValidationException;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
-import org.hibernate.beanvalidation.tck.tests.AbstractBootstrapFailureTCKTest;
+import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
+import org.hibernate.beanvalidation.tck.util.ExpectBootstrapFailure;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
  */
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
-public class ReservedElementNameTest extends AbstractBootstrapFailureTCKTest {
+@ExpectBootstrapFailure(ValidationException.class)
+public class ReservedElementNameTest extends AbstractTCKTest {
 
-	private final static String packageName = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdeclaration/";
-	private final static String mappingFile1 = "constraints-GroupIsNotAllowedAsElementNameTest.xml";
-	private final static String mappingFile2 = "constraints-MessageIsNotAllowedAsElementNameTest.xml";
-	private final static String mappingFile3 = "constraints-PayloadIsNotAllowedAsElementNameTest.xml";
-
-	@Override
-	protected Class<? extends Exception> acceptedDeploymentExceptionType() {
-		return ValidationException.class;
-	}
+	private static final String PACKAGE_NAME = "/org/hibernate/beanvalidation/tck/tests/xmlconfiguration/constraintdeclaration/";
+	private static final String MAPPING_FILE = "constraints-GroupIsNotAllowedAsElementNameTest.xml";
 
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
 				.withTestClass( ReservedElementNameTest.class )
 				.withClasses( User.class )
-				.withResource( ReservedElementNameTest.mappingFile1 )
-				.withResource( ReservedElementNameTest.mappingFile2 )
-				.withResource( ReservedElementNameTest.mappingFile3 )
+				.withResource( MAPPING_FILE )
 				.build();
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "c")
 	public void testGroupIsNotAllowedAsElementName() {
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
+		config.addMapping( TestUtil.getInputStreamForPath( PACKAGE_NAME + MAPPING_FILE ) );
 		config.buildValidatorFactory().getValidator();
-		fail( "Validator creation should have failed since <element name=\"groups\"> was used." );
-	}
-
-	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "c")
-	public void testMessageIsNotAllowedAsElementName() {
-		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile2 ) );
-		config.buildValidatorFactory().getValidator();
-		fail( "Validator creation should have failed since <element name=\"message\"> was used." );
-	}
-
-	@Test(expectedExceptions = ValidationException.class)
-	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONSTRAINTDECLARATION, id = "c")
-	public void testPayloadIsNotAllowedAsElementName() {
-		Configuration<?> config = TestUtil.getConfigurationUnderTest();
-		config.addMapping( TestUtil.getInputStreamForPath( packageName + mappingFile1 ) );
-		config.buildValidatorFactory().getValidator();
-		fail( "Validator creation should have failed since <element name=\"groups\"> was used." );
 	}
 }

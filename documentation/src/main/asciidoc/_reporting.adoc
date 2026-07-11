@@ -54,13 +54,13 @@ annotation as follows:
 
 [source, java]
 ----
-@Test(expectedExceptions = ConstraintDefinitionException.class)
+@Test
 ...
 @SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_MESSAGE, id = "a")
 ...
 public void testConstraintDefinitionWithoutMessageParameter() {
-    getValidator().validate( new DummyEntityNoMessage() );
-    fail( "The used constraint does not define a message parameter. The validation should have failed." );
+    assertThrows( ConstraintDefinitionException.class,
+        () -> getValidator().validate( new DummyEntityNoMessage() ) );
 }
 ----
 
@@ -122,23 +122,23 @@ document and presented in the coverage report, some assertions are not
 testable.
 
 The coverage report does not give any indication as to whether the
-tests are passing. That's where the TestNG reports come in.
+tests are passing. That's where the JUnit/Surefire reports come in.
 
-=== The TestNG Report
+=== The JUnit/Surefire Report
 
 As you by now know, the Jakarta Validation TCK test suite is really
-just a TestNG test suite. That means an execution of the Jakarta Validation
-TCK test suite produces all the same reports that TestNG produces. This
+just a JUnit test suite. That means an execution of the Jakarta Validation
+TCK test suite produces all the same reports that JUnit and Surefire produce. This
 section will go over those reports and show you were to go to find each of
 them.
 
-==== Maven, Surefire and TestNG
+==== Maven, Surefire and JUnit
 
 When the Jakarta Validation TCK test suite is executed during the
-Maven test phase of the TCK runner project, TestNG is invoked
+Maven test phase of the TCK runner project, JUnit is invoked
 indirectly through the Maven Surefire plugin. Surefire is a test
 execution abstraction layer capable of executing a mix of tests written
-for JUnit, TestNG, and other supported test frameworks.
+for JUnit and other supported test frameworks.
 
 Why is this relevant? It means two things. First, it means that
 you are going to get a summary of the test run on the commandline.

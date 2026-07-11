@@ -1,0 +1,2 @@
+org.hibernate.beanvalidation.tck.util.IntegrationTestsMethodSelector
+org.hibernate.beanvalidation.tck.util.JavaFXTestsMethodSelector

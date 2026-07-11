@@ -7,11 +7,6 @@
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,13 +23,14 @@ import jakarta.validation.metadata.MethodType;
 import jakarta.validation.metadata.ParameterDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -53,7 +49,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_ELEMENTDESCRIPTOR, id = "a")
 	public void testGetElementClassReturnsBeanClass() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Customer.class );
-		assertEquals( beanDescriptor.getElementClass(), Customer.class, "Wrong element class" );
+		assertThat( beanDescriptor.getElementClass() ).as( "Wrong element class" ).isEqualTo( Customer.class );
 	}
 
 	@Test
@@ -63,14 +59,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Customer.class );
 
 		// constraint via @Valid
-		assertFalse(
-				beanDescriptor.hasConstraints(),
-				"There should be no direct constraints on the specified bean."
-		);
-		assertTrue(
-				beanDescriptor.isBeanConstrained(),
-				"Bean should be constrained due to @valid "
-		);
+		assertThat( beanDescriptor.hasConstraints() ).as( "There should be no direct constraints on the specified bean." ).isFalse();
+		assertThat( beanDescriptor.isBeanConstrained() ).as( "Bean should be constrained due to @valid " ).isTrue();
 	}
 
 	@Test
@@ -79,14 +69,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testIsBeanConstrainedDueToConstraintOnEntity() {
 		// constraint hosted on bean itself
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Account.class );
-		assertTrue(
-				beanDescriptor.hasConstraints(),
-				"There should be direct constraints on the specified bean."
-		);
-		assertTrue(
-				beanDescriptor.isBeanConstrained(),
-				"Bean should be constrained due to @valid"
-		);
+		assertThat( beanDescriptor.hasConstraints() ).as( "There should be direct constraints on the specified bean." ).isTrue();
+		assertThat( beanDescriptor.isBeanConstrained() ).as( "Bean should be constrained due to @valid" ).isTrue();
 	}
 
 	@Test
@@ -95,14 +79,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testIsBeanConstrainedDueToConstraintProperty() {
 		// constraint on bean property
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
-		assertFalse(
-				beanDescriptor.hasConstraints(),
-				"There should be no direct constraints on the specified bean."
-		);
-		assertTrue(
-				beanDescriptor.isBeanConstrained(),
-				"Bean should be constrained due to @NotNull"
-		);
+		assertThat( beanDescriptor.hasConstraints() ).as( "There should be no direct constraints on the specified bean." ).isFalse();
+		assertThat( beanDescriptor.isBeanConstrained() ).as( "Bean should be constrained due to @NotNull" ).isTrue();
 	}
 
 	@Test
@@ -111,14 +89,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testIsBeanConstrainedDueToConstraintOnInterface() {
 		// constraint on implemented interface
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Man.class );
-		assertFalse(
-				beanDescriptor.hasConstraints(),
-				"There should be no direct constraints on the specified bean."
-		);
-		assertTrue(
-				beanDescriptor.isBeanConstrained(),
-				"Bean should be constrained due to constraints on Person."
-		);
+		assertThat( beanDescriptor.hasConstraints() ).as( "There should be no direct constraints on the specified bean." ).isFalse();
+		assertThat( beanDescriptor.isBeanConstrained() ).as( "Bean should be constrained due to constraints on Person." ).isTrue();
 	}
 
 	@Test
@@ -126,11 +98,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "a")
 	public void testUnconstrainedClass() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
-		assertFalse(
-				beanDescriptor.hasConstraints(),
-				"There should be no direct constraints on the specified bean."
-		);
-		assertFalse( beanDescriptor.isBeanConstrained(), "Bean should be unconstrained." );
+		assertThat( beanDescriptor.hasConstraints() ).as( "There should be no direct constraints on the specified bean." ).isFalse();
+		assertThat( beanDescriptor.isBeanConstrained() ).as( "Bean should be unconstrained." ).isFalse();
 	}
 
 	@Test
@@ -141,11 +110,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty(
 				"orderNumber"
 		);
-		assertEquals(
-				propertyDescriptor.getConstraintDescriptors().size(),
-				1,
-				"There should be one constraint descriptor"
-		);
+		assertThat( propertyDescriptor.getConstraintDescriptors().size() ).as( "There should be one constraint descriptor" ).isEqualTo( 1 );
 	}
 
 	@Test
@@ -156,12 +121,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 		PropertyDescriptor propertyDescriptor = beanDescriptor.getConstraintsForProperty(
 				"orderList"
 		);
-		assertEquals(
-				propertyDescriptor.getConstraintDescriptors().size(),
-				0,
-				"There should be no constraint descriptors"
-		);
-		assertTrue( propertyDescriptor.isCascaded(), "The property should be cascaded" );
+		assertThat( propertyDescriptor.getConstraintDescriptors().size() ).as( "There should be no constraint descriptors" ).isEqualTo( 0 );
+		assertThat( propertyDescriptor.isCascaded() ).as( "The property should be cascaded" ).isTrue();
 	}
 
 	@Test
@@ -169,10 +130,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "b")
 	public void testGetConstraintsForNonExistingProperty() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
-		assertNull(
-				beanDescriptor.getConstraintsForProperty( "foobar" ),
-				"There should be no descriptor"
-		);
+		assertThat( beanDescriptor.getConstraintsForProperty( "foobar" ) ).as( "There should be no descriptor" ).isNull();
 	}
 
 	@Test
@@ -181,12 +139,12 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testGetConstrainedProperties() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();
-		assertEquals( constraintProperties.size(), 1, "There should be only one property" );
+		assertThat( constraintProperties.size() ).as( "There should be only one property" ).isEqualTo( 1 );
 		boolean hasOrderNumber = false;
 		for ( PropertyDescriptor pd : constraintProperties ) {
 			hasOrderNumber |= pd.getPropertyName().equals( "orderNumber" );
 		}
-		assertTrue( hasOrderNumber, "Wrong property" );
+		assertThat( hasOrderNumber ).as( "Wrong property" ).isTrue();
 	}
 
 	@Test
@@ -195,56 +153,60 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testGetConstrainedPropertiesForUnconstrainedEntity() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
 		Set<PropertyDescriptor> constraintProperties = beanDescriptor.getConstrainedProperties();
-		assertEquals( constraintProperties.size(), 0, "We should get the empty set." );
+		assertThat( constraintProperties.size() ).as( "We should get the empty set." ).isEqualTo( 0 );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "c")
 	public void testGetConstraintsForNullProperty() {
-		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
-		beanDescriptor.getConstraintsForProperty( null );
+		Assertions.assertThatThrownBy( () -> {
+
+			BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( Order.class );
+			beanDescriptor.getConstraintsForProperty( null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForParameterConstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.parameterConstrainedMethod();
-		assertNotNull( methodDescriptor, "Descriptor should not be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForCrossParameterConstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.crossParameterConstrainedMethod();
-		assertNotNull( methodDescriptor, "Descriptor should not be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForCascadedParameterMethod() {
 		MethodDescriptor methodDescriptor = Executables.cascadedParameterMethod();
-		assertNotNull( methodDescriptor, "Descriptor should not be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForReturnValueConstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.returnValueConstrainedMethod();
-		assertNotNull( methodDescriptor, "Descriptor should not be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForCascadedReturnValueMethod() {
 		MethodDescriptor methodDescriptor = Executables.cascadedReturnValueMethod();
-		assertNotNull( methodDescriptor, "Descriptor should not be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForUnconstrainedMethod() {
 		MethodDescriptor methodDescriptor = Executables.unconstrainedMethod();
-		assertNull( methodDescriptor, "Descriptor should be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should be null" ).isNull();
 	}
 
 	@Test
@@ -252,14 +214,18 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testGetConstraintsForNonExistingMethod() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		MethodDescriptor methodDescriptor = beanDescriptor.getConstraintsForMethod( "foo" );
-		assertNull( methodDescriptor, "Descriptor should be null" );
+		assertThat( methodDescriptor ).as( "Descriptor should be null" ).isNull();
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "e")
 	public void testGetConstraintsForNullMethod() {
-		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
-		beanDescriptor.getConstraintsForMethod( null );
+		Assertions.assertThatThrownBy( () -> {
+
+			BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
+			beanDescriptor.getConstraintsForMethod( null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
@@ -288,8 +254,8 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( CustomerService.class );
 		Set<MethodDescriptor> methodDescriptors = beanDescriptor.getConstrainedMethods( MethodType.GETTER );
 
-		assertEquals( methodDescriptors.size(), 1 );
-		assertEquals( methodDescriptors.iterator().next().getName(), "getBestCustomer" );
+		assertThat( methodDescriptors.size() ).isEqualTo( 1 );
+		assertThat( methodDescriptors.iterator().next().getName() ).isEqualTo( "getBestCustomer" );
 	}
 
 	@Test
@@ -324,49 +290,49 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 				MethodType.GETTER,
 				MethodType.NON_GETTER
 		);
-		assertEquals( methodDescriptors.size(), 0, "We should get the empty set." );
+		assertThat( methodDescriptors.size() ).as( "We should get the empty set." ).isEqualTo( 0 );
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "g")
 	public void testGetConstraintsForParameterConstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.parameterConstrainedConstructor();
-		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "g")
 	public void testGetConstraintsForCrossParameterConstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.crossParameterConstrainedConstructor();
-		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "g")
 	public void testGetConstraintsForCascadedParameterConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.cascadedParameterConstructor();
-		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "g")
 	public void testGetConstraintsForReturnValueConstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.returnValueConstrainedConstructor();
-		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "g")
 	public void testGetConstraintsForCascadedReturnValueConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.cascadedReturnValueConstructor();
-		assertNotNull( constructorDescriptor, "Descriptor should not be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should not be null" ).isNotNull();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_BEANDESCRIPTOR, id = "g")
 	public void testGetConstraintsForUnconstrainedConstructor() {
 		ConstructorDescriptor constructorDescriptor = Executables.unconstrainedConstructor();
-		assertNull( constructorDescriptor, "Descriptor should be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should be null" ).isNull();
 	}
 
 	@Test
@@ -376,7 +342,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 		ConstructorDescriptor constructorDescriptor = beanDescriptor.getConstraintsForConstructor(
 				Short.class
 		);
-		assertNull( constructorDescriptor, "Descriptor should be null" );
+		assertThat( constructorDescriptor ).as( "Descriptor should be null" ).isNull();
 	}
 
 	@Test
@@ -404,7 +370,7 @@ public class BeanDescriptorTest extends AbstractTCKTest {
 	public void testGetConstrainedConstructorsForUnconstrainedEntity() {
 		BeanDescriptor beanDescriptor = getValidator().getConstraintsForClass( UnconstrainedEntity.class );
 		Set<ConstructorDescriptor> constructorDescriptors = beanDescriptor.getConstrainedConstructors();
-		assertEquals( constructorDescriptors.size(), 0, "We should get the empty set." );
+		assertThat( constructorDescriptors.size() ).as( "We should get the empty set." ).isEqualTo( 0 );
 	}
 
 	private Set<List<Class<?>>> getParameterTypes(Set<ConstructorDescriptor> constructorDescriptors) {

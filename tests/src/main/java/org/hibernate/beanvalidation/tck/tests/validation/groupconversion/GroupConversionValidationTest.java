@@ -10,7 +10,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -23,13 +22,14 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.groups.Default;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -336,7 +336,7 @@ public class GroupConversionValidationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_GROUPSEQUENCE_GROUPCONVERSION, id = "b")
 	public void testGroupIsPassedAsIsToNestedElementWithoutConversion() {
 		Set<ConstraintViolation<FooHolder>> constraintViolations = getValidator().validate( new FooHolder() );
-		assertTrue( constraintViolations.isEmpty(), "No violations expected for default group" );
+		Assertions.assertThat( constraintViolations.isEmpty() ).as( "No violations expected for default group" ).isTrue();
 
 		constraintViolations = getValidator().validate( new FooHolder(), Complex.class );
 		assertThat( constraintViolations ).containsOnlyPaths(

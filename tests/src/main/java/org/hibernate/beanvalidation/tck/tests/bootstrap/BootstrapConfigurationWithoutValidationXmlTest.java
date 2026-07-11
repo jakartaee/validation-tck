@@ -6,11 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.EnumSet;
 
 import jakarta.validation.BootstrapConfiguration;
@@ -23,7 +18,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -44,25 +40,22 @@ public class BootstrapConfigurationWithoutValidationXmlTest extends AbstractTCKT
 		BootstrapConfiguration bootstrapConfiguration = TestUtil.getConfigurationUnderTest()
 				.getBootstrapConfiguration();
 
-		assertNotNull( bootstrapConfiguration );
+		assertThat( bootstrapConfiguration ).isNotNull();
 
-		assertNotNull( bootstrapConfiguration.getConstraintMappingResourcePaths() );
-		assertTrue( bootstrapConfiguration.getConstraintMappingResourcePaths().isEmpty() );
+		assertThat( bootstrapConfiguration.getConstraintMappingResourcePaths() ).isNotNull();
+		assertThat( bootstrapConfiguration.getConstraintMappingResourcePaths().isEmpty() ).isTrue();
 
-		assertNull( bootstrapConfiguration.getConstraintValidatorFactoryClassName() );
-		assertNull( bootstrapConfiguration.getDefaultProviderClassName() );
-		assertNull( bootstrapConfiguration.getMessageInterpolatorClassName() );
-		assertNull( bootstrapConfiguration.getParameterNameProviderClassName() );
+		assertThat( bootstrapConfiguration.getConstraintValidatorFactoryClassName() ).isNull();
+		assertThat( bootstrapConfiguration.getDefaultProviderClassName() ).isNull();
+		assertThat( bootstrapConfiguration.getMessageInterpolatorClassName() ).isNull();
+		assertThat( bootstrapConfiguration.getParameterNameProviderClassName() ).isNull();
 
-		assertNotNull( bootstrapConfiguration.getDefaultValidatedExecutableTypes() );
-		assertEquals(
-				bootstrapConfiguration.getDefaultValidatedExecutableTypes(),
-				EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS )
-		);
+		assertThat( bootstrapConfiguration.getDefaultValidatedExecutableTypes() ).isNotNull();
+		assertThat( bootstrapConfiguration.getDefaultValidatedExecutableTypes() ).isEqualTo( EnumSet.of( ExecutableType.CONSTRUCTORS, ExecutableType.NON_GETTER_METHODS ) );
 
-		assertNotNull( bootstrapConfiguration.getProperties() );
-		assertTrue( bootstrapConfiguration.getProperties().isEmpty() );
+		assertThat( bootstrapConfiguration.getProperties() ).isNotNull();
+		assertThat( bootstrapConfiguration.getProperties().isEmpty() ).isTrue();
 
-		assertNull( bootstrapConfiguration.getTraversableResolverClassName() );
+		assertThat( bootstrapConfiguration.getTraversableResolverClassName() ).isNull();
 	}
 }

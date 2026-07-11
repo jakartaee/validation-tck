@@ -6,9 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.validatorfactory;
 
-import static org.testng.Assert.assertSame;
-import static org.testng.Assert.assertTrue;
-
 import jakarta.validation.Configuration;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorFactory;
@@ -16,6 +13,7 @@ import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -23,7 +21,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -47,27 +46,32 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 	public void testDefaultConstructorInValidatorCalled() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		validator.validate( new Dummy() );
-		assertTrue(
-				MyConstraintValidator.defaultConstructorCalled,
-				"The no-arg default constructor should have been called."
-		);
+		assertThat( MyConstraintValidator.defaultConstructorCalled ).as( "The no-arg default constructor should have been called." ).isTrue();
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTFACTORY, id = "c")
 	public void testRuntimeExceptionInValidatorCreationIsWrapped() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validate( new SecondDummy() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validate( new SecondDummy() );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTFACTORY, id = "d")
 	public void testValidationExceptionIsThrownInCaseFactoryReturnsNull() {
-		Configuration<?> config = TestUtil.getConfigurationUnderTest().constraintValidatorFactory(
-				new CustomConstraintValidatorFactory()
-		);
-		Validator validator = config.buildValidatorFactory().getValidator();
-		validator.validate( new SecondDummy() );
+		Assertions.assertThatThrownBy( () -> {
+
+			Configuration<?> config = TestUtil.getConfigurationUnderTest().constraintValidatorFactory(
+					new CustomConstraintValidatorFactory()
+			);
+			Validator validator = config.buildValidatorFactory().getValidator();
+			validator.validate( new SecondDummy() );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@Test
@@ -79,11 +83,7 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 				.constraintValidatorFactory( constraintValidatorFactory )
 				.buildValidatorFactory();
 
-		assertSame(
-				validatorFactory.getConstraintValidatorFactory(),
-				constraintValidatorFactory,
-				"getConstraintValidatorFactory() should return the parameter name provider set via configuration"
-		);
+		assertThat( validatorFactory.getConstraintValidatorFactory() ).as( "getConstraintValidatorFactory() should return the parameter name provider set via configuration" ).isSameAs( constraintValidatorFactory );
 	}
 
 	private class CustomConstraintValidatorFactory implements ConstraintValidatorFactory {

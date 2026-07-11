@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.constraints.crossparameter;
 
-import static org.testng.Assert.fail;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -15,13 +13,14 @@ import java.util.Date;
 import jakarta.validation.ConstraintDeclarationException;
 import jakarta.validation.ConstraintTarget;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -36,116 +35,149 @@ public class InvalidDeclarationOfGenericAndCrossParameterConstraintTest extends 
 				.build();
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_RETURNVALUECONSTRAINTS, id = "b")
 	public void testConstraintTargetImplicitOnMethodWithParametersAndReturnValueCausesException() throws Exception {
-		Object object = new Foo();
-		Method method = Foo.class.getMethod( "createEvent", Date.class, Date.class );
-		Object[] parameterValues = new Object[2];
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameterValues );
-		fail( "Usage of ConstraintTarget.IMPLICIT not allowed for methods with parameters and return value. Expected exception wasn't thrown." );
+			Object object = new Foo();
+			Method method = Foo.class.getMethod( "createEvent", Date.class, Date.class );
+			Object[] parameterValues = new Object[2];
+
+			getExecutableValidator().validateParameters( object, method, parameterValues );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "d")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_RETURNVALUECONSTRAINTS, id = "b")
 	public void testConstraintTargetImplicitOnConstructorWithParametersCausesException() throws Exception {
-		Constructor<?> constructor = Bar.class.getConstructor( Date.class, Date.class );
-		Object[] parameterValues = new Object[2];
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
-		fail( "Usage of ConstraintTarget.IMPLICIT not allowed for constructors with parameters. Expected exception wasn't thrown." );
+			Constructor<?> constructor = Bar.class.getConstructor( Date.class, Date.class );
+			Object[] parameterValues = new Object[2];
+
+			getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "b")
 	public void testConstraintTargetParametersOnMethodWithoutParametersCausesException() throws Exception {
-		Object object = new Qux();
-		Method method = Qux.class.getMethod( "qux" );
-		Object[] parameterValues = new Object[0];
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateParameters( object, method, parameterValues );
-		fail( "Usage of ConstraintTarget.PARAMETERS not allowed for methods without parameters. Expected exception wasn't thrown." );
+			Object object = new Qux();
+			Method method = Qux.class.getMethod( "qux" );
+			Object[] parameterValues = new Object[0];
+
+			getExecutableValidator().validateParameters( object, method, parameterValues );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "e")
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_METHODLEVELCONSTRAINTS_PARAMETERCONSTRAINTS_CROSSPARAMETERCONSTRAINTS, id = "b")
 	public void testConstraintTargetParametersOnConstructorWithoutParametersCausesException() throws Exception {
-		Constructor<?> constructor = Baz.class.getConstructor();
-		Object[] parameterValues = new Object[0];
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
-		fail( "Usage of ConstraintTarget.PARAMETERS not allowed for constructors without parameters. Expected exception wasn't thrown." );
+			Constructor<?> constructor = Baz.class.getConstructor();
+			Object[] parameterValues = new Object[0];
+
+			getExecutableValidator().validateConstructorParameters( constructor, parameterValues );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "f")
 	public void testConstraintTargetReturnValueOnVoidMethodCausesException() throws Exception {
-		Object object = new Zap();
-		Method method = Zap.class.getMethod( "zap" );
-		Object returnValue = null;
+		Assertions.assertThatThrownBy( () -> {
 
-		getExecutableValidator().validateReturnValue( object, method, returnValue );
-		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed for methods without return value. Expected exception wasn't thrown." );
+			Object object = new Zap();
+			Method method = Zap.class.getMethod( "zap" );
+			Object returnValue = null;
+
+			getExecutableValidator().validateReturnValue( object, method, returnValue );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "g")
 	public void testConstraintTargetParametersOnClassCausesException() throws Exception {
-		getValidator().validate( new TypeWithConstraintTargetParameter() );
-		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on type definitions. Expected exception wasn't thrown." );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new TypeWithConstraintTargetParameter() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "g")
 	public void testConstraintTargetReturnValueOnClassCausesException() throws Exception {
-		getValidator().validate( new TypeWithConstraintTargetReturnValue() );
-		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on type definitions. Expected exception wasn't thrown." );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new TypeWithConstraintTargetReturnValue() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "g")
 	public void testConstraintTargetParametersOnInterfaceCausesException() throws Exception {
-		getValidator().validate( new InterfaceWithConstraintTargetParameterImpl() );
-		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on interface definitions. Expected exception wasn't thrown." );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new InterfaceWithConstraintTargetParameterImpl() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "g")
 	public void testConstraintTargetReturnValueOnInterfaceCausesException() throws Exception {
-		getValidator().validate( new InterfaceWithConstraintTargetReturnValueImpl() );
-		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on interface definitions. Expected exception wasn't thrown." );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new InterfaceWithConstraintTargetReturnValueImpl() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "g")
 	public void testConstraintTargetParametersOnFieldCausesException() throws Exception {
-		getValidator().validate( new TypeWithFieldWithConstraintTargetParameter() );
-		fail( "Usage of ConstraintTarget.PARAMETERS not allowed on fields. Expected exception wasn't thrown." );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new TypeWithFieldWithConstraintTargetParameter() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "c")
     @SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_CONSTRAINTDEFINITION_PROPERTIES_VALIDATIONAPPLIESTO, id = "g")
 	public void testConstraintTargetReturnValueOnFieldCausesException() throws Exception {
-		getValidator().validate( new TypeWithFieldWithConstraintTargetReturnValue() );
-		fail( "Usage of ConstraintTarget.RETURN_VALUE not allowed on fields. Expected exception wasn't thrown." );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new TypeWithFieldWithConstraintTargetReturnValue() );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	private static class Foo {

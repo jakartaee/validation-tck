@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.integration.cdi.executable.priority;
 
-import static org.testng.Assert.assertTrue;
-
 import jakarta.inject.Inject;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
@@ -17,7 +15,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test for the priority of the validation interceptor (which should be 4800).
@@ -50,8 +49,8 @@ public class ValidationInterceptorPriorityTest extends AbstractTCKTest {
 	public void testValidationInterceptorHasPriority4800() {
 		calendar.createEvent( null );
 
-		assertTrue( invocationTracker.isEarlierInterceptorInvoked() );
-		assertTrue( invocationTracker.isValidatorInvoked() );
-		assertTrue( invocationTracker.isLaterInterceptorInvoked() );
+		assertThat( invocationTracker.isEarlierInterceptorInvoked() ).isTrue();
+		assertThat( invocationTracker.isValidatorInvoked() ).isTrue();
+		assertThat( invocationTracker.isLaterInterceptorInvoked() ).isTrue();
 	}
 }

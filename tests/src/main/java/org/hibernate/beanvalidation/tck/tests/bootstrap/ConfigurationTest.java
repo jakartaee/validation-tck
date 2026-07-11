@@ -8,7 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.bootstrap;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +18,7 @@ import java.util.Set;
 import jakarta.validation.Configuration;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import org.assertj.core.api.Assertions;
 
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
@@ -27,7 +27,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -62,10 +62,8 @@ public class ConfigurationTest extends AbstractTCKTest {
 				}
 			}
 		}
-		assertTrue(
-				foundSubinterfaceOfConfiguration,
-				"Could not find subinterface of Configuration"
-		);
+		Assertions.assertThat( foundSubinterfaceOfConfiguration )
+				.as( "Could not find subinterface of Configuration" ).isTrue();
 	}
 
 	@Test

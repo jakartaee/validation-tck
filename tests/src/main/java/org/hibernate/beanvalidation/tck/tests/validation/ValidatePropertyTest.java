@@ -9,9 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
 
 import java.util.Set;
 
@@ -19,6 +16,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.Size;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -26,7 +24,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the implementation of {@code Validator}.
@@ -36,7 +34,6 @@ import org.testng.annotations.Test;
 @SpecVersion(spec = "beanvalidation", version = "4.0.0")
 public class ValidatePropertyTest extends AbstractTCKTest {
 
-
 	@Deployment
 	public static WebArchive createTestArchive() {
 		return webArchiveBuilder()
@@ -45,17 +42,25 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 				.build();
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testPassingNullAsGroup() {
-		Customer customer = new Customer();
-		getValidator().validateProperty( customer, "firstName", (Class<?>) null );
+		Assertions.assertThatThrownBy( () -> {
+
+			Customer customer = new Customer();
+			getValidator().validateProperty( customer, "firstName", (Class<?>) null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testIllegalArgumentExceptionIsThrownForNullValue() {
-		getValidator().validateProperty( null, "firstName" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validateProperty( null, "firstName" );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
@@ -67,38 +72,45 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		Customer customer = new Customer();
 		try {
 			getValidator().validateProperty( customer, "foobar" );
-			fail();
+			Assertions.fail();
 		}
 		catch ( IllegalArgumentException e ) {
 			// success
 		}
-
 
 		// firstname exists, but the capitalisation is wrong
 		try {
 			getValidator().validateProperty( customer, "FirstName" );
-			fail();
+			Assertions.fail();
 		}
 		catch ( IllegalArgumentException e ) {
 			// success
 		}
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testValidatePropertyWithNullProperty() {
-		Customer customer = new Customer();
-		getValidator().validateProperty( customer, null );
+		Assertions.assertThatThrownBy( () -> {
+
+			Customer customer = new Customer();
+			getValidator().validateProperty( customer, null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "e")
 	public void testValidatePropertyWithEmptyProperty() {
-		Customer customer = new Customer();
-		Order order = new Order();
-		customer.addOrder( order );
+		Assertions.assertThatThrownBy( () -> {
 
-		getValidator().validateProperty( customer, "" );
+			Customer customer = new Customer();
+			Order order = new Order();
+			customer.addOrder( order );
+
+			getValidator().validateProperty( customer, "" );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test
@@ -128,11 +140,11 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Address> violation = constraintViolations.iterator().next();
-		assertEquals( violation.getRootBean(), address );
-		assertEquals( violation.getLeafBean(), address );
-		assertEquals( violation.getInvalidValue(), townInNorthWales );
-		assertNull( violation.getExecutableParameters() );
-		assertNull( violation.getExecutableReturnValue() );
+		Assertions.assertThat( violation.getRootBean() ).isEqualTo( address );
+		Assertions.assertThat( violation.getLeafBean() ).isEqualTo( address );
+		Assertions.assertThat( violation.getInvalidValue() ).isEqualTo( townInNorthWales );
+		Assertions.assertThat( violation.getExecutableParameters() ).isNull();
+		Assertions.assertThat( violation.getExecutableReturnValue() ).isNull();
 
 		address.setCity( "London" );
 		constraintViolations = getValidator().validateProperty( address, "city" );
@@ -150,9 +162,13 @@ public class ValidatePropertyTest extends AbstractTCKTest {
 		assertNoViolations( constraintViolations );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "k")
 	public void testUnexpectedExceptionsInValidatePropertyGetWrappedInValidationExceptions() {
-		getValidator().validateProperty( new BadlyBehavedEntity(), "value" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validateProperty( new BadlyBehavedEntity(), "value" );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 }

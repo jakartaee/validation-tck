@@ -6,14 +6,7 @@
  */
 package org.hibernate.beanvalidation.tck.tests.metadata;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintDescriptorsFor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 import java.util.Map;
 import java.util.Set;
@@ -25,13 +18,15 @@ import jakarta.validation.constraints.Size;
 import jakarta.validation.groups.Default;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -50,17 +45,17 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "m")
 	public void testReportAsSingleViolation() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
-		assertFalse( descriptor.isReportAsSingleViolation() );
+		assertThat( descriptor.isReportAsSingleViolation() ).isFalse();
 
 		descriptor = getConstraintDescriptor( Person.class, "firstName" );
-		assertTrue( descriptor.isReportAsSingleViolation() );
+		assertThat( descriptor.isReportAsSingleViolation() ).isTrue();
 	}
 
 	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTMETADATA_CONSTRAINTDESCRIPTOR, id = "n")
 	public void testEmptyComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
-		assertTrue( descriptor.getComposingConstraints().isEmpty() );
+		assertThat( descriptor.getComposingConstraints().isEmpty() ).isTrue();
 	}
 
 	@Test
@@ -70,34 +65,26 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testAnnotationAndMapParametersReflectParameterOverriding() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
-		assertEquals( composingDescriptors.size(), 2, "Wrong number of composing constraints" );
+		assertThat( composingDescriptors.size() ).as( "Wrong number of composing constraints" ).isEqualTo( 2 );
 		boolean hasSize = false;
 		for ( ConstraintDescriptor<?> desc : composingDescriptors ) {
 			if ( desc.getAnnotation().annotationType().equals( Size.class ) ) {
 				hasSize = true;
 				Size sizeAnn = (Size) desc.getAnnotation();
-				assertEquals( sizeAnn.min(), 5, "The min parameter should reflect the overridden parameter" );
-				assertEquals(
-						desc.getAttributes().get( "min" ),
-						5,
-						"The min parameter should reflect the overridden parameter"
-				);
-				assertEquals(
-						desc.getAttribute( "min", Integer.class ),
-						5,
-						"The min parameter should reflect the overridden parameter"
-				);
+				assertThat( sizeAnn.min() ).as( "The min parameter should reflect the overridden parameter" ).isEqualTo( 5 );
+				assertThat( desc.getAttributes().get( "min" ) ).as( "The min parameter should reflect the overridden parameter" ).isEqualTo( 5 );
+				assertThat( desc.getAttribute( "min", Integer.class ) ).as( "The min parameter should reflect the overridden parameter" ).isEqualTo( 5 );
 
-				assertThatThrownBy( () -> desc.getAttribute( "min", StringBuilder.class ) )
+				Assertions.assertThatThrownBy( () -> desc.getAttribute( "min", StringBuilder.class ) )
 						.isInstanceOf( ClassCastException.class );
 			}
 			else if ( desc.getAnnotation().annotationType().equals( NotNull.class ) ) {
 			}
 			else {
-				fail( "Unexpected annotation." );
+				Assertions.fail( "Unexpected annotation." );
 			}
 		}
-		assertTrue( hasSize, "Size composed annotation not found" );
+		assertThat( hasSize ).as( "Size composed annotation not found" ).isTrue();
 	}
 
 	@Test
@@ -105,8 +92,8 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetAttributesFromConstraintDescriptor() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Map<String, Object> attributes = descriptor.getAttributes();
-		assertTrue( attributes.containsKey( "message" ) );
-		assertTrue( attributes.containsKey( "groups" ) );
+		assertThat( attributes.containsKey( "message" ) ).isTrue();
+		assertThat( attributes.containsKey( "groups" ) ).isTrue();
 	}
 
 	@Test
@@ -114,7 +101,7 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetMessageTemplate() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "middleName" );
 		String messageTemplate = descriptor.getMessageTemplate();
-		assertEquals( messageTemplate, "must at least be {min} characters long" );
+		assertThat( messageTemplate ).isEqualTo( "must at least be {min} characters long" );
 	}
 
 	@Test
@@ -122,8 +109,8 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetGroups() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertEquals( groups.size(), 1 );
-		assertEquals( groups.iterator().next(), Person.PersonValidation.class, "Wrong group" );
+		assertThat( groups.size() ).isEqualTo( 1 );
+		assertThat( groups.iterator().next() ).as( "Wrong group" ).isEqualTo( Person.PersonValidation.class );
 	}
 
 	@Test
@@ -131,8 +118,8 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetGroupsOnInterface() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertEquals( groups.size(), 1 );
-		assertEquals( groups.iterator().next(), Default.class, "Wrong group" );
+		assertThat( groups.size() ).isEqualTo( 1 );
+		assertThat( groups.iterator().next() ).as( "Wrong group" ).isEqualTo( Default.class );
 	}
 
 	@Test
@@ -140,10 +127,10 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetGroupsWithImplicitGroup() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Man.class, "lastName" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertEquals( groups.size(), 2 );
+		assertThat( groups.size() ).isEqualTo( 2 );
 		for ( Class<?> group : groups ) {
 			if ( !( group.equals( Default.class ) || group.equals( Person.class ) ) ) {
-				fail( "Invalid group." );
+				Assertions.fail( "Invalid group." );
 			}
 		}
 	}
@@ -153,8 +140,8 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testDefaultGroupIsReturnedIfNoGroupSpecifiedInDeclaration() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		Set<Class<?>> groups = descriptor.getGroups();
-		assertEquals( groups.size(), 1 );
-		assertEquals( groups.iterator().next(), Default.class, "Wrong group" );
+		assertThat( groups.size() ).isEqualTo( 1 );
+		assertThat( groups.iterator().next() ).as( "Wrong group" ).isEqualTo( Default.class );
 	}
 
 	@Test
@@ -163,10 +150,10 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testComposingConstraints() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
-		assertEquals( composingDescriptors.size(), 2, "Wrong number of composing constraints" );
+		assertThat( composingDescriptors.size() ).as( "Wrong number of composing constraints" ).isEqualTo( 2 );
 		for ( ConstraintDescriptor<?> desc : composingDescriptors ) {
-			assertEquals( desc.getGroups().size(), 1 );
-			assertEquals( desc.getGroups().iterator().next(), Person.PersonValidation.class, "Wrong group" );
+			assertThat( desc.getGroups().size() ).isEqualTo( 1 );
+			assertThat( desc.getGroups().iterator().next() ).as( "Wrong group" ).isEqualTo( Person.PersonValidation.class );
 		}
 	}
 
@@ -175,13 +162,13 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<Class<? extends Payload>> payload = descriptor.getPayload();
-		assertEquals( payload.size(), 1 );
-		assertEquals( payload.iterator().next(), Severity.Info.class, "Wrong payload" );
+		assertThat( payload.size() ).isEqualTo( 1  );
+		assertThat( payload.iterator().next() ).as( "Wrong payload" ).isEqualTo( Severity.Info.class );
 
 		descriptor = getConstraintDescriptor( Order.class, "orderNumber" );
 		payload = descriptor.getPayload();
-		assertNotNull( payload );
-		assertEquals( payload.size(), 0 );
+		assertThat( payload  ).isNotNull();
+		assertThat( payload.size() ).isEqualTo( 0  );
 	}
 
 	@Test
@@ -190,10 +177,10 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testComposingConstraintsPayload() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
-		assertEquals( composingDescriptors.size(), 2, "Wrong number of composing constraints" );
+		assertThat( composingDescriptors.size() ).as( "Wrong number of composing constraints" ).isEqualTo( 2 );
 		for ( ConstraintDescriptor<?> desc : composingDescriptors ) {
-			assertEquals( desc.getGroups().size(), 1 );
-			assertEquals( desc.getPayload().iterator().next(), Severity.Info.class, "Wrong payload" );
+			assertThat( desc.getGroups().size() ).isEqualTo( 1  );
+			assertThat( desc.getPayload().iterator().next() ).as( "Wrong payload" ).isEqualTo( Severity.Info.class );
 		}
 	}
 
@@ -202,8 +189,8 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetValidationAppliesTo() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "age" );
 		ConstraintTarget constraintTarget = descriptor.getValidationAppliesTo();
-		assertNotNull( constraintTarget );
-		assertEquals( constraintTarget, ConstraintTarget.RETURN_VALUE );
+		assertThat( constraintTarget  ).isNotNull();
+		assertThat( constraintTarget ).isEqualTo( ConstraintTarget.RETURN_VALUE  );
 	}
 
 	@Test
@@ -212,11 +199,11 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "age" );
 
 		Set<ConstraintDescriptor<?>> composingDescriptors = descriptor.getComposingConstraints();
-		assertEquals( composingDescriptors.size(), 1, "Wrong number of composing constraints" );
+		assertThat( composingDescriptors.size() ).as( "Wrong number of composing constraints" ).isEqualTo( 1 );
 
 		ConstraintTarget constraintTarget = composingDescriptors.iterator().next().getValidationAppliesTo();
-		assertNotNull( constraintTarget );
-		assertEquals( constraintTarget, ConstraintTarget.RETURN_VALUE );
+		assertThat( constraintTarget  ).isNotNull();
+		assertThat( constraintTarget ).isEqualTo( ConstraintTarget.RETURN_VALUE  );
 	}
 
 	@Test
@@ -224,12 +211,12 @@ public class ConstraintDescriptorTest extends AbstractTCKTest {
 	public void testGetValidationAppliesToReturnsNull() {
 		ConstraintDescriptor<?> descriptor = getConstraintDescriptor( Person.class, "firstName" );
 		ConstraintTarget constraintTarget = descriptor.getValidationAppliesTo();
-		assertNull( constraintTarget );
+		assertThat( constraintTarget  ).isNull();
 	}
 
 	private ConstraintDescriptor<?> getConstraintDescriptor(Class<?> clazz, String property) {
 		Set<ConstraintDescriptor<?>> descriptors = getConstraintDescriptorsFor( clazz, property );
-		assertEquals( descriptors.size(), 1, "There should only by one descriptor." );
+		assertThat( descriptors.size() ).as( "There should only by one descriptor." ).isEqualTo( 1 );
 		return descriptors.iterator().next();
 	}
 }

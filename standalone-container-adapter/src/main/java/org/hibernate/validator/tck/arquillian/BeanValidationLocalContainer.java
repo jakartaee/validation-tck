@@ -9,36 +9,22 @@ package org.hibernate.validator.tck.arquillian;
 import org.jboss.arquillian.container.spi.ConfigurationException;
 import org.jboss.arquillian.container.spi.client.container.ContainerConfiguration;
 import org.jboss.arquillian.container.spi.client.container.DeployableContainer;
-import org.jboss.arquillian.container.spi.client.container.DeploymentException;
-import org.jboss.arquillian.container.spi.client.container.LifecycleException;
 import org.jboss.arquillian.container.spi.client.protocol.ProtocolDescription;
 import org.jboss.arquillian.container.spi.client.protocol.metadata.ProtocolMetaData;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.descriptor.api.Descriptor;
 
 /**
  * A dummy Arquillian container in order to run test locally
  *
  * @author Hardy Ferentschik
  */
-public class BeanValidationLocalContainer implements ContainerConfiguration, DeployableContainer {
+public class BeanValidationLocalContainer
+		implements ContainerConfiguration, DeployableContainer<BeanValidationLocalContainerConfiguration> {
 	private ClassLoader originalContextClassLoader;
 
 	@Override
-	public Class getConfigurationClass() {
+	public Class<BeanValidationLocalContainerConfiguration> getConfigurationClass() {
 		return BeanValidationLocalContainerConfiguration.class;
-	}
-
-	@Override
-	public void setup(ContainerConfiguration configuration) {
-	}
-
-	@Override
-	public void start() throws LifecycleException {
-	}
-
-	@Override
-	public void stop() throws LifecycleException {
 	}
 
 	@Override
@@ -47,7 +33,7 @@ public class BeanValidationLocalContainer implements ContainerConfiguration, Dep
 	}
 
 	@Override
-	public ProtocolMetaData deploy(Archive archive) throws DeploymentException {
+	public ProtocolMetaData deploy(Archive archive) {
 		originalContextClassLoader = Thread.currentThread().getContextClassLoader();
 		ArchiveClassLoader archiveClassLoader = new ArchiveClassLoader(
 				originalContextClassLoader,
@@ -58,18 +44,10 @@ public class BeanValidationLocalContainer implements ContainerConfiguration, Dep
 	}
 
 	@Override
-	public void undeploy(Archive archive) throws DeploymentException {
+	public void undeploy(Archive archive) {
 		if ( originalContextClassLoader != null ) {
 			Thread.currentThread().setContextClassLoader( originalContextClassLoader );
 		}
-	}
-
-	@Override
-	public void deploy(Descriptor descriptor) throws DeploymentException {
-	}
-
-	@Override
-	public void undeploy(Descriptor descriptor) throws DeploymentException {
 	}
 
 	@Override

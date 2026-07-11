@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.constraints.groups;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.fail;
 
 import java.util.Set;
 
@@ -21,6 +20,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.groups.Default;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -28,7 +28,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for redefining the default group sequence.
@@ -112,7 +112,7 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		try {
 			validator.validate( address );
-			fail( "It should not be allowed to have Default.class in the group sequence of a class." );
+			Assertions.fail( "It should not be allowed to have Default.class in the group sequence of a class." );
 		}
 		catch ( GroupDefinitionException e ) {
 			// success
@@ -127,7 +127,7 @@ public class DefaultGroupRedefinitionTest extends AbstractTCKTest {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		try {
 			validator.validate( address );
-			fail( "A valid group sequence definition must contain the class itself as implicit default group." );
+			Assertions.fail( "A valid group sequence definition must contain the class itself as implicit default group." );
 		}
 		catch ( GroupDefinitionException e ) {
 			// success

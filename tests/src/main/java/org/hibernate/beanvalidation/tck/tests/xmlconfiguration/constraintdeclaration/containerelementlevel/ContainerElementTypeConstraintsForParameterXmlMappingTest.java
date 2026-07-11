@@ -6,7 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclaration.containerelementlevel;
 
-import static org.assertj.core.api.Assertions.fail;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
@@ -26,6 +25,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.CollectionHelper;
@@ -34,7 +34,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -75,7 +75,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 
 			fishTank.test1( Optional.of( "Too long" ), fishCountByType );
 
-			fail( "Expected exception wasn't raised" );
+			Assertions.fail( "Expected exception wasn't raised" );
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -106,7 +106,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 
 			fishTank.test2( fishOfTheMonth );
 
-			fail( "Expected exception wasn't raised" );
+			Assertions.fail( "Expected exception wasn't raised" );
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -135,7 +135,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 
 			fishTank.test3( tagsOfFishOfTheMonth );
 
-			fail( "Expected exception wasn't raised" );
+			Assertions.fail( "Expected exception wasn't raised" );
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -158,7 +158,7 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 		try {
 			fishTank.test4( Optional.of( new Fish() ) );
 
-			fail( "Expected exception wasn't raised" );
+			Assertions.fail( "Expected exception wasn't raised" );
 		}
 		catch (ConstraintViolationException e) {
 			assertThat( e.getConstraintViolations() ).containsOnlyViolations(
@@ -167,34 +167,54 @@ public class ContainerElementTypeConstraintsForParameterXmlMappingTest extends A
 		}
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONTAINERELEMENTCONSTRAINTS, id = "j")
 	public void declaringContainerElementTypeConstraintOnNonGenericParameterCausesException() {
-		getValidator( "parameter-declaringContainerElementTypeConstraintOnNonGenericParameterCausesException-mapping.xml" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator( "parameter-declaringContainerElementTypeConstraintOnNonGenericParameterCausesException-mapping.xml" );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONTAINERELEMENTCONSTRAINTS, id = "k")
 	public void declaringContainerElementTypeConstraintForNonExistingTypeArgumentIndexOnParameterCausesException() {
-		getValidator( "parameter-declaringContainerElementTypeConstraintForNonExistingTypeArgumentIndexOnParameterCausesException-mapping.xml" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator( "parameter-declaringContainerElementTypeConstraintForNonExistingTypeArgumentIndexOnParameterCausesException-mapping.xml" );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONTAINERELEMENTCONSTRAINTS, id = "k")
 	public void declaringContainerElementTypeConstraintForNonExistingNestedTypeArgumentIndexOnParameterCausesException() {
-		getValidator( "parameter-declaringContainerElementTypeConstraintForNonExistingNestedTypeArgumentIndexOnParameterCausesException-mapping.xml" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator( "parameter-declaringContainerElementTypeConstraintForNonExistingNestedTypeArgumentIndexOnParameterCausesException-mapping.xml" );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONTAINERELEMENTCONSTRAINTS, id = "l")
 	public void omittingTypeArgumentForMultiTypeArgumentTypeOnParameterCausesException() {
-		getValidator( "parameter-omittingTypeArgumentForMultiTypeArgumentTypeOnParameterCausesException-mapping.xml" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator( "parameter-omittingTypeArgumentForMultiTypeArgumentTypeOnParameterCausesException-mapping.xml" );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.XML_MAPPING_CONSTRAINTDECLARATIONINXML_CONTAINERELEMENTCONSTRAINTS, id = "m")
 	public void configuringSameContainerElementTwiceCausesException() {
-		getValidator( "parameter-configuringSameContainerElementTwiceCausesException-mapping.xml" );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator( "parameter-configuringSameContainerElementTwiceCausesException-mapping.xml" );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	private Validator getValidator(String mappingFile) {

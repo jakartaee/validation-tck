@@ -15,11 +15,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.asSet;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstraintViolationForParameter;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -54,6 +49,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.executable.ExecutableValidator;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -62,7 +58,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for property paths retrieved via {@link ConstraintViolation#getPropertyPath()}.
@@ -124,13 +120,13 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node node = nodeIter.next();
 		assertNode( node, BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
 		BeanNode beanNode = node.as( BeanNode.class );
-		assertNotNull( beanNode );
+		Assertions.assertThat( beanNode ).isNotNull();
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -157,12 +153,12 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node node = nodeIter.next();
 		assertNode( node, "serialNumber", ElementKind.PROPERTY, false, null, null );
 		PropertyNode propertyNode = node.as( PropertyNode.class );
-		assertNotNull( propertyNode );
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( propertyNode ).isNotNull();
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -266,13 +262,13 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "actors", ElementKind.PROPERTY, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, id );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -300,13 +296,13 @@ public class PropertyPathTest extends AbstractTCKTest {
 		ConstraintViolation<Customer> constraintViolation = constraintViolations.iterator().next();
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "orders", ElementKind.PROPERTY, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "orderNumber", ElementKind.PROPERTY, true, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -356,40 +352,37 @@ public class PropertyPathTest extends AbstractTCKTest {
 		).getPropertyPath().iterator();
 
 		//parameter 0
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node nextNode = nodeIter.next();
 		assertNode( nextNode, methodName, ElementKind.METHOD, false, null, null );
 
 		MethodNode methodNode = nextNode.as( MethodNode.class );
-		assertNotNull( methodNode );
-		assertEquals(
-				methodNode.getParameterTypes(),
-				Arrays.<Class<?>>asList( String.class, Person.class, List.class )
-		);
+		Assertions.assertThat( methodNode ).isNotNull();
+		Assertions.assertThat( methodNode.getParameterTypes() ).isEqualTo( Arrays.<Class<?>>asList( String.class, Person.class, List.class ) );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		nextNode = nodeIter.next();
 		assertNode( nextNode, "title", ElementKind.PARAMETER, false, null, null );
 		ParameterNode parameterNode = nextNode.as( ParameterNode.class );
-		assertNotNull( parameterNode );
-		assertEquals( parameterNode.getParameterIndex(), 0 );
+		Assertions.assertThat( parameterNode ).isNotNull();
+		Assertions.assertThat( parameterNode.getParameterIndex() ).isEqualTo( 0  );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 
 		//parameter 1
 		nodeIter = getConstraintViolationForParameter( constraintViolations, "director" ).getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		nextNode = nodeIter.next();
 		assertNode( nextNode, "director", ElementKind.PARAMETER, false, null, null );
 		parameterNode = nextNode.as( ParameterNode.class );
-		assertNotNull( parameterNode );
-		assertEquals( parameterNode.getParameterIndex(), 1 );
+		Assertions.assertThat( parameterNode  ).isNotNull();
+		Assertions.assertThat( parameterNode.getParameterIndex() ).isEqualTo( 1  );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -440,23 +433,23 @@ public class PropertyPathTest extends AbstractTCKTest {
 				"param0"
 		).getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "param0", ElementKind.PARAMETER, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 
 		nodeIter = getConstraintViolationForParameter( constraintViolations, "param1" ).getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "param1", ElementKind.PARAMETER, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -498,17 +491,17 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node nextNode = nodeIter.next();
 		assertNode( nextNode, RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
 		ReturnValueNode returnValueNode = nextNode.as( ReturnValueNode.class );
-		assertNotNull( returnValueNode );
+		Assertions.assertThat(  returnValueNode  ).isNotNull();
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -548,10 +541,10 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode(
 				nodeIter.next(),
 				CROSS_PARAMETER_NODE_NAME,
@@ -561,7 +554,7 @@ public class PropertyPathTest extends AbstractTCKTest {
 				null
 		);
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -606,37 +599,37 @@ public class PropertyPathTest extends AbstractTCKTest {
 		).getPropertyPath().iterator();
 
 		//parameter 0
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node nextNode = nodeIter.next();
 		assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
 		ConstructorNode constructorNode = nextNode.as( ConstructorNode.class );
-		assertNotNull( constructorNode );
-		assertEquals( constructorNode.getParameterTypes(), Arrays.<Class<?>>asList( String.class, Person.class ) );
+		Assertions.assertThat(  constructorNode  ).isNotNull();
+		Assertions.assertThat(  constructorNode.getParameterTypes() ).isEqualTo( Arrays.<Class<?>>asList( String.class, Person.class  ) );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		nextNode = nodeIter.next();
 		assertNode( nextNode, "name", ElementKind.PARAMETER, false, null, null );
 		ParameterNode parameterNode = nextNode.as( ParameterNode.class );
-		assertNotNull( parameterNode );
-		assertEquals( parameterNode.getParameterIndex(), 0 );
+		Assertions.assertThat(  parameterNode  ).isNotNull();
+		Assertions.assertThat(  parameterNode.getParameterIndex() ).isEqualTo( 0  );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 
 		//parameter 1
 		nodeIter = getConstraintViolationForParameter( constraintViolations, "generalManager" ).getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		nextNode = nodeIter.next();
 		assertNode( nextNode, "generalManager", ElementKind.PARAMETER, false, null, null );
 		parameterNode = nextNode.as( ParameterNode.class );
-		assertNotNull( parameterNode );
-		assertEquals( parameterNode.getParameterIndex(), 1 );
+		Assertions.assertThat(  parameterNode  ).isNotNull();
+		Assertions.assertThat(  parameterNode.getParameterIndex() ).isEqualTo( 1  );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -677,23 +670,23 @@ public class PropertyPathTest extends AbstractTCKTest {
 				"param0"
 		).getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "param0", ElementKind.PARAMETER, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 
 		nodeIter = getConstraintViolationForParameter( constraintViolations, "param1" ).getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "param1", ElementKind.PARAMETER, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -727,10 +720,10 @@ public class PropertyPathTest extends AbstractTCKTest {
 		//then
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node nextNode = nodeIter.next();
 		assertNode(
 				nextNode,
@@ -742,9 +735,9 @@ public class PropertyPathTest extends AbstractTCKTest {
 		);
 
 		CrossParameterNode crossParameterNode = nextNode.as( CrossParameterNode.class );
-		assertNotNull( crossParameterNode );
+		Assertions.assertThat(  crossParameterNode  ).isNotNull();
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -781,13 +774,13 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		Iterator<Path.Node> nodeIter = constraintViolations.iterator().next().getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -835,16 +828,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "director", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "firstName", ElementKind.PROPERTY, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -897,16 +890,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "actors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -959,16 +952,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "actors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1017,16 +1010,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "actors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1079,16 +1072,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "actors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, "Garry" );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1127,16 +1120,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "generalManager", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "firstName", ElementKind.PROPERTY, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1185,16 +1178,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "recurringActors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1243,16 +1236,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "recurringActors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1297,16 +1290,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "recurringActors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1355,16 +1348,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "recurringActors", ElementKind.PARAMETER, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, null, "Garry" );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1403,16 +1396,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1456,16 +1449,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1509,16 +1502,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1558,16 +1551,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1611,16 +1604,16 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), methodName, ElementKind.METHOD, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "title", ElementKind.PROPERTY, true, null, "NO_TITLE" );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	@Test
@@ -1656,111 +1649,123 @@ public class PropertyPathTest extends AbstractTCKTest {
 				.getPropertyPath()
 				.iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), RETURN_VALUE_NODE_NAME, ElementKind.RETURN_VALUE, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "name", ElementKind.PROPERTY, false, null, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
-	@Test(expectedExceptions = ClassCastException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "s")
 	public void testPassingWrongTypeToAsOnBeanNodeCausesClassCastException() {
-		Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
-		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( Special.class )
-		);
-		ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator().next();
+		Assertions.assertThatThrownBy( () -> {
 
-		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
+			Set<ConstraintViolation<VerySpecialClass>> constraintViolations = getValidator().validate( new VerySpecialClass() );
+			assertThat( constraintViolations ).containsOnlyViolations(
+					violationOf( Special.class )
+			);
+			ConstraintViolation<VerySpecialClass> constraintViolation = constraintViolations.iterator().next();
 
-		assertTrue( nodeIter.hasNext() );
-		Node node = nodeIter.next();
-		assertNode( node, BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
+			Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		node.as( PropertyNode.class );
+			Assertions.assertThat( nodeIter.hasNext() ).isTrue();
+			Node node = nodeIter.next();
+			assertNode( node, BEAN_NODE_NAME, ElementKind.BEAN, false, null, null );
+
+			node.as( PropertyNode.class );
+	
+		} ).isInstanceOf( ClassCastException.class );
 	}
 
-	@Test(expectedExceptions = ClassCastException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "s")
 	public void testPassingWrongTypeToAsOnConstructorNodeCausesClassCastException() throws Exception {
-		//given
-		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
-				String.class,
-				Person.class
-		);
-		Object[] parameterValues = new Object[] { null, null };
+		Assertions.assertThatThrownBy( () -> {
 
-		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
-				constructor,
-				parameterValues
-		);
+			//given
+			Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+					String.class,
+					Person.class
+			);
+			Object[] parameterValues = new Object[] { null, null };
 
-		//then
-		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( NotNull.class ),
-				violationOf( NotNull.class )
-		);
+			//when
+			Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
+					constructor,
+					parameterValues
+			);
 
-		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
-				constraintViolations,
-				"name"
-		).getPropertyPath().iterator();
+			//then
+			assertThat( constraintViolations ).containsOnlyViolations(
+					violationOf( NotNull.class ),
+					violationOf( NotNull.class )
+			);
 
-		//parameter 0
-		assertTrue( nodeIter.hasNext() );
-		Node nextNode = nodeIter.next();
-		assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+			Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
+					constraintViolations,
+					"name"
+			).getPropertyPath().iterator();
 
-		nextNode.as( PropertyNode.class );
+			//parameter 0
+			Assertions.assertThat( nodeIter.hasNext() ).isTrue();
+			Node nextNode = nodeIter.next();
+			assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+
+			nextNode.as( PropertyNode.class );
+	
+		} ).isInstanceOf( ClassCastException.class );
 	}
 
-	@Test(expectedExceptions = ClassCastException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "s")
 	public void testPassingWrongTypeToAsOnParameterNodeCausesClassCastException() throws Exception {
-		//given
-		Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
-				String.class,
-				Person.class
-		);
-		Object[] parameterValues = new Object[] { null, null };
+		Assertions.assertThatThrownBy( () -> {
 
-		//when
-		Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
-				constructor,
-				parameterValues
-		);
+			//given
+			Constructor<MovieStudio> constructor = MovieStudio.class.getConstructor(
+					String.class,
+					Person.class
+			);
+			Object[] parameterValues = new Object[] { null, null };
 
-		//then
-		assertThat( constraintViolations ).containsOnlyViolations(
-				violationOf( NotNull.class ),
-				violationOf( NotNull.class )
-		);
+			//when
+			Set<ConstraintViolation<MovieStudio>> constraintViolations = getExecutableValidator().validateConstructorParameters(
+					constructor,
+					parameterValues
+			);
 
-		Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
-				constraintViolations,
-				"name"
-		).getPropertyPath().iterator();
+			//then
+			assertThat( constraintViolations ).containsOnlyViolations(
+					violationOf( NotNull.class ),
+					violationOf( NotNull.class )
+			);
 
-		//parameter 0
-		assertTrue( nodeIter.hasNext() );
-		Node nextNode = nodeIter.next();
-		assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
+			Iterator<Path.Node> nodeIter = getConstraintViolationForParameter(
+					constraintViolations,
+					"name"
+			).getPropertyPath().iterator();
 
-		ConstructorNode constructorNode = nextNode.as( ConstructorNode.class );
-		assertNotNull( constructorNode );
-		assertEquals( constructorNode.getParameterTypes(), Arrays.<Class<?>>asList( String.class, Person.class ) );
+			//parameter 0
+			Assertions.assertThat( nodeIter.hasNext() ).isTrue();
+			Node nextNode = nodeIter.next();
+			assertNode( nextNode, "MovieStudio", ElementKind.CONSTRUCTOR, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
-		nextNode = nodeIter.next();
-		assertNode( nextNode, "name", ElementKind.PARAMETER, false, null, null );
-		nextNode.as( BeanNode.class );
+			ConstructorNode constructorNode = nextNode.as( ConstructorNode.class );
+			Assertions.assertThat(  constructorNode  ).isNotNull();
+			Assertions.assertThat(  constructorNode.getParameterTypes() ).isEqualTo( Arrays.<Class<?>>asList( String.class, Person.class  ) );
+
+			Assertions.assertThat( nodeIter.hasNext() ).isTrue();
+			nextNode = nodeIter.next();
+			assertNode( nextNode, "name", ElementKind.PARAMETER, false, null, null );
+			nextNode.as( BeanNode.class );
+	
+		} ).isInstanceOf( ClassCastException.class );
 	}
 
 	@Test
@@ -1777,23 +1782,23 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		Node node = nodeIter.next();
 		assertNode( node, "locationsByScene", ElementKind.PROPERTY, false, null, null );
 		PropertyNode propertyNode = node.as( PropertyNode.class );
-		assertNotNull( propertyNode );
-		assertNull( propertyNode.getContainerClass() );
-		assertNull( propertyNode.getTypeArgumentIndex() );
+		Assertions.assertThat(  propertyNode  ).isNotNull();
+		Assertions.assertThat(  propertyNode.getContainerClass() ).isNull();
+		Assertions.assertThat(  propertyNode.getTypeArgumentIndex() ).isNull();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		node = nodeIter.next();
 		assertNode( node, "<map key>", ElementKind.CONTAINER_ELEMENT, true, null, "" );
 		ContainerElementNode containerElementNode = node.as( ContainerElementNode.class );
-		assertNotNull( containerElementNode );
-		assertEquals( containerElementNode.getContainerClass(), Map.class );
-		assertEquals( containerElementNode.getTypeArgumentIndex(), Integer.valueOf( 0 ) );
+		Assertions.assertThat(  containerElementNode  ).isNotNull();
+		Assertions.assertThat(  containerElementNode.getContainerClass() ).isEqualTo( Map.class  );
+		Assertions.assertThat(  containerElementNode.getTypeArgumentIndex() ).isEqualTo( Integer.valueOf( 0  ) );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 
 		// property node
 		constraintViolations = getValidator().validate( MovieProduction.invalidCascading() );
@@ -1805,23 +1810,23 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		node = nodeIter.next();
 		assertNode( node, "locationsByScene", ElementKind.PROPERTY, false, null, null );
 		propertyNode = node.as( PropertyNode.class );
-		assertNotNull( propertyNode );
-		assertNull( propertyNode.getContainerClass() );
-		assertNull( propertyNode.getTypeArgumentIndex() );
+		Assertions.assertThat(  propertyNode  ).isNotNull();
+		Assertions.assertThat(  propertyNode.getContainerClass() ).isNull();
+		Assertions.assertThat(  propertyNode.getTypeArgumentIndex() ).isNull();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		node = nodeIter.next();
 		assertNode( node, "zipCode", ElementKind.PROPERTY, true, null, "Scene 1" );
 		propertyNode = node.as( PropertyNode.class );
-		assertNotNull( propertyNode );
-		assertEquals( propertyNode.getContainerClass(), Map.class );
-		assertEquals( propertyNode.getTypeArgumentIndex(), Integer.valueOf( 1 ) );
+		Assertions.assertThat(  propertyNode  ).isNotNull();
+		Assertions.assertThat(  propertyNode.getContainerClass() ).isEqualTo( Map.class  );
+		Assertions.assertThat(  propertyNode.getTypeArgumentIndex() ).isEqualTo( Integer.valueOf( 1  ) );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 
 		// bean node
 		constraintViolations = getValidator().validate( MovieProduction.invalidExecutiveProducer() );
@@ -1833,23 +1838,23 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		node = nodeIter.next();
 		assertNode( node, "executiveProducers", ElementKind.PROPERTY, false, null, null );
 		propertyNode = node.as( PropertyNode.class );
-		assertNotNull( propertyNode );
-		assertNull( propertyNode.getContainerClass() );
-		assertNull( propertyNode.getTypeArgumentIndex() );
+		Assertions.assertThat(  propertyNode  ).isNotNull();
+		Assertions.assertThat(  propertyNode.getContainerClass() ).isNull();
+		Assertions.assertThat(  propertyNode.getTypeArgumentIndex() ).isNull();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		node = nodeIter.next();
 		assertNode( node, null, ElementKind.BEAN, true, 0, null );
 		BeanNode beanNode = node.as( BeanNode.class );
-		assertNotNull( beanNode );
-		assertEquals( beanNode.getContainerClass(), List.class );
-		assertEquals( beanNode.getTypeArgumentIndex(), Integer.valueOf( 0 ) );
+		Assertions.assertThat(  beanNode  ).isNotNull();
+		Assertions.assertThat(  beanNode.getContainerClass() ).isEqualTo( List.class  );
+		Assertions.assertThat(  beanNode.getTypeArgumentIndex() ).isEqualTo( Integer.valueOf( 0  ) );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	private void checkActorViolations(Set<ConstraintViolation<Actor>> constraintViolations) {
@@ -1861,24 +1866,24 @@ public class PropertyPathTest extends AbstractTCKTest {
 
 		Iterator<Path.Node> nodeIter = constraintViolation.getPropertyPath().iterator();
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "playedWith", ElementKind.PROPERTY, false, null, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "playedWith", ElementKind.PROPERTY, true, 0, null );
 
-		assertTrue( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isTrue();
 		assertNode( nodeIter.next(), "lastName", ElementKind.PROPERTY, true, 1, null );
 
-		assertFalse( nodeIter.hasNext() );
+		Assertions.assertThat( nodeIter.hasNext() ).isFalse();
 	}
 
 	private void assertNode(Path.Node actualNode, String expectedName, ElementKind expectedKind, boolean expectedInIterable, Integer expectedIndex, Object expectedKey) {
-		assertEquals( actualNode.getName(), expectedName );
-		assertEquals( actualNode.getKind(), expectedKind );
-		assertEquals( actualNode.isInIterable(), expectedInIterable );
-		assertEquals( actualNode.getIndex(), expectedIndex );
-		assertEquals( actualNode.getKey(), expectedKey );
+		Assertions.assertThat(  actualNode.getName() ).isEqualTo( expectedName  );
+		Assertions.assertThat(  actualNode.getKind() ).isEqualTo( expectedKind  );
+		Assertions.assertThat(  actualNode.isInIterable() ).isEqualTo( expectedInIterable  );
+		Assertions.assertThat(  actualNode.getIndex() ).isEqualTo( expectedIndex  );
+		Assertions.assertThat(  actualNode.getKey() ).isEqualTo( expectedKey  );
 	}
 
 	private Employee employWithoutFirstName() {

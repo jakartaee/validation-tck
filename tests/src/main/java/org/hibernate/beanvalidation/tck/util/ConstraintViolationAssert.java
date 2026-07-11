@@ -6,8 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -80,7 +78,7 @@ public final class ConstraintViolationAssert {
 	 * @param invalidValue The expected invalid value.
 	 */
 	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass, Object invalidValue) {
-		assertEquals( violation.getInvalidValue(), invalidValue, "Wrong invalid value" );
+		Assertions.assertThat( violation.getInvalidValue() ).as( "Wrong invalid value" ).isEqualTo( invalidValue );
 		assertConstraintViolation( violation, rootBeanClass );
 	}
 
@@ -92,7 +90,7 @@ public final class ConstraintViolationAssert {
 	 * @param rootBeanClass The expected root bean class.
 	 */
 	public static void assertConstraintViolation(ConstraintViolation<?> violation, Class<?> rootBeanClass) {
-		assertEquals( violation.getRootBeanClass(), rootBeanClass, "Wrong root bean type" );
+		Assertions.assertThat( violation.getRootBeanClass() ).as( "Wrong root bean type" ).isEqualTo( rootBeanClass );
 	}
 
 	/**
@@ -235,7 +233,7 @@ public final class ConstraintViolationAssert {
 				actualPaths.add( actual );
 			}
 
-			fail( String.format( "Didn't find path <%s> in actual paths <%s>.", expectedPath, actualPaths ) );
+			Assertions.fail( String.format( "Didn't find path <%s> in actual paths <%s>.", expectedPath, actualPaths ) );
 		}
 
 		public void containsPaths(PathExpectation... expectedPaths) {

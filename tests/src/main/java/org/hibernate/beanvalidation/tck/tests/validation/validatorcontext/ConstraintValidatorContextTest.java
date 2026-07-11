@@ -29,6 +29,7 @@ import jakarta.validation.Payload;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -37,7 +38,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -68,17 +69,21 @@ public class ConstraintValidatorContextTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = ValidationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "u")
 	public void testDisableDefaultErrorWithoutAddingCustomError() {
-		Validator validator = TestUtil.getValidatorUnderTest();
+		Assertions.assertThatThrownBy( () -> {
 
-		DummyValidator.disableDefaultError( true );
-		Map<String, String> errors = new HashMap<String, String>();
-		DummyValidator.setCustomErrorMessages( errors );
+			Validator validator = TestUtil.getValidatorUnderTest();
 
-		DummyBean bean = new DummyBean( "foobar" );
-		validator.validate( bean );
+			DummyValidator.disableDefaultError( true );
+			Map<String, String> errors = new HashMap<String, String>();
+			DummyValidator.setCustomErrorMessages( errors );
+
+			DummyBean bean = new DummyBean( "foobar" );
+			validator.validate( bean );
+	
+		} ).isInstanceOf( ValidationException.class );
 	}
 
 	@Test

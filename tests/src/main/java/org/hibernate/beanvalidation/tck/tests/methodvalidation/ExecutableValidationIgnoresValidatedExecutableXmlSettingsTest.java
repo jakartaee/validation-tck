@@ -9,7 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -20,6 +19,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.methodvalidation.constraint.ValidStockItem;
@@ -30,7 +30,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -53,10 +53,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml() throws Exception {
-		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
-		);
+		Assertions.assertThat( Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( ) );
 
 		Object object = new StockItem( null );
 		String methodName = "setName";
@@ -82,10 +79,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorParametersYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
-		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
-		);
+		Assertions.assertThat( Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( ) );
 
 		Constructor<StockItem> constructor = StockItem.class.getConstructor( String.class );
 		Object[] parameterValues = new Object[] { null };
@@ -108,10 +102,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
-		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
-		);
+		Assertions.assertThat( Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( ) );
 
 		Object object = new StockItem( null );
 		String methodName = "setName";
@@ -137,10 +128,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_METHODLEVELVALIDATIONMETHODS, id = "m")
 	public void testValidateConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
-		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
-		);
+		Assertions.assertThat( Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( ) );
 
 		Constructor<StockItem> constructor = StockItem.class.getConstructor( String.class );
 		StockItem createdObject = new StockItem( null );
@@ -162,10 +150,7 @@ public class ExecutableValidationIgnoresValidatedExecutableXmlSettingsTest exten
 	@Test
 	public void testValidateRecordConstructorReturnValueYieldsConstraintViolationIfValidateExecutableIsSetToNONEInXml()
 			throws Exception {
-		assertEquals(
-				Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes(),
-				Collections.emptySet()
-		);
+		Assertions.assertThat( Validation.byDefaultProvider().configure().getBootstrapConfiguration().getDefaultValidatedExecutableTypes() ).isEqualTo( Collections.emptySet( ) );
 
 		Constructor<StockItemRecord> constructor = StockItemRecord.class.getConstructor( String.class );
 		StockItemRecord createdObject = new StockItemRecord( null );

@@ -11,7 +11,7 @@ You can obtain a release of the Jakarta Validation TCK project via the
 official http://beanvalidation.org/tck/[Jakarta Validation
 home page]. The Jakarta Validation TCK is distributed as a ZIP file,
 which contains the TCK artifacts (the test suite binary and source, the
-test suite descriptor, the audit source and report), the TCK library
+audit source and report), the TCK library
 dependencies in `/lib` and documentation in `/doc`.
 The contents should look like:
 
@@ -115,7 +115,7 @@ Maven 3 on the https://maven.apache.org/install.html[Maven official website].
 ----
 mvn test -Dincontainer
 ----
-* TestNG will report, via Maven, the outcome of the run, and
+* JUnit will report, via Maven, the outcome of the run, and
 report any failures on the console. Details can be found in
 `target/surefire-reports/TestSuite.txt`.
 ====

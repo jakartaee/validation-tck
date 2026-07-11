@@ -16,13 +16,14 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.ConstraintViolationSetAssert}.
@@ -48,12 +49,16 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testConstraintTypeIncorrect() {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( Min.class )
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( Min.class )
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	@Test
@@ -64,12 +69,16 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testMessageIncorrect() {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( NotNull.class ).withMessage( "wrong message" )
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( NotNull.class ).withMessage( "wrong message" )
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	@Test
@@ -80,12 +89,16 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testRootBeanClassIncorrect() {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( NotNull.class ).withRootBeanClass( ConstraintViolationAssertTest.class )
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( NotNull.class ).withRootBeanClass( ConstraintViolationAssertTest.class )
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	@Test
@@ -96,12 +109,16 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testInvalidValueIncorrect() {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( NotNull.class ).withInvalidValue( "not null" )
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( NotNull.class ).withInvalidValue( "not null" )
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	@Test
@@ -112,12 +129,16 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testPropertyIncorrect() {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( NotNull.class ).withProperty( "wrongPropertyName" )
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( NotNull.class ).withProperty( "wrongPropertyName" )
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	@Test
@@ -133,18 +154,22 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testPropertyPathIncorrect() throws Exception {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().forExecutables()
-				.validateReturnValue( new Foo( null ), Foo.class.getDeclaredMethod( "bar" ), null );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( NotNull.class )
-						.withPropertyPath( pathWith()
-								.method( "bar" )
-								.property( "nonExistingProperty" )
-								.returnValue()
-						)
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().forExecutables()
+					.validateReturnValue( new Foo( null ), Foo.class.getDeclaredMethod( "bar" ), null );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( NotNull.class )
+							.withPropertyPath( pathWith()
+									.method( "bar" )
+									.property( "nonExistingProperty" )
+									.returnValue()
+							)
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	@Test
@@ -156,12 +181,16 @@ public class ConstraintViolationAssertTest extends AbstractTCKTest {
 		);
 	}
 
-	@Test(expectedExceptions = AssertionError.class)
+	@Test
 	public void testLeafBeanIncorrect() {
-		Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
-		assertThat( violations ).containsOnlyViolations(
-				violationOf( NotNull.class ).withLeafBean( "not the leaf bean" )
-		);
+		Assertions.assertThatThrownBy( () -> {
+
+			Set<ConstraintViolation<Foo>> violations = TestUtil.getValidatorUnderTest().validate( new Foo( null ) );
+			assertThat( violations ).containsOnlyViolations(
+					violationOf( NotNull.class ).withLeafBean( "not the leaf bean" )
+			);
+	
+		} ).isInstanceOf( AssertionError.class );
 	}
 
 	private static class Foo {

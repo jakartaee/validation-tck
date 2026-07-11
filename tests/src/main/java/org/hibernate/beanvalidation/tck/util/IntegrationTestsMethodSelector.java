@@ -6,46 +6,28 @@
  */
 package org.hibernate.beanvalidation.tck.util;
 
-import java.util.List;
-
-import org.testng.IMethodSelector;
-import org.testng.IMethodSelectorContext;
-import org.testng.ITestNGMethod;
+import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+import org.junit.jupiter.api.extension.ExecutionCondition;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
- * TestNG test selector which will, depending on the system property <i>excludeIntegrationTests</i> and
+ * JUnit execution condition which will, depending on the system property <i>excludeIntegrationTests</i> and
  * the existence of the {@code @IntegrationTest} annotation on a test class, in- or exclude the test.
  *
  * @author Hardy Ferentschik
  */
-public class IntegrationTestsMethodSelector implements IMethodSelector {
+public class IntegrationTestsMethodSelector implements ExecutionCondition {
 
-	/**
-	 * Name of the system property for excluding integration tests.
-	 */
 	private static final String EXCLUDE_INTEGRATION_TESTS = "excludeIntegrationTests";
 
-	private static boolean excludeIntegrationTests = false;
-
-	static {
-		String envSetting = System.getProperty( EXCLUDE_INTEGRATION_TESTS );
-		excludeIntegrationTests = Boolean.valueOf( envSetting );
-	}
-
 	@Override
-	public boolean includeMethod(IMethodSelectorContext context, ITestNGMethod method, boolean isTestMethod) {
-		if ( excludeIntegrationTests && method.getConstructorOrMethod().getDeclaringClass().isAnnotationPresent(
-				IntegrationTest.class
-		) ) {
-			context.setStopped( true );
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
+	public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
+		boolean excludeIntegrationTests = Boolean.getBoolean( EXCLUDE_INTEGRATION_TESTS );
 
-	@Override
-	public void setTestMethods(List<ITestNGMethod> testMethods) {
+		if ( excludeIntegrationTests && context.getRequiredTestClass().isAnnotationPresent( IntegrationTest.class ) ) {
+			return ConditionEvaluationResult.disabled( "Integration tests are excluded" );
+		}
+
+		return ConditionEvaluationResult.enabled( "Integration tests are included" );
 	}
 }

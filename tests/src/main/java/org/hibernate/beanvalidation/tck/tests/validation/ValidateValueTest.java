@@ -9,8 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.validation;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertNoViolations;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +18,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -28,7 +27,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the implementation of <code>Validator</code>.
@@ -102,10 +101,10 @@ public class ValidateValueTest extends AbstractTCKTest {
 		);
 
 		ConstraintViolation<Order> constraintViolation = constraintViolations.iterator().next();
-		assertNull( constraintViolation.getRootBean() );
-		assertNull( constraintViolation.getLeafBean() );
-		assertNull( constraintViolation.getExecutableParameters() );
-		assertNull( constraintViolation.getExecutableReturnValue() );
+		Assertions.assertThat( constraintViolation.getRootBean() ).isNull();
+		Assertions.assertThat( constraintViolation.getLeafBean() ).isNull();
+		Assertions.assertThat( constraintViolation.getExecutableParameters() ).isNull();
+		Assertions.assertThat( constraintViolation.getExecutableReturnValue() ).isNull();
 
 		constraintViolations = validator.validateValue( Order.class, "orderNumber", 1234 );
 		assertNoViolations( constraintViolations );
@@ -118,7 +117,7 @@ public class ValidateValueTest extends AbstractTCKTest {
 
 		try {
 			validator.validateValue( Customer.class, "foobar", null );
-			fail();
+			Assertions.fail();
 		}
 		catch ( IllegalArgumentException e ) {
 			// success
@@ -127,7 +126,7 @@ public class ValidateValueTest extends AbstractTCKTest {
 		// firstname exists, but the capitalisation is wrong
 		try {
 			validator.validateValue( Customer.class, "FirstName", null );
-			fail();
+			Assertions.fail();
 		}
 		catch ( IllegalArgumentException e ) {
 			// success
@@ -141,32 +140,48 @@ public class ValidateValueTest extends AbstractTCKTest {
 		validator.validateValue( Customer.class, "middleName", new ArrayList<String>() );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValuePassingNullAsGroup() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validateValue( Customer.class, "firstName", "foobar", (Class<?>) null );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validateValue( Customer.class, "firstName", "foobar", (Class<?>) null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithEmptyPropertyPath() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validateValue( Customer.class, "", null );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validateValue( Customer.class, "", null );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithNullObject() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validateValue( null, "firstName", "foobar" );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validateValue( null, "firstName", "foobar" );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_VALIDATORAPI_VALIDATIONMETHODS, id = "i")
 	public void testValidateValueWithNullPropertyName() {
-		Validator validator = TestUtil.getValidatorUnderTest();
-		validator.validateValue( Customer.class, null, "foobar" );
+		Assertions.assertThatThrownBy( () -> {
+
+			Validator validator = TestUtil.getValidatorUnderTest();
+			validator.validateValue( Customer.class, null, "foobar" );
+	
+		} ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 	@Test

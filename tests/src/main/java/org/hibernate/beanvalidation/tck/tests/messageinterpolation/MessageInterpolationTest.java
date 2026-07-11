@@ -12,10 +12,6 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getDefaultMessageInterpolator;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getValidatorUnderTest;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.fail;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -41,6 +37,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.metadata.ConstraintDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -48,7 +45,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -72,7 +69,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_CONFIGURATION, id = "a")
 	public void testDefaultMessageInterpolatorIsNotNull() {
 		MessageInterpolator interpolator = getDefaultMessageInterpolator();
-		assertNotNull( interpolator, "Each bean validation provider must provide a default message interpolator." );
+		Assertions.assertThat( interpolator ).as( "Each bean validation provider must provide a default message interpolator." ).isNotNull();
 	}
 
 	@Test
@@ -87,19 +84,19 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "replacement worked";
 		String actual = interpolator.interpolate( "{foo}", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "replacement worked replacement worked";
 		actual = interpolator.interpolate( "{foo} {foo}", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "This replacement worked just fine";
 		actual = interpolator.interpolate( "This {foo} just fine", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "{} replacement worked {unknown}";
 		actual = interpolator.interpolate( "{} {foo} {unknown}", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -111,9 +108,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "recursion worked";
 		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
-		assertEquals(
-				actual, expected, "Expansion should be recursive"
-		);
+		Assertions.assertThat( actual ).as( "Expansion should be recursive" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -128,7 +123,6 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		);
 	}
 
-
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "f")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_MESSAGE_DEFAULTMESSAGEINTERPOLATION, id = "g")
@@ -141,19 +135,19 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "{";
 		String actual = interpolator.interpolate( "\\{", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "}";
 		actual = interpolator.interpolate( "\\}", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "\\";
 		actual = interpolator.interpolate( "\\", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "$";
 		actual = interpolator.interpolate( "\\$", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -165,11 +159,11 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "foo";  // missing {}
 		String actual = interpolator.interpolate( "foo", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 
 		expected = "#{foo  {}";
 		actual = interpolator.interpolate( "#{foo  {}", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat(  actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -181,7 +175,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "{bar}";  // unknown token {}
 		String actual = interpolator.interpolate( "{bar}", context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -193,10 +187,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String key = "{jakarta.validation.constraints.Past.message}"; // Past is a built-in constraint so the provider must provide a default message
 		String actual = interpolator.interpolate( key, context );
-		assertFalse(
-				key.equals( actual ),
-				"There should have been a message interpolation from the bean validator provider bundle."
-		);
+		Assertions.assertThat( key.equals( actual ) ).as( "There should have been a message interpolation from the bean validator provider bundle." ).isFalse();
 	}
 
 	@Test
@@ -208,7 +199,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "size must be between 5 and 10";
 		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -221,7 +212,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		//if EL evaluation kicked in first, the "$" would be gone
 		String expected = "must be $5 at least";
 		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -233,7 +224,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 		String expected = "must be 10 at least";
 		String actual = interpolator.interpolate( descriptor.getMessageTemplate(), context );
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -247,7 +238,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		String actual = interpolator.interpolate(
 				descriptor.getMessageTemplate(), context, Locale.GERMAN
 		);
-		assertEquals( actual, expected, "Wrong substitution" );
+		Assertions.assertThat( actual ).as( "Wrong substitution" ).isEqualTo( expected );
 	}
 
 	@Test
@@ -263,7 +254,7 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 				messageTemplate, context, Locale.getDefault()
 		);
 
-		assertEquals( messageInterpolatedWithNoLocale, messageInterpolatedWithDefaultLocale, "Wrong substitution" );
+		Assertions.assertThat( messageInterpolatedWithNoLocale ).as( "Wrong substitution" ).isEqualTo( messageInterpolatedWithDefaultLocale );
 	}
 
 	@Test
@@ -280,13 +271,13 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		String name = "Bob";
 		validator.validate( new TestBeanWithPropertyConstraint( name ) );
 
-		assertEquals( messageInterpolator.messageTemplate, TestBeanWithPropertyConstraint.MESSAGE );
+		Assertions.assertThat( messageInterpolator.messageTemplate ).isEqualTo( TestBeanWithPropertyConstraint.MESSAGE );
 
 		ConstraintDescriptor<?> constraintDescriptor = messageInterpolator.constraintDescriptor;
-		assertEquals( constraintDescriptor.getAnnotation().annotationType(), Size.class );
-		assertEquals( constraintDescriptor.getMessageTemplate(), TestBeanWithPropertyConstraint.MESSAGE );
+		Assertions.assertThat( constraintDescriptor.getAnnotation().annotationType() ).isEqualTo( Size.class );
+		Assertions.assertThat( constraintDescriptor.getMessageTemplate() ).isEqualTo( TestBeanWithPropertyConstraint.MESSAGE );
 
-		assertEquals( messageInterpolator.validatedValue, name );
+		Assertions.assertThat( messageInterpolator.validatedValue ).isEqualTo( name );
 	}
 
 	@Test
@@ -303,13 +294,13 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 		TestBeanWithClassLevelConstraint testBean = new TestBeanWithClassLevelConstraint();
 		validator.validate( testBean );
 
-		assertEquals( messageInterpolator.messageTemplate, TestBeanWithClassLevelConstraint.MESSAGE );
+		Assertions.assertThat( messageInterpolator.messageTemplate ).isEqualTo( TestBeanWithClassLevelConstraint.MESSAGE );
 
 		ConstraintDescriptor<?> constraintDescriptor = messageInterpolator.constraintDescriptor;
-		assertEquals( constraintDescriptor.getAnnotation().annotationType(), ValidTestBean.class );
-		assertEquals( constraintDescriptor.getMessageTemplate(), TestBeanWithClassLevelConstraint.MESSAGE );
+		Assertions.assertThat( constraintDescriptor.getAnnotation().annotationType() ).isEqualTo( ValidTestBean.class );
+		Assertions.assertThat( constraintDescriptor.getMessageTemplate() ).isEqualTo( TestBeanWithClassLevelConstraint.MESSAGE );
 
-		assertEquals( messageInterpolator.validatedValue, testBean );
+		Assertions.assertThat( messageInterpolator.validatedValue ).isEqualTo( testBean );
 	}
 
 	@Test
@@ -321,10 +312,10 @@ public class MessageInterpolationTest extends AbstractTCKTest {
 
 			try {
 				validator.validate( new TestBeanWithPropertyConstraint( "Bob" ) );
-				fail( "Expected exception wasn't thrown." );
+				Assertions.fail( "Expected exception wasn't thrown." );
 			}
 			catch (ValidationException ve) {
-				assertEquals( ve.getCause(), interpolator.exception );
+				Assertions.assertThat( ve.getCause() ).isEqualTo( interpolator.exception );
 			}
 		}
 	}

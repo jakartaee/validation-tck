@@ -11,7 +11,6 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.testng.Assert.assertEquals;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -29,7 +28,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -50,7 +50,7 @@ public class ValueAccessStrategyTest extends AbstractTCKTest {
 		Person person = new Person();
 		getValidator().validate( person );
 
-		assertEquals( ValidPerson.ValidPersonValidator.validatedValue, person );
+		assertThat( ValidPerson.ValidPersonValidator.validatedValue ).isEqualTo( person  );
 	}
 
 	@Test
@@ -62,11 +62,7 @@ public class ValueAccessStrategyTest extends AbstractTCKTest {
 		Person person = new Person();
 		getValidator().validate( person );
 
-		assertEquals(
-				ValidFirstName.ValidFirstNameValidator.validatedValue,
-				"Bob",
-				"Expected value to be retrieved from field."
-		);
+		assertThat( ValidFirstName.ValidFirstNameValidator.validatedValue ).as( "Expected value to be retrieved from field." ).isEqualTo( "Bob" );
 	}
 
 	@Test
@@ -78,7 +74,7 @@ public class ValueAccessStrategyTest extends AbstractTCKTest {
 		Person person = new Person();
 		getValidator().validate( person );
 
-		assertEquals( ValidName.Validator.validatedValue, "Billy", "Expected value to be retrieved from getter." );
+		assertThat( ValidName.Validator.validatedValue ).as( "Expected value to be retrieved from getter." ).isEqualTo( "Billy" );
 	}
 
 	@ValidPerson

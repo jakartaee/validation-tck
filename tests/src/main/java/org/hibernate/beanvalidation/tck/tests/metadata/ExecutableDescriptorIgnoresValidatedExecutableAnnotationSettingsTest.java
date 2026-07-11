@@ -8,8 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getConstructorDescriptor;
 import static org.hibernate.beanvalidation.tck.util.TestUtil.getMethodDescriptor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 import jakarta.validation.metadata.ConstructorDescriptor;
 import jakarta.validation.metadata.MethodDescriptor;
@@ -20,7 +18,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -48,9 +47,9 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 				String.class
 		);
 
-		assertNotNull( descriptor );
-		assertEquals( descriptor.getName(), "setItem" );
-		assertEquals( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size(), 1 );
+		assertThat( descriptor  ).isNotNull();
+		assertThat( descriptor.getName() ).isEqualTo( "setItem"  );
+		assertThat( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size() ).isEqualTo( 1  );
 	}
 
 	@Test
@@ -61,9 +60,9 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 				String.class
 		);
 
-		assertNotNull( descriptor );
-		assertEquals( descriptor.getName(), "OrderLine" );
-		assertEquals( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size(), 1 );
+		assertThat( descriptor  ).isNotNull();
+		assertThat( descriptor.getName() ).isEqualTo( "OrderLine"  );
+		assertThat( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size() ).isEqualTo( 1  );
 	}
 
 	@Test
@@ -75,9 +74,9 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 				String.class
 		);
 
-		assertNotNull( descriptor );
-		assertEquals( descriptor.getName(), "setName" );
-		assertEquals( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size(), 1 );
+		assertThat( descriptor  ).isNotNull();
+		assertThat( descriptor.getName() ).isEqualTo( "setName"  );
+		assertThat( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size() ).isEqualTo( 1  );
 	}
 
 	@Test
@@ -88,8 +87,8 @@ public class ExecutableDescriptorIgnoresValidatedExecutableAnnotationSettingsTes
 				String.class
 		);
 
-		assertNotNull( descriptor );
-		assertEquals( descriptor.getName(), "Item" );
-		assertEquals( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size(), 1 );
+		assertThat( descriptor  ).isNotNull();
+		assertThat( descriptor.getName() ).isEqualTo( "Item"  );
+		assertThat( descriptor.getParameterDescriptors().get( 0 ).getConstraintDescriptors().size() ).isEqualTo( 1  );
 	}
 }

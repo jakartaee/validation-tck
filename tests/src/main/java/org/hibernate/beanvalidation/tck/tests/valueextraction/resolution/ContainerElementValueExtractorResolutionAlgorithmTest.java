@@ -18,6 +18,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.valueextraction.ExtractedValue;
 import jakarta.validation.valueextraction.ValueExtractor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.ContainerElementEntity1;
@@ -36,7 +37,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -82,26 +83,34 @@ public class ContainerElementValueExtractorResolutionAlgorithmTest extends Abstr
 		);
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_ALGORITHM_CONSTRAINTS, id = "c")
 	public void customGenericTypeWithContainerElementConstraintButNoValueExtractorThrowsException() {
-		getValidator().validate( new ContainerElementEntity1( null, 4l ) );
+		Assertions.assertThatThrownBy( () -> {
+
+			getValidator().validate( new ContainerElementEntity1( null, 4l ) );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_ALGORITHM_CONSTRAINTS, id = "e")
 	public void parallelValueExtractorDefinitionsCausesException() {
-		Validator validator = Validation.byDefaultProvider()
-				.configure()
-				.addValueExtractor( new IWrapper21ValueExtractor0() )
-				.addValueExtractor( new IWrapper211ValueExtractor0() )
-				.addValueExtractor( new IWrapper212ValueExtractor0() )
-				.addValueExtractor( new IWrapper22ValueExtractor0() )
-				.addValueExtractor( new IWrapper221ValueExtractor0() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
 
-		validator.validate( new ContainerElementEntity2( null, null ) );
+			Validator validator = Validation.byDefaultProvider()
+					.configure()
+					.addValueExtractor( new IWrapper21ValueExtractor0() )
+					.addValueExtractor( new IWrapper211ValueExtractor0() )
+					.addValueExtractor( new IWrapper212ValueExtractor0() )
+					.addValueExtractor( new IWrapper22ValueExtractor0() )
+					.addValueExtractor( new IWrapper221ValueExtractor0() )
+					.buildValidatorFactory()
+					.getValidator();
+
+			validator.validate( new ContainerElementEntity2( null, null ) );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	@Test

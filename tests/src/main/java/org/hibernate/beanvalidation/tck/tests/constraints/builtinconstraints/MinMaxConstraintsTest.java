@@ -26,7 +26,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Min} and {@link Max} built-in constraints.
@@ -58,7 +58,6 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 				violationOf( Min.class ).withProperty( "longPrimitive" ),
 				violationOf( Min.class ).withProperty( "shortPrimitive" )
 		);
-
 
 		dummy.intPrimitive = 101;
 		dummy.longPrimitive = 1001;
@@ -113,7 +112,6 @@ public class MinMaxConstraintsTest extends AbstractTCKTest {
 				violationOf( Max.class ).withProperty( "longPrimitive" ),
 				violationOf( Max.class ).withProperty( "shortPrimitive" )
 		);
-
 
 		dummy.intPrimitive = 101;
 		dummy.longPrimitive = 100;

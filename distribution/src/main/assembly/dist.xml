@@ -69,7 +69,6 @@
             <outputDirectory>artifacts</outputDirectory>
             <includes>
                 <include>tck-audit.xml</include>
-                <include>tck-tests.xml</include>
             </includes>
         </fileSet>
         <fileSet>

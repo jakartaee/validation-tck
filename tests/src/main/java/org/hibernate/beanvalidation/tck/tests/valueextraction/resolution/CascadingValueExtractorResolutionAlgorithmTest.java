@@ -18,6 +18,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.valueextraction.ExtractedValue;
 import jakarta.validation.valueextraction.ValueExtractor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.valueextraction.resolution.model.CascadingEntity1;
@@ -32,7 +33,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -71,30 +72,38 @@ public class CascadingValueExtractorResolutionAlgorithmTest extends AbstractTCKT
 		);
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_ALGORITHM_CASCADED, id = "c")
 	public void customGenericTypeWithCascadingButNoValueExtractorThrowsException() {
-		Validator validator = Validation.byDefaultProvider()
-				.configure()
-				.addValueExtractor( new IWrapper111ValueExtractor1() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
 
-		validator.validate( new CascadingEntity1( null ) );
+			Validator validator = Validation.byDefaultProvider()
+					.configure()
+					.addValueExtractor( new IWrapper111ValueExtractor1() )
+					.buildValidatorFactory()
+					.getValidator();
+
+			validator.validate( new CascadingEntity1( null ) );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
-	@Test(expectedExceptions = ConstraintDeclarationException.class)
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTDECLARATIONVALIDATIONPROCESS_VALIDATIONROUTINE_VALUEEXTRACTORRESOLUTION_ALGORITHM_CASCADED, id = "f")
 	public void parallelValueExtractorDefinitionsCausesException() {
-		Validator validator = Validation.byDefaultProvider()
-				.configure()
-				.addValueExtractor( new IWrapper211ValueExtractor0() )
-				.addValueExtractor( new IWrapper212ValueExtractor0() )
-				.addValueExtractor( new Wrapper2ValueExtractor1() )
-				.buildValidatorFactory()
-				.getValidator();
+		Assertions.assertThatThrownBy( () -> {
 
-		validator.validate( new CascadingEntity2( null ) );
+			Validator validator = Validation.byDefaultProvider()
+					.configure()
+					.addValueExtractor( new IWrapper211ValueExtractor0() )
+					.addValueExtractor( new IWrapper212ValueExtractor0() )
+					.addValueExtractor( new Wrapper2ValueExtractor1() )
+					.buildValidatorFactory()
+					.getValidator();
+
+			validator.validate( new CascadingEntity2( null ) );
+	
+		} ).isInstanceOf( ConstraintDeclarationException.class );
 	}
 
 	@Test

@@ -9,8 +9,6 @@ package org.hibernate.beanvalidation.tck.tests.methodvalidation.parameternamepro
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,6 +20,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ParameterNameProvider;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -29,7 +28,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Gunnar Morling
@@ -113,19 +112,8 @@ public class DefaultParameterNameProviderTest extends AbstractTCKTest {
 
 		ParameterNameProvider defaultParameterNameProvider = TestUtil.getConfigurationUnderTest()
 				.getDefaultParameterNameProvider();
-		assertNotNull(
-				defaultParameterNameProvider,
-				"getDefaultParameterNameProvider() must not return null"
-		);
-		assertEquals(
-				defaultParameterNameProvider.getParameterNames( constructor ),
-				Arrays.asList( "firstName", "lastName", "dateOfBirth" ),
-				"Wrong constructor parameter names returned by default provider"
-		);
-		assertEquals(
-				defaultParameterNameProvider.getParameterNames( method ),
-				Arrays.asList( "firstName", "lastName" ),
-				"Wrong method parameter names returned by default provider"
-		);
+		Assertions.assertThat(  defaultParameterNameProvider ).as( "getDefaultParameterNameProvider() must not return null" ).isNotNull();
+		Assertions.assertThat( defaultParameterNameProvider.getParameterNames( constructor ) ).as( "Wrong constructor parameter names returned by default provider" ).isEqualTo( Arrays.asList( "firstName", "lastName", "dateOfBirth" ) );
+		Assertions.assertThat( defaultParameterNameProvider.getParameterNames( method ) ).as( "Wrong method parameter names returned by default provider" ).isEqualTo( Arrays.asList( "firstName", "lastName" ) );
 	}
 }

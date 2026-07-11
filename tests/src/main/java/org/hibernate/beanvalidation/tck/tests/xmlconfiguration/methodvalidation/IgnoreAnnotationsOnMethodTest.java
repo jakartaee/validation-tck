@@ -6,10 +6,6 @@
  */
 package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.methodvalidation;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
 import jakarta.validation.metadata.CrossParameterDescriptor;
 import jakarta.validation.metadata.MethodDescriptor;
 import jakarta.validation.metadata.ParameterDescriptor;
@@ -23,7 +19,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Hardy Ferentschik
@@ -55,18 +52,18 @@ public class IgnoreAnnotationsOnMethodTest extends AbstractTCKTest {
 				String.class
 		);
 		CrossParameterDescriptor crossParameterDescriptor = descriptor.getCrossParameterDescriptor();
-		assertFalse( crossParameterDescriptor.hasConstraints(), "Cross parameter constraints should be ignored." );
+		assertThat( crossParameterDescriptor.hasConstraints() ).as( "Cross parameter constraints should be ignored." ).isFalse();
 
 		ReturnValueDescriptor returnValueDescriptor = descriptor.getReturnValueDescriptor();
-		assertFalse( returnValueDescriptor.hasConstraints(), "Return value constraints should be ignored." );
-		assertTrue( returnValueDescriptor.getGroupConversions().isEmpty(), "Group conversions should be ignored" );
+		assertThat( returnValueDescriptor.hasConstraints() ).as( "Return value constraints should be ignored." ).isFalse();
+		assertThat( returnValueDescriptor.getGroupConversions().isEmpty() ).as( "Group conversions should be ignored" ).isTrue();
 
 		ParameterDescriptor parameterDescriptor = descriptor.getParameterDescriptors().get( 0 );
-		assertFalse( parameterDescriptor.hasConstraints(), "First parameter constraints should be ignored." );
-		assertTrue( parameterDescriptor.getGroupConversions().isEmpty(), "Group conversions should be ignored" );
+		assertThat( parameterDescriptor.hasConstraints() ).as( "First parameter constraints should be ignored." ).isFalse();
+		assertThat( parameterDescriptor.getGroupConversions().isEmpty() ).as( "Group conversions should be ignored" ).isTrue();
 
 		parameterDescriptor = descriptor.getParameterDescriptors().get( 1 );
-		assertTrue( parameterDescriptor.hasConstraints(), "Second parameter constraints should be applied." );
-		assertEquals( parameterDescriptor.getGroupConversions().size(), 2, "All group conversions should be combined" );
+		assertThat( parameterDescriptor.hasConstraints() ).as( "Second parameter constraints should be applied." ).isTrue();
+		assertThat( parameterDescriptor.getGroupConversions().size() ).as( "All group conversions should be combined" ).isEqualTo( 2 );
 	}
 }

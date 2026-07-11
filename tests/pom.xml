@@ -29,8 +29,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -45,8 +45,8 @@
             <artifactId>jboss-test-audit-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jboss.arquillian.testng</groupId>
-            <artifactId>arquillian-testng-container</artifactId>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.descriptors</groupId>
@@ -150,11 +150,6 @@
                         </goals>
                         <configuration>
                             <artifacts>
-                                <artifact>
-                                    <file>${basedir}/src/main/resources/tck-tests.xml</file>
-                                    <type>xml</type>
-                                    <classifier>suite</classifier>
-                                </artifact>
                                 <artifact>
                                     <file>${basedir}/src/main/resources/tck-audit.xml</file>
                                     <type>xml</type>

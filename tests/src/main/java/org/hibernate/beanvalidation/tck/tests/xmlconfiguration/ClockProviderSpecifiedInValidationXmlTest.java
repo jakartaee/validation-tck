@@ -8,7 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertTrue;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -23,6 +22,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.Past;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -31,7 +31,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecAssertions;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Guillaume Smet
@@ -55,10 +55,7 @@ public class ClockProviderSpecifiedInValidationXmlTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.VALIDATIONAPI_BOOTSTRAPPING_XMLCONFIGURATION, id = "j")
 	public void testClockProviderSpecifiedInValidationXml() throws Exception {
-		assertTrue(
-				TestUtil.getValidatorFactoryUnderTest().getClockProvider() instanceof XmlDefinedClockProvider,
-				"Clock provider configured in XML wasn't applied"
-		);
+		Assertions.assertThat( TestUtil.getValidatorFactoryUnderTest().getClockProvider() instanceof XmlDefinedClockProvider ).as( "Clock provider configured in XML wasn't applied" ).isTrue();
 	}
 
 	@SpecAssertions({

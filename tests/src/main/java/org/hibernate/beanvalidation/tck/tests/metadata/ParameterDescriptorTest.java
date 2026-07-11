@@ -8,11 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.metadata;
 
 import static org.hibernate.beanvalidation.tck.tests.metadata.MetaDataTestUtil.assertConstraintDescriptors;
 import static org.hibernate.beanvalidation.tck.tests.metadata.MetaDataTestUtil.getContainerElementDescriptor;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +20,7 @@ import jakarta.validation.metadata.ContainerElementTypeDescriptor;
 import jakarta.validation.metadata.GroupConversionDescriptor;
 import jakarta.validation.metadata.ParameterDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.tests.metadata.CustomerService.StrictChecks;
@@ -33,7 +29,8 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Gunnar Morling
@@ -55,7 +52,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getElementClass(), String.class, "Wrong parameter class" );
+		assertThat( parameters.get( 0 ).getElementClass() ).as( "Wrong parameter class" ).isEqualTo( String.class );
 	}
 
 	@Test
@@ -64,7 +61,7 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getElementClass(), String.class, "Wrong parameter class" );
+		assertThat( parameters.get( 0 ).getElementClass() ).as( "Wrong parameter class" ).isEqualTo( String.class );
 	}
 
 	@Test
@@ -73,8 +70,8 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getIndex(), 0, "Wrong parameter index" );
-		assertEquals( parameters.get( 1 ).getIndex(), 1, "Wrong parameter index" );
+		assertThat( parameters.get( 0 ).getIndex() ).as( "Wrong parameter index" ).isEqualTo( 0 );
+		assertThat( parameters.get( 1 ).getIndex() ).as( "Wrong parameter index" ).isEqualTo( 1 );
 	}
 
 	@Test
@@ -83,8 +80,8 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getIndex(), 0, "Wrong parameter index" );
-		assertEquals( parameters.get( 1 ).getIndex(), 1, "Wrong parameter index" );
+		assertThat( parameters.get( 0 ).getIndex() ).as( "Wrong parameter index" ).isEqualTo( 0 );
+		assertThat( parameters.get( 1 ).getIndex() ).as( "Wrong parameter index" ).isEqualTo( 1 );
 	}
 
 	@Test
@@ -93,8 +90,8 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getName(), "firstName", "Wrong parameter name" );
-		assertEquals( parameters.get( 1 ).getName(), "lastName", "Wrong parameter name" );
+		assertThat( parameters.get( 0 ).getName() ).as( "Wrong parameter name" ).isEqualTo( "firstName" );
+		assertThat( parameters.get( 1 ).getName() ).as( "Wrong parameter name" ).isEqualTo( "lastName" );
 	}
 
 	@Test
@@ -103,8 +100,8 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
 
-		assertEquals( parameters.get( 0 ).getName(), "firstName", "Wrong parameter name" );
-		assertEquals( parameters.get( 1 ).getName(), "lastName", "Wrong parameter name" );
+		assertThat( parameters.get( 0 ).getName() ).as( "Wrong parameter name" ).isEqualTo( "firstName" );
+		assertThat( parameters.get( 1 ).getName() ).as( "Wrong parameter name" ).isEqualTo( "lastName" );
 	}
 
 	@Test
@@ -112,10 +109,10 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 	public void testIsCascadedForMethod() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedMethod()
 				.getParameterDescriptors();
-		assertFalse( parameters.get( 0 ).isCascaded(), "Should not be cascaded" );
+		assertThat( parameters.get( 0 ).isCascaded() ).as( "Should not be cascaded" ).isFalse();
 
 		parameters = Executables.cascadedParameterMethod().getParameterDescriptors();
-		assertTrue( parameters.get( 0 ).isCascaded(), "Should be cascaded" );
+		assertThat( parameters.get( 0 ).isCascaded() ).as( "Should be cascaded" ).isTrue();
 	}
 
 	@Test
@@ -123,10 +120,10 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 	public void testIsCascadedForConstructor() {
 		List<ParameterDescriptor> parameters = Executables.parameterConstrainedConstructor()
 				.getParameterDescriptors();
-		assertFalse( parameters.get( 0 ).isCascaded(), "Should not be cascaded" );
+		assertThat( parameters.get( 0 ).isCascaded() ).as( "Should not be cascaded" ).isFalse();
 
 		parameters = Executables.cascadedParameterConstructor().getParameterDescriptors();
-		assertTrue( parameters.get( 0 ).isCascaded(), "Should be cascaded" );
+		assertThat( parameters.get( 0 ).isCascaded() ).as( "Should be cascaded" ).isTrue();
 	}
 
 	@Test
@@ -138,17 +135,17 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 				.getParameterDescriptors();
 		Set<GroupConversionDescriptor> groupConversions = parameters.get( 1 ).getGroupConversions();
 
-		assertEquals( groupConversions.size(), 2 );
+		assertThat( groupConversions.size() ).isEqualTo( 2 );
 
 		for ( GroupConversionDescriptor groupConversionDescriptor : groupConversions ) {
 			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), BasicChecks.class );
+				assertThat( groupConversionDescriptor.getTo() ).isEqualTo( BasicChecks.class );
 			}
 			else if ( groupConversionDescriptor.getFrom().equals( StrictCustomerServiceChecks.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), StrictChecks.class );
+				assertThat( groupConversionDescriptor.getTo() ).isEqualTo( StrictChecks.class );
 			}
 			else {
-				fail(
+				Assertions.fail(
 						String.format(
 								"Encountered unexpected group conversion from %s to %s",
 								groupConversionDescriptor.getFrom().getName(),
@@ -168,17 +165,17 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 				.getParameterDescriptors();
 		Set<GroupConversionDescriptor> groupConversions = parameters.get( 0 ).getGroupConversions();
 
-		assertEquals( groupConversions.size(), 2 );
+		assertThat( groupConversions.size() ).isEqualTo( 2 );
 
 		for ( GroupConversionDescriptor groupConversionDescriptor : groupConversions ) {
 			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), BasicChecks.class );
+				assertThat( groupConversionDescriptor.getTo() ).isEqualTo( BasicChecks.class );
 			}
 			else if ( groupConversionDescriptor.getFrom().equals( StrictCustomerServiceChecks.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), StrictChecks.class );
+				assertThat( groupConversionDescriptor.getTo() ).isEqualTo( StrictChecks.class );
 			}
 			else {
-				fail(
+				Assertions.fail(
 						String.format(
 								"Encountered unexpected group conversion from %s to %s",
 								groupConversionDescriptor.getFrom().getName(),
@@ -197,8 +194,8 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 				.get( 0 );
 		Set<GroupConversionDescriptor> groupConversions = parameterDescriptor.getGroupConversions();
 
-		assertNotNull( groupConversions );
-		assertTrue( groupConversions.isEmpty() );
+		assertThat( groupConversions ).isNotNull();
+		assertThat( groupConversions.isEmpty() ).isTrue();
 	}
 
 	@Test
@@ -209,8 +206,8 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 				.get( 0 );
 		Set<GroupConversionDescriptor> groupConversions = parameterDescriptor.getGroupConversions();
 
-		assertNotNull( groupConversions );
-		assertTrue( groupConversions.isEmpty() );
+		assertThat( groupConversions  ).isNotNull();
+		assertThat( groupConversions.isEmpty() ).isTrue();
 	}
 
 	@Test
@@ -239,23 +236,23 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 	private void checkContainerElementMetaDataOnParameterDescriptor(ParameterDescriptor parameterDescriptor) {
 		Set<ContainerElementTypeDescriptor> containerElementTypes = parameterDescriptor.getConstrainedContainerElementTypes();
 
-		assertEquals( containerElementTypes.size(), 2 );
+		assertThat( containerElementTypes.size() ).isEqualTo( 2  );
 
 		ContainerElementTypeDescriptor productType = getContainerElementDescriptor( containerElementTypes, Map.class, 0 );
-		assertEquals( productType.getElementClass(), ProductType.class );
+		assertThat( productType.getElementClass() ).isEqualTo( ProductType.class  );
 		assertConstraintDescriptors( productType.getConstraintDescriptors(), NotNull.class );
-		assertEquals( productType.getConstrainedContainerElementTypes().size(), 0 );
-		assertTrue( productType.isCascaded() );
-		assertEquals( productType.getGroupConversions().size(), 2 );
+		assertThat( productType.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( productType.isCascaded() ).isTrue();
+		assertThat( productType.getGroupConversions().size() ).isEqualTo( 2  );
 		for ( GroupConversionDescriptor groupConversionDescriptor : productType.getGroupConversions() ) {
 			if ( groupConversionDescriptor.getFrom().equals( Default.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), BasicChecks.class );
+				assertThat( groupConversionDescriptor.getTo() ).isEqualTo( BasicChecks.class  );
 			}
 			else if ( groupConversionDescriptor.getFrom().equals( ComplexChecks.class ) ) {
-				assertEquals( groupConversionDescriptor.getTo(), ComplexProductTypeChecks.class );
+				assertThat( groupConversionDescriptor.getTo() ).isEqualTo( ComplexProductTypeChecks.class  );
 			}
 			else {
-				fail(
+				Assertions.fail(
 						String.format(
 								"Encountered unexpected group conversion from %s to %s",
 								groupConversionDescriptor.getFrom().getName(),
@@ -264,16 +261,16 @@ public class ParameterDescriptorTest extends AbstractTCKTest {
 		}
 
 		ContainerElementTypeDescriptor orderLineList = getContainerElementDescriptor( containerElementTypes, Map.class, 1 );
-		assertEquals( orderLineList.getElementClass(), List.class );
+		assertThat( orderLineList.getElementClass() ).isEqualTo( List.class  );
 		assertConstraintDescriptors( orderLineList.getConstraintDescriptors(), Size.class );
-		assertFalse( orderLineList.isCascaded() );
-		assertEquals( orderLineList.getGroupConversions().size(), 0 );
-		assertEquals( orderLineList.getConstrainedContainerElementTypes().size(), 1 );
+		assertThat( orderLineList.isCascaded() ).isFalse();
+		assertThat( orderLineList.getGroupConversions().size() ).isEqualTo( 0  );
+		assertThat( orderLineList.getConstrainedContainerElementTypes().size() ).isEqualTo( 1  );
 
 		ContainerElementTypeDescriptor orderLine = getContainerElementDescriptor( orderLineList.getConstrainedContainerElementTypes(), List.class, 0 );
-		assertEquals( orderLine.getElementClass(), ProductOrderLine.class );
+		assertThat( orderLine.getElementClass() ).isEqualTo( ProductOrderLine.class  );
 		assertConstraintDescriptors( orderLine.getConstraintDescriptors(), NotNull.class );
-		assertEquals( orderLine.getConstrainedContainerElementTypes().size(), 0 );
-		assertFalse( orderLine.isCascaded() );
+		assertThat( orderLine.getConstrainedContainerElementTypes().size() ).isEqualTo( 0  );
+		assertThat( orderLine.isCascaded() ).isFalse();
 	}
 }

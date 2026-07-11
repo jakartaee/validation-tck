@@ -8,8 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.integration.ee;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -19,6 +17,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotNull;
+import org.assertj.core.api.Assertions;
 
 /**
  * A test EJB which retrieves validator and validator factory via
@@ -36,11 +35,10 @@ public class ValidationTestEjb {
 	public Validator defaultValidator;
 
 	public void assertDefaultValidatorFactoryGetsInjected() {
-		assertNotNull( defaultValidatorFactory, "Default validator factory should be injectable." );
-		assertTrue(
-				defaultValidatorFactory.getMessageInterpolator() instanceof ConstantMessageInterpolator,
-				"Injected default validator factory should be configured based on META-INF/validation.xml."
-		);
+		Assertions.assertThat( defaultValidatorFactory ).as( "Default validator factory should be injectable." ).isNotNull();
+		Assertions.assertThat(
+				defaultValidatorFactory.getMessageInterpolator() instanceof ConstantMessageInterpolator
+		).as( "Injected default validator factory should be configured based on META-INF/validation.xml." ).isTrue();
 
 		Set<ConstraintViolation<Foo>> violations = defaultValidatorFactory.getValidator()
 				.validate( new Foo() );
@@ -52,7 +50,7 @@ public class ValidationTestEjb {
 	}
 
 	public void assertDefaultValidatorGetsInjected() {
-		assertNotNull( defaultValidator, "Default validator should be injectable." );
+		Assertions.assertThat( defaultValidator ).as( "Default validator should be injectable." ).isNotNull();
 
 		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( new Foo() );
 

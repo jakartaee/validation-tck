@@ -8,8 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.xmlconfiguration.constraintdeclar
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
@@ -19,6 +17,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.groups.Default;
 import jakarta.validation.metadata.BeanDescriptor;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.TestUtil;
@@ -26,7 +25,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Hardy Ferentschik
@@ -50,29 +49,18 @@ public class ConfigurationViaXmlAndAnnotationsTest extends AbstractTCKTest {
 	public void testEntityConfiguredViaAnnotationsAndXml() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		BeanDescriptor beanDescriptor = validator.getConstraintsForClass( Package.class );
-		assertTrue( beanDescriptor.isBeanConstrained(), "The bean should be constrained" );
+		Assertions.assertThat( beanDescriptor.isBeanConstrained() ).as( "The bean should be constrained" ).isTrue();
 
-		assertEquals(
-				beanDescriptor.getConstraintsForProperty( "maxWeight" ).getConstraintDescriptors().size(),
-				2,
-				"With xml configuration there should be two constraints."
-		);
+		Assertions.assertThat(  beanDescriptor.getConstraintsForProperty( "maxWeight" ).getConstraintDescriptors().size() ).as( "With xml configuration there should be two constraints." ).isEqualTo( 2 );
 
 		Configuration<?> config = TestUtil.getConfigurationUnderTest();
 		config.ignoreXmlConfiguration();
 		validator = config.buildValidatorFactory().getValidator();
 		beanDescriptor = validator.getConstraintsForClass( Package.class );
 
-		assertTrue(
-				beanDescriptor.isBeanConstrained(),
-				"Without xml there should be only one constraint."
-		);
+		Assertions.assertThat(  beanDescriptor.isBeanConstrained() ).as( "Without xml there should be only one constraint." ).isTrue();
 
-		assertEquals(
-				beanDescriptor.getConstraintsForProperty( "maxWeight" ).getConstraintDescriptors().size(),
-				1,
-				"Without xml there should be only one constraint."
-		);
+		Assertions.assertThat(  beanDescriptor.getConstraintsForProperty( "maxWeight" ).getConstraintDescriptors().size() ).as( "Without xml there should be only one constraint." ).isEqualTo( 1 );
 	}
 
 	@Test

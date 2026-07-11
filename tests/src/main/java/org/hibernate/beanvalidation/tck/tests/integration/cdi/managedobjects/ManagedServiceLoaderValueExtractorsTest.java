@@ -8,7 +8,6 @@ package org.hibernate.beanvalidation.tck.tests.integration.cdi.managedobjects;
 
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.pathWith;
-import static org.testng.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +18,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;
 
+import org.assertj.core.api.Assertions;
 import org.hibernate.beanvalidation.tck.beanvalidation.Sections;
 import org.hibernate.beanvalidation.tck.tests.AbstractTCKTest;
 import org.hibernate.beanvalidation.tck.util.IntegrationTest;
@@ -26,7 +26,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.audit.annotations.SpecAssertion;
 import org.jboss.test.audit.annotations.SpecVersion;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for dependency injection into value extractors loaded by the service loader.
@@ -58,7 +58,7 @@ public class ManagedServiceLoaderValueExtractorsTest extends AbstractTCKTest {
 	@Test
 	@SpecAssertion(section = Sections.INTEGRATION_DEPENDENCYINJECTION_CUSTOMCONFIGURATION, id = "b")
 	public void testServiceLoaderValueExtractorsAreSubjectToDependencyInjection() {
-		assertNotNull( defaultValidator );
+		Assertions.assertThat(  defaultValidator  ).isNotNull();
 
 		Set<ConstraintViolation<Foo>> violations = defaultValidator.validate( Foo.invalid() );
 
