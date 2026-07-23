@@ -57,8 +57,8 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ax")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bb")
 	public void testAddPropertyNode() {
 		Set<ConstraintViolation<Foo>> constraintViolations = getValidator().validate( new Foo() );
 
@@ -74,8 +74,8 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ay")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bc")
 	public void testAddBeanNode() {
 		Set<ConstraintViolation<User>> constraintViolations = getValidator().validate( new User() );
 
@@ -93,11 +93,11 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ax")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bb")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bd")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "be")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bf")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bh")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bi")
 	public void testAddingNodesInClassLevelConstraintKeepsInIterableKeyAndIndex() {
 		Set<ConstraintViolation<FooContainer>> constraintViolations = getValidator().validate( new FooContainer() );
 
@@ -130,8 +130,8 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "az")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bd")
 	public void testAddParameterNode() throws Exception {
 		Object[] parameterValues = new Object[] { Collections.emptyMap() };
 
@@ -152,8 +152,8 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "az")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bd")
 	public void testAddParameterNodeUsingCustomParameterNameProvider() throws Exception {
 		ExecutableValidator executableValidator = TestUtil.getConfigurationUnderTest()
 				.parameterNameProvider( new CustomParameterNameProvider() )
@@ -179,8 +179,8 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "az")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bd")
 	public void testAddParameterNodeForFieldLevelConstraintCausesException() throws Throwable {
 		Assertions.assertThatThrownBy( () -> {
 
@@ -190,11 +190,11 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bb")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bc")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bd")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "be")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bf")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bg")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bh")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bi")
 	public void testAddInContainerPropertyNodes() throws Throwable {
 		Set<ConstraintViolation<InContainerBean>> constraintViolations = getValidator().validate( new InContainerBean() );
 
@@ -216,11 +216,11 @@ public class CustomPropertyPathTest extends AbstractTCKTest {
 	}
 
 	@Test
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "aw")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "ba")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bb")
-	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bd")
 	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "be")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bf")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bh")
+	@SpecAssertion(section = Sections.VALIDATIONAPI_CONSTRAINTVIOLATION, id = "bi")
 	public void testAddContainerElementNodes() throws Throwable {
 		Set<ConstraintViolation<ContainerElementNodeBean>> constraintViolations = getValidator().validate( new ContainerElementNodeBean() );
 
