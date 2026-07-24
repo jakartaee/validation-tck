@@ -26,7 +26,7 @@ jobs:
           - { name: "17", java_version_numeric: 17, extra_args: " -Dbuild.require.jdk21=false" }
           - { name: "21", java_version_numeric: 21, extra_args: "" }
           - { name: "25", java_version_numeric: 25, extra_args: "" }
-          - { name: "26-ea", java_version_numeric: 26, from: 'jdk.java.net', extra_args: "" }
+          - { name: "26", java_version_numeric: 26, extra_args: "" }
 
     runs-on: ubuntu-latest
 
