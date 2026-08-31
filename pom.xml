@@ -137,7 +137,7 @@
         <beanvalidation-tck-parent.basedir>${project.basedir}</beanvalidation-tck-parent.basedir>
 
         <!-- Checkstyle -->
-        <com.puppycrawl.tools.version>13.9.0</com.puppycrawl.tools.version>
+        <com.puppycrawl.tools.version>14.0.0</com.puppycrawl.tools.version>
 
         <version.flatten-maven-plugin>1.8.0</version.flatten-maven-plugin>
         <version.sigtest-maven-plugin>2.7</version.sigtest-maven-plugin>
@@ -156,7 +156,7 @@
         <version.maven-wrapper-plugin>3.3.4</version.maven-wrapper-plugin>
         <version.maven-assembly-plugin>3.8.0</version.maven-assembly-plugin>
         <version.maven-enforcer-plugin>3.6.3</version.maven-enforcer-plugin>
-        <version.license-maven-plugin>5.1.1</version.license-maven-plugin>
+        <version.license-maven-plugin>5.1.2</version.license-maven-plugin>
 
         <!--
              The absolute path to the root project directory.
