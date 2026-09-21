@@ -143,13 +143,13 @@
         <version.sigtest-maven-plugin>2.7</version.sigtest-maven-plugin>
         <version.maven-checkstyle-plugin>3.6.0</version.maven-checkstyle-plugin>
         <version.maven-processor-plugin>5.2</version.maven-processor-plugin>
-        <version.exec-maven-plugin>3.6.3</version.exec-maven-plugin>
+        <version.exec-maven-plugin>3.6.4</version.exec-maven-plugin>
         <version.maven-source-plugin>3.4.0</version.maven-source-plugin>
-        <version.build-helper-maven-plugin>3.6.1</version.build-helper-maven-plugin>
+        <version.build-helper-maven-plugin>3.6.2</version.build-helper-maven-plugin>
         <version.asciidoctor-maven-plugin>3.2.0</version.asciidoctor-maven-plugin>
         <version.maven-resources-plugin>3.5.0</version.maven-resources-plugin>
-        <version.maven-deploy-plugin>3.1.4</version.maven-deploy-plugin>
-        <version.maven-install-plugin>3.1.4</version.maven-install-plugin>
+        <version.maven-deploy-plugin>3.2.0</version.maven-deploy-plugin>
+        <version.maven-install-plugin>3.2.0</version.maven-install-plugin>
         <version.maven-jar-plugin>3.5.1</version.maven-jar-plugin>
         <version.maven-dependency-plugin>3.11.0</version.maven-dependency-plugin>
         <version.maven-compiler-plugin>3.16.0</version.maven-compiler-plugin>
