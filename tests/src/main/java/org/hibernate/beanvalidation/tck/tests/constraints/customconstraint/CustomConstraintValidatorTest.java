@@ -10,13 +10,23 @@ import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.as
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.assertThat;
 import static org.hibernate.beanvalidation.tck.util.ConstraintViolationAssert.violationOf;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Set;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidatorInitializationContext;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Payload;
 import jakarta.validation.UnexpectedTypeException;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.metadata.ConstraintDescriptor;
 import jakarta.validation.metadata.PropertyDescriptor;
 
 import org.assertj.core.api.Assertions;
@@ -56,9 +66,32 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 	}
 
 	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "h")
+	public void testInitializationContextIsAvailableBeforeValidation() {
+		assertInitialization( validator -> validator.initializationContext != null );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "h")
+	public void testContextualInitializerReceivesConstraintDescriptor() {
+		assertInitialization( validator -> validator.descriptor != null && validator.descriptor.getAnnotation().value() == 42 );
+	}
+
+	@Test
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "h")
+	public void testProviderDoesNotCallLegacyInitializerSeparately() {
+		assertInitialization( validator -> !validator.legacyInitializerCalled );
+	}
+
+	private void assertInitialization(InitializationCheck check) {
+		Validator validator = TestUtil.getValidatorUnderTest();
+		assertNoViolations( validator.validateValue( InitializationBean.class, "check", check ) );
+	}
+
+	@Test
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "a")
 	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "b")
-	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "h")
+	@SpecAssertion(section = Sections.CONSTRAINTSDEFINITIONIMPLEMENTATION_VALIDATIONIMPLEMENTATION, id = "i")
 	public void testRightValidatorIsSelectedAndInitializedCalled() {
 		Validator validator = TestUtil.getValidatorUnderTest();
 		Shoe shoe = new Shoe();
@@ -225,5 +258,49 @@ public class CustomConstraintValidatorTest extends AbstractTCKTest {
 	public static class Ice {
 		@Zero
 		public int temperature;
+	}
+
+	@Constraint(validatedBy = InitializationValidator.class)
+	@Target(ElementType.FIELD)
+	@Retention(RetentionPolicy.RUNTIME)
+	public @interface CheckInitialization {
+		int value();
+
+		String message() default "Constraint validator initialization check failed";
+
+		Class<?>[] groups() default {};
+
+		Class<? extends Payload>[] payload() default {};
+	}
+
+	public static class InitializationBean {
+		@CheckInitialization(42)
+		private InitializationCheck check;
+	}
+
+	public interface InitializationCheck {
+		boolean matches(InitializationValidator validator);
+	}
+
+	public static class InitializationValidator implements ConstraintValidator<CheckInitialization, InitializationCheck> {
+		private ConstraintDescriptor<CheckInitialization> descriptor;
+		private ConstraintValidatorInitializationContext initializationContext;
+		private boolean legacyInitializerCalled;
+
+		@Override
+		public void initialize(ConstraintDescriptor<CheckInitialization> descriptor, ConstraintValidatorInitializationContext context) {
+			this.descriptor = descriptor;
+			this.initializationContext = context;
+		}
+
+		@Override
+		public void initialize(CheckInitialization annotation) {
+			legacyInitializerCalled = true;
+		}
+
+		@Override
+		public boolean isValid(InitializationCheck check, ConstraintValidatorContext context) {
+			return check.matches( this );
+		}
 	}
 }
