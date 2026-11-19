@@ -95,8 +95,7 @@
     </mailingLists>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <version.min.maven>3.9.11</version.min.maven>
 
         <!-- see http://maven.apache.org/general.html -->
