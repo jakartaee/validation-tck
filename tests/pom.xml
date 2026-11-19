@@ -180,8 +180,7 @@
                         <processor>org.jboss.test.audit.report.CoverageProcessor</processor>
                     </processors>
                     <compilerArguments>-AauditXml=${basedir}/src/main/resources/tck-audit.xml
-                        -AoutputDir=${basedir}/target/coverage-report -source ${maven.compiler.source}
-                        -target ${maven.compiler.target}
+                        -AoutputDir=${basedir}/target/coverage-report --release ${maven.compiler.release}
                     </compilerArguments>
                 </configuration>
                 <executions>
